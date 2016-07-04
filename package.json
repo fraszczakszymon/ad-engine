@@ -6,9 +6,6 @@
     "type": "git",
     "url": "https://github.com/Wikia/AdEngine"
   },
-  "directories": {
-    "lib": "src"
-  },
   "jspm": {
     "dependencies": {
       "sinon": "npm:sinon@^1.17.4"

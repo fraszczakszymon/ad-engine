@@ -1,7 +1,7 @@
 'use strict';
 
 import sinon from 'sinon';
-import Context from '../src/services/context-service';
+import Context from '../../src/services/context-service';
 
 QUnit.module('Context service test', {
 	beforeEach: () => {

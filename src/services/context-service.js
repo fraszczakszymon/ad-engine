@@ -1,6 +1,6 @@
 'use strict';
 
-let config = {
+let context = {
 		state: {
 			adStack: [],
 			isMobile: false
@@ -29,7 +29,7 @@ function triggerOnChange(key, segments, newValue) {
 function segment(key, newValue) {
 	const segments = key.split('.'),
 		segmentsCount = segments.length;
-	let segment = config,
+	let segment = context,
 		lastKey = null;
 
 	for (let i = 0; i < segmentsCount; i++) {
@@ -49,8 +49,8 @@ function segment(key, newValue) {
 }
 
 export default {
-	extend(newConfig) {
-		Object.assign(config, newConfig);
+	extend(newContext) {
+		Object.assign(context, newContext);
 	},
 
 	set(key, value) {

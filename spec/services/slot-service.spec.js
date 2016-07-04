@@ -1,6 +1,6 @@
 'use strict';
 
-import adSlotMock from '../ad-slot-mock';
+import adSlotMock from './ad-slot-mock';
 import SlotService from '../../src/services/slot-service';
 
 QUnit.module('SlotService test', {});

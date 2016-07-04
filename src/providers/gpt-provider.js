@@ -66,29 +66,25 @@ function shouldPush(adSlot) {
 export default class Gpt {
 	/**
 	 * Create new instance
-	 *
-	 * @param {object} pageData Article or other page type data, ex: categories, tags, vertical
 	 */
-	constructor(pageData) {
+	constructor() {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
 
 		googletag.cmd.push(() => {
-			this.init(pageData);
+			this.init();
 		});
 	}
 
 	/**
 	 * Configure googletag and setup targeting
-	 *
-	 * @param {object} pageData Article or other page type data, ex: categories, tags, vertical
 	 */
-	init(pageData) {
+	init() {
 		if (initialized) {
 			return;
 		}
 
-		GptTargeting.setup(pageData);
+		GptTargeting.setup();
 		configure();
 		makeLazyQueue(slotsQueue, (adSlot) => {
 			this.fillIn(adSlot);

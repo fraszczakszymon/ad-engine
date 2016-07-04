@@ -1,8 +1,8 @@
 'use strict';
 
-import config from './config';
-import FloatingAd from './templates/floating-ad';
-import SlotTweaker from './services/slot-tweaker';
+import Context from './../services/context-service';
+import FloatingAd from './../templates/floating-ad';
+import SlotTweaker from './../services/slot-tweaker';
 
 const adUnitPrefix = '/5441/wka.fandom/';
 
@@ -29,7 +29,7 @@ export default class AdSlot {
 		this.location = segments[1];
 		this.screenSize = !!segments[3] ? segments[3] : 'both';
 		this.type = segments[2];
-		this.config = config.slots[this.location + '-' + this.type];
+		this.config = Context.get('slots.' + this.location + '-' + this.type);
 		this.enabled = !this.config.disabled;
 	}
 
@@ -69,8 +69,13 @@ export default class AdSlot {
 		return this.config.defaultSizes;
 	}
 
-	getSupportedScreen() {
-		return this.screenSize;
+	shouldLoad() {
+		const isMobile = Context.get('state.isMobile'),
+			shouldLoad = this.screenSize === 'both',
+			shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
+			shouldLoadMobile = isMobile && this.screenSize === 'mobile';
+
+		return shouldLoad || shouldLoadDesktop || shouldLoadMobile;
 	}
 
 	isAboveTheFold() {
