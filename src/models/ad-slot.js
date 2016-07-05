@@ -1,10 +1,9 @@
 'use strict';
 
-import Context from './../services/context-service';
-import FloatingAd from './../templates/floating-ad';
-import SlotTweaker from './../services/slot-tweaker';
-
-const adUnitPrefix = '/5441/wka.fandom/';
+import Context from '../services/context-service';
+import FloatingAd from '../templates/floating-ad';
+import SlotTweaker from '../services/slot-tweaker';
+import StringBuilder from '../utils/string-builder';
 
 export default class AdSlot {
 	/**
@@ -25,7 +24,6 @@ export default class AdSlot {
 		}
 
 		this.id = ad.id;
-		this.pageType = ad.pageType;
 		this.location = segments[1];
 		this.screenSize = !!segments[3] ? segments[3] : 'both';
 		this.type = segments[2];
@@ -38,19 +36,16 @@ export default class AdSlot {
 	}
 
 	getAdUnit() {
-		const namespaces = {
-				home: '_home/HOME_',
-				hub: '_vertical/VERTICAL_',
-				article: '_article/ARTICLE_',
-				other: '_other/OTHER_'
-			},
-			namespace = namespaces[this.pageType];
-
-		if (!namespace) {
-			throw 'Page type needs to have a namespace associated with it (' + this.pageType + ').';
+		if (!this.adUnit) {
+			this.adUnit = StringBuilder.build(
+				Context.get('adUnitId'),
+				{
+					slotName: this.getSlotName()
+				}
+			);
 		}
 
-		return adUnitPrefix + namespace + this.getSlotName();
+		return this.adUnit;
 	}
 
 	getSlotName() {

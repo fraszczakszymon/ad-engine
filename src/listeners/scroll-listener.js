@@ -11,8 +11,7 @@ function getUniqueId() {
 
 function pushSlot(adStack, node) {
 	adStack.push({
-		id: node.id,
-		pageType: node.getAttribute('data-page-type')
+		id: node.id
 	});
 }
 

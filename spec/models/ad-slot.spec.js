@@ -16,8 +16,7 @@ QUnit.test('exception when id is wrong', function (assert) {
 	assert.throws(
 		() => {
 			new AdSlot({
-				id: 'gpt-foo',
-				pageType: 'home'
+				id: 'gpt-foo'
 			});
 		},
 		'Invalid id should throw error'
@@ -28,66 +27,64 @@ QUnit.test('base properties', function (assert) {
 	assert.expect(4);
 
 	let adSlot = new AdSlot({
-		id: 'gpt-top-leaderboard',
-		pageType: 'home'
+		id: 'gpt-top-leaderboard'
 	});
 
-	assert.equal('gpt-top-leaderboard', adSlot.getId());
-	assert.equal('TOP_LEADERBOARD', adSlot.getSlotName());
-	assert.equal(true, adSlot.getSizes().length > 0);
-	assert.equal(true, adSlot.getDefaultSizes().length > 0);
+	assert.equal(adSlot.getId(), 'gpt-top-leaderboard');
+	assert.equal(adSlot.getSlotName(), 'TOP_LEADERBOARD');
+	assert.equal(adSlot.getSizes().length > 0, true);
+	assert.equal(adSlot.getDefaultSizes().length > 0, true);
 });
 
 QUnit.test('home ad unit', function (assert) {
 	assert.expect(1);
 
+	Context.set('custom.pageType', 'home');
 	let adSlot = new AdSlot({
-		id: 'gpt-top-leaderboard',
-		pageType: 'home'
+		id: 'gpt-top-leaderboard'
 	});
 
-	assert.equal('/5441/wka.fandom/_home/HOME_TOP_LEADERBOARD', adSlot.getAdUnit());
+	assert.equal(adSlot.getAdUnit(), '/5441/something/_home/TOP_LEADERBOARD');
 });
 
 QUnit.test('vertical ad unit', function (assert) {
 	assert.expect(1);
 
+	Context.set('custom.pageType', 'vertical');
 	let adSlot = new AdSlot({
-		id: 'gpt-top-leaderboard',
-		pageType: 'hub'
+		id: 'gpt-top-leaderboard'
 	});
 
-	assert.equal('/5441/wka.fandom/_vertical/VERTICAL_TOP_LEADERBOARD', adSlot.getAdUnit());
+	assert.equal(adSlot.getAdUnit(), '/5441/something/_vertical/TOP_LEADERBOARD');
 });
 
 QUnit.test('with article ad unit', function (assert) {
 	assert.expect(1);
 
+	Context.set('custom.pageType', 'article');
 	let adSlot = new AdSlot({
-		id: 'gpt-top-boxad',
-		pageType: 'article'
+		id: 'gpt-top-boxad'
 	});
 
-	assert.equal('/5441/wka.fandom/_article/ARTICLE_TOP_BOXAD', adSlot.getAdUnit());
+	assert.equal(adSlot.getAdUnit(), '/5441/something/_article/TOP_BOXAD');
 });
 
 QUnit.test('with other ad unit', function (assert) {
 	assert.expect(1);
 
+	Context.set('custom.pageType', 'other');
 	let adSlot = new AdSlot({
-		id: 'gpt-top-skin',
-		pageType: 'other'
+		id: 'gpt-top-skin'
 	});
 
-	assert.equal('/5441/wka.fandom/_other/OTHER_INVISIBLE_SKIN', adSlot.getAdUnit());
+	assert.equal(adSlot.getAdUnit(), '/5441/something/_other/INVISIBLE_SKIN');
 });
 
 QUnit.test('mobile ad', function (assert) {
 	assert.expect(2);
 
 	let mobileAd = new AdSlot({
-		id: 'gpt-top-leaderboard-mobile',
-		pageType: 'other'
+		id: 'gpt-top-leaderboard-mobile'
 	});
 
 	Context.set('state.isMobile', true);
@@ -109,8 +106,7 @@ QUnit.test('desktop ad', function (assert) {
 	assert.expect(2);
 
 	let desktopAd = new AdSlot({
-		id: 'gpt-top-leaderboard-desktop',
-		pageType: 'other'
+		id: 'gpt-top-leaderboard-desktop'
 	});
 
 	Context.set('state.isMobile', true);
@@ -132,8 +128,7 @@ QUnit.test('ad for all screen sizes', function (assert) {
 	assert.expect(2);
 
 	let adSlot = new AdSlot({
-		id: 'gpt-top-leaderboard',
-		pageType: 'other'
+		id: 'gpt-top-leaderboard'
 	});
 
 	Context.set('state.isMobile', true);

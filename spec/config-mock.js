@@ -1,6 +1,7 @@
 'use strict';
 
 export default {
+	adUnitId: '/5441/something/_{custom.pageType}/{slotName}',
 	events: {
 		pushOnScroll: {
 			ids: [
@@ -13,14 +14,6 @@ export default {
 			threshold: 100
 		}
 	},
-	providers: [
-		{
-			adUnit: '/5441/wka.fandom/_{pageType}/{upperCasePageType}_',
-			targeting: {
-				src: 'gpt'
-			}
-		}
-	],
 	slots: {
 		'top-leaderboard': {
 			slotName: 'TOP_LEADERBOARD',
