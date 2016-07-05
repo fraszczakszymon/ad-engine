@@ -96,6 +96,26 @@ Context.set('targeting.post_id', 123);
 new AdEngine().init();
 ```
 
+### Request ad slot
+
+Request immediately:
+
+```html
+<div id="gpt-top-leaderboard">
+	<script>
+		window.adsQueue.push({
+			id: 'gpt-top-leaderboard'
+		});
+	</script>
+</div>
+```
+
+or prepare on scroll container (check above context configuration):
+
+```html
+<div id="gpt-bottom-leaderboard"></div>
+```
+
 ## Example pages:
 
 * TBA
