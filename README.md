@@ -12,7 +12,7 @@ jspm install github:wikia/ad-engine@^0.1.0
 
 ### Prepare configuration
 
-Create context module with local config:
+Create context.js module with local config:
 
 ```javascript
 'use strict';
@@ -89,8 +89,16 @@ import Context from './context';
 
 window.adsQueue = window.adsQueue || [];
 
+// Setup adStack so slots can be pushed to window.* from DOM/other JS scripts
 Context.set('state.adStack', window.adsQueue);
+
+// Setup screen size
 Context.set('state.isMobile', true);
+
+// Setup custom variables so they can be used in adUnitId configuration
+Context.set('custom.namespace', 'article');
+
+// Setup gpt targeting
 Context.set('targeting.post_id', 123);
 
 new AdEngine().init();
