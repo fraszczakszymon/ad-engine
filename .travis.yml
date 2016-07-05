@@ -1,0 +1,10 @@
+cache:
+  directories:
+    - node_modules
+    - jspm_packages
+install:
+  - npm install
+  - node ./node_modules/jspm/jspm.js registry export github
+  - node ./node_modules/jspm/jspm.js install -y
+script:
+  - npm test
