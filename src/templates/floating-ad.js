@@ -49,16 +49,15 @@ export default class FloatingAd {
 				return;
 			}
 
-			if (scrollPosition > start) {
+			if (scrollPosition <= start) {
+				slotNode.classList.add('pinned-top');
+				slotNode.classList.remove('pinned-bottom');
+			} else if (scrollPosition >= end) {
+				slotNode.classList.add('pinned-bottom');
 				slotNode.classList.remove('pinned-top');
 			} else {
-				slotNode.classList.add('pinned-top');
-			}
-
-			if (scrollPosition < end) {
+				slotNode.classList.remove('pinned-top');
 				slotNode.classList.remove('pinned-bottom');
-			} else {
-				slotNode.classList.add('pinned-bottom');
 			}
 		});
 	}

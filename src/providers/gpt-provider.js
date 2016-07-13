@@ -4,7 +4,7 @@
 
 import {logger} from '../utils/logger';
 import {makeLazyQueue} from '../utils/lazy-queue';
-import GptTargeting from './gpt-targeting';
+import {setupGptTargeting} from './gpt-targeting';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
 
@@ -84,7 +84,7 @@ export default class Gpt {
 			return;
 		}
 
-		GptTargeting.setup();
+		setupGptTargeting();
 		configure();
 		makeLazyQueue(slotsQueue, (adSlot) => {
 			this.fillIn(adSlot);
