@@ -1,0 +1,50 @@
+'use strict';
+
+import {makeLazyQueue} from './utils/lazy-queue';
+import AdSlot from './models/ad-slot';
+import Context from './services/context-service';
+import GptProvider from './providers/gpt-provider';
+import ScrollListener from './listeners/scroll-listener';
+import SlotService from './services/slot-service';
+
+export default class AdEngine {
+	/**
+	 * Create new instance
+	 */
+	constructor() {
+		this.adStack = Context.get('state.adStack');
+
+		window.ads = window.ads || {};
+		window.ads.runtime = window.ads.runtime || {};
+	}
+
+	init() {
+		let provider = new GptProvider();
+
+		makeLazyQueue(this.adStack, (ad) => {
+			this.fillInUsingProvider(ad, provider);
+
+			if (this.adStack.length === 0) {
+				provider.flush();
+			}
+		});
+		this.adStack.start();
+
+		ScrollListener.init();
+
+		if (Context.get('events.pushOnScroll')) {
+			Context.get('events.pushOnScroll.ids').forEach((id) => {
+				ScrollListener.addSlot(this.adStack, id, Context.get('events.pushOnScroll.threshold'));
+			});
+		}
+	}
+
+	fillInUsingProvider(ad, provider) {
+		const adSlot = new AdSlot(ad);
+
+		if (adSlot.shouldLoad(adSlot)) {
+			SlotService.add(adSlot);
+			provider.fillIn(adSlot);
+		}
+	};
+}
