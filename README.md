@@ -124,9 +124,9 @@ or prepare on scroll container (check above context configuration):
 <div id="gpt-bottom-leaderboard"></div>
 ```
 
-## Example pages:
+## Example pages
 
-* TBA
+* [Playwire video player](examples/video/playwire)
 
 ## Run tests
 
