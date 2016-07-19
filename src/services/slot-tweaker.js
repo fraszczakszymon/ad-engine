@@ -33,14 +33,19 @@ export default class SlotTweaker {
 		}
 	}
 
-	static makeResponsive(adSlot) {
+	static makeResponsive(adSlot, aspectRatio = null) {
 		this.onReady(adSlot, (iframe) => {
-			const container = iframe.parentElement,
-				height = iframe.contentWindow.document.body.scrollHeight,
-				width = iframe.contentWindow.document.body.scrollWidth;
+			const container = iframe.parentElement;
+
+			if (!aspectRatio) {
+				const height = iframe.contentWindow.document.body.scrollHeight,
+					width = iframe.contentWindow.document.body.scrollWidth;
+
+				aspectRatio = width/height;
+			}
 
 			logger(logGroup, 'make responsive', adSlot.getId());
-			container.style.paddingBottom = 100/(width/height) + '%';
+			container.style.paddingBottom = 100/aspectRatio + '%';
 		});
 	}
 
