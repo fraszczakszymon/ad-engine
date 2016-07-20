@@ -10,7 +10,7 @@ QUnit.test('getter by id', function (assert) {
 
 	SlotService.add(adSlotFake);
 
-	assert.equal(adSlotFake, SlotService.get('gpt-mock-ad'));
+	assert.equal(adSlotFake, SlotService.get('gpt-fake-ad'));
 });
 
 QUnit.test('getter by slot name', function (assert) {
@@ -18,7 +18,7 @@ QUnit.test('getter by slot name', function (assert) {
 
 	SlotService.add(adSlotFake);
 
-	assert.equal(adSlotFake, SlotService.getBySlotName('MOCK_AD'));
+	assert.equal(adSlotFake, SlotService.getBySlotName('FAKE_AD'));
 });
 
 QUnit.test('foreach iterator', function (assert) {

@@ -2,10 +2,10 @@
 
 export default {
 	getId() {
-		return 'gpt-mock-ad';
+		return 'gpt-fake-ad';
 	},
 
 	getSlotName() {
-		return 'MOCK_AD';
+		return 'FAKE_AD';
 	}
 };
