@@ -93,7 +93,7 @@ export default class AdSlot {
 		SlotTweaker.show(this);
 
 		if (this.config.defaultTemplate) {
-			TemplateService.init(this, this.config.defaultTemplate);
+			TemplateService.init(this.config.defaultTemplate, this);
 		}
 	}
 
