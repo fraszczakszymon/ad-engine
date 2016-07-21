@@ -1,9 +1,17 @@
 'use strict';
 
 let context = {
+		adUnitId: '',
+		events: {},
+		slots: {},
 		state: {
 			adStack: [],
 			isMobile: false
+		},
+		targeting: {},
+		vast: {
+			size: [640, 480],
+			adUnitId: ''
 		}
 	},
 	onChangeCallbacks = {};

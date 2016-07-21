@@ -1,9 +1,9 @@
 'use strict';
 
 import Context from '../services/context-service';
-import FloatingAd from '../templates/floating-ad';
 import SlotTweaker from '../services/slot-tweaker';
 import StringBuilder from '../utils/string-builder';
+import TemplateService from '../services/template-service';
 
 export default class AdSlot {
 	/**
@@ -91,10 +91,9 @@ export default class AdSlot {
 
 	success() {
 		SlotTweaker.show(this);
-		switch (this.config.defaultTemplate) {
-			case 'floating-ad':
-				new FloatingAd(this).init();
-				break;
+
+		if (this.config.defaultTemplate) {
+			TemplateService.init(this.config.defaultTemplate, this);
 		}
 	}
 

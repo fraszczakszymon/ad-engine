@@ -3,9 +3,11 @@
 import {makeLazyQueue} from './utils/lazy-queue';
 import AdSlot from './models/ad-slot';
 import Context from './services/context-service';
+import FloatingAd from './templates/floating-ad';
 import GptProvider from './providers/gpt-provider';
 import ScrollListener from './listeners/scroll-listener';
 import SlotService from './services/slot-service';
+import TemplateService from './services/template-service';
 
 export default class AdEngine {
 	/**
@@ -16,6 +18,8 @@ export default class AdEngine {
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
+
+		TemplateService.register('floating-ad', FloatingAd);
 	}
 
 	init() {
