@@ -10,6 +10,10 @@ jspm install github:wikia/ad-engine@^0.1.0
 
 ## Usage (ES6)
 
+### Load GPT library
+
+Follow [DoubleClick for Publishers instructions](https://support.google.com/dfp_premium/answer/1638622?hl=en).
+
 ### Prepare configuration
 
 Create context.js module with local config:
