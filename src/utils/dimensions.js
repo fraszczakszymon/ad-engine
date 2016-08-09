@@ -1,10 +1,8 @@
 'use strict';
 
-export function getTopOffset(el) {
-	let topPos = 0;
-	for (; el !== null; el = el.offsetParent) {
-		topPos += el.offsetTop;
-	}
+export function getTopOffset(element) {
+	const bounding = element.getBoundingClientRect(),
+		scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-	return topPos;
+	return bounding.top + scrollPosition;
 }

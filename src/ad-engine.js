@@ -46,7 +46,7 @@ export default class AdEngine {
 	fillInUsingProvider(ad, provider) {
 		const adSlot = new AdSlot(ad);
 
-		if (adSlot.shouldLoad(adSlot)) {
+		if (adSlot.shouldLoad()) {
 			SlotService.add(adSlot);
 			provider.fillIn(adSlot);
 		}
