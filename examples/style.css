@@ -37,7 +37,7 @@ html, body {
 	height: auto;
 }
 
-.top-leaderboard, .top-boxad {
+.top-leaderboard, .top-boxad, .incontent-boxad {
 	background: #1976D2;
 	color: #eee;
 	font-size: 1.3em;
@@ -45,6 +45,21 @@ html, body {
 	line-height: 250px;
 	margin: 0 auto;
 	width: 300px;
+}
+
+.incontent-boxad {
+	margin-top: 15px;
+	position: fixed;
+	top: 0;
+}
+
+.incontent-boxad.pinned-top {
+	position: relative;
+}
+
+.rail-module {
+	height: 1200px;
+	line-height: 1200px;
 }
 
 .top-boxad {
@@ -66,7 +81,7 @@ html, body {
 	}
 	.aside {
 		order: 2;
-		max-width: 320px;
+		max-width: 300px;
 	}
 	.top-leaderboard {
 		height: 90px;
