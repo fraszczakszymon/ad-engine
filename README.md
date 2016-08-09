@@ -130,6 +130,7 @@ or prepare on scroll container (check above context configuration):
 
 ## Example pages
 
+* [Floating ad template](examples/templates/floating-ad)
 * [Playwire video player](examples/video/playwire)
 
 ## Run tests
