@@ -20,15 +20,15 @@ function getCustomParameters() {
 }
 
 export default class VastBuilder {
-	static build() {
+	static build(src, slotName, aspectRatio) {
 		var params = [
 			'output=vast',
 			'env=vp',
 			'gdfp_req=1',
 			'impl=s',
 			'unviewed_position_start=1',
-			'iu=' + StringBuilder.build(Context.get('vast.adUnitId')),
-			'sz=' + Context.get('vast.size').join('x'),
+			'iu=' + StringBuilder.build(Context.get('vast.adUnitId'), { src: src, slotName: slotName } ),
+			'sz=' + (aspectRatio > 1 ? '640x480' : '320x480'),
 			'url=' + location.href,
 			'correlator=' + correlator,
 			'cust_params=' + getCustomParameters()
