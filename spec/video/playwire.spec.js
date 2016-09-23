@@ -4,6 +4,8 @@ import sinon from 'sinon';
 import Playwire from '../../src/video/playwire';
 import Context from '../../src/services/context-service';
 
+let container = null;
+
 QUnit.module('Playwire test', {
 	beforeEach: () => {
 		Context.extend({
@@ -18,6 +20,12 @@ QUnit.module('Playwire test', {
 				quattro: null
 			}
 		});
+		container = {
+			appendChild: function () {},
+			ownerDocument: {
+				defaultView: {}
+			}
+		};
 	}
 });
 
@@ -30,23 +38,24 @@ QUnit.test('get config URL', function (assert) {
 });
 
 QUnit.test('inject player with given config url', function (assert) {
-	let container = {
-		appendChild: function () {}
-	};
 	sinon.spy(container, 'appendChild');
 
-	Playwire.inject('//fake.url', container);
+	Playwire.inject({
+		configUrl: '//fake.url',
+		container
+	});
 
 	assert.equal(container.appendChild.getCall(0).args[0].getAttribute('data-config'), '//fake.url');
 });
 
 QUnit.test('inject player with given config url', function (assert) {
-	let container = {
-		appendChild: function () {}
-	};
 	sinon.spy(container, 'appendChild');
 
-	Playwire.inject('//fake.url', container, '//custom-vast.url');
+	Playwire.inject({
+		configUrl: '//fake.url',
+		container,
+		vastUrl: '//custom-vast.url'
+	});
 
 	assert.equal(container.appendChild.getCall(0).args[0].getAttribute('data-ad-tag'), '//custom-vast.url');
 });

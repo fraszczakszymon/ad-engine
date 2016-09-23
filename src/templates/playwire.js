@@ -9,7 +9,7 @@ export default class Playwire {
 		}
 
 		if (params.container) {
-			Player.inject(params.configUrl, params.container, params.vastUrl);
+			Player.inject(params);
 		}
 	}
 }
