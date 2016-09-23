@@ -35,7 +35,7 @@ QUnit.test('inject player with given config url', function (assert) {
 	};
 	sinon.spy(container, 'appendChild');
 
-	Playwire.inject('//fake.url', container);
+	Playwire.inject({ configUrl: '//fake.url', container: container });
 
 	assert.equal(container.appendChild.getCall(0).args[0].getAttribute('data-config'), '//fake.url');
 });
@@ -46,7 +46,7 @@ QUnit.test('inject player with given config url', function (assert) {
 	};
 	sinon.spy(container, 'appendChild');
 
-	Playwire.inject('//fake.url', container, '//custom-vast.url');
+	Playwire.inject({ configUrl: '//fake.url', container: container, vastUrl: '//custom-vast.url' });
 
 	assert.equal(container.appendChild.getCall(0).args[0].getAttribute('data-ad-tag'), '//custom-vast.url');
 });
