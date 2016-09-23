@@ -1,8 +1,10 @@
 'use strict';
 
 import VastBuilder from './vast-builder';
+import { logger } from '../utils/logger';
 
-const playerUrl = '//cdn.playwire.com/bolt/js/zeus/embed.js';
+const logGroup = 'playwire',
+	playerUrl = '//cdn.playwire.com/bolt/js/zeus/embed.js';
 
 export default class Playwire {
 	static getConfigUrl(publisherId, videoId) {
@@ -36,5 +38,6 @@ export default class Playwire {
 		script.src = playerUrl;
 
 		container.appendChild(script);
+		logger(logGroup, 'Inject player', params);
 	}
 }

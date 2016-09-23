@@ -1,5 +1,9 @@
 'use strict';
 
+import {logger} from '../utils/logger';
+
+const logGroup = 'template-service';
+
 let templates = {};
 
 export default class TemplateService {
@@ -8,6 +12,7 @@ export default class TemplateService {
 	}
 
 	static init(name, slot, params = {}) {
+		logger(logGroup, 'Load template', name, slot, params);
 		if (!templates[name]) {
 			throw `Template ${name} does not exist.`;
 		}
