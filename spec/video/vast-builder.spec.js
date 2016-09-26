@@ -7,7 +7,8 @@ QUnit.module('VastBuilder test', {
 	beforeEach: () => {
 		Context.extend({
 			vast: {
-				adUnitId: '/5441/wka.fandom/{src}/{slotName}'
+				adUnitId: '/5441/wka.fandom/{src}/{slotName}',
+				defaultAdUnitId: '/5441/VIDEO_ATG'
 			},
 			targeting: {
 				uno: 'foo',
@@ -40,16 +41,23 @@ QUnit.test('build URL with configured ad unit', function (assert) {
 	assert.ok(vastUrl.includes('&iu=/5441/wka.fandom/playwire/TOP_LEADERBOARD&'));
 });
 
-QUnit.test('build URL with horizontal ad size', function (assert) {
-	const vastUrl = VastBuilder.build('', '', 1);
 
-	assert.ok(vastUrl.match(/&sz=640x480&/g));
+QUnit.test('build URL with empty parameters', function (assert) {
+	const vastUrl = VastBuilder.build();
+
+	assert.ok(vastUrl.match(/&iu=\/5441\/VIDEO_ATG&/g));
 });
 
 QUnit.test('build URL with vertical ad size', function (assert) {
 	const vastUrl = VastBuilder.build('', '', 0.5);
 
 	assert.ok(vastUrl.match(/&sz=320x480&/g));
+});
+
+QUnit.test('build URL with horizontal ad size', function (assert) {
+	const vastUrl = VastBuilder.build(undefined, undefined, 1.5);
+
+	assert.ok(vastUrl.match(/&sz=640x480&/g));
 });
 
 QUnit.test('build URL with referrer', function (assert) {
