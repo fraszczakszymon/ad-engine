@@ -6,17 +6,15 @@ import StringBuilder from '../utils/string-builder';
 const baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters() {
-	const pageLevelParams = Context.get('targeting'),
-		customParameters = [];
+function getCustomParameters(slotLevelParams) {
+	const params = Object.assign({}, Context.get('targeting'), slotLevelParams);
 
-	Object.keys(pageLevelParams).forEach(function (key) {
-		if (pageLevelParams[key]) {
-			customParameters.push(key + '=' + pageLevelParams[key]);
-		}
-	});
-
-	return encodeURIComponent(customParameters.join('&'));
+	return encodeURIComponent(
+		Object.keys(params)
+              .filter((key) => params[key])
+              .map((key) => `${key}=${params[key]}`)
+              .join('&')
+	);
 }
 
 function buildAdUnitId(src, slotName) {
@@ -43,7 +41,7 @@ export default class VastBuilder {
 			'sz=' + (aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480'),
 			'url=' + location.href,
 			'correlator=' + correlator,
-			'cust_params=' + getCustomParameters()
+			'cust_params=' + getCustomParameters({src: src, pos: slotName})
 		];
 
 		return baseUrl + params.join('&');
