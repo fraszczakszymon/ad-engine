@@ -9,11 +9,18 @@ export default class Playwire {
 		return `//config.playwire.com/${publisherId}/videos/v2/${videoId}/zeus.json`;
 	}
 
-	static inject(configUrl, parent, vastUrl = null) {
-		var script = document.createElement('script');
+	static inject(params) {
+		const configUrl = params.configUrl,
+			  container = params.container,
+			  height = params.height,
+			  slotName = params.slotName,
+			  width = params.width;
+
+		var script = document.createElement('script'),
+			vastUrl = params.vastUrl;
 
 		if (!vastUrl) {
-			vastUrl = VastBuilder.build();
+			vastUrl = VastBuilder.build('playwire', slotName, width/height);
 		}
 
 		script.setAttribute('data-config', configUrl);
@@ -22,6 +29,6 @@ export default class Playwire {
 		script.setAttribute('type', 'text/javascript');
 		script.src = playerUrl;
 
-		parent.appendChild(script);
+		container.appendChild(script);
 	}
 }

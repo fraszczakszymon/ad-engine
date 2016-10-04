@@ -6,32 +6,42 @@ import StringBuilder from '../utils/string-builder';
 const baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters() {
-	const pageLevelParams = Context.get('targeting'),
-		customParameters = [];
+function getCustomParameters(slotLevelParams) {
+	const params = Object.assign({}, Context.get('targeting'), slotLevelParams);
 
-	Object.keys(pageLevelParams).forEach(function (key) {
-		if (pageLevelParams[key]) {
-			customParameters.push(key + '=' + pageLevelParams[key]);
-		}
-	});
+	return encodeURIComponent(
+		Object.keys(params)
+              .filter((key) => params[key])
+              .map((key) => `${key}=${params[key]}`)
+              .join('&')
+	);
+}
 
-	return encodeURIComponent(customParameters.join('&'));
+function buildAdUnitId(src, slotName) {
+	if (src && slotName) {
+		return StringBuilder.build(Context.get('vast.adUnitId'), {src: src, slotName: slotName});
+	}
+
+	return Context.get('vast.defaultAdUnitId');
+}
+
+function isNumeric(n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 export default class VastBuilder {
-	static build() {
+	static build(src, slotName, aspectRatio) {
 		var params = [
 			'output=vast',
 			'env=vp',
 			'gdfp_req=1',
 			'impl=s',
 			'unviewed_position_start=1',
-			'iu=' + StringBuilder.build(Context.get('vast.adUnitId')),
-			'sz=' + Context.get('vast.size').join('x'),
+			'iu=' + buildAdUnitId(src, slotName),
+			'sz=' + (aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480'),
 			'url=' + location.href,
 			'correlator=' + correlator,
-			'cust_params=' + getCustomParameters()
+			'cust_params=' + getCustomParameters({src: src, pos: slotName})
 		];
 
 		return baseUrl + params.join('&');
