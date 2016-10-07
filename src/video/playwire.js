@@ -11,15 +11,20 @@ export default class Playwire {
 		return `//config.playwire.com/${publisherId}/videos/v2/${videoId}/zeus.json`;
 	}
 
-	static inject(params = {}) {
-		var configUrl = params.configUrl,
+	static inject(params) {
+		const configUrl = params.configUrl,
 			container = params.container,
+			height = params.height,
 			playerId = 'playwire_' + Math.floor((1 + Math.random()) * 0x10000),
-			script = document.createElement('script'),
+			slotName = params.slotName,
+			width = params.width,
 			win = container.ownerDocument.defaultView || container.ownerDocument.parentWindow;
 
-		if (!params.vastUrl) {
-			params.vastUrl = VastBuilder.build();
+		var script = document.createElement('script'),
+			vastUrl = params.vastUrl;
+
+		if (!vastUrl) {
+			vastUrl = VastBuilder.build('playwire', slotName, width / height);
 		}
 
 		win.onReady = function () {
@@ -28,7 +33,7 @@ export default class Playwire {
 
 		script.setAttribute('data-id', playerId);
 		script.setAttribute('data-config', configUrl);
-		script.setAttribute('data-ad-tag', params.vastUrl);
+		script.setAttribute('data-ad-tag', vastUrl);
 
 		if (params.onReady) {
 			script.setAttribute('data-onready', 'onReady');
