@@ -81,5 +81,5 @@ QUnit.test('build URL with page level targeting', function (assert) {
 QUnit.test('build URL with page and slotName level targeting', function (assert) {
 	const vastUrl = VastBuilder.build('playwire', 'TEST_SLOT', 1);
 
-	assert.ok(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26src%3Dplaywire%26slotName%3DTEST_SLOT$/));
+	assert.ok(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26src%3Dplaywire%26pos%3DTEST_SLOT$/));
 });

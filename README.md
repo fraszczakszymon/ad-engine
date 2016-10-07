@@ -128,6 +128,11 @@ or prepare on scroll container (check above context configuration):
 <div id="gpt-bottom-leaderboard"></div>
 ```
 
+### Debug mode
+
+Add `adengine_debug=1` to see all logged events in console.
+In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<group_name_2>,...`.
+
 ## Example pages
 
 * [Floating ad template](examples/templates/floating-ad)

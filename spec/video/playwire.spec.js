@@ -4,6 +4,8 @@ import sinon from 'sinon';
 import Playwire from '../../src/video/playwire';
 import Context from '../../src/services/context-service';
 
+let container = null;
+
 QUnit.module('Playwire test', {
 	beforeEach: () => {
 		Context.extend({
@@ -18,6 +20,12 @@ QUnit.module('Playwire test', {
 				quattro: null
 			}
 		});
+		container = {
+			appendChild: function () {},
+			ownerDocument: {
+				defaultView: {}
+			}
+		};
 	}
 });
 
@@ -30,9 +38,6 @@ QUnit.test('get config URL', function (assert) {
 });
 
 QUnit.test('inject player with given config url', function (assert) {
-	let container = {
-		appendChild: function () {}
-	};
 	sinon.spy(container, 'appendChild');
 
 	Playwire.inject({ configUrl: '//fake.url', container: container });
@@ -41,9 +46,6 @@ QUnit.test('inject player with given config url', function (assert) {
 });
 
 QUnit.test('inject player with given config url', function (assert) {
-	let container = {
-		appendChild: function () {}
-	};
 	sinon.spy(container, 'appendChild');
 
 	Playwire.inject({ configUrl: '//fake.url', container: container, vastUrl: '//custom-vast.url' });
