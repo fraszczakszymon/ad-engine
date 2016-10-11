@@ -1,6 +1,4 @@
-'use strict';
-
-let context = {
+const context = {
 		adUnitId: '',
 		events: {},
 		slots: {},
@@ -23,13 +21,13 @@ function runCallbacks(trigger, key, newValue) {
 
 	onChangeCallbacks[trigger].forEach((callback) => {
 		callback(key, newValue);
-	})
+	});
 }
 
 function triggerOnChange(key, segments, newValue) {
 	let trigger = '';
-	segments.forEach((segment) => {
-		trigger += (trigger === '' ? '' : '.') + segment;
+	segments.forEach((seg) => {
+		trigger += (trigger === '' ? '' : '.') + seg;
 		runCallbacks(trigger, key, newValue);
 	});
 }
@@ -37,23 +35,23 @@ function triggerOnChange(key, segments, newValue) {
 function segment(key, newValue) {
 	const segments = key.split('.'),
 		segmentsCount = segments.length;
-	let segment = context,
+	let seg = context,
 		lastKey = null;
 
 	for (let i = 0; i < segmentsCount; i++) {
 		lastKey = segments[i];
 		if (i < segmentsCount - 1) {
-			segment[lastKey] = segment[lastKey] || {};
-			segment = segment[lastKey];
+			seg[lastKey] = seg[lastKey] || {};
+			seg = seg[lastKey];
 		}
 	}
 
 	if (newValue !== undefined) {
-		segment[lastKey] = newValue;
+		seg[lastKey] = newValue;
 		triggerOnChange(key, segments, newValue);
 	}
 
-	return segment[lastKey];
+	return seg[lastKey];
 }
 
 export default {

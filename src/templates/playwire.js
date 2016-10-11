@@ -1,5 +1,3 @@
-'use strict';
-
 import Player from '../video/playwire';
 
 export default class Playwire {

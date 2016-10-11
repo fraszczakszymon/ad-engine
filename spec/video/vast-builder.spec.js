@@ -38,7 +38,7 @@ QUnit.test('build URL with required DFP parameters', function (assert) {
 
 QUnit.test('build URL with configured ad unit', function (assert) {
 	const vastUrl = VastBuilder.build('playwire', 'TOP_LEADERBOARD', 1);
-	assert.ok(vastUrl.includes('&iu=/5441/wka.fandom/playwire/TOP_LEADERBOARD&'));
+	assert.ok(vastUrl.match(/&iu=\/5441\/wka\.fandom\/playwire\/TOP_LEADERBOARD&/g));
 });
 
 

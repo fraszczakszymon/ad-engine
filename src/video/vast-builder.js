@@ -1,5 +1,3 @@
-'use strict';
-
 import Context from '../services/context-service';
 import StringBuilder from '../utils/string-builder';
 
@@ -11,15 +9,15 @@ function getCustomParameters(slotLevelParams) {
 
 	return encodeURIComponent(
 		Object.keys(params)
-              .filter((key) => params[key])
-              .map((key) => `${key}=${params[key]}`)
+              .filter(key => params[key])
+              .map(key => `${key}=${params[key]}`)
               .join('&')
 	);
 }
 
 function buildAdUnitId(src, slotName) {
 	if (src && slotName) {
-		return StringBuilder.build(Context.get('vast.adUnitId'), {src: src, slotName: slotName});
+		return StringBuilder.build(Context.get('vast.adUnitId'), { src, slotName });
 	}
 
 	return Context.get('vast.defaultAdUnitId');
@@ -31,17 +29,17 @@ function isNumeric(n) {
 
 export default class VastBuilder {
 	static build(src, slotName, aspectRatio) {
-		var params = [
+		const params = [
 			'output=vast',
 			'env=vp',
 			'gdfp_req=1',
 			'impl=s',
 			'unviewed_position_start=1',
-			'iu=' + buildAdUnitId(src, slotName),
-			'sz=' + (aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480'),
-			'url=' + location.href,
-			'correlator=' + correlator,
-			'cust_params=' + getCustomParameters({src: src, pos: slotName})
+			`iu=${buildAdUnitId(src, slotName)}`,
+			`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
+			`url=${window.location.href}`,
+			`correlator=${correlator}`,
+			`cust_params=${getCustomParameters({ src, pos: slotName })}`
 		];
 
 		return baseUrl + params.join('&');

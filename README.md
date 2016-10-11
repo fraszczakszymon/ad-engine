@@ -1,7 +1,5 @@
 # AdEngine
 
-[![Build Status](https://travis-ci.org/Wikia/ad-engine.svg?branch=dev)](https://travis-ci.org/Wikia/ad-engine)
-
 ## Installation
 
 ```bash
@@ -141,5 +139,11 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 ## Run tests
 
 ```bash
-npm test
+npm run test
+```
+
+## Lint all files
+
+```bash
+npm run lint
 ```

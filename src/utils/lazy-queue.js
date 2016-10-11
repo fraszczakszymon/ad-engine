@@ -1,13 +1,3 @@
-'use strict';
-
-/**
- * Turns an array in a LazyQueue
- *
- * @public
- *
- * @param {Array} queue An array of values
- * @param {Function} callback The callback to apply to each array item
- */
 export function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');

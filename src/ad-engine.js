@@ -1,6 +1,4 @@
-'use strict';
-
-import {makeLazyQueue} from './utils/lazy-queue';
+import { makeLazyQueue } from './utils/lazy-queue';
 import AdSlot from './models/ad-slot';
 import Context from './services/context-service';
 import FloatingAd from './templates/floating-ad';
@@ -10,9 +8,6 @@ import SlotService from './services/slot-service';
 import TemplateService from './services/template-service';
 
 export default class AdEngine {
-	/**
-	 * Create new instance
-	 */
 	constructor() {
 		this.adStack = Context.get('state.adStack');
 
@@ -23,7 +18,7 @@ export default class AdEngine {
 	}
 
 	init() {
-		let provider = new GptProvider();
+		const provider = new GptProvider();
 
 		makeLazyQueue(this.adStack, (ad) => {
 			this.fillInUsingProvider(ad, provider);
@@ -50,5 +45,5 @@ export default class AdEngine {
 			SlotService.add(adSlot);
 			provider.fillIn(adSlot);
 		}
-	};
+	}
 }

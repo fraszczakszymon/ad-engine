@@ -1,14 +1,13 @@
-'use strict';
-
-import {logger} from '../utils/logger';
+import { logger } from '../utils/logger';
 
 function getIframe(adSlot) {
 	return document.getElementById(adSlot.getId()).querySelector('div[id*="_container_"] iframe');
 }
 
 function getAdType(event, adSlot) {
-	let iframe = getIframe(adSlot),
-		isIframeAccessible = false;
+	const iframe = getIframe(adSlot);
+
+	let isIframeAccessible = false;
 
 	if (event.isEmpty) {
 		return 'collapse';

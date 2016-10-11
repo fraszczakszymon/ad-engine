@@ -1,27 +1,18 @@
-'use strict';
-
-import {getTopOffset} from '../utils/dimensions';
+import { getTopOffset } from '../utils/dimensions';
 import ScrollListener from '../listeners/scroll-listener';
 
 export default class FloatingAd {
-	/**
-	 * Constructor
-	 *
-	 * @param {object} adSlot
-	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
 	}
 
-	/**
-	 * Initializes the ad skin
-	 */
 	init() {
+		const slotNode = document.getElementById(this.adSlot.getId());
+
 		let container,
 			containerOffset,
 			end,
 			slotHeight,
-			slotNode = document.getElementById(this.adSlot.getId()),
 			space,
 			start = 0;
 
@@ -30,7 +21,7 @@ export default class FloatingAd {
 		}
 
 		ScrollListener.addCallback(() => {
-			let scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			container = slotNode.parentNode;
 			containerOffset = getTopOffset(container);

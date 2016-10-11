@@ -1,5 +1,3 @@
-'use strict';
-
 export function get(key) {
 	const queryParameters = {},
 		queryString = window.location.search.substr(1).split('&');
@@ -9,9 +7,9 @@ export function get(key) {
 	}
 
 	queryString.forEach((pair) => {
-		const [key, value] = pair.split('=');
-		if (!!value) {
-			queryParameters[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+		const [id, value] = pair.split('=');
+		if (value) {
+			queryParameters[id] = decodeURIComponent(value.replace(/\+/g, ' '));
 		}
 	});
 
