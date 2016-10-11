@@ -1,11 +1,9 @@
-'use strict';
-
 import adSlotFake from '../ad-slot-fake';
 import SlotService from '../../src/services/slot-service';
 
 QUnit.module('SlotService test', {});
 
-QUnit.test('getter by id', function (assert) {
+QUnit.test('getter by id', (assert) => {
 	assert.expect(1);
 
 	SlotService.add(adSlotFake);
@@ -13,7 +11,7 @@ QUnit.test('getter by id', function (assert) {
 	assert.equal(adSlotFake, SlotService.get('gpt-fake-ad'));
 });
 
-QUnit.test('getter by slot name', function (assert) {
+QUnit.test('getter by slot name', (assert) => {
 	assert.expect(1);
 
 	SlotService.add(adSlotFake);
@@ -21,7 +19,7 @@ QUnit.test('getter by slot name', function (assert) {
 	assert.equal(adSlotFake, SlotService.getBySlotName('FAKE_AD'));
 });
 
-QUnit.test('foreach iterator', function (assert) {
+QUnit.test('foreach iterator', (assert) => {
 	assert.expect(1);
 
 	SlotService.add(adSlotFake);

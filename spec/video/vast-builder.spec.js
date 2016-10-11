@@ -1,5 +1,3 @@
-'use strict';
-
 import VastBuilder from '../../src/video/vast-builder';
 import Context from '../../src/services/context-service';
 
@@ -13,20 +11,20 @@ QUnit.module('VastBuilder test', {
 			targeting: {
 				uno: 'foo',
 				due: 15,
-				tre: [ 'bar', 'zero' ],
+				tre: ['bar', 'zero'],
 				quattro: null
 			}
 		});
 	}
 });
 
-QUnit.test('build URL with DFP domain', function (assert) {
+QUnit.test('build URL with DFP domain', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 1);
 
 	assert.ok(vastUrl.match(/^https:\/\/pubads\.g\.doubleclick\.net\/gampad\/ads/g));
 });
 
-QUnit.test('build URL with required DFP parameters', function (assert) {
+QUnit.test('build URL with required DFP parameters', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 1);
 
 	assert.ok(vastUrl.match(/output=vast&/g));
@@ -36,50 +34,52 @@ QUnit.test('build URL with required DFP parameters', function (assert) {
 	assert.ok(vastUrl.match(/&unviewed_position_start=1&/g));
 });
 
-QUnit.test('build URL with configured ad unit', function (assert) {
+QUnit.test('build URL with configured ad unit', (assert) => {
 	const vastUrl = VastBuilder.build('playwire', 'TOP_LEADERBOARD', 1);
 	assert.ok(vastUrl.match(/&iu=\/5441\/wka\.fandom\/playwire\/TOP_LEADERBOARD&/g));
 });
 
 
-QUnit.test('build URL with empty parameters', function (assert) {
+QUnit.test('build URL with empty parameters', (assert) => {
 	const vastUrl = VastBuilder.build();
 
 	assert.ok(vastUrl.match(/&iu=\/5441\/VIDEO_ATG&/g));
 });
 
-QUnit.test('build URL with vertical ad size', function (assert) {
+QUnit.test('build URL with vertical ad size', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 0.5);
 
 	assert.ok(vastUrl.match(/&sz=320x480&/g));
 });
 
-QUnit.test('build URL with horizontal ad size', function (assert) {
+QUnit.test('build URL with horizontal ad size', (assert) => {
 	const vastUrl = VastBuilder.build(undefined, undefined, 1.5);
 
 	assert.ok(vastUrl.match(/&sz=640x480&/g));
 });
 
-QUnit.test('build URL with referrer', function (assert) {
+QUnit.test('build URL with referrer', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 1);
 
 	assert.ok(vastUrl.match(/&url=http:\/\/localhost/g));
 });
 
-QUnit.test('build URL with numeric correlator', function (assert) {
+QUnit.test('build URL with numeric correlator', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 1);
 
 	assert.ok(vastUrl.match(/&correlator=\d+&/g));
 });
 
-QUnit.test('build URL with page level targeting', function (assert) {
+QUnit.test('build URL with page level targeting', (assert) => {
 	const vastUrl = VastBuilder.build('', '', 1);
 
 	assert.ok(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero$/g));
 });
 
-QUnit.test('build URL with page and slotName level targeting', function (assert) {
+QUnit.test('build URL with page and slotName level targeting', (assert) => {
 	const vastUrl = VastBuilder.build('playwire', 'TEST_SLOT', 1);
 
-	assert.ok(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26src%3Dplaywire%26pos%3DTEST_SLOT$/));
+	assert.ok(
+		vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26src%3Dplaywire%26pos%3DTEST_SLOT$/)
+	);
 });
