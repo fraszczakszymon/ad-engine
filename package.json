@@ -27,6 +27,7 @@
     "karma-babel-preprocessor": "5.2.2",
     "karma-coverage": "0.5.3",
     "karma-jspm": "2.0.1",
+    "karma-junit-reporter": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-qunit": "0.1.5",
     "karma-sourcemap-loader": "0.3.6",

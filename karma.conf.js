@@ -62,7 +62,7 @@ module.exports = function(config) {
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['coverage', 'progress'],
+		reporters: ['coverage', 'progress', 'junit'],
 
 		coverageReporter: {
 			instrumenters: {isparta: require('isparta')},
@@ -76,6 +76,12 @@ module.exports = function(config) {
 					subdir: normalizationBrowserName
 				}
 			]
+		},
+
+		junitReporter: {
+			outputDir: 'spec/build',
+			outputFile: 'results.xml',
+			useBrowserName: false
 		},
 
 		// enable / disable colors in the output (reporters and logs)
