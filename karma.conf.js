@@ -69,11 +69,16 @@ module.exports = function(config) {
 			instrumenter: {
 				'src/**/*.js': 'isparta'
 			},
+			dir: 'spec/build',
 
 			reporters: [
 				{
-					type: 'text-summary',
-					subdir: normalizationBrowserName
+					type: 'text-summary'
+				},
+				{
+					type: 'cobertura',
+					subdir: '.',
+					file: 'coverage.txt'
 				}
 			]
 		},
@@ -93,8 +98,4 @@ module.exports = function(config) {
 	};
 
 	config.set(configuration);
-
-	function normalizationBrowserName(browser) {
-		return browser.toLowerCase().split(/[ /-]/)[0];
-	}
 };
