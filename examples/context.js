@@ -1,3 +1,4 @@
+/* eslint import/no-unresolved: 0, import/extensions: 0*/
 import Context from 'ad-engine/services/context-service';
 
 Context.extend({

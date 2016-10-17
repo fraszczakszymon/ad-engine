@@ -1,3 +1,4 @@
+/* eslint no-new: 0 */
 import AdSlot from '../../src/models/ad-slot';
 import Context from '../../src/services/context-service';
 import ConfigMock from '../config-mock';

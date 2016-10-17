@@ -1,5 +1,7 @@
 import { logger } from '../utils/logger';
 
+const logGroup = 'slot-listener';
+
 function getIframe(adSlot) {
 	return document.getElementById(adSlot.getId()).querySelector('div[id*="_container_"] iframe');
 }
@@ -15,7 +17,9 @@ function getAdType(event, adSlot) {
 
 	try {
 		isIframeAccessible = !!iframe.contentWindow.document.querySelector;
-	} catch (e) {}
+	} catch (e) {
+		logger(logGroup, 'getAdType', 'iframe is not accessible');
+	}
 
 	if (isIframeAccessible && iframe.contentWindow.AdEngine_adType) {
 		return iframe.contentWindow.AdEngine_adType;
@@ -28,7 +32,7 @@ export default class SlotListener {
 	static onRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		logger('slot-listener', adSlot.getId(), adType);
+		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType);
 
 		switch (adType) {
 			case 'collapse':

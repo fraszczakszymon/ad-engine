@@ -7,6 +7,15 @@ import ScrollListener from './listeners/scroll-listener';
 import SlotService from './services/slot-service';
 import TemplateService from './services/template-service';
 
+function fillInUsingProvider(ad, provider) {
+	const adSlot = new AdSlot(ad);
+
+	if (adSlot.shouldLoad()) {
+		SlotService.add(adSlot);
+		provider.fillIn(adSlot);
+	}
+}
+
 export default class AdEngine {
 	constructor() {
 		this.adStack = Context.get('state.adStack');
@@ -21,7 +30,7 @@ export default class AdEngine {
 		const provider = new GptProvider();
 
 		makeLazyQueue(this.adStack, (ad) => {
-			this.fillInUsingProvider(ad, provider);
+			fillInUsingProvider(ad, provider);
 
 			if (this.adStack.length === 0) {
 				provider.flush();
@@ -35,15 +44,6 @@ export default class AdEngine {
 			Context.get('events.pushOnScroll.ids').forEach((id) => {
 				ScrollListener.addSlot(this.adStack, id, Context.get('events.pushOnScroll.threshold'));
 			});
-		}
-	}
-
-	fillInUsingProvider(ad, provider) {
-		const adSlot = new AdSlot(ad);
-
-		if (adSlot.shouldLoad()) {
-			SlotService.add(adSlot);
-			provider.fillIn(adSlot);
 		}
 	}
 }

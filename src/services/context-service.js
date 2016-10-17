@@ -38,7 +38,7 @@ function segment(key, newValue) {
 	let seg = context,
 		lastKey = null;
 
-	for (let i = 0; i < segmentsCount; i++) {
+	for (let i = 0; i < segmentsCount; i += 1) {
 		lastKey = segments[i];
 		if (i < segmentsCount - 1) {
 			seg[lastKey] = seg[lastKey] || {};
