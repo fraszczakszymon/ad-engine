@@ -1,4 +1,3 @@
-/* eslint import/no-unresolved: 0, import/extensions: 0*/
 import AdEngine from 'ad-engine/ad-engine';
 import Context from '../../context';
 

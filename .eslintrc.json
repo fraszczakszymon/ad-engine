@@ -6,7 +6,6 @@
         "comma-dangle": 0,
         "func-names": 0,
         "import/prefer-default-export": 0,
-        "import/no-extraneous-dependencies": 0,
         "indent": [2, "tab", {"VariableDeclarator": 1, "SwitchCase": 1}],
         "max-len": [2, 120, 2],
         "no-mixed-operators": 0,
@@ -17,7 +16,6 @@
     },
     "globals": {
         "document": false,
-        "QUnit": false,
         "window": false
     }
 }

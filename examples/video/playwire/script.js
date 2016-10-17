@@ -1,4 +1,3 @@
-/* eslint import/no-unresolved: 0, import/extensions: 0*/
 import Context from 'ad-engine/services/context-service';
 import Playwire from 'ad-engine/video/playwire';
 
