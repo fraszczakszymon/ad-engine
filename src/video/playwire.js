@@ -22,7 +22,11 @@ export default class Playwire {
 		let vastUrl = params.vastUrl;
 
 		if (!vastUrl) {
-			vastUrl = VastUrlBuilder.build('playwire', slotName, width / height);
+			vastUrl = VastUrlBuilder.build(width / height, {
+				passback: 'playwire',
+				pos: slotName,
+				src: 'gpt'
+			});
 		}
 
 		win.onReady = function () {

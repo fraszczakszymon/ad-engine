@@ -15,12 +15,8 @@ function getCustomParameters(slotLevelParams) {
 	);
 }
 
-function buildAdUnitId(src, slotName) {
-	if (src && slotName) {
-		return StringBuilder.build(Context.get('vast.adUnitId'), { src, slotName });
-	}
-
-	return Context.get('vast.defaultAdUnitId');
+function buildAdUnitId(slotParams) {
+	return StringBuilder.build(Context.get('vast.adUnitId'), { pos: slotParams.pos, src: slotParams.src });
 }
 
 function isNumeric(n) {
@@ -28,18 +24,18 @@ function isNumeric(n) {
 }
 
 export default class VastUrlBuilder {
-	static build(src, slotName, aspectRatio) {
+	static build(aspectRatio, slotParams = {}) {
 		const params = [
 			'output=vast',
 			'env=vp',
 			'gdfp_req=1',
 			'impl=s',
 			'unviewed_position_start=1',
-			`iu=${buildAdUnitId(src, slotName)}`,
+			`iu=${buildAdUnitId(slotParams)}`,
 			`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
 			`url=${window.location.href}`,
 			`correlator=${correlator}`,
-			`cust_params=${getCustomParameters({ src, pos: slotName })}`
+			`cust_params=${getCustomParameters(slotParams)}`
 		];
 
 		return baseUrl + params.join('&');
