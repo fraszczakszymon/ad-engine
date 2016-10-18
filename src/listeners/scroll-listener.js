@@ -1,12 +1,10 @@
-'use strict';
+import { getTopOffset } from '../utils/dimensions';
+import { throttle } from '../utils/throttle';
 
-import {getTopOffset} from '../utils/dimensions';
-import {throttle} from '../utils/throttle';
-
-let callbacks = {};
+const callbacks = {};
 
 function getUniqueId() {
-	return (((1+Math.random())*0x1000000)|0).toString(16).substring(1);
+	return ((1 + Math.random()) * 0x1000000).toString(16).substring(1);
 }
 
 function pushSlot(adStack, node) {
@@ -33,7 +31,7 @@ export default class ScrollListener {
 			return;
 		}
 
-		ScrollListener.addCallback(function (event, callbackId) {
+		ScrollListener.addCallback((event, callbackId) => {
 			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
 				slotPosition = getTopOffset(node),
 				viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);

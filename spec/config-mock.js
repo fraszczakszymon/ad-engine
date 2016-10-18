@@ -1,5 +1,3 @@
-'use strict';
-
 export default {
 	adUnitId: '/5441/something/_{custom.pageType}/{slotName}',
 	events: {
@@ -144,4 +142,4 @@ export default {
 			}
 		}
 	}
-}
+};

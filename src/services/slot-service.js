@@ -1,6 +1,4 @@
-'use strict';
-
-let slotNameMapping = {},
+const slotNameMapping = {},
 	slots = {},
 	slotStates = {};
 
@@ -38,9 +36,8 @@ export default class SlotService {
 
 	static getBySlotName(slotName) {
 		const id = slotNameMapping[slotName];
-		if (id) {
-			return this.get(id);
-		}
+
+		return this.get(id);
 	}
 
 	static forEach(callback) {

@@ -1,18 +1,15 @@
-/* global googletag */
-
-'use strict';
-
-import {logger} from '../utils/logger';
-import {makeLazyQueue} from '../utils/lazy-queue';
-import {setupGptTargeting} from './gpt-targeting';
+import { logger } from '../utils/logger';
+import { makeLazyQueue } from '../utils/lazy-queue';
+import { setupGptTargeting } from './gpt-targeting';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
 
+const logGroup = 'gpt-provider',
+	slotsQueue = [];
+
 let atfEnded = false,
 	definedSlots = [],
-	initialized = false,
-	logGroup = 'gpt-provider',
-	slotsQueue = [];
+	initialized = false;
 
 function finishAtf() {
 	atfEnded = true;
@@ -27,12 +24,12 @@ function finishAtf() {
 }
 
 function configure() {
-	const tag = googletag.pubads();
+	const tag = window.googletag.pubads();
 
 	tag.enableSingleRequest();
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', (event) => {
-		let id = event.slot.getSlotElementId(),
+		const id = event.slot.getSlotElementId(),
 			slot = SlotService.get(id);
 
 		if (!atfEnded && slot.isAboveTheFold()) {
@@ -45,7 +42,7 @@ function configure() {
 			SlotListener.onRenderEnded(event, slot);
 		}, 0);
 	});
-	googletag.enableServices();
+	window.googletag.enableServices();
 }
 
 function shouldPush(adSlot) {
@@ -64,21 +61,15 @@ function shouldPush(adSlot) {
 }
 
 export default class Gpt {
-	/**
-	 * Create new instance
-	 */
 	constructor() {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
 
-		googletag.cmd.push(() => {
+		window.googletag.cmd.push(() => {
 			this.init();
 		});
 	}
 
-	/**
-	 * Configure googletag and setup targeting
-	 */
 	init() {
 		if (initialized) {
 			return;
@@ -92,28 +83,23 @@ export default class Gpt {
 		initialized = true;
 	}
 
-	/**
-	 * Fill in slot
-	 *
-	 * @param {object} adSlot
-	 */
 	fillIn(adSlot) {
 		if (!shouldPush(adSlot)) {
 			return;
 		}
 
-		googletag.cmd.push(() => {
-			let gptSlot,
-				sizeMapping,
+		window.googletag.cmd.push(() => {
+			const sizeMapping = window.googletag.sizeMapping(),
 				targeting = adSlot.getTargeting();
 
-			sizeMapping = googletag.sizeMapping();
+			let gptSlot = null;
+
 			adSlot.getSizes().forEach((item) => {
 				sizeMapping.addSize(item.viewportSize, item.sizes);
 			});
 
-			gptSlot = googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
-				.addService(googletag.pubads())
+			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
+				.addService(window.googletag.pubads())
 				.setCollapseEmptyDiv(true)
 				.defineSizeMapping(sizeMapping.build())
 				.setTargeting('pos', adSlot.getSlotName())
@@ -123,7 +109,7 @@ export default class Gpt {
 				gptSlot.setTargeting(key, targeting[key]);
 			});
 
-			googletag.display(adSlot.getId());
+			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);
 
 			if (atfEnded) {
@@ -134,13 +120,10 @@ export default class Gpt {
 		});
 	}
 
-	/**
-	 * Flush defined slots
-	 */
 	flush() {
-		googletag.cmd.push(() => {
+		window.googletag.cmd.push(() => {
 			if (definedSlots.length) {
-				googletag.pubads().refresh(definedSlots);
+				window.googletag.pubads().refresh(definedSlots);
 				definedSlots = [];
 			}
 		});

@@ -1,5 +1,3 @@
-'use strict';
-
 import AdEngine from 'ad-engine/ad-engine';
 import Context from '../../context';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import Context from '../services/context-service';
 
 export default class {

@@ -1,5 +1,3 @@
-'use strict';
-
 import AdSlot from '../../src/models/ad-slot';
 import Context from '../../src/services/context-service';
 import ConfigMock from '../config-mock';
@@ -10,7 +8,7 @@ QUnit.module('AdSlot test', {
 	}
 });
 
-QUnit.test('exception when id is wrong', function (assert) {
+QUnit.test('exception when id is wrong', (assert) => {
 	assert.expect(1);
 
 	assert.throws(
@@ -23,10 +21,10 @@ QUnit.test('exception when id is wrong', function (assert) {
 	);
 });
 
-QUnit.test('base properties', function (assert) {
+QUnit.test('base properties', (assert) => {
 	assert.expect(4);
 
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-leaderboard'
 	});
 
@@ -36,54 +34,54 @@ QUnit.test('base properties', function (assert) {
 	assert.equal(adSlot.getDefaultSizes().length > 0, true);
 });
 
-QUnit.test('home ad unit', function (assert) {
+QUnit.test('home ad unit', (assert) => {
 	assert.expect(1);
 
 	Context.set('custom.pageType', 'home');
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-leaderboard'
 	});
 
 	assert.equal(adSlot.getAdUnit(), '/5441/something/_home/TOP_LEADERBOARD');
 });
 
-QUnit.test('vertical ad unit', function (assert) {
+QUnit.test('vertical ad unit', (assert) => {
 	assert.expect(1);
 
 	Context.set('custom.pageType', 'vertical');
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-leaderboard'
 	});
 
 	assert.equal(adSlot.getAdUnit(), '/5441/something/_vertical/TOP_LEADERBOARD');
 });
 
-QUnit.test('with article ad unit', function (assert) {
+QUnit.test('with article ad unit', (assert) => {
 	assert.expect(1);
 
 	Context.set('custom.pageType', 'article');
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-boxad'
 	});
 
 	assert.equal(adSlot.getAdUnit(), '/5441/something/_article/TOP_BOXAD');
 });
 
-QUnit.test('with other ad unit', function (assert) {
+QUnit.test('with other ad unit', (assert) => {
 	assert.expect(1);
 
 	Context.set('custom.pageType', 'other');
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-skin'
 	});
 
 	assert.equal(adSlot.getAdUnit(), '/5441/something/_other/INVISIBLE_SKIN');
 });
 
-QUnit.test('mobile ad', function (assert) {
+QUnit.test('mobile ad', (assert) => {
 	assert.expect(2);
 
-	let mobileAd = new AdSlot({
+	const mobileAd = new AdSlot({
 		id: 'gpt-top-leaderboard-mobile'
 	});
 
@@ -102,10 +100,10 @@ QUnit.test('mobile ad', function (assert) {
 	);
 });
 
-QUnit.test('desktop ad', function (assert) {
+QUnit.test('desktop ad', (assert) => {
 	assert.expect(2);
 
-	let desktopAd = new AdSlot({
+	const desktopAd = new AdSlot({
 		id: 'gpt-top-leaderboard-desktop'
 	});
 
@@ -124,10 +122,10 @@ QUnit.test('desktop ad', function (assert) {
 	);
 });
 
-QUnit.test('ad for all screen sizes', function (assert) {
+QUnit.test('ad for all screen sizes', (assert) => {
 	assert.expect(2);
 
-	let adSlot = new AdSlot({
+	const adSlot = new AdSlot({
 		id: 'gpt-top-leaderboard'
 	});
 

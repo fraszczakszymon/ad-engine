@@ -18,7 +18,7 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'node_modules/karma-babel-preprocessor/node_modules/babel-core/browser-polyfill.js'
+			'./node_modules/phantomjs-polyfill-object-assign/object-assign-polyfill.js'
 		],
 
 		jspm: {
@@ -62,20 +62,31 @@ module.exports = function(config) {
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['coverage', 'progress'],
+		reporters: ['coverage', 'progress', 'junit'],
 
 		coverageReporter: {
 			instrumenters: {isparta: require('isparta')},
 			instrumenter: {
 				'src/**/*.js': 'isparta'
 			},
+			dir: 'spec/build',
 
 			reporters: [
 				{
-					type: 'text-summary',
-					subdir: normalizationBrowserName
+					type: 'text-summary'
+				},
+				{
+					type: 'cobertura',
+					subdir: '.',
+					file: 'coverage.txt'
 				}
 			]
+		},
+
+		junitReporter: {
+			outputDir: 'spec/build',
+			outputFile: 'results.xml',
+			useBrowserName: false
 		},
 
 		// enable / disable colors in the output (reporters and logs)
@@ -87,8 +98,4 @@ module.exports = function(config) {
 	};
 
 	config.set(configuration);
-
-	function normalizationBrowserName(browser) {
-		return browser.toLowerCase().split(/[ /-]/)[0];
-	}
 };

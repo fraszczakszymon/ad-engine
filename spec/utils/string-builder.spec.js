@@ -1,5 +1,3 @@
-'use strict';
-
 import StringBuilder from '../../src/utils/string-builder';
 import Context from '../../src/services/context-service';
 
@@ -14,7 +12,7 @@ QUnit.module('StringBuilder test', {
 	}
 });
 
-QUnit.test('regular string', function (assert) {
+QUnit.test('regular string', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -23,7 +21,7 @@ QUnit.test('regular string', function (assert) {
 	);
 });
 
-QUnit.test('string with not existing value in context', function (assert) {
+QUnit.test('string with not existing value in context', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -32,7 +30,7 @@ QUnit.test('string with not existing value in context', function (assert) {
 	);
 });
 
-QUnit.test('string with simple value from context', function (assert) {
+QUnit.test('string with simple value from context', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -41,7 +39,7 @@ QUnit.test('string with simple value from context', function (assert) {
 	);
 });
 
-QUnit.test('string with multiple values from context', function (assert) {
+QUnit.test('string with multiple values from context', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -50,7 +48,7 @@ QUnit.test('string with multiple values from context', function (assert) {
 	);
 });
 
-QUnit.test('string with different values from context', function (assert) {
+QUnit.test('string with different values from context', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -59,7 +57,7 @@ QUnit.test('string with different values from context', function (assert) {
 	);
 });
 
-QUnit.test('string without additional values', function (assert) {
+QUnit.test('string without additional values', (assert) => {
 	assert.expect(1);
 
 	assert.equal(
@@ -68,7 +66,7 @@ QUnit.test('string without additional values', function (assert) {
 	);
 });
 
-QUnit.test('string with additional values', function (assert) {
+QUnit.test('string with additional values', (assert) => {
 	assert.expect(1);
 
 	assert.equal(

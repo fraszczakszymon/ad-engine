@@ -1,5 +1,3 @@
-'use strict';
-
 import Context from '../services/context-service';
 import SlotTweaker from '../services/slot-tweaker';
 import StringBuilder from '../utils/string-builder';
@@ -17,17 +15,17 @@ export default class AdSlot {
 	 *           gpt-bottom-leaderboard-desktop
 	 */
 	constructor(ad) {
-		let segments = ad.id.split('-');
+		const segments = ad.id.split('-');
 
 		if (segments.length < 3) {
-			throw 'Invalid GPT id passed to parseId (' + ad.id + ').';
+			throw new Error(`Invalid GPT id passed to parseId (${ad.id}).`);
 		}
 
 		this.id = ad.id;
 		this.location = segments[1];
-		this.screenSize = !!segments[3] ? segments[3] : 'both';
+		this.screenSize = segments[3] ? segments[3] : 'both';
 		this.type = segments[2];
-		this.config = Context.get('slots.' + this.location + '-' + this.type);
+		this.config = Context.get(`slots.${this.location}-${this.type}`);
 		this.enabled = !this.config.disabled;
 	}
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import VastBuilder from './vast-builder';
 import { logger } from '../utils/logger';
 
@@ -15,20 +13,20 @@ export default class Playwire {
 		const configUrl = params.configUrl,
 			container = params.container,
 			height = params.height,
-			playerId = 'playwire_' + Math.floor((1 + Math.random()) * 0x10000),
+			playerId = `playwire_${Math.floor((1 + Math.random()) * 0x10000)}`,
+			script = document.createElement('script'),
 			slotName = params.slotName,
 			width = params.width,
 			win = container.ownerDocument.defaultView || container.ownerDocument.parentWindow;
 
-		var script = document.createElement('script'),
-			vastUrl = params.vastUrl;
+		let vastUrl = params.vastUrl;
 
 		if (!vastUrl) {
 			vastUrl = VastBuilder.build('playwire', slotName, width / height);
 		}
 
 		win.onReady = function () {
-			params.onReady(win.Bolt, playerId)
+			params.onReady(win.Bolt, playerId);
 		};
 
 		script.setAttribute('data-id', playerId);

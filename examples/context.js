@@ -1,5 +1,3 @@
-'use strict';
-
 import Context from 'ad-engine/services/context-service';
 
 Context.extend({
