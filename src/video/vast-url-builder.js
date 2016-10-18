@@ -27,7 +27,7 @@ function isNumeric(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export default class VastBuilder {
+export default class VastUrlBuilder {
 	static build(src, slotName, aspectRatio) {
 		const params = [
 			'output=vast',

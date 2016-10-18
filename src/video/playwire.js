@@ -1,4 +1,4 @@
-import VastBuilder from './vast-builder';
+import VastUrlBuilder from './vast-url-builder';
 import { logger } from '../utils/logger';
 
 const logGroup = 'playwire',
@@ -22,7 +22,7 @@ export default class Playwire {
 		let vastUrl = params.vastUrl;
 
 		if (!vastUrl) {
-			vastUrl = VastBuilder.build('playwire', slotName, width / height);
+			vastUrl = VastUrlBuilder.build('playwire', slotName, width / height);
 		}
 
 		win.onReady = function () {
