@@ -23,21 +23,19 @@ function isNumeric(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export default class VastUrlBuilder {
-	static build(aspectRatio, slotParams = {}) {
-		const params = [
-			'output=vast',
-			'env=vp',
-			'gdfp_req=1',
-			'impl=s',
-			'unviewed_position_start=1',
-			`iu=${buildAdUnitId(slotParams)}`,
-			`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
-			`url=${window.location.href}`,
-			`correlator=${correlator}`,
-			`cust_params=${getCustomParameters(slotParams)}`
-		];
+export function build(aspectRatio, slotParams = {}) {
+	const params = [
+		'output=vast',
+		'env=vp',
+		'gdfp_req=1',
+		'impl=s',
+		'unviewed_position_start=1',
+		`iu=${buildAdUnitId(slotParams)}`,
+		`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
+		`url=${window.location.href}`,
+		`correlator=${correlator}`,
+		`cust_params=${getCustomParameters(slotParams)}`
+	];
 
-		return baseUrl + params.join('&');
-	}
+	return baseUrl + params.join('&');
 }
