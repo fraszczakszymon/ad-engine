@@ -25,7 +25,7 @@ const configUrl = Playwire.getConfigUrl(1004220, 4843893),
 		},
 	};
 
-Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src}/{slotName}');
+Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src}/{pos}');
 Context.set('targeting.artid', 217);
 Context.set('targeting.s1', '_project43');
 
