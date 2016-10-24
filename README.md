@@ -136,6 +136,16 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 * [Floating ad template](examples/templates/floating-ad)
 * [Playwire video player](examples/video/playwire)
 
+### Access examples
+
+Start a python server by running
+
+```bash
+python -m SimpleHTTPServer 5555
+```
+
+Navigate to <http://localhost:5555/examples/>
+
 ## Run tests
 
 ```bash
