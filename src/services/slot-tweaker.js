@@ -1,9 +1,15 @@
+import MessageBus from './message-bus';
+import SlotService from './slot-service';
 import { logger } from '../utils/logger';
 
 const logGroup = 'slot-tweaker';
 
-export default class SlotTweaker {
-	static getContainer(adSlot) {
+function forceRepaint(domElement) {
+	return domElement.offsetWidth;
+}
+
+export default {
+	getContainer(adSlot) {
 		const container = document.getElementById(adSlot.getId());
 
 		if (!container) {
@@ -11,30 +17,50 @@ export default class SlotTweaker {
 		}
 
 		return container;
-	}
+	},
 
-	static hide(adSlot) {
+	hide(adSlot) {
 		const container = this.getContainer(adSlot);
 
 		if (container) {
 			logger(logGroup, 'hide', adSlot.getId());
 			container.classList.add('hide');
 		}
-	}
+	},
 
-	static show(adSlot) {
+	show(adSlot) {
 		const container = this.getContainer(adSlot);
 
 		if (container) {
 			logger(logGroup, 'show', adSlot.getId());
 			container.classList.remove('hide');
 		}
-	}
+	},
 
-	static makeResponsive(adSlot, aspectRatio = null) {
+	collapse(adSlot) {
+		const container = this.getContainer(adSlot);
+
+		container.style.maxHeight = `${container.scrollHeight}px`;
+		forceRepaint(container);
+		container.classList.add('slot-animation');
+		container.style.maxHeight = '0';
+	},
+
+	expand(adSlot) {
+		const container = this.getContainer(adSlot);
+
+		container.style.maxHeight = `${container.offsetHeight}px`;
+		container.classList.remove('hide');
+		container.classList.add('slot-animation');
+		container.style.maxHeight = `${container.scrollHeight}px`;
+	},
+
+	makeResponsive(adSlot, aspectRatio = null) {
+		const container = this.getContainer(adSlot);
+
+		container.classList.add('slot-responsive');
+
 		this.onReady(adSlot, (iframe) => {
-			const container = iframe.parentElement;
-
 			if (!aspectRatio) {
 				const height = iframe.contentWindow.document.body.scrollHeight,
 					width = iframe.contentWindow.document.body.scrollWidth;
@@ -45,9 +71,9 @@ export default class SlotTweaker {
 			logger(logGroup, 'make responsive', adSlot.getId());
 			container.style.paddingBottom = `${100 / aspectRatio}%`;
 		});
-	}
+	},
 
-	static onReady(adSlot, callback) {
+	onReady(adSlot, callback) {
 		const container = this.getContainer(adSlot),
 			iframe = container.querySelector('div[id*="_container_"] iframe');
 
@@ -62,5 +88,39 @@ export default class SlotTweaker {
 				callback(iframe);
 			});
 		}
+	},
+
+	registerMessageListener() {
+		MessageBus.register({
+			keys: ['action', 'slotName'],
+			infinite: true
+		}, (data) => {
+			if (!data.slotName) {
+				logger(logGroup, 'Missing slot name');
+				return;
+			}
+
+			const adSlot = SlotService.getBySlotName(data.slotName);
+
+			switch (data.action) {
+				case 'expand':
+					this.expand(adSlot);
+					break;
+				case 'collapse':
+					this.collapse(adSlot);
+					break;
+				case 'hide':
+					this.hide(adSlot);
+					break;
+				case 'show':
+					this.show(adSlot);
+					break;
+				case 'make-responsive':
+					this.makeResponsive(adSlot, data.aspectRatio);
+					break;
+				default:
+					logger(logGroup, 'Unknown action', data.action);
+			}
+		});
 	}
-}
+};
