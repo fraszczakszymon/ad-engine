@@ -120,7 +120,6 @@ export default {
 					break;
 				default:
 					logger(logGroup, 'Unknown action', data.action);
-					break;
 			}
 		});
 	}

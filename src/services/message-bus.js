@@ -25,12 +25,14 @@ function messageMatch(match, message) {
 }
 
 function onMessage(message) {
-	let i = 0;
+	let i = 0,
+		callback;
 
 	if (isAdEngineMessage(message)) {
 		logger(logGroup, 'Message received', message);
 
-		callbacks.forEach((callback) => {
+		for (i = 0; i < callbacks.length; i += 1) {
+			callback = callbacks[i];
 			if (messageMatch(callback.match, message)) {
 				logger(logGroup, 'Matching message', message, callback);
 
@@ -39,9 +41,9 @@ function onMessage(message) {
 				if (!callback.match.infinite) {
 					callbacks.splice(i, 1);
 				}
+				return;
 			}
-			i += 1;
-		});
+		}
 	}
 }
 
