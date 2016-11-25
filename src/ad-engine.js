@@ -3,8 +3,10 @@ import AdSlot from './models/ad-slot';
 import Context from './services/context-service';
 import FloatingAd from './templates/floating-ad';
 import GptProvider from './providers/gpt-provider';
+import MessageBus from './services/message-bus';
 import ScrollListener from './listeners/scroll-listener';
 import SlotService from './services/slot-service';
+import SlotTweaker from './services/slot-tweaker';
 import TemplateService from './services/template-service';
 
 function fillInUsingProvider(ad, provider) {
@@ -36,6 +38,8 @@ export default class AdEngine {
 				provider.flush();
 			}
 		});
+		MessageBus.init();
+		SlotTweaker.registerMessageListener();
 		this.adStack.start();
 
 		ScrollListener.init();
