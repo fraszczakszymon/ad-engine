@@ -56,11 +56,12 @@ export default {
 	},
 
 	makeResponsive(adSlot, aspectRatio = null) {
-		const container = this.getContainer(adSlot);
+		const slotContainer = this.getContainer(adSlot);
 
-		container.classList.add('slot-responsive');
+		slotContainer.classList.add('slot-responsive');
 
 		this.onReady(adSlot, (iframe) => {
+			const container = iframe.parentElement;
 			if (!aspectRatio) {
 				const height = iframe.contentWindow.document.body.scrollHeight,
 					width = iframe.contentWindow.document.body.scrollWidth;
