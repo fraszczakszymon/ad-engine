@@ -5,5 +5,11 @@ export default {
 
 	getSlotName() {
 		return 'FAKE_AD';
+	},
+
+	config: {
+		targeting: {
+			wsi: 'yyyy',
+		},
 	}
 };
