@@ -1,11 +1,15 @@
 import Context from '../services/context-service';
+import SlotService from '../services/slot-service';
 import StringBuilder from '../utils/string-builder';
 
 const baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
 function getCustomParameters(slotLevelParams) {
-	const params = Object.assign({}, Context.get('targeting'), slotLevelParams);
+	const slot = SlotService.getBySlotName(slotLevelParams.pos);
+	const slotTargeting = slot ? slot.config.targeting : {};
+	const wsiParam = slotTargeting.wsi ? { wsi: slotTargeting.wsi } : {};
+	const params = Object.assign({}, Context.get('targeting'), slotLevelParams, wsiParam);
 
 	return encodeURIComponent(
 		Object.keys(params)
