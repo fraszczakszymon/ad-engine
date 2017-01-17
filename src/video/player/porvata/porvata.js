@@ -8,7 +8,7 @@ function prepareVideoAdContainer(videoAdContainer) {
 	return videoAdContainer;
 }
 
-class PorvataPlayer {
+export class PorvataPlayer {
 	constructor(ima, params) {
 		this.ima = ima;
 		this.container = prepareVideoAdContainer(params.container.querySelector('div'));
