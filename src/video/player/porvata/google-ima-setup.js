@@ -28,4 +28,4 @@ function getRenderingSettings() {
 export default {
 	createRequest,
 	getRenderingSettings
-}
+};

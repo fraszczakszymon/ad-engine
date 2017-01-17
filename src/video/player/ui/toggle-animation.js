@@ -2,8 +2,8 @@ const duration = 400,
 	onAnimationClassName = 'on-animation';
 
 function resizeContainer(container, finalAspectRatio) {
-	container.style.height = container.offsetHeight + 'px';
-	container.style.height = container.offsetWidth / finalAspectRatio + 'px';
+	container.style.height = `${container.offsetHeight}px`;
+	container.style.height = `${container.offsetWidth / finalAspectRatio}px`;
 
 	setTimeout(() => {
 		container.style.height = '';
@@ -42,4 +42,4 @@ function add(video, params) {
 export default {
 	add,
 	duration
-}
+};

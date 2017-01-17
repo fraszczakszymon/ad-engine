@@ -1,6 +1,7 @@
 export function getTopOffset(element) {
-	let topPos = 0,
-		elementWindow = element.ownerDocument.defaultView || element.ownerDocument.parentWindow;
+	const elementWindow = element.ownerDocument.defaultView || element.ownerDocument.parentWindow;
+
+	let topPos = 0;
 
 	do {
 		topPos += element.offsetTop;
@@ -23,6 +24,6 @@ export function isInViewport(element, topOffset = 0, bottomOffset = 0) {
 		viewportTop = topOffset + scrollPosition,
 		viewportBottom = bottomOffset + scrollPosition + viewportHeight;
 
-	return elementTop >= (viewportTop - elementHeight/2) &&
-		elementBottom <= (viewportBottom + elementHeight/2);
+	return elementTop >= (viewportTop - elementHeight / 2) &&
+		elementBottom <= (viewportBottom + elementHeight / 2);
 }

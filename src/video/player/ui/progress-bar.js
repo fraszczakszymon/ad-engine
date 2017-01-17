@@ -1,3 +1,5 @@
+import SlotTweaker from '../../../services/slot-tweaker';
+
 function add(video) {
 	const progressBar = document.createElement('div'),
 		currentTime = document.createElement('div');
@@ -9,7 +11,7 @@ function add(video) {
 	progressBar.appendChild(currentTime);
 
 	progressBar.pause = () => {
-		currentTime.style.width = (currentTime.offsetWidth / progressBar.offsetWidth * 100) + '%';
+		currentTime.style.width = `${(currentTime.offsetWidth / progressBar.offsetWidth * 100)}%`;
 	};
 	progressBar.reset = () => {
 		currentTime.style.transitionDuration = '';
@@ -19,8 +21,8 @@ function add(video) {
 		const remainingTime = video.getRemainingTime();
 
 		if (remainingTime) {
-			currentTime.style.transitionDuration = remainingTime + 's';
-			currentTime.offsetWidth; // force repaint
+			currentTime.style.transitionDuration = `${remainingTime}s`;
+			SlotTweaker.forceRepaint(currentTime);
 			currentTime.style.width = '100%';
 		} else {
 			currentTime.style.width = '0';
@@ -36,4 +38,4 @@ function add(video) {
 
 export default {
 	add
-}
+};

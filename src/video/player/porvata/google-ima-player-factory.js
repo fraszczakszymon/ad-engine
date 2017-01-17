@@ -1,11 +1,12 @@
 import GoogleImaSetup from './google-ima-setup';
 
 function create(adDisplayContainer, adsLoader, params) {
+	const videoMock = document.createElement('video'),
+		mobileVideoAd = params.container.querySelector('video');
+
 	let isAdsManagerLoaded = false,
 		status = '',
-		videoMock = document.createElement('video'),
-		adsManager,
-		mobileVideoAd = params.container.querySelector('video');
+		adsManager;
 
 	function adsManagerLoadedCallback(adsManagerLoadedEvent) {
 		adsManager = adsManagerLoadedEvent.getAdsManager(videoMock, GoogleImaSetup.getRenderingSettings());
@@ -103,4 +104,4 @@ function create(adDisplayContainer, adsLoader, params) {
 
 export default {
 	create
-}
+};

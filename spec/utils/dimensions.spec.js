@@ -12,10 +12,10 @@ function getMockElement(params, frameElement) {
 	}
 
 	return {
-		offsetParent: offsetParent,
-		offsetTop: offsetTop,
-		offsetHeight: offsetHeight,
-		ownerDocument:  {
+		offsetParent,
+		offsetTop,
+		offsetHeight,
+		ownerDocument: {
 			defaultView: {
 				frameElement: frameElement || null
 			}
@@ -34,8 +34,8 @@ QUnit.test('getTopOffset of single element', (assert) => {
 QUnit.test('getTopOffset of nested element', (assert) => {
 	assert.expect(1);
 
-	const parent = getMockElement({offsetTop: 100}),
-		element = getMockElement({offsetParent: parent});
+	const parent = getMockElement({ offsetTop: 100 }),
+		element = getMockElement({ offsetParent: parent });
 
 	assert.equal(getTopOffset(element), 150);
 });
@@ -43,10 +43,10 @@ QUnit.test('getTopOffset of nested element', (assert) => {
 QUnit.test('getTopOffset of nested iframe element', (assert) => {
 	assert.expect(1);
 
-	const iframeParent = getMockElement({offsetTop: 30}),
-		iframe = getMockElement({offsetParent: iframeParent, offsetTop: 200}),
-		parent = getMockElement({offsetTop: 100}),
-		element = getMockElement({offsetParent: parent, offsetTop: 50}, iframe);
+	const iframeParent = getMockElement({ offsetTop: 30 }),
+		iframe = getMockElement({ offsetParent: iframeParent, offsetTop: 200 }),
+		parent = getMockElement({ offsetTop: 100 }),
+		element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
 
 	assert.equal(getTopOffset(element), 380);
 });

@@ -23,4 +23,4 @@ function getPlayer(params) {
 export default {
 	load,
 	getPlayer
-}
+};

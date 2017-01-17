@@ -16,9 +16,8 @@ export default {
 	},
 
 	loadScript(src, type, isAsync, node) {
-		let self = this;
 		return new Promise((resolve, reject) => {
-			const script = self.createScript(src, type, isAsync, node);
+			const script = this.createScript(src, type, isAsync, node);
 
 			script.onload = resolve;
 			script.onerror = reject;

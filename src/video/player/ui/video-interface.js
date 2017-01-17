@@ -21,5 +21,5 @@ function setup(video, uiElements, params) {
 }
 
 export default {
-	setup: setup
-}
+	setup
+};

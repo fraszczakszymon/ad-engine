@@ -6,29 +6,22 @@ function prepareVideoAdContainer(videoAdContainer) {
 }
 
 function create(params, ima) {
-	let width = params.width,
-		height = params.height,
-		mobileVideoAd = params.container.querySelector('video'),
+	const mobileVideoAd = params.container.querySelector('video'),
 		videoAdContainer = params.container.querySelector('div');
+
+	let width = params.width,
+		height = params.height;
 
 	return {
 		container: prepareVideoAdContainer(videoAdContainer),
-		ima: ima,
+		ima,
 		addEventListener: (eventName, callback) => {
 			ima.addEventListener(eventName, callback);
 		},
-		getRemainingTime: () => {
-			return ima.getAdsManager().getRemainingTime();
-		},
-		isMuted: () => {
-			return ima.getAdsManager().getVolume() === 0;
-		},
-		isPaused: () => {
-			return ima.getStatus() === 'paused';
-		},
-		pause: () => {
-			ima.getAdsManager().pause();
-		},
+		getRemainingTime: () => ima.getAdsManager().getRemainingTime(),
+		isMuted: () => ima.getAdsManager().getVolume() === 0,
+		isPaused: () => ima.getStatus() === 'paused',
+		pause: () => ima.getAdsManager().pause(),
 		play: (newWidth, newHeight) => {
 			if (newWidth !== undefined && newHeight !== undefined) {
 				width = newWidth;
@@ -67,4 +60,4 @@ function create(params, ima) {
 
 export default {
 	create
-}
+};

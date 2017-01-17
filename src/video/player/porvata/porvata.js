@@ -14,11 +14,11 @@ function inject(params) {
 	};
 
 	return GoogleIma.load()
-		.then(() => {
-			return GoogleIma.getPlayer(params);
-		}).then((ima) => {
-			return PorvataPlayerFactory.create(params, ima);
-		}).then((video) => {
+		.then(() => GoogleIma.getPlayer(params))
+		.then((ima) => {
+			PorvataPlayerFactory.create(params, ima);
+		})
+		.then((video) => {
 			// TODO Implement viewportObserver
 			function inViewportCallback(isVisible) {
 				// Play video automatically only for the first time
@@ -71,4 +71,4 @@ function inject(params) {
 
 export default {
 	inject
-}
+};

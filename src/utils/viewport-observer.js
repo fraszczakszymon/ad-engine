@@ -2,7 +2,7 @@ import ScrollListener from '../listeners/scroll-listener';
 import { isInViewport } from './dimensions';
 
 function updateInViewport(listener) {
-	var newInViewport = isInViewport(listener.element);
+	const newInViewport = isInViewport(listener.element);
 
 	if (newInViewport !== listener.inViewport) {
 		listener.callback(newInViewport);
