@@ -46,6 +46,8 @@ export default class ScrollListener {
 	static addCallback(callback) {
 		const id = getUniqueId();
 		callbacks[id] = callback;
+
+		return id;
 	}
 
 	static removeCallback(id) {
