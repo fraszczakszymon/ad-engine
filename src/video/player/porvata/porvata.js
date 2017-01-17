@@ -17,7 +17,6 @@ function inject(params) {
 		.then(() => GoogleIma.getPlayer(params))
 		.then(ima => PorvataPlayerFactory.create(params, ima))
 		.then((video) => {
-			// TODO Implement viewportObserver
 			function inViewportCallback(isVisible) {
 				// Play video automatically only for the first time
 				if (isVisible && !autoPlayed && params.autoPlay) {
