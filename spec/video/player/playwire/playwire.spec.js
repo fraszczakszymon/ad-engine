@@ -1,6 +1,6 @@
 import sinon from 'sinon';
-import Playwire from '../../src/video/playwire';
-import Context from '../../src/services/context-service';
+import Playwire from '../../../../src/video/player/playwire/playwire';
+import Context from '../../../../src/services/context-service';
 
 let container = null;
 
