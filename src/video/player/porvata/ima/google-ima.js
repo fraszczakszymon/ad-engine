@@ -1,5 +1,5 @@
 import GoogleImaPlayerFactory from './google-ima-player-factory';
-import ScriptLoader from '../../../utils/script-loader';
+import ScriptLoader from '../../../../utils/script-loader';
 
 const imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 

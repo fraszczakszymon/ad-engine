@@ -1,5 +1,5 @@
-import Context from '../../../services/context-service';
-import { build as buildVastUrl } from '../../vast-url-builder';
+import Context from '../../../../services/context-service';
+import { build as buildVastUrl } from '../../../vast-url-builder';
 
 function createRequest(params) {
 	const adsRequest = new window.google.ima.AdsRequest();
