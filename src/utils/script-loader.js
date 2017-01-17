@@ -1,21 +1,17 @@
 export default {
-	createScript(src, type, isAsync, node) {
+	createScript(src, type = 'text/javascript', isAsync = true, node = null) {
 		const script = document.createElement('script');
 
 		node = node || document.body.lastChild;
-		script.async = isAsync || true;
-		script.type = type || 'text/javascript';
+		script.async = isAsync;
+		script.type = type;
 		script.src = src;
 		node.parentNode.insertBefore(script, node);
 
 		return script;
 	},
 
-	loadAsync(src, node, type) {
-		return this.loadScript(src, type, true, node);
-	},
-
-	loadScript(src, type, isAsync, node) {
+	loadScript(src, type = 'text/javascript', isAsync = true, node = null) {
 		return new Promise((resolve, reject) => {
 			const script = this.createScript(src, type, isAsync, node);
 
