@@ -16,7 +16,7 @@ function inject(params) {
 	return GoogleIma.load()
 		.then(() => GoogleIma.getPlayer(params))
 		.then((ima) => {
-			PorvataPlayerFactory.create(params, ima);
+			return PorvataPlayerFactory.create(params, ima);
 		})
 		.then((video) => {
 			// TODO Implement viewportObserver
