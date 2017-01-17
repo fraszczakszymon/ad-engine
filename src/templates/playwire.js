@@ -1,4 +1,4 @@
-import Player from '../video/playwire';
+import Player from '../video/player/playwire/playwire';
 
 export default class Playwire {
 	init(params) {

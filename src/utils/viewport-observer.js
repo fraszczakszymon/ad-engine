@@ -10,10 +10,12 @@ function updateInViewport(listener) {
 	}
 }
 
-function addListener(element, callback) {
+function addListener(element, callback, params = {}) {
 	const listener = {
 			element,
 			callback,
+			offsetTop: params.offsetTop || 0,
+			offsetBottom: params.offsetBottom || 0,
 			inViewport: false
 		},
 		updateCallback = () => {
