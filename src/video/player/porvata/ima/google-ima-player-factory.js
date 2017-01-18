@@ -70,7 +70,7 @@ class GoogleImaPlayer {
 	}
 
 	setStatus(newStatus) {
-		return function () {
+		return () => {
 			this.status = newStatus;
 		};
 	}

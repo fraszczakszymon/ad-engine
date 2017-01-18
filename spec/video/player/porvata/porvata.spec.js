@@ -50,6 +50,7 @@ QUnit.test('Player with proper interface and properties', (assert) => {
 	assert.equal(typeof player.getRemainingTime, 'function');
 	assert.equal(typeof player.isMuted, 'function');
 	assert.equal(typeof player.isPaused, 'function');
+	assert.equal(typeof player.isPlaying, 'function');
 	assert.equal(typeof player.pause, 'function');
 	assert.equal(typeof player.play, 'function');
 	assert.equal(typeof player.reload, 'function');

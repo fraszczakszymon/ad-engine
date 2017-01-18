@@ -35,6 +35,10 @@ export class PorvataPlayer {
 		return this.ima.getStatus() === 'paused';
 	}
 
+	isPlaying() {
+		return this.ima.getStatus() === 'playing';
+	}
+
 	pause() {
 		this.ima.getAdsManager().pause();
 	}
@@ -104,7 +108,7 @@ export default class Porvata {
 					} else if (isVisible && autoPaused) {
 						video.resume();
 						// Pause video once it's out of viewport and set autoPaused to distinguish manual and auto pause
-					} else if (!isVisible && !video.isPaused()) {
+					} else if (!isVisible && video.isPlaying()) {
 						video.pause();
 						autoPaused = true;
 					}
