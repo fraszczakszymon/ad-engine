@@ -4,11 +4,11 @@ import { logger } from '../utils/logger';
 
 const logGroup = 'slot-tweaker';
 
-function forceRepaint(domElement) {
-	return domElement.offsetWidth;
-}
-
 export default {
+	forceRepaint(domElement) {
+		return domElement.offsetWidth;
+	},
+
 	getContainer(adSlot) {
 		const container = document.getElementById(adSlot.getId());
 
@@ -41,7 +41,7 @@ export default {
 		const container = this.getContainer(adSlot);
 
 		container.style.maxHeight = `${container.scrollHeight}px`;
-		forceRepaint(container);
+		this.forceRepaint(container);
 		container.classList.add('slot-animation');
 		container.style.maxHeight = '0';
 	},

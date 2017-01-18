@@ -1,5 +1,5 @@
 import Context from 'ad-engine/services/context-service';
-import Playwire from 'ad-engine/video/playwire';
+import Playwire from 'ad-engine/video/player/playwire/playwire';
 
 const configUrl = Playwire.getConfigUrl(1004220, 4843893),
 	container = document.getElementById('player'),

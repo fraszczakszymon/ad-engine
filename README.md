@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-jspm install github:wikia/ad-engine@^0.1.0
+jspm install github:wikia/ad-engine@^1.1.0
 ```
 
 ## Usage (ES6)
@@ -135,6 +135,8 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 
 * [Floating ad template](examples/templates/floating-ad)
 * [Playwire video player](examples/video/playwire)
+* [Porvata video player](examples/video/porvata)
+* [Slot animations](examples/slots/animations)
 
 ### Access examples
 
