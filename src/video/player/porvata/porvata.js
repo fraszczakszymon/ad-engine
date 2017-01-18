@@ -104,10 +104,10 @@ export default class Porvata {
 					if (isVisible && !autoPlayed && params.autoPlay) {
 						video.play();
 						autoPlayed = true;
-						// Don't resume when video was paused manually
+					// Don't resume when video was paused manually
 					} else if (isVisible && autoPaused) {
 						video.resume();
-						// Pause video once it's out of viewport and set autoPaused to distinguish manual and auto pause
+					// Pause video once it's out of viewport and set autoPaused to distinguish manual and auto pause
 					} else if (!isVisible && video.isPlaying()) {
 						video.pause();
 						autoPaused = true;
