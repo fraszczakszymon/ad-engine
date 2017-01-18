@@ -6,8 +6,8 @@ const container = document.getElementById('player'),
 	params = {
 		autoPlay: true,
 		container,
-		width: 480,
-		height: 360,
+		width: 300,
+		height: 250,
 		slotName: 'TEST_SLOT',
 		src: 'gpt'
 	};
