@@ -1,6 +1,7 @@
 import CloseButton from './close-button';
 import PauseOverlay from './pause-overlay';
 import ProgressBar from './progress-bar';
+import ShowVideoAnimation from './show-video-animation';
 import ToggleAnimation from './toggle-animation';
 import VolumeControl from './volume-control';
 
@@ -13,9 +14,22 @@ const moduleMapping = {
 };
 
 function setup(video, uiElements, params) {
+	const elements = {
+		closeButton: CloseButton,
+		pauseOverlay: PauseOverlay,
+		progressBar: ProgressBar,
+		volumeControl: VolumeControl
+	};
+
+	if (params.splitLayoutVideoPosition) {
+		elements.showVideoAnimation = ShowVideoAnimation;
+	} else {
+		elements.toggleAnimation = ToggleAnimation;
+	}
+
 	uiElements.forEach((element) => {
-		if (moduleMapping[element]) {
-			moduleMapping[element].add(video, params);
+		if (elements[element]) {
+			elements[element].add(video, params);
 		}
 	});
 }
