@@ -14,22 +14,18 @@ const moduleMapping = {
 };
 
 function setup(video, uiElements, params) {
-	const elements = {
+	const mapping = {
 		closeButton: CloseButton,
 		pauseOverlay: PauseOverlay,
 		progressBar: ProgressBar,
 		volumeControl: VolumeControl
 	};
 
-	if (params.splitLayoutVideoPosition) {
-		elements.showVideoAnimation = ShowVideoAnimation;
-	} else {
-		elements.toggleAnimation = ToggleAnimation;
-	}
+	mapping.toggleAnimation = params.splitLayoutVideoPosition ? ShowVideoAnimation : ToggleAnimation;
 
 	uiElements.forEach((element) => {
-		if (elements[element]) {
-			elements[element].add(video, params);
+		if (mapping[element]) {
+			mapping[element].add(video, params);
 		}
 	});
 }
