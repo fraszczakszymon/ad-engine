@@ -6,12 +6,10 @@ function prepareVideoAdContainer(params) {
 		videoPlayerClassName = 'video-player';
 
 	videoAdContainer.classList.add(videoPlayerClassName, 'hide');
+	videoAdContainer.style.position = 'relative';
 
 	if (params.splitLayoutVideoPosition) {
-		videoAdContainer.style.position = 'absolute';
 		videoAdContainer.classList.add(`${videoPlayerClassName}-${params.splitLayoutVideoPosition}`);
-	} else {
-		videoAdContainer.style.position = 'relative';
 	}
 
 	return videoAdContainer;
