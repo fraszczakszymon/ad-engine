@@ -1,9 +1,18 @@
 import GoogleIma from './ima/google-ima';
 import ViewportObserver from '../../../utils/viewport-observer';
 
-function prepareVideoAdContainer(videoAdContainer) {
-	videoAdContainer.style.position = 'relative';
-	videoAdContainer.classList.add('video-player', 'hide');
+function prepareVideoAdContainer(params) {
+	const videoAdContainer = params.container.querySelector('div'),
+		videoPlayerClassName = 'video-player';
+
+	videoAdContainer.classList.add(videoPlayerClassName, 'hide');
+
+	if (params.splitLayoutVideoPosition) {
+		videoAdContainer.style.position = 'absolute';
+		videoAdContainer.classList.add(videoPlayerClassName + '-' + params.splitLayoutVideoPosition);
+	} else {
+		videoAdContainer.style.position = 'relative';
+	}
 
 	return videoAdContainer;
 }
@@ -11,7 +20,7 @@ function prepareVideoAdContainer(videoAdContainer) {
 export class PorvataPlayer {
 	constructor(ima, params) {
 		this.ima = ima;
-		this.container = prepareVideoAdContainer(params.container.querySelector('div'));
+		this.container = prepareVideoAdContainer(params);
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
 
