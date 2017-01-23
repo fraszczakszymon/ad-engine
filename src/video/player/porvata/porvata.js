@@ -9,7 +9,7 @@ function prepareVideoAdContainer(params) {
 
 	if (params.splitLayoutVideoPosition) {
 		videoAdContainer.style.position = 'absolute';
-		videoAdContainer.classList.add(videoPlayerClassName + '-' + params.splitLayoutVideoPosition);
+		videoAdContainer.classList.add(`${videoPlayerClassName}-${params.splitLayoutVideoPosition}`);
 	} else {
 		videoAdContainer.style.position = 'relative';
 	}
