@@ -11,7 +11,7 @@ function createRequest(params) {
 	return adsRequest;
 }
 
-function getRenderingSettings() {
+function getRenderingSettings(params = {}) {
 	const adsRenderingSettings = new window.google.ima.AdsRenderingSettings(),
 		maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
 
@@ -19,6 +19,7 @@ function getRenderingSettings() {
 		adsRenderingSettings.bitrate = maximumRecommendedBitrate;
 	}
 
+	adsRenderingSettings.loadVideoTimeout = params.loadVideoTimeout || 15000;
 	adsRenderingSettings.enablePreloading = true;
 	adsRenderingSettings.uiElements = [];
 
