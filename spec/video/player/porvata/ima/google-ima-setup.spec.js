@@ -31,4 +31,14 @@ QUnit.test('Get rendering settings', (assert) => {
 
 	assert.equal(settings.enablePreloading, true);
 	assert.equal(settings.uiElements.length, 0);
+	assert.equal(settings.loadVideoTimeout, 15000);
+	assert.equal(settings.bitrate, 68000);
+});
+
+QUnit.test('Get rendering settings with different load timeout', (assert) => {
+	const settings = GoogleImaSetup.getRenderingSettings({
+		loadVideoTimeout: 10000
+	});
+
+	assert.equal(settings.loadVideoTimeout, 10000);
 });
