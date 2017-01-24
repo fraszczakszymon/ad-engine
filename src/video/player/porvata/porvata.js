@@ -1,7 +1,9 @@
 import GoogleIma from './ima/google-ima';
 import ViewportObserver from '../../../utils/viewport-observer';
 
-function prepareVideoAdContainer(videoAdContainer) {
+function prepareVideoAdContainer(params) {
+	const videoAdContainer = params.container.querySelector('div');
+
 	videoAdContainer.style.position = 'relative';
 	videoAdContainer.classList.add('video-player', 'hide');
 
@@ -11,7 +13,7 @@ function prepareVideoAdContainer(videoAdContainer) {
 export class PorvataPlayer {
 	constructor(ima, params) {
 		this.ima = ima;
-		this.container = prepareVideoAdContainer(params.container.querySelector('div'));
+		this.container = prepareVideoAdContainer(params);
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
 
