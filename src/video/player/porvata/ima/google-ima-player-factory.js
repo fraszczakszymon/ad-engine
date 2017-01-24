@@ -90,7 +90,8 @@ export default class GoogleImaFactory {
 			videoMock = document.createElement('video');
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const adsManager = adsManagerLoadedEvent.getAdsManager(videoMock, GoogleImaSetup.getRenderingSettings());
+			const renderingSettings = GoogleImaSetup.getRenderingSettings(params),
+				adsManager = adsManagerLoadedEvent.getAdsManager(videoMock, renderingSettings);
 			player.setAdsManager(adsManager);
 		}, false);
 		adsLoader.requestAds(GoogleImaSetup.createRequest(params));
