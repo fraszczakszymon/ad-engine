@@ -19,7 +19,7 @@ function getRenderingSettings(params = {}) {
 		adsRenderingSettings.bitrate = maximumRecommendedBitrate;
 	}
 
-	adsRenderingSettings.loadVideoTimeout = params.loadVideoTimeout || 30000;
+	adsRenderingSettings.loadVideoTimeout = params.loadVideoTimeout || 15000;
 	adsRenderingSettings.enablePreloading = true;
 	adsRenderingSettings.uiElements = [];
 
