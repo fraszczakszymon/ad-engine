@@ -2,15 +2,10 @@ import GoogleIma from './ima/google-ima';
 import ViewportObserver from '../../../utils/viewport-observer';
 
 function prepareVideoAdContainer(params) {
-	const videoAdContainer = params.container.querySelector('div'),
-		videoPlayerClassName = 'video-player';
+	const videoAdContainer = params.container.querySelector('div');
 
-	videoAdContainer.classList.add(videoPlayerClassName, 'hide');
 	videoAdContainer.style.position = 'relative';
-
-	if (params.splitLayoutVideoPosition) {
-		videoAdContainer.classList.add(`${videoPlayerClassName}-${params.splitLayoutVideoPosition}`);
-	}
+	videoAdContainer.classList.add('video-player', 'hide');
 
 	return videoAdContainer;
 }
