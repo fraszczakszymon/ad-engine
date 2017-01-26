@@ -17,4 +17,12 @@ Context.set('targeting.artid', 292);
 Context.set('targeting.s1', '_project43');
 
 ScrollListener.init();
-Porvata.inject(params);
+Porvata.inject(params)
+	.then((video) => {
+		video.addEventListener('allAdsCompleted', () => {
+			video.reload();
+			setTimeout(() => {
+				video.play();
+			}, 5000);
+		});
+	});
