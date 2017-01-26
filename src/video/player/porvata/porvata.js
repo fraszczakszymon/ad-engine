@@ -88,6 +88,14 @@ export class PorvataPlayer {
 		this.setVolume(0.75)
 	}
 
+	volumeToggle() {
+		if (this.isMuted()) {
+			this.unmute();
+		} else {
+			this.mute();
+		}
+	}
+
 	stop() {
 		this.ima.getAdsManager().stop();
 	}
