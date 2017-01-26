@@ -102,11 +102,23 @@ export class PorvataPlayer {
 }
 
 export default class Porvata {
+
+	/**
+	 * @private
+	 * @returns listener id
+	 */
+	static addOnViewportChangeListener(params, listener) {
+		return ViewportObserver.addListener(params.container, listener, {
+			offsetTop: params.viewportOffsetTop || 0,
+			offsetBottom: params.viewportOffsetBottom || 0
+		});
+	}
+
 	static inject(params) {
 		let isFirstPlay = true,
 			autoPaused = false,
 			autoPlayed = false,
-			viewportListenerId;
+			viewportListenerId = null;
 
 		params.vastTargeting = params.vastTargeting || {
 			src: params.src,
@@ -141,11 +153,15 @@ export default class Porvata {
 					video.ima.setAutoPlay(false);
 					if (viewportListenerId) {
 						ViewportObserver.removeListener(viewportListenerId);
+						viewportListenerId = null;
 					}
 					isFirstPlay = false;
 				});
 				video.addEventListener('start', () => {
 					video.ima.getAdsManager().dispatchEvent('wikiaAdPlay');
+					if (!viewportListenerId) {
+						viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					}
 				});
 				video.addEventListener('resume', () => {
 					video.ima.getAdsManager().dispatchEvent('wikiaAdPlay');
@@ -167,10 +183,7 @@ export default class Porvata {
 					params.onReady(video);
 				}
 
-				viewportListenerId = ViewportObserver.addListener(params.container, inViewportCallback, {
-					offsetTop: params.viewportOffsetTop || 0,
-					offsetBottom: params.viewportOffsetBottom || 0
-				});
+				viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
 
 				return video;
 			});
