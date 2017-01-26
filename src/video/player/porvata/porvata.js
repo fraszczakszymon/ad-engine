@@ -80,6 +80,14 @@ export class PorvataPlayer {
 		return this.ima.getAdsManager().setVolume(volume);
 	}
 
+	mute() {
+		this.setVolume(0)
+	}
+
+	unmute() {
+		this.setVolume(0.75)
+	}
+
 	stop() {
 		this.ima.getAdsManager().stop();
 	}
@@ -87,7 +95,8 @@ export class PorvataPlayer {
 
 export default class Porvata {
 	static inject(params) {
-		let autoPaused = false,
+		let isFirstPlay = true,
+			autoPaused = false,
 			autoPlayed = false,
 			viewportListenerId;
 
@@ -125,6 +134,7 @@ export default class Porvata {
 					if (viewportListenerId) {
 						ViewportObserver.removeListener(viewportListenerId);
 					}
+					isFirstPlay = false;
 				});
 				video.addEventListener('start', () => {
 					video.ima.getAdsManager().dispatchEvent('wikiaAdPlay');
@@ -136,6 +146,14 @@ export default class Porvata {
 				video.addEventListener('pause', () => {
 					video.ima.getAdsManager().dispatchEvent('wikiaAdPause');
 				});
+
+				if (params.autoPlay) {
+					video.addEventListener('wikiaAdStarted', () => {
+						if (isFirstPlay) {
+							video.mute();
+						}
+					});
+				}
 
 				if (params.onReady) {
 					params.onReady(video);
