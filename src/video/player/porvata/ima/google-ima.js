@@ -15,7 +15,13 @@ function load() {
 
 function getPlayer(params) {
 	const adDisplayContainer = new window.google.ima.AdDisplayContainer(params.container),
-		adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
+		iframe = params.container.querySelector('div > iframe');
+
+	// TODO: remove this hack
+	// it's reloading iframe in order to make IMA work when user is moving back to the page with player
+	iframe.contentWindow.location.href = iframe.src;
+
+	const adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
 	return GoogleImaPlayerFactory.create(adDisplayContainer, adsLoader, params);
 }
