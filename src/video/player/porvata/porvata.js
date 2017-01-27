@@ -119,19 +119,19 @@ export default class Porvata {
 		});
 	}
 
-	static muteFirstPlay(video, isFirstPlay) {
-		video.addEventListener('wikiaAdStarted', () => {
-			if (isFirstPlay) {
-				video.mute();
-			}
-		});
-	}
-
 	static inject(params) {
 		let isFirstPlay = true,
 			autoPaused = false,
 			autoPlayed = false,
 			viewportListenerId = null;
+
+		function muteFirstPlay(video) {
+			video.addEventListener('wikiaAdStarted', () => {
+				if (isFirstPlay) {
+					video.mute();
+				}
+			});
+		}
 
 		params.vastTargeting = params.vastTargeting || {
 			src: params.src,
@@ -185,7 +185,7 @@ export default class Porvata {
 				});
 
 				if (params.autoPlay) {
-					this.muteFirstPlay(video, isFirstPlay);
+					muteFirstPlay(video);
 				}
 
 				if (params.onReady) {
