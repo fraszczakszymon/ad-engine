@@ -18,6 +18,9 @@ QUnit.module('GoogleIma test', {
 				style: {},
 				classList: {
 					add: () => {}
+				},
+				contentWindow: {
+					location: {}
 				}
 			},
 			params: {
