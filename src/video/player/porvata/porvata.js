@@ -33,6 +33,11 @@ export class PorvataPlayer {
 		return this.ima.getAdsManager().getVolume() === 0;
 	}
 
+	isMobilePlayerMuted() {
+		const mobileVideoAd = this.container.querySelector('video');
+		return mobileVideoAd && mobileVideoAd.autoplay && mobileVideoAd.muted;
+	}
+
 	isPaused() {
 		return this.ima.getStatus() === 'paused';
 	}
