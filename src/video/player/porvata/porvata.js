@@ -114,6 +114,14 @@ export default class Porvata {
 		});
 	}
 
+	static muteFirstPlay(video, isFirstPlay) {
+		video.addEventListener('wikiaAdStarted', () => {
+			if (isFirstPlay) {
+				video.mute();
+			}
+		});
+	}
+
 	static inject(params) {
 		let isFirstPlay = true,
 			autoPaused = false,
@@ -172,11 +180,7 @@ export default class Porvata {
 				});
 
 				if (params.autoPlay) {
-					video.addEventListener('wikiaAdStarted', () => {
-						if (isFirstPlay) {
-							video.mute();
-						}
-					});
+					this.muteFirstPlay(video, isFirstPlay);
 				}
 
 				if (params.onReady) {
