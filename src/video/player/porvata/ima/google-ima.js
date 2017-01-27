@@ -17,11 +17,12 @@ function getPlayer(params) {
 	const adDisplayContainer = new window.google.ima.AdDisplayContainer(params.container),
 		iframe = params.container.querySelector('div > iframe');
 
-	// TODO: remove this hack
-	// it's reloading iframe in order to make IMA work when user is moving back to the page with player
+	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
-	iframe.contentWindow.location.href = iframe.src;
+	if (window.performance && window.performance.navigation.type === 2) {
+		iframe.contentWindow.location.href = iframe.src;
+	}
 
 	const adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
