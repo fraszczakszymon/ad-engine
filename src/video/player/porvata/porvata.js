@@ -81,11 +81,11 @@ export class PorvataPlayer {
 	}
 
 	mute() {
-		this.setVolume(0)
+		this.setVolume(0);
 	}
 
 	unmute() {
-		this.setVolume(0.75)
+		this.setVolume(0.75);
 	}
 
 	volumeToggle() {
