@@ -133,7 +133,7 @@ export default class Porvata {
 			viewportListenerId = null;
 
 		function muteFirstPlay(video) {
-			video.addEventListener('wikiaAdStarted', () => {
+			video.addEventListener('loaded', () => {
 				if (isFirstPlay) {
 					video.mute();
 				}
