@@ -30,6 +30,7 @@ QUnit.module('Porvata test', {
 				resize: () => {}
 			},
 			adsManager: {
+				dispatchEvent: () => {},
 				getRemainingTime: () => {},
 				getVolume: () => {},
 				pause: () => {},
