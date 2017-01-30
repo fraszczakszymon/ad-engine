@@ -79,10 +79,17 @@ export class PorvataPlayer {
 	}
 
 	setVolume(volume) {
+		this.updateVideoDOMElement(volume);
+		this.ima.getAdsManager().setVolume(volume);
+
+		// This is hack for Safari, because it can't dispatch original IMA event (volumeChange)
+		this.ima.getAdsManager().dispatchEvent('wikiaVolumeChange');
+	}
+
+	updateVideoDOMElement(volume) {
 		if (this.mobileVideoAd) {
 			this.mobileVideoAd.muted = volume === 0;
 		}
-		return this.ima.getAdsManager().setVolume(volume);
 	}
 
 	mute() {
