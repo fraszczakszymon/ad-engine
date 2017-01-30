@@ -33,6 +33,11 @@ export class PorvataPlayer {
 		return this.ima.getAdsManager().getVolume() === 0;
 	}
 
+	isMobilePlayerMuted() {
+		const mobileVideoAd = this.container.querySelector('video');
+		return mobileVideoAd && mobileVideoAd.autoplay && mobileVideoAd.muted;
+	}
+
 	isPaused() {
 		return this.ima.getStatus() === 'paused';
 	}
@@ -74,10 +79,17 @@ export class PorvataPlayer {
 	}
 
 	setVolume(volume) {
+		this.updateVideoDOMElement(volume);
+		this.ima.getAdsManager().setVolume(volume);
+
+		// This is hack for Safari, because it can't dispatch original IMA event (volumeChange)
+		this.ima.getAdsManager().dispatchEvent('wikiaVolumeChange');
+	}
+
+	updateVideoDOMElement(volume) {
 		if (this.mobileVideoAd) {
 			this.mobileVideoAd.muted = volume === 0;
 		}
-		return this.ima.getAdsManager().setVolume(volume);
 	}
 
 	mute() {
@@ -114,19 +126,19 @@ export default class Porvata {
 		});
 	}
 
-	static muteFirstPlay(video, isFirstPlay) {
-		video.addEventListener('wikiaAdStarted', () => {
-			if (isFirstPlay) {
-				video.mute();
-			}
-		});
-	}
-
 	static inject(params) {
 		let isFirstPlay = true,
 			autoPaused = false,
 			autoPlayed = false,
 			viewportListenerId = null;
+
+		function muteFirstPlay(video) {
+			video.addEventListener('wikiaAdStarted', () => {
+				if (isFirstPlay) {
+					video.mute();
+				}
+			});
+		}
 
 		params.vastTargeting = params.vastTargeting || {
 			src: params.src,
@@ -180,7 +192,7 @@ export default class Porvata {
 				});
 
 				if (params.autoPlay) {
-					this.muteFirstPlay(video, isFirstPlay);
+					muteFirstPlay(video);
 				}
 
 				if (params.onReady) {
