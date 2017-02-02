@@ -4,6 +4,10 @@ import { build as buildVastUrl } from '../../../vast-url-builder';
 function createRequest(params) {
 	const adsRequest = new window.google.ima.AdsRequest();
 
+	if (params.vastResponse) {
+		adsRequest.adsResponse = params.vastResponse;
+	}
+
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.vastTargeting);
 	adsRequest.linearAdSlotWidth = params.width;
 	adsRequest.linearAdSlotHeight = params.height;
