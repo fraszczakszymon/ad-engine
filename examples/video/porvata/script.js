@@ -19,10 +19,15 @@ Context.set('targeting.s1', '_project43');
 ScrollListener.init();
 Porvata.inject(params)
 	.then((video) => {
+		const player = document.querySelector('.video-player');
+		video.addEventListener('loaded', () => {
+			player.classList.remove('hide');
+		});
 		video.addEventListener('allAdsCompleted', () => {
+			player.classList.add('hide');
 			video.reload();
-			setTimeout(() => {
-				video.play();
-			}, 5000);
+		});
+		container.addEventListener('click', () => {
+			video.play();
 		});
 	});
