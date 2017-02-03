@@ -12,6 +12,8 @@ function getOverriddenVast() {
 
 		return vastXML;
 	}
+
+	return null;
 }
 
 function createRequest(params) {
