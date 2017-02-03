@@ -1,11 +1,25 @@
 import Context from '../../../../services/context-service';
+import { logger } from '../../../../utils/logger';
+import { get as getQueryParam } from '../../../../utils/query-string';
 import { build as buildVastUrl } from '../../../vast-url-builder';
 
-function createRequest(params) {
-	const adsRequest = new window.google.ima.AdsRequest();
+const logGroup = 'google-ima-setup';
 
-	if (params.vastResponse) {
-		adsRequest.adsResponse = params.vastResponse;
+function getOverriddenVast() {
+	if (getQueryParam('porvata_override_vast') === '1') {
+		const vastXML = window.localStorage.getItem('porvata_vast');
+		logger(logGroup, 'Overridden VAST', vastXML);
+
+		return vastXML;
+	}
+}
+
+function createRequest(params) {
+	const adsRequest = new window.google.ima.AdsRequest(),
+		overriddenVast = getOverriddenVast();
+
+	if (params.vastResponse || overriddenVast) {
+		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.vastTargeting);
