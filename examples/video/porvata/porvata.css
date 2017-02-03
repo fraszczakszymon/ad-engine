@@ -1,5 +1,5 @@
 #player {
-	background: url('./play.svg') no-repeat 50% 50% #ccc;
+	background: url('./play.svg') no-repeat 50% 50% #333;
 	background-size: 30% 30%;
 	cursor: pointer;
 	height: 250px;
