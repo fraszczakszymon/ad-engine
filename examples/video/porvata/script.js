@@ -20,6 +20,7 @@ ScrollListener.init();
 Porvata.inject(params)
 	.then((video) => {
 		const player = document.querySelector('.video-player');
+
 		video.addEventListener('loaded', () => {
 			player.classList.remove('hide');
 		});
