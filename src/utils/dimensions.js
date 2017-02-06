@@ -1,5 +1,5 @@
 export function getTopOffset(element) {
-	const elementWindow = element.ownerDocument.defaultView || element.ownerDocument.parentWindow;
+	const elementWindow = element.ownerDocument.defaultView;
 
 	let topPos = 0;
 
@@ -8,7 +8,7 @@ export function getTopOffset(element) {
 		element = element.offsetParent;
 	} while (element !== null);
 
-	if (elementWindow.frameElement) {
+	if (elementWindow && elementWindow.frameElement) {
 		topPos += getTopOffset(elementWindow.frameElement);
 	}
 
