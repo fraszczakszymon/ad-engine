@@ -1,5 +1,5 @@
 export function getTopOffset(element) {
-	const elementWindow = element.ownerDocument.defaultView || element.ownerDocument.parentWindow;
+	const elementWindow = element.ownerDocument.defaultView;
 
 	let topPos = 0;
 
