@@ -8,7 +8,7 @@ export function getTopOffset(element) {
 		element = element.offsetParent;
 	} while (element !== null);
 
-	if (elementWindow.frameElement) {
+	if (elementWindow && elementWindow.frameElement) {
 		topPos += getTopOffset(elementWindow.frameElement);
 	}
 
