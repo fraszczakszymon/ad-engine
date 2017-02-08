@@ -12,7 +12,7 @@ function isBlockedByURLParam() {
 	return [false, 'blocked', 'false', '0'].indexOf(getQueryParam()) > -1;
 }
 
-function paramsAreCorrect (params) {
+function paramsAreCorrect(params) {
 	return params.resolveState.aspectRatio > 0 && params.resolveState.imageSrc !== '';
 }
 
@@ -35,15 +35,12 @@ function setDefaultState(params) {
 	return params;
 }
 
-function setImage(params) {
-
-	if (templateSupportsResolveState(params)) {
-		params = hasResolvedState(params) ? setResolveState(params) : setDefaultState(params);
-	}
-
-	return params;
-}
-
 export default {
-	setImage: setImage
+	setImage(params) {
+		if (templateSupportsResolveState(params)) {
+			params = hasResolvedState(params) ? setResolveState(params) : setDefaultState(params);
+		}
+
+		return params;
+	}
 };

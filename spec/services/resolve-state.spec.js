@@ -82,11 +82,11 @@ const BIG_IMAGE = 'bigImage.png',
 		}
 	];
 
-testCases.forEach(function (testCase) {
-	const testName = 'Should return ' + testCase.expected + ' when params: ' + JSON.stringify(testCase.params) +
-		' and resolvedState query param equals: ' + testCase.queryParam;
+testCases.forEach((testCase) => {
+	const testName = `Should return ${testCase.expected} when params: ${JSON.stringify(testCase.params)} and 
+	resolvedState query param equals: ${testCase.queryParam}`;
 
-	QUnit.test(testName, function (assert) {
+	QUnit.test(testName, (assert) => {
 		sinon.stub(QueryString, 'get');
 		QueryString.get.returns(testCase.queryParam);
 
@@ -95,16 +95,16 @@ testCases.forEach(function (testCase) {
 	});
 });
 
-QUnit.test('Should update params aspect ratio', function (assert) {
+QUnit.test('Should update params aspect ratio', (assert) => {
 	assert.equal(ResolveState.setImage(data.PARAMS.CORRECT).aspectRatio, data.PARAMS.CORRECT.resolveState.aspectRatio);
 });
 
-QUnit.test('Should update image src', function (assert) {
-	let params = data.PARAMS.CORRECT;
+QUnit.test('Should update image src', (assert) => {
+	const params = data.PARAMS.CORRECT;
 	assert.equal(ResolveState.setImage(params).backgroundImage.src, params.resolveState.imageSrc);
 });
 
-QUnit.test('Should not update image if there is no background image (template without backgroundImage)', function (assert) {
-	let params = {};
+QUnit.test('Should not update image if there is no background image (template without backgroundImage)', (assert) => {
+	const params = {};
 	assert.equal(ResolveState.setImage(params), params);
 });
