@@ -1,4 +1,4 @@
-import * as QueryString from './../utils/query-string';
+import QueryString from './../utils/query-string';
 
 function getQueryParam() {
 	return QueryString.get('resolved_state', null);

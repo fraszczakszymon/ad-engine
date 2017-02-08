@@ -1,12 +1,12 @@
 import Context from '../../../../services/context-service';
 import { logger } from '../../../../utils/logger';
-import { get as getQueryParam } from '../../../../utils/query-string';
+import QueryString from '../../../../utils/query-string';
 import { build as buildVastUrl } from '../../../vast-url-builder';
 
 const logGroup = 'google-ima-setup';
 
 function getOverriddenVast() {
-	if (getQueryParam('porvata_override_vast') === '1') {
+	if (QueryString.get('porvata_override_vast') === '1') {
 		const vastXML = window.localStorage.getItem('porvata_vast');
 		logger(logGroup, 'Overridden VAST', vastXML);
 

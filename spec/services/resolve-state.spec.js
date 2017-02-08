@@ -1,30 +1,8 @@
 import sinon from 'sinon';
+import QueryString from './../../src/utils/query-string';
+import ResolveState from './../../src/services/resolve-state';
 
-let ResolveState;
-let stub;
-
-let contextMock = {
-	get: function () {
-		return 'true';
-	},
-};
-
-function mockModules() {
-	stub = sinon.stub(contextMock, 'get', () => 'false');
-	System.set(System.normalizeSync('src/utils/query-string'), System.newModule(contextMock));
-
-	return System.import('src/services/resolve-state').then((loaded) => {
-		ResolveState = loaded;
-	});
-}
-
-QUnit.module('ResolveState test', {
-	beforeEach: mockModules,
-	afterEach: function() {
-		"use strict";
-		contextMock.get.restore();
-	}
-});
+QUnit.module('ResolveState test', {});
 
 const BIG_IMAGE = 'bigImage.png',
 	DEFAULT_IMAGE = 'oldImage.png',
@@ -59,7 +37,7 @@ const BIG_IMAGE = 'bigImage.png',
 	testCases = [
 		{
 			params: data.PARAMS.CORRECT,
-			queryParam: null,
+			queryParam: 'pierwszy',
 			expected: RESOLVED_IMAGE
 		},
 		{
@@ -109,8 +87,11 @@ testCases.forEach(function (testCase) {
 		' and resolvedState query param equals: ' + testCase.queryParam;
 
 	QUnit.test(testName, function (assert) {
-		contextMock.get.returns(testCase.queryParam);
+		sinon.stub(QueryString, 'get');
+		QueryString.get.returns(testCase.queryParam);
+
 		assert.equal(testCase.expected, ResolveState.setImage(testCase.params).backgroundImage.src);
+		QueryString.get.restore();
 	});
 });
 
