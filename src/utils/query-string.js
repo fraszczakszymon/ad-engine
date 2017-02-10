@@ -18,5 +18,5 @@ class QueryString {
 	}
 }
 
-export var __useDefault = true;
+export const __useDefault = true;
 export default QueryString;
