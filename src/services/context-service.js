@@ -54,6 +54,7 @@ function segment(key, newValue) {
 	return seg[lastKey];
 }
 
+export const __useDefault = true;
 export default {
 	extend(newContext) {
 		Object.assign(context, newContext);
