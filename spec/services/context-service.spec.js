@@ -1,12 +1,15 @@
 import sinon from 'sinon';
 import Context from '../../src/services/context-service';
 
+function baz() {};
+
 QUnit.module('Context service test', {
 	beforeEach: () => {
 		Context.extend({
 			foo: {
 				foo: 1,
-				bar: 15
+				bar: 15,
+				baz
 			}
 		});
 	}
@@ -24,6 +27,14 @@ QUnit.test('get another leaf from key chain', (assert) => {
 	assert.equal(Context.get('foo.foo'), 1);
 });
 
+QUnit.test('get leaf - function from key chain', (assert) => {
+	assert.expect(1);
+
+	const value = Context.get('foo.baz');
+
+	assert.equal(typeof (value), 'function');
+});
+
 QUnit.test('get not existing leaf from key chain', (assert) => {
 	assert.expect(1);
 
@@ -33,7 +44,7 @@ QUnit.test('get not existing leaf from key chain', (assert) => {
 QUnit.test('get parent object', (assert) => {
 	assert.expect(1);
 
-	assert.deepEqual(Context.get('foo'), { foo: 1, bar: 15 });
+	assert.deepEqual(Context.get('foo'), { foo: 1, bar: 15, baz} );
 });
 
 QUnit.test('set leaf value', (assert) => {
