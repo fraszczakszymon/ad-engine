@@ -108,7 +108,7 @@ export default class Gpt {
 			Object.keys(targeting).forEach((key) => {
 				let value = targeting[key];
 
-				if ('function' === typeof(value)) {
+				if (typeof (value) === 'function') {
 					value = value();
 				}
 
