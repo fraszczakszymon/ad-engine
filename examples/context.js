@@ -36,7 +36,9 @@ Context.extend({
 			],
 			defaultSizes: [[300, 250]],
 			targeting: {
-				loc: 'top'
+				loc() {
+					return window.innerWidth < 800 ? 'middle' : 'top';
+				}
 			}
 		},
 		'incontent-boxad': {

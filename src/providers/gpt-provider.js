@@ -106,7 +106,13 @@ export default class Gpt {
 				.setTargeting('src', 'gpt');
 
 			Object.keys(targeting).forEach((key) => {
-				gptSlot.setTargeting(key, targeting[key]);
+				let value = targeting[key];
+
+				if (typeof (value) === 'function') {
+					value = value();
+				}
+
+				gptSlot.setTargeting(key, value);
 			});
 
 			window.googletag.display(adSlot.getId());
