@@ -1,5 +1,5 @@
-export default {
-	get: (key) => {
+class QueryString {
+	static get(key) {
 		const queryParameters = {},
 			queryString = window.location.search.substr(1).split('&');
 
@@ -16,4 +16,7 @@ export default {
 
 		return queryParameters[key];
 	}
-};
+}
+
+export const __useDefault = true;
+export default QueryString;
