@@ -39,7 +39,7 @@ class GoogleImaPlayer {
 		const callback = () => {
 			// https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize
 			this.adDisplayContainer.initialize();
-			this.adsManager.init(width, height, window.google.ima.ViewMode.NORMAL);
+			this.adsManager.init(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
 			this.adsManager.start();
 			this.adsLoader.removeEventListener('adsManagerLoaded', callback);
 		};
@@ -62,7 +62,7 @@ class GoogleImaPlayer {
 
 	resize(width, height) {
 		if (this.adsManager) {
-			this.adsManager.resize(width, height, window.google.ima.ViewMode.NORMAL);
+			this.adsManager.resize(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
 		}
 	}
 
