@@ -1,4 +1,5 @@
 import GoogleImaSetup from './google-ima-setup';
+import MoatVideoTracker from '../moat/moat-video-tracker';
 
 class GoogleImaPlayer {
 	constructor(adDisplayContainer, adsLoader, params) {
@@ -93,6 +94,10 @@ export default class GoogleImaFactory {
 			const renderingSettings = GoogleImaSetup.getRenderingSettings(params),
 				adsManager = adsManagerLoadedEvent.getAdsManager(videoMock, renderingSettings);
 			player.setAdsManager(adsManager);
+
+			if (params.moatTracking) {
+				MoatVideoTracker.init(adsManager, params.container, window.google.ima.ViewMode.NORMAL);
+			}
 		}, false);
 		adsLoader.requestAds(GoogleImaSetup.createRequest(params));
 		if (params.autoPlay) {
