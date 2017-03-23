@@ -75,7 +75,7 @@ class GoogleImaPlayer {
 
 	dispatchEvent(eventName) {
 		if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
-			this.eventListeners[eventName].forEach(function (callback) {
+			this.eventListeners[eventName].forEach((callback) => {
 				callback({});
 			});
 		}
