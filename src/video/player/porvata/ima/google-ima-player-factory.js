@@ -107,11 +107,11 @@ class GoogleImaPlayer {
 export default class GoogleImaFactory {
 	static create(adDisplayContainer, adsLoader, params) {
 		const player = new GoogleImaPlayer(adDisplayContainer, adsLoader, params),
-			videoMock = getVideoElement();
+			videoElement = getVideoElement();
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
 			const renderingSettings = GoogleImaSetup.getRenderingSettings(params),
-				adsManager = adsManagerLoadedEvent.getAdsManager(videoMock, renderingSettings);
+				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
 			player.setAdsManager(adsManager);
 
 			if (params.moatTracking) {
