@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import SlotTweaker from '../services/slot-tweaker';
 
 const logGroup = 'slot-listener';
 
@@ -33,6 +34,7 @@ export default class SlotListener {
 		const adType = getAdType(event, adSlot);
 
 		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType);
+		SlotTweaker.updateDataParams(adSlot, event);
 
 		switch (adType) {
 			case 'collapse':

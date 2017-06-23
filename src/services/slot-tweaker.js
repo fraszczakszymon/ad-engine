@@ -123,5 +123,13 @@ export default {
 					logger(logGroup, 'Unknown action', data.action);
 			}
 		});
+	},
+
+	updateDataParams(adSlot, event) {
+		const container = this.getContainer(adSlot);
+
+		container.dataset.gptLineItemId = JSON.stringify(event.lineItemId);
+		container.dataset.gptCreativeId = JSON.stringify(event.creativeId);
+		container.dataset.gptCreativeSize = JSON.stringify(event.size);
 	}
 };
