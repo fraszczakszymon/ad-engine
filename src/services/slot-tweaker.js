@@ -35,6 +35,7 @@ export default {
 			logger(logGroup, 'show', adSlot.getId());
 			container.classList.remove('hide');
 		}
+		container.dataset.slotResult = 'success';
 	},
 
 	collapse(adSlot) {
@@ -44,6 +45,7 @@ export default {
 		this.forceRepaint(container);
 		container.classList.add('slot-animation');
 		container.style.maxHeight = '0';
+		container.dataset.slotResult = 'collapse';
 	},
 
 	expand(adSlot) {
