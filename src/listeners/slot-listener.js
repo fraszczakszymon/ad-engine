@@ -33,7 +33,7 @@ export default class SlotListener {
 	static onRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType);
+		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType, event);
 		SlotTweaker.updateDataParams(adSlot, event);
 
 		switch (adType) {
