@@ -1,6 +1,7 @@
 import MessageBus from './message-bus';
 import SlotService from './slot-service';
 import { logger } from '../utils/logger';
+import Context from '../services/context-service';
 
 const logGroup = 'slot-tweaker';
 
@@ -139,5 +140,6 @@ export default {
 		container.dataset.gptLineItemId = JSON.stringify(event.lineItemId);
 		container.dataset.gptCreativeId = JSON.stringify(event.creativeId);
 		container.dataset.gptCreativeSize = JSON.stringify(event.size);
+		container.dataset.gptPageParams = JSON.stringify(Context.get('targeting'));
 	}
 };
