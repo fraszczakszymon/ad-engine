@@ -45,4 +45,8 @@ export default class SlotListener {
 				break;
 		}
 	}
+
+	static onImpressionViewable(slot) {
+		SlotTweaker.setViewed(slot);
+	}
 }

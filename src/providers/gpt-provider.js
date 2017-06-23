@@ -42,6 +42,13 @@ function configure() {
 			SlotListener.onRenderEnded(event, slot);
 		}, 0);
 	});
+
+	tag.addEventListener('impressionViewable', (event) => {
+		const id = event.slot.getSlotElementId(),
+			slot = SlotService.get(id);
+
+		SlotListener.onImpressionViewable(slot);
+	});
 	window.googletag.enableServices();
 }
 

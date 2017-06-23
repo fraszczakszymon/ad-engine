@@ -127,6 +127,12 @@ export default {
 		});
 	},
 
+	setViewed(adSlot) {
+		const container = this.getContainer(adSlot);
+
+		container.dataset.slotViewed = 'true';
+	},
+
 	updateDataParams(adSlot, event) {
 		const container = this.getContainer(adSlot);
 
