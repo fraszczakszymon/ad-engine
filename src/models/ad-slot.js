@@ -89,7 +89,7 @@ export default class AdSlot {
 
 	success() {
 		SlotTweaker.show(this);
-		SlotTweaker.updateDataSlotResult(this, 'success');
+		SlotTweaker.setDataParam(this, 'slotResult', 'success');
 
 		if (this.config.defaultTemplate) {
 			TemplateService.init(this.config.defaultTemplate, this);
@@ -98,6 +98,6 @@ export default class AdSlot {
 
 	collapse() {
 		SlotTweaker.hide(this);
-		SlotTweaker.updateDataSlotResult(this, 'collapse');
+		SlotTweaker.setDataParam(this, 'slotResult', 'collapse');
 	}
 }

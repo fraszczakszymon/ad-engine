@@ -1,8 +1,10 @@
 import { logger } from '../utils/logger';
 import { makeLazyQueue } from '../utils/lazy-queue';
 import { setupGptTargeting } from './gpt-targeting';
+import Context from '../services/context-service';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
+import SlotTweaker from './../services/slot-tweaker';
 
 const logGroup = 'gpt-provider',
 	slotsQueue = [];
@@ -122,6 +124,7 @@ export default class Gpt {
 				gptSlot.setTargeting(key, value);
 			});
 
+			SlotTweaker.setDataParam(adSlot, 'gptPageParams', Context.get('targeting'));
 			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);
 

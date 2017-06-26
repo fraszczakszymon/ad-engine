@@ -46,7 +46,7 @@ export default class SlotListener {
 		}
 	}
 
-	static onImpressionViewable(slot) {
-		SlotTweaker.setViewed(slot);
+	static onImpressionViewable(adSlot) {
+		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }

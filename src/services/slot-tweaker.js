@@ -126,24 +126,20 @@ export default {
 		});
 	},
 
-	setViewed(adSlot) {
-		const container = this.getContainer(adSlot);
-
-		container.dataset.slotViewed = 'true';
-	},
-
 	updateDataParams(adSlot, event) {
 		const container = this.getContainer(adSlot);
 
 		container.dataset.gptLineItemId = JSON.stringify(event.lineItemId);
 		container.dataset.gptCreativeId = JSON.stringify(event.creativeId);
 		container.dataset.gptCreativeSize = JSON.stringify(event.size);
-		container.dataset.gptPageParams = JSON.stringify(Context.get('targeting'));
 	},
 
-	updateDataSlotResult(adSlot, result) {
+	setDataParam(adSlot, attrName, data) {
 		const container = this.getContainer(adSlot);
 
-		container.dataset.slotResult = result;
+		container.dataset[attrName] = typeof data === 'string' ?
+			data :
+			JSON.stringify(data);
 	}
+
 };
