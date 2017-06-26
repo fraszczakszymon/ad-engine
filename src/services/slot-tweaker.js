@@ -36,7 +36,6 @@ export default {
 			logger(logGroup, 'show', adSlot.getId());
 			container.classList.remove('hide');
 		}
-		container.dataset.slotResult = 'success';
 	},
 
 	collapse(adSlot) {
@@ -141,5 +140,11 @@ export default {
 		container.dataset.gptCreativeId = JSON.stringify(event.creativeId);
 		container.dataset.gptCreativeSize = JSON.stringify(event.size);
 		container.dataset.gptPageParams = JSON.stringify(Context.get('targeting'));
+	},
+
+	updateDataSlotResult(adSlot, result) {
+		const container = this.getContainer(adSlot);
+
+		container.dataset.slotResult = result;
 	}
 };
