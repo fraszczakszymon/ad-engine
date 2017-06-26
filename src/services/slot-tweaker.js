@@ -45,7 +45,6 @@ export default {
 		this.forceRepaint(container);
 		container.classList.add('slot-animation');
 		container.style.maxHeight = '0';
-		container.dataset.slotResult = 'collapse';
 	},
 
 	expand(adSlot) {
