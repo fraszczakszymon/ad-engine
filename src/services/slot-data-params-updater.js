@@ -12,11 +12,14 @@ export default {
 		return JSON.stringify(result);
 	},
 
-	updateDataParams(adSlot, event) {
+	updateOnCreate(adSlot) {
+		SlotTweaker.setDataParam(adSlot, 'gptSlotParams', adSlot.config.targeting);
+		SlotTweaker.setDataParam(adSlot, 'sizes', this.getSlotSizes(adSlot));
+	},
+
+	updateOnRenderEnd(adSlot, event) {
 		SlotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
 		SlotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
 		SlotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
-		SlotTweaker.setDataParam(adSlot, 'gptSlotParams', adSlot.config.targeting);
-		SlotTweaker.setDataParam(adSlot, 'sizes', this.getSlotSizes(adSlot));
 	}
 };

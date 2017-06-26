@@ -35,7 +35,7 @@ export default class SlotListener {
 		const adType = getAdType(event, adSlot);
 
 		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType, event);
-		SlotDataParamsUpdater.updateDataParams(adSlot, event);
+		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 
 		switch (adType) {
 			case 'collapse':
