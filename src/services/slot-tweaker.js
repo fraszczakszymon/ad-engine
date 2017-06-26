@@ -1,4 +1,5 @@
 import MessageBus from './message-bus';
+import SlotDataParamsUpdater from "./slot-data-params-updater";
 import SlotService from './slot-service';
 import { logger } from '../utils/logger';
 import Context from '../services/context-service';
@@ -129,9 +130,10 @@ export default {
 	updateDataParams(adSlot, event) {
 		const container = this.getContainer(adSlot);
 
-		container.dataset.gptLineItemId = JSON.stringify(event.lineItemId);
-		container.dataset.gptCreativeId = JSON.stringify(event.creativeId);
-		container.dataset.gptCreativeSize = JSON.stringify(event.size);
+		this.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+		this.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+		this.setDataParam(adSlot, 'gptCreativeSize', event.size);
+		this.setDataParam(adSlot, 'sizes', SlotDataParamsUpdater.getSlotSizes(adSlot, container));
 	},
 
 	setDataParam(adSlot, attrName, data) {
