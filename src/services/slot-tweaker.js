@@ -1,8 +1,6 @@
 import MessageBus from './message-bus';
-import SlotDataParamsUpdater from "./slot-data-params-updater";
 import SlotService from './slot-service';
 import { logger } from '../utils/logger';
-import Context from '../services/context-service';
 
 const logGroup = 'slot-tweaker';
 
@@ -125,15 +123,6 @@ export default {
 					logger(logGroup, 'Unknown action', data.action);
 			}
 		});
-	},
-
-	updateDataParams(adSlot, event) {
-		const container = this.getContainer(adSlot);
-
-		this.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-		this.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-		this.setDataParam(adSlot, 'gptCreativeSize', event.size);
-		this.setDataParam(adSlot, 'sizes', SlotDataParamsUpdater.getSlotSizes(adSlot, container));
 	},
 
 	setDataParam(adSlot, attrName, data) {
