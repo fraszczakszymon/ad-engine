@@ -102,6 +102,9 @@ export default class Gpt {
 
 			let gptSlot = null;
 
+			targeting.pos = adSlot.getSlotName();
+			targeting.src = 'gpt';
+
 			adSlot.getSizes().forEach((item) => {
 				sizeMapping.addSize(item.viewportSize, item.sizes);
 			});
@@ -109,9 +112,7 @@ export default class Gpt {
 			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
 				.addService(window.googletag.pubads())
 				.setCollapseEmptyDiv(true)
-				.defineSizeMapping(sizeMapping.build())
-				.setTargeting('pos', adSlot.getSlotName())
-				.setTargeting('src', 'gpt');
+				.defineSizeMapping(sizeMapping.build());
 
 			this.applyTargetingParams(gptSlot, targeting);
 			SlotDataParamsUpdater.updateOnCreate(adSlot, targeting);
