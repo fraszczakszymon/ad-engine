@@ -13,9 +13,9 @@ export default {
 		return JSON.stringify(result);
 	},
 
-	updateOnCreate(adSlot) {
+	updateOnCreate(adSlot, targeting) {
 		SlotTweaker.setDataParam(adSlot, 'gptPageParams', Context.get('targeting'));
-		SlotTweaker.setDataParam(adSlot, 'gptSlotParams', adSlot.config.targeting);
+		SlotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);
 		SlotTweaker.setDataParam(adSlot, 'sizes', this.getSlotSizes(adSlot));
 	},
 

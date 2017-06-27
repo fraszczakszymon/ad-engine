@@ -98,7 +98,7 @@ export default class Gpt {
 
 		window.googletag.cmd.push(() => {
 			const sizeMapping = window.googletag.sizeMapping(),
-				targeting = adSlot.getTargeting();
+				targeting = this.parseTargetingParams(adSlot.getTargeting());
 
 			let gptSlot = null;
 
@@ -113,17 +113,8 @@ export default class Gpt {
 				.setTargeting('pos', adSlot.getSlotName())
 				.setTargeting('src', 'gpt');
 
-			Object.keys(targeting).forEach((key) => {
-				let value = targeting[key];
-
-				if (typeof (value) === 'function') {
-					value = value();
-				}
-
-				gptSlot.setTargeting(key, value);
-			});
-
-			SlotDataParamsUpdater.updateOnCreate(adSlot);
+			this.applyTargetingParams(gptSlot, targeting);
+			SlotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
 			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);
@@ -134,6 +125,25 @@ export default class Gpt {
 
 			logger(logGroup, adSlot.getId(), 'slot added');
 		});
+	}
+
+	applyTargetingParams(gptSlot, targeting) {
+		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
+	}
+
+	parseTargetingParams(targeting) {
+		let result = {};
+
+		Object.keys(targeting).forEach((key) => {
+			let value = targeting[key];
+
+			if (typeof (value) === 'function') {
+				value = value();
+			}
+			result[key] = value;
+		});
+
+		return result;
 	}
 
 	flush() {
