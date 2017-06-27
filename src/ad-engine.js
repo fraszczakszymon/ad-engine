@@ -14,7 +14,6 @@ function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
 	if (adSlot.shouldLoad()) {
-		SlotDataParamsUpdater.updateOnCreate(adSlot);
 		SlotService.add(adSlot);
 		provider.fillIn(adSlot);
 	}

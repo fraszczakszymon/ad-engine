@@ -1,4 +1,5 @@
 import SlotTweaker from "./slot-tweaker";
+import Context from "./context-service";
 
 export default {
 	getSlotSizes(adSlot) {
@@ -13,6 +14,7 @@ export default {
 	},
 
 	updateOnCreate(adSlot) {
+		SlotTweaker.setDataParam(adSlot, 'gptPageParams', Context.get('targeting'));
 		SlotTweaker.setDataParam(adSlot, 'gptSlotParams', adSlot.config.targeting);
 		SlotTweaker.setDataParam(adSlot, 'sizes', this.getSlotSizes(adSlot));
 	},
