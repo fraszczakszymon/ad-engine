@@ -1,4 +1,6 @@
 import { logger } from '../utils/logger';
+import SlotTweaker from '../services/slot-tweaker';
+import SlotDataParamsUpdater from "../services/slot-data-params-updater";
 
 const logGroup = 'slot-listener';
 
@@ -32,7 +34,8 @@ export default class SlotListener {
 	static onRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType);
+		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType, event);
+		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 
 		switch (adType) {
 			case 'collapse':
@@ -42,5 +45,9 @@ export default class SlotListener {
 				adSlot.success();
 				break;
 		}
+	}
+
+	static onImpressionViewable(adSlot) {
+		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }

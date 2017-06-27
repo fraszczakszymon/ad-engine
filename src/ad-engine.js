@@ -5,6 +5,7 @@ import FloatingAd from './templates/floating-ad';
 import GptProvider from './providers/gpt-provider';
 import MessageBus from './services/message-bus';
 import ScrollListener from './listeners/scroll-listener';
+import SlotDataParamsUpdater from "./services/slot-data-params-updater";
 import SlotService from './services/slot-service';
 import SlotTweaker from './services/slot-tweaker';
 import TemplateService from './services/template-service';

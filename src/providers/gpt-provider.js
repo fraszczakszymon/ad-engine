@@ -3,6 +3,7 @@ import { makeLazyQueue } from '../utils/lazy-queue';
 import { setupGptTargeting } from './gpt-targeting';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
+import SlotDataParamsUpdater from "../services/slot-data-params-updater";
 
 const logGroup = 'gpt-provider',
 	slotsQueue = [];
@@ -41,6 +42,13 @@ function configure() {
 		setTimeout(() => {
 			SlotListener.onRenderEnded(event, slot);
 		}, 0);
+	});
+
+	tag.addEventListener('impressionViewable', (event) => {
+		const id = event.slot.getSlotElementId(),
+			slot = SlotService.get(id);
+
+		SlotListener.onImpressionViewable(slot);
 	});
 	window.googletag.enableServices();
 }
@@ -90,9 +98,12 @@ export default class Gpt {
 
 		window.googletag.cmd.push(() => {
 			const sizeMapping = window.googletag.sizeMapping(),
-				targeting = adSlot.getTargeting();
+				targeting = this.parseTargetingParams(adSlot.getTargeting());
 
 			let gptSlot = null;
+
+			targeting.pos = adSlot.getSlotName();
+			targeting.src = 'gpt';
 
 			adSlot.getSizes().forEach((item) => {
 				sizeMapping.addSize(item.viewportSize, item.sizes);
@@ -101,19 +112,10 @@ export default class Gpt {
 			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
 				.addService(window.googletag.pubads())
 				.setCollapseEmptyDiv(true)
-				.defineSizeMapping(sizeMapping.build())
-				.setTargeting('pos', adSlot.getSlotName())
-				.setTargeting('src', 'gpt');
+				.defineSizeMapping(sizeMapping.build());
 
-			Object.keys(targeting).forEach((key) => {
-				let value = targeting[key];
-
-				if (typeof (value) === 'function') {
-					value = value();
-				}
-
-				gptSlot.setTargeting(key, value);
-			});
+			this.applyTargetingParams(gptSlot, targeting);
+			SlotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
 			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);
@@ -124,6 +126,25 @@ export default class Gpt {
 
 			logger(logGroup, adSlot.getId(), 'slot added');
 		});
+	}
+
+	applyTargetingParams(gptSlot, targeting) {
+		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
+	}
+
+	parseTargetingParams(targeting) {
+		let result = {};
+
+		Object.keys(targeting).forEach((key) => {
+			let value = targeting[key];
+
+			if (typeof (value) === 'function') {
+				value = value();
+			}
+			result[key] = value;
+		});
+
+		return result;
 	}
 
 	flush() {
