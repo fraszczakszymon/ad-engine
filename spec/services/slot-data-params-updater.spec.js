@@ -9,7 +9,7 @@ function mockAdSlot(sizes) {
 QUnit.test('adding correct size values', (assert) => {
 	assert.expect(1);
 
-	let sizes = [{"viewportSize": [728, 0], "sizes": [[728, 90]]}];
+	const sizes = [{ viewportSize: [728, 0], sizes: [[728, 90]] }];
 
 	assert.equal(
 		SlotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)),
@@ -20,8 +20,8 @@ QUnit.test('adding correct size values', (assert) => {
 QUnit.test('adding multiple size values', (assert) => {
 	assert.expect(1);
 
-	let sizes = [
-		{"viewportSize": [728, 0], "sizes": [[728, 90],[300,250]]},
+	const sizes = [
+		{ viewportSize: [728, 0], sizes: [[728, 90], [300, 250]] },
 	];
 
 	assert.equal(
@@ -33,9 +33,9 @@ QUnit.test('adding multiple size values', (assert) => {
 QUnit.test('adding multiple size values in different viewports', (assert) => {
 	assert.expect(1);
 
-	let sizes = [
-		{"viewportSize": [728, 0], "sizes": [[728, 90],[300,250]]},
-		{"viewportSize": [768, 0], "sizes": [[300, 250], [300, 600]]}
+	const sizes = [
+		{ viewportSize: [728, 0], sizes: [[728, 90], [300, 250]] },
+		{ viewportSize: [768, 0], sizes: [[300, 250], [300, 600]] }
 	];
 
 	assert.equal(

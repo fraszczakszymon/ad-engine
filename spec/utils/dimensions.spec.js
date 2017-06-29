@@ -1,5 +1,5 @@
-import { getTopOffset } from '../../src/utils/dimensions';
 import sinon from 'sinon';
+import { getTopOffset } from '../../src/utils/dimensions';
 
 function getMockElement(params, frameElement = null, hidden = false) {
 	let offsetParent = null,
@@ -15,9 +15,7 @@ function getMockElement(params, frameElement = null, hidden = false) {
 	return {
 		classList: {
 			add: () => {},
-			contains: () => {
-				return hidden;
-			},
+			contains: () => hidden,
 			remove: () => {}
 		},
 		offsetParent,
@@ -25,7 +23,7 @@ function getMockElement(params, frameElement = null, hidden = false) {
 		offsetHeight,
 		ownerDocument: {
 			defaultView: {
-				frameElement: frameElement
+				frameElement
 			}
 		}
 	};
