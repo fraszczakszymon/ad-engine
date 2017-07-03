@@ -4,7 +4,7 @@ phantom.casperTest = true;
 var config = require('config.json');
 var utils = require('utils');
 
-casper.test.begin('first test', 1, function(test) {
+casper.test.begin('Test ad slot attributes', 1, function(test) {
 	casper.start(config.baseUrl + config.pages.floatingAd, function() {
 		var testCases = [
 			{
