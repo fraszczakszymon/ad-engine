@@ -1,7 +1,6 @@
 phantom.casperTest = true;
 
 var config = require('config.json');
-var casper = require('casper').create();
 var utils = require('utils');
 
 casper.test.begin('first test', 1, function(test) {
