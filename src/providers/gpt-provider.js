@@ -3,7 +3,7 @@ import { makeLazyQueue } from '../utils/lazy-queue';
 import { setupGptTargeting } from './gpt-targeting';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
-import SlotDataParamsUpdater from "../services/slot-data-params-updater";
+import SlotDataParamsUpdater from '../services/slot-data-params-updater';
 
 const logGroup = 'gpt-provider',
 	slotsQueue = [];
@@ -129,11 +129,11 @@ export default class Gpt {
 	}
 
 	applyTargetingParams(gptSlot, targeting) {
-		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
+		Object.keys(targeting).forEach(key => gptSlot.setTargeting(key, targeting[key]));
 	}
 
 	parseTargetingParams(targeting) {
-		let result = {};
+		const result = {};
 
 		Object.keys(targeting).forEach((key) => {
 			let value = targeting[key];

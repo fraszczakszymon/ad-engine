@@ -1,13 +1,13 @@
-import SlotTweaker from "./slot-tweaker";
-import Context from "./context-service";
+import SlotTweaker from './slot-tweaker';
+import Context from './context-service';
 
 export default {
 	getSlotSizes(adSlot) {
-		let result = {};
+		const result = {};
 
 		adSlot.getSizes()
 			.forEach((s) => {
-				result[s.viewportSize[0] + 'x' + s.viewportSize[1]] = s.sizes
+				result[`${s.viewportSize[0]}x${s.viewportSize[1]}`] = s.sizes;
 			});
 
 		return JSON.stringify(result);

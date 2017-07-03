@@ -1,6 +1,6 @@
 import { logger } from '../utils/logger';
 import SlotTweaker from '../services/slot-tweaker';
-import SlotDataParamsUpdater from "../services/slot-data-params-updater";
+import SlotDataParamsUpdater from '../services/slot-data-params-updater';
 
 const logGroup = 'slot-listener';
 
