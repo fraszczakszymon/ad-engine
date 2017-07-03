@@ -5,7 +5,7 @@ var config = require('config.json');
 var utils = require('utils');
 
 casper.test.begin('first test', 1, function(test) {
-	casper.start(config.url.floatingAd, function() {
+	casper.start(config.baseUrl + config.pages.floatingAd, function() {
 		var testCases = [
 			{
 				attr: 'data-gpt-creative-id',

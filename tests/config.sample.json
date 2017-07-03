@@ -1,6 +1,7 @@
 {
-  "url":
+  "baseUrl": "http://localhost:5555/examples/",
+  "pages":
   {
-    "floatingAd": "http://localhost:5555/examples/templates/floating-ad/"
+    "floatingAd": "templates/floating-ad/"
   }
 }
