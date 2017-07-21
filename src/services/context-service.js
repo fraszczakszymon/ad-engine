@@ -2,6 +2,7 @@ const context = {
 		adUnitId: '',
 		events: {},
 		slots: {},
+		src: 'gpt',
 		state: {
 			adStack: [],
 			isMobile: false
