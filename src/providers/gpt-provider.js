@@ -1,6 +1,7 @@
 import { logger } from '../utils/logger';
 import { makeLazyQueue } from '../utils/lazy-queue';
 import { setupGptTargeting } from './gpt-targeting';
+import Context from './../services/context-service';
 import SlotListener from './../listeners/slot-listener';
 import SlotService from './../services/slot-service';
 import SlotDataParamsUpdater from '../services/slot-data-params-updater';
@@ -103,7 +104,7 @@ export default class Gpt {
 			let gptSlot = null;
 
 			targeting.pos = adSlot.getSlotName();
-			targeting.src = 'gpt';
+			targeting.src = Context.get('src');
 
 			adSlot.getSizes().forEach((item) => {
 				sizeMapping.addSize(item.viewportSize, item.sizes);
