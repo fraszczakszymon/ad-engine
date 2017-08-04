@@ -1,7 +1,7 @@
 import GoogleImaPlayerFactory from './google-ima-player-factory';
 import ScriptLoader from '../../../../utils/script-loader';
 
- const imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
+const imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
 function load() {
 	if (window.google && window.google.ima) {
