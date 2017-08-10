@@ -1,12 +1,23 @@
 export function getTopOffset(element) {
 	const elementWindow = element.ownerDocument.defaultView;
 
-	let topPos = 0;
+	let currentElement = element,
+		hideAgain = false,
+		topPos = 0;
+
+	if (element.classList.contains('hide')) {
+		hideAgain = true;
+		element.classList.remove('hide');
+	}
 
 	do {
-		topPos += element.offsetTop;
-		element = element.offsetParent;
-	} while (element !== null);
+		topPos += currentElement.offsetTop;
+		currentElement = currentElement.offsetParent;
+	} while (currentElement !== null);
+
+	if (hideAgain) {
+		element.classList.add('hide');
+	}
 
 	if (elementWindow && elementWindow.frameElement) {
 		topPos += getTopOffset(elementWindow.frameElement);

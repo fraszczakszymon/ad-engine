@@ -1,6 +1,7 @@
+import sinon from 'sinon';
 import { getTopOffset } from '../../src/utils/dimensions';
 
-function getMockElement(params, frameElement) {
+function getMockElement(params, frameElement = null, hidden = false) {
 	let offsetParent = null,
 		offsetTop = 50,
 		offsetHeight = 100;
@@ -12,12 +13,17 @@ function getMockElement(params, frameElement) {
 	}
 
 	return {
+		classList: {
+			add: () => {},
+			contains: () => hidden,
+			remove: () => {}
+		},
 		offsetParent,
 		offsetTop,
 		offsetHeight,
 		ownerDocument: {
 			defaultView: {
-				frameElement: frameElement || null
+				frameElement
 			}
 		}
 	};
@@ -49,4 +55,18 @@ QUnit.test('getTopOffset of nested iframe element', (assert) => {
 		element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
 
 	assert.equal(getTopOffset(element), 380);
+});
+
+QUnit.test('getTopOffset of hidden element', (assert) => {
+	assert.expect(3);
+
+	const element = getMockElement({}, null, true);
+
+	sinon.spy(element.classList, 'add');
+	sinon.spy(element.classList, 'remove');
+
+	assert.equal(getTopOffset(element), 50);
+
+	assert.ok(element.classList.add.calledWith('hide'));
+	assert.ok(element.classList.remove.calledWith('hide'));
 });

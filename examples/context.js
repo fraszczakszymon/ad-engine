@@ -1,6 +1,7 @@
 import Context from 'ad-engine/services/context-service';
 
 Context.extend({
+	src: 'example',
 	adUnitId: '/5441/wka.life/_project43//article/gpt/{slotName}',
 	events: {
 		pushOnScroll: {

@@ -123,5 +123,14 @@ export default {
 					logger(logGroup, 'Unknown action', data.action);
 			}
 		});
+	},
+
+	setDataParam(adSlot, attrName, data) {
+		const container = this.getContainer(adSlot);
+
+		container.dataset[attrName] = typeof data === 'string' ?
+			data :
+			JSON.stringify(data);
 	}
+
 };
