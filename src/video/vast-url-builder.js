@@ -36,7 +36,8 @@ export function build(aspectRatio, slotParams = {}) {
 		'unviewed_position_start=1',
 		`iu=${buildAdUnitId(slotParams)}`,
 		`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
-		`url=${window.location.href}`,
+		`url=${encodeURIComponent(window.location.href)}`,
+		`description_url=${encodeURIComponent(window.location.href)}`,
 		`correlator=${correlator}`,
 		`cust_params=${getCustomParameters(slotParams)}`
 	];
