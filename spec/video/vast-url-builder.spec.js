@@ -56,7 +56,13 @@ QUnit.test('build URL with horizontal ad size', (assert) => {
 QUnit.test('build URL with referrer', (assert) => {
 	const vastUrl = buildVastUrl(1);
 
-	assert.ok(vastUrl.match(/&url=http:\/\/localhost/g));
+	assert.ok(vastUrl.match(/&url=http%3A%2F%2Flocalhost/g));
+});
+
+QUnit.test('build URL with description_url', (assert) => {
+	const vastUrl = buildVastUrl(1);
+
+	assert.ok(vastUrl.match(/&description_url=http%3A%2F%2Flocalhost/g));
 });
 
 QUnit.test('build URL with numeric correlator', (assert) => {
