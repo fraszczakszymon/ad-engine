@@ -43,12 +43,12 @@ export function build(aspectRatio, slotParams = {}, options = {}) {
 	];
 
 	if (options.contentSourceId && options.videoId) {
-		params.push('cmsid=' + options.contentSourceId);
-		params.push('vid=' + options.videoId);
+		params.push(`cmsid=${options.contentSourceId}`);
+		params.push(`vid=${options.videoId}`);
 	}
 
 	if (options.numberOfAds !== undefined) {
-		params.push('pmad=' + options.numberOfAds);
+		params.push(`pmad=${options.numberOfAds}`);
 	}
 
 	return baseUrl + params.join('&');
