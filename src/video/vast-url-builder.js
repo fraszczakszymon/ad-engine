@@ -27,7 +27,7 @@ function isNumeric(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export function build(aspectRatio, slotParams = {}) {
+export function build(aspectRatio, slotParams = {}, options = {}) {
 	const params = [
 		'output=vast',
 		'env=vp',
@@ -41,6 +41,15 @@ export function build(aspectRatio, slotParams = {}) {
 		`correlator=${correlator}`,
 		`cust_params=${getCustomParameters(slotParams)}`
 	];
+
+	if (options.contentSourceId && options.videoId) {
+		params.push('cmsid=' + options.contentSourceId);
+		params.push('vid=' + options.videoId);
+	}
+
+	if (options.numberOfAds !== undefined) {
+		params.push('pmad=' + options.numberOfAds);
+	}
 
 	return baseUrl + params.join('&');
 }
