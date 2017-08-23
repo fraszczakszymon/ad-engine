@@ -94,3 +94,46 @@ QUnit.test('build URL with page, slotName level targeting and slot wsi param', (
 
 	assert.ok(vastUrl.match(custParams));
 });
+
+QUnit.test('build URL with restricted number of ads', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, { numberOfAds: 1 });
+
+	const custParams = /&pmad=1$/;
+
+	assert.ok(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL with content source and video ids', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		contentSourceId: '123',
+		videoId: 'abc'
+	});
+
+	const custParams = /&cmsid=123&vid=abc$/;
+
+	assert.ok(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL without content source and video ids when at least one is missing', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		contentSourceId: '123'
+	});
+
+	const custParams = /&cmsid=123$/;
+
+	assert.notOk(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL without content source and video ids when at least one is missing', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		videoId: 'abc'
+	});
+
+	const custParams = /&vid=abc/;
+
+	assert.notOk(vastUrl.match(custParams));
+});
