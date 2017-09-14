@@ -17,7 +17,7 @@ QUnit.test('call not existing template', (assert) => {
 QUnit.test('call registered template', (assert) => {
 	assert.expect(1);
 
-	TemplateService.register('fake', TemplateFake);
+	TemplateService.register(TemplateFake);
 
 	assert.equal('executed', TemplateService.init('fake', {}));
 });

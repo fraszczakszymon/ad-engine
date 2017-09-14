@@ -1,6 +1,11 @@
 const context = {
 		adUnitId: '',
 		events: {},
+		options: {
+			customAdLoader: {
+				globalMethodName: 'loadCustomAd'
+			}
+		},
 		slots: {},
 		src: 'gpt',
 		state: {

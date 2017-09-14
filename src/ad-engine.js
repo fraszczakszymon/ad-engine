@@ -1,4 +1,5 @@
 import { makeLazyQueue } from './utils/lazy-queue';
+import { registerCustomAdLoader } from './services/custom-ad-loader';
 import AdSlot from './models/ad-slot';
 import Context from './services/context-service';
 import FloatingAd from './templates/floating-ad';
@@ -19,13 +20,14 @@ function fillInUsingProvider(ad, provider) {
 }
 
 export default class AdEngine {
-	constructor() {
+	constructor(config = {}) {
+		Context.extend(config);
 		this.adStack = Context.get('state.adStack');
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
-		TemplateService.register('floating-ad', FloatingAd);
+		TemplateService.register(FloatingAd);
 	}
 
 	init() {
@@ -38,6 +40,7 @@ export default class AdEngine {
 				provider.flush();
 			}
 		});
+		registerCustomAdLoader(Context.get('options.customAdLoader.globalMethodName'));
 		MessageBus.init();
 		SlotTweaker.registerMessageListener();
 		this.adStack.start();
