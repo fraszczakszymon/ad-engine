@@ -5,13 +5,17 @@ const logGroup = 'template-service',
 	templates = {};
 
 export default class TemplateService {
-	static register(template, defaultConfig = null) {
+	static register(template, customConfig = null) {
 		if (typeof template.getName !== 'function') {
 			throw new Error('Template does not implement getName method.');
 		}
 		const name = template.getName();
 
-		Context.set(`templates.${name}`, defaultConfig);
+		if (customConfig) {
+			Context.set(`templates.${name}`, customConfig);
+		} else if (typeof template.getDefaultConfig === 'function') {
+			Context.set(`templates.${name}`, template.getDefaultConfig());
+		}
 
 		templates[name] = template;
 	}
