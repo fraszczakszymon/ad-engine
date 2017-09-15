@@ -11,10 +11,15 @@ export default class TemplateService {
 		}
 		const name = template.getName();
 
+		let config = {};
+
+		if (typeof template.getDefaultConfig === 'function') {
+			config = template.getDefaultConfig();
+		}
+
 		if (customConfig) {
-			Context.set(`templates.${name}`, customConfig);
-		} else if (typeof template.getDefaultConfig === 'function') {
-			Context.set(`templates.${name}`, template.getDefaultConfig());
+			config = Object.assign(config, customConfig);
+			Context.set(`templates.${name}`, config);
 		}
 
 		templates[name] = template;
