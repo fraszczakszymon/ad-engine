@@ -1,10 +1,7 @@
 import AdEngine from 'ad-engine/ad-engine';
-import Context from '../../context';
+import context from '../../context';
 
-Context.set('state.adStack', window.adsQueue);
-Context.set('targeting.s1', '_project43');
-
-new AdEngine().init();
+new AdEngine(context).init();
 
 let action = 'collapse';
 setInterval(() => {

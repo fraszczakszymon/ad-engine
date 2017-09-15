@@ -20,7 +20,7 @@ function fillInUsingProvider(ad, provider) {
 }
 
 export default class AdEngine {
-	constructor(config = {}) {
+	constructor(config = null) {
 		Context.extend(config);
 		this.adStack = Context.get('state.adStack');
 

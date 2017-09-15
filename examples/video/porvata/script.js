@@ -10,7 +10,7 @@ const container = document.getElementById('player'),
 		height: 250,
 		moatTracking: true,
 		slotName: 'TEST_SLOT',
-		src: 'gpt',
+		src: 'gpt'
 	};
 
 Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src}/{pos}');

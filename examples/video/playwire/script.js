@@ -22,7 +22,7 @@ const configUrl = Playwire.getConfigUrl(1004220, 4843893),
 			Bolt.on(playerId, Bolt.BOLT_CONTENT_STARTED, () => {
 				Bolt.removeVideo(playerId, true);
 			});
-		},
+		}
 	};
 
 Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src}/{pos}');
