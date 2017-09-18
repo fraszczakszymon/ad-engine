@@ -115,8 +115,16 @@ export default class GoogleImaFactory {
 			player.setAdsManager(adsManager);
 
 			if (params.moatTracking) {
-				MoatVideoTracker.init(adsManager, params.container, window.google.ima.ViewMode.NORMAL);
+				MoatVideoTracker.init(
+					adsManager,
+					params.container,
+					window.google.ima.ViewMode.NORMAL,
+					params.src,
+					params.adProduct + '/' + params.slotName
+				);
 			}
+
+			player.dispatchEvent('wikiaAdsManagerLoaded');
 		}, false);
 		adsLoader.requestAds(GoogleImaSetup.createRequest(params));
 		if (params.autoPlay) {

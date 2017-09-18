@@ -198,7 +198,9 @@ export default class Porvata {
 					params.onReady(video);
 				}
 
-				viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+				video.addEventListener('wikiaAdsManagerLoaded', function () {
+					viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+				});
 
 				return video;
 			});
