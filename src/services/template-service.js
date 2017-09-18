@@ -19,9 +19,9 @@ export default class TemplateService {
 
 		if (customConfig) {
 			config = Object.assign(config, customConfig);
-			Context.set(`templates.${name}`, config);
 		}
 
+		Context.set(`templates.${name}`, config);
 		templates[name] = template;
 	}
 
