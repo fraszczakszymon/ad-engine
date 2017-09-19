@@ -120,7 +120,7 @@ export default class GoogleImaFactory {
 					params.container,
 					window.google.ima.ViewMode.NORMAL,
 					params.src,
-					params.adProduct + '/' + params.slotName
+					`${params.adProduct}/${params.slotName}`
 				);
 			}
 
