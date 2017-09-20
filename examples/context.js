@@ -1,7 +1,5 @@
-import Context from 'ad-engine/services/context-service';
-
-Context.extend({
-	src: 'example',
+export default {
+	src: 'gpt',
 	adUnitId: '/5441/wka.life/_project43//article/gpt/{slotName}',
 	events: {
 		pushOnScroll: {
@@ -58,8 +56,10 @@ Context.extend({
 		}
 	},
 	state: {
+		adStack: window.adsQueue,
 		isMobile: false
+	},
+	targeting: {
+		s1: '_project43'
 	}
-});
-
-export default Context;
+};

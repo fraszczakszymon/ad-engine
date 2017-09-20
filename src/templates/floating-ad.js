@@ -2,6 +2,10 @@ import { getTopOffset } from '../utils/dimensions';
 import ScrollListener from '../listeners/scroll-listener';
 
 export default class FloatingAd {
+	static getName() {
+		return 'floating-ad';
+	}
+
 	constructor(adSlot) {
 		this.adSlot = adSlot;
 	}
