@@ -4,7 +4,8 @@ import ViewportObserver from '../../../utils/viewport-observer';
 function prepareVideoAdContainer(params) {
 	const videoAdContainer = params.container.querySelector('div');
 
-	videoAdContainer.classList.add('video-player', 'hide');
+	videoAdContainer.classList.add('video-player');
+	videoAdContainer.classList.add('hide');
 
 	return videoAdContainer;
 }
