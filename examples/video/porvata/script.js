@@ -25,7 +25,7 @@ Porvata.inject(params)
 		video.addEventListener('loaded', () => {
 			player.classList.remove('hide');
 		});
-		video.addEventListener('allAdsCompleted', () => {
+		video.addEventListener('wikiaAdCompleted', () => {
 			player.classList.add('hide');
 			video.reload();
 		});
