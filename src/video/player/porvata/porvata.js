@@ -169,8 +169,8 @@ export default class Porvata {
 					video.ima.dispatchEvent('wikiaAdStarted');
 				});
 				video.addEventListener('allAdsCompleted', () => {
-					video.ima.dispatchEvent('wikiaAdCompleted');
 					video.ima.setAutoPlay(false);
+					video.ima.dispatchEvent('wikiaAdCompleted');
 					if (viewportListenerId) {
 						ViewportObserver.removeListener(viewportListenerId);
 						viewportListenerId = null;
