@@ -32,6 +32,9 @@ QUnit.module('GoogleImaPlayer test', {
 				width: 100,
 				height: 100,
 				container: {
+					classList: {
+						add: () => {}
+					},
 					querySelector: () => mocks.domElement
 				}
 			}

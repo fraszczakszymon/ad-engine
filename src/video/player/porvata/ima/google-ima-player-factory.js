@@ -109,6 +109,10 @@ export default class GoogleImaFactory {
 		const player = new GoogleImaPlayer(adDisplayContainer, adsLoader, params),
 			videoElement = getVideoElement();
 
+		if (player.mobileVideoAd) {
+			params.container.classList.add('mobile-porvata');
+		}
+
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
 			const renderingSettings = GoogleImaSetup.getRenderingSettings(params),
 				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
