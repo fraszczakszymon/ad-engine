@@ -1,6 +1,7 @@
 import MessageBus from './message-bus';
 import SlotService from './slot-service';
 import { logger } from '../utils/logger';
+import defer from '../utils/defer';
 
 const logGroup = 'slot-tweaker';
 
@@ -60,17 +61,20 @@ export default {
 
 		slotContainer.classList.add('slot-responsive');
 
-		this.onReady(adSlot, (iframe) => {
-			const container = iframe.parentElement;
-			if (!aspectRatio) {
-				const height = iframe.contentWindow.document.body.scrollHeight,
-					width = iframe.contentWindow.document.body.scrollWidth;
+		return new Promise((resolve) => {
+			this.onReady(adSlot, (iframe) => {
+				const container = iframe.parentElement;
+				if (!aspectRatio) {
+					const height = iframe.contentWindow.document.body.scrollHeight,
+						width = iframe.contentWindow.document.body.scrollWidth;
 
-				aspectRatio = width / height;
-			}
+					aspectRatio = width / height;
+				}
 
-			logger(logGroup, 'make responsive', adSlot.getId());
-			container.style.paddingBottom = `${100 / aspectRatio}%`;
+				logger(logGroup, 'make responsive', adSlot.getId());
+				container.style.paddingBottom = `${100 / aspectRatio}%`;
+				defer(resolve, iframe);
+			});
 		});
 	},
 
