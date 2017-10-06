@@ -62,20 +62,20 @@ export default {
 		slotContainer.classList.add('slot-responsive');
 
 		return this.onReady(adSlot)
-		.then((iframe) => {
-			const container = iframe.parentElement;
-			if (!aspectRatio) {
-				const height = iframe.contentWindow.document.body.scrollHeight,
-					width = iframe.contentWindow.document.body.scrollWidth;
+			.then((iframe) => {
+				const container = iframe.parentElement;
+				if (!aspectRatio) {
+					const height = iframe.contentWindow.document.body.scrollHeight,
+						width = iframe.contentWindow.document.body.scrollWidth;
 
-				aspectRatio = width / height;
-			}
+					aspectRatio = width / height;
+				}
 
-			logger(logGroup, 'make responsive', adSlot.getId());
-			container.style.paddingBottom = `${100 / aspectRatio}%`;
-			return iframe;
-		})
-		.then(iframe => defer(() => iframe));
+				logger(logGroup, 'make responsive', adSlot.getId());
+				container.style.paddingBottom = `${100 / aspectRatio}%`;
+				return iframe;
+			})
+			.then(iframe => defer(() => iframe));
 	},
 
 	onReady(adSlot) {

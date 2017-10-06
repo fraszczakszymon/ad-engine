@@ -4,6 +4,6 @@ export default function defer(fn, ...args) {
 	}
 
 	return new Promise((resolve) => {
-		setTimeout(() => resolve(fn(...args)), 1);
+		setTimeout(() => resolve(fn(...args)), 0);
 	});
 }
