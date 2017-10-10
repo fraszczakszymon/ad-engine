@@ -1,10 +1,18 @@
-export function once(element, eventName, ...args) {
-	return new Promise((resolve) => {
-		function onEvent(...eventArgs) {
-			resolve.apply(this, eventArgs);
-			element.removeEventListener(eventName, onEvent);
+export function once(object, eventName, ...args) {
+	return new Promise((resolve, reject) => {
+		if (
+			!object ||
+			typeof object.addEventListener !== 'function' ||
+			typeof object.removeEventListener !== 'function'
+		) {
+			reject('Object does not have a proper interface');
 		}
 
-		element.addEventListener(eventName, onEvent, ...args);
+		function onEvent(...eventArgs) {
+			object.removeEventListener(eventName, onEvent);
+			resolve.apply(this, eventArgs);
+		}
+
+		object.addEventListener(eventName, onEvent, ...args);
 	});
 }
