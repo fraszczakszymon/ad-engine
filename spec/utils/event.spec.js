@@ -8,9 +8,6 @@ const getMockObject = () => {
 		addEventListener: (name, callback) => {
 			eventCallback = callback;
 		},
-		removeEventListener: () => {
-			eventCallback = undefined;
-		},
 		runCallback: (...args) => {
 			eventCallback(...args);
 		}
@@ -33,14 +30,12 @@ QUnit.test('once returns a promise', (assert) => {
 	assert.ok(typeof promise.catch === 'function');
 });
 
-QUnit.test('once calls event subscribe/unsubscribe methods', (assert) => {
-	assert.expect(2);
+QUnit.test('once calls event subscribe method', (assert) => {
+	assert.expect(1);
 
 	sinon.spy(object, 'addEventListener');
-	sinon.spy(object, 'removeEventListener');
 
 	once(object, 'xxx');
 	object.runCallback();
 	assert.ok(object.addEventListener.calledWith('xxx'));
-	assert.ok(object.removeEventListener.calledWith('xxx'));
 });

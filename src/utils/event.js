@@ -1,18 +1,16 @@
-export function once(object, eventName, ...args) {
+export function once(eventTarget, eventName, options = {}) {
 	return new Promise((resolve, reject) => {
 		if (
-			!object ||
-			typeof object.addEventListener !== 'function' ||
-			typeof object.removeEventListener !== 'function'
+			!eventTarget ||
+			typeof eventTarget.addEventListener !== 'function'
 		) {
-			reject('Object does not have a proper interface');
+			reject('EventTarget does not have addEventListener method');
 		}
 
-		function onEvent(...eventArgs) {
-			object.removeEventListener(eventName, onEvent);
-			resolve.apply(this, eventArgs);
+		if (typeof options === 'boolean') {
+			options = { capture: options };
 		}
 
-		object.addEventListener(eventName, onEvent, ...args);
+		eventTarget.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
 	});
 }

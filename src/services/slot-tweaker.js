@@ -90,11 +90,9 @@ export default {
 			if (iframe.contentWindow.document.readyState === 'complete') {
 				resolve(iframe);
 			} else {
-				iframe.addEventListener('load', () => {
-					resolve(iframe);
-				});
+				iframe.addEventListener('load', () => resolve(iframe));
 			}
-		});
+		}).then(_iframe => defer(() => _iframe));
 	},
 
 	registerMessageListener() {
