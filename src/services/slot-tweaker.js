@@ -1,7 +1,6 @@
 import MessageBus from './message-bus';
 import SlotService from './slot-service';
 import { logger } from '../utils/logger';
-import defer from '../utils/defer';
 
 const logGroup = 'slot-tweaker';
 
@@ -74,8 +73,7 @@ export default {
 				logger(logGroup, 'make responsive', adSlot.getId());
 				container.style.paddingBottom = `${100 / aspectRatio}%`;
 				return iframe;
-			})
-			.then(iframe => defer(() => iframe));
+			});
 	},
 
 	onReady(adSlot) {
@@ -92,7 +90,7 @@ export default {
 			} else {
 				iframe.addEventListener('load', () => resolve(iframe));
 			}
-		}).then(_iframe => defer(() => _iframe));
+		});
 	},
 
 	registerMessageListener() {
