@@ -60,35 +60,37 @@ export default {
 
 		slotContainer.classList.add('slot-responsive');
 
-		this.onReady(adSlot, (iframe) => {
-			const container = iframe.parentElement;
-			if (!aspectRatio) {
-				const height = iframe.contentWindow.document.body.scrollHeight,
-					width = iframe.contentWindow.document.body.scrollWidth;
+		return this.onReady(adSlot)
+			.then((iframe) => {
+				const container = iframe.parentElement;
+				if (!aspectRatio) {
+					const height = iframe.contentWindow.document.body.scrollHeight,
+						width = iframe.contentWindow.document.body.scrollWidth;
 
-				aspectRatio = width / height;
-			}
+					aspectRatio = width / height;
+				}
 
-			logger(logGroup, 'make responsive', adSlot.getId());
-			container.style.paddingBottom = `${100 / aspectRatio}%`;
-		});
+				logger(logGroup, 'make responsive', adSlot.getId());
+				container.style.paddingBottom = `${100 / aspectRatio}%`;
+				return iframe;
+			});
 	},
 
-	onReady(adSlot, callback) {
+	onReady(adSlot) {
 		const container = this.getContainer(adSlot),
 			iframe = container.querySelector('div[id*="_container_"] iframe');
 
-		if (!iframe) {
-			return;
-		}
+		return new Promise((resolve, reject) => {
+			if (!iframe) {
+				reject('Cannot find iframe element');
+			}
 
-		if (iframe.contentWindow.document.readyState === 'complete') {
-			callback(iframe);
-		} else {
-			iframe.addEventListener('load', () => {
-				callback(iframe);
-			});
-		}
+			if (iframe.contentWindow.document.readyState === 'complete') {
+				resolve(iframe);
+			} else {
+				iframe.addEventListener('load', () => resolve(iframe));
+			}
+		});
 	},
 
 	registerMessageListener() {
