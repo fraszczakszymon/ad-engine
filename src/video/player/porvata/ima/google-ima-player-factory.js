@@ -147,17 +147,11 @@ export default class GoogleImaFactory {
 
 			player.dispatchEvent('wikiaAdsManagerLoaded');
 
-			adsManager.addEventListener('loaded', () => {
-				player.setVastAttributes('success');
-			});
-			adsManager.addEventListener('adError', () => {
-				player.setVastAttributes('error');
-			});
+			adsManager.addEventListener('loaded', () => player.setVastAttributes('success'));
+			adsManager.addEventListener('adError', () => player.setVastAttributes('error'));
 		}, false);
 
-		adsLoader.addEventListener('adError', () => {
-			player.setVastAttributes('error');
-		});
+		adsLoader.addEventListener('adError', () => player.setVastAttributes('error'));
 
 		player.setVastUrl(adRequest.adTagUrl);
 		adsLoader.requestAds(adRequest);
