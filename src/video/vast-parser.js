@@ -5,22 +5,22 @@ export default class VastParser {
 	static getAdInfo(imaAd) {
 		const adInfo = {};
 
-		let wrapperCreativeId,
-			wrapperId;
+		let wrapperCreativeIds,
+			wrapperIds;
 
 		if (imaAd) {
 			adInfo.lineItemId = imaAd.getAdId();
 			adInfo.creativeId = imaAd.getCreativeId();
 			adInfo.contentType = imaAd.getContentType();
 
-			wrapperId = imaAd.getWrapperAdIds();
-			if (wrapperId.length) {
-				adInfo.lineItemId = wrapperId[0];
+			wrapperIds = imaAd.getWrapperAdIds();
+			if (wrapperIds.length) {
+				adInfo.lineItemId = wrapperIds[0];
 			}
 
-			wrapperCreativeId = imaAd.getWrapperCreativeIds();
-			if (wrapperCreativeId.length) {
-				adInfo.creativeId = wrapperCreativeId[0];
+			wrapperCreativeIds = imaAd.getWrapperCreativeIds();
+			if (wrapperCreativeIds.length) {
+				adInfo.creativeId = wrapperCreativeIds[0];
 			}
 		}
 
