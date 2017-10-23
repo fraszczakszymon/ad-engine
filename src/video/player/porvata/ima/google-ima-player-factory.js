@@ -1,5 +1,6 @@
 import GoogleImaSetup from './google-ima-setup';
 import MoatVideoTracker from '../moat/moat-video-tracker';
+import VastDebugger from '../../../vast-debugger';
 
 function getVideoElement() {
 	const videoElement = document.createElement('video');
@@ -19,6 +20,11 @@ class GoogleImaPlayer {
 		this.params = params;
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.eventListeners = {};
+		this.vastUrl = '';
+	}
+
+	setVastUrl(vastUrl) {
+		this.vastUrl = vastUrl;
 	}
 
 	setAdsManager(adsManager) {
@@ -40,6 +46,13 @@ class GoogleImaPlayer {
 				this.adsManager.addEventListener(eventName, callback);
 			});
 		}
+	}
+
+	setVastAttributes(status) {
+		const currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
+			playerElement = this.params.container.querySelector('.video-player');
+
+		VastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 	}
 
 	setAutoPlay(value) {
@@ -70,9 +83,12 @@ class GoogleImaPlayer {
 	}
 
 	reload() {
+		const adRequest = GoogleImaSetup.createRequest(this.params);
+
 		this.adsManager.destroy();
 		this.adsLoader.contentComplete();
-		this.adsLoader.requestAds(GoogleImaSetup.createRequest(this.params));
+		this.setVastUrl(adRequest.adTagUrl);
+		this.adsLoader.requestAds(adRequest);
 	}
 
 	resize(width, height) {
@@ -106,7 +122,8 @@ class GoogleImaPlayer {
 
 export default class GoogleImaFactory {
 	static create(adDisplayContainer, adsLoader, params) {
-		const player = new GoogleImaPlayer(adDisplayContainer, adsLoader, params),
+		const adRequest = GoogleImaSetup.createRequest(params),
+			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, params),
 			videoElement = getVideoElement();
 
 		if (player.mobileVideoAd) {
@@ -129,8 +146,21 @@ export default class GoogleImaFactory {
 			}
 
 			player.dispatchEvent('wikiaAdsManagerLoaded');
+
+			adsManager.addEventListener('loaded', () => {
+				player.setVastAttributes('success');
+			});
+			adsManager.addEventListener('adError', () => {
+				player.setVastAttributes('error');
+			});
 		}, false);
-		adsLoader.requestAds(GoogleImaSetup.createRequest(params));
+
+		adsLoader.addEventListener('adError', () => {
+			player.setVastAttributes('error');
+		});
+
+		player.setVastUrl(adRequest.adTagUrl);
+		adsLoader.requestAds(adRequest);
 		if (params.autoPlay) {
 			player.setAutoPlay(true);
 		}

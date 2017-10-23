@@ -1,7 +1,8 @@
 class QueryString {
-	static get(key) {
-		const queryParameters = {},
-			queryString = window.location.search.substr(1).split('&');
+	static getValues(input = null) {
+		const path = input || window.location.search.substr(1),
+			queryParameters = {},
+			queryString = path.split('&');
 
 		if (queryString === '') {
 			return null;
@@ -13,6 +14,12 @@ class QueryString {
 				queryParameters[id] = decodeURIComponent(value.replace(/\+/g, ' '));
 			}
 		});
+
+		return queryParameters;
+	}
+
+	static get(key) {
+		const queryParameters = QueryString.getValues();
 
 		return queryParameters[key];
 	}
