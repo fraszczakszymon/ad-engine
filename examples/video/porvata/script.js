@@ -8,7 +8,6 @@ const container = document.getElementById('player'),
 		container,
 		width: 300,
 		height: 250,
-		moatTracking: true,
 		slotName: 'TEST_SLOT',
 		src: 'gpt'
 	};

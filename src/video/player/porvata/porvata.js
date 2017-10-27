@@ -1,4 +1,5 @@
 import GoogleIma from './ima/google-ima';
+import VideoSettings from './video-settings';
 import ViewportObserver from '../../../utils/viewport-observer';
 
 function prepareVideoAdContainer(params) {
@@ -146,8 +147,10 @@ export default class Porvata {
 			passback: 'porvata'
 		};
 
+		const videoSettings = new VideoSettings(params);
+
 		return GoogleIma.load()
-			.then(() => GoogleIma.getPlayer(params))
+			.then(() => GoogleIma.getPlayer(videoSettings))
 			.then(ima => new PorvataPlayer(ima, params))
 			.then((video) => {
 				function inViewportCallback(isVisible) {

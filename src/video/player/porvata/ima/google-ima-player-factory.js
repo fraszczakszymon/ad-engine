@@ -121,27 +121,27 @@ class GoogleImaPlayer {
 }
 
 export default class GoogleImaFactory {
-	static create(adDisplayContainer, adsLoader, params) {
-		const adRequest = GoogleImaSetup.createRequest(params),
-			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, params),
+	static create(adDisplayContainer, adsLoader, videoSettings) {
+		const adRequest = GoogleImaSetup.createRequest(videoSettings.getParams()),
+			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
 			videoElement = getVideoElement();
 
 		if (player.mobileVideoAd) {
-			params.container.classList.add('mobile-porvata');
+			videoSettings.getContainer().classList.add('mobile-porvata');
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const renderingSettings = GoogleImaSetup.getRenderingSettings(params),
+			const renderingSettings = GoogleImaSetup.getRenderingSettings(videoSettings),
 				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
 			player.setAdsManager(adsManager);
 
-			if (params.moatTracking) {
+			if (videoSettings.isMoatTrackingEnabled()) {
 				MoatVideoTracker.init(
 					adsManager,
-					params.container,
+					videoSettings.getContainer(),
 					window.google.ima.ViewMode.NORMAL,
-					params.src,
-					`${params.adProduct}/${params.slotName}`
+					videoSettings.get('src'),
+					`${videoSettings.get('adProduct')}/${videoSettings.get('slotName')}`
 				);
 			}
 
@@ -155,7 +155,7 @@ export default class GoogleImaFactory {
 
 		player.setVastUrl(adRequest.adTagUrl);
 		adsLoader.requestAds(adRequest);
-		if (params.autoPlay) {
+		if (videoSettings.get('autoPlay')) {
 			player.setAutoPlay(true);
 		}
 

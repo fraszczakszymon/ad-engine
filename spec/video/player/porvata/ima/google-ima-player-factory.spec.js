@@ -28,14 +28,25 @@ QUnit.module('GoogleImaPlayer test', {
 					add: () => {}
 				}
 			},
-			params: {
-				width: 100,
-				height: 100,
+			videoParams: {
 				container: {
 					classList: {
 						add: () => {}
 					},
 					querySelector: () => mocks.domElement
+				},
+				height: 100,
+				width: 100
+			},
+			videoSettings: {
+				get(key) {
+					return mocks.videoParams[key];
+				},
+				getParams() {
+					return mocks.videoParams;
+				},
+				getContainer() {
+					return mocks.videoParams.container;
 				}
 			}
 		};
@@ -54,7 +65,7 @@ QUnit.module('GoogleImaPlayer test', {
 QUnit.test('Request ads on create', (assert) => {
 	sinon.spy(mocks.adsLoader, 'requestAds');
 
-	GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.params);
+	GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 
 	assert.ok(mocks.adsLoader.requestAds.calledOnce);
 });
@@ -62,8 +73,8 @@ QUnit.test('Request ads on create', (assert) => {
 QUnit.test('Set auto play flags when autoPlay is enabled', (assert) => {
 	sinon.spy(mocks.adsLoader, 'requestAds');
 
-	mocks.params.autoPlay = true;
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.params);
+	mocks.videoParams.autoPlay = true;
+	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 
 	assert.ok(player.mobileVideoAd.autoplay);
 	assert.ok(player.mobileVideoAd.muted);
@@ -74,7 +85,7 @@ QUnit.test('Destroy ad and request new when reload is called', (assert) => {
 	sinon.spy(mocks.adsLoader, 'contentComplete');
 	sinon.spy(mocks.adsLoader, 'requestAds');
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.params);
+	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 	player.setAdsManager(mocks.adsManager);
 
 	player.reload();
@@ -88,7 +99,7 @@ QUnit.test('Initialize adsManager and adDisplayContainer on video play', (assert
 	sinon.spy(mocks.adsManager, 'init');
 	sinon.spy(mocks.adsManager, 'start');
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.params);
+	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 	player.setAdsManager(mocks.adsManager);
 
 	player.playVideo();
@@ -100,7 +111,7 @@ QUnit.test('Initialize adsManager and adDisplayContainer on video play', (assert
 QUnit.test('Resize player using adsManager', (assert) => {
 	sinon.spy(mocks.adsManager, 'resize');
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.params);
+	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 	player.setAdsManager(mocks.adsManager);
 
 	player.resize();
