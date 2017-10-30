@@ -13,9 +13,9 @@ function load() {
 	return ScriptLoader.loadScript(imaLibraryUrl);
 }
 
-function getPlayer(params) {
-	const adDisplayContainer = new window.google.ima.AdDisplayContainer(params.container),
-		iframe = params.container.querySelector('div > iframe');
+function getPlayer(videoSettings) {
+	const adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer()),
+		iframe = videoSettings.getContainer().querySelector('div > iframe');
 
 	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
@@ -26,7 +26,7 @@ function getPlayer(params) {
 
 	const adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
-	return GoogleImaPlayerFactory.create(adDisplayContainer, adsLoader, params);
+	return GoogleImaPlayerFactory.create(adDisplayContainer, adsLoader, videoSettings);
 }
 
 export default {

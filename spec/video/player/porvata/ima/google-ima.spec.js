@@ -23,14 +23,25 @@ QUnit.module('GoogleIma test', {
 					location: {}
 				}
 			},
-			params: {
-				width: 100,
-				height: 100,
+			videoParams: {
 				container: {
 					classList: {
 						add: () => {}
 					},
 					querySelector: () => mocks.domElement
+				},
+				height: 100,
+				width: 100
+			},
+			videoSettings: {
+				get(key) {
+					return mocks.videoParams[key];
+				},
+				getParams() {
+					return mocks.videoParams;
+				},
+				getContainer() {
+					return mocks.videoParams.container;
 				}
 			}
 		};
@@ -45,7 +56,7 @@ QUnit.module('GoogleIma test', {
 });
 
 QUnit.test('Create player using factory', (assert) => {
-	const player = GoogleIma.getPlayer(mocks.params);
+	const player = GoogleIma.getPlayer(mocks.videoSettings);
 
 	assert.equal(typeof player.playVideo, 'function');
 });

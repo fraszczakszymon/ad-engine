@@ -4,6 +4,12 @@ const context = {
 		options: {
 			customAdLoader: {
 				globalMethodName: 'loadCustomAd'
+			},
+			video: {
+				moatTracking: {
+					enabled: true,
+					sampling: 1
+				}
 			}
 		},
 		slots: {},
