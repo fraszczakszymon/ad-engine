@@ -74,3 +74,12 @@ QUnit.test('string with additional values', (assert) => {
 		'bar/amazing'
 	);
 });
+
+QUnit.test('string with additional values (array)', (assert) => {
+	assert.expect(1);
+
+	assert.equal(
+		StringBuilder.build('{foo}/{additionalValue.0}', { additionalValue: ['amazing', 'array'] }),
+		'bar/amazing'
+	);
+});

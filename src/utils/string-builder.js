@@ -6,8 +6,17 @@ export default class {
 
 		if (matches) {
 			matches.forEach((match) => {
-				const key = match.replace('{', '').replace('}', ''),
-					value = Context.get(key);
+				let key = match.replace('{', '').replace('}', '');
+				const value = Context.get(key);
+
+				if (key.indexOf('.') !== -1) {
+					let keyArray = key.split('.');
+
+					if (parseInt(keyArray[1], 10) >= 0) {
+						parameters = parameters[keyArray[0]];
+						key = keyArray[1];
+					}
+				}
 
 				if (parameters[key]) {
 					string = string.replace(match, parameters[key]);
