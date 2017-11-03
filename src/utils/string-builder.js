@@ -6,10 +6,9 @@ export default class {
 
 		if (matches) {
 			matches.forEach((match) => {
-				let key = match.replace('{', '').replace('}', ''),
-					name,
-					index;
-				const value = Context.get(key),
+				let name, index;
+				const key = match.replace('{', '').replace('}', ''),
+				      value = Context.get(key),
 					keyArray = key.split('.');
 
 				if (parameters[key]) {
