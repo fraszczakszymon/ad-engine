@@ -7,19 +7,13 @@ export default class {
 		if (matches) {
 			matches.forEach((match) => {
 				let key = match.replace('{', '').replace('}', '');
-				const value = Context.get(key);
-
-				if (key.indexOf('.') !== -1) {
-					let keyArray = key.split('.');
-
-					if (parseInt(keyArray[1], 10) >= 0) {
-						parameters = parameters[keyArray[0]];
-						key = keyArray[1];
-					}
-				}
+				const value = Context.get(key),
+					keyArray = key.split('.');
 
 				if (parameters[key]) {
 					string = string.replace(match, parameters[key]);
+				} else if (keyArray[1] && keyArray[1] >= 0) {
+					string = string.replace(match, parameters[keyArray[0]][keyArray[1]]);
 				} else if (value !== undefined) {
 					string = string.replace(match, value);
 				}
