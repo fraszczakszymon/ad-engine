@@ -6,14 +6,18 @@ export default class {
 
 		if (matches) {
 			matches.forEach((match) => {
-				let key = match.replace('{', '').replace('}', '');
+				let key = match.replace('{', '').replace('}', ''),
+					name,
+					index;
 				const value = Context.get(key),
 					keyArray = key.split('.');
 
 				if (parameters[key]) {
 					string = string.replace(match, parameters[key]);
 				} else if (keyArray[1] && keyArray[1] >= 0) {
-					string = string.replace(match, parameters[keyArray[0]][keyArray[1]]);
+					name = keyArray[0];
+					index = keyArray[1];
+					string = string.replace(match, parameters[name][index]);
 				} else if (value !== undefined) {
 					string = string.replace(match, value);
 				}
