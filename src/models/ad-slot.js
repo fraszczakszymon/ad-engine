@@ -2,6 +2,8 @@ import Context from '../services/context-service';
 import SlotTweaker from '../services/slot-tweaker';
 import StringBuilder from '../utils/string-builder';
 import TemplateService from '../services/template-service';
+import { makeLazyQueue } from '../utils/lazy-queue';
+
 
 export default class AdSlot {
 	/**
@@ -27,6 +29,7 @@ export default class AdSlot {
 		this.type = segments[2];
 		this.config = Context.get(`slots.${this.location}-${this.type}`);
 		this.enabled = !this.config.disabled;
+		this.eventQueues = {};
 	}
 
 	getId() {
@@ -99,5 +102,23 @@ export default class AdSlot {
 	collapse() {
 		SlotTweaker.hide(this);
 		SlotTweaker.setDataParam(this, 'slotResult', 'collapse');
+	}
+
+	on(eventName, callback) {
+		if (this.eventQueues[eventName]) {
+			this.eventQueues[eventName].push(callback);
+		} else {
+			this.eventQueues[eventName] = [callback];
+		}
+	}
+
+	runQueue(eventName) {
+		if (!this.eventQueues[eventName]) {
+			throw new Error('Event queue ' + eventName + ' is not registered.');
+		}
+
+		makeLazyQueue(this.eventQueues[eventName], function (callback) {
+			callback();
+		});
 	}
 }
