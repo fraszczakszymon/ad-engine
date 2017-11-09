@@ -2,7 +2,8 @@ import Context from '../services/context-service';
 import SlotService from '../services/slot-service';
 import StringBuilder from '../utils/string-builder';
 
-const baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
+const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
+	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
 function getCustomParameters(slotLevelParams) {
@@ -45,6 +46,10 @@ export function build(aspectRatio, slotParams = {}, options = {}) {
 	if (options.contentSourceId && options.videoId) {
 		params.push(`cmsid=${options.contentSourceId}`);
 		params.push(`vid=${options.videoId}`);
+	}
+
+	if (options.vpos && availableVideoPositions.indexOf(options.vpos) > -1) {
+		params.push(`vpos=${options.vpos}`);
 	}
 
 	if (options.numberOfAds !== undefined) {

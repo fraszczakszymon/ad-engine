@@ -137,3 +137,47 @@ QUnit.test('build URL without content source and video ids when at least one is 
 
 	assert.notOk(vastUrl.match(custParams));
 });
+
+QUnit.test('build URL with preroll video position', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		vpos: 'preroll'
+	});
+
+	const custParams = /&vpos=preroll/;
+
+	assert.ok(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL with midroll video position', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		vpos: 'midroll'
+	});
+
+	const custParams = /&vpos=midroll/;
+
+	assert.ok(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL with postroll video position', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		vpos: 'postroll'
+	});
+
+	const custParams = /&vpos=postroll/;
+
+	assert.ok(vastUrl.match(custParams));
+});
+
+QUnit.test('build URL without video position', (assert) => {
+	SlotService.add(adSlotFake);
+	const vastUrl = buildVastUrl(1, { pos: 'FAKE_AD' }, {
+		vpos: 'invalid'
+	});
+
+	const custParams = /&vpos=/;
+
+	assert.notOk(vastUrl.match(custParams));
+});
