@@ -15,7 +15,7 @@ export default class {
 					value = parameters[keySegments[0]];
 
 				if (value) {
-					for (index = 1; index < keySegments.length; index++) {
+					for (index = 1; index < keySegments.length; index += 1) {
 						segment = keySegments[index];
 						if (!value[segment]) {
 							value = null;
