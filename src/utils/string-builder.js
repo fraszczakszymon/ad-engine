@@ -7,20 +7,26 @@ export default class {
 		if (matches) {
 			matches.forEach((match) => {
 				const key = match.replace('{', '').replace('}', ''),
-					value = Context.get(key),
-					keyArray = key.split('.');
+					fallbackValue = Context.get(key),
+					keySegments = key.split('.');
 
-				let name,
-					index;
+				let index,
+					segment,
+					value = parameters[keySegments[0]];
 
-				if (parameters[key]) {
-					string = string.replace(match, parameters[key]);
-				} else if (keyArray[1] && keyArray[1] >= 0) {
-					name = keyArray[0];
-					index = keyArray[1];
-					string = string.replace(match, parameters[name][index]);
-				} else if (value !== undefined) {
-					string = string.replace(match, value);
+				if (value) {
+					for (index = 1; index < keySegments.length; index++) {
+						segment = keySegments[index];
+						if (!value[segment]) {
+							value = null;
+							break;
+						}
+						value = value[segment];
+					}
+				}
+
+				if (value || fallbackValue) {
+					string = string.replace(match, value || fallbackValue);
 				}
 			});
 		}
