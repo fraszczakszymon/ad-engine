@@ -17,7 +17,6 @@ export default class {
 				if (value) {
 					for (index = 1; index < keySegments.length; index += 1) {
 						segment = keySegments[index];
-						console.warn(segment);
 						if (!value[segment]) {
 							value = null;
 							break;
