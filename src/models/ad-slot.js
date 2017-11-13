@@ -105,16 +105,17 @@ export default class AdSlot {
 	}
 
 	on(eventName, callback) {
-		if (this.eventQueues[eventName]) {
-			this.eventQueues[eventName].push(callback);
-		} else {
-			this.eventQueues[eventName] = [callback];
+		let eventQueue = this.eventQueues[eventName];
+		if (!eventQueue) {
+			eventQueue = [];
 		}
+
+		eventQueue.push(callback);
 	}
 
 	runQueue(eventName) {
 		if (!this.eventQueues[eventName]) {
-			throw new Error(`Event queue ${eventName} is not registered.`);
+			this.eventQueues[eventName] = [];
 		}
 
 		makeLazyQueue(this.eventQueues[eventName], (callback) => {
