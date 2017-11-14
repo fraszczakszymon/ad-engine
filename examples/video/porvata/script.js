@@ -9,10 +9,10 @@ const container = document.getElementById('player'),
 		width: 300,
 		height: 250,
 		slotName: 'TEST_SLOT',
-		src: 'gpt'
+		src: ['gpt', 'foo']
 	};
 
-Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src}/{pos}');
+Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src.0}/{pos}');
 Context.set('targeting.artid', 292);
 Context.set('targeting.s1', '_project43');
 
