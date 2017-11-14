@@ -49,6 +49,10 @@ export default class AdSlot {
 		return this.adUnit;
 	}
 
+	getElement() {
+		return document.getElementById(this.id);
+	}
+
 	getSlotName() {
 		return this.config.slotName;
 	}
