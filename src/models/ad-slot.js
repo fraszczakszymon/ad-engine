@@ -105,12 +105,11 @@ export default class AdSlot {
 	}
 
 	on(eventName, callback) {
-		let eventQueue = this.eventQueues[eventName];
-		if (!eventQueue) {
-			eventQueue = [];
+		if (!this.eventQueues[eventName]) {
+			this.eventQueues[eventName] = [];
 		}
 
-		eventQueue.push(callback);
+		this.eventQueues[eventName].push(callback);
 	}
 
 	runQueue(eventName) {
