@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import AdSlot from '../models/ad-slot';
 import SlotTweaker from '../services/slot-tweaker';
 import SlotDataParamsUpdater from '../services/slot-data-params-updater';
 
@@ -48,6 +49,7 @@ export default class SlotListener {
 	}
 
 	static onImpressionViewable(adSlot) {
+		AdSlot.runQueue('slotViewed');
 		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }
