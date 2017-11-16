@@ -134,7 +134,6 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 ## Example pages
 
 * [Floating ad template](examples/templates/floating-ad)
-* [Playwire video player](examples/video/playwire)
 * [Porvata video player](examples/video/porvata)
 * [Slot animations](examples/slots/animations)
 
