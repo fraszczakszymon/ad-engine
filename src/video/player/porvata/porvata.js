@@ -141,7 +141,7 @@ export default class Porvata {
 			});
 		}
 
-		params.vastTargeting = {
+		params.vastTargeting = params.vastTargeting || {
 			passback: 'porvata'
 		};
 
