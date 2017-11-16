@@ -2,6 +2,8 @@ import Context from '../services/context-service';
 import SlotTweaker from '../services/slot-tweaker';
 import StringBuilder from '../utils/string-builder';
 import TemplateService from '../services/template-service';
+import { makeLazyQueue } from '../utils/lazy-queue';
+
 
 export default class AdSlot {
 	/**
@@ -31,6 +33,8 @@ export default class AdSlot {
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = Context.get('src');
 		this.config.targeting.pos = this.getSlotName();
+
+		this.eventQueues = {};
 	}
 
 	getId() {
@@ -61,6 +65,10 @@ export default class AdSlot {
 		}
 
 		return this.videoAdUnit;
+	}
+
+	getElement() {
+		return document.getElementById(this.id);
 	}
 
 	getSlotName() {
@@ -116,5 +124,23 @@ export default class AdSlot {
 	collapse() {
 		SlotTweaker.hide(this);
 		SlotTweaker.setDataParam(this, 'slotResult', 'collapse');
+	}
+
+	on(eventName, callback) {
+		if (!this.eventQueues[eventName]) {
+			this.eventQueues[eventName] = [];
+		}
+
+		this.eventQueues[eventName].push(callback);
+	}
+
+	runQueue(eventName) {
+		if (!this.eventQueues[eventName]) {
+			this.eventQueues[eventName] = [];
+		}
+
+		makeLazyQueue(this.eventQueues[eventName], (callback) => {
+			callback();
+		});
 	}
 }
