@@ -36,6 +36,7 @@ QUnit.module('GoogleImaPlayer test', {
 					querySelector: () => mocks.domElement
 				},
 				height: 100,
+				slotName: 'TOP_LEADERBOARD',
 				width: 100
 			},
 			videoSettings: {

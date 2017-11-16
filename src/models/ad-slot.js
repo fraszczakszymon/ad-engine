@@ -25,8 +25,12 @@ export default class AdSlot {
 		this.location = segments[1];
 		this.screenSize = segments[3] ? segments[3] : 'both';
 		this.type = segments[2];
-		this.config = Context.get(`slots.${this.location}-${this.type}`);
+		this.config = Context.get(`slots.${this.location}-${this.type}`) || {};
 		this.enabled = !this.config.disabled;
+
+		this.config.targeting = this.config.targeting || {};
+		this.config.targeting.src = Context.get('src');
+		this.config.targeting.pos = this.getSlotName();
 	}
 
 	getId() {
@@ -36,14 +40,27 @@ export default class AdSlot {
 	getAdUnit() {
 		if (!this.adUnit) {
 			this.adUnit = StringBuilder.build(
-				Context.get('adUnitId'),
+				this.config.adUnit || Context.get('adUnitId'),
 				{
-					slotName: this.getSlotName()
+					slotConfig: this.config
 				}
 			);
 		}
 
 		return this.adUnit;
+	}
+
+	getVideoAdUnit() {
+		if (!this.videoAdUnit) {
+			this.videoAdUnit = StringBuilder.build(
+				this.config.videoAdUnit || Context.get('vast.adUnitId'),
+				{
+					slotConfig: this.config
+				}
+			);
+		}
+
+		return this.videoAdUnit;
 	}
 
 	getSlotName() {

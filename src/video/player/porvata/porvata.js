@@ -141,9 +141,7 @@ export default class Porvata {
 			});
 		}
 
-		params.vastTargeting = params.vastTargeting || {
-			src: params.src,
-			pos: params.slotName,
+		params.vastTargeting = {
 			passback: 'porvata'
 		};
 

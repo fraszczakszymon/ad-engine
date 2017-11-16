@@ -17,8 +17,9 @@ QUnit.module('GoogleImaSetup test', {
 QUnit.test('Create request', (assert) => {
 	const request = GoogleImaSetup.createRequest({
 		vastUrl: '/foo/bar',
-		width: 50,
-		height: 25
+		height: 25,
+		slotName: 'TOP_LEADERBOARD',
+		width: 50
 	});
 
 	assert.equal(request.adTagUrl, '/foo/bar');

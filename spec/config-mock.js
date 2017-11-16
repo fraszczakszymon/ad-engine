@@ -1,5 +1,5 @@
 export default {
-	adUnitId: '/5441/something/_{custom.pageType}/{slotName}',
+	adUnitId: '/5441/something/_{custom.pageType}/{slotConfig.slotName}',
 	events: {
 		pushOnScroll: {
 			ids: [

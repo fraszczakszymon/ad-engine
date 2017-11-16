@@ -24,7 +24,9 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.vastTargeting);
+	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
+		targeting: params.vastTargeting
+	});
 	adsRequest.linearAdSlotWidth = params.width;
 	adsRequest.linearAdSlotHeight = params.height;
 
