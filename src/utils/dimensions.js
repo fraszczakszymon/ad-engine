@@ -27,7 +27,10 @@ export function getTopOffset(element) {
 }
 
 export function isInViewport(element, topOffset = 0, bottomOffset = 0) {
-	if (window.getComputedStyle(element).position === 'fixed') {
+	const alwaysInViewportPositions = ['fixed', 'sticky'],
+		elementPosition = window.getComputedStyle(element).position;
+
+	if (alwaysInViewportPositions.includes(elementPosition)) {
 		return true;
 	}
 
