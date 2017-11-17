@@ -1,6 +1,6 @@
 export default {
-	src: 'gpt',
-	adUnitId: '/5441/wka.life/_project43//article/gpt/{slotName}',
+	src: 'test',
+	adUnitId: '/{networkId}/wka.life/_project43//article/gpt/{slotConfig.slotName}',
 	events: {
 		pushOnScroll: {
 			ids: [
@@ -9,6 +9,7 @@ export default {
 			threshold: 100
 		}
 	},
+	networkId: '5441',
 	slots: {
 		'top-leaderboard': {
 			slotName: 'TOP_LEADERBOARD',
@@ -53,6 +54,12 @@ export default {
 			targeting: {
 				loc: 'hivi'
 			}
+		},
+		'top-video': {
+			lowerSlotName: 'video',
+			slotGroup: 'VIDEO',
+			slotName: 'VIDEO',
+			targeting: {}
 		}
 	},
 	state: {
@@ -61,5 +68,11 @@ export default {
 	},
 	targeting: {
 		s1: '_project43'
+	},
+	vast: {
+		size: [640, 480],
+		adUnitId: '/{networkId}/wka.life/_project43//article/{src}/{slotConfig.slotName}',
+		megaAdUnitId: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+			'/{custom.device}/fandom-{custom.adLayout}/fandom-{targeting.vertical}'
 	}
 };

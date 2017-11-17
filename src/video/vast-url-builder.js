@@ -1,47 +1,45 @@
 import Context from '../services/context-service';
 import SlotService from '../services/slot-service';
-import StringBuilder from '../utils/string-builder';
 
 const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters(slotLevelParams) {
-	const slot = SlotService.getBySlotName(slotLevelParams.pos);
-	const slotTargeting = slot ? slot.config.targeting : {};
-	const wsiParam = slotTargeting.wsi ? { wsi: slotTargeting.wsi } : {};
-	const params = Object.assign({}, Context.get('targeting'), slotLevelParams, wsiParam);
+function getCustomParameters(slot, extraTargeting = {}) {
+	const params = Object.assign({}, Context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(
 		Object.keys(params)
-              .filter(key => params[key])
-              .map(key => `${key}=${params[key]}`)
-              .join('&')
+			.filter(key => params[key])
+			.map(key => `${key}=${params[key]}`)
+			.join('&')
 	);
-}
-
-function buildAdUnitId(slotParams) {
-	return StringBuilder.build(Context.get('vast.adUnitId'), { pos: slotParams.pos, src: slotParams.src });
 }
 
 function isNumeric(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export function build(aspectRatio, slotParams = {}, options = {}) {
+export function build(aspectRatio, slotName, options = {}) {
 	const params = [
-		'output=vast',
-		'env=vp',
-		'gdfp_req=1',
-		'impl=s',
-		'unviewed_position_start=1',
-		`iu=${buildAdUnitId(slotParams)}`,
-		`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
-		`url=${encodeURIComponent(window.location.href)}`,
-		`description_url=${encodeURIComponent(window.location.href)}`,
-		`correlator=${correlator}`,
-		`cust_params=${getCustomParameters(slotParams)}`
-	];
+			'output=vast',
+			'env=vp',
+			'gdfp_req=1',
+			'impl=s',
+			'unviewed_position_start=1',
+			`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
+			`url=${encodeURIComponent(window.location.href)}`,
+			`description_url=${encodeURIComponent(window.location.href)}`,
+			`correlator=${correlator}`
+		],
+		slot = SlotService.getBySlotName(slotName);
+
+	if (slot) {
+		params.push(`iu=${slot.getVideoAdUnit()}`);
+		params.push(`cust_params=${getCustomParameters(slot, options.targeting)}`);
+	} else {
+		throw Error('Slot does not exist!');
+	}
 
 	if (options.contentSourceId && options.videoId) {
 		params.push(`cmsid=${options.contentSourceId}`);

@@ -1,6 +1,9 @@
+import AdSlot from 'ad-engine/models/ad-slot';
 import Context from 'ad-engine/services/context-service';
 import Porvata from 'ad-engine/video/player/porvata/porvata';
 import ScrollListener from 'ad-engine/listeners/scroll-listener';
+import SlotService from 'ad-engine/services/slot-service';
+import adContext from '../../context';
 
 const container = document.getElementById('player'),
 	params = {
@@ -8,13 +11,16 @@ const container = document.getElementById('player'),
 		container,
 		width: 300,
 		height: 250,
-		slotName: 'TEST_SLOT',
-		src: ['gpt', 'foo']
+		slotName: 'VIDEO'
 	};
 
-Context.set('vast.adUnitId', '/5441/wka.life/_project43//article/{src.0}/{pos}');
+Context.extend(adContext);
 Context.set('targeting.artid', 292);
-Context.set('targeting.s1', '_project43');
+Context.set('targeting.vertical', 'games');
+Context.set('custom.device', 'desktop');
+Context.set('custom.adLayout', 'fv-article');
+
+SlotService.add(new AdSlot({ id: 'gpt-top-video' }));
 
 ScrollListener.init();
 Porvata.inject(params)

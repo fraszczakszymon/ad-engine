@@ -10,6 +10,6 @@ export default {
 	config: {
 		targeting: {
 			wsi: 'yyyy',
-		},
+		}
 	}
 };
