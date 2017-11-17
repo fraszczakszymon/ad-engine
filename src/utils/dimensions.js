@@ -27,6 +27,10 @@ export function getTopOffset(element) {
 }
 
 export function isInViewport(element, topOffset = 0, bottomOffset = 0) {
+	if (window.getComputedStyle(element).position === 'fixed') {
+		return true;
+	}
+
 	const elementHeight = element.offsetHeight,
 		elementTop = getTopOffset(element),
 		elementBottom = elementTop + elementHeight,
