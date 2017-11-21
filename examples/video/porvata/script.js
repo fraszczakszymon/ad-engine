@@ -1,5 +1,6 @@
 import AdSlot from 'ad-engine/models/ad-slot';
 import Context from 'ad-engine/services/context-service';
+import Client from 'ad-engine/utils/client';
 import Porvata from 'ad-engine/video/player/porvata/porvata';
 import ScrollListener from 'ad-engine/listeners/scroll-listener';
 import SlotService from 'ad-engine/services/slot-service';
@@ -11,14 +12,14 @@ const container = document.getElementById('player'),
 		container,
 		width: 300,
 		height: 250,
-		slotName: 'VIDEO'
+		slotName: 'OUTSTREAM'
 	};
 
 Context.extend(adContext);
 Context.set('targeting.artid', 292);
 Context.set('targeting.vertical', 'games');
-Context.set('custom.device', 'desktop');
-Context.set('custom.adLayout', 'fv-article');
+Context.set('custom.device', Client.getDeviceType());
+Context.set('custom.adLayout', 'article');
 
 SlotService.add(new AdSlot({ id: 'gpt-top-video' }));
 
