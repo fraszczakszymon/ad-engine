@@ -2,6 +2,9 @@ import GoogleIma from './ima/google-ima';
 import VideoSettings from './video-settings';
 import ViewportObserver from '../../../utils/viewport-observer';
 
+const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
+const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
+
 function prepareVideoAdContainer(params) {
 	const videoAdContainer = params.container.querySelector('div');
 
@@ -11,6 +14,26 @@ function prepareVideoAdContainer(params) {
 	return videoAdContainer;
 }
 
+function nativeFullscreenOnElement(element) {
+	function enter() {
+		if (element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen();
+		} else {
+			element.requestFullscreen();
+		}
+	}
+
+	function exit() {
+		if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else {
+			document.exitFullscreen();
+		}
+	}
+
+	return { enter, exit };
+}
+
 export class PorvataPlayer {
 	constructor(ima, params) {
 		this.ima = ima;
@@ -18,6 +41,7 @@ export class PorvataPlayer {
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
 
+		this.fullscreen = Boolean(params.isFullscreen);
 		this.width = params.width;
 		this.height = params.height;
 	}
@@ -28,6 +52,10 @@ export class PorvataPlayer {
 
 	getRemainingTime() {
 		return this.ima.getAdsManager().getRemainingTime();
+	}
+
+	isFullscreen() {
+		return this.fullscreen;
 	}
 
 	isMuted() {
@@ -69,10 +97,16 @@ export class PorvataPlayer {
 	}
 
 	resize(newWidth, newHeight) {
-		this.width = newWidth;
-		this.height = newHeight;
+		if (isFinite(newWidth) && isFinite(newHeight)) {
+			this.width = newWidth;
+			this.height = newHeight;
+		}
 
-		this.ima.resize(this.width, this.height);
+		if (this.isFullscreen()) {
+			this.ima.resize(window.innerWidth, window.innerHeight, true);
+		} else {
+			this.ima.resize(this.width, this.height, false);
+		}
 	}
 
 	resume() {
@@ -85,6 +119,24 @@ export class PorvataPlayer {
 
 		// This is hack for Safari, because it can't dispatch original IMA event (volumeChange)
 		this.ima.dispatchEvent('wikiaVolumeChange');
+	}
+
+	toggleFullscreen() {
+		const nativeFullscreen = nativeFullscreenOnElement(this.container);
+
+		this.fullscreen = !this.fullscreen;
+
+		if (this.isFullscreen()) {
+			nativeFullscreen.enter();
+			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
+			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
+		} else {
+			nativeFullscreen.exit();
+			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
+			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
+		}
+
+		this.resize();
 	}
 
 	updateVideoDOMElement(volume) {

@@ -91,9 +91,15 @@ class GoogleImaPlayer {
 		this.adsLoader.requestAds(adRequest);
 	}
 
-	resize(width, height) {
+	resize(width, height, isFullscreen = false) {
+		const viewMode = window.google.ima.ViewMode;
+
 		if (this.adsManager) {
-			this.adsManager.resize(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
+			this.adsManager.resize(
+				Math.round(width),
+				Math.round(height),
+				isFullscreen ? viewMode.FULLSCREEN : viewMode.NORMAL
+			);
 		}
 	}
 
