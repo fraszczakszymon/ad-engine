@@ -5,34 +5,31 @@ import ViewportObserver from '../../../utils/viewport-observer';
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
 
-function prepareVideoAdContainer(params) {
+const prepareVideoAdContainer = (params) => {
 	const videoAdContainer = params.container.querySelector('div');
 
 	videoAdContainer.classList.add('video-player');
 	videoAdContainer.classList.add('hide');
 
 	return videoAdContainer;
-}
+};
 
-function nativeFullscreenOnElement(element) {
-	function enter() {
-		if (element.webkitRequestFullscreen) {
+const nativeFullscreenOnElement = element => ({
+	enter() {
+		if ('webkitRequestFullscreen' in element) {
 			element.webkitRequestFullscreen();
 		} else {
 			element.requestFullscreen();
 		}
-	}
-
-	function exit() {
-		if (document.webkitExitFullscreen) {
+	},
+	exit() {
+		if ('webkitExitFullscreen' in document) {
 			document.webkitExitFullscreen();
 		} else {
 			document.exitFullscreen();
 		}
 	}
-
-	return { enter, exit };
-}
+});
 
 export class PorvataPlayer {
 	constructor(ima, params) {

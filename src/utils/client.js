@@ -1,33 +1,37 @@
-import Context from '../services/context-service';
+import MobileDetect from 'mobile-detect';
 
-function isMobileBreakpoint() {
-	return Context.get('state.isMobile');
+let mobileDetect = null;
+
+function getMobileDetect() {
+	if (mobileDetect === null) {
+		mobileDetect = new MobileDetect(window.navigator.userAgent);
+	}
+
+	return mobileDetect;
 }
 
 export default class Client {
-	static isMobileDevice() {
-		const userAgent = window.navigator.userAgent;
-
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-	}
-
 	static isSmartphone() {
-		return Client.isMobileDevice() && isMobileBreakpoint();
+		const device = getMobileDetect();
+
+		return device.mobile();
 	}
 
 	static isTablet() {
-		return Client.isMobileDevice() && !isMobileBreakpoint();
+		const device = getMobileDetect();
+
+		return device.tablet();
 	}
 
 	static isDesktop() {
-		return !Client.isMobileDevice() && !Client.isTablet();
+		return !Client.isSmartphone() && !Client.isTablet();
 	}
 
 	static getDeviceType() {
-		if (Client.isSmartphone()) {
-			return 'smartphone';
-		} else if (Client.isTablet()) {
+		if (Client.isTablet()) {
 			return 'tablet';
+		} else if (Client.isSmartphone()) {
+			return 'smartphone';
 		}
 
 		return 'desktop';
