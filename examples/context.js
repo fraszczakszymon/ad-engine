@@ -56,10 +56,12 @@ export default {
 			}
 		},
 		'top-video': {
-			lowerSlotName: 'video',
+			lowerSlotName: 'outstream',
 			slotGroup: 'VIDEO',
-			slotName: 'VIDEO',
-			targeting: {}
+			slotName: 'OUTSTREAM',
+			targeting: {},
+			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+				'/{custom.device}/ae-{custom.adLayout}/_example'
 		}
 	},
 	state: {
@@ -71,8 +73,6 @@ export default {
 	},
 	vast: {
 		size: [640, 480],
-		adUnitId: '/{networkId}/wka.life/_project43//article/{src}/{slotConfig.slotName}',
-		megaAdUnitId: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
-			'/{custom.device}/fandom-{custom.adLayout}/fandom-{targeting.vertical}'
+		adUnitId: '/{networkId}/wka.life/_project43//article/{src}/{slotConfig.slotName}'
 	}
 };
