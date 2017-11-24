@@ -39,6 +39,7 @@ export class PorvataPlayer {
 		this.params = params;
 
 		this.fullscreen = Boolean(params.isFullscreen);
+		this.nativeFullscreen = nativeFullscreenOnElement(this.container);
 		this.width = params.width;
 		this.height = params.height;
 	}
@@ -119,16 +120,14 @@ export class PorvataPlayer {
 	}
 
 	toggleFullscreen() {
-		const nativeFullscreen = nativeFullscreenOnElement(this.container);
-
 		this.fullscreen = !this.fullscreen;
 
 		if (this.isFullscreen()) {
-			nativeFullscreen.enter();
+			this.nativeFullscreen.enter();
 			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
 			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
 		} else {
-			nativeFullscreen.exit();
+			this.nativeFullscreen.exit();
 			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
 			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
 		}
