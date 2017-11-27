@@ -82,7 +82,7 @@ export default class Client {
 			return browser;
 		}
 		if (matches[1] === 'Chrome') {
-			temp= userAgent.match(/\b(OPR|Edge)\/(\d+)/);
+			temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/);
 			if (temp !== null) {
 				browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
 				return browser;
