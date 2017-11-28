@@ -134,7 +134,7 @@ export class PorvataPlayer {
 		}
 
 		this.resize();
-		this.ima.dispatchEvent('wikia.fullscreenChange');
+		this.ima.dispatchEvent('wikiaFullscreenChange');
 	}
 
 	updateVideoDOMElement(volume) {
@@ -161,6 +161,7 @@ export class PorvataPlayer {
 
 	stop() {
 		this.ima.getAdsManager().stop();
+		this.ima.dispatchEvent('wikiaAdStop');
 	}
 }
 
