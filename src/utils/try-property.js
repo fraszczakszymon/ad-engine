@@ -1,5 +1,7 @@
 export default function tryProperty(obj, properties = []) {
-	for (const property of properties) {
+	for (let i = 0; i < properties.length; i += 1) {
+		const property = properties[i];
+
 		if (typeof property !== 'string') {
 			throw new Error('property name must be a string');
 		}
