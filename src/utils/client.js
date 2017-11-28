@@ -1,15 +1,13 @@
 import MobileDetect from 'mobile-detect';
 
-const appName = window.navigator.appName,
-	appVersion = window.navigator.appVersion,
-	userAgent = window.navigator.userAgent;
-
 let browser = null,
 	mobileDetect = null,
 	operatingSystem = null;
 
 function getMobileDetect() {
 	if (mobileDetect === null) {
+		const userAgent = window.navigator.userAgent;
+
 		mobileDetect = new MobileDetect(userAgent);
 	}
 
@@ -48,6 +46,8 @@ export default class Client {
 			return operatingSystem;
 		}
 
+		const userAgent = window.navigator.userAgent;
+
 		operatingSystem = 'unknown';
 		if (userAgent.indexOf('Win') !== -1) {
 			operatingSystem = 'Windows';
@@ -72,6 +72,10 @@ export default class Client {
 		if (browser !== null) {
 			return browser;
 		}
+
+		const appName = window.navigator.appName,
+			appVersion = window.navigator.appVersion,
+			userAgent = window.navigator.userAgent;
 
 		let temp,
 			matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
