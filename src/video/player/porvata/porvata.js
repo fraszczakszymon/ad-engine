@@ -122,17 +122,19 @@ export class PorvataPlayer {
 	toggleFullscreen() {
 		this.fullscreen = !this.fullscreen;
 
-		if (this.isFullscreen()) {
+		const isFullscreen = this.isFullscreen();
+
+		this.container.classList.toggle(VIDEO_FULLSCREEN_CLASS_NAME, isFullscreen);
+		document.documentElement.classList.toggle(STOP_SCROLLING_CLASS_NAME, isFullscreen);
+
+		if (isFullscreen) {
 			this.nativeFullscreen.enter();
-			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
-			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
 		} else {
 			this.nativeFullscreen.exit();
-			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
-			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
 		}
 
 		this.resize();
+		this.ima.dispatchEvent('wikia.fullscreenChange');
 	}
 
 	updateVideoDOMElement(volume) {
