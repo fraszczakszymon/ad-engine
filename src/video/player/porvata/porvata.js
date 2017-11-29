@@ -1,6 +1,7 @@
 import GoogleIma from './ima/google-ima';
 import VideoSettings from './video-settings';
 import ViewportObserver from '../../../utils/viewport-observer';
+import tryProperty from '../../../utils/try-property';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
@@ -14,22 +15,21 @@ const prepareVideoAdContainer = (params) => {
 	return videoAdContainer;
 };
 
-const nativeFullscreenOnElement = element => ({
-	enter() {
-		if ('webkitRequestFullscreen' in element) {
-			element.webkitRequestFullscreen();
-		} else {
-			element.requestFullscreen();
-		}
-	},
-	exit() {
-		if ('webkitExitFullscreen' in document) {
-			document.webkitExitFullscreen();
-		} else {
-			document.exitFullscreen();
-		}
-	}
-});
+const nativeFullscreenOnElement = (element) => {
+	const noop = () => {};
+	const enter = tryProperty(element, [
+		'webkitRequestFullscreen',
+		'mozRequestFullScreen',
+		'requestFullscreen'
+	]) || noop;
+	const exit = tryProperty(document, [
+		'webkitExitFullscreen',
+		'mozCancelFullScreen',
+		'exitFullscreen'
+	]) || noop;
+
+	return { enter, exit };
+};
 
 export class PorvataPlayer {
 	constructor(ima, params) {
@@ -122,17 +122,19 @@ export class PorvataPlayer {
 	toggleFullscreen() {
 		this.fullscreen = !this.fullscreen;
 
-		if (this.isFullscreen()) {
+		const isFullscreen = this.isFullscreen();
+
+		this.container.classList.toggle(VIDEO_FULLSCREEN_CLASS_NAME, isFullscreen);
+		document.documentElement.classList.toggle(STOP_SCROLLING_CLASS_NAME, isFullscreen);
+
+		if (isFullscreen) {
 			this.nativeFullscreen.enter();
-			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
-			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
 		} else {
 			this.nativeFullscreen.exit();
-			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
-			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
 		}
 
 		this.resize();
+		this.ima.dispatchEvent('wikiaFullscreenChange');
 	}
 
 	updateVideoDOMElement(volume) {
@@ -159,6 +161,7 @@ export class PorvataPlayer {
 
 	stop() {
 		this.ima.getAdsManager().stop();
+		this.ima.dispatchEvent('wikiaAdStop');
 	}
 }
 
