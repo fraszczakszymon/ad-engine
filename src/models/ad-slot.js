@@ -31,8 +31,8 @@ export default class AdSlot {
 		this.enabled = !this.config.disabled;
 
 		this.config.targeting = this.config.targeting || {};
-		this.config.targeting.src = Context.get('src');
-		this.config.targeting.pos = this.getSlotName();
+		this.config.targeting.src = this.config.targeting.src || Context.get('src');
+		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
 
 		this.eventQueues = {};
 	}
