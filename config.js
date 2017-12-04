@@ -17,7 +17,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
-    "events": "github:jspm/nodelibs-events@0.2.2",
+    "events": "npm:events@1.1.1",
     "mobile-detect": "npm:mobile-detect@1.3.7",
     "sinon": "npm:sinon@1.17.4",
     "github:jspm/nodelibs-assert@0.1.0": {
