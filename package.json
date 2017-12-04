@@ -1,6 +1,6 @@
 {
   "name": "ad-engine",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "description": "Wikia AdEngine",
   "repository": {
     "type": "git",
@@ -8,6 +8,7 @@
   },
   "jspm": {
     "dependencies": {
+      "events": "npm:events@^1.1.1",
       "mobile-detect": "npm:mobile-detect@^1.3.7"
     },
     "devDependencies": {
@@ -46,6 +47,7 @@
     "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test ."
   },
   "dependencies": {
+    "events": "^1.1.1",
     "mobile-detect": "^1.3.7"
   }
 }
