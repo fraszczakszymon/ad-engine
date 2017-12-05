@@ -1,4 +1,4 @@
-export default function tryProperty(obj, properties = []) {
+export function whichProperty(obj, properties = []) {
 	for (let i = 0; i < properties.length; i += 1) {
 		const property = properties[i];
 
@@ -7,9 +7,19 @@ export default function tryProperty(obj, properties = []) {
 		}
 
 		if (property in obj) {
-			const propertyValue = obj[property];
-			return (typeof propertyValue === 'function') ? propertyValue.bind(obj) : propertyValue;
+			return property;
 		}
+	}
+
+	return null;
+}
+
+export default function tryProperty(obj, properties = []) {
+	const property = whichProperty(obj, properties);
+
+	if (property !== null) {
+		const propertyValue = obj[property];
+		return (typeof propertyValue === 'function') ? propertyValue.bind(obj) : propertyValue;
 	}
 
 	return null;
