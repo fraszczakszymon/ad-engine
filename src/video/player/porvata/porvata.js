@@ -1,7 +1,7 @@
 import GoogleIma from './ima/google-ima';
 import VideoSettings from './video-settings';
 import ViewportObserver from '../../../utils/viewport-observer';
-import tryProperty from '../../../utils/try-property';
+import tryProperty, { whichProperty } from '../../../utils/try-property';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
@@ -16,19 +16,35 @@ const prepareVideoAdContainer = (params) => {
 };
 
 const nativeFullscreenOnElement = (element) => {
-	const noop = () => {};
 	const enter = tryProperty(element, [
 		'webkitRequestFullscreen',
 		'mozRequestFullScreen',
+		'msRequestFullscreen',
 		'requestFullscreen'
-	]) || noop;
+	]);
 	const exit = tryProperty(document, [
 		'webkitExitFullscreen',
 		'mozCancelFullScreen',
+		'msExitFullscreen',
 		'exitFullscreen'
-	]) || noop;
+	]);
+	const fullscreenChangeEvent = (whichProperty(document, [
+		'onwebkitfullscreenchange',
+		'onmozfullscreenchange',
+		'MSFullscreenChange',
+		'onfullscreenchange'
+	]) || '').replace(/^on/, '');
+	const addChangeListener = (...args) => document.addEventListener(fullscreenChangeEvent, ...args);
+	const removeChangeListener = (...args) => document.removeEventListener(fullscreenChangeEvent, ...args);
+	const isSupported = () => Boolean(enter && exit);
 
-	return { enter, exit };
+	return {
+		enter,
+		exit,
+		addChangeListener,
+		removeChangeListener,
+		isSupported
+	};
 };
 
 export class PorvataPlayer {
@@ -38,10 +54,16 @@ export class PorvataPlayer {
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
 
+		const nativeFullscreen = nativeFullscreenOnElement(this.container);
+
 		this.fullscreen = Boolean(params.isFullscreen);
-		this.nativeFullscreen = nativeFullscreenOnElement(this.container);
+		this.nativeFullscreen = nativeFullscreen;
 		this.width = params.width;
 		this.height = params.height;
+
+		if (nativeFullscreen.isSupported()) {
+			nativeFullscreen.addChangeListener(() => this.onFullscreenChange());
+		}
 	}
 
 	addEventListener(eventName, callback) {
@@ -120,17 +142,26 @@ export class PorvataPlayer {
 	}
 
 	toggleFullscreen() {
+		const isFullscreen = this.isFullscreen();
+		const nativeFullscreen = this.nativeFullscreen;
+
+		if (nativeFullscreen.isSupported()) {
+			const toggleNativeFullscreen = isFullscreen ? nativeFullscreen.exit : nativeFullscreen.enter;
+			toggleNativeFullscreen();
+		} else {
+			this.onFullscreenChange();
+		}
+	}
+
+	onFullscreenChange() {
 		this.fullscreen = !this.fullscreen;
 
-		const isFullscreen = this.isFullscreen();
-
-		this.container.classList.toggle(VIDEO_FULLSCREEN_CLASS_NAME, isFullscreen);
-		document.documentElement.classList.toggle(STOP_SCROLLING_CLASS_NAME, isFullscreen);
-
-		if (isFullscreen) {
-			this.nativeFullscreen.enter();
+		if (this.isFullscreen()) {
+			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
+			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
 		} else {
-			this.nativeFullscreen.exit();
+			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
+			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
 		}
 
 		this.resize();
