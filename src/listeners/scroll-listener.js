@@ -21,7 +21,7 @@ export default class ScrollListener {
 					callbacks[id](event, id);
 				}
 			});
-		}, 100));
+		}, 16));
 	}
 
 	static addSlot(adStack, id, threshold = 0) {
