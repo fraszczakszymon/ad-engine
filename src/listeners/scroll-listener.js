@@ -1,5 +1,4 @@
 import { getTopOffset } from '../utils/dimensions';
-import { throttle } from '../utils/throttle';
 
 const callbacks = {};
 
@@ -15,13 +14,13 @@ function pushSlot(adStack, node) {
 
 export default class ScrollListener {
 	static init() {
-		document.addEventListener('scroll', throttle((event) => {
+		document.addEventListener('scroll', event => window.requestAnimationFrame(() => {
 			Object.keys(callbacks).forEach((id) => {
 				if (typeof callbacks[id] === 'function') {
 					callbacks[id](event, id);
 				}
 			});
-		}, 100));
+		}));
 	}
 
 	static addSlot(adStack, id, threshold = 0) {
