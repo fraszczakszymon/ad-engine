@@ -1,5 +1,4 @@
 import { getTopOffset } from '../utils/dimensions';
-import { throttle } from '../utils/throttle';
 
 const callbacks = {};
 
