@@ -252,6 +252,10 @@ export default class Porvata {
 					video.ima.dispatchEvent('wikiaAdStarted');
 				});
 				video.addEventListener('allAdsCompleted', () => {
+					if (video.isFullscreen()) {
+						video.toggleFullscreen();
+					}
+
 					video.ima.setAutoPlay(false);
 					video.ima.dispatchEvent('wikiaAdCompleted');
 					if (viewportListenerId) {
