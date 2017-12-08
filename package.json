@@ -41,10 +41,15 @@
     "qunitjs": "1.19.0",
     "sinon": "1.17.4"
   },
+  "publishConfig": {
+    "registry": "https://artifactory.wikia-inc.com/artifactory/api/npm/npm-local/"
+  },
   "scripts": {
+    "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test .",
     "lint": "./node_modules/.bin/eslint .",
-    "test": "./node_modules/karma/bin/karma start karma.conf.js",
-    "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test ."
+    "prepublishOnly": "./maintenance/prepublish.sh",
+    "preversion": "./maintenance/preversion.sh",
+    "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "dependencies": {
     "events": "^1.1.1",
