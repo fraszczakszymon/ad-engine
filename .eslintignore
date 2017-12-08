@@ -4,3 +4,4 @@ tests/
 
 config.js
 karma.conf.js
+webpack.build.config.js
