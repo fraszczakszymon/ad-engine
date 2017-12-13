@@ -42,7 +42,7 @@
     "sinon": "1.17.4"
   },
   "publishConfig": {
-    "registry": "https://artifactory.wikia-inc.com/artifactory/api/npm/npm-local/"
+    "registry": "https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"
   },
   "scripts": {
     "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test .",
