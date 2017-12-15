@@ -14,12 +14,12 @@ export default class VastParser {
 			adInfo.contentType = imaAd.getContentType();
 
 			wrapperIds = imaAd.getWrapperAdIds();
-			if (wrapperIds.length) {
+			if (wrapperIds && wrapperIds.length) {
 				adInfo.lineItemId = wrapperIds[0];
 			}
 
 			wrapperCreativeIds = imaAd.getWrapperCreativeIds();
-			if (wrapperCreativeIds.length) {
+			if (wrapperCreativeIds && wrapperCreativeIds.length) {
 				adInfo.creativeId = wrapperCreativeIds[0];
 			}
 		}

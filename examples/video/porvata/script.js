@@ -8,6 +8,7 @@ import adContext from '../../context';
 
 const container = document.getElementById('player'),
 	params = {
+		adProduct: 'test-video',
 		autoPlay: true,
 		container,
 		width: 300,

@@ -1,6 +1,9 @@
 const context = {
 		adUnitId: '',
 		events: {},
+		listeners: {
+			porvata: []
+		},
 		options: {
 			customAdLoader: {
 				globalMethodName: 'loadCustomAd'

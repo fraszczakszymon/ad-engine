@@ -65,6 +65,7 @@ class GoogleImaPlayer {
 
 	playVideo(width, height) {
 		const callback = () => {
+			this.dispatchEvent('wikiaAdPlayTriggered');
 			// https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize
 			this.adDisplayContainer.initialize();
 			this.adsManager.init(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
