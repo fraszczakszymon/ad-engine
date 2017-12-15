@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import Context from '../../src/services/context-service';
 import PorvataListener from '../../src/listeners/porvata-listener';
 
@@ -9,9 +8,9 @@ function getListener() {
 			this.dispatchedEvents.push({
 				eventName,
 				data
-			})
+			});
 		}
-	}
+	};
 }
 
 function mockImaVideo() {
@@ -34,7 +33,7 @@ function mockImaVideo() {
 							getWrapperCreativeIds() {}
 						};
 					}
-				}
+				};
 			}
 		}
 	};
@@ -62,7 +61,7 @@ QUnit.test('dispatch Porvata event with all basic data', (assert) => {
 
 	assert.equal(customListener.dispatchedEvents.length, 1);
 
-	const {eventName, data} = customListener.dispatchedEvents[0];
+	const { eventName, data } = customListener.dispatchedEvents[0];
 
 	assert.equal(eventName, 'init');
 	assert.equal(data.ad_error_code, 0);
@@ -85,7 +84,7 @@ QUnit.test('dispatch Porvata event with video data', (assert) => {
 
 	assert.equal(customListener.dispatchedEvents.length, 1);
 
-	const {data} = customListener.dispatchedEvents[0];
+	const { data } = customListener.dispatchedEvents[0];
 
 	assert.equal(data.content_type, 'video/mp4');
 	assert.equal(data.creative_id, 123);
