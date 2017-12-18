@@ -211,7 +211,11 @@ export default class Porvata {
 	}
 
 	static inject(params) {
-		const porvataListener = new PorvataListener(params.adProduct);
+		const porvataListener = new PorvataListener({
+			adProduct: params.adProduct,
+			position: params.slotName,
+			src: params.src
+		});
 
 		let isFirstPlay = true,
 			autoPaused = false,

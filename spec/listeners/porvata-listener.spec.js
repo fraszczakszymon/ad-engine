@@ -4,7 +4,7 @@ import PorvataListener from '../../src/listeners/porvata-listener';
 function getListener() {
 	return {
 		dispatchedEvents: [],
-		onEvent(eventName, data) {
+		onEvent(eventName, params, data) {
 			this.dispatchedEvents.push({
 				eventName,
 				data
@@ -55,9 +55,9 @@ QUnit.module('Context service test', {
 });
 
 QUnit.test('dispatch Porvata event with all basic data', (assert) => {
-	assert.expect(11);
+	assert.expect(12);
 
-	new PorvataListener('test-video').init();
+	new PorvataListener({ adProduct: 'test-video', position: 'abcd' }).init();
 
 	assert.equal(customListener.dispatchedEvents.length, 1);
 
@@ -72,13 +72,14 @@ QUnit.test('dispatch Porvata event with all basic data', (assert) => {
 	assert.equal(data.event_name, 'init');
 	assert.equal(data.line_item_id, 0);
 	assert.equal(data.player, 'porvata');
+	assert.equal(data.position, 'abcd');
 	assert.equal(typeof data.timestamp, 'number');
 });
 
 QUnit.test('dispatch Porvata event with video data', (assert) => {
 	assert.expect(4);
 
-	const listener = new PorvataListener('test-video');
+	const listener = new PorvataListener({ adProduct: 'test-video' });
 	listener.video = mockImaVideo();
 	listener.init();
 

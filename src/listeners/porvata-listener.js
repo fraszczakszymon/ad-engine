@@ -8,8 +8,8 @@ function getListeners() {
 }
 
 export default class PorvataListener {
-	constructor(adProduct) {
-		this.adProduct = adProduct;
+	constructor(params) {
+		this.params = params;
 		this.listeners = getListeners().filter(listener => !listener.isEnabled || listener.isEnabled());
 		this.logger = (...args) => logger(PorvataListener.LOG_GROUP, ...args);
 	}
@@ -36,7 +36,7 @@ export default class PorvataListener {
 
 		this.logger(eventName, data);
 		this.listeners.forEach((listener) => {
-			listener.onEvent(eventName, data);
+			listener.onEvent(eventName, this.params, data);
 		});
 	}
 
@@ -46,13 +46,14 @@ export default class PorvataListener {
 
 		return {
 			ad_error_code: errorCode,
-			ad_product: this.adProduct,
+			ad_product: this.params.adProduct,
 			browser: `${Client.getOperatingSystem()} ${Client.getBrowser()}`,
 			content_type: contentType || '(none)',
 			creative_id: creativeId || 0,
 			event_name: eventName,
 			line_item_id: lineItemId || 0,
 			player: PorvataListener.PLAYER_NAME,
+			position: this.params.position,
 			timestamp: new Date().getTime()
 		};
 	}

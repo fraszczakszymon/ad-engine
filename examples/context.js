@@ -12,7 +12,7 @@ export default {
 	listeners: {
 		porvata: [
 			{
-				onEvent(eventName, data) {
+				onEvent(eventName, params, data) {
 					console.log('Custom listener', eventName, data);
 				}
 			}
