@@ -53,7 +53,7 @@ export default class PorvataListener {
 			event_name: eventName,
 			line_item_id: lineItemId || 0,
 			player: PorvataListener.PLAYER_NAME,
-			position: this.params.position,
+			position: this.params.position || '(none)',
 			timestamp: new Date().getTime()
 		};
 	}
