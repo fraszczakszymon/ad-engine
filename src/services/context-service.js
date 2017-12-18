@@ -84,6 +84,14 @@ export default {
 		return segment(key);
 	},
 
+	push(key, value) {
+		const array = segment(key);
+
+		if (array) {
+			array.push(value);
+		}
+	},
+
 	onChange(key, callback) {
 		onChangeCallbacks[key] = onChangeCallbacks[key] || [];
 		onChangeCallbacks[key].push(callback);

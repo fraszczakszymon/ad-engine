@@ -10,7 +10,8 @@ QUnit.module('Context service test', {
 				foo: 1,
 				bar: 15,
 				baz
-			}
+			},
+			array: []
 		});
 	}
 });
@@ -81,4 +82,13 @@ QUnit.test('execute onChange leaf and parent callbacks', (assert) => {
 
 	assert.ok(callbacks.foo.calledWith('foo.bar', 'newValue'));
 	assert.ok(callbacks.fooBar.calledWith('foo.bar', 'newValue'));
+});
+
+QUnit.test('able to push into context array', (assert) => {
+	assert.expect(2);
+
+	Context.push('array', 'newValue');
+
+	assert.equal(Context.get('array').length, 1);
+	assert.equal(Context.get('array')[0], 'newValue');
 });
