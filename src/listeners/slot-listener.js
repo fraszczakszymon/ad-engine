@@ -36,7 +36,7 @@ function getAdType(event, adSlot) {
 
 function dispatch(methodName, adSlot, data = {}) {
 	if (!listeners) {
-		listeners = Context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled())
+		listeners = Context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
 
 	listeners.forEach((listener) => {
