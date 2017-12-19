@@ -1,9 +1,12 @@
 import { logger } from '../utils/logger';
 import { SLOT_VIEWED_EVENT } from '../models/ad-slot';
+import Context from '../services/context-service';
 import SlotTweaker from '../services/slot-tweaker';
 import SlotDataParamsUpdater from '../services/slot-data-params-updater';
 
 const logGroup = 'slot-listener';
+
+let listeners = null;
 
 function getIframe(adSlot) {
 	return adSlot.getElement().querySelector('div[id*="_container_"] iframe');
@@ -31,12 +34,24 @@ function getAdType(event, adSlot) {
 	return 'success';
 }
 
+function dispatch(methodName, adSlot, data = {}) {
+	if (!listeners) {
+		listeners = Context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled())
+	}
+
+	listeners.forEach((listener) => {
+		if (typeof listener[methodName] !== 'function') {
+			return;
+		}
+
+		listener[methodName](adSlot, data);
+	});
+	logger(logGroup, methodName, adSlot, data);
+}
+
 export default class SlotListener {
 	static emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
-
-		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType, event);
-		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 
 		switch (adType) {
 			case 'collapse':
@@ -46,10 +61,14 @@ export default class SlotListener {
 				adSlot.success();
 				break;
 		}
+
+		dispatch('onRenderEnded', adSlot, { adType, event });
+		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 	}
 
 	static emitImpressionViewable(adSlot) {
 		adSlot.emit(SLOT_VIEWED_EVENT);
+		dispatch('onImpressionViewable', adSlot);
 		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }

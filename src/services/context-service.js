@@ -2,7 +2,8 @@ const context = {
 		adUnitId: '',
 		events: {},
 		listeners: {
-			porvata: []
+			porvata: [],
+			slot: []
 		},
 		options: {
 			customAdLoader: {
