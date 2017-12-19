@@ -6,7 +6,7 @@ import SlotDataParamsUpdater from '../services/slot-data-params-updater';
 const logGroup = 'slot-listener';
 
 function getIframe(adSlot) {
-	return document.getElementById(adSlot.getId()).querySelector('div[id*="_container_"] iframe');
+	return adSlot.getElement().querySelector('div[id*="_container_"] iframe');
 }
 
 function getAdType(event, adSlot) {
@@ -32,7 +32,7 @@ function getAdType(event, adSlot) {
 }
 
 export default class SlotListener {
-	static onRenderEnded(event, adSlot) {
+	static emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
 		logger(logGroup, 'onRenderEnded', adSlot.getId(), adType, event);
@@ -48,7 +48,7 @@ export default class SlotListener {
 		}
 	}
 
-	static onImpressionViewable(adSlot) {
+	static emitImpressionViewable(adSlot) {
 		adSlot.emit(SLOT_VIEWED_EVENT);
 		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
