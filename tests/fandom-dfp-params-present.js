@@ -29,7 +29,7 @@ casper.test.begin('Test ad slot attributes', 1, function(test) {
 			},
 			{
 				attr: 'data-gpt-slot-params',
-				expectedString: '{"loc":"top","pos":"TOP_LEADERBOARD","src":"gpt"}'
+				expectedString: '{"loc":"top","src":"test","pos":"TOP_LEADERBOARD"}'
 			},
 			{
 				attr: 'data-slot-result',
