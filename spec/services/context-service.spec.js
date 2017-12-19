@@ -1,10 +1,11 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import Context from '../../src/services/context-service';
 
 function baz() {}
 
-QUnit.module('Context service test', {
-	beforeEach: () => {
+describe('context-service', () => {
+	beforeEach(() => {
 		Context.extend({
 			foo: {
 				foo: 1,
@@ -13,82 +14,64 @@ QUnit.module('Context service test', {
 			},
 			array: []
 		});
-	}
-});
+	});
 
-QUnit.test('get leaf from key chain', (assert) => {
-	assert.expect(1);
+	it('get leaf from key chain', () => {
+		expect(Context.get('foo.bar')).to.equal(15);
+	});
 
-	assert.equal(Context.get('foo.bar'), 15);
-});
+	it('get another leaf from key chain', () => {
+		expect(Context.get('foo.foo')).to.equal(1);
+	});
 
-QUnit.test('get another leaf from key chain', (assert) => {
-	assert.expect(1);
+	it('get leaf - function from key chain', () => {
+		const value = Context.get('foo.baz');
 
-	assert.equal(Context.get('foo.foo'), 1);
-});
+		expect(typeof (value)).to.equal('function');
+	});
 
-QUnit.test('get leaf - function from key chain', (assert) => {
-	assert.expect(1);
+	it('get not existing leaf from key chain', () => {
+		expect(Context.get('foo.foo.foo')).to.equal(undefined);
+	});
 
-	const value = Context.get('foo.baz');
+	it('get parent object', () => {
+		expect(Context.get('foo')).to.deep.equal({ foo: 1, bar: 15, baz });
+	});
 
-	assert.equal(typeof (value), 'function');
-});
+	it('set leaf value', () => {
+		Context.set('foo.leaf', 'newValue');
 
-QUnit.test('get not existing leaf from key chain', (assert) => {
-	assert.expect(1);
+		expect(Context.get('foo.leaf')).to.equal('newValue');
+	});
 
-	assert.equal(Context.get('foo.foo.foo'), undefined);
-});
+	it('override parent', () => {
+		Context.set('foo', 'newValue');
 
-QUnit.test('get parent object', (assert) => {
-	assert.expect(1);
+		expect(Context.get('foo')).to.equal('newValue');
+	});
 
-	assert.deepEqual(Context.get('foo'), { foo: 1, bar: 15, baz });
-});
+	it('execute onChange leaf and parent callbacks', () => {
+		const callbacks = {
+			foo: () => {},
+			fooBar: () => {}
+		};
 
-QUnit.test('set leaf value', (assert) => {
-	assert.expect(1);
+		sinon.spy(callbacks, 'foo');
+		sinon.spy(callbacks, 'fooBar');
 
-	Context.set('foo.leaf', 'newValue');
+		Context.onChange('foo', callbacks.foo);
+		Context.onChange('foo.bar', callbacks.fooBar);
 
-	assert.equal(Context.get('foo.leaf'), 'newValue');
-});
+		Context.set('foo.bar', 'newValue');
 
-QUnit.test('override parent', (assert) => {
-	assert.expect(1);
+		expect(callbacks.foo.calledWith('foo.bar', 'newValue')).to.be.ok;
+		expect(callbacks.fooBar.calledWith('foo.bar', 'newValue')).to.be.ok;
+	});
 
-	Context.set('foo', 'newValue');
+	it('able to push into context array', () => {
+		Context.push('array', 'newValue');
 
-	assert.equal(Context.get('foo'), 'newValue');
-});
-
-QUnit.test('execute onChange leaf and parent callbacks', (assert) => {
-	const callbacks = {
-		foo: () => {},
-		fooBar: () => {}
-	};
-
-	assert.expect(2);
-
-	sinon.spy(callbacks, 'foo');
-	sinon.spy(callbacks, 'fooBar');
-
-	Context.onChange('foo', callbacks.foo);
-	Context.onChange('foo.bar', callbacks.fooBar);
-
-	Context.set('foo.bar', 'newValue');
-
-	assert.ok(callbacks.foo.calledWith('foo.bar', 'newValue'));
-	assert.ok(callbacks.fooBar.calledWith('foo.bar', 'newValue'));
-});
-
-QUnit.test('able to push into context array', (assert) => {
-	assert.expect(2);
-
-	Context.push('array', 'newValue');
-
-	assert.equal(Context.get('array').length, 1);
-	assert.equal(Context.get('array')[0], 'newValue');
+		expect(Context.get('array').length).to.equal(1);
+		expect(Context.get('array')[0]).to.equal('newValue');
+	});
 });

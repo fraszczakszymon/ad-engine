@@ -1,139 +1,84 @@
+import { expect } from 'chai';
 import StringBuilder from '../../src/utils/string-builder';
 import Context from '../../src/services/context-service';
 
-QUnit.module('StringBuilder test', {
-	beforeEach: () => {
+describe('string-builder', () => {
+	beforeEach(() => {
 		Context.extend({
 			foo: 'bar',
 			other: {
 				bar: 'value'
 			}
 		});
-	}
-});
+	});
 
-QUnit.test('regular string', (assert) => {
-	assert.expect(1);
+	it('regular string', () => {
+		expect(StringBuilder.build('regular string'))
+			.to.equal('regular string');
+	});
 
-	assert.equal(
-		StringBuilder.build('regular string'),
-		'regular string'
-	);
-});
+	it('string with not existing value in context', () => {
+		expect(StringBuilder.build('does it work? {not-existing}'))
+			.to.equal('does it work? {not-existing}');
+	});
 
-QUnit.test('string with not existing value in context', (assert) => {
-	assert.expect(1);
+	it('string with not existing object value in context', () => {
+		expect(StringBuilder.build('does it work? {notExisting.foo}'))
+			.to.equal('does it work? {notExisting.foo}');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {not-existing}'),
-		'does it work? {not-existing}'
-	);
-});
+	it('string with not existing object property value in context', () => {
+		expect(StringBuilder.build('does it work? {existing.foo.bar.test}', { existing: {} }))
+			.to.equal('does it work? {existing.foo.bar.test}');
+	});
 
-QUnit.test('string with not existing object value in context', (assert) => {
-	assert.expect(1);
+	it('string with not existing array value in context', () => {
+		expect(StringBuilder.build('does it work? {notExisting.5}'))
+			.to.equal('does it work? {notExisting.5}');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {notExisting.foo}'),
-		'does it work? {notExisting.foo}'
-	);
-});
+	it('string with not defined array value in context', () => {
+		expect(StringBuilder.build('does it work? {array.5}', { array: [] }))
+			.to.equal('does it work? {array.5}');
+	});
 
-QUnit.test('string with not existing object property value in context', (assert) => {
-	assert.expect(1);
+	it('string with simple value from context', () => {
+		expect(StringBuilder.build('does it work? {foo}'))
+			.to.equal('does it work? bar');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {existing.foo.bar.test}', { existing: {} }),
-		'does it work? {existing.foo.bar.test}'
-	);
-});
+	it('string with multiple values from context', () => {
+		expect(StringBuilder.build('{foo}/{foo}'))
+			.to.equal('bar/bar');
+	});
 
-QUnit.test('string with not existing array value in context', (assert) => {
-	assert.expect(1);
+	it('string with different values from context', () => {
+		expect(StringBuilder.build('{foo}/{other.bar}'))
+			.to.equal('bar/value');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {notExisting.5}'),
-		'does it work? {notExisting.5}'
-	);
-});
+	it('string without additional values', () => {
+		expect(StringBuilder.build('{foo}/{additionalValue}'))
+			.to.equal('bar/{additionalValue}');
+	});
 
-QUnit.test('string with not defined array value in context', (assert) => {
-	assert.expect(1);
+	it('string with additional values', () => {
+		expect(StringBuilder.build('{foo}/{additionalValue}', { additionalValue: 'amazing' }))
+			.to.equal('bar/amazing');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {array.5}', { array: [] }),
-		'does it work? {array.5}'
-	);
-});
+	it('string with additional values (array)', () => {
+		expect(StringBuilder.build('{foo}/{additionalValue.0}', { additionalValue: ['amazing', 'array'] }))
+			.to.equal('bar/amazing');
+	});
 
-QUnit.test('string with simple value from context', (assert) => {
-	assert.expect(1);
+	it('string with additional values (object)', () => {
+		expect(StringBuilder.build('{foo}/{additionalValue.foo.bar}', { additionalValue: { foo: { bar: 'objectValue' } } }))
+			.to.equal('bar/objectValue');
+	});
 
-	assert.equal(
-		StringBuilder.build('does it work? {foo}'),
-		'does it work? bar'
-	);
-});
-
-QUnit.test('string with multiple values from context', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{foo}'),
-		'bar/bar'
-	);
-});
-
-QUnit.test('string with different values from context', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{other.bar}'),
-		'bar/value'
-	);
-});
-
-QUnit.test('string without additional values', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{additionalValue}'),
-		'bar/{additionalValue}'
-	);
-});
-
-QUnit.test('string with additional values', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{additionalValue}', { additionalValue: 'amazing' }),
-		'bar/amazing'
-	);
-});
-
-QUnit.test('string with additional values (array)', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{additionalValue.0}', { additionalValue: ['amazing', 'array'] }),
-		'bar/amazing'
-	);
-});
-
-QUnit.test('string with additional values (object)', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{additionalValue.foo.bar}', { additionalValue: { foo: { bar: 'objectValue' } } }),
-		'bar/objectValue'
-	);
-});
-
-QUnit.test('string with additional values (object and array)', (assert) => {
-	assert.expect(1);
-
-	assert.equal(
-		StringBuilder.build('{foo}/{additionalValue.foo.0}', { additionalValue: { foo: ['amazing', 'array'] } }),
-		'bar/amazing'
-	);
+	it('string with additional values (object and array)', () => {
+		expect(StringBuilder.build('{foo}/{additionalValue.foo.0}', { additionalValue: { foo: ['amazing', 'array'] } }))
+			.to.equal('bar/amazing');
+	});
 });

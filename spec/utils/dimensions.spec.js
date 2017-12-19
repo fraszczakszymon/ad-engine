@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { getTopOffset } from '../../src/utils/dimensions';
 
@@ -29,44 +30,38 @@ function getMockElement(params, frameElement = null, hidden = false) {
 	};
 }
 
-QUnit.test('getTopOffset of single element', (assert) => {
-	assert.expect(1);
+describe('dimensions', () => {
+	it('getTopOffset of single element', () => {
+		const element = getMockElement();
 
-	const element = getMockElement();
+		expect(getTopOffset(element)).to.equal(50);
+	});
 
-	assert.equal(getTopOffset(element), 50);
-});
+	it('getTopOffset of nested element', () => {
+		const parent = getMockElement({ offsetTop: 100 }),
+			element = getMockElement({ offsetParent: parent });
 
-QUnit.test('getTopOffset of nested element', (assert) => {
-	assert.expect(1);
+		expect(getTopOffset(element)).to.equal(150);
+	});
 
-	const parent = getMockElement({ offsetTop: 100 }),
-		element = getMockElement({ offsetParent: parent });
+	it('getTopOffset of nested iframe element', () => {
+		const iframeParent = getMockElement({ offsetTop: 30 }),
+			iframe = getMockElement({ offsetParent: iframeParent, offsetTop: 200 }),
+			parent = getMockElement({ offsetTop: 100 }),
+			element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
 
-	assert.equal(getTopOffset(element), 150);
-});
+		expect(getTopOffset(element)).to.equal(380);
+	});
 
-QUnit.test('getTopOffset of nested iframe element', (assert) => {
-	assert.expect(1);
+	it('getTopOffset of hidden element', () => {
+		const element = getMockElement({}, null, true);
 
-	const iframeParent = getMockElement({ offsetTop: 30 }),
-		iframe = getMockElement({ offsetParent: iframeParent, offsetTop: 200 }),
-		parent = getMockElement({ offsetTop: 100 }),
-		element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
+		sinon.spy(element.classList, 'add');
+		sinon.spy(element.classList, 'remove');
 
-	assert.equal(getTopOffset(element), 380);
-});
+		expect(getTopOffset(element)).to.equal(50);
 
-QUnit.test('getTopOffset of hidden element', (assert) => {
-	assert.expect(3);
-
-	const element = getMockElement({}, null, true);
-
-	sinon.spy(element.classList, 'add');
-	sinon.spy(element.classList, 'remove');
-
-	assert.equal(getTopOffset(element), 50);
-
-	assert.ok(element.classList.add.calledWith('hide'));
-	assert.ok(element.classList.remove.calledWith('hide'));
+		expect(element.classList.add.calledWith('hide')).to.be.ok;
+		expect(element.classList.remove.calledWith('hide')).to.be.ok;
+	});
 });

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { once } from '../../src/utils/event';
 
@@ -15,27 +16,23 @@ const getMockObject = () => {
 };
 let object;
 
-QUnit.module('Event util', {
-	beforeEach: () => {
+describe('event', () => {
+	beforeEach(() => {
 		object = getMockObject();
-	}
-});
+	});
 
-QUnit.test('once returns a promise', (assert) => {
-	assert.expect(2);
+	it('once returns a promise', () => {
+		const promise = once(object, 'xxx');
 
-	const promise = once(object, 'xxx');
+		expect(typeof promise.then === 'function').to.be.ok;
+		expect(typeof promise.catch === 'function').to.be.ok;
+	});
 
-	assert.ok(typeof promise.then === 'function');
-	assert.ok(typeof promise.catch === 'function');
-});
+	it('once calls event subscribe method', () => {
+		sinon.spy(object, 'addEventListener');
 
-QUnit.test('once calls event subscribe method', (assert) => {
-	assert.expect(1);
-
-	sinon.spy(object, 'addEventListener');
-
-	once(object, 'xxx');
-	object.runCallback();
-	assert.ok(object.addEventListener.calledWith('xxx'));
+		once(object, 'xxx');
+		object.runCallback();
+		expect(object.addEventListener.calledWith('xxx')).to.be.ok;
+	});
 });

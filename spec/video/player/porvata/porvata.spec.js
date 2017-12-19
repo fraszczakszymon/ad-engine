@@ -1,10 +1,11 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { PorvataPlayer } from '../../../../src/video/player/porvata/porvata';
 
 let mocks = {};
 
-QUnit.module('Porvata test', {
-	beforeEach: () => {
+describe('porvata', () => {
+	beforeEach(() => {
 		mocks = {
 			domElement: {
 				style: {},
@@ -39,70 +40,70 @@ QUnit.module('Porvata test', {
 				stop: () => {}
 			}
 		};
-	}
-});
+	});
 
-QUnit.test('Player with proper interface and properties', (assert) => {
-	const player = new PorvataPlayer(mocks.ima, mocks.params);
+	it('player with proper interface and properties', () => {
+		const player = new PorvataPlayer(mocks.ima, mocks.params);
 
-	assert.equal(player.ima, mocks.ima);
-	assert.equal(typeof player.container, 'object');
-	assert.equal(typeof player.addEventListener, 'function');
-	assert.equal(typeof player.getRemainingTime, 'function');
-	assert.equal(typeof player.isMuted, 'function');
-	assert.equal(typeof player.isPaused, 'function');
-	assert.equal(typeof player.isPlaying, 'function');
-	assert.equal(typeof player.pause, 'function');
-	assert.equal(typeof player.play, 'function');
-	assert.equal(typeof player.reload, 'function');
-	assert.equal(typeof player.resize, 'function');
-	assert.equal(typeof player.resume, 'function');
-	assert.equal(typeof player.setVolume, 'function');
-	assert.equal(typeof player.stop, 'function');
-});
+		expect(player.ima).to.equal(mocks.ima);
+		expect(typeof player.container).to.equal('object');
+		expect(typeof player.addEventListener).to.equal('function');
+		expect(typeof player.getRemainingTime).to.equal('function');
+		expect(typeof player.isMuted).to.equal('function');
+		expect(typeof player.isPaused).to.equal('function');
+		expect(typeof player.isPlaying).to.equal('function');
+		expect(typeof player.pause).to.equal('function');
+		expect(typeof player.play).to.equal('function');
+		expect(typeof player.reload).to.equal('function');
+		expect(typeof player.resize).to.equal('function');
+		expect(typeof player.resume).to.equal('function');
+		expect(typeof player.setVolume).to.equal('function');
+		expect(typeof player.stop).to.equal('function');
+	});
 
-QUnit.test('Player calls IMA API', (assert) => {
-	sinon.spy(mocks.ima, 'addEventListener');
-	sinon.spy(mocks.ima, 'dispatchEvent');
-	sinon.spy(mocks.ima, 'getStatus');
-	sinon.spy(mocks.ima, 'playVideo');
-	sinon.spy(mocks.ima, 'reload');
-	sinon.spy(mocks.ima, 'resize');
-	sinon.spy(mocks.adsManager, 'getRemainingTime');
-	sinon.spy(mocks.adsManager, 'getVolume');
-	sinon.spy(mocks.adsManager, 'resume');
-	sinon.spy(mocks.adsManager, 'setVolume');
-	sinon.spy(mocks.adsManager, 'stop');
+	it('player calls IMA API', () => {
+		sinon.spy(mocks.ima, 'addEventListener');
+		sinon.spy(mocks.ima, 'dispatchEvent');
+		sinon.spy(mocks.ima, 'getStatus');
+		sinon.spy(mocks.ima, 'playVideo');
+		sinon.spy(mocks.ima, 'reload');
+		sinon.spy(mocks.ima, 'resize');
+		sinon.spy(mocks.adsManager, 'getRemainingTime');
+		sinon.spy(mocks.adsManager, 'getVolume');
+		sinon.spy(mocks.adsManager, 'resume');
+		sinon.spy(mocks.adsManager, 'setVolume');
+		sinon.spy(mocks.adsManager, 'stop');
 
-	const player = new PorvataPlayer(mocks.ima, mocks.params);
+		const player = new PorvataPlayer(mocks.ima, mocks.params);
 
-	player.addEventListener('loaded', () => {});
-	assert.ok(mocks.ima.addEventListener.calledOnce);
+		player.addEventListener('loaded', () => {});
+		expect(mocks.ima.addEventListener.calledOnce).to.be.ok;
 
-	player.isPaused();
-	assert.ok(mocks.ima.getStatus.calledOnce);
+		player.isPaused();
+		expect(mocks.ima.getStatus.calledOnce).to.be.ok;
 
-	player.play();
-	assert.ok(mocks.ima.playVideo.calledOnce);
+		player.play();
+		expect(mocks.ima.playVideo.calledOnce).to.be.ok;
 
-	player.reload();
-	assert.ok(mocks.ima.reload.calledOnce);
+		player.reload();
+		expect(mocks.ima.reload.calledOnce).to.be.ok;
 
-	player.resize();
-	assert.ok(mocks.ima.resize.calledOnce);
+		player.resize();
+		expect(mocks.ima.resize.calledOnce).to.be.ok;
 
-	player.getRemainingTime();
-	assert.ok(mocks.adsManager.getRemainingTime.calledOnce);
+		player.getRemainingTime();
+		expect(mocks.adsManager.getRemainingTime.calledOnce).to.be.ok;
 
-	player.isMuted();
-	assert.ok(mocks.adsManager.getVolume.calledOnce);
+		player.isMuted();
+		expect(mocks.adsManager.getVolume.calledOnce).to.be.ok;
 
-	player.resume();
-	assert.ok(mocks.adsManager.resume.calledOnce);
+		player.resume();
+		expect(mocks.adsManager.resume.calledOnce).to.be.ok;
 
-	player.setVolume();
-	assert.ok(mocks.adsManager.setVolume.calledOnce);
+		player.setVolume();
+		expect(mocks.adsManager.setVolume.calledOnce).to.be.ok;
 
-	player.stop();
-	assert.ok(mocks.adsManager.stop.calledOnce);
+		player.stop();
+		expect(mocks.adsManager.stop.calledOnce).to.be.ok;
+	});
 });
