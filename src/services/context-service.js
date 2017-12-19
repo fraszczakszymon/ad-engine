@@ -1,6 +1,9 @@
 const context = {
 		adUnitId: '',
 		events: {},
+		listeners: {
+			porvata: []
+		},
 		options: {
 			customAdLoader: {
 				globalMethodName: 'loadCustomAd'
@@ -79,6 +82,14 @@ export default {
 
 	get(key) {
 		return segment(key);
+	},
+
+	push(key, value) {
+		const array = segment(key);
+
+		if (array) {
+			array.push(value);
+		}
 	},
 
 	onChange(key, callback) {

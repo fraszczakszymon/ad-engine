@@ -1,4 +1,5 @@
 import GoogleIma from './ima/google-ima';
+import PorvataListener from '../../../listeners/porvata-listener';
 import VideoSettings from './video-settings';
 import ViewportObserver from '../../../utils/viewport-observer';
 import tryProperty, { whichProperty } from '../../../utils/try-property';
@@ -210,6 +211,12 @@ export default class Porvata {
 	}
 
 	static inject(params) {
+		const porvataListener = new PorvataListener({
+			adProduct: params.adProduct,
+			position: params.slotName,
+			src: params.src
+		});
+
 		let isFirstPlay = true,
 			autoPaused = false,
 			autoPlayed = false,
@@ -229,6 +236,8 @@ export default class Porvata {
 
 		const videoSettings = new VideoSettings(params);
 
+		porvataListener.init();
+
 		return GoogleIma.load()
 			.then(() => GoogleIma.getPlayer(videoSettings))
 			.then(ima => new PorvataPlayer(ima, params))
@@ -247,6 +256,8 @@ export default class Porvata {
 						autoPaused = true;
 					}
 				}
+
+				porvataListener.registerVideoEvents(video);
 
 				video.addEventListener('adCanPlay', () => {
 					video.ima.dispatchEvent('wikiaAdStarted');

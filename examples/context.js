@@ -9,6 +9,15 @@ export default {
 			threshold: 100
 		}
 	},
+	listeners: {
+		porvata: [
+			{
+				onEvent(eventName, params, data) {
+					console.log('Custom listener', eventName, data);
+				}
+			}
+		]
+	},
 	networkId: '5441',
 	slots: {
 		'top-leaderboard': {
