@@ -41,6 +41,7 @@ function getData({ adType, event }) {
 		status: adType,
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: (new Date()).getHours(),
+		timestamp: new Date().getTime(),
 		viewport_height: window.innerHeight || 0
 	};
 
