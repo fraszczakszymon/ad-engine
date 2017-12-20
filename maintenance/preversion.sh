@@ -10,6 +10,6 @@ fi
 npm run test
 npm run lint
 
-npm run build-package
-
-git add dist/
+echo "FIXME: build ad-engine dist"
+# npm run build-package
+# git add dist/
