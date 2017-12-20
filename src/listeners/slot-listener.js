@@ -1,5 +1,6 @@
 import { logger } from '../utils/logger';
 import { SLOT_VIEWED_EVENT } from '../models/ad-slot';
+import Client from '../utils/client';
 import Context from '../services/context-service';
 import SlotTweaker from '../services/slot-tweaker';
 import SlotDataParamsUpdater from '../services/slot-data-params-updater';
@@ -34,10 +35,37 @@ function getAdType(event, adSlot) {
 	return 'success';
 }
 
-function dispatch(methodName, adSlot, data = {}) {
+function getData({ adType, event }) {
+	const data = {
+		browser: `${Client.getOperatingSystem()} ${Client.getBrowser()}`,
+		status: adType,
+		page_width: window.document.body.scrollWidth || '',
+		time_bucket: (new Date()).getHours(),
+		viewport_height: window.innerHeight || 0
+	};
+
+	if (event) {
+		if (event.slot) {
+			const response = event.slot.getResponseInformation();
+
+			data.creative_id = response.creativeId;
+			data.line_item_id = response.lineItemId;
+		}
+
+		if (event.size) {
+			data.creative_size = event.size.join('x');
+		}
+	}
+
+	return data;
+}
+
+function dispatch(methodName, adSlot, adInfo = {}) {
 	if (!listeners) {
 		listeners = Context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
+
+	const data = getData(adInfo);
 
 	listeners.forEach((listener) => {
 		if (typeof listener[methodName] !== 'function') {
@@ -46,7 +74,7 @@ function dispatch(methodName, adSlot, data = {}) {
 
 		listener[methodName](adSlot, data);
 	});
-	logger(logGroup, methodName, adSlot, data);
+	logger(logGroup, methodName, adSlot, adInfo, data);
 }
 
 export default class SlotListener {
@@ -66,9 +94,9 @@ export default class SlotListener {
 		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 	}
 
-	static emitImpressionViewable(adSlot) {
+	static emitImpressionViewable(event, adSlot) {
 		adSlot.emit(SLOT_VIEWED_EVENT);
-		dispatch('onImpressionViewable', adSlot);
+		dispatch('onImpressionViewable', adSlot, { event });
 		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }

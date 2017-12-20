@@ -47,6 +47,7 @@
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules",
     "build-package": "echo './node_modules/webpack/bin/webpack.js --progress --colors --config ./webpack.build.config.js'",
     "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test .",
+    "ci-check": "npm run test && npm run lint",
     "lint": "./node_modules/.bin/eslint .",
     "prepublishOnly": "./maintenance/prepublish.sh",
     "preversion": "./maintenance/preversion.sh",

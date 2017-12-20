@@ -48,7 +48,7 @@ function configure() {
 		const id = event.slot.getSlotElementId(),
 			slot = SlotService.get(id);
 
-		SlotListener.emitImpressionViewable(slot);
+		SlotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
 }
