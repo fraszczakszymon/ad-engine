@@ -1,9 +1,14 @@
 {
     "rules": {
         "import/no-extraneous-dependencies": 0,
-        "no-new": 0
+        "no-new": 0,
+        "no-unused-expressions": 0,
+        "object-shorthand": 0
     },
     "globals": {
-        "QUnit": false
+        "afterEach": false,
+        "beforeEach": false,
+        "describe": false,
+        "it": false
     }
 }

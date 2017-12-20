@@ -31,6 +31,10 @@ Context.extend({
 			threshold: 100
 		}
 	},
+	listeners: {
+		porvata: [],
+		slot: []
+	},
 	slots: {
 		'top-leaderboard': {
 			slotName: 'TOP_LEADERBOARD',
@@ -133,19 +137,26 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 
 ## Example pages
 
+* [Browser detect](examples/utils/browser-detect)
 * [Floating ad template](examples/templates/floating-ad)
 * [Porvata video player](examples/video/porvata)
 * [Slot animations](examples/slots/animations)
 
 ### Access examples
 
-Start a python server by running
+Build bundle package
 
 ```bash
-python -m SimpleHTTPServer 5555
+npm run build
 ```
 
-Navigate to <http://localhost:5555/examples/>
+Build bundle package and start http server by running
+
+```bash
+npm run serve
+```
+
+Navigate to <http://localhost:8081/> (you may have different port)
 
 ## Run tests
 

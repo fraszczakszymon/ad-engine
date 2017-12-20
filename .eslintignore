@@ -1,5 +1,6 @@
-jspm_packages/
+examples/**/dist/bundle.js
 node_modules/
+jspm_packages/
 tests/
 
 config.js

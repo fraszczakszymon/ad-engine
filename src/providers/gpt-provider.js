@@ -40,7 +40,7 @@ function configure() {
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
 		setTimeout(() => {
-			SlotListener.onRenderEnded(event, slot);
+			SlotListener.emitRenderEnded(event, slot);
 		}, 0);
 	});
 
@@ -48,7 +48,7 @@ function configure() {
 		const id = event.slot.getSlotElementId(),
 			slot = SlotService.get(id);
 
-		SlotListener.onImpressionViewable(slot);
+		SlotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
 }

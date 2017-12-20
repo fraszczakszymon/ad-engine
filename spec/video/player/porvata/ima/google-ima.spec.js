@@ -1,9 +1,10 @@
+import { expect } from 'chai';
 import GoogleIma from '../../../../../src/video/player/porvata/ima/google-ima';
 
 let mocks;
 
-QUnit.module('GoogleIma test', {
-	beforeEach: () => {
+describe('google-ima', () => {
+	beforeEach(() => {
 		mocks = {
 			adDisplayContainer: {
 				initialize: () => {}
@@ -48,16 +49,16 @@ QUnit.module('GoogleIma test', {
 		};
 		window.google = {
 			ima: {
-				AdDisplayContainer: () => mocks.adDisplayContainer,
-				AdsLoader: () => mocks.adsLoader,
-				AdsRequest: () => {}
+				AdDisplayContainer: function () { return mocks.adDisplayContainer; },
+				AdsLoader: function () { return mocks.adsLoader; },
+				AdsRequest: function () {}
 			}
 		};
-	}
-});
+	});
 
-QUnit.test('Create player using factory', (assert) => {
-	const player = GoogleIma.getPlayer(mocks.videoSettings);
+	it('create player using factory', () => {
+		const player = GoogleIma.getPlayer(mocks.videoSettings);
 
-	assert.equal(typeof player.playVideo, 'function');
+		expect(typeof player.playVideo).to.equal('function');
+	});
 });

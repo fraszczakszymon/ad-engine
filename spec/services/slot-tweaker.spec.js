@@ -1,53 +1,55 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import SlotTweaker from '../../src/services/slot-tweaker';
 
-QUnit.module('SlotTweaker test', {
-	beforeEach: () => {
+describe('slot-tweaker', () => {
+	beforeEach(() => {
 		sinon.stub(document, 'getElementById').withArgs(adSlotFake.getId()).returns({
 			dataset: {}
 		});
-	},
-	afterEach: () => {
+	});
+
+	afterEach(() => {
 		document.getElementById.restore();
-	}
-});
+	});
 
-QUnit.test('setDataParam accepts a string', (assert) => {
-	const mockedValue = 'qunitParamValue';
+	it('setDataParam accepts a string', () => {
+		const mockedValue = 'qunitParamValue';
 
-	SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-	assert.equal(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam, mockedValue);
-});
+		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal(mockedValue);
+	});
 
-QUnit.test('setDataParam accepts an object', (assert) => {
-	const mockedValue = {
-		param1: 'value1',
-		param2: 'value2'
-	};
+	it('setDataParam accepts an object', () => {
+		const mockedValue = {
+			param1: 'value1',
+			param2: 'value2'
+		};
 
-	SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-	assert.equal(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam, '{"param1":"value1","param2":"value2"}');
-});
+		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('{"param1":"value1","param2":"value2"}');
+	});
 
-QUnit.test('setDataParam accepts an array', (assert) => {
-	const mockedValue = ['value1', 'value2'];
+	it('setDataParam accepts an array', () => {
+		const mockedValue = ['value1', 'value2'];
 
-	SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-	assert.equal(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam, '["value1","value2"]');
-});
+		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('["value1","value2"]');
+	});
 
-QUnit.test('setDataParam accepts a boolean', (assert) => {
-	SlotTweaker.setDataParam(adSlotFake, 'qunitParam', true);
+	it('setDataParam accepts a boolean', () => {
+		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', true);
 
-	assert.equal(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam, 'true');
-});
+		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('true');
+	});
 
-QUnit.test('setDataParam accepts a boolean', (assert) => {
-	SlotTweaker.setDataParam(adSlotFake, 'qunitParam', false);
+	it('setDataParam accepts a boolean', () => {
+		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', false);
 
-	assert.equal(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam, 'false');
+		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('false');
+	});
 });

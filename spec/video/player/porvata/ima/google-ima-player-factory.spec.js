@@ -1,10 +1,15 @@
+import { expect } from 'chai';
 import sinon from 'sinon';
+import AdSlot from '../../../../../src/models/ad-slot';
+import Context from '../../../../../src/services/context-service';
+import ConfigMock from '../../../../config-mock';
 import GoogleImaPlayerFactory from '../../../../../src/video/player/porvata/ima/google-ima-player-factory';
+import SlotService from '../../../../../src/services/slot-service';
 
 let mocks = {};
 
-QUnit.module('GoogleImaPlayer test', {
-	beforeEach: () => {
+describe('google-ima-player', () => {
+	beforeEach(() => {
 		mocks = {
 			adDisplayContainer: {
 				initialize: () => {}
@@ -51,70 +56,72 @@ QUnit.module('GoogleImaPlayer test', {
 				}
 			}
 		};
-
 		window.google = {
 			ima: {
-				AdsRequest: () => {},
+				AdsRequest: function () {},
 				ViewMode: {
 					NORMAL: 0
 				}
 			}
 		};
-	}
-});
 
-QUnit.test('Request ads on create', (assert) => {
-	sinon.spy(mocks.adsLoader, 'requestAds');
+		Context.extend(ConfigMock);
+		SlotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+	});
 
-	GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+	it('request ads on create', () => {
+		sinon.spy(mocks.adsLoader, 'requestAds');
 
-	assert.ok(mocks.adsLoader.requestAds.calledOnce);
-});
+		GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 
-QUnit.test('Set auto play flags when autoPlay is enabled', (assert) => {
-	sinon.spy(mocks.adsLoader, 'requestAds');
+		expect(mocks.adsLoader.requestAds.calledOnce).to.be.ok;
+	});
 
-	mocks.videoParams.autoPlay = true;
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+	it('set auto play flags when autoPlay is enabled', () => {
+		sinon.spy(mocks.adsLoader, 'requestAds');
 
-	assert.ok(player.mobileVideoAd.autoplay);
-	assert.ok(player.mobileVideoAd.muted);
-});
+		mocks.videoParams.autoPlay = true;
+		const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 
-QUnit.test('Destroy ad and request new when reload is called', (assert) => {
-	sinon.spy(mocks.adsManager, 'destroy');
-	sinon.spy(mocks.adsLoader, 'contentComplete');
-	sinon.spy(mocks.adsLoader, 'requestAds');
+		expect(player.mobileVideoAd.autoplay).to.be.ok;
+		expect(player.mobileVideoAd.muted).to.be.ok;
+	});
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
-	player.setAdsManager(mocks.adsManager);
+	it('destroy ad and request new when reload is called', () => {
+		sinon.spy(mocks.adsManager, 'destroy');
+		sinon.spy(mocks.adsLoader, 'contentComplete');
+		sinon.spy(mocks.adsLoader, 'requestAds');
 
-	player.reload();
-	assert.ok(mocks.adsManager.destroy.calledOnce);
-	assert.ok(mocks.adsLoader.contentComplete.calledOnce);
-	assert.ok(mocks.adsLoader.requestAds.calledTwice); // 1x reload, 1x on factory::create
-});
+		const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		player.setAdsManager(mocks.adsManager);
 
-QUnit.test('Initialize adsManager and adDisplayContainer on video play', (assert) => {
-	sinon.spy(mocks.adDisplayContainer, 'initialize');
-	sinon.spy(mocks.adsManager, 'init');
-	sinon.spy(mocks.adsManager, 'start');
+		player.reload();
+		expect(mocks.adsManager.destroy.calledOnce).to.be.ok;
+		expect(mocks.adsLoader.contentComplete.calledOnce).to.be.ok;
+		expect(mocks.adsLoader.requestAds.calledTwice).to.be.ok; // 1x reload, 1x on factory::create
+	});
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
-	player.setAdsManager(mocks.adsManager);
+	it('initialize adsManager and adDisplayContainer on video play', () => {
+		sinon.spy(mocks.adDisplayContainer, 'initialize');
+		sinon.spy(mocks.adsManager, 'init');
+		sinon.spy(mocks.adsManager, 'start');
 
-	player.playVideo();
-	assert.ok(mocks.adDisplayContainer.initialize.calledOnce);
-	assert.ok(mocks.adsManager.init.calledOnce);
-	assert.ok(mocks.adsManager.start.calledOnce);
-});
+		const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		player.setAdsManager(mocks.adsManager);
 
-QUnit.test('Resize player using adsManager', (assert) => {
-	sinon.spy(mocks.adsManager, 'resize');
+		player.playVideo();
+		expect(mocks.adDisplayContainer.initialize.calledOnce).to.be.ok;
+		expect(mocks.adsManager.init.calledOnce).to.be.ok;
+		expect(mocks.adsManager.start.calledOnce).to.be.ok;
+	});
 
-	const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
-	player.setAdsManager(mocks.adsManager);
+	it('resize player using adsManager', () => {
+		sinon.spy(mocks.adsManager, 'resize');
 
-	player.resize();
-	assert.ok(mocks.adsManager.resize.calledOnce);
+		const player = GoogleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		player.setAdsManager(mocks.adsManager);
+
+		player.resize();
+		expect(mocks.adsManager.resize.calledOnce).to.be.ok;
+	});
 });

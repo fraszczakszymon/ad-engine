@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import Context from '../../src/services/context-service';
 import PorvataListener from '../../src/listeners/porvata-listener';
 
@@ -41,8 +42,8 @@ function mockImaVideo() {
 
 let customListener;
 
-QUnit.module('Context service test', {
-	beforeEach: () => {
+describe('porvata-listener', () => {
+	beforeEach(() => {
 		customListener = getListener();
 		Context.extend({
 			listeners: {
@@ -51,43 +52,39 @@ QUnit.module('Context service test', {
 				]
 			}
 		});
-	}
-});
+	});
 
-QUnit.test('dispatch Porvata event with all basic data', (assert) => {
-	assert.expect(12);
+	it('dispatch Porvata event with all basic data', () => {
+		new PorvataListener({ adProduct: 'test-video', position: 'abcd' }).init();
 
-	new PorvataListener({ adProduct: 'test-video', position: 'abcd' }).init();
+		expect(customListener.dispatchedEvents.length).to.equal(1);
 
-	assert.equal(customListener.dispatchedEvents.length, 1);
+		const { eventName, data } = customListener.dispatchedEvents[0];
 
-	const { eventName, data } = customListener.dispatchedEvents[0];
+		expect(eventName).to.equal('init');
+		expect(data.ad_error_code).to.equal(0);
+		expect(data.ad_product).to.equal('test-video');
+		expect(typeof data.browser).to.equal('string');
+		expect(data.content_type).to.equal('(none)');
+		expect(data.creative_id).to.equal(0);
+		expect(data.event_name).to.equal('init');
+		expect(data.line_item_id).to.equal(0);
+		expect(data.player).to.equal('porvata');
+		expect(data.position).to.equal('abcd');
+		expect(typeof data.timestamp).to.equal('number');
+	});
 
-	assert.equal(eventName, 'init');
-	assert.equal(data.ad_error_code, 0);
-	assert.equal(data.ad_product, 'test-video');
-	assert.equal(typeof data.browser, 'string');
-	assert.equal(data.content_type, '(none)');
-	assert.equal(data.creative_id, 0);
-	assert.equal(data.event_name, 'init');
-	assert.equal(data.line_item_id, 0);
-	assert.equal(data.player, 'porvata');
-	assert.equal(data.position, 'abcd');
-	assert.equal(typeof data.timestamp, 'number');
-});
+	it('dispatch Porvata event with video data', () => {
+		const listener = new PorvataListener({ adProduct: 'test-video' });
+		listener.video = mockImaVideo();
+		listener.init();
 
-QUnit.test('dispatch Porvata event with video data', (assert) => {
-	assert.expect(4);
+		expect(customListener.dispatchedEvents.length).to.equal(1);
 
-	const listener = new PorvataListener({ adProduct: 'test-video' });
-	listener.video = mockImaVideo();
-	listener.init();
+		const { data } = customListener.dispatchedEvents[0];
 
-	assert.equal(customListener.dispatchedEvents.length, 1);
-
-	const { data } = customListener.dispatchedEvents[0];
-
-	assert.equal(data.content_type, 'video/mp4');
-	assert.equal(data.creative_id, 123);
-	assert.equal(data.line_item_id, 765);
+		expect(data.content_type).to.equal('video/mp4');
+		expect(data.creative_id).to.equal(123);
+		expect(data.line_item_id).to.equal(765);
+	});
 });

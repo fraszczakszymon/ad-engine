@@ -33,6 +33,7 @@ export default class AdSlot extends EventEmitter {
 		this.config = Context.get(`slots.${this.location}-${this.type}`) || {};
 		this.enabled = !this.config.disabled;
 		this.viewed = false;
+		this.element = null;
 
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = this.config.targeting.src || Context.get('src');
@@ -74,7 +75,11 @@ export default class AdSlot extends EventEmitter {
 	}
 
 	getElement() {
-		return document.getElementById(this.id);
+		if (!this.element) {
+			this.element = document.getElementById(this.id);
+		}
+
+		return this.element;
 	}
 
 	getSlotName() {

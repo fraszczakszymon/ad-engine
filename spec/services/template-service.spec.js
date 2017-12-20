@@ -1,23 +1,17 @@
+import { expect } from 'chai';
 import TemplateFake from '../template-fake';
 import TemplateService from '../../src/services/template-service';
 
-QUnit.module('TemplateService test', {});
-
-QUnit.test('call not existing template', (assert) => {
-	assert.expect(1);
-
-	assert.throws(
-		() => {
+describe('template-service', () => {
+	it('call not existing template', () => {
+		expect(() => {
 			TemplateService.init('foo', {});
-		},
-		'Template foo does not exist.'
-	);
-});
+		}).to.throw('Template foo does not exist.');
+	});
 
-QUnit.test('call registered template', (assert) => {
-	assert.expect(1);
+	it('call registered template', () => {
+		TemplateService.register(TemplateFake);
 
-	TemplateService.register(TemplateFake);
-
-	assert.equal('executed', TemplateService.init('fake', {}));
+		expect('executed').to.equal(TemplateService.init('fake', {}));
+	});
 });

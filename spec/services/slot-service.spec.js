@@ -1,30 +1,25 @@
+import { expect } from 'chai';
 import adSlotFake from '../ad-slot-fake';
 import SlotService from '../../src/services/slot-service';
 
-QUnit.module('SlotService test', {});
+describe('slot-service', () => {
+	it('getter by id', () => {
+		SlotService.add(adSlotFake);
 
-QUnit.test('getter by id', (assert) => {
-	assert.expect(1);
+		expect(adSlotFake).to.equal(SlotService.get('gpt-fake-ad'));
+	});
 
-	SlotService.add(adSlotFake);
+	it('getter by slot name', () => {
+		SlotService.add(adSlotFake);
 
-	assert.equal(adSlotFake, SlotService.get('gpt-fake-ad'));
-});
+		expect(adSlotFake).to.equal(SlotService.getBySlotName('FAKE_AD'));
+	});
 
-QUnit.test('getter by slot name', (assert) => {
-	assert.expect(1);
+	it('foreach iterator', () => {
+		SlotService.add(adSlotFake);
 
-	SlotService.add(adSlotFake);
-
-	assert.equal(adSlotFake, SlotService.getBySlotName('FAKE_AD'));
-});
-
-QUnit.test('foreach iterator', (assert) => {
-	assert.expect(1);
-
-	SlotService.add(adSlotFake);
-
-	SlotService.forEach((adSlot) => {
-		assert.equal(adSlotFake, adSlot);
+		SlotService.forEach((adSlot) => {
+			expect(adSlotFake).to.equal(adSlot);
+		});
 	});
 });

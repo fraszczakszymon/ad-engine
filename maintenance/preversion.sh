@@ -11,5 +11,5 @@ npm run test
 npm run lint
 
 echo "FIXME: build ad-engine dist"
-#./node_modules/webpack/bin/webpack.js --config ./webpack.build.config.js -p
+# npm run build-package
 # git add dist/

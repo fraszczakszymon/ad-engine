@@ -1,7 +1,8 @@
 .idea
-jspm_packages
-node_modules
+.nyc_output
 coverage
-config.json
-spec/build
+examples/**/dist/*
+node_modules
 npm-debug.log
+spec/build
+tests/config.json

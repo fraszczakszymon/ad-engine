@@ -13,7 +13,17 @@ export default {
 		porvata: [
 			{
 				onEvent(eventName, params, data) {
-					console.log('Custom listener', eventName, data);
+					console.log('🗣 Custom listener: onEvent', eventName, data);
+				}
+			}
+		],
+		slot: [
+			{
+				onRenderEnded(adSlot) {
+					console.log('💸 Custom listener: onRenderEnded', adSlot.getId());
+				},
+				onImpressionViewable(adSlot) {
+					console.log('👁 Custom listener: onImpressionViewable', adSlot.getId());
 				}
 			}
 		]

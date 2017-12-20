@@ -1,10 +1,11 @@
+import { expect } from 'chai';
 import AdSlot from '../../src/models/ad-slot';
 import Context from '../../src/services/context-service';
 import SlotService from '../../src/services/slot-service';
 import { build as buildVastUrl } from '../../src/video/vast-url-builder';
 
-QUnit.module('VastUrlBuilder test', {
-	beforeEach: () => {
+describe('vast-url-builder', () => {
+	beforeEach(() => {
 		Context.extend({
 			src: 'test',
 			vast: {
@@ -24,151 +25,151 @@ QUnit.module('VastUrlBuilder test', {
 			}
 		});
 		SlotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
-	}
-});
-
-QUnit.test('build URL with DFP domain', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/^https:\/\/pubads\.g\.doubleclick\.net\/gampad\/ads/g));
-});
-
-QUnit.test('build URL with required DFP parameters', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/output=vast&/g));
-	assert.ok(vastUrl.match(/&env=vp&/g));
-	assert.ok(vastUrl.match(/&gdfp_req=1&/g));
-	assert.ok(vastUrl.match(/&impl=s&/g));
-	assert.ok(vastUrl.match(/&unviewed_position_start=1&/g));
-});
-
-QUnit.test('build URL with configured ad unit', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&iu=\/5441\/wka\.fandom\/test\/TOP_LEADERBOARD&/g));
-});
-
-QUnit.test('build URL with vertical ad size', (assert) => {
-	const vastUrl = buildVastUrl(0.5, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&sz=320x480&/g));
-});
-
-QUnit.test('build URL with horizontal ad size', (assert) => {
-	const vastUrl = buildVastUrl(1.5, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&sz=640x480&/g));
-});
-
-QUnit.test('build URL with referrer', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&url=http%3A%2F%2Flocalhost/g));
-});
-
-QUnit.test('build URL with description_url', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&description_url=http%3A%2F%2Flocalhost/g));
-});
-
-QUnit.test('build URL with numeric correlator', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&correlator=\d+&/g));
-});
-
-QUnit.test('build URL with page level targeting anp default wsi param', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	assert.ok(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx/g));
-});
-
-QUnit.test('build URL with page, slotName level targeting and default wsi param', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
-
-	const custParams =
-		/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx%26src%3Dtest%26pos%3DTOP_LEADERBOARD/;
-
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL with restricted number of ads', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', { numberOfAds: 1 });
-
-	const custParams = /&pmad=1/;
-
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL with content source and video ids', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		contentSourceId: '123',
-		videoId: 'abc'
 	});
 
-	const custParams = /&cmsid=123&vid=abc/;
+	it('build URL with DFP domain', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL without content source and video ids when at least one is missing', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		contentSourceId: '123'
+		expect(vastUrl.match(/^https:\/\/pubads\.g\.doubleclick\.net\/gampad\/ads/g)).to.be.ok;
 	});
 
-	const custParams = /&cmsid=123/;
+	it('build URL with required DFP parameters', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
-	assert.notOk(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL without content source and video ids when at least one is missing', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		videoId: 'abc'
+		expect(vastUrl.match(/output=vast&/g)).to.be.ok;
+		expect(vastUrl.match(/&env=vp&/g)).to.be.ok;
+		expect(vastUrl.match(/&gdfp_req=1&/g)).to.be.ok;
+		expect(vastUrl.match(/&impl=s&/g)).to.be.ok;
+		expect(vastUrl.match(/&unviewed_position_start=1&/g)).to.be.ok;
 	});
 
-	const custParams = /&vid=abc/;
+	it('build URL with configured ad unit', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
-	assert.notOk(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL with preroll video position', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		vpos: 'preroll'
+		expect(vastUrl.match(/&iu=\/5441\/wka\.fandom\/test\/TOP_LEADERBOARD&/g)).to.be.ok;
 	});
 
-	const custParams = /&vpos=preroll/;
+	it('build URL with vertical ad size', () => {
+		const vastUrl = buildVastUrl(0.5, 'TOP_LEADERBOARD');
 
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL with midroll video position', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		vpos: 'midroll'
+		expect(vastUrl.match(/&sz=320x480&/g)).to.be.ok;
 	});
 
-	const custParams = /&vpos=midroll/;
+	it('build URL with horizontal ad size', () => {
+		const vastUrl = buildVastUrl(1.5, 'TOP_LEADERBOARD');
 
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL with postroll video position', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		vpos: 'postroll'
+		expect(vastUrl.match(/&sz=640x480&/g)).to.be.ok;
 	});
 
-	const custParams = /&vpos=postroll/;
+	it('build URL with referrer', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
-	assert.ok(vastUrl.match(custParams));
-});
-
-QUnit.test('build URL without video position', (assert) => {
-	const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
-		vpos: 'invalid'
+		expect(vastUrl.match(/&url=about%3Ablank/g)).to.be.ok;
 	});
 
-	const custParams = /&vpos=/;
+	it('build URL with description_url', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
-	assert.notOk(vastUrl.match(custParams));
+		expect(vastUrl.match(/&description_url=about%3Ablank/g)).to.be.ok;
+	});
+
+	it('build URL with numeric correlator', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
+
+		expect(vastUrl.match(/&correlator=\d+&/g)).to.be.ok;
+	});
+
+	it('build URL with page level targeting anp default wsi param', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
+
+		expect(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx/g)).to.be.ok;
+	});
+
+	it('build URL with page, slotName level targeting and default wsi param', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
+
+		const custParams =
+			/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx%26src%3Dtest%26pos%3DTOP_LEADERBOARD/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL with restricted number of ads', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', { numberOfAds: 1 });
+
+		const custParams = /&pmad=1/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL with content source and video ids', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			contentSourceId: '123',
+			videoId: 'abc'
+		});
+
+		const custParams = /&cmsid=123&vid=abc/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL without content source and video ids when at least one is missing', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			contentSourceId: '123'
+		});
+
+		const custParams = /&cmsid=123/;
+
+		expect(vastUrl.match(custParams)).to.not.be.ok;
+	});
+
+	it('build URL without content source and video ids when at least one is missing', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			videoId: 'abc'
+		});
+
+		const custParams = /&vid=abc/;
+
+		expect(vastUrl.match(custParams)).to.not.be.ok;
+	});
+
+	it('build URL with preroll video position', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			vpos: 'preroll'
+		});
+
+		const custParams = /&vpos=preroll/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL with midroll video position', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			vpos: 'midroll'
+		});
+
+		const custParams = /&vpos=midroll/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL with postroll video position', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			vpos: 'postroll'
+		});
+
+		const custParams = /&vpos=postroll/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL without video position', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD', {
+			vpos: 'invalid'
+		});
+
+		const custParams = /&vpos=/;
+
+		expect(vastUrl.match(custParams)).to.not.be.ok;
+	});
 });
