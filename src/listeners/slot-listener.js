@@ -52,7 +52,7 @@ function getData({ adType, event }) {
 			data.line_item_id = response.lineItemId;
 		}
 
-		if (event.size) {
+		if (event.size && event.size.length) {
 			data.creative_size = event.size.join('x');
 		}
 	}
