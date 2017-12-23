@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import AdSlot from '../../../../../src/models/ad-slot';
-import Context from '../../../../../src/services/context-service';
+import { AdSlot } from '../../../../../src/models/ad-slot';
+import { context } from '../../../../../src/services/context-service';
 import ConfigMock from '../../../../config-mock';
-import GoogleImaSetup from '../../../../../src/video/player/porvata/ima/google-ima-setup';
-import SlotService from '../../../../../src/services/slot-service';
+import { googleImaSetup } from '../../../../../src/video/player/porvata/ima/google-ima-setup';
+import { slotService } from '../../../../../src/services/slot-service';
 
 describe('google-ima-setup', () => {
 	beforeEach(() => {
@@ -16,12 +16,12 @@ describe('google-ima-setup', () => {
 				}
 			}
 		};
-		Context.extend(ConfigMock);
-		SlotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		context.extend(ConfigMock);
+		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
 	});
 
 	it('create request', () => {
-		const request = GoogleImaSetup.createRequest({
+		const request = googleImaSetup.createRequest({
 			vastUrl: '/foo/bar',
 			height: 25,
 			slotName: 'TOP_LEADERBOARD',
@@ -34,7 +34,7 @@ describe('google-ima-setup', () => {
 	});
 
 	it('get rendering settings', () => {
-		const settings = GoogleImaSetup.getRenderingSettings();
+		const settings = googleImaSetup.getRenderingSettings();
 
 		expect(settings.enablePreloading).to.equal(true);
 		expect(settings.uiElements.length).to.equal(0);
@@ -43,7 +43,7 @@ describe('google-ima-setup', () => {
 	});
 
 	it('get rendering settings with different load timeout', () => {
-		const settings = GoogleImaSetup.getRenderingSettings({
+		const settings = googleImaSetup.getRenderingSettings({
 			loadVideoTimeout: 10000
 		});
 

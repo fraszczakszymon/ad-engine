@@ -1,13 +1,13 @@
-import Context from '../services/context-service';
+import { context } from '../services';
 
-export default class {
-	static build(string, parameters = {}) {
+class StringBuilder {
+	build(string, parameters = {}) {
 		const matches = string.match(/{(.+?)}/g);
 
 		if (matches) {
 			matches.forEach((match) => {
 				const key = match.replace('{', '').replace('}', ''),
-					fallbackValue = Context.get(key),
+					fallbackValue = context.get(key),
 					keySegments = key.split('.');
 
 				let index,
@@ -34,3 +34,5 @@ export default class {
 		return string;
 	}
 }
+
+export const stringBuilder = new StringBuilder();

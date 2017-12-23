@@ -1,12 +1,12 @@
 /* global Storage */
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 const logGroup = 'local-cache';
 
 let canUseStorage;
 
-export default class LocalCache {
-	static canUseStorage() {
+class LocalCache {
+	canUseStorage() {
 		if (typeof canUseStorage === 'undefined') {
 			canUseStorage = false;
 			if (window.localStorage) {
@@ -37,7 +37,7 @@ export default class LocalCache {
 		return canUseStorage;
 	}
 
-	static createPolyfill() {
+	createPolyfill() {
 		logger(logGroup, 'Local Storage polyfill being created');
 		Storage.prototype.data = {};
 
@@ -58,8 +58,8 @@ export default class LocalCache {
 		};
 	}
 
-	static get(key) {
-		if (!LocalCache.canUseStorage()) {
+	get(key) {
+		if (!this.canUseStorage()) {
 			return false;
 		}
 
@@ -70,8 +70,8 @@ export default class LocalCache {
 			cacheItem = JSON.parse(cacheItem);
 
 			// Check if item has expired
-			if (LocalCache.isExpired(cacheItem)) {
-				LocalCache.delete(key);
+			if (this.isExpired(cacheItem)) {
+				this.delete(key);
 				return false;
 			}
 
@@ -81,8 +81,8 @@ export default class LocalCache {
 		return false;
 	}
 
-	static set(key, value, expires = null) {
-		if (!LocalCache.canUseStorage() || !LocalCache.isStorable(value)) {
+	set(key, value, expires = null) {
+		if (!this.canUseStorage() || !this.isStorable(value)) {
 			return false;
 		}
 
@@ -104,15 +104,15 @@ export default class LocalCache {
 		return true;
 	}
 
-	static delete(key) {
-		if (!LocalCache.canUseStorage()) {
+	delete(key) {
+		if (!this.canUseStorage()) {
 			return;
 		}
 
 		window.localStorage.removeItem(key);
 	}
 
-	static isStorable(value) {
+	isStorable(value) {
 		if (
 			// Functions might be a security risk
 			typeof value === 'function' ||
@@ -127,7 +127,9 @@ export default class LocalCache {
 		return true;
 	}
 
-	static isExpired(cacheItem) {
+	isExpired(cacheItem) {
 		return cacheItem.expires && Date.now() >= parseInt(cacheItem.expires, 10);
 	}
 }
+
+export const localCache = new LocalCache();

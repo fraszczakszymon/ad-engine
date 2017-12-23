@@ -1,4 +1,4 @@
-export default function defer(fn, ...args) {
+export function defer(fn, ...args) {
 	if (typeof fn !== 'function') {
 		throw new Error('Expected a function.');
 	}

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import Context from '../../src/services/context-service';
-import PorvataListener from '../../src/listeners/porvata-listener';
+import { context } from '../../src/services/context-service';
+import { PorvataListener } from '../../src/listeners/porvata-listener';
 
 function getListener() {
 	return {
@@ -45,7 +45,7 @@ let customListener;
 describe('porvata-listener', () => {
 	beforeEach(() => {
 		customListener = getListener();
-		Context.extend({
+		context.extend({
 			listeners: {
 				porvata: [
 					customListener

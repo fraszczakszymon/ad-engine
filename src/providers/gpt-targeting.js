@@ -1,8 +1,8 @@
-import Context from '../services/context-service';
+import { context } from '../services';
 
 export function setupGptTargeting() {
 	const tag = window.googletag.pubads(),
-		targeting = Context.get('targeting');
+		targeting = context.get('targeting');
 
 	function setTargetingValue(key, value) {
 		if (typeof value === 'function') {
@@ -16,7 +16,7 @@ export function setupGptTargeting() {
 		setTargetingValue(key, targeting[key]);
 	});
 
-	Context.onChange('targeting', (trigger, value) => {
+	context.onChange('targeting', (trigger, value) => {
 		const segments = trigger.split('.'),
 			key = segments[segments.length - 1];
 

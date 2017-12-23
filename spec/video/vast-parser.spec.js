@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import Context from '../../src/services/context-service';
-import VastParser from '../../src/video/vast-parser';
+import { context } from '../../src/services/context-service';
+import { vastParser } from '../../src/video/vast-parser';
 
 const dummyVast = 'dummy.vast?sz=640x480&foo=bar&cust_params=foo1%3Dbar1%26foo2%3Dbar2&vpos=preroll';
 
@@ -16,7 +16,7 @@ function getImaAd(wrapperIds = [], wrapperCreativeIds = []) {
 
 describe('vast-parser', () => {
 	beforeEach(() => {
-		Context.extend({
+		context.extend({
 			vast: {
 				adUnitId: '/5441/wka.fandom/{src}/{pos}'
 			},
@@ -31,26 +31,26 @@ describe('vast-parser', () => {
 	});
 
 	it('parse custom parameters from VAST url', () => {
-		const adInfo = VastParser.parse(dummyVast);
+		const adInfo = vastParser.parse(dummyVast);
 
 		expect(adInfo.customParams.foo1).to.equal('bar1');
 		expect(adInfo.customParams.foo2).to.equal('bar2');
 	});
 
 	it('parse size from VAST url', () => {
-		const adInfo = VastParser.parse(dummyVast);
+		const adInfo = vastParser.parse(dummyVast);
 
 		expect(adInfo.size).to.equal('640x480');
 	});
 
 	it('parse position from VAST url', () => {
-		const adInfo = VastParser.parse(dummyVast);
+		const adInfo = vastParser.parse(dummyVast);
 
 		expect(adInfo.position).to.equal('preroll');
 	});
 
 	it('current ad info is not set by default', () => {
-		const adInfo = VastParser.parse(dummyVast);
+		const adInfo = vastParser.parse(dummyVast);
 
 		expect(adInfo.contentType).to.equal(undefined);
 		expect(adInfo.creativeId).to.equal(undefined);
@@ -58,7 +58,7 @@ describe('vast-parser', () => {
 	});
 
 	it('current ad info is passed from base object', () => {
-		const adInfo = VastParser.parse(dummyVast, {
+		const adInfo = vastParser.parse(dummyVast, {
 			contentType: 'video/mp4',
 			creativeId: '123',
 			lineItemId: '456'
@@ -70,7 +70,7 @@ describe('vast-parser', () => {
 	});
 
 	it('current ad info from IMA object', () => {
-		const adInfo = VastParser.parse(dummyVast, {
+		const adInfo = vastParser.parse(dummyVast, {
 			contentType: 'video/mp4',
 			creativeId: '123',
 			imaAd: getImaAd(),
@@ -83,7 +83,7 @@ describe('vast-parser', () => {
 	});
 
 	it('current ad info from IMA object', () => {
-		const adInfo = VastParser.parse(dummyVast, {
+		const adInfo = vastParser.parse(dummyVast, {
 			contentType: 'video/mp4',
 			creativeId: '123',
 			imaAd: getImaAd(['222', '333'], ['555', '666']),

@@ -1,13 +1,13 @@
-import MessageBus from './message-bus';
-import SlotService from './slot-service';
-import { logger } from '../utils/logger';
+import { messageBus } from './message-bus';
+import { slotService } from './slot-service';
+import { logger } from '../utils';
 
 const logGroup = 'slot-tweaker';
 
-export default {
+class SlotTweaker {
 	forceRepaint(domElement) {
 		return domElement.offsetWidth;
-	},
+	}
 
 	getContainer(adSlot) {
 		const container = document.getElementById(adSlot.getId());
@@ -17,7 +17,7 @@ export default {
 		}
 
 		return container;
-	},
+	}
 
 	hide(adSlot) {
 		const container = this.getContainer(adSlot);
@@ -26,7 +26,7 @@ export default {
 			logger(logGroup, 'hide', adSlot.getId());
 			container.classList.add('hide');
 		}
-	},
+	}
 
 	show(adSlot) {
 		const container = this.getContainer(adSlot);
@@ -35,7 +35,7 @@ export default {
 			logger(logGroup, 'show', adSlot.getId());
 			container.classList.remove('hide');
 		}
-	},
+	}
 
 	collapse(adSlot) {
 		const container = this.getContainer(adSlot);
@@ -44,7 +44,7 @@ export default {
 		this.forceRepaint(container);
 		container.classList.add('slot-animation');
 		container.style.maxHeight = '0';
-	},
+	}
 
 	expand(adSlot) {
 		const container = this.getContainer(adSlot);
@@ -53,7 +53,7 @@ export default {
 		container.classList.remove('hide');
 		container.classList.add('slot-animation');
 		container.style.maxHeight = `${container.scrollHeight}px`;
-	},
+	}
 
 	makeResponsive(adSlot, aspectRatio = null) {
 		const slotContainer = this.getContainer(adSlot);
@@ -74,7 +74,7 @@ export default {
 				container.style.paddingBottom = `${100 / aspectRatio}%`;
 				return iframe;
 			});
-	},
+	}
 
 	onReady(adSlot) {
 		const container = this.getContainer(adSlot),
@@ -91,10 +91,10 @@ export default {
 				iframe.addEventListener('load', () => resolve(iframe));
 			}
 		});
-	},
+	}
 
 	registerMessageListener() {
-		MessageBus.register({
+		messageBus.register({
 			keys: ['action', 'slotName'],
 			infinite: true
 		}, (data) => {
@@ -103,7 +103,7 @@ export default {
 				return;
 			}
 
-			const adSlot = SlotService.getBySlotName(data.slotName);
+			const adSlot = slotService.getBySlotName(data.slotName);
 
 			switch (data.action) {
 				case 'expand':
@@ -125,7 +125,7 @@ export default {
 					logger(logGroup, 'Unknown action', data.action);
 			}
 		});
-	},
+	}
 
 	setDataParam(adSlot, attrName, data) {
 		const container = this.getContainer(adSlot);
@@ -135,4 +135,6 @@ export default {
 			JSON.stringify(data);
 	}
 
-};
+}
+
+export const slotTweaker = new SlotTweaker();

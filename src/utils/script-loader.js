@@ -1,4 +1,4 @@
-export default {
+class ScriptLoader {
 	createScript(src, type = 'text/javascript', isAsync = true, node = null) {
 		const script = document.createElement('script');
 
@@ -9,7 +9,7 @@ export default {
 		node.parentNode.insertBefore(script, node);
 
 		return script;
-	},
+	}
 
 	loadScript(src, type = 'text/javascript', isAsync = true, node = null) {
 		return new Promise((resolve, reject) => {
@@ -19,4 +19,6 @@ export default {
 			script.onerror = reject;
 		});
 	}
-};
+}
+
+export const scriptLoader = new ScriptLoader();

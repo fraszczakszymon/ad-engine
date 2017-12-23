@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import SlotDataParamsUpdater from '../../src/services/slot-data-params-updater';
+import { slotDataParamsUpdater } from '../../src/services/slot-data-params-updater';
 
 function mockAdSlot(sizes) {
 	return { getSizes: () => sizes };
@@ -9,7 +9,7 @@ describe('slot-data-params-updater', () => {
 	it('adding correct size values', () => {
 		const sizes = [{ viewportSize: [728, 0], sizes: [[728, 90]] }];
 
-		expect(SlotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
+		expect(slotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
 			.to.equal('{"728x0":[[728,90]]}');
 	});
 
@@ -18,7 +18,7 @@ describe('slot-data-params-updater', () => {
 			{ viewportSize: [728, 0], sizes: [[728, 90], [300, 250]] }
 		];
 
-		expect(SlotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
+		expect(slotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
 			.to.equal('{"728x0":[[728,90],[300,250]]}');
 	});
 
@@ -28,7 +28,7 @@ describe('slot-data-params-updater', () => {
 			{ viewportSize: [768, 0], sizes: [[300, 250], [300, 600]] }
 		];
 
-		expect(SlotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
+		expect(slotDataParamsUpdater.getSlotSizes(mockAdSlot(sizes)))
 			.to.equal('{"728x0":[[728,90],[300,250]],"768x0":[[300,250],[300,600]]}');
 	});
 });

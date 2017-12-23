@@ -1,33 +1,35 @@
-import { makeLazyQueue } from './utils/lazy-queue';
-import { registerCustomAdLoader } from './services/custom-ad-loader';
-import AdSlot from './models/ad-slot';
-import Context from './services/context-service';
-import FloatingAd from './templates/floating-ad';
-import GptProvider from './providers/gpt-provider';
-import MessageBus from './services/message-bus';
-import ScrollListener from './listeners/scroll-listener';
-import SlotService from './services/slot-service';
-import SlotTweaker from './services/slot-tweaker';
-import TemplateService from './services/template-service';
+import { makeLazyQueue } from './utils';
+import { AdSlot } from './models';
+import { FloatingAd } from './templates';
+import { GptProvider } from './providers';
+import { scrollListener } from './listeners';
+import {
+	slotTweaker,
+	slotService,
+	templateService,
+	registerCustomAdLoader,
+	context,
+	messageBus
+} from './services';
 
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
 	if (adSlot.shouldLoad()) {
-		SlotService.add(adSlot);
+		slotService.add(adSlot);
 		provider.fillIn(adSlot);
 	}
 }
 
-export default class AdEngine {
+export class AdEngine {
 	constructor(config = null) {
-		Context.extend(config);
-		this.adStack = Context.get('state.adStack');
+		context.extend(config);
+		this.adStack = context.get('state.adStack');
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
-		TemplateService.register(FloatingAd);
+		templateService.register(FloatingAd);
 	}
 
 	init() {
@@ -40,16 +42,16 @@ export default class AdEngine {
 				provider.flush();
 			}
 		});
-		registerCustomAdLoader(Context.get('options.customAdLoader.globalMethodName'));
-		MessageBus.init();
-		SlotTweaker.registerMessageListener();
+		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
+		messageBus.init();
+		slotTweaker.registerMessageListener();
 		this.adStack.start();
 
-		ScrollListener.init();
+		scrollListener.init();
 
-		if (Context.get('events.pushOnScroll')) {
-			Context.get('events.pushOnScroll.ids').forEach((id) => {
-				ScrollListener.addSlot(this.adStack, id, Context.get('events.pushOnScroll.threshold'));
+		if (context.get('events.pushOnScroll')) {
+			context.get('events.pushOnScroll.ids').forEach((id) => {
+				scrollListener.addSlot(this.adStack, id, context.get('events.pushOnScroll.threshold'));
 			});
 		}
 	}

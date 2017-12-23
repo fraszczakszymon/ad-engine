@@ -1,4 +1,4 @@
-import { logger } from '../utils/logger';
+import { logger } from '../utils';
 
 const callbacks = [],
 	logGroup = 'message-bus';
@@ -47,11 +47,11 @@ function onMessage(message) {
 	}
 }
 
-export default {
-	init: () => {
+class MessageBus {
+	init() {
 		logger(logGroup, 'Register message listener');
 		window.addEventListener('message', onMessage);
-	},
+	}
 
 	register(match, callback) {
 		callbacks.push({
@@ -59,4 +59,6 @@ export default {
 			fn: callback
 		});
 	}
-};
+}
+
+export const messageBus = new MessageBus();

@@ -1,12 +1,11 @@
-import Context from '../services/context-service';
-import SlotService from '../services/slot-service';
+import { context, slotService } from '../services';
 
 const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
 function getCustomParameters(slot, extraTargeting = {}) {
-	const params = Object.assign({}, Context.get('targeting'), slot.getTargeting(), extraTargeting);
+	const params = Object.assign({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(
 		Object.keys(params)
@@ -20,7 +19,7 @@ function isNumeric(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-export function build(aspectRatio, slotName, options = {}) {
+export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
 			'output=vast',
 			'env=vp',
@@ -32,7 +31,7 @@ export function build(aspectRatio, slotName, options = {}) {
 			`description_url=${encodeURIComponent(window.location.href)}`,
 			`correlator=${correlator}`
 		],
-		slot = SlotService.getBySlotName(slotName);
+		slot = slotService.getBySlotName(slotName);
 
 	if (slot) {
 		params.push(`iu=${slot.getVideoAdUnit()}`);

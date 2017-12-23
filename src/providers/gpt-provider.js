@@ -1,9 +1,7 @@
-import { logger } from '../utils/logger';
-import { makeLazyQueue } from '../utils/lazy-queue';
+import { logger, makeLazyQueue } from '../utils';
 import { setupGptTargeting } from './gpt-targeting';
-import SlotListener from './../listeners/slot-listener';
-import SlotService from './../services/slot-service';
-import SlotDataParamsUpdater from '../services/slot-data-params-updater';
+import { slotListener } from '../listeners';
+import { slotService, slotDataParamsUpdater } from '../services';
 
 const logGroup = 'gpt-provider',
 	slotsQueue = [];
@@ -15,9 +13,9 @@ let atfEnded = false,
 function finishAtf() {
 	atfEnded = true;
 	if (window.ads.runtime.disableBtf) {
-		SlotService.forEach((adSlot) => {
+		slotService.forEach((adSlot) => {
 			if (!adSlot.isAboveTheFold()) {
-				SlotService.disable(adSlot.getSlotName());
+				slotService.disable(adSlot.getSlotName());
 			}
 		});
 	}
@@ -31,7 +29,7 @@ function configure() {
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', (event) => {
 		const id = event.slot.getSlotElementId(),
-			slot = SlotService.get(id);
+			slot = slotService.get(id);
 
 		if (!atfEnded && slot.isAboveTheFold()) {
 			finishAtf();
@@ -40,15 +38,15 @@ function configure() {
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
 		setTimeout(() => {
-			SlotListener.emitRenderEnded(event, slot);
+			slotListener.emitRenderEnded(event, slot);
 		}, 0);
 	});
 
 	tag.addEventListener('impressionViewable', (event) => {
 		const id = event.slot.getSlotElementId(),
-			slot = SlotService.get(id);
+			slot = slotService.get(id);
 
-		SlotListener.emitImpressionViewable(event, slot);
+		slotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
 }
@@ -68,7 +66,7 @@ function shouldPush(adSlot) {
 	return true;
 }
 
-export default class Gpt {
+export class GptProvider {
 	constructor() {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
@@ -110,7 +108,7 @@ export default class Gpt {
 				.defineSizeMapping(sizeMapping.build());
 
 			this.applyTargetingParams(gptSlot, targeting);
-			SlotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
 			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);

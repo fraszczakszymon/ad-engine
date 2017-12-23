@@ -1,4 +1,4 @@
-import ScrollListener from '../listeners/scroll-listener';
+import { scrollListener } from '../listeners';
 import { isInViewport } from './dimensions';
 
 function updateInViewport(listener) {
@@ -22,17 +22,17 @@ function addListener(element, callback, params = {}) {
 			updateInViewport(listener);
 		};
 
-	listener.id = ScrollListener.addCallback(updateCallback);
+	listener.id = scrollListener.addCallback(updateCallback);
 	updateCallback();
 
 	return listener.id;
 }
 
 function removeListener(listenerId) {
-	ScrollListener.removeCallback(listenerId);
+	scrollListener.removeCallback(listenerId);
 }
 
-export default {
+export const viewportObserver = {
 	addListener,
 	removeListener
 };
