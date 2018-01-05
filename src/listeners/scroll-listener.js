@@ -1,6 +1,7 @@
 import { getTopOffset } from '../utils/dimensions';
 
 const callbacks = {};
+const throttledCallbacks = {};
 
 function getUniqueId() {
 	return ((1 + Math.random()) * 0x1000000).toString(16).substring(1);
@@ -14,13 +15,17 @@ function pushSlot(adStack, node) {
 
 export default class ScrollListener {
 	static init() {
-		document.addEventListener('scroll', event => window.requestAnimationFrame(() => {
+		document.addEventListener('scroll', (event) => {
 			Object.keys(callbacks).forEach((id) => {
-				if (typeof callbacks[id] === 'function') {
-					callbacks[id](event, id);
-				}
+				callbacks[id](event, id);
 			});
-		}));
+
+			window.requestAnimationFrame(() => {
+				Object.keys(throttledCallbacks).forEach((id) => {
+					throttledCallbacks[id](event, id);
+				});
+			});
+		});
 	}
 
 	static addSlot(adStack, id, threshold = 0) {
@@ -42,14 +47,19 @@ export default class ScrollListener {
 		});
 	}
 
-	static addCallback(callback) {
+	static addCallback(callback, throttle = true) {
 		const id = getUniqueId();
-		callbacks[id] = callback;
+
+		(throttle ? throttledCallbacks : callbacks)[id] = callback;
 
 		return id;
 	}
 
 	static removeCallback(id) {
-		delete callbacks[id];
+		if (callbacks[id]) {
+			delete callbacks[id];
+		} else {
+			delete throttledCallbacks[id];
+		}
 	}
 }
