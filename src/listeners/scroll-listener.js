@@ -1,7 +1,6 @@
 import { getTopOffset } from '../utils/dimensions';
 
 const callbacks = {};
-const throttledCallbacks = {};
 
 function getUniqueId() {
 	return ((1 + Math.random()) * 0x1000000).toString(16).substring(1);
@@ -18,15 +17,13 @@ export default class ScrollListener {
 		let requestAnimationFrameHandleAdded = false;
 
 		document.addEventListener('scroll', (event) => {
-			Object.keys(callbacks).forEach((id) => {
-				callbacks[id](event, id);
-			});
-
 			if (!requestAnimationFrameHandleAdded) {
 				window.requestAnimationFrame(() => {
 					requestAnimationFrameHandleAdded = false;
-					Object.keys(throttledCallbacks).forEach((id) => {
-						throttledCallbacks[id](event, id);
+					Object.keys(callbacks).forEach((id) => {
+						if (typeof callbacks[id] === 'function') {
+							callbacks[id](event, id);
+						}
 					});
 				});
 				requestAnimationFrameHandleAdded = true;
@@ -53,19 +50,14 @@ export default class ScrollListener {
 		});
 	}
 
-	static addCallback(callback, throttle = true) {
+	static addCallback(callback) {
 		const id = getUniqueId();
-
-		(throttle ? throttledCallbacks : callbacks)[id] = callback;
+		callbacks[id] = callback;
 
 		return id;
 	}
 
 	static removeCallback(id) {
-		if (callbacks[id]) {
-			delete callbacks[id];
-		} else {
-			delete throttledCallbacks[id];
-		}
+		delete callbacks[id];
 	}
 }
