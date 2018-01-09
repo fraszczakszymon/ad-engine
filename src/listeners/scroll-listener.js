@@ -15,16 +15,22 @@ function pushSlot(adStack, node) {
 
 export default class ScrollListener {
 	static init() {
+		let requestAnimationFrameHandleAdded = false;
+
 		document.addEventListener('scroll', (event) => {
 			Object.keys(callbacks).forEach((id) => {
 				callbacks[id](event, id);
 			});
 
-			window.requestAnimationFrame(() => {
-				Object.keys(throttledCallbacks).forEach((id) => {
-					throttledCallbacks[id](event, id);
+			if (!requestAnimationFrameHandleAdded) {
+				window.requestAnimationFrame(() => {
+					requestAnimationFrameHandleAdded = false;
+					Object.keys(throttledCallbacks).forEach((id) => {
+						throttledCallbacks[id](event, id);
+					});
 				});
-			});
+				requestAnimationFrameHandleAdded = true;
+			}
 		});
 	}
 
