@@ -6,6 +6,9 @@ module.exports = {
 		'slots/animations': [
 			'./examples/slots/animations/script.js'
 		],
+		'slots/empty-response': [
+			'./examples/slots/empty-response/script.js'
+		],
 		'templates/floating-ad': [
 			'./examples/templates/floating-ad/script.js'
 		],
