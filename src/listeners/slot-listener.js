@@ -46,8 +46,10 @@ function getData({ adType, event }) {
 		if (event.slot) {
 			const response = event.slot.getResponseInformation();
 
-			data.creative_id = response.creativeId;
-			data.line_item_id = response.lineItemId;
+			if (response) {
+				data.creative_id = response.creativeId;
+				data.line_item_id = response.lineItemId;
+			}
 		}
 
 		if (event.size && event.size.length) {

@@ -1,4 +1,5 @@
 examples/**/dist/bundle.js
+dist/
 node_modules/
 jspm_packages/
 tests/

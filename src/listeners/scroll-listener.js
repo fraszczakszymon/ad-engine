@@ -14,13 +14,21 @@ function pushSlot(adStack, node) {
 
 class ScrollListener {
 	init() {
-		document.addEventListener('scroll', event => window.requestAnimationFrame(() => {
-			Object.keys(callbacks).forEach((id) => {
-				if (typeof callbacks[id] === 'function') {
-					callbacks[id](event, id);
-				}
-			});
-		}));
+		let requestAnimationFrameHandleAdded = false;
+
+		document.addEventListener('scroll', (event) => {
+			if (!requestAnimationFrameHandleAdded) {
+				window.requestAnimationFrame(() => {
+					requestAnimationFrameHandleAdded = false;
+					Object.keys(callbacks).forEach((id) => {
+						if (typeof callbacks[id] === 'function') {
+							callbacks[id](event, id);
+						}
+					});
+				});
+				requestAnimationFrameHandleAdded = true;
+			}
+		});
 	}
 
 	addSlot(adStack, id, threshold = 0) {
