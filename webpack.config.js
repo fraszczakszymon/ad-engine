@@ -6,30 +6,30 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const pkg = require('./package.json');
 
-const isProduction = (process.env.NODE_ENV === 'production');
-const configs = {
-	common: {
-		context: __dirname,
-		module: {
-			rules: [
-				{
-					test: /.js$/,
-					use: 'babel-loader',
-					exclude: /node_modules/
-				}
-			]
-		}
-	},
+const common = {
+	context: __dirname,
+	module: {
+		rules: [
+			{
+				test: /.js$/,
+				use: 'babel-loader',
+				exclude: /node_modules/
+			}
+		]
+	}
+};
+
+const environments = {
 	production: {
 		entry: {
 			'ad-engine': './src/index.js'
 		},
-		externals: Object.keys(pkg.dependencies),
 		devtool: 'source-map',
+		externals: Object.keys(pkg.dependencies),
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: '[name].js',
-			library: 'adengine',
+			library: 'adEngine',
 			libraryTarget: 'commonjs2'
 		},
 		plugins: [
@@ -40,6 +40,7 @@ const configs = {
 	},
 	development: {
 		entry: {
+			'vendor': Object.keys(pkg.dependencies),
 			'slots/animations': './examples/slots/animations/script.js',
 			'slots/empty-response': './examples/slots/empty-response/script.js',
 			'templates/floating-ad': './examples/templates/floating-ad/script.js',
@@ -51,15 +52,37 @@ const configs = {
 			path: path.resolve(__dirname, 'examples'),
 			filename: '[name]/dist/bundle.js'
 		},
+		plugins: [
+			new webpack.optimize.CommonsChunkPlugin({
+				name: "vendor",
+				// filename: "vendor.js"
+				// (Give the chunk a different name)
+			
+				minChunks: 2,
+				// (with more entries, this ensures that no other module
+				//  goes into the vendor chunk)
+			})
+		],
 		resolve: {
 			alias: {
 				[pkg.name]: path.join(__dirname, 'src')
 			}
 		}
-	}
+	},
+	test: {}
 };
 
-module.exports = merge([
-	configs.common,
-	isProduction ? configs.production : configs.development
-]);
+module.exports = function (env) {
+	const isProduction = (process.env.NODE_ENV === 'production') || (env && env.production);
+	const isTest = (env && env.test);
+
+	let environment = environments.development;
+
+	if (isProduction) {
+		environment = environments.production;
+	} else if (isTest) {
+		environment = environments.test;
+	}
+
+	return merge(common, environment);
+};

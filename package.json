@@ -59,16 +59,15 @@
   },
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules",
-    "build-package": "echo './node_modules/webpack/bin/webpack.js --progress --colors --config ./webpack.build.config.js'",
     "casper": "cd tests/ && ../node_modules/casperjs/bin/casperjs test .",
     "ci-check": "npm run test && npm run lint",
     "lint": "./node_modules/.bin/eslint .",
     "prepublishOnly": "./maintenance/prepublish.sh",
     "preversion": "./maintenance/preversion.sh",
-    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --inline --open --watch --content-base=./examples",
-    "tdd": "mocha-webpack -w --full-trace --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register",
-    "test": "mocha-webpack --full-trace --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register",
-    "test-coverage": "nyc mocha-webpack --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml",
+    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
+    "tdd": "mocha-webpack -w --full-trace --webpack-env test './spec/**/*.spec.js' -r jsdom-global/register",
+    "test": "mocha-webpack --full-trace --webpack-env test './spec/**/*.spec.js' -r jsdom-global/register",
+    "test-coverage": "nyc mocha-webpack --webpack-env test './spec/**/*.spec.js' -r jsdom-global/register --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml",
     "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"
   }
 }

@@ -1,6 +1,6 @@
 import { googleImaSetup } from './google-ima-setup';
 import { moatVideoTracker } from '../moat/moat-video-tracker';
-import { VastDebugger } from '../../../vast-debugger';
+import { vastDebugger } from '../../../vast-debugger';
 
 function getVideoElement() {
 	const videoElement = document.createElement('video');
@@ -52,7 +52,7 @@ class GoogleImaPlayer {
 		const currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
 			playerElement = this.params.container.querySelector('.video-player');
 
-		VastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
+		vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 	}
 
 	setAutoPlay(value) {

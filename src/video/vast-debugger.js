@@ -8,8 +8,8 @@ function setAttribute(element, attribute, value) {
 	element.setAttribute(attribute, value);
 }
 
-export class VastDebugger {
-	static setVastAttributes(element, vastUrl, status, imaAd) {
+class VastDebugger {
+	setVastAttributes(element, vastUrl, status, imaAd) {
 		const vastParams = vastParser.parse(vastUrl, {
 			imaAd
 		});
@@ -23,3 +23,5 @@ export class VastDebugger {
 		setAttribute(element, 'data-vast-params', JSON.stringify(vastParams.customParams));
 	}
 }
+
+export const vastDebugger = new VastDebugger();
