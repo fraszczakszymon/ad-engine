@@ -40,7 +40,6 @@ const environments = {
 	},
 	development: {
 		entry: {
-			'vendor': Object.keys(pkg.dependencies),
 			'slots/animations': './examples/slots/animations/script.js',
 			'slots/empty-response': './examples/slots/empty-response/script.js',
 			'templates/floating-ad': './examples/templates/floating-ad/script.js',
@@ -54,13 +53,8 @@ const environments = {
 		},
 		plugins: [
 			new webpack.optimize.CommonsChunkPlugin({
-				name: "vendor",
-				// filename: "vendor.js"
-				// (Give the chunk a different name)
-			
-				minChunks: 2,
-				// (with more entries, this ensures that no other module
-				//  goes into the vendor chunk)
+				name: 'vendor',
+				filename: '[name]/dist/vendor.js'
 			})
 		],
 		resolve: {
