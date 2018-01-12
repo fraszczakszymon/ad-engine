@@ -41,7 +41,7 @@ export default class PorvataListener {
 			listener.onEvent(eventName, this.params, data);
 		});
 
-		if (eventName === PorvataListener.EVENTS.viewable_impression) {
+		if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
 			const adSlot = SlotService.getBySlotName(this.params.position);
 			adSlot.emit(VIDEO_VIEWED_EVENT);
 		}
