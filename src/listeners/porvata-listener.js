@@ -1,5 +1,7 @@
 import Client from '../utils/client';
+import { VIDEO_VIEWED_EVENT } from '../models/ad-slot';
 import Context from '../services/context-service';
+import SlotService from '../services/slot-service';
 import VastParser from '../video/vast-parser';
 import { logger } from '../utils/logger';
 
@@ -38,6 +40,11 @@ export default class PorvataListener {
 		this.listeners.forEach((listener) => {
 			listener.onEvent(eventName, this.params, data);
 		});
+
+		if (eventName === PorvataListener.EVENTS.viewable_impression) {
+			const adSlot = SlotService.getBySlotName(this.params.position);
+			adSlot.emit(VIDEO_VIEWED_EVENT);
+		}
 	}
 
 	getData(eventName, errorCode) {
