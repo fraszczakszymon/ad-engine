@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { spy, createSandbox } from 'sinon';
 import Context from '../../src/services/context-service';
 import PorvataListener from '../../src/listeners/porvata-listener';
-import SlotService from "../../src/services/slot-service";
+import SlotService from '../../src/services/slot-service';
 
 function getListener() {
 	return {
@@ -43,7 +43,7 @@ function mockImaVideo() {
 }
 
 let customListener;
-let sandbox
+let sandbox;
 
 describe('porvata-listener', () => {
 	beforeEach(() => {
@@ -99,7 +99,7 @@ describe('porvata-listener', () => {
 	it('dispatch video viewed event on ad-slot', () => {
 		const listener = new PorvataListener({ adProduct: 'test-video', position: 'abcd' });
 
-		const adSlotMock = {emit: spy(), getSlotName: function() {}};
+		const adSlotMock = { emit: spy(), getSlotName: function () {} };
 
 		sandbox.stub(SlotService, 'getBySlotName').returns(adSlotMock);
 
