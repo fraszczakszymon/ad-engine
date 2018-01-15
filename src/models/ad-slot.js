@@ -5,6 +5,7 @@ import StringBuilder from '../utils/string-builder';
 import TemplateService from '../services/template-service';
 
 export const SLOT_VIEWED_EVENT = 'slotViewed';
+export const VIDEO_VIEWED_EVENT = 'videoViewed';
 
 export default class AdSlot extends EventEmitter {
 	/**

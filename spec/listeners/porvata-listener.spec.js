@@ -1,6 +1,8 @@
 import { expect } from 'chai';
+import { spy, createSandbox } from 'sinon';
 import Context from '../../src/services/context-service';
 import PorvataListener from '../../src/listeners/porvata-listener';
+import SlotService from '../../src/services/slot-service';
 
 function getListener() {
 	return {
@@ -41,9 +43,11 @@ function mockImaVideo() {
 }
 
 let customListener;
+let sandbox;
 
 describe('porvata-listener', () => {
 	beforeEach(() => {
+		sandbox = createSandbox();
 		customListener = getListener();
 		Context.extend({
 			listeners: {
@@ -52,6 +56,10 @@ describe('porvata-listener', () => {
 				]
 			}
 		});
+	});
+
+	afterEach(() => {
+		sandbox.restore();
 	});
 
 	it('dispatch Porvata event with all basic data', () => {
@@ -86,5 +94,17 @@ describe('porvata-listener', () => {
 		expect(data.content_type).to.equal('video/mp4');
 		expect(data.creative_id).to.equal(123);
 		expect(data.line_item_id).to.equal(765);
+	});
+
+	it('dispatch video viewed event on ad-slot', () => {
+		const listener = new PorvataListener({ adProduct: 'test-video', position: 'abcd' });
+
+		const adSlotMock = { emit: spy(), getSlotName: function () {} };
+
+		sandbox.stub(SlotService, 'getBySlotName').returns(adSlotMock);
+
+		listener.dispatch(PorvataListener.EVENTS.viewable_impression);
+
+		expect(adSlotMock.emit.called).to.be.true;
 	});
 });
