@@ -4,6 +4,7 @@ import { stringBuilder } from '../utils';
 
 export class AdSlot extends EventEmitter {
 	static SLOT_VIEWED_EVENT = 'slotViewed';
+	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
 	/**
 	 * Parse the object that's passed from the template to extract more details
