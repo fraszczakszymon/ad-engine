@@ -1,9 +1,6 @@
-import { logger } from '../utils/logger';
-import { SLOT_VIEWED_EVENT } from '../models/ad-slot';
-import Client from '../utils/client';
-import Context from '../services/context-service';
-import SlotTweaker from '../services/slot-tweaker';
-import SlotDataParamsUpdater from '../services/slot-data-params-updater';
+import { logger, client } from '../utils';
+import { AdSlot } from '../models';
+import { context, slotTweaker, slotDataParamsUpdater } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -37,7 +34,7 @@ function getAdType(event, adSlot) {
 
 function getData({ adType, event }) {
 	const data = {
-		browser: `${Client.getOperatingSystem()} ${Client.getBrowser()}`,
+		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		status: adType,
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: (new Date()).getHours(),
@@ -65,7 +62,7 @@ function getData({ adType, event }) {
 
 function dispatch(methodName, adSlot, adInfo = {}) {
 	if (!listeners) {
-		listeners = Context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
+		listeners = context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
 
 	const data = getData(adInfo);
@@ -80,8 +77,8 @@ function dispatch(methodName, adSlot, adInfo = {}) {
 	logger(logGroup, methodName, adSlot, adInfo, data);
 }
 
-export default class SlotListener {
-	static emitRenderEnded(event, adSlot) {
+class SlotListener {
+	emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
 		switch (adType) {
@@ -94,12 +91,14 @@ export default class SlotListener {
 		}
 
 		dispatch('onRenderEnded', adSlot, { adType, event });
-		SlotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
+		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 	}
 
-	static emitImpressionViewable(event, adSlot) {
-		adSlot.emit(SLOT_VIEWED_EVENT);
+	emitImpressionViewable(event, adSlot) {
+		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
 		dispatch('onImpressionViewable', adSlot, { event });
-		SlotTweaker.setDataParam(adSlot, 'slotViewed', true);
+		slotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 }
+
+export const slotListener = new SlotListener();

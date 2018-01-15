@@ -1,4 +1,4 @@
-import VastParser from './vast-parser';
+import { vastParser } from './vast-parser';
 
 function setAttribute(element, attribute, value) {
 	if (!element || !value) {
@@ -8,9 +8,9 @@ function setAttribute(element, attribute, value) {
 	element.setAttribute(attribute, value);
 }
 
-export default class VastDebugger {
-	static setVastAttributes(element, vastUrl, status, imaAd) {
-		const vastParams = VastParser.parse(vastUrl, {
+class VastDebugger {
+	setVastAttributes(element, vastUrl, status, imaAd) {
+		const vastParams = vastParser.parse(vastUrl, {
 			imaAd
 		});
 
@@ -23,3 +23,5 @@ export default class VastDebugger {
 		setAttribute(element, 'data-vast-params', JSON.stringify(vastParams.customParams));
 	}
 }
+
+export const vastDebugger = new VastDebugger();

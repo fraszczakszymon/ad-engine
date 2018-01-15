@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-CURRENT_BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ $CURRENT_BRANCH != "dev" ]; then
 	echo -e "\033[31mYou're not on dev branch\033[0m ($CURRENT_BRANCH)"
@@ -9,7 +9,6 @@ fi
 
 npm run test
 npm run lint
+npm run build --production
 
-echo "FIXME: build ad-engine dist"
-# npm run build-package
-# git add dist/
+git add dist/

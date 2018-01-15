@@ -1,14 +1,14 @@
-import Context from '../../../services/context-service';
-import Sampler from '../../../utils/sampler';
+import { context } from '../../../services';
+import { sampler } from '../../../utils';
 
 function getMoatTrackingStatus(params) {
-	const sampling = Context.get('options.video.moatTracking.sampling');
+	const sampling = context.get('options.video.moatTracking.sampling');
 
 	if (typeof params.moatTracking === 'boolean') {
 		return params.moatTracking;
 	}
 
-	if (!Context.get('options.video.moatTracking.enabled')) {
+	if (!context.get('options.video.moatTracking.enabled')) {
 		return false;
 	}
 
@@ -17,13 +17,13 @@ function getMoatTrackingStatus(params) {
 	}
 
 	if (sampling > 0) {
-		return Sampler.sample('moat_video_tracking', sampling);
+		return sampler.sample('moat_video_tracking', sampling);
 	}
 
 	return false;
 }
 
-export default class VideoSettings {
+export class VideoSettings {
 	constructor(params = {}) {
 		this.params = params;
 		this.moatTracking = getMoatTrackingStatus(params);

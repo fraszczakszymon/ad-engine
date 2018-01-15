@@ -1,12 +1,11 @@
-import Context from '../../../../services/context-service';
-import { logger } from '../../../../utils/logger';
-import QueryString from '../../../../utils/query-string';
-import { build as buildVastUrl } from '../../../vast-url-builder';
+import { context } from '../../../../services';
+import { logger, queryString } from '../../../../utils';
+import { buildVastUrl } from '../../../vast-url-builder';
 
 const logGroup = 'google-ima-setup';
 
 function getOverriddenVast() {
-	if (QueryString.get('porvata_override_vast') === '1') {
+	if (queryString.get('porvata_override_vast') === '1') {
 		const vastXML = window.localStorage.getItem('porvata_vast');
 		logger(logGroup, 'Overridden VAST', vastXML);
 
@@ -37,7 +36,7 @@ function getRenderingSettings(params = {}) {
 	const adsRenderingSettings = new window.google.ima.AdsRenderingSettings(),
 		maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
 
-	if (!Context.get('state.isMobile')) {
+	if (!context.get('state.isMobile')) {
 		adsRenderingSettings.bitrate = maximumRecommendedBitrate;
 	}
 
@@ -48,7 +47,7 @@ function getRenderingSettings(params = {}) {
 	return adsRenderingSettings;
 }
 
-export default {
+export const googleImaSetup = {
 	createRequest,
 	getRenderingSettings
 };

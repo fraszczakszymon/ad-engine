@@ -14,34 +14,34 @@ function getMobileDetect() {
 	return mobileDetect;
 }
 
-export default class Client {
-	static isSmartphone() {
+class Client {
+	isSmartphone() {
 		const device = getMobileDetect();
 
 		return device.mobile();
 	}
 
-	static isTablet() {
+	isTablet() {
 		const device = getMobileDetect();
 
 		return device.tablet();
 	}
 
-	static isDesktop() {
-		return !Client.isSmartphone() && !Client.isTablet();
+	isDesktop() {
+		return !this.isSmartphone() && !this.isTablet();
 	}
 
-	static getDeviceType() {
-		if (Client.isTablet()) {
+	getDeviceType() {
+		if (this.isTablet()) {
 			return 'tablet';
-		} else if (Client.isSmartphone()) {
+		} else if (this.isSmartphone()) {
 			return 'smartphone';
 		}
 
 		return 'desktop';
 	}
 
-	static getOperatingSystem() {
+	getOperatingSystem() {
 		if (operatingSystem !== null) {
 			return operatingSystem;
 		}
@@ -68,7 +68,7 @@ export default class Client {
 		return operatingSystem;
 	}
 
-	static getBrowser() {
+	getBrowser() {
 		if (browser !== null) {
 			return browser;
 		}
@@ -103,3 +103,5 @@ export default class Client {
 		return browser;
 	}
 }
+
+export const client = new Client();

@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import TemplateFake from '../template-fake';
-import TemplateService from '../../src/services/template-service';
+import { templateService } from '../../src/services/template-service';
 
 describe('template-service', () => {
 	it('call not existing template', () => {
 		expect(() => {
-			TemplateService.init('foo', {});
+			templateService.init('foo', {});
 		}).to.throw('Template foo does not exist.');
 	});
 
 	it('call registered template', () => {
-		TemplateService.register(TemplateFake);
+		templateService.register(TemplateFake);
 
-		expect('executed').to.equal(TemplateService.init('fake', {}));
+		expect('executed').to.equal(templateService.init('fake', {}));
 	});
 });

@@ -1,6 +1,6 @@
-import GoogleImaSetup from './google-ima-setup';
-import MoatVideoTracker from '../moat/moat-video-tracker';
-import VastDebugger from '../../../vast-debugger';
+import { googleImaSetup } from './google-ima-setup';
+import { moatVideoTracker } from '../moat/moat-video-tracker';
+import { vastDebugger } from '../../../vast-debugger';
 
 function getVideoElement() {
 	const videoElement = document.createElement('video');
@@ -52,7 +52,7 @@ class GoogleImaPlayer {
 		const currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
 			playerElement = this.params.container.querySelector('.video-player');
 
-		VastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
+		vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 	}
 
 	setAutoPlay(value) {
@@ -84,7 +84,7 @@ class GoogleImaPlayer {
 	}
 
 	reload() {
-		const adRequest = GoogleImaSetup.createRequest(this.params);
+		const adRequest = googleImaSetup.createRequest(this.params);
 
 		this.adsManager.destroy();
 		this.adsLoader.contentComplete();
@@ -127,9 +127,9 @@ class GoogleImaPlayer {
 	}
 }
 
-export default class GoogleImaFactory {
-	static create(adDisplayContainer, adsLoader, videoSettings) {
-		const adRequest = GoogleImaSetup.createRequest(videoSettings.getParams()),
+export const googleImaPlayerFactory = {
+	create(adDisplayContainer, adsLoader, videoSettings) {
+		const adRequest = googleImaSetup.createRequest(videoSettings.getParams()),
 			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
 			videoElement = getVideoElement();
 
@@ -138,12 +138,12 @@ export default class GoogleImaFactory {
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const renderingSettings = GoogleImaSetup.getRenderingSettings(videoSettings),
+			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings),
 				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
 			player.setAdsManager(adsManager);
 
 			if (videoSettings.isMoatTrackingEnabled()) {
-				MoatVideoTracker.init(
+				moatVideoTracker.init(
 					adsManager,
 					videoSettings.getContainer(),
 					window.google.ima.ViewMode.NORMAL,
@@ -172,4 +172,4 @@ export default class GoogleImaFactory {
 
 		return player;
 	}
-}
+};

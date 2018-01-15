@@ -1,9 +1,11 @@
-import AdSlot from 'ad-engine/models/ad-slot';
-import Context from 'ad-engine/services/context-service';
-import Client from 'ad-engine/utils/client';
-import Porvata from 'ad-engine/video/player/porvata/porvata';
-import ScrollListener from 'ad-engine/listeners/scroll-listener';
-import SlotService from 'ad-engine/services/slot-service';
+import {
+	AdSlot,
+	slotService,
+	context,
+	scrollListener,
+	Porvata,
+	utils
+} from '@wikia/ad-engine';
 import adContext from '../../context';
 
 const container = document.getElementById('player'),
@@ -16,27 +18,27 @@ const container = document.getElementById('player'),
 		slotName: 'OUTSTREAM'
 	};
 
-Context.extend(adContext);
-Context.set('targeting.artid', 292);
-Context.set('targeting.vertical', 'games');
-Context.set('custom.device', Client.getDeviceType());
-Context.set('custom.adLayout', 'article');
+context.extend(adContext);
+context.set('targeting.artid', 292);
+context.set('targeting.vertical', 'games');
+context.set('custom.device', utils.client.getDeviceType());
+context.set('custom.adLayout', 'article');
 
-SlotService.add(new AdSlot({ id: 'gpt-top-video' }));
+slotService.add(new AdSlot({ id: 'gpt-top-video' }));
 
-ScrollListener.init();
+scrollListener.init();
 Porvata.inject(params)
-	.then((video) => {
+	.then((_video) => {
 		const player = document.querySelector('.video-player');
 
-		video.addEventListener('loaded', () => {
+		_video.addEventListener('loaded', () => {
 			player.classList.remove('hide');
 		});
-		video.addEventListener('wikiaAdCompleted', () => {
+		_video.addEventListener('wikiaAdCompleted', () => {
 			player.classList.add('hide');
-			video.reload();
+			_video.reload();
 		});
 		container.addEventListener('click', () => {
-			video.play();
+			_video.play();
 		});
 	});

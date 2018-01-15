@@ -14,7 +14,7 @@ export function whichProperty(obj, properties = []) {
 	return null;
 }
 
-export default function tryProperty(obj, properties = []) {
+export function tryProperty(obj, properties = []) {
 	const property = whichProperty(obj, properties);
 
 	if (property !== null) {

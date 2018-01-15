@@ -1,7 +1,7 @@
-import { getTopOffset } from '../utils/dimensions';
-import ScrollListener from '../listeners/scroll-listener';
+import { getTopOffset } from '../utils';
+import { scrollListener } from '../listeners';
 
-export default class FloatingAd {
+export class FloatingAd {
 	static getName() {
 		return 'floating-ad';
 	}
@@ -24,7 +24,7 @@ export default class FloatingAd {
 			return;
 		}
 
-		ScrollListener.addCallback(() => {
+		scrollListener.addCallback(() => {
 			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			container = slotNode.parentNode;

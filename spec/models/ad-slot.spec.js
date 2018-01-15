@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import AdSlot from '../../src/models/ad-slot';
-import Context from '../../src/services/context-service';
+import { AdSlot } from '../../src/models/ad-slot';
+import { context } from '../../src/services/context-service';
 import ConfigMock from '../config-mock';
 
 
 describe('ad-slot', () => {
 	beforeEach(() => {
-		Context.extend(ConfigMock);
+		context.extend(ConfigMock);
 	});
 
 	it('exception when id is wrong', () => {
@@ -31,7 +31,7 @@ describe('ad-slot', () => {
 	});
 
 	it('home ad unit', () => {
-		Context.set('custom.pageType', 'home');
+		context.set('custom.pageType', 'home');
 		const adSlot = new AdSlot({
 			id: 'gpt-top-leaderboard'
 		});
@@ -40,7 +40,7 @@ describe('ad-slot', () => {
 	});
 
 	it('vertical ad unit', () => {
-		Context.set('custom.pageType', 'vertical');
+		context.set('custom.pageType', 'vertical');
 		const adSlot = new AdSlot({
 			id: 'gpt-top-leaderboard'
 		});
@@ -49,7 +49,7 @@ describe('ad-slot', () => {
 	});
 
 	it('with article ad unit', () => {
-		Context.set('custom.pageType', 'article');
+		context.set('custom.pageType', 'article');
 		const adSlot = new AdSlot({
 			id: 'gpt-top-boxad'
 		});
@@ -58,7 +58,7 @@ describe('ad-slot', () => {
 	});
 
 	it('with other ad unit', () => {
-		Context.set('custom.pageType', 'other');
+		context.set('custom.pageType', 'other');
 		const adSlot = new AdSlot({
 			id: 'gpt-top-skin'
 		});
@@ -71,10 +71,10 @@ describe('ad-slot', () => {
 			id: 'gpt-top-leaderboard-mobile'
 		});
 
-		Context.set('state.isMobile', true);
+		context.set('state.isMobile', true);
 		expect(mobileAd.shouldLoad()).to.be.true;
 
-		Context.set('state.isMobile', false);
+		context.set('state.isMobile', false);
 		expect(mobileAd.shouldLoad()).to.be.false;
 	});
 
@@ -83,10 +83,10 @@ describe('ad-slot', () => {
 			id: 'gpt-top-leaderboard-desktop'
 		});
 
-		Context.set('state.isMobile', true);
+		context.set('state.isMobile', true);
 		expect(desktopAd.shouldLoad()).to.be.false;
 
-		Context.set('state.isMobile', false);
+		context.set('state.isMobile', false);
 		expect(desktopAd.shouldLoad()).to.be.true;
 	});
 
@@ -95,10 +95,10 @@ describe('ad-slot', () => {
 			id: 'gpt-top-leaderboard'
 		});
 
-		Context.set('state.isMobile', true);
+		context.set('state.isMobile', true);
 		expect(adSlot.shouldLoad()).to.be.true;
 
-		Context.set('state.isMobile', false);
+		context.set('state.isMobile', false);
 		expect(adSlot.shouldLoad()).to.be.true;
 	});
 });

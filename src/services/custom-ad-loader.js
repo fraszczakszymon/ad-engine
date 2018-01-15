@@ -1,10 +1,10 @@
-import SlotService from './slot-service';
-import TemplateService from './template-service';
+import { slotService } from './slot-service';
+import { templateService } from './template-service';
 
 export function registerCustomAdLoader(methodName) {
 	window[methodName] = (params) => {
-		const slot = SlotService.getBySlotName(params.slotName);
+		const slot = slotService.getBySlotName(params.slotName);
 
-		TemplateService.init(params.type, slot, params);
+		templateService.init(params.type, slot, params);
 	};
 }

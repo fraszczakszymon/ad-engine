@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import AdSlot from '../../src/models/ad-slot';
-import Context from '../../src/services/context-service';
-import SlotService from '../../src/services/slot-service';
-import { build as buildVastUrl } from '../../src/video/vast-url-builder';
+import { AdSlot } from '../../src/models/ad-slot';
+import { context } from '../../src/services/context-service';
+import { slotService } from '../../src/services/slot-service';
+import { buildVastUrl } from '../../src/video/vast-url-builder';
 
 describe('vast-url-builder', () => {
 	beforeEach(() => {
-		Context.extend({
+		context.extend({
 			src: 'test',
 			vast: {
 				adUnitId: '/5441/wka.fandom/{src}/{slotConfig.slotName}'
@@ -24,7 +24,7 @@ describe('vast-url-builder', () => {
 				wsi: 'xxxx'
 			}
 		});
-		SlotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
 	});
 
 	it('build URL with DFP domain', () => {

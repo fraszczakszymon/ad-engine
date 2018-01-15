@@ -1,15 +1,33 @@
-import Client from '../utils/client';
-import { VIDEO_VIEWED_EVENT } from '../models/ad-slot';
-import Context from '../services/context-service';
-import SlotService from '../services/slot-service';
-import VastParser from '../video/vast-parser';
-import { logger } from '../utils/logger';
+import { client, logger } from '../utils';
+import { context, slotService } from '../services';
+import { AdSlot } from '../models';
+import { vastParser } from '../video';
 
 function getListeners() {
-	return Context.get('listeners.porvata');
+	return context.get('listeners.porvata');
 }
 
-export default class PorvataListener {
+export class PorvataListener {
+	static EVENTS = {
+		adCanPlay: 'ad_can_play',
+		complete: 'completed',
+		click: 'clicked',
+		firstquartile: 'first_quartile',
+		impression: 'impression',
+		loaded: 'loaded',
+		midpoint: 'midpoint',
+		pause: 'paused',
+		resume: 'resumed',
+		start: 'started',
+		thirdquartile: 'third_quartile',
+		viewable_impression: 'viewable_impression',
+		adError: 'error',
+		wikiaAdPlayTriggered: 'play_triggered',
+		wikiaAdStop: 'closed'
+	};
+	static LOG_GROUP = 'porvata-listener';
+	static PLAYER_NAME = 'porvata';
+
 	constructor(params) {
 		this.params = params;
 		this.listeners = getListeners().filter(listener => !listener.isEnabled || listener.isEnabled());
@@ -42,19 +60,19 @@ export default class PorvataListener {
 		});
 
 		if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
-			const adSlot = SlotService.getBySlotName(this.params.position);
-			adSlot.emit(VIDEO_VIEWED_EVENT);
+			const adSlot = slotService.getBySlotName(this.params.position);
+			adSlot.emit(AdSlot.VIDEO_VIEWED_EVENT);
 		}
 	}
 
 	getData(eventName, errorCode) {
 		const imaAd = this.video && this.video.ima.getAdsManager() && this.video.ima.getAdsManager().getCurrentAd(),
-			{ contentType, creativeId, lineItemId } = VastParser.getAdInfo(imaAd);
+			{ contentType, creativeId, lineItemId } = vastParser.getAdInfo(imaAd);
 
 		return {
 			ad_error_code: errorCode,
 			ad_product: this.params.adProduct,
-			browser: `${Client.getOperatingSystem()} ${Client.getBrowser()}`,
+			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 			content_type: contentType || '(none)',
 			creative_id: creativeId || 0,
 			event_name: eventName,
@@ -65,25 +83,3 @@ export default class PorvataListener {
 		};
 	}
 }
-
-Object.assign(PorvataListener, {
-	EVENTS: {
-		adCanPlay: 'ad_can_play',
-		complete: 'completed',
-		click: 'clicked',
-		firstquartile: 'first_quartile',
-		impression: 'impression',
-		loaded: 'loaded',
-		midpoint: 'midpoint',
-		pause: 'paused',
-		resume: 'resumed',
-		start: 'started',
-		thirdquartile: 'third_quartile',
-		viewable_impression: 'viewable_impression',
-		adError: 'error',
-		wikiaAdPlayTriggered: 'play_triggered',
-		wikiaAdStop: 'closed'
-	},
-	LOG_GROUP: 'porvata-listener',
-	PLAYER_NAME: 'porvata'
-});

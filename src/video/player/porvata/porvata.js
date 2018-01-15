@@ -1,8 +1,7 @@
-import GoogleIma from './ima/google-ima';
-import PorvataListener from '../../../listeners/porvata-listener';
-import VideoSettings from './video-settings';
-import ViewportObserver from '../../../utils/viewport-observer';
-import tryProperty, { whichProperty } from '../../../utils/try-property';
+import { googleIma } from './ima/google-ima';
+import { PorvataListener } from '../../../listeners';
+import { VideoSettings } from './video-settings';
+import { viewportObserver, tryProperty, whichProperty } from '../../../utils';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
@@ -197,14 +196,14 @@ export class PorvataPlayer {
 	}
 }
 
-export default class Porvata {
+export class Porvata {
 
 	/**
 	 * @private
 	 * @returns listener id
 	 */
 	static addOnViewportChangeListener(params, listener) {
-		return ViewportObserver.addListener(params.container, listener, {
+		return viewportObserver.addListener(params.container, listener, {
 			offsetTop: params.viewportOffsetTop || 0,
 			offsetBottom: params.viewportOffsetBottom || 0
 		});
@@ -238,8 +237,8 @@ export default class Porvata {
 
 		porvataListener.init();
 
-		return GoogleIma.load()
-			.then(() => GoogleIma.getPlayer(videoSettings))
+		return googleIma.load()
+			.then(() => googleIma.getPlayer(videoSettings))
 			.then(ima => new PorvataPlayer(ima, params))
 			.then((video) => {
 				function inViewportCallback(isVisible) {
@@ -270,7 +269,7 @@ export default class Porvata {
 					video.ima.setAutoPlay(false);
 					video.ima.dispatchEvent('wikiaAdCompleted');
 					if (viewportListenerId) {
-						ViewportObserver.removeListener(viewportListenerId);
+						viewportObserver.removeListener(viewportListenerId);
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;

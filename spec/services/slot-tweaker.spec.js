@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
-import SlotTweaker from '../../src/services/slot-tweaker';
+import { slotTweaker } from '../../src/services/slot-tweaker';
 
 describe('slot-tweaker', () => {
 	beforeEach(() => {
@@ -17,9 +17,9 @@ describe('slot-tweaker', () => {
 	it('setDataParam accepts a string', () => {
 		const mockedValue = 'qunitParamValue';
 
-		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		slotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal(mockedValue);
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal(mockedValue);
 	});
 
 	it('setDataParam accepts an object', () => {
@@ -28,28 +28,28 @@ describe('slot-tweaker', () => {
 			param2: 'value2'
 		};
 
-		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		slotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('{"param1":"value1","param2":"value2"}');
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('{"param1":"value1","param2":"value2"}');
 	});
 
 	it('setDataParam accepts an array', () => {
 		const mockedValue = ['value1', 'value2'];
 
-		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
+		slotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('["value1","value2"]');
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('["value1","value2"]');
 	});
 
 	it('setDataParam accepts a boolean', () => {
-		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', true);
+		slotTweaker.setDataParam(adSlotFake, 'qunitParam', true);
 
-		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('true');
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('true');
 	});
 
 	it('setDataParam accepts a boolean', () => {
-		SlotTweaker.setDataParam(adSlotFake, 'qunitParam', false);
+		slotTweaker.setDataParam(adSlotFake, 'qunitParam', false);
 
-		expect(SlotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('false');
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('false');
 	});
 });

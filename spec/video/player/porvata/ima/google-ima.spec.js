@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import GoogleIma from '../../../../../src/video/player/porvata/ima/google-ima';
+import { googleIma } from '../../../../../src/video/player/porvata/ima/google-ima';
 
 let mocks;
 
@@ -57,7 +57,7 @@ describe('google-ima', () => {
 	});
 
 	it('create player using factory', () => {
-		const player = GoogleIma.getPlayer(mocks.videoSettings);
+		const player = googleIma.getPlayer(mocks.videoSettings);
 
 		expect(typeof player.playVideo).to.equal('function');
 	});

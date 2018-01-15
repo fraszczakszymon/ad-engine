@@ -1,8 +1,7 @@
-import QueryString from '../utils/query-string';
+import { queryString } from '../utils';
 
-
-export default class VastParser {
-	static getAdInfo(imaAd) {
+class VastParser {
+	getAdInfo(imaAd) {
 		const adInfo = {};
 
 		let wrapperCreativeIds,
@@ -27,10 +26,10 @@ export default class VastParser {
 		return adInfo;
 	}
 
-	static parse(vastUrl, extra = {}) {
-		const currentAd = VastParser.getAdInfo(extra.imaAd),
-			vastParams = QueryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			customParams = QueryString.getValues(vastParams.cust_params);
+	parse(vastUrl, extra = {}) {
+		const currentAd = this.getAdInfo(extra.imaAd),
+			vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
+			customParams = queryString.getValues(vastParams.cust_params);
 
 		return {
 			contentType: currentAd.contentType || extra.contentType,
@@ -42,3 +41,5 @@ export default class VastParser {
 		};
 	}
 }
+
+export const vastParser = new VastParser();

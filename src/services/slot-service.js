@@ -1,22 +1,9 @@
-const slotNameMapping = {},
-	slots = {},
-	slotStates = {};
+const slotNameMapping = {};
+const slots = {};
+const slotStates = {};
 
-function setState(slotName, state) {
-	const slot = SlotService.getBySlotName(slotName);
-	slotStates[slotName] = state;
-
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable();
-		}
-	}
-}
-
-export default class SlotService {
-	static add(adSlot) {
+class SlotService {
+	add(adSlot) {
 		const slotName = adSlot.getSlotName();
 
 		slots[adSlot.getId()] = adSlot;
@@ -30,27 +17,42 @@ export default class SlotService {
 		}
 	}
 
-	static get(id) {
+	get(id) {
 		return slots[id];
 	}
 
-	static getBySlotName(slotName) {
+	getBySlotName(slotName) {
 		const id = slotNameMapping[slotName];
 
 		return this.get(id);
 	}
 
-	static forEach(callback) {
+	forEach(callback) {
 		Object.keys(slots).forEach((id) => {
 			callback(slots[id]);
 		});
 	}
 
-	static enable(slotName) {
+	enable(slotName) {
 		setState(slotName, true);
 	}
 
-	static disable(slotName) {
+	disable(slotName) {
 		setState(slotName, false);
+	}
+}
+
+export const slotService = new SlotService();
+
+function setState(slotName, state) {
+	const slot = slotService.getBySlotName(slotName);
+	slotStates[slotName] = state;
+
+	if (slot) {
+		if (state) {
+			slot.enable();
+		} else {
+			slot.disable();
+		}
 	}
 }

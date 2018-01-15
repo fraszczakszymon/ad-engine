@@ -1,5 +1,5 @@
-import Client from 'ad-engine/utils/client';
+import { utils } from '@wikia/ad-engine';
 
 const preElement = document.getElementById('browser');
 
-preElement.innerText = `${Client.getOperatingSystem()} ${Client.getBrowser()}`;
+preElement.innerText = `${utils.client.getOperatingSystem()} ${utils.client.getBrowser()}`;

@@ -1,13 +1,11 @@
 import { EventEmitter } from 'events';
-import Context from '../services/context-service';
-import SlotTweaker from '../services/slot-tweaker';
-import StringBuilder from '../utils/string-builder';
-import TemplateService from '../services/template-service';
+import { context, slotTweaker, templateService } from '../services';
+import { stringBuilder } from '../utils';
 
-export const SLOT_VIEWED_EVENT = 'slotViewed';
-export const VIDEO_VIEWED_EVENT = 'videoViewed';
+export class AdSlot extends EventEmitter {
+	static SLOT_VIEWED_EVENT = 'slotViewed';
+	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
-export default class AdSlot extends EventEmitter {
 	/**
 	 * Parse the object that's passed from the template to extract more details
 	 * @param {object} ad Object containing an ad id and page type
@@ -31,16 +29,16 @@ export default class AdSlot extends EventEmitter {
 		this.location = segments[1];
 		this.screenSize = segments[3] ? segments[3] : 'both';
 		this.type = segments[2];
-		this.config = Context.get(`slots.${this.location}-${this.type}`) || {};
+		this.config = context.get(`slots.${this.location}-${this.type}`) || {};
 		this.enabled = !this.config.disabled;
 		this.viewed = false;
 		this.element = null;
 
 		this.config.targeting = this.config.targeting || {};
-		this.config.targeting.src = this.config.targeting.src || Context.get('src');
+		this.config.targeting.src = this.config.targeting.src || context.get('src');
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
 
-		this.once(SLOT_VIEWED_EVENT, () => {
+		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
 		});
 	}
@@ -51,8 +49,8 @@ export default class AdSlot extends EventEmitter {
 
 	getAdUnit() {
 		if (!this.adUnit) {
-			this.adUnit = StringBuilder.build(
-				this.config.adUnit || Context.get('adUnitId'),
+			this.adUnit = stringBuilder.build(
+				this.config.adUnit || context.get('adUnitId'),
 				{
 					slotConfig: this.config
 				}
@@ -64,8 +62,8 @@ export default class AdSlot extends EventEmitter {
 
 	getVideoAdUnit() {
 		if (!this.videoAdUnit) {
-			this.videoAdUnit = StringBuilder.build(
-				this.config.videoAdUnit || Context.get('vast.adUnitId'),
+			this.videoAdUnit = stringBuilder.build(
+				this.config.videoAdUnit || context.get('vast.adUnitId'),
 				{
 					slotConfig: this.config
 				}
@@ -100,7 +98,7 @@ export default class AdSlot extends EventEmitter {
 	}
 
 	shouldLoad() {
-		const isMobile = Context.get('state.isMobile'),
+		const isMobile = context.get('state.isMobile'),
 			shouldLoad = this.screenSize === 'both',
 			shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
 			shouldLoadMobile = isMobile && this.screenSize === 'mobile';
@@ -129,16 +127,16 @@ export default class AdSlot extends EventEmitter {
 	}
 
 	success() {
-		SlotTweaker.show(this);
-		SlotTweaker.setDataParam(this, 'slotResult', 'success');
+		slotTweaker.show(this);
+		slotTweaker.setDataParam(this, 'slotResult', 'success');
 
 		if (this.config.defaultTemplate) {
-			TemplateService.init(this.config.defaultTemplate, this);
+			templateService.init(this.config.defaultTemplate, this);
 		}
 	}
 
 	collapse() {
-		SlotTweaker.hide(this);
-		SlotTweaker.setDataParam(this, 'slotResult', 'collapse');
+		slotTweaker.hide(this);
+		slotTweaker.setDataParam(this, 'slotResult', 'collapse');
 	}
 }

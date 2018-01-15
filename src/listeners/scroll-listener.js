@@ -12,8 +12,8 @@ function pushSlot(adStack, node) {
 	});
 }
 
-export default class ScrollListener {
-	static init() {
+class ScrollListener {
+	init() {
 		let requestAnimationFrameHandleAdded = false;
 
 		document.addEventListener('scroll', (event) => {
@@ -31,33 +31,35 @@ export default class ScrollListener {
 		});
 	}
 
-	static addSlot(adStack, id, threshold = 0) {
+	addSlot(adStack, id, threshold = 0) {
 		const node = document.getElementById(id);
 
 		if (!node) {
 			return;
 		}
 
-		ScrollListener.addCallback((event, callbackId) => {
+		this.addCallback((event, callbackId) => {
 			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
 				slotPosition = getTopOffset(node),
 				viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 			if (scrollPosition + viewPortHeight > slotPosition - threshold) {
-				ScrollListener.removeCallback(callbackId);
+				this.removeCallback(callbackId);
 				pushSlot(adStack, node);
 			}
 		});
 	}
 
-	static addCallback(callback) {
+	addCallback(callback) {
 		const id = getUniqueId();
 		callbacks[id] = callback;
 
 		return id;
 	}
 
-	static removeCallback(id) {
+	removeCallback(id) {
 		delete callbacks[id];
 	}
 }
+
+export const scrollListener = new ScrollListener();

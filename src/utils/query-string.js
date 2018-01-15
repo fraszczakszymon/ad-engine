@@ -1,5 +1,5 @@
 class QueryString {
-	static getValues(input = null) {
+	getValues(input = null) {
 		const path = input || window.location.search.substr(1),
 			queryParameters = {},
 			queryString = path.split('&');
@@ -18,12 +18,11 @@ class QueryString {
 		return queryParameters;
 	}
 
-	static get(key) {
-		const queryParameters = QueryString.getValues();
+	get(key) {
+		const queryParameters = this.getValues();
 
 		return queryParameters[key];
 	}
 }
 
-export const __useDefault = true;
-export default QueryString;
+export const queryString = new QueryString();

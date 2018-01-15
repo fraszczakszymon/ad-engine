@@ -1,6 +1,6 @@
-import QueryString from './query-string';
+import { queryString } from './query-string';
 
-const debugGroup = QueryString.get('adengine_debug') || '',
+const debugGroup = queryString.get('adengine_debug') || '',
 	groups = debugGroup.split(',');
 
 if (debugGroup !== '') {

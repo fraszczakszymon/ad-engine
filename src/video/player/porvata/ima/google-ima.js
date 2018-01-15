@@ -1,5 +1,5 @@
-import GoogleImaPlayerFactory from './google-ima-player-factory';
-import ScriptLoader from '../../../../utils/script-loader';
+import { googleImaPlayerFactory } from './google-ima-player-factory';
+import { scriptLoader } from '../../../../utils';
 
 const imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
@@ -10,7 +10,7 @@ function load() {
 		});
 	}
 
-	return ScriptLoader.loadScript(imaLibraryUrl);
+	return scriptLoader.loadScript(imaLibraryUrl);
 }
 
 function getPlayer(videoSettings) {
@@ -26,10 +26,10 @@ function getPlayer(videoSettings) {
 
 	const adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
-	return GoogleImaPlayerFactory.create(adDisplayContainer, adsLoader, videoSettings);
+	return googleImaPlayerFactory.create(adDisplayContainer, adsLoader, videoSettings);
 }
 
-export default {
+export const googleIma = {
 	load,
 	getPlayer
 };

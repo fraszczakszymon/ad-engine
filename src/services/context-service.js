@@ -1,4 +1,4 @@
-const context = {
+const contextObject = {
 		adUnitId: '',
 		events: {},
 		listeners: {
@@ -52,7 +52,7 @@ function triggerOnChange(key, segments, newValue) {
 function segment(key, newValue) {
 	const segments = key.split('.'),
 		segmentsCount = segments.length;
-	let seg = context,
+	let seg = contextObject,
 		lastKey = null;
 
 	for (let i = 0; i < segmentsCount; i += 1) {
@@ -71,19 +71,22 @@ function segment(key, newValue) {
 	return seg[lastKey];
 }
 
-export const __useDefault = true;
-export default {
+class Context {
+	constructor() {
+		this.__useDefault = true;
+	}
+
 	extend(newContext) {
-		Object.assign(context, newContext);
-	},
+		Object.assign(contextObject, newContext);
+	}
 
 	set(key, value) {
 		segment(key, value);
-	},
+	}
 
 	get(key) {
 		return segment(key);
-	},
+	}
 
 	push(key, value) {
 		const array = segment(key);
@@ -91,10 +94,12 @@ export default {
 		if (array) {
 			array.push(value);
 		}
-	},
+	}
 
 	onChange(key, callback) {
 		onChangeCallbacks[key] = onChangeCallbacks[key] || [];
 		onChangeCallbacks[key].push(callback);
 	}
-};
+}
+
+export const context = new Context();

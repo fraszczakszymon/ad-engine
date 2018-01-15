@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { spy, createSandbox } from 'sinon';
-import Context from '../../src/services/context-service';
-import PorvataListener from '../../src/listeners/porvata-listener';
-import SlotService from '../../src/services/slot-service';
+import { context } from '../../src/services/context-service';
+import { PorvataListener } from '../../src/listeners/porvata-listener';
+import { slotService } from '../../src/services/slot-service';
 
 function getListener() {
 	return {
@@ -49,7 +49,7 @@ describe('porvata-listener', () => {
 	beforeEach(() => {
 		sandbox = createSandbox();
 		customListener = getListener();
-		Context.extend({
+		context.extend({
 			listeners: {
 				porvata: [
 					customListener
@@ -101,7 +101,7 @@ describe('porvata-listener', () => {
 
 		const adSlotMock = { emit: spy(), getSlotName: function () {} };
 
-		sandbox.stub(SlotService, 'getBySlotName').returns(adSlotMock);
+		sandbox.stub(slotService, 'getBySlotName').returns(adSlotMock);
 
 		listener.dispatch(PorvataListener.EVENTS.viewable_impression);
 
