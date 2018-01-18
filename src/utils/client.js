@@ -38,20 +38,22 @@ class Client {
 		if (blockAdBlock === null) {
 			if (typeof AdBlockDetect === 'undefined' || typeof BlockAdBlock === 'undefined') {
 				if (enabled !== null) enabled();
-			} else {
-				blockAdBlock = new BlockAdBlock({
-					checkOnLoad: false,
-					resetOnEnd: true,
-					loopCheckTime: 50,
-					loopMaxNumber: 5
-				});
 
-				if (enabled !== null) blockAdBlock.onDetected(enabled);
-				if (disabled !== null) blockAdBlock.onNotDetected(disabled);
-
-				blockAdBlock.check(true);
+				return;
 			}
+
+			blockAdBlock = new BlockAdBlock({
+				checkOnLoad: false,
+				resetOnEnd: true,
+				loopCheckTime: 50,
+				loopMaxNumber: 5
+			});
 		}
+
+		if (enabled !== null) blockAdBlock.onDetected(enabled);
+		if (disabled !== null) blockAdBlock.onNotDetected(disabled);
+
+		blockAdBlock.check(true);
 	}
 
 	getDeviceType() {
