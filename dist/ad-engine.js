@@ -1814,7 +1814,7 @@ module.exports = window[moduleName];
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"@wikia/ad-engine","version":"8.1.0","description":"Wikia AdEngine","repository":{"type":"git","url":"https://github.com/Wikia/AdEngine"},"dependencies":{"blockadblock":"3.2.1","core-decorators":"^0.20.0","events":"^1.1.1","lodash":"^4.17.4","mobile-detect":"1.4.1"},"devDependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.0.0","babel-loader":"^7.1.2","babel-plugin-transform-class-properties":"^6.24.1","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-preset-env":"^1.6.1","casperjs":"^1.1.4","chai":"^4.1.2","eslint":"^3.7.1","eslint-config-airbnb":"^12.0.0","eslint-plugin-import":"^1.16.0","eslint-plugin-jsx-a11y":"^2.2.3","eslint-plugin-react":"^6.4.1","jsdom":"^11.3.0","jsdom-global":"^3.0.2","mocha":"4.1.0","mocha-jsdom":"^1.1.0","mocha-junit-reporter":"^1.15.0","mocha-webpack":"^1.0.1","nyc":"11.4.1","phantomjs-polyfill-object-assign":"0.0.2","phantomjs-prebuilt":"^2.1.7","sinon":"4.1.4","webpack":"^3.5.6","webpack-dev-server":"2.10.1","webpack-merge":"^4.1.1"},"files":["dist/","src/","jsconfig.json","README.md"],"main":"./dist/ad-engine.js","nyc":{"report-dir":"./spec/build/","reporter":["cobertura"]},"publishConfig":{"registry":"https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"},"scripts":{"build":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules","casper":"cd tests/ && ../node_modules/casperjs/bin/casperjs test .","ci-check":"npm run test && npm run lint","lint":"./node_modules/.bin/eslint .","prepublishOnly":"./maintenance/prepublish.sh","preversion":"./maintenance/preversion.sh","serve":"./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples","tdd":"mocha-webpack -w --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test":"mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test-coverage":"nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml","watch":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"}}
+module.exports = {"name":"@wikia/ad-engine","version":"9.0.0","description":"Wikia AdEngine","repository":{"type":"git","url":"https://github.com/Wikia/AdEngine"},"dependencies":{"blockadblock":"3.2.1","core-decorators":"^0.20.0","events":"^1.1.1","lodash":"^4.17.4","mobile-detect":"1.4.1"},"devDependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.0.0","babel-loader":"^7.1.2","babel-plugin-transform-class-properties":"^6.24.1","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-preset-env":"^1.6.1","casperjs":"^1.1.4","chai":"^4.1.2","eslint":"^3.7.1","eslint-config-airbnb":"^12.0.0","eslint-plugin-import":"^1.16.0","eslint-plugin-jsx-a11y":"^2.2.3","eslint-plugin-react":"^6.4.1","jsdom":"^11.3.0","jsdom-global":"^3.0.2","mocha":"4.1.0","mocha-jsdom":"^1.1.0","mocha-junit-reporter":"^1.15.0","mocha-webpack":"^1.0.1","nyc":"11.4.1","phantomjs-polyfill-object-assign":"0.0.2","phantomjs-prebuilt":"^2.1.7","sinon":"4.1.4","webpack":"^3.5.6","webpack-dev-server":"2.10.1","webpack-merge":"^4.1.1"},"files":["dist/","src/","jsconfig.json","README.md"],"main":"./dist/ad-engine.js","nyc":{"report-dir":"./spec/build/","reporter":["cobertura"]},"publishConfig":{"registry":"https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"},"scripts":{"build":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules","casper":"cd tests/ && ../node_modules/casperjs/bin/casperjs test .","ci-check":"npm run test && npm run lint","lint":"./node_modules/.bin/eslint .","prepublishOnly":"./maintenance/prepublish.sh","preversion":"./maintenance/preversion.sh","serve":"./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples","tdd":"mocha-webpack -w --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test":"mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test-coverage":"nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml","watch":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"}}
 
 /***/ }),
 /* 23 */
@@ -2067,20 +2067,22 @@ var Client = function () {
 			if (blockAdBlock === null) {
 				if (typeof _blockadblock2.default === 'undefined' || typeof BlockAdBlock === 'undefined') {
 					if (enabled !== null) enabled();
-				} else {
-					blockAdBlock = new BlockAdBlock({
-						checkOnLoad: false,
-						resetOnEnd: true,
-						loopCheckTime: 50,
-						loopMaxNumber: 5
-					});
 
-					if (enabled !== null) blockAdBlock.onDetected(enabled);
-					if (disabled !== null) blockAdBlock.onNotDetected(disabled);
-
-					blockAdBlock.check(true);
+					return;
 				}
+
+				blockAdBlock = new BlockAdBlock({
+					checkOnLoad: false,
+					resetOnEnd: true,
+					loopCheckTime: 50,
+					loopMaxNumber: 5
+				});
 			}
+
+			if (enabled !== null) blockAdBlock.onDetected(enabled);
+			if (disabled !== null) blockAdBlock.onNotDetected(disabled);
+
+			blockAdBlock.check(true);
 		}
 	}, {
 		key: 'getDeviceType',
