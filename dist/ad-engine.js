@@ -87,7 +87,7 @@ Object.keys(_client).forEach(function (key) {
   });
 });
 
-var _defer = __webpack_require__(27);
+var _defer = __webpack_require__(28);
 
 Object.keys(_defer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -99,7 +99,7 @@ Object.keys(_defer).forEach(function (key) {
   });
 });
 
-var _dimensions = __webpack_require__(3);
+var _dimensions = __webpack_require__(4);
 
 Object.keys(_dimensions).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -111,7 +111,7 @@ Object.keys(_dimensions).forEach(function (key) {
   });
 });
 
-var _event = __webpack_require__(28);
+var _event = __webpack_require__(29);
 
 Object.keys(_event).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -123,7 +123,7 @@ Object.keys(_event).forEach(function (key) {
   });
 });
 
-var _lazyQueue = __webpack_require__(29);
+var _lazyQueue = __webpack_require__(30);
 
 Object.keys(_lazyQueue).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -147,7 +147,7 @@ Object.keys(_logger).forEach(function (key) {
   });
 });
 
-var _queryString = __webpack_require__(4);
+var _queryString = __webpack_require__(5);
 
 Object.keys(_queryString).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -159,7 +159,7 @@ Object.keys(_queryString).forEach(function (key) {
   });
 });
 
-var _sampler = __webpack_require__(30);
+var _sampler = __webpack_require__(31);
 
 Object.keys(_sampler).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -171,7 +171,7 @@ Object.keys(_sampler).forEach(function (key) {
   });
 });
 
-var _scriptLoader = __webpack_require__(31);
+var _scriptLoader = __webpack_require__(32);
 
 Object.keys(_scriptLoader).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -183,7 +183,7 @@ Object.keys(_scriptLoader).forEach(function (key) {
   });
 });
 
-var _stringBuilder = __webpack_require__(32);
+var _stringBuilder = __webpack_require__(33);
 
 Object.keys(_stringBuilder).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -195,7 +195,7 @@ Object.keys(_stringBuilder).forEach(function (key) {
   });
 });
 
-var _tryProperty = __webpack_require__(36);
+var _tryProperty = __webpack_require__(37);
 
 Object.keys(_tryProperty).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -207,7 +207,7 @@ Object.keys(_tryProperty).forEach(function (key) {
   });
 });
 
-var _viewportObserver = __webpack_require__(37);
+var _viewportObserver = __webpack_require__(38);
 
 Object.keys(_viewportObserver).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -230,7 +230,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _contextService = __webpack_require__(5);
+var _contextService = __webpack_require__(6);
 
 Object.keys(_contextService).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -242,7 +242,7 @@ Object.keys(_contextService).forEach(function (key) {
   });
 });
 
-var _customAdLoader = __webpack_require__(33);
+var _customAdLoader = __webpack_require__(34);
 
 Object.keys(_customAdLoader).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -254,7 +254,7 @@ Object.keys(_customAdLoader).forEach(function (key) {
   });
 });
 
-var _localCache = __webpack_require__(34);
+var _localCache = __webpack_require__(35);
 
 Object.keys(_localCache).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -278,7 +278,7 @@ Object.keys(_messageBus).forEach(function (key) {
   });
 });
 
-var _slotDataParamsUpdater = __webpack_require__(35);
+var _slotDataParamsUpdater = __webpack_require__(36);
 
 Object.keys(_slotDataParamsUpdater).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -290,7 +290,7 @@ Object.keys(_slotDataParamsUpdater).forEach(function (key) {
   });
 });
 
-var _slotService = __webpack_require__(6);
+var _slotService = __webpack_require__(7);
 
 Object.keys(_slotService).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -337,7 +337,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _porvataListener = __webpack_require__(38);
+var _porvataListener = __webpack_require__(39);
 
 Object.keys(_porvataListener).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -349,7 +349,7 @@ Object.keys(_porvataListener).forEach(function (key) {
   });
 });
 
-var _scrollListener = __webpack_require__(44);
+var _scrollListener = __webpack_require__(47);
 
 Object.keys(_scrollListener).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -361,7 +361,7 @@ Object.keys(_scrollListener).forEach(function (key) {
   });
 });
 
-var _slotListener = __webpack_require__(45);
+var _slotListener = __webpack_require__(48);
 
 Object.keys(_slotListener).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -375,6 +375,29 @@ Object.keys(_slotListener).forEach(function (key) {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _adSlot = __webpack_require__(40);
+
+Object.keys(_adSlot).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _adSlot[key];
+    }
+  });
+});
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -436,7 +459,7 @@ function isInViewport(element) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -498,7 +521,7 @@ var QueryString = function () {
 var queryString = exports.queryString = new QueryString();
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -630,7 +653,7 @@ var Context = function () {
 var context = exports.context = new Context();
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -718,29 +741,6 @@ function setState(slotName, state) {
 }
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _adSlot = __webpack_require__(46);
-
-Object.keys(_adSlot).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _adSlot[key];
-    }
-  });
-});
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -752,7 +752,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.logger = logger;
 
-var _queryString = __webpack_require__(4);
+var _queryString = __webpack_require__(5);
 
 var debugGroup = _queryString.queryString.get('adengine_debug') || '',
     groups = debugGroup.split(',');
@@ -791,7 +791,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _logger = __webpack_require__(8);
 
-var _contextService = __webpack_require__(5);
+var _contextService = __webpack_require__(6);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -953,7 +953,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _messageBus = __webpack_require__(10);
 
-var _slotService = __webpack_require__(6);
+var _slotService = __webpack_require__(7);
 
 var _utils = __webpack_require__(0);
 
@@ -1163,7 +1163,7 @@ Object.keys(_vastUrlBuilder).forEach(function (key) {
   });
 });
 
-var _porvata = __webpack_require__(39);
+var _porvata = __webpack_require__(42);
 
 Object.keys(_porvata).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -1185,7 +1185,7 @@ Object.keys(_porvata).forEach(function (key) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.VastDebugger = undefined;
+exports.vastDebugger = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1201,12 +1201,12 @@ function setAttribute(element, attribute, value) {
 	element.setAttribute(attribute, value);
 }
 
-var VastDebugger = exports.VastDebugger = function () {
+var VastDebugger = function () {
 	function VastDebugger() {
 		_classCallCheck(this, VastDebugger);
 	}
 
-	_createClass(VastDebugger, null, [{
+	_createClass(VastDebugger, [{
 		key: 'setVastAttributes',
 		value: function setVastAttributes(element, vastUrl, status, imaAd) {
 			var vastParams = _vastParser.vastParser.parse(vastUrl, {
@@ -1225,6 +1225,8 @@ var VastDebugger = exports.VastDebugger = function () {
 
 	return VastDebugger;
 }();
+
+var vastDebugger = exports.vastDebugger = new VastDebugger();
 
 /***/ }),
 /* 14 */
@@ -1377,7 +1379,7 @@ exports.googleImaPlayerFactory = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _googleImaSetup = __webpack_require__(42);
+var _googleImaSetup = __webpack_require__(45);
 
 var _moatVideoTracker = __webpack_require__(17);
 
@@ -1444,7 +1446,7 @@ var GoogleImaPlayer = function () {
 			var currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
 			    playerElement = this.params.container.querySelector('.video-player');
 
-			_vastDebugger.VastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
+			_vastDebugger.vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 		}
 	}, {
 		key: 'setAutoPlay',
@@ -1597,7 +1599,7 @@ var _utils = __webpack_require__(0);
 
 var _services = __webpack_require__(1);
 
-var _moatVideoTrackerScript = __webpack_require__(43);
+var _moatVideoTrackerScript = __webpack_require__(46);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1720,7 +1722,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _gptProvider = __webpack_require__(50);
+var _gptProvider = __webpack_require__(51);
 
 Object.keys(_gptProvider).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -1812,7 +1814,7 @@ module.exports = window[moduleName];
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"@wikia/ad-engine","version":"8.0.2","description":"Wikia AdEngine","repository":{"type":"git","url":"https://github.com/Wikia/AdEngine"},"dependencies":{"core-decorators":"^0.20.0","events":"^1.1.1","lodash":"^4.17.4","mobile-detect":"^1.3.7"},"devDependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.0.0","babel-loader":"^7.1.2","babel-plugin-transform-class-properties":"^6.24.1","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-preset-env":"^1.6.1","casperjs":"^1.1.4","chai":"^4.1.2","eslint":"^3.7.1","eslint-config-airbnb":"^12.0.0","eslint-plugin-import":"^1.16.0","eslint-plugin-jsx-a11y":"^2.2.3","eslint-plugin-react":"^6.4.1","jsdom":"^11.3.0","jsdom-global":"^3.0.2","mocha":"^4.0.1","mocha-jsdom":"^1.1.0","mocha-junit-reporter":"^1.15.0","mocha-webpack":"^1.0.1","nyc":"^11.3.0","phantomjs-polyfill-object-assign":"0.0.2","phantomjs-prebuilt":"^2.1.7","sinon":"^4.1.2","webpack":"^3.5.6","webpack-dev-server":"^2.9.7","webpack-merge":"^4.1.1"},"files":["dist/","src/","jsconfig.json","README.md"],"main":"./dist/ad-engine.js","nyc":{"report-dir":"./spec/build/","reporter":["cobertura"]},"publishConfig":{"registry":"https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"},"scripts":{"build":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules","casper":"cd tests/ && ../node_modules/casperjs/bin/casperjs test .","ci-check":"npm run test && npm run lint","lint":"./node_modules/.bin/eslint .","prepublishOnly":"./maintenance/prepublish.sh","preversion":"./maintenance/preversion.sh","serve":"./node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --inline --open --watch --content-base=./examples","tdd":"mocha-webpack -w --full-trace --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register","test":"mocha-webpack --full-trace --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register","test-coverage":"nyc mocha-webpack --webpack-config webpack-mocha.config.js './spec/**/*.spec.js' -r jsdom-global/register --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml","watch":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"}}
+module.exports = {"name":"@wikia/ad-engine","version":"8.1.0","description":"Wikia AdEngine","repository":{"type":"git","url":"https://github.com/Wikia/AdEngine"},"dependencies":{"blockadblock":"3.2.1","core-decorators":"^0.20.0","events":"^1.1.1","lodash":"^4.17.4","mobile-detect":"1.4.1"},"devDependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.0.0","babel-loader":"^7.1.2","babel-plugin-transform-class-properties":"^6.24.1","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-preset-env":"^1.6.1","casperjs":"^1.1.4","chai":"^4.1.2","eslint":"^3.7.1","eslint-config-airbnb":"^12.0.0","eslint-plugin-import":"^1.16.0","eslint-plugin-jsx-a11y":"^2.2.3","eslint-plugin-react":"^6.4.1","jsdom":"^11.3.0","jsdom-global":"^3.0.2","mocha":"4.1.0","mocha-jsdom":"^1.1.0","mocha-junit-reporter":"^1.15.0","mocha-webpack":"^1.0.1","nyc":"11.4.1","phantomjs-polyfill-object-assign":"0.0.2","phantomjs-prebuilt":"^2.1.7","sinon":"4.1.4","webpack":"^3.5.6","webpack-dev-server":"2.10.1","webpack-merge":"^4.1.1"},"files":["dist/","src/","jsconfig.json","README.md"],"main":"./dist/ad-engine.js","nyc":{"report-dir":"./spec/build/","reporter":["cobertura"]},"publishConfig":{"registry":"https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"},"scripts":{"build":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules","casper":"cd tests/ && ../node_modules/casperjs/bin/casperjs test .","ci-check":"npm run test && npm run lint","lint":"./node_modules/.bin/eslint .","prepublishOnly":"./maintenance/prepublish.sh","preversion":"./maintenance/preversion.sh","serve":"./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples","tdd":"mocha-webpack -w --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test":"mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test","test-coverage":"nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml","watch":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"}}
 
 /***/ }),
 /* 23 */
@@ -1850,7 +1852,7 @@ Object.keys(_listeners).forEach(function (key) {
 	});
 });
 
-var _models = __webpack_require__(7);
+var _models = __webpack_require__(3);
 
 Object.keys(_models).forEach(function (key) {
 	if (key === "default" || key === "__esModule") return;
@@ -1922,9 +1924,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _utils = __webpack_require__(0);
 
-var _models = __webpack_require__(7);
+var _models = __webpack_require__(3);
 
-var _templates = __webpack_require__(48);
+var _templates = __webpack_require__(49);
 
 var _providers = __webpack_require__(19);
 
@@ -2002,17 +2004,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.client = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* global BlockAdBlock */
+
 
 var _mobileDetect = __webpack_require__(26);
 
 var _mobileDetect2 = _interopRequireDefault(_mobileDetect);
 
+var _blockadblock = __webpack_require__(27);
+
+var _blockadblock2 = _interopRequireDefault(_blockadblock);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var browser = null,
+var blockAdBlock = null,
+    browser = null,
     mobileDetect = null,
     operatingSystem = null;
 
@@ -2049,6 +2057,30 @@ var Client = function () {
 		key: 'isDesktop',
 		value: function isDesktop() {
 			return !this.isSmartphone() && !this.isTablet();
+		}
+	}, {
+		key: 'checkBlocking',
+		value: function checkBlocking() {
+			var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+			var disabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			if (blockAdBlock === null) {
+				if (typeof _blockadblock2.default === 'undefined' || typeof BlockAdBlock === 'undefined') {
+					if (enabled !== null) enabled();
+				} else {
+					blockAdBlock = new BlockAdBlock({
+						checkOnLoad: false,
+						resetOnEnd: true,
+						loopCheckTime: 50,
+						loopMaxNumber: 5
+					});
+
+					if (enabled !== null) blockAdBlock.onDetected(enabled);
+					if (disabled !== null) blockAdBlock.onNotDetected(disabled);
+
+					blockAdBlock.check(true);
+				}
+			}
 		}
 	}, {
 		key: 'getDeviceType',
@@ -2140,6 +2172,12 @@ module.exports = require("mobile-detect");
 
 /***/ }),
 /* 27 */
+/***/ (function(module, exports) {
+
+module.exports = require("blockadblock");
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2166,7 +2204,7 @@ function defer(fn) {
 }
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2193,7 +2231,7 @@ function once(eventTarget, eventName) {
 }
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2221,7 +2259,7 @@ function makeLazyQueue(queue, callback) {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2234,7 +2272,7 @@ exports.sampler = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _queryString = __webpack_require__(4);
+var _queryString = __webpack_require__(5);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2268,7 +2306,7 @@ var Sampler = function () {
 var sampler = exports.sampler = new Sampler();
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2329,7 +2367,7 @@ var ScriptLoader = function () {
 var scriptLoader = exports.scriptLoader = new ScriptLoader();
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2395,7 +2433,7 @@ var StringBuilder = function () {
 var stringBuilder = exports.stringBuilder = new StringBuilder();
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2406,7 +2444,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.registerCustomAdLoader = registerCustomAdLoader;
 
-var _slotService = __webpack_require__(6);
+var _slotService = __webpack_require__(7);
 
 var _templateService = __webpack_require__(9);
 
@@ -2419,7 +2457,7 @@ function registerCustomAdLoader(methodName) {
 }
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2587,7 +2625,7 @@ var LocalCache = function () {
 var localCache = exports.localCache = new LocalCache();
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2602,7 +2640,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _slotTweaker = __webpack_require__(11);
 
-var _contextService = __webpack_require__(5);
+var _contextService = __webpack_require__(6);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2644,7 +2682,7 @@ var SlotDataParamsUpdater = function () {
 var slotDataParamsUpdater = exports.slotDataParamsUpdater = new SlotDataParamsUpdater();
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2687,7 +2725,7 @@ function tryProperty(obj) {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2700,7 +2738,7 @@ exports.viewportObserver = undefined;
 
 var _listeners = __webpack_require__(2);
 
-var _dimensions = __webpack_require__(3);
+var _dimensions = __webpack_require__(4);
 
 function updateInViewport(listener) {
 	var newInViewport = (0, _dimensions.isInViewport)(listener.element);
@@ -2741,7 +2779,7 @@ var viewportObserver = exports.viewportObserver = {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2757,6 +2795,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _utils = __webpack_require__(0);
 
 var _services = __webpack_require__(1);
+
+var _models = __webpack_require__(3);
 
 var _video = __webpack_require__(12);
 
@@ -2817,6 +2857,11 @@ var PorvataListener = exports.PorvataListener = function () {
 			this.listeners.forEach(function (listener) {
 				listener.onEvent(eventName, _this2.params, data);
 			});
+
+			if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
+				var adSlot = _services.slotService.getBySlotName(this.params.position);
+				adSlot.emit(_models.AdSlot.VIDEO_VIEWED_EVENT);
+			}
 		}
 	}, {
 		key: 'getData',
@@ -2867,7 +2912,197 @@ PorvataListener.LOG_GROUP = 'porvata-listener';
 PorvataListener.PLAYER_NAME = 'porvata';
 
 /***/ }),
-/* 39 */
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AdSlot = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _events = __webpack_require__(41);
+
+var _services = __webpack_require__(1);
+
+var _utils = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AdSlot = exports.AdSlot = function (_EventEmitter) {
+	_inherits(AdSlot, _EventEmitter);
+
+	/**
+  * Parse the object that's passed from the template to extract more details
+  * @param {object} ad Object containing an ad id and page type
+  *      Format of id is:
+  *           gpt-<location>-<ad-type>[-<screen-size>]
+  *      Examples:
+  *           gpt-top-leaderboard
+  *           gpt-bottom-boxad-mobile
+  *           gpt-bottom-leaderboard-desktop
+  */
+	function AdSlot(ad) {
+		_classCallCheck(this, AdSlot);
+
+		var _this = _possibleConstructorReturn(this, (AdSlot.__proto__ || Object.getPrototypeOf(AdSlot)).call(this));
+
+		var segments = ad.id.split('-');
+
+		if (segments.length < 3) {
+			throw new Error('Invalid GPT id passed to parseId (' + ad.id + ').');
+		}
+
+		_this.id = ad.id;
+		_this.location = segments[1];
+		_this.screenSize = segments[3] ? segments[3] : 'both';
+		_this.type = segments[2];
+		_this.config = _services.context.get('slots.' + _this.location + '-' + _this.type) || {};
+		_this.enabled = !_this.config.disabled;
+		_this.viewed = false;
+		_this.element = null;
+
+		_this.config.targeting = _this.config.targeting || {};
+		_this.config.targeting.src = _this.config.targeting.src || _services.context.get('src');
+		_this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
+
+		_this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
+			_this.viewed = true;
+		});
+		return _this;
+	}
+
+	_createClass(AdSlot, [{
+		key: 'getId',
+		value: function getId() {
+			return this.id;
+		}
+	}, {
+		key: 'getAdUnit',
+		value: function getAdUnit() {
+			if (!this.adUnit) {
+				this.adUnit = _utils.stringBuilder.build(this.config.adUnit || _services.context.get('adUnitId'), {
+					slotConfig: this.config
+				});
+			}
+
+			return this.adUnit;
+		}
+	}, {
+		key: 'getVideoAdUnit',
+		value: function getVideoAdUnit() {
+			if (!this.videoAdUnit) {
+				this.videoAdUnit = _utils.stringBuilder.build(this.config.videoAdUnit || _services.context.get('vast.adUnitId'), {
+					slotConfig: this.config
+				});
+			}
+
+			return this.videoAdUnit;
+		}
+	}, {
+		key: 'getElement',
+		value: function getElement() {
+			if (!this.element) {
+				this.element = document.getElementById(this.id);
+			}
+
+			return this.element;
+		}
+	}, {
+		key: 'getSlotName',
+		value: function getSlotName() {
+			return this.config.slotName;
+		}
+	}, {
+		key: 'getSizes',
+		value: function getSizes() {
+			return this.config.sizes;
+		}
+	}, {
+		key: 'getTargeting',
+		value: function getTargeting() {
+			return this.config.targeting;
+		}
+	}, {
+		key: 'getDefaultSizes',
+		value: function getDefaultSizes() {
+			return this.config.defaultSizes;
+		}
+	}, {
+		key: 'shouldLoad',
+		value: function shouldLoad() {
+			var isMobile = _services.context.get('state.isMobile'),
+			    shouldLoad = this.screenSize === 'both',
+			    shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
+			    shouldLoadMobile = isMobile && this.screenSize === 'mobile';
+
+			return shouldLoad || shouldLoadDesktop || shouldLoadMobile;
+		}
+	}, {
+		key: 'isAboveTheFold',
+		value: function isAboveTheFold() {
+			return !!this.config.aboveTheFold;
+		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return this.enabled;
+		}
+	}, {
+		key: 'isViewed',
+		value: function isViewed() {
+			return this.viewed;
+		}
+	}, {
+		key: 'enable',
+		value: function enable() {
+			this.enabled = true;
+		}
+	}, {
+		key: 'disable',
+		value: function disable() {
+			this.enabled = false;
+		}
+	}, {
+		key: 'success',
+		value: function success() {
+			_services.slotTweaker.show(this);
+			_services.slotTweaker.setDataParam(this, 'slotResult', 'success');
+
+			if (this.config.defaultTemplate) {
+				_services.templateService.init(this.config.defaultTemplate, this);
+			}
+		}
+	}, {
+		key: 'collapse',
+		value: function collapse() {
+			_services.slotTweaker.hide(this);
+			_services.slotTweaker.setDataParam(this, 'slotResult', 'collapse');
+		}
+	}]);
+
+	return AdSlot;
+}(_events.EventEmitter);
+
+AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
+AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2877,7 +3112,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _porvata = __webpack_require__(40);
+var _porvata = __webpack_require__(43);
 
 Object.keys(_porvata).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2926,7 +3161,7 @@ Object.keys(_googleImaPlayerFactory).forEach(function (key) {
 });
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2939,7 +3174,7 @@ exports.Porvata = exports.PorvataPlayer = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _googleIma = __webpack_require__(41);
+var _googleIma = __webpack_require__(44);
 
 var _listeners = __webpack_require__(2);
 
@@ -3297,7 +3532,7 @@ var Porvata = exports.Porvata = function () {
 }();
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3346,7 +3581,7 @@ var googleIma = exports.googleIma = {
 };
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3416,7 +3651,7 @@ var googleImaSetup = exports.googleImaSetup = {
 };
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3457,7 +3692,7 @@ function initMoatTracking(a, f, c) {
 // MOAT CODE END
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3470,7 +3705,7 @@ exports.scrollListener = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dimensions = __webpack_require__(3);
+var _dimensions = __webpack_require__(4);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3555,7 +3790,7 @@ var ScrollListener = function () {
 var scrollListener = exports.scrollListener = new ScrollListener();
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3570,7 +3805,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _utils = __webpack_require__(0);
 
-var _models = __webpack_require__(7);
+var _models = __webpack_require__(3);
 
 var _services = __webpack_require__(1);
 
@@ -3695,196 +3930,7 @@ var SlotListener = function () {
 var slotListener = exports.slotListener = new SlotListener();
 
 /***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.AdSlot = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _events = __webpack_require__(47);
-
-var _services = __webpack_require__(1);
-
-var _utils = __webpack_require__(0);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AdSlot = exports.AdSlot = function (_EventEmitter) {
-	_inherits(AdSlot, _EventEmitter);
-
-	/**
-  * Parse the object that's passed from the template to extract more details
-  * @param {object} ad Object containing an ad id and page type
-  *      Format of id is:
-  *           gpt-<location>-<ad-type>[-<screen-size>]
-  *      Examples:
-  *           gpt-top-leaderboard
-  *           gpt-bottom-boxad-mobile
-  *           gpt-bottom-leaderboard-desktop
-  */
-	function AdSlot(ad) {
-		_classCallCheck(this, AdSlot);
-
-		var _this = _possibleConstructorReturn(this, (AdSlot.__proto__ || Object.getPrototypeOf(AdSlot)).call(this));
-
-		var segments = ad.id.split('-');
-
-		if (segments.length < 3) {
-			throw new Error('Invalid GPT id passed to parseId (' + ad.id + ').');
-		}
-
-		_this.id = ad.id;
-		_this.location = segments[1];
-		_this.screenSize = segments[3] ? segments[3] : 'both';
-		_this.type = segments[2];
-		_this.config = _services.context.get('slots.' + _this.location + '-' + _this.type) || {};
-		_this.enabled = !_this.config.disabled;
-		_this.viewed = false;
-		_this.element = null;
-
-		_this.config.targeting = _this.config.targeting || {};
-		_this.config.targeting.src = _this.config.targeting.src || _services.context.get('src');
-		_this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
-
-		_this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
-			_this.viewed = true;
-		});
-		return _this;
-	}
-
-	_createClass(AdSlot, [{
-		key: 'getId',
-		value: function getId() {
-			return this.id;
-		}
-	}, {
-		key: 'getAdUnit',
-		value: function getAdUnit() {
-			if (!this.adUnit) {
-				this.adUnit = _utils.stringBuilder.build(this.config.adUnit || _services.context.get('adUnitId'), {
-					slotConfig: this.config
-				});
-			}
-
-			return this.adUnit;
-		}
-	}, {
-		key: 'getVideoAdUnit',
-		value: function getVideoAdUnit() {
-			if (!this.videoAdUnit) {
-				this.videoAdUnit = _utils.stringBuilder.build(this.config.videoAdUnit || _services.context.get('vast.adUnitId'), {
-					slotConfig: this.config
-				});
-			}
-
-			return this.videoAdUnit;
-		}
-	}, {
-		key: 'getElement',
-		value: function getElement() {
-			if (!this.element) {
-				this.element = document.getElementById(this.id);
-			}
-
-			return this.element;
-		}
-	}, {
-		key: 'getSlotName',
-		value: function getSlotName() {
-			return this.config.slotName;
-		}
-	}, {
-		key: 'getSizes',
-		value: function getSizes() {
-			return this.config.sizes;
-		}
-	}, {
-		key: 'getTargeting',
-		value: function getTargeting() {
-			return this.config.targeting;
-		}
-	}, {
-		key: 'getDefaultSizes',
-		value: function getDefaultSizes() {
-			return this.config.defaultSizes;
-		}
-	}, {
-		key: 'shouldLoad',
-		value: function shouldLoad() {
-			var isMobile = _services.context.get('state.isMobile'),
-			    shouldLoad = this.screenSize === 'both',
-			    shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
-			    shouldLoadMobile = isMobile && this.screenSize === 'mobile';
-
-			return shouldLoad || shouldLoadDesktop || shouldLoadMobile;
-		}
-	}, {
-		key: 'isAboveTheFold',
-		value: function isAboveTheFold() {
-			return !!this.config.aboveTheFold;
-		}
-	}, {
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return this.enabled;
-		}
-	}, {
-		key: 'isViewed',
-		value: function isViewed() {
-			return this.viewed;
-		}
-	}, {
-		key: 'enable',
-		value: function enable() {
-			this.enabled = true;
-		}
-	}, {
-		key: 'disable',
-		value: function disable() {
-			this.enabled = false;
-		}
-	}, {
-		key: 'success',
-		value: function success() {
-			_services.slotTweaker.show(this);
-			_services.slotTweaker.setDataParam(this, 'slotResult', 'success');
-
-			if (this.config.defaultTemplate) {
-				_services.templateService.init(this.config.defaultTemplate, this);
-			}
-		}
-	}, {
-		key: 'collapse',
-		value: function collapse() {
-			_services.slotTweaker.hide(this);
-			_services.slotTweaker.setDataParam(this, 'slotResult', 'collapse');
-		}
-	}]);
-
-	return AdSlot;
-}(_events.EventEmitter);
-
-AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3894,7 +3940,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _floatingAd = __webpack_require__(49);
+var _floatingAd = __webpack_require__(50);
 
 Object.keys(_floatingAd).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3907,7 +3953,7 @@ Object.keys(_floatingAd).forEach(function (key) {
 });
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3994,7 +4040,7 @@ var FloatingAd = exports.FloatingAd = function () {
 }();
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
