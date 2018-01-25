@@ -13,7 +13,7 @@ const common = {
 			{
 				test: /.js$/,
 				use: 'babel-loader',
-				exclude: /node_modules/
+				include: path.resolve(__dirname, 'src')
 			}
 		]
 	}
@@ -34,7 +34,8 @@ const environments = {
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify('production')
-			})
+			}),
+			new webpack.optimize.ModuleConcatenationPlugin()
 		]
 	},
 	development: {
@@ -75,7 +76,7 @@ const targets = {
 		}
 	},
 	commonjs: {
-		externals: Object.keys(pkg.dependencies),
+		externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)),
 		output: {
 			filename: '[name].js',
 			library: 'adEngine',

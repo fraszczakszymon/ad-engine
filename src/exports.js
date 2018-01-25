@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+
 import * as utils from './utils';
 
 export * from './ad-engine';
