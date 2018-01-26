@@ -61,40 +61,17 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-/* eslint-disable global-require, no-console, no-underscore-dangle */
-var _require = __webpack_require__(1),
-    name = _require.name,
-    version = _require.version;
-
-var moduleName = '__wikia_adengine';
-
-if (typeof window[moduleName] === 'undefined') {
-	window[moduleName] = __webpack_require__(2);
-
-	Object.defineProperty(window[moduleName], '__version', {
-		value: version
-	});
-} else if (window[moduleName].__version !== version) {
-	console.warn(name + ' is trying to load v' + version + ', but ' + window[moduleName].__version + ' is already loaded');
-}
-
-module.exports = window[moduleName];
+module.exports = require("regenerator-runtime");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-module.exports = {"name":"@wikia/ad-engine","version":"9.1.0","description":"Wikia AdEngine","repository":{"type":"git","url":"https://github.com/Wikia/AdEngine"},"dependencies":{"blockadblock":"3.2.1","core-decorators":"^0.20.0","events":"^1.1.1","lodash-es":"^4.17.4","mobile-detect":"1.4.1","regenerator-runtime":"^0.11.1"},"devDependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.0.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.3.2","babel-plugin-transform-class-properties":"^6.24.1","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-preset-env":"^1.6.1","casperjs":"^1.1.4","chai":"^4.1.2","eslint":"^3.7.1","eslint-config-airbnb":"^12.0.0","eslint-plugin-import":"^1.16.0","eslint-plugin-jsx-a11y":"^2.2.3","eslint-plugin-react":"^6.4.1","jsdom":"^11.3.0","jsdom-global":"^3.0.2","mocha":"4.1.0","mocha-jsdom":"^1.1.0","mocha-junit-reporter":"^1.15.0","mocha-webpack":"^1.0.1","nyc":"11.4.1","phantomjs-polyfill-object-assign":"0.0.2","phantomjs-prebuilt":"^2.1.7","sinon":"4.1.4","webpack":"^3.5.6","webpack-dev-server":"2.10.1","webpack-merge":"^4.1.1"},"files":["dist/","src/","jsconfig.json","README.md"],"main":"./dist/ad-engine.js","nyc":{"report-dir":"./spec/build/","reporter":["cobertura"]},"publishConfig":{"registry":"https://artifactory.wikia-inc.com/artifactory/api/npm/wikia-npm/"},"scripts":{"build":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules","casper":"cd tests/ && ../node_modules/casperjs/bin/casperjs test .","ci-check":"npm run test && npm run lint","lint":"./node_modules/.bin/eslint .","prepublishOnly":"./maintenance/prepublish.sh","preversion":"./maintenance/preversion.sh","serve":"./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples","tdd":"mocha-webpack -w --full-trace './spec/**/*.spec.js' -r jsdom-global/register -r regenerator-runtime/runtime --webpack-env.test","test":"mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register -r regenerator-runtime/runtime --webpack-env.test","test-coverage":"nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register -r regenerator-runtime/runtime --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml","watch":"./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch"}}
-
-/***/ }),
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -115,9 +92,17 @@ __webpack_require__.d(utils_namespaceObject, "whichProperty", function() { retur
 __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return tryProperty; });
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
-// EXTERNAL MODULE: external "regenerator-runtime/runtime"
-var runtime_ = __webpack_require__(3);
-var runtime__default = /*#__PURE__*/__webpack_require__.n(runtime_);
+// EXTERNAL MODULE: external "lodash/set"
+var set_ = __webpack_require__(2);
+var set__default = /*#__PURE__*/__webpack_require__.n(set_);
+
+// EXTERNAL MODULE: external "lodash/get"
+var get_ = __webpack_require__(3);
+var get__default = /*#__PURE__*/__webpack_require__.n(get_);
+
+// EXTERNAL MODULE: external "regenerator-runtime"
+var external__regenerator_runtime_ = __webpack_require__(0);
+var external__regenerator_runtime__default = /*#__PURE__*/__webpack_require__.n(external__regenerator_runtime_);
 
 // EXTERNAL MODULE: external "mobile-detect"
 var external__mobile_detect_ = __webpack_require__(4);
@@ -129,6 +114,8 @@ var external__blockadblock__default = /*#__PURE__*/__webpack_require__.n(externa
 
 // CONCATENATED MODULE: ./src/utils/client.js
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -283,6 +270,7 @@ var client_Client = function () {
 
 var client = new client_Client();
 // CONCATENATED MODULE: ./src/utils/defer.js
+
 function defer(fn) {
 	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 		args[_key - 1] = arguments[_key];
@@ -299,6 +287,7 @@ function defer(fn) {
 	});
 }
 // CONCATENATED MODULE: ./src/utils/dimensions.js
+
 function getTopOffset(element) {
 	var elementWindow = element.ownerDocument.defaultView;
 
@@ -349,6 +338,7 @@ function isInViewport(element) {
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
 // CONCATENATED MODULE: ./src/utils/event.js
+
 function once(eventTarget, eventName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
@@ -365,6 +355,7 @@ function once(eventTarget, eventName) {
 	});
 }
 // CONCATENATED MODULE: ./src/utils/lazy-queue.js
+
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -385,6 +376,8 @@ function makeLazyQueue(queue, callback) {
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var query_string__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function query_string__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -435,6 +428,7 @@ var queryString = new QueryString();
 // CONCATENATED MODULE: ./src/utils/logger.js
 
 
+
 var debugGroup = queryString.get('adengine_debug') || '',
     groups = debugGroup.split(',');
 
@@ -457,6 +451,8 @@ function logger(logGroup) {
 }
 // CONCATENATED MODULE: ./src/utils/sampler.js
 var sampler__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function sampler__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -492,6 +488,8 @@ var Sampler = function () {
 var sampler = new Sampler();
 // CONCATENATED MODULE: ./src/utils/script-loader.js
 var script_loader__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function script_loader__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -542,6 +540,8 @@ var ScriptLoader = function () {
 var scriptLoader = new ScriptLoader();
 // CONCATENATED MODULE: ./src/services/context-service.js
 var context_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function context_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -664,6 +664,8 @@ var context = new Context();
 // CONCATENATED MODULE: ./src/services/slot-service.js
 var slot_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function slot_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var slotNameMapping = {};
@@ -741,6 +743,8 @@ function setState(slotName, state) {
 // CONCATENATED MODULE: ./src/services/template-service.js
 var template_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function template_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -800,6 +804,7 @@ var templateService = new template_service_TemplateService();
 
 
 
+
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
 		var slot = slotService.getBySlotName(params.slotName);
@@ -809,6 +814,8 @@ function registerCustomAdLoader(methodName) {
 }
 // CONCATENATED MODULE: ./src/services/local-cache.js
 var local_cache__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function local_cache__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -966,6 +973,8 @@ var localCache = new local_cache_LocalCache();
 // CONCATENATED MODULE: ./src/services/message-bus.js
 var message_bus__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function message_bus__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -1044,6 +1053,8 @@ var message_bus_MessageBus = function () {
 var messageBus = new message_bus_MessageBus();
 // CONCATENATED MODULE: ./src/services/slot-tweaker.js
 var slot_tweaker__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function slot_tweaker__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1210,6 +1221,8 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
 var slot_data_params_updater__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function slot_data_params_updater__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -1260,8 +1273,11 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
+
 // CONCATENATED MODULE: ./src/utils/string-builder.js
 var string_builder__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function string_builder__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1315,6 +1331,7 @@ var string_builder_StringBuilder = function () {
 
 var stringBuilder = new string_builder_StringBuilder();
 // CONCATENATED MODULE: ./src/utils/try-property.js
+
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -1351,6 +1368,8 @@ var external__events__default = /*#__PURE__*/__webpack_require__.n(external__eve
 
 // CONCATENATED MODULE: ./src/models/ad-slot.js
 var ad_slot__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function ad_slot__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1520,8 +1539,11 @@ ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 // CONCATENATED MODULE: ./src/models/index.js
 
+
 // CONCATENATED MODULE: ./src/video/vast-parser.js
 var vast_parser__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function vast_parser__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1585,6 +1607,8 @@ var vastParser = new vast_parser_VastParser();
 // CONCATENATED MODULE: ./src/video/vast-debugger.js
 var vast_debugger__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function vast_debugger__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -1624,6 +1648,7 @@ var vast_debugger_VastDebugger = function () {
 
 var vastDebugger = new vast_debugger_VastDebugger();
 // CONCATENATED MODULE: ./src/video/vast-url-builder.js
+
 
 
 var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
@@ -1675,6 +1700,7 @@ function buildVastUrl(aspectRatio, slotName) {
 	return baseUrl + params.join('&');
 }
 // CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-setup.js
+
 
 
 
@@ -1731,6 +1757,7 @@ var googleImaSetup = {
 	getRenderingSettings: getRenderingSettings
 };
 // CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker-script.js
+
 // Fixes for MOAT script incompatibility
 var eventMapping = {},
     listeners = [],
@@ -1762,6 +1789,8 @@ function initMoatTracking(a, f, c) {
 // MOAT CODE END
 // CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker.js
 var moat_video_tracker__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function moat_video_tracker__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1801,6 +1830,8 @@ var moat_video_tracker_MoatVideoTracker = function () {
 var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
 // CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-player-factory.js
 var google_ima_player_factory__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function google_ima_player_factory__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2005,6 +2036,7 @@ var googleImaPlayerFactory = {
 
 
 
+
 var imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
 function load() {
@@ -2039,6 +2071,8 @@ var googleIma = {
 };
 // CONCATENATED MODULE: ./src/video/player/porvata/video-settings.js
 var video_settings__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function video_settings__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2103,6 +2137,8 @@ var VideoSettings = function () {
 }();
 // CONCATENATED MODULE: ./src/video/player/porvata/porvata.js
 var porvata__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function porvata__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2462,13 +2498,17 @@ var porvata_Porvata = function () {
 
 
 
+
 // CONCATENATED MODULE: ./src/video/index.js
+
 
 
 
 
 // CONCATENATED MODULE: ./src/listeners/porvata-listener.js
 var porvata_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function porvata_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2587,6 +2627,8 @@ porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 // CONCATENATED MODULE: ./src/listeners/scroll-listener.js
 var scroll_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+
+
 function scroll_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -2672,6 +2714,8 @@ var scroll_listener_ScrollListener = function () {
 var scrollListener = new scroll_listener_ScrollListener();
 // CONCATENATED MODULE: ./src/listeners/slot-listener.js
 var slot_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function slot_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2800,7 +2844,9 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
+
 // CONCATENATED MODULE: ./src/utils/viewport-observer.js
+
 
 
 
@@ -2854,8 +2900,11 @@ var viewportObserver = {
 
 
 
+
 // CONCATENATED MODULE: ./src/templates/floating-ad.js
 var floating_ad__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function floating_ad__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2930,7 +2979,9 @@ var floating_ad_FloatingAd = function () {
 }();
 // CONCATENATED MODULE: ./src/templates/index.js
 
+
 // CONCATENATED MODULE: ./src/providers/gpt-targeting.js
+
 
 
 function setupGptTargeting() {
@@ -2958,6 +3009,8 @@ function setupGptTargeting() {
 }
 // CONCATENATED MODULE: ./src/providers/gpt-provider.js
 var gpt_provider__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function gpt_provider__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3131,8 +3184,11 @@ var gpt_provider_GptProvider = function () {
 // CONCATENATED MODULE: ./src/providers/index.js
 
 
+
 // CONCATENATED MODULE: ./src/ad-engine.js
 var ad_engine__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
 
 function ad_engine__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3198,7 +3254,7 @@ var ad_engine_AdEngine = function () {
 
 	return AdEngine;
 }();
-// CONCATENATED MODULE: ./src/exports.js
+// CONCATENATED MODULE: ./src/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdEngine", function() { return ad_engine_AdEngine; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "scrollListener", function() { return scrollListener; });
@@ -3229,6 +3285,16 @@ var ad_engine_AdEngine = function () {
 
 
 
+var versionField = 'ads.adEngineVersion';
+
+if (get__default()(window, versionField, null)) {
+	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
+}
+
+set__default()(window, versionField, 'v9.1.0');
+
+
+
 
 
 
@@ -3236,10 +3302,16 @@ var ad_engine_AdEngine = function () {
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("regenerator-runtime/runtime");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 4 */

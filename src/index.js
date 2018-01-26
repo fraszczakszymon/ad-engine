@@ -1,16 +1,20 @@
-/* eslint-disable global-require, no-console, no-underscore-dangle */
-const { name, version } = require('../package.json');
+import { get, set } from 'lodash';
+import * as utils from './utils';
 
-const moduleName = '__wikia_adengine';
+const versionField = 'ads.adEngineVersion';
 
-if (typeof window[moduleName] === 'undefined') {
-	window[moduleName] = require('./exports');
-
-	Object.defineProperty(window[moduleName], '__version', {
-		value: version
-	});
-} else if (window[moduleName].__version !== version) {
-	console.warn(`${name} is trying to load v${version}, but ${window[moduleName].__version} is already loaded`);
+if (get(window, versionField, null)) {
+	window.console.warn('Multiple <?= PACKAGE(name) ?> initializations. This may cause issues.');
 }
 
-module.exports = window[moduleName];
+set(window, versionField, 'v<?= PACKAGE(version) ?>');
+
+export * from './ad-engine';
+export * from './listeners';
+export * from './models';
+export * from './providers';
+export * from './services';
+export * from './video';
+export {
+	utils
+};
