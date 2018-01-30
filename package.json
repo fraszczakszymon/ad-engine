@@ -70,6 +70,7 @@
     "lint": "./node_modules/.bin/eslint .",
     "prepublishOnly": "./maintenance/prepublish.sh",
     "preversion": "./maintenance/preversion.sh",
+    "version": "./maintenance/version.sh",
     "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
     "tdd": "mocha-webpack -w --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test",
     "test": "mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test",
