@@ -78,9 +78,10 @@ module.exports = require("regenerator-runtime");
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
-__webpack_require__.d(utils_namespaceObject, "defer", function() { return defer; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
+__webpack_require__.d(utils_namespaceObject, "wait", function() { return wait; });
+__webpack_require__.d(utils_namespaceObject, "defer", function() { return defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
@@ -269,23 +270,6 @@ var client_Client = function () {
 }();
 
 var client = new client_Client();
-// CONCATENATED MODULE: ./src/utils/defer.js
-
-function defer(fn) {
-	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-		args[_key - 1] = arguments[_key];
-	}
-
-	if (typeof fn !== 'function') {
-		throw new Error('Expected a function.');
-	}
-
-	return new Promise(function (resolve) {
-		setTimeout(function () {
-			return resolve(fn.apply(undefined, args));
-		}, 0);
-	});
-}
 // CONCATENATED MODULE: ./src/utils/dimensions.js
 
 function getTopOffset(element) {
@@ -337,21 +321,58 @@ function isInViewport(element) {
 
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
-// CONCATENATED MODULE: ./src/utils/event.js
+// CONCATENATED MODULE: ./src/utils/flow-control.js
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function once(eventTarget, eventName) {
-	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
+var wait = function wait() {
+	var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 	return new Promise(function (resolve, reject) {
-		if (!eventTarget || typeof eventTarget.addEventListener !== 'function') {
-			reject('EventTarget does not have addEventListener method');
+		if (typeof milliseconds !== 'number') {
+			reject('Delay value must be a number.');
+			return;
 		}
 
+		setTimeout(resolve, milliseconds);
+	});
+};
+
+var defer = function defer(fn) {
+	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		args[_key - 1] = arguments[_key];
+	}
+
+	return new Promise(function (resolve, reject) {
+		if (typeof fn !== 'function') {
+			reject('Expected a function.');
+			return;
+		}
+
+		setTimeout(function () {
+			return resolve(fn.apply(undefined, args));
+		}, 0);
+	});
+};
+
+function once(emitter, eventName) {
+	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	var isObject = (typeof emitter === 'undefined' ? 'undefined' : _typeof(emitter)) === 'object';
+	var hasAddEventListener = isObject && typeof emitter.addEventListener === 'function';
+	var hasOnce = isObject && typeof emitter.once === 'function';
+
+	return new Promise(function (resolve, reject) {
 		if (typeof options === 'boolean') {
 			options = { capture: options };
 		}
 
-		eventTarget.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
+		if (hasOnce) {
+			emitter.once(eventName, resolve);
+		} else if (hasAddEventListener) {
+			emitter.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
+		} else {
+			reject('Emitter does not have `addEventListener` nor `once` method.');
+		}
 	});
 }
 // CONCATENATED MODULE: ./src/utils/lazy-queue.js
@@ -2900,7 +2921,6 @@ var viewportObserver = {
 
 
 
-
 // CONCATENATED MODULE: ./src/templates/floating-ad.js
 var floating_ad__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3291,7 +3311,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.2.1');
+set__default()(window, versionField, 'v9.3.0');
 
 
 
