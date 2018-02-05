@@ -2457,7 +2457,7 @@ var porvata_Porvata = function () {
 					} else if (isVisible && autoPaused) {
 						video.resume();
 						// Pause video once it's out of viewport and set autoPaused to distinguish manual and auto pause
-					} else if (!isVisible && video.isPlaying()) {
+					} else if (!isVisible && video.isPlaying() && !params.blockOutOfViewportPausing) {
 						video.pause();
 						autoPaused = true;
 					}
