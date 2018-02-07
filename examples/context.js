@@ -9,6 +9,9 @@ export default {
 			threshold: 100
 		}
 	},
+	options: {
+		exposeAudioInfoToSlot: true
+	},
 	listeners: {
 		porvata: [
 			{
@@ -29,6 +32,9 @@ export default {
 		]
 	},
 	networkId: '5441',
+	slotConfig: {
+		adUnitAudioSuffix: ''
+	},
 	slots: {
 		'top-leaderboard': {
 			slotName: 'TOP_LEADERBOARD',
@@ -79,8 +85,13 @@ export default {
 			slotGroup: 'VIDEO',
 			slotName: 'OUTSTREAM',
 			targeting: {},
+			adUnitAudioSuffix() {
+				console.log(this.audio);
+
+				return '';
+			},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
-				'/{custom.device}/ae-{custom.adLayout}/_example'
+			'{slotConfig.adUnitAudioSuffix}/{custom.device}/ae-{custom.adLayout}/_example'
 		}
 	},
 	state: {
@@ -88,7 +99,8 @@ export default {
 		isMobile: false
 	},
 	targeting: {
-		s1: '_project43'
+		s1: '_project43',
+
 	},
 	vast: {
 		size: [640, 480],

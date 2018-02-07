@@ -1,4 +1,4 @@
-import { context } from '../../../../services';
+import { context, slotService } from '../../../../services';
 import { logger, queryString } from '../../../../utils';
 import { buildVastUrl } from '../../../vast-url-builder';
 
@@ -16,11 +16,16 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	const adsRequest = new window.google.ima.AdsRequest(),
+	const adSlot = slotService.getBySlotName(params.slotName),
+		adsRequest = new window.google.ima.AdsRequest(),
 		overriddenVast = getOverriddenVast();
 
 	if (params.vastResponse || overriddenVast) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
+	}
+
+	if (context.get('options.exposeAudioInfoToSlot')) {
+		adSlot.setConfigProperty('audio', !params.autoPlay);
 	}
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {

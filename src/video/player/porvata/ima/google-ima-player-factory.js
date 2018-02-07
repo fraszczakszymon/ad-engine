@@ -61,6 +61,7 @@ class GoogleImaPlayer {
 			this.mobileVideoAd.autoplay = value;
 			this.mobileVideoAd.muted = value;
 		}
+		this.params.autoPlay = value;
 	}
 
 	playVideo(width, height) {

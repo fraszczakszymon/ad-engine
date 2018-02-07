@@ -17,7 +17,7 @@ class StringBuilder {
 				if (value) {
 					for (index = 1; index < keySegments.length; index += 1) {
 						segment = keySegments[index];
-						if (!value[segment]) {
+						if (typeof value[segment] === 'undefined') {
 							value = null;
 							break;
 						}
@@ -25,8 +25,12 @@ class StringBuilder {
 					}
 				}
 
-				if (value || fallbackValue) {
-					string = string.replace(match, value || fallbackValue);
+				let finalValue = value || fallbackValue;
+				if (typeof finalValue === 'function') {
+					finalValue = finalValue();
+				}
+				if (typeof finalValue !== 'undefined') {
+					string = string.replace(match, finalValue);
 				}
 			});
 		}
