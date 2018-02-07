@@ -139,9 +139,9 @@ var classCallCheck__default = /*#__PURE__*/__webpack_require__.n(classCallCheck_
 var createClass_ = __webpack_require__(1);
 var createClass__default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
-// EXTERNAL MODULE: external "mobile-detect"
-var external__mobile_detect_ = __webpack_require__(9);
-var external__mobile_detect__default = /*#__PURE__*/__webpack_require__.n(external__mobile_detect_);
+// EXTERNAL MODULE: external "ismobilejs"
+var external__ismobilejs_ = __webpack_require__(9);
+var external__ismobilejs__default = /*#__PURE__*/__webpack_require__.n(external__ismobilejs_);
 
 // EXTERNAL MODULE: external "blockadblock"
 var external__blockadblock_ = __webpack_require__(10);
@@ -156,17 +156,17 @@ var external__blockadblock__default = /*#__PURE__*/__webpack_require__.n(externa
 
 var blockAdBlock = null,
     browser = null,
-    mobileDetect = null,
+    client_isMobile = null,
     operatingSystem = null;
 
-function getMobileDetect() {
-	if (mobileDetect === null) {
+function getIsMobile() {
+	if (client_isMobile === null) {
 		var userAgent = window.navigator.userAgent;
 
-		mobileDetect = new external__mobile_detect__default.a(userAgent);
+		client_isMobile = typeof external__ismobilejs__default.a === 'function' ? external__ismobilejs__default()(userAgent) : external__ismobilejs__default.a;
 	}
 
-	return mobileDetect;
+	return client_isMobile;
 }
 
 var client_Client = function () {
@@ -177,16 +177,16 @@ var client_Client = function () {
 	createClass__default()(Client, [{
 		key: 'isSmartphone',
 		value: function isSmartphone() {
-			var device = getMobileDetect();
+			var device = getIsMobile();
 
-			return device.mobile();
+			return device.phone;
 		}
 	}, {
 		key: 'isTablet',
 		value: function isTablet() {
-			var device = getMobileDetect();
+			var device = getIsMobile();
 
-			return device.tablet();
+			return device.tablet;
 		}
 	}, {
 		key: 'isDesktop',
@@ -3303,7 +3303,7 @@ module.exports = require("lodash/get");
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("mobile-detect");
+module.exports = require("ismobilejs");
 
 /***/ }),
 /* 10 */
