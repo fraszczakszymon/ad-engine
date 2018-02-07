@@ -62,16 +62,9 @@ export class AdSlot extends EventEmitter {
 	}
 
 	getVideoAdUnit() {
-		if (!this.videoAdUnit) {
-			this.videoAdUnit = stringBuilder.build(
-				this.config.videoAdUnit || context.get('vast.adUnitId'),
-				{
-					slotConfig: this.config
-				}
-			);
-		}
-
-		return this.videoAdUnit;
+		return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
+			slotConfig: this.config
+		});
 	}
 
 	getElement() {

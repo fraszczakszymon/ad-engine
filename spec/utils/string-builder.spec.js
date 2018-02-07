@@ -81,4 +81,9 @@ describe('string-builder', () => {
 		expect(stringBuilder.build('{foo}/{additionalValue.foo.0}', { additionalValue: { foo: ['amazing', 'array'] } }))
 			.to.equal('bar/amazing');
 	});
+
+	it('empty string', () => {
+		expect(stringBuilder.build('{foo}/{bar}', { bar: '' }))
+			.to.equal('bar/');
+	});
 });

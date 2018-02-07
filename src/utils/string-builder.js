@@ -18,19 +18,18 @@ class StringBuilder {
 					for (index = 1; index < keySegments.length; index += 1) {
 						segment = keySegments[index];
 						if (typeof value[segment] === 'undefined') {
-							value = null;
+							value = undefined;
 							break;
 						}
 						value = value[segment];
 					}
 				}
 
-				let finalValue = value || fallbackValue;
-				if (typeof finalValue === 'function') {
-					finalValue = finalValue();
+				if (typeof value === 'undefined') {
+					value = fallbackValue;
 				}
-				if (typeof finalValue !== 'undefined') {
-					string = string.replace(match, finalValue);
+				if (typeof value !== 'undefined') {
+					string = string.replace(match, value);
 				}
 			});
 		}

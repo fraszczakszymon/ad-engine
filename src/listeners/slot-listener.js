@@ -99,10 +99,6 @@ class SlotListener {
 		dispatch('onImpressionViewable', adSlot, { event });
 		slotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
-
-	emitPropertyChanged(adSlot, key, value) {
-		adSlot.emit(AdSlot.PROPERTY_CHANGED_EVENT, key, value);
-	}
 }
 
 export const slotListener = new SlotListener();
