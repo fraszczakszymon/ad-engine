@@ -6,3 +6,17 @@
 	margin: 0 auto;
 	width: 300px;
 }
+
+.controls {
+	font-size: 0.7em;
+	font-weight: bold;
+}
+
+#player-close {
+	cursor: pointer;
+	text-align: center;
+}
+
+#player-close:hover {
+	text-decoration: underline;
+}

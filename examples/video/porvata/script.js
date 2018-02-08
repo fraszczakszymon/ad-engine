@@ -8,7 +8,8 @@ import {
 } from '@wikia/ad-engine';
 import adContext from '../../context';
 
-const container = document.getElementById('player'),
+const closeButton = document.getElementById('player-close'),
+	container = document.getElementById('player'),
 	params = {
 		adProduct: 'test-video',
 		autoPlay: true,
@@ -40,5 +41,8 @@ Porvata.inject(params)
 		});
 		container.addEventListener('click', () => {
 			_video.play();
+		});
+		closeButton.addEventListener('click', () => {
+			_video.stop();
 		});
 	});
