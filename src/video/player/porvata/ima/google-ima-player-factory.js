@@ -170,6 +170,8 @@ export const googleImaPlayerFactory = {
 		player.addEventListener('resume', player.setStatus('playing'));
 		player.addEventListener('start', player.setStatus('playing'));
 		player.addEventListener('pause', player.setStatus('paused'));
+		player.addEventListener('wikiaAdStop', player.setStatus('stopped'));
+		player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
 
 		return player;
 	}
