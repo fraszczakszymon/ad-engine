@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { once } from '../../src/utils/event';
+import { once } from '../../src/utils/flow-control';
 
 const getMockObject = () => {
 	let eventCallback;
@@ -16,7 +16,7 @@ const getMockObject = () => {
 };
 let object;
 
-describe('event', () => {
+describe('Flow control - once', () => {
 	beforeEach(() => {
 		object = getMockObject();
 	});
