@@ -82,7 +82,7 @@ describe('string-builder', () => {
 			.to.equal('bar/amazing');
 	});
 
-	it('empty string', () => {
+	it('empty string should not be ignored', () => {
 		expect(stringBuilder.build('{foo}/{bar}', { bar: '' }))
 			.to.equal('bar/');
 	});
