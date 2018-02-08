@@ -1,4 +1,4 @@
-import { logger, makeLazyQueue } from '../utils';
+import { logger } from '../utils';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
 import { slotService, slotDataParamsUpdater } from '../services';

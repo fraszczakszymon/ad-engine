@@ -18,7 +18,7 @@ function fillInUsingProvider(ad, provider) {
 
 	if (adSlot.shouldLoad()) {
 		slotService.add(adSlot);
-		btfBlockerService.push(adSlot, provider.fillIn.bind(provider))
+		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
 }
 

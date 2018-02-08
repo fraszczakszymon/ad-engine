@@ -1,52 +1,53 @@
-import {logger, makeLazyQueue} from "../utils";
+import { logger, makeLazyQueue } from '../utils';
 import { context } from './context-service';
+import { slotService } from './slot-service';
 
 const logGroup = 'btf-blocker';
 
+function finishQueue() {
+	this.atfEnded = true;
+
+	if (window.ads.runtime.disableBtf) {
+		slotService.forEach((adSlot) => {
+			if (!adSlot.isAboveTheFold()) {
+				slotService.disable(adSlot.getSlotName());
+			}
+		});
+	}
+
+	this.slotsQueue.start();
+}
+
 class BtfBlockerService {
 	constructor() {
-		this._slotsQueue = [];
-		this._atfEnded = false;
+		this.slotsQueue = [];
+		this.atfEnded = false;
 	}
 
 	init() {
-		makeLazyQueue(this._slotsQueue, ({adSlot, fillInCallback}) => {
+		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
 			fillInCallback(adSlot);
 		});
 
-		context.push('listeners.slot', {onRenderEnded: adSlot => {
+		context.push('listeners.slot', { onRenderEnded: (adSlot) => {
 			logger(logGroup, adSlot.getId(), 'Slot rendered');
-			if (!this._atfEnded && adSlot.isAboveTheFold()) {
-				this._finishQueue();
+			if (!this.atfEnded && adSlot.isAboveTheFold()) {
+				finishQueue.bind(this)();
 			}
-		}});
-	}
-
-	_finishQueue() {
-		this._atfEnded = true;
-
-		if (window.ads.runtime.disableBtf) {
-			slotService.forEach((adSlot) => {
-				if (!adSlot.isAboveTheFold()) {
-					slotService.disable(adSlot.getSlotName());
-				}
-			});
-		}
-
-		this._slotsQueue.start();
+		} });
 	}
 
 	push(adSlot, fillInCallback) {
-		if (!this._atfEnded && !adSlot.isAboveTheFold()) {
-			this._slotsQueue.push({adSlot, fillInCallback});
+		if (!this.atfEnded && !adSlot.isAboveTheFold()) {
+			this.slotsQueue.push({ adSlot, fillInCallback });
 			logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
-			return false;
+			return;
 		}
 
-		if (this._atfEnded && !adSlot.isEnabled()) {
+		if (this.atfEnded && !adSlot.isEnabled()) {
 			logger(logGroup, adSlot.getId(), 'BTF slot blocked');
-			return false;
+			return;
 		}
 
 		logger(logGroup, adSlot.getId(), 'Filling in slot');
