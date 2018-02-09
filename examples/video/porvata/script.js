@@ -22,6 +22,7 @@ const closeButton = document.getElementById('player-close'),
 context.extend(adContext);
 context.set('targeting.artid', 292);
 context.set('targeting.vertical', 'games');
+context.set('targeting.wpage', '100% Orange Juice');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 
