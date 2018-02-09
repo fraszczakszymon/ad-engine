@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { spy, createSandbox } from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { btfBlockerService } from '../../src/services/btf-blocker-service';
-import {context} from "../../src/services/context-service";
+import { context } from '../../src/services/context-service';
 
 let atfSlot;
 let btfSlot;
@@ -10,11 +10,6 @@ let onRenderEndedCallback;
 let sandbox;
 
 describe('btf-blocker-service', () => {
-
-	beforeEach(() => {
-
-	});
-
 	beforeEach(() => {
 		sandbox = createSandbox();
 		sandbox.stub(context, 'push').callsFake((key, callbacks) => {
@@ -27,9 +22,9 @@ describe('btf-blocker-service', () => {
 		btfBlockerService.init();
 
 		atfSlot = Object.assign({}, adSlotFake);
-		atfSlot.isAboveTheFold = () => { return true; };
+		atfSlot.isAboveTheFold = () => false;
 		btfSlot = Object.assign({}, adSlotFake);
-		btfSlot.isAboveTheFold = () => { return false; };
+		btfSlot.isAboveTheFold = () => false;
 		btfSlot.isEnabled = () => {};
 	});
 
