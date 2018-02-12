@@ -1711,16 +1711,19 @@ var string_builder_StringBuilder = function () {
 					if (value) {
 						for (index = 1; index < keySegments.length; index += 1) {
 							segment = keySegments[index];
-							if (!value[segment]) {
-								value = null;
+							if (typeof value[segment] === 'undefined') {
+								value = undefined;
 								break;
 							}
 							value = value[segment];
 						}
 					}
 
-					if (value || fallbackValue) {
-						string = string.replace(match, value || fallbackValue);
+					if (typeof value === 'undefined') {
+						value = fallbackValue;
+					}
+					if (typeof value !== 'undefined') {
+						string = string.replace(match, value);
 					}
 				});
 			}
@@ -1846,13 +1849,9 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'getVideoAdUnit',
 		value: function getVideoAdUnit() {
-			if (!this.videoAdUnit) {
-				this.videoAdUnit = stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-					slotConfig: this.config
-				});
-			}
-
-			return this.videoAdUnit;
+			return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
+				slotConfig: this.config
+			});
 		}
 	}, {
 		key: 'getElement',
@@ -1919,6 +1918,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			this.enabled = false;
 		}
 	}, {
+		key: 'setConfigProperty',
+		value: function setConfigProperty(key, value) {
+			context.set('slots.' + this.location + '-' + this.type + '.' + key, value);
+		}
+	}, {
 		key: 'success',
 		value: function success() {
 			slotTweaker.show(this);
@@ -1938,6 +1942,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 	return AdSlot;
 }(events["EventEmitter"]);
+ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 // CONCATENATED MODULE: ./src/models/index.js
@@ -2122,11 +2127,20 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	var adsRequest = new window.google.ima.AdsRequest(),
+	var adSlot = slotService.getBySlotName(params.slotName),
+	    adsRequest = new window.google.ima.AdsRequest(),
 	    overriddenVast = getOverriddenVast();
 
 	if (params.vastResponse || overriddenVast) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
+	}
+
+	if (context.get('options.porvata.audio.exposeToSlot')) {
+		var key = context.get('options.porvata.audio.key'),
+		    segment = context.get('options.porvata.audio.segment');
+
+		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+		adSlot.setConfigProperty('targeting.' + key, params.autoPlay ? 'no' : 'yes');
 	}
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
@@ -2311,6 +2325,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 				this.mobileVideoAd.autoplay = value;
 				this.mobileVideoAd.muted = value;
 			}
+			this.params.autoPlay = value;
 		}
 	}, {
 		key: 'playVideo',
@@ -2431,6 +2446,8 @@ var googleImaPlayerFactory = {
 		player.addEventListener('resume', player.setStatus('playing'));
 		player.addEventListener('start', player.setStatus('playing'));
 		player.addEventListener('pause', player.setStatus('paused'));
+		player.addEventListener('wikiaAdStop', player.setStatus('stopped'));
+		player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
 
 		return player;
 	}
@@ -3693,7 +3710,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.3.0');
+set_default()(window, versionField, 'v9.3.1');
 
 
 

@@ -3,6 +3,7 @@ import { context, slotTweaker, templateService } from '../services';
 import { stringBuilder } from '../utils';
 
 export class AdSlot extends EventEmitter {
+	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
@@ -61,16 +62,9 @@ export class AdSlot extends EventEmitter {
 	}
 
 	getVideoAdUnit() {
-		if (!this.videoAdUnit) {
-			this.videoAdUnit = stringBuilder.build(
-				this.config.videoAdUnit || context.get('vast.adUnitId'),
-				{
-					slotConfig: this.config
-				}
-			);
-		}
-
-		return this.videoAdUnit;
+		return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
+			slotConfig: this.config
+		});
 	}
 
 	getElement() {
@@ -124,6 +118,10 @@ export class AdSlot extends EventEmitter {
 
 	disable() {
 		this.enabled = false;
+	}
+
+	setConfigProperty(key, value) {
+		context.set(`slots.${this.location}-${this.type}.${key}`, value);
 	}
 
 	success() {
