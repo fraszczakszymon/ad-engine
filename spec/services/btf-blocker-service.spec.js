@@ -22,7 +22,7 @@ describe('btf-blocker-service', () => {
 		btfBlockerService.init();
 
 		atfSlot = Object.assign({}, adSlotFake);
-		atfSlot.isAboveTheFold = () => false;
+		atfSlot.isAboveTheFold = () => true;
 		btfSlot = Object.assign({}, adSlotFake);
 		btfSlot.isAboveTheFold = () => false;
 		btfSlot.isEnabled = () => {};
