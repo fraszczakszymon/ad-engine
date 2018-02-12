@@ -16,6 +16,9 @@ export default {
 				segment: '-audio',
 				key: 'audio'
 			}
+		},
+		customAdLoader: {
+			globalMethodName: 'loadCustomAd'
 		}
 	},
 	listeners: {
