@@ -213,7 +213,8 @@ export class Porvata {
 		const porvataListener = new PorvataListener({
 			adProduct: params.adProduct,
 			position: params.slotName,
-			src: params.src
+			src: params.src,
+			withAudio: !params.autoPlay
 		});
 
 		let isFirstPlay = true,

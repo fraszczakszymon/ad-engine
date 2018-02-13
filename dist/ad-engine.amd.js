@@ -2818,7 +2818,8 @@ var porvata_Porvata = function () {
 			var porvataListener = new porvata_listener_PorvataListener({
 				adProduct: params.adProduct,
 				position: params.slotName,
-				src: params.src
+				src: params.src,
+				withAudio: !params.autoPlay
 			});
 
 			var isFirstPlay = true,
@@ -3018,7 +3019,8 @@ var porvata_listener_PorvataListener = function () {
 				line_item_id: lineItemId || 0,
 				player: PorvataListener.PLAYER_NAME,
 				position: this.params.position || '(none)',
-				timestamp: new Date().getTime()
+				timestamp: new Date().getTime(),
+				audio: this.params.withAudio ? 1 : 0
 			};
 		}
 	}]);
