@@ -8,7 +8,11 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		Object.values(context.get('slots')).forEach((adSlot) => {
+		const slots = context.get('slots');
+
+		Object.keys(slots).forEach((adSlotKey) => {
+			const adSlot = slots[adSlotKey];
+
 			if (!adSlot.aboveTheFold) {
 				slotService.disable(adSlot.slotName);
 			}
