@@ -8,9 +8,13 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		slotService.forEach((adSlot) => {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
+		const slots = context.get('slots');
+
+		Object.keys(slots).forEach((adSlotKey) => {
+			const adSlot = slots[adSlotKey];
+
+			if (!adSlot.aboveTheFold) {
+				slotService.disable(adSlot.slotName);
 			}
 		});
 	}
