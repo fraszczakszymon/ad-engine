@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import { context } from '../../src/services/context-service';
 import { vastParser } from '../../src/video/vast-parser';
 
-const dummyVast = 'dummy.vast?sz=640x480&foo=bar&cust_params=foo1%3Dbar1%26foo2%3Dbar2&vpos=preroll';
+const dummyVast = 'dummy.vast?sz=640x480&foo=bar&cust_params=foo1%3Dbar1%26foo2%3Dbar2' +
+	'%26customTitle%3D100%25%20Orange%20Juice%3Dbar2&vpos=preroll';
 
 function getImaAd(wrapperIds = [], wrapperCreativeIds = []) {
 	return {
@@ -25,7 +26,7 @@ describe('vast-parser', () => {
 				due: 15,
 				tre: ['bar', 'zero'],
 				quattro: null,
-				wsi: 'xxxx'
+				wsi: 'xxxx',
 			}
 		});
 	});
@@ -35,6 +36,7 @@ describe('vast-parser', () => {
 
 		expect(adInfo.customParams.foo1).to.equal('bar1');
 		expect(adInfo.customParams.foo2).to.equal('bar2');
+		expect(adInfo.customParams.customTitle).to.equal('100% Orange Juice');
 	});
 
 	it('parse size from VAST url', () => {
