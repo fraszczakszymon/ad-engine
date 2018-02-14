@@ -1072,7 +1072,7 @@ var slot_service__createClass = function () { function defineProperties(target, 
 function slot_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var slotNameMapping = {};
-var slots = {};
+var slot_service_slots = {};
 var slotStates = {};
 
 var SlotService = function () {
@@ -1085,7 +1085,7 @@ var SlotService = function () {
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
-			slots[adSlot.getId()] = adSlot;
+			slot_service_slots[adSlot.getId()] = adSlot;
 			slotNameMapping[slotName] = adSlot.getId();
 
 			if (slotStates[slotName] === false) {
@@ -1098,7 +1098,7 @@ var SlotService = function () {
 	}, {
 		key: "get",
 		value: function get(id) {
-			return slots[id];
+			return slot_service_slots[id];
 		}
 	}, {
 		key: "getBySlotName",
@@ -1110,8 +1110,8 @@ var SlotService = function () {
 	}, {
 		key: "forEach",
 		value: function forEach(callback) {
-			Object.keys(slots).forEach(function (id) {
-				callback(slots[id]);
+			Object.keys(slot_service_slots).forEach(function (id) {
+				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
@@ -1157,12 +1157,18 @@ function btf_blocker_service__classCallCheck(instance, Constructor) { if (!(inst
 var logGroup = 'btf-blocker';
 
 function finishQueue() {
+	var _this = this;
+
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		slotService.forEach(function (adSlot) {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
+		var slots = context.get('slots');
+
+		Object.keys(slots).forEach(function (adSlotKey) {
+			var adSlot = slots[adSlotKey];
+
+			if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
+				slotService.disable(adSlot.slotName);
 			}
 		});
 	}
@@ -1176,12 +1182,13 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 		this.slotsQueue = [];
 		this.atfEnded = false;
+		this.unblockedSlots = [];
 	}
 
 	btf_blocker_service__createClass(BtfBlockerService, [{
 		key: 'init',
 		value: function init() {
-			var _this = this;
+			var _this2 = this;
 
 			makeLazyQueue(this.slotsQueue, function (_ref) {
 				var adSlot = _ref.adSlot,
@@ -1193,8 +1200,8 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			context.push('listeners.slot', { onRenderEnded: function onRenderEnded(adSlot) {
 					logger(logGroup, adSlot.getId(), 'Slot rendered');
-					if (!_this.atfEnded && adSlot.isAboveTheFold()) {
-						finishQueue.bind(_this)();
+					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
+						finishQueue.bind(_this2)();
 					}
 				} });
 		}
@@ -1214,6 +1221,14 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			logger(logGroup, adSlot.getId(), 'Filling in slot');
 			fillInCallback(adSlot);
+		}
+	}, {
+		key: 'unblock',
+		value: function unblock(slotName) {
+			logger(logGroup, slotName, 'Unblocking slot');
+
+			this.unblockedSlots.push(slotName);
+			slotService.enable(slotName);
 		}
 	}]);
 
@@ -3751,7 +3766,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.4.0');
+set_default()(window, versionField, 'v9.4.2');
 
 
 
