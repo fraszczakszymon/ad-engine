@@ -2490,8 +2490,10 @@ var PorvataPlayer = function () {
 		value: function volumeToggle() {
 			if (this.isMuted()) {
 				this.unmute();
+				this.ima.dispatchEvent('wikiaAdUnmute');
 			} else {
 				this.mute();
+				this.ima.dispatchEvent('wikiaAdMute');
 			}
 		}
 	}, {
@@ -2752,7 +2754,9 @@ porvata_listener_PorvataListener.EVENTS = {
 	viewable_impression: 'viewable_impression',
 	adError: 'error',
 	wikiaAdPlayTriggered: 'play_triggered',
-	wikiaAdStop: 'closed'
+	wikiaAdStop: 'closed',
+	wikiaAdMute: 'mute',
+	wikiaAdUnmute: 'unmute'
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';

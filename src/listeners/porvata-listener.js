@@ -23,7 +23,9 @@ export class PorvataListener {
 		viewable_impression: 'viewable_impression',
 		adError: 'error',
 		wikiaAdPlayTriggered: 'play_triggered',
-		wikiaAdStop: 'closed'
+		wikiaAdStop: 'closed',
+		wikiaAdMute: 'mute',
+		wikiaAdUnmute: 'unmute'
 	};
 	static LOG_GROUP = 'porvata-listener';
 	static PLAYER_NAME = 'porvata';
