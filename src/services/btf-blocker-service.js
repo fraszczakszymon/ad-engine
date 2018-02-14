@@ -13,7 +13,7 @@ function finishQueue() {
 		Object.keys(slots).forEach((adSlotKey) => {
 			const adSlot = slots[adSlotKey];
 
-			if (!adSlot.aboveTheFold) {
+			if (!adSlot.aboveTheFold && this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
 				slotService.disable(adSlot.slotName);
 			}
 		});
@@ -26,6 +26,7 @@ class BtfBlockerService {
 	constructor() {
 		this.slotsQueue = [];
 		this.atfEnded = false;
+		this.unblockedSlots = [];
 	}
 
 	init() {
@@ -56,6 +57,13 @@ class BtfBlockerService {
 
 		logger(logGroup, adSlot.getId(), 'Filling in slot');
 		fillInCallback(adSlot);
+	}
+
+	unblock(slotName) {
+		logger(logGroup, slotName, 'Unblocking slot');
+
+		this.unblockedSlots.push(slotName);
+		slotService.enable(slotName);
 	}
 }
 
