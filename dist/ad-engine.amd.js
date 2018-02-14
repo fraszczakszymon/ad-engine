@@ -1072,7 +1072,7 @@ var slot_service__createClass = function () { function defineProperties(target, 
 function slot_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var slotNameMapping = {};
-var slots = {};
+var slot_service_slots = {};
 var slotStates = {};
 
 var SlotService = function () {
@@ -1085,7 +1085,7 @@ var SlotService = function () {
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
-			slots[adSlot.getId()] = adSlot;
+			slot_service_slots[adSlot.getId()] = adSlot;
 			slotNameMapping[slotName] = adSlot.getId();
 
 			if (slotStates[slotName] === false) {
@@ -1098,7 +1098,7 @@ var SlotService = function () {
 	}, {
 		key: "get",
 		value: function get(id) {
-			return slots[id];
+			return slot_service_slots[id];
 		}
 	}, {
 		key: "getBySlotName",
@@ -1110,8 +1110,8 @@ var SlotService = function () {
 	}, {
 		key: "forEach",
 		value: function forEach(callback) {
-			Object.keys(slots).forEach(function (id) {
-				callback(slots[id]);
+			Object.keys(slot_service_slots).forEach(function (id) {
+				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
@@ -1160,9 +1160,13 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		slotService.forEach(function (adSlot) {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
+		var slots = context.get('slots');
+
+		Object.keys(slots).forEach(function (adSlotKey) {
+			var adSlot = slots[adSlotKey];
+
+			if (!adSlot.aboveTheFold) {
+				slotService.disable(adSlot.slotName);
 			}
 		});
 	}
@@ -2074,7 +2078,7 @@ var vast_parser_VastParser = function () {
 
 			var currentAd = this.getAdInfo(extra.imaAd),
 			    vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			    customParams = queryString.getValues(vastParams.cust_params);
+			    customParams = queryString.getValues(encodeURI(vastParams.cust_params));
 
 			return {
 				contentType: currentAd.contentType || extra.contentType,
@@ -3749,7 +3753,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.4.0');
+set_default()(window, versionField, 'v9.4.1');
 
 
 
