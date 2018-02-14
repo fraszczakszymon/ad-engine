@@ -4,6 +4,7 @@ import { FloatingAd } from './templates';
 import { GptProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
+	btfBlockerService,
 	slotTweaker,
 	slotService,
 	templateService,
@@ -17,7 +18,7 @@ function fillInUsingProvider(ad, provider) {
 
 	if (adSlot.shouldLoad()) {
 		slotService.add(adSlot);
-		provider.fillIn(adSlot);
+		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
 }
 
@@ -34,6 +35,7 @@ export class AdEngine {
 
 	init() {
 		const provider = new GptProvider();
+		btfBlockerService.init();
 
 		makeLazyQueue(this.adStack, (ad) => {
 			fillInUsingProvider(ad, provider);

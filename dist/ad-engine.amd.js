@@ -1072,7 +1072,7 @@ var slot_service__createClass = function () { function defineProperties(target, 
 function slot_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var slotNameMapping = {};
-var slots = {};
+var slot_service_slots = {};
 var slotStates = {};
 
 var SlotService = function () {
@@ -1085,7 +1085,7 @@ var SlotService = function () {
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
-			slots[adSlot.getId()] = adSlot;
+			slot_service_slots[adSlot.getId()] = adSlot;
 			slotNameMapping[slotName] = adSlot.getId();
 
 			if (slotStates[slotName] === false) {
@@ -1098,7 +1098,7 @@ var SlotService = function () {
 	}, {
 		key: "get",
 		value: function get(id) {
-			return slots[id];
+			return slot_service_slots[id];
 		}
 	}, {
 		key: "getBySlotName",
@@ -1110,8 +1110,8 @@ var SlotService = function () {
 	}, {
 		key: "forEach",
 		value: function forEach(callback) {
-			Object.keys(slots).forEach(function (id) {
-				callback(slots[id]);
+			Object.keys(slot_service_slots).forEach(function (id) {
+				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
@@ -1143,6 +1143,99 @@ function setState(slotName, state) {
 		}
 	}
 }
+// CONCATENATED MODULE: ./src/services/btf-blocker-service.js
+var btf_blocker_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
+
+function btf_blocker_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+var logGroup = 'btf-blocker';
+
+function finishQueue() {
+	var _this = this;
+
+	this.atfEnded = true;
+
+	if (window.ads.runtime.disableBtf) {
+		var slots = context.get('slots');
+
+		Object.keys(slots).forEach(function (adSlotKey) {
+			var adSlot = slots[adSlotKey];
+
+			if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
+				slotService.disable(adSlot.slotName);
+			}
+		});
+	}
+
+	this.slotsQueue.start();
+}
+
+var btf_blocker_service_BtfBlockerService = function () {
+	function BtfBlockerService() {
+		btf_blocker_service__classCallCheck(this, BtfBlockerService);
+
+		this.slotsQueue = [];
+		this.atfEnded = false;
+		this.unblockedSlots = [];
+	}
+
+	btf_blocker_service__createClass(BtfBlockerService, [{
+		key: 'init',
+		value: function init() {
+			var _this2 = this;
+
+			makeLazyQueue(this.slotsQueue, function (_ref) {
+				var adSlot = _ref.adSlot,
+				    fillInCallback = _ref.fillInCallback;
+
+				logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
+				fillInCallback(adSlot);
+			});
+
+			context.push('listeners.slot', { onRenderEnded: function onRenderEnded(adSlot) {
+					logger(logGroup, adSlot.getId(), 'Slot rendered');
+					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
+						finishQueue.bind(_this2)();
+					}
+				} });
+		}
+	}, {
+		key: 'push',
+		value: function push(adSlot, fillInCallback) {
+			if (!this.atfEnded && !adSlot.isAboveTheFold()) {
+				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: fillInCallback });
+				logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
+				return;
+			}
+
+			if (this.atfEnded && !adSlot.isEnabled()) {
+				logger(logGroup, adSlot.getId(), 'BTF slot blocked');
+				return;
+			}
+
+			logger(logGroup, adSlot.getId(), 'Filling in slot');
+			fillInCallback(adSlot);
+		}
+	}, {
+		key: 'unblock',
+		value: function unblock(slotName) {
+			logger(logGroup, slotName, 'Unblocking slot');
+
+			this.unblockedSlots.push(slotName);
+			slotService.enable(slotName);
+		}
+	}]);
+
+	return BtfBlockerService;
+}();
+
+var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 // CONCATENATED MODULE: ./src/services/template-service.js
 var template_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1153,7 +1246,7 @@ function template_service__classCallCheck(instance, Constructor) { if (!(instanc
 
 
 
-var logGroup = 'template-service',
+var template_service_logGroup = 'template-service',
     templates = {};
 
 var template_service_TemplateService = function () {
@@ -1190,7 +1283,7 @@ var template_service_TemplateService = function () {
 			var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 			var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-			logger(logGroup, 'Load template', name, slot, params);
+			logger(template_service_logGroup, 'Load template', name, slot, params);
 			if (!templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
@@ -1677,6 +1770,7 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
+
 // CONCATENATED MODULE: ./src/utils/string-builder.js
 var string_builder__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1995,7 +2089,7 @@ var vast_parser_VastParser = function () {
 
 			var currentAd = this.getAdInfo(extra.imaAd),
 			    vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			    customParams = queryString.getValues(vastParams.cust_params);
+			    customParams = queryString.getValues(encodeURI(vastParams.cust_params));
 
 			return {
 				contentType: currentAd.contentType || extra.contentType,
@@ -3442,24 +3536,10 @@ function gpt_provider__classCallCheck(instance, Constructor) { if (!(instance in
 
 
 
-var gpt_provider_logGroup = 'gpt-provider',
-    slotsQueue = [];
+var gpt_provider_logGroup = 'gpt-provider';
 
-var atfEnded = false,
-    definedSlots = [],
+var definedSlots = [],
     initialized = false;
-
-function finishAtf() {
-	atfEnded = true;
-	if (window.ads.runtime.disableBtf) {
-		slotService.forEach(function (adSlot) {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
-			}
-		});
-	}
-	slotsQueue.start();
-}
 
 function configure() {
 	var tag = window.googletag.pubads();
@@ -3469,10 +3549,6 @@ function configure() {
 	tag.addEventListener('slotRenderEnded', function (event) {
 		var id = event.slot.getSlotElementId(),
 		    slot = slotService.get(id);
-
-		if (!atfEnded && slot.isAboveTheFold()) {
-			finishAtf();
-		}
 
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
@@ -3488,21 +3564,6 @@ function configure() {
 		slotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
-}
-
-function shouldPush(adSlot) {
-	if (!atfEnded && !adSlot.isAboveTheFold()) {
-		slotsQueue.push(adSlot);
-		logger(gpt_provider_logGroup, adSlot.getId(), 'BTF slot pushed to queue');
-		return false;
-	}
-
-	if (atfEnded && !adSlot.isEnabled()) {
-		logger(gpt_provider_logGroup, adSlot.getId(), 'BTF slot blocked');
-		return false;
-	}
-
-	return true;
 }
 
 var gpt_provider_GptProvider = function () {
@@ -3522,31 +3583,22 @@ var gpt_provider_GptProvider = function () {
 	gpt_provider__createClass(GptProvider, [{
 		key: 'init',
 		value: function init() {
-			var _this2 = this;
-
 			if (initialized) {
 				return;
 			}
 
 			setupGptTargeting();
 			configure();
-			makeLazyQueue(slotsQueue, function (adSlot) {
-				_this2.fillIn(adSlot);
-			});
 			initialized = true;
 		}
 	}, {
 		key: 'fillIn',
 		value: function fillIn(adSlot) {
-			var _this3 = this;
-
-			if (!shouldPush(adSlot)) {
-				return;
-			}
+			var _this2 = this;
 
 			window.googletag.cmd.push(function () {
 				var sizeMapping = window.googletag.sizeMapping(),
-				    targeting = _this3.parseTargetingParams(adSlot.getTargeting());
+				    targeting = _this2.parseTargetingParams(adSlot.getTargeting());
 
 				adSlot.getSizes().forEach(function (item) {
 					sizeMapping.addSize(item.viewportSize, item.sizes);
@@ -3554,14 +3606,14 @@ var gpt_provider_GptProvider = function () {
 
 				var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMapping.build());
 
-				_this3.applyTargetingParams(gptSlot, targeting);
+				_this2.applyTargetingParams(gptSlot, targeting);
 				slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
 				window.googletag.display(adSlot.getId());
 				definedSlots.push(gptSlot);
 
-				if (atfEnded) {
-					_this3.flush();
+				if (!adSlot.isAboveTheFold()) {
+					_this2.flush();
 				}
 
 				logger(gpt_provider_logGroup, adSlot.getId(), 'slot added');
@@ -3627,7 +3679,7 @@ function fillInUsingProvider(ad, provider) {
 
 	if (adSlot.shouldLoad()) {
 		slotService.add(adSlot);
-		provider.fillIn(adSlot);
+		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
 }
 
@@ -3652,6 +3704,7 @@ var ad_engine_AdEngine = function () {
 			var _this = this;
 
 			var provider = new gpt_provider_GptProvider();
+			btfBlockerService.init();
 
 			makeLazyQueue(this.adStack, function (ad) {
 				fillInUsingProvider(ad, provider);
@@ -3685,6 +3738,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "setupGptTargeting", function() { return setupGptTargeting; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "btfBlockerService", function() { return btfBlockerService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "registerCustomAdLoader", function() { return registerCustomAdLoader; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
@@ -3714,7 +3768,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.3.1');
+set_default()(window, versionField, 'v9.4.2');
 
 
 
