@@ -2594,6 +2594,7 @@ var porvata_Porvata = function () {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+					porvataListener.params.withAudio = true;
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');

@@ -276,6 +276,7 @@ export class Porvata {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+					porvataListener.params.withAudio = true;
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');
