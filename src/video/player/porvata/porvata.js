@@ -180,6 +180,13 @@ export class PorvataPlayer {
 
 	unmute() {
 		this.setVolume(0.75);
+
+		if (this.params.autoPlay && this.params.restartOnUnmute) {
+			this.params.autoPlay = false;
+			this.ima.setAutoPlay(false);
+			this.play();
+			this.ima.dispatchEvent('wikiaAdRestart');
+		}
 	}
 
 	volumeToggle() {
@@ -275,6 +282,10 @@ export class Porvata {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+				});
+				video.addEventListener('wikiaAdRestart', () => {
+					isFirstPlay = false;
+					video.unmute();
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');

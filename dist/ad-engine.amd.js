@@ -2866,6 +2866,13 @@ var PorvataPlayer = function () {
 		key: 'unmute',
 		value: function unmute() {
 			this.setVolume(0.75);
+
+			if (this.params.autoPlay && this.params.restartOnUnmute) {
+				this.params.autoPlay = false;
+				this.ima.setAutoPlay(false);
+				this.play();
+				this.ima.dispatchEvent('wikiaAdRestart');
+			}
 		}
 	}, {
 		key: 'volumeToggle',
@@ -2975,6 +2982,10 @@ var porvata_Porvata = function () {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+				});
+				video.addEventListener('wikiaAdRestart', function () {
+					isFirstPlay = false;
+					video.unmute();
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');
