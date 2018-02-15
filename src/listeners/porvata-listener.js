@@ -81,7 +81,8 @@ export class PorvataListener {
 			line_item_id: lineItemId || 0,
 			player: PorvataListener.PLAYER_NAME,
 			position: this.params.position || '(none)',
-			timestamp: new Date().getTime()
+			timestamp: new Date().getTime(),
+			audio: this.params.withAudio ? 1 : 0
 		};
 	}
 }

@@ -215,7 +215,8 @@ export class Porvata {
 		const porvataListener = new PorvataListener({
 			adProduct: params.adProduct,
 			position: params.slotName,
-			src: params.src
+			src: params.src,
+			withAudio: !params.autoPlay
 		});
 
 		let isFirstPlay = true,
@@ -275,6 +276,7 @@ export class Porvata {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+					porvataListener.params.withAudio = true;
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');
