@@ -185,8 +185,10 @@ export class PorvataPlayer {
 	volumeToggle() {
 		if (this.isMuted()) {
 			this.unmute();
+			this.ima.dispatchEvent('wikiaAdUnmute');
 		} else {
 			this.mute();
+			this.ima.dispatchEvent('wikiaAdMute');
 		}
 	}
 
