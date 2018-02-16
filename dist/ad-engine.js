@@ -2431,6 +2431,14 @@ var PorvataPlayer = function () {
 			this.ima.getAdsManager().resume();
 		}
 	}, {
+		key: 'rewind',
+		value: function rewind() {
+			this.params.autoPlay = false;
+			this.ima.setAutoPlay(false);
+			this.ima.dispatchEvent('wikiaAdRestart');
+			this.play();
+		}
+	}, {
 		key: 'setVolume',
 		value: function setVolume(volume) {
 			this.updateVideoDOMElement(volume);
@@ -2486,10 +2494,7 @@ var PorvataPlayer = function () {
 			this.setVolume(0.75);
 
 			if (this.params.autoPlay && this.params.restartOnUnmute) {
-				this.params.autoPlay = false;
-				this.ima.setAutoPlay(false);
-				this.play();
-				this.ima.dispatchEvent('wikiaAdRestart');
+				this.rewind();
 			}
 		}
 	}, {
@@ -2603,7 +2608,6 @@ var porvata_Porvata = function () {
 				});
 				video.addEventListener('wikiaAdRestart', function () {
 					isFirstPlay = false;
-					video.unmute();
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');

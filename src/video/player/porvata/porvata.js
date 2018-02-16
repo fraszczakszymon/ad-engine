@@ -133,6 +133,13 @@ export class PorvataPlayer {
 		this.ima.getAdsManager().resume();
 	}
 
+	rewind() {
+		this.params.autoPlay = false;
+		this.ima.setAutoPlay(false);
+		this.ima.dispatchEvent('wikiaAdRestart');
+		this.play();
+	}
+
 	setVolume(volume) {
 		this.updateVideoDOMElement(volume);
 		this.ima.getAdsManager().setVolume(volume);
@@ -182,10 +189,7 @@ export class PorvataPlayer {
 		this.setVolume(0.75);
 
 		if (this.params.autoPlay && this.params.restartOnUnmute) {
-			this.params.autoPlay = false;
-			this.ima.setAutoPlay(false);
-			this.play();
-			this.ima.dispatchEvent('wikiaAdRestart');
+			this.rewind();
 		}
 	}
 
@@ -285,7 +289,6 @@ export class Porvata {
 				});
 				video.addEventListener('wikiaAdRestart', () => {
 					isFirstPlay = false;
-					video.unmute();
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');
