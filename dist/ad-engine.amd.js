@@ -2781,7 +2781,7 @@ var PorvataPlayer = function () {
 				this.width = newWidth;
 				this.height = newHeight;
 			}
-			if (!this.width || !this.height) {
+			if (!this.width || !this.height || this.isFullscreen()) {
 				this.width = this.params.container.offsetWidth;
 				this.height = this.params.container.offsetHeight;
 			}
