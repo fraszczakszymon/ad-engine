@@ -3404,7 +3404,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.6.0');
+set__default()(window, versionField, 'v9.7.0');
 
 
 
