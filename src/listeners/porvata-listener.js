@@ -23,7 +23,9 @@ export class PorvataListener {
 		viewable_impression: 'viewable_impression',
 		adError: 'error',
 		wikiaAdPlayTriggered: 'play_triggered',
-		wikiaAdStop: 'closed'
+		wikiaAdStop: 'closed',
+		wikiaAdMute: 'mute',
+		wikiaAdUnmute: 'unmute'
 	};
 	static LOG_GROUP = 'porvata-listener';
 	static PLAYER_NAME = 'porvata';
@@ -79,7 +81,8 @@ export class PorvataListener {
 			line_item_id: lineItemId || 0,
 			player: PorvataListener.PLAYER_NAME,
 			position: this.params.position || '(none)',
-			timestamp: new Date().getTime()
+			timestamp: new Date().getTime(),
+			audio: this.params.withAudio ? 1 : 0
 		};
 	}
 }

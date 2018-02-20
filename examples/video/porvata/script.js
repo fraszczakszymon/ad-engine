@@ -8,7 +8,8 @@ import {
 } from '@wikia/ad-engine';
 import adContext from '../../context';
 
-const container = document.getElementById('player'),
+const closeButton = document.getElementById('player-close'),
+	container = document.getElementById('player'),
 	params = {
 		adProduct: 'test-video',
 		autoPlay: true,
@@ -21,6 +22,7 @@ const container = document.getElementById('player'),
 context.extend(adContext);
 context.set('targeting.artid', 292);
 context.set('targeting.vertical', 'games');
+context.set('targeting.wpage', '100% Orange Juice');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 
@@ -40,5 +42,8 @@ Porvata.inject(params)
 		});
 		container.addEventListener('click', () => {
 			_video.play();
+		});
+		closeButton.addEventListener('click', () => {
+			_video.stop();
 		});
 	});

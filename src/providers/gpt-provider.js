@@ -1,26 +1,13 @@
-import { logger, makeLazyQueue } from '../utils';
+import { logger } from '../utils';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
 import { slotService, slotDataParamsUpdater } from '../services';
 
-const logGroup = 'gpt-provider',
-	slotsQueue = [];
+const logGroup = 'gpt-provider';
 
-let atfEnded = false,
-	definedSlots = [],
+let definedSlots = [],
 	initialized = false;
 
-function finishAtf() {
-	atfEnded = true;
-	if (window.ads.runtime.disableBtf) {
-		slotService.forEach((adSlot) => {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
-			}
-		});
-	}
-	slotsQueue.start();
-}
 
 function configure() {
 	const tag = window.googletag.pubads();
@@ -30,10 +17,6 @@ function configure() {
 	tag.addEventListener('slotRenderEnded', (event) => {
 		const id = event.slot.getSlotElementId(),
 			slot = slotService.get(id);
-
-		if (!atfEnded && slot.isAboveTheFold()) {
-			finishAtf();
-		}
 
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
@@ -49,21 +32,6 @@ function configure() {
 		slotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
-}
-
-function shouldPush(adSlot) {
-	if (!atfEnded && !adSlot.isAboveTheFold()) {
-		slotsQueue.push(adSlot);
-		logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
-		return false;
-	}
-
-	if (atfEnded && !adSlot.isEnabled()) {
-		logger(logGroup, adSlot.getId(), 'BTF slot blocked');
-		return false;
-	}
-
-	return true;
 }
 
 export class GptProvider {
@@ -83,17 +51,10 @@ export class GptProvider {
 
 		setupGptTargeting();
 		configure();
-		makeLazyQueue(slotsQueue, (adSlot) => {
-			this.fillIn(adSlot);
-		});
 		initialized = true;
 	}
 
 	fillIn(adSlot) {
-		if (!shouldPush(adSlot)) {
-			return;
-		}
-
 		window.googletag.cmd.push(() => {
 			const sizeMapping = window.googletag.sizeMapping(),
 				targeting = this.parseTargetingParams(adSlot.getTargeting());
@@ -113,7 +74,7 @@ export class GptProvider {
 			window.googletag.display(adSlot.getId());
 			definedSlots.push(gptSlot);
 
-			if (atfEnded) {
+			if (!adSlot.isAboveTheFold()) {
 				this.flush();
 			}
 

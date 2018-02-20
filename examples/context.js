@@ -9,6 +9,18 @@ export default {
 			threshold: 100
 		}
 	},
+	options: {
+		porvata: {
+			audio: {
+				exposeToSlot: true,
+				segment: '-audio',
+				key: 'audio'
+			}
+		},
+		customAdLoader: {
+			globalMethodName: 'loadCustomAd'
+		}
+	},
 	listeners: {
 		porvata: [
 			{
@@ -80,7 +92,7 @@ export default {
 			slotName: 'OUTSTREAM',
 			targeting: {},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
-				'/{custom.device}/ae-{custom.adLayout}/_example'
+			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'
 		}
 	},
 	state: {

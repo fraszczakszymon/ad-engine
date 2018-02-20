@@ -262,7 +262,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(12)(function () {
+module.exports = !__webpack_require__(13)(function () {
   return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
 
@@ -293,6 +293,12 @@ module.exports = function (it, key) {
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(169), __esModule: true };
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -305,7 +311,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
@@ -317,17 +323,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(169), __esModule: true };
 
 /***/ }),
 /* 16 */
@@ -552,7 +552,7 @@ module.exports = function (it, tag, stat) {
 __webpack_require__(137);
 var global = __webpack_require__(4);
 var hide = __webpack_require__(10);
-var Iterators = __webpack_require__(14);
+var Iterators = __webpack_require__(15);
 var TO_STRING_TAG = __webpack_require__(3)('toStringTag');
 
 var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
@@ -1115,7 +1115,7 @@ module.exports = toKey;
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(9) && !__webpack_require__(12)(function () {
+module.exports = !__webpack_require__(9) && !__webpack_require__(13)(function () {
   return Object.defineProperty(__webpack_require__(40)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
@@ -1125,7 +1125,7 @@ module.exports = !__webpack_require__(9) && !__webpack_require__(12)(function ()
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(11);
-var toIObject = __webpack_require__(13);
+var toIObject = __webpack_require__(14);
 var arrayIndexOf = __webpack_require__(130)(false);
 var IE_PROTO = __webpack_require__(44)('IE_PROTO');
 
@@ -1178,7 +1178,7 @@ var $export = __webpack_require__(5);
 var redefine = __webpack_require__(63);
 var hide = __webpack_require__(10);
 var has = __webpack_require__(11);
-var Iterators = __webpack_require__(14);
+var Iterators = __webpack_require__(15);
 var $iterCreate = __webpack_require__(135);
 var setToStringTag = __webpack_require__(30);
 var getPrototypeOf = __webpack_require__(65);
@@ -1297,7 +1297,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 var pIE = __webpack_require__(26);
 var createDesc = __webpack_require__(23);
-var toIObject = __webpack_require__(13);
+var toIObject = __webpack_require__(14);
 var toPrimitive = __webpack_require__(41);
 var has = __webpack_require__(11);
 var IE8_DOM_DEFINE = __webpack_require__(58);
@@ -1325,7 +1325,7 @@ exports.f = __webpack_require__(9) ? gOPD : function getOwnPropertyDescriptor(O,
 
 var classof = __webpack_require__(52);
 var ITERATOR = __webpack_require__(3)('iterator');
-var Iterators = __webpack_require__(14);
+var Iterators = __webpack_require__(15);
 module.exports = __webpack_require__(2).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR]
     || it['@@iterator']
@@ -1476,7 +1476,7 @@ module.exports = function (C, x) {
 // most Object methods by ES6 should accept primitives
 var $export = __webpack_require__(5);
 var core = __webpack_require__(2);
-var fails = __webpack_require__(12);
+var fails = __webpack_require__(13);
 module.exports = function (KEY, exec) {
   var fn = (core.Object || {})[KEY] || Object[KEY];
   var exp = {};
@@ -1977,6 +1977,10 @@ var script_loader_ScriptLoader = function () {
 }();
 
 var scriptLoader = new script_loader_ScriptLoader();
+// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/keys.js
+var keys = __webpack_require__(12);
+var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
+
 // CONCATENATED MODULE: ./src/services/context-service.js
 
 
@@ -2097,16 +2101,12 @@ var context_service_Context = function () {
 }();
 
 var context = new context_service_Context();
-// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/keys.js
-var keys = __webpack_require__(15);
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
-
 // CONCATENATED MODULE: ./src/services/slot-service.js
 
 
 
 var slotNameMapping = {};
-var slots = {};
+var slot_service_slots = {};
 var slotStates = {};
 
 var slot_service_SlotService = function () {
@@ -2119,7 +2119,7 @@ var slot_service_SlotService = function () {
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
-			slots[adSlot.getId()] = adSlot;
+			slot_service_slots[adSlot.getId()] = adSlot;
 			slotNameMapping[slotName] = adSlot.getId();
 
 			if (slotStates[slotName] === false) {
@@ -2132,7 +2132,7 @@ var slot_service_SlotService = function () {
 	}, {
 		key: "get",
 		value: function get(id) {
-			return slots[id];
+			return slot_service_slots[id];
 		}
 	}, {
 		key: "getBySlotName",
@@ -2144,8 +2144,8 @@ var slot_service_SlotService = function () {
 	}, {
 		key: "forEach",
 		value: function forEach(callback) {
-			keys_default()(slots).forEach(function (id) {
-				callback(slots[id]);
+			keys_default()(slot_service_slots).forEach(function (id) {
+				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
@@ -2177,6 +2177,96 @@ function setState(slotName, state) {
 		}
 	}
 }
+// CONCATENATED MODULE: ./src/services/btf-blocker-service.js
+
+
+
+
+
+
+
+var logGroup = 'btf-blocker';
+
+function finishQueue() {
+	var _this = this;
+
+	this.atfEnded = true;
+
+	if (window.ads.runtime.disableBtf) {
+		var slots = context.get('slots');
+
+		keys_default()(slots).forEach(function (adSlotKey) {
+			var adSlot = slots[adSlotKey];
+
+			if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
+				slotService.disable(adSlot.slotName);
+			}
+		});
+	}
+
+	this.slotsQueue.start();
+}
+
+var btf_blocker_service_BtfBlockerService = function () {
+	function BtfBlockerService() {
+		classCallCheck_default()(this, BtfBlockerService);
+
+		this.slotsQueue = [];
+		this.atfEnded = false;
+		this.unblockedSlots = [];
+	}
+
+	createClass_default()(BtfBlockerService, [{
+		key: 'init',
+		value: function init() {
+			var _this2 = this;
+
+			makeLazyQueue(this.slotsQueue, function (_ref) {
+				var adSlot = _ref.adSlot,
+				    fillInCallback = _ref.fillInCallback;
+
+				logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
+				fillInCallback(adSlot);
+			});
+
+			context.push('listeners.slot', { onRenderEnded: function onRenderEnded(adSlot) {
+					logger(logGroup, adSlot.getId(), 'Slot rendered');
+					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
+						finishQueue.bind(_this2)();
+					}
+				} });
+		}
+	}, {
+		key: 'push',
+		value: function push(adSlot, fillInCallback) {
+			if (!this.atfEnded && !adSlot.isAboveTheFold()) {
+				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: fillInCallback });
+				logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
+				return;
+			}
+
+			if (this.atfEnded && !adSlot.isEnabled()) {
+				logger(logGroup, adSlot.getId(), 'BTF slot blocked');
+				return;
+			}
+
+			logger(logGroup, adSlot.getId(), 'Filling in slot');
+			fillInCallback(adSlot);
+		}
+	}, {
+		key: 'unblock',
+		value: function unblock(slotName) {
+			logger(logGroup, slotName, 'Unblocking slot');
+
+			this.unblockedSlots.push(slotName);
+			slotService.enable(slotName);
+		}
+	}]);
+
+	return BtfBlockerService;
+}();
+
+var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 // CONCATENATED MODULE: ./src/services/template-service.js
 
 
@@ -2184,7 +2274,7 @@ function setState(slotName, state) {
 
 
 
-var logGroup = 'template-service',
+var template_service_logGroup = 'template-service',
     templates = {};
 
 var template_service_TemplateService = function () {
@@ -2221,7 +2311,7 @@ var template_service_TemplateService = function () {
 			var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 			var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-			logger(logGroup, 'Load template', name, slot, params);
+			logger(template_service_logGroup, 'Load template', name, slot, params);
 			if (!templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
@@ -2698,6 +2788,7 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
+
 // CONCATENATED MODULE: ./src/utils/string-builder.js
 
 
@@ -2728,16 +2819,19 @@ var string_builder_StringBuilder = function () {
 					if (value) {
 						for (index = 1; index < keySegments.length; index += 1) {
 							segment = keySegments[index];
-							if (!value[segment]) {
-								value = null;
+							if (typeof value[segment] === 'undefined') {
+								value = undefined;
 								break;
 							}
 							value = value[segment];
 						}
 					}
 
-					if (value || fallbackValue) {
-						string = string.replace(match, value || fallbackValue);
+					if (typeof value === 'undefined') {
+						value = fallbackValue;
+					}
+					if (typeof value !== 'undefined') {
+						string = string.replace(match, value);
 					}
 				});
 			}
@@ -2869,13 +2963,9 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'getVideoAdUnit',
 		value: function getVideoAdUnit() {
-			if (!this.videoAdUnit) {
-				this.videoAdUnit = stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-					slotConfig: this.config
-				});
-			}
-
-			return this.videoAdUnit;
+			return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
+				slotConfig: this.config
+			});
 		}
 	}, {
 		key: 'getElement',
@@ -2942,6 +3032,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			this.enabled = false;
 		}
 	}, {
+		key: 'setConfigProperty',
+		value: function setConfigProperty(key, value) {
+			context.set('slots.' + this.location + '-' + this.type + '.' + key, value);
+		}
+	}, {
 		key: 'success',
 		value: function success() {
 			slotTweaker.show(this);
@@ -2961,6 +3056,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 	return AdSlot;
 }(events["EventEmitter"]);
+ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 // CONCATENATED MODULE: ./src/models/index.js
@@ -3008,7 +3104,7 @@ var vast_parser_VastParser = function () {
 
 			var currentAd = this.getAdInfo(extra.imaAd),
 			    vastParams = query_string_queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			    customParams = query_string_queryString.getValues(vastParams.cust_params);
+			    customParams = query_string_queryString.getValues(encodeURI(vastParams.cust_params));
 
 			return {
 				contentType: currentAd.contentType || extra.contentType,
@@ -3137,11 +3233,20 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	var adsRequest = new window.google.ima.AdsRequest(),
+	var adSlot = slotService.getBySlotName(params.slotName),
+	    adsRequest = new window.google.ima.AdsRequest(),
 	    overriddenVast = getOverriddenVast();
 
 	if (params.vastResponse || overriddenVast) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
+	}
+
+	if (context.get('options.porvata.audio.exposeToSlot')) {
+		var key = context.get('options.porvata.audio.key'),
+		    segment = context.get('options.porvata.audio.segment');
+
+		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+		adSlot.setConfigProperty('targeting.' + key, params.autoPlay ? 'no' : 'yes');
 	}
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
@@ -3317,6 +3422,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 				this.mobileVideoAd.autoplay = value;
 				this.mobileVideoAd.muted = value;
 			}
+			this.params.autoPlay = value;
 		}
 	}, {
 		key: 'playVideo',
@@ -3437,6 +3543,8 @@ var googleImaPlayerFactory = {
 		player.addEventListener('resume', player.setStatus('playing'));
 		player.addEventListener('start', player.setStatus('playing'));
 		player.addEventListener('pause', player.setStatus('paused'));
+		player.addEventListener('wikiaAdStop', player.setStatus('stopped'));
+		player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
 
 		return player;
 	}
@@ -3759,8 +3867,10 @@ var porvata_PorvataPlayer = function () {
 		value: function volumeToggle() {
 			if (this.isMuted()) {
 				this.unmute();
+				this.ima.dispatchEvent('wikiaAdUnmute');
 			} else {
 				this.mute();
+				this.ima.dispatchEvent('wikiaAdMute');
 			}
 		}
 	}, {
@@ -3799,7 +3909,8 @@ var porvata_Porvata = function () {
 			var porvataListener = new porvata_listener_PorvataListener({
 				adProduct: params.adProduct,
 				position: params.slotName,
-				src: params.src
+				src: params.src,
+				withAudio: !params.autoPlay
 			});
 
 			var isFirstPlay = true,
@@ -3860,6 +3971,7 @@ var porvata_Porvata = function () {
 						viewportListenerId = null;
 					}
 					isFirstPlay = false;
+					porvataListener.params.withAudio = true;
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');
@@ -3994,7 +4106,8 @@ var porvata_listener_PorvataListener = function () {
 				line_item_id: lineItemId || 0,
 				player: PorvataListener.PLAYER_NAME,
 				position: this.params.position || '(none)',
-				timestamp: new Date().getTime()
+				timestamp: new Date().getTime(),
+				audio: this.params.withAudio ? 1 : 0
 			};
 		}
 	}]);
@@ -4016,7 +4129,9 @@ porvata_listener_PorvataListener.EVENTS = {
 	viewable_impression: 'viewable_impression',
 	adError: 'error',
 	wikiaAdPlayTriggered: 'play_triggered',
-	wikiaAdStop: 'closed'
+	wikiaAdStop: 'closed',
+	wikiaAdMute: 'mute',
+	wikiaAdUnmute: 'unmute'
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
@@ -4396,24 +4511,10 @@ function setupGptTargeting() {
 
 
 
-var gpt_provider_logGroup = 'gpt-provider',
-    slotsQueue = [];
+var gpt_provider_logGroup = 'gpt-provider';
 
-var atfEnded = false,
-    definedSlots = [],
+var definedSlots = [],
     initialized = false;
-
-function finishAtf() {
-	atfEnded = true;
-	if (window.ads.runtime.disableBtf) {
-		slotService.forEach(function (adSlot) {
-			if (!adSlot.isAboveTheFold()) {
-				slotService.disable(adSlot.getSlotName());
-			}
-		});
-	}
-	slotsQueue.start();
-}
 
 function configure() {
 	var tag = window.googletag.pubads();
@@ -4423,10 +4524,6 @@ function configure() {
 	tag.addEventListener('slotRenderEnded', function (event) {
 		var id = event.slot.getSlotElementId(),
 		    slot = slotService.get(id);
-
-		if (!atfEnded && slot.isAboveTheFold()) {
-			finishAtf();
-		}
 
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
@@ -4442,21 +4539,6 @@ function configure() {
 		slotListener.emitImpressionViewable(event, slot);
 	});
 	window.googletag.enableServices();
-}
-
-function shouldPush(adSlot) {
-	if (!atfEnded && !adSlot.isAboveTheFold()) {
-		slotsQueue.push(adSlot);
-		logger(gpt_provider_logGroup, adSlot.getId(), 'BTF slot pushed to queue');
-		return false;
-	}
-
-	if (atfEnded && !adSlot.isEnabled()) {
-		logger(gpt_provider_logGroup, adSlot.getId(), 'BTF slot blocked');
-		return false;
-	}
-
-	return true;
 }
 
 var gpt_provider_GptProvider = function () {
@@ -4476,31 +4558,22 @@ var gpt_provider_GptProvider = function () {
 	createClass_default()(GptProvider, [{
 		key: 'init',
 		value: function init() {
-			var _this2 = this;
-
 			if (initialized) {
 				return;
 			}
 
 			setupGptTargeting();
 			configure();
-			makeLazyQueue(slotsQueue, function (adSlot) {
-				_this2.fillIn(adSlot);
-			});
 			initialized = true;
 		}
 	}, {
 		key: 'fillIn',
 		value: function fillIn(adSlot) {
-			var _this3 = this;
-
-			if (!shouldPush(adSlot)) {
-				return;
-			}
+			var _this2 = this;
 
 			window.googletag.cmd.push(function () {
 				var sizeMapping = window.googletag.sizeMapping(),
-				    targeting = _this3.parseTargetingParams(adSlot.getTargeting());
+				    targeting = _this2.parseTargetingParams(adSlot.getTargeting());
 
 				adSlot.getSizes().forEach(function (item) {
 					sizeMapping.addSize(item.viewportSize, item.sizes);
@@ -4508,14 +4581,14 @@ var gpt_provider_GptProvider = function () {
 
 				var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMapping.build());
 
-				_this3.applyTargetingParams(gptSlot, targeting);
+				_this2.applyTargetingParams(gptSlot, targeting);
 				slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
 				window.googletag.display(adSlot.getId());
 				definedSlots.push(gptSlot);
 
-				if (atfEnded) {
-					_this3.flush();
+				if (!adSlot.isAboveTheFold()) {
+					_this2.flush();
 				}
 
 				logger(gpt_provider_logGroup, adSlot.getId(), 'slot added');
@@ -4576,7 +4649,7 @@ function fillInUsingProvider(ad, provider) {
 
 	if (adSlot.shouldLoad()) {
 		slotService.add(adSlot);
-		provider.fillIn(adSlot);
+		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
 }
 
@@ -4601,6 +4674,7 @@ var ad_engine_AdEngine = function () {
 			var _this = this;
 
 			var provider = new gpt_provider_GptProvider();
+			btfBlockerService.init();
 
 			makeLazyQueue(this.adStack, function (ad) {
 				fillInUsingProvider(ad, provider);
@@ -4634,6 +4708,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "setupGptTargeting", function() { return setupGptTargeting; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "btfBlockerService", function() { return btfBlockerService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "registerCustomAdLoader", function() { return registerCustomAdLoader; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
@@ -4662,7 +4737,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.3.0');
+set_default()(window, versionField, 'v9.6.0');
 
 
 
@@ -6576,7 +6651,7 @@ var IObject = __webpack_require__(60);
 var $assign = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(12)(function () {
+module.exports = !$assign || __webpack_require__(13)(function () {
   var A = {};
   var B = {};
   // eslint-disable-next-line no-undef
@@ -6608,7 +6683,7 @@ module.exports = !$assign || __webpack_require__(12)(function () {
 
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = __webpack_require__(13);
+var toIObject = __webpack_require__(14);
 var toLength = __webpack_require__(61);
 var toAbsoluteIndex = __webpack_require__(131);
 module.exports = function (IS_INCLUDES) {
@@ -6729,8 +6804,8 @@ module.exports = __webpack_require__(9) ? Object.defineProperties : function def
 
 var addToUnscopables = __webpack_require__(138);
 var step = __webpack_require__(139);
-var Iterators = __webpack_require__(14);
-var toIObject = __webpack_require__(13);
+var Iterators = __webpack_require__(15);
+var toIObject = __webpack_require__(14);
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
@@ -6808,7 +6883,7 @@ var DESCRIPTORS = __webpack_require__(9);
 var $export = __webpack_require__(5);
 var redefine = __webpack_require__(63);
 var META = __webpack_require__(143).KEY;
-var $fails = __webpack_require__(12);
+var $fails = __webpack_require__(13);
 var shared = __webpack_require__(45);
 var setToStringTag = __webpack_require__(30);
 var uid = __webpack_require__(25);
@@ -6819,7 +6894,7 @@ var enumKeys = __webpack_require__(144);
 var isArray = __webpack_require__(145);
 var anObject = __webpack_require__(6);
 var isObject = __webpack_require__(8);
-var toIObject = __webpack_require__(13);
+var toIObject = __webpack_require__(14);
 var toPrimitive = __webpack_require__(41);
 var createDesc = __webpack_require__(23);
 var _create = __webpack_require__(49);
@@ -7048,7 +7123,7 @@ var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
 };
-var FREEZE = !__webpack_require__(12)(function () {
+var FREEZE = !__webpack_require__(13)(function () {
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function (it) {
@@ -7132,7 +7207,7 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(13);
+var toIObject = __webpack_require__(14);
 var gOPN = __webpack_require__(66).f;
 var toString = {}.toString;
 
@@ -7524,7 +7599,7 @@ module.exports = function (iterator, fn, value, entries) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators = __webpack_require__(14);
+var Iterators = __webpack_require__(15);
 var ITERATOR = __webpack_require__(3)('iterator');
 var ArrayProto = Array.prototype;
 
@@ -7815,7 +7890,7 @@ module.exports = __webpack_require__(165);
 
 var classof = __webpack_require__(52);
 var ITERATOR = __webpack_require__(3)('iterator');
-var Iterators = __webpack_require__(14);
+var Iterators = __webpack_require__(15);
 module.exports = __webpack_require__(2).isIterable = function (it) {
   var O = Object(it);
   return O[ITERATOR] !== undefined
