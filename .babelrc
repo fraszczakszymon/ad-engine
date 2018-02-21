@@ -16,7 +16,7 @@
 			"polyfill": true,
 			"regenerator": true,
 			"moduleName": "babel-runtime"
-    	}],
+		}],
 		"syntax-dynamic-import",
 		"lodash"
 	]

@@ -3776,7 +3776,7 @@ var porvata_PorvataPlayer = function () {
 				this.width = newWidth;
 				this.height = newHeight;
 			}
-			if (!this.width || !this.height) {
+			if (!this.width || !this.height || this.isFullscreen()) {
 				this.width = this.params.container.offsetWidth;
 				this.height = this.params.container.offsetHeight;
 			}
@@ -3806,6 +3806,14 @@ var porvata_PorvataPlayer = function () {
 		key: 'resume',
 		value: function resume() {
 			this.ima.getAdsManager().resume();
+		}
+	}, {
+		key: 'rewind',
+		value: function rewind() {
+			this.params.autoPlay = false;
+			this.ima.setAutoPlay(false);
+			this.ima.dispatchEvent('wikiaAdRestart');
+			this.play();
 		}
 	}, {
 		key: 'setVolume',
@@ -3861,6 +3869,10 @@ var porvata_PorvataPlayer = function () {
 		key: 'unmute',
 		value: function unmute() {
 			this.setVolume(0.75);
+
+			if (this.params.autoPlay && this.params.restartOnUnmute) {
+				this.rewind();
+			}
 		}
 	}, {
 		key: 'volumeToggle',
@@ -3972,6 +3984,9 @@ var porvata_Porvata = function () {
 					}
 					isFirstPlay = false;
 					porvataListener.params.withAudio = true;
+				});
+				video.addEventListener('wikiaAdRestart', function () {
+					isFirstPlay = false;
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');
@@ -4737,7 +4752,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v9.6.0');
+set_default()(window, versionField, 'v9.7.0');
 
 
 

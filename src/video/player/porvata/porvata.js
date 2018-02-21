@@ -104,7 +104,7 @@ export class PorvataPlayer {
 			this.width = newWidth;
 			this.height = newHeight;
 		}
-		if (!this.width || !this.height) {
+		if (!this.width || !this.height || this.isFullscreen()) {
 			this.width = this.params.container.offsetWidth;
 			this.height = this.params.container.offsetHeight;
 		}
@@ -131,6 +131,13 @@ export class PorvataPlayer {
 
 	resume() {
 		this.ima.getAdsManager().resume();
+	}
+
+	rewind() {
+		this.params.autoPlay = false;
+		this.ima.setAutoPlay(false);
+		this.ima.dispatchEvent('wikiaAdRestart');
+		this.play();
 	}
 
 	setVolume(volume) {
@@ -180,6 +187,10 @@ export class PorvataPlayer {
 
 	unmute() {
 		this.setVolume(0.75);
+
+		if (this.params.autoPlay && this.params.restartOnUnmute) {
+			this.rewind();
+		}
 	}
 
 	volumeToggle() {
@@ -277,6 +288,9 @@ export class Porvata {
 					}
 					isFirstPlay = false;
 					porvataListener.params.withAudio = true;
+				});
+				video.addEventListener('wikiaAdRestart', () => {
+					isFirstPlay = false;
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');
