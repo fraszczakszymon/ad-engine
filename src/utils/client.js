@@ -1,33 +1,33 @@
 /* global BlockAdBlock */
-import MobileDetect from 'mobile-detect';
+import isMobileJs from 'ismobilejs';
 import AdBlockDetect from 'blockadblock';
 
 let blockAdBlock = null,
 	browser = null,
-	mobileDetect = null,
+	isMobile = null,
 	operatingSystem = null;
 
-function getMobileDetect() {
-	if (mobileDetect === null) {
+function getIsMobile() {
+	if (isMobile === null) {
 		const userAgent = window.navigator.userAgent;
 
-		mobileDetect = new MobileDetect(userAgent);
+		isMobile = (typeof isMobileJs === 'function') ? isMobileJs(userAgent) : isMobileJs;
 	}
 
-	return mobileDetect;
+	return isMobile;
 }
 
 class Client {
 	isSmartphone() {
-		const device = getMobileDetect();
+		const device = getIsMobile();
 
-		return device.mobile();
+		return device.phone;
 	}
 
 	isTablet() {
-		const device = getMobileDetect();
+		const device = getIsMobile();
 
-		return device.tablet();
+		return device.tablet;
 	}
 
 	isDesktop() {
