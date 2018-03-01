@@ -61,17 +61,47 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("regenerator-runtime");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/createClass");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/keys");
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/assign");
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/promise");
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/json/stringify");
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80,12 +110,12 @@ var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
-__webpack_require__.d(utils_namespaceObject, "wait", function() { return wait; });
-__webpack_require__.d(utils_namespaceObject, "defer", function() { return defer; });
+__webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
+__webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
-__webpack_require__.d(utils_namespaceObject, "queryString", function() { return queryString; });
+__webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
 __webpack_require__.d(utils_namespaceObject, "sampler", function() { return sampler; });
 __webpack_require__.d(utils_namespaceObject, "scriptLoader", function() { return scriptLoader; });
 __webpack_require__.d(utils_namespaceObject, "stringBuilder", function() { return stringBuilder; });
@@ -94,31 +124,31 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(2);
+var set_ = __webpack_require__(7);
 var set__default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(3);
+var get_ = __webpack_require__(8);
 var get__default = /*#__PURE__*/__webpack_require__.n(get_);
 
-// EXTERNAL MODULE: external "regenerator-runtime"
-var external__regenerator_runtime_ = __webpack_require__(0);
-var external__regenerator_runtime__default = /*#__PURE__*/__webpack_require__.n(external__regenerator_runtime_);
+// EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
+var classCallCheck_ = __webpack_require__(0);
+var classCallCheck__default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
-// EXTERNAL MODULE: external "mobile-detect"
-var external__mobile_detect_ = __webpack_require__(4);
-var external__mobile_detect__default = /*#__PURE__*/__webpack_require__.n(external__mobile_detect_);
+// EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
+var createClass_ = __webpack_require__(1);
+var createClass__default = /*#__PURE__*/__webpack_require__.n(createClass_);
+
+// EXTERNAL MODULE: external "ismobilejs"
+var external__ismobilejs_ = __webpack_require__(9);
+var external__ismobilejs__default = /*#__PURE__*/__webpack_require__.n(external__ismobilejs_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external__blockadblock_ = __webpack_require__(5);
+var external__blockadblock_ = __webpack_require__(10);
 var external__blockadblock__default = /*#__PURE__*/__webpack_require__.n(external__blockadblock_);
 
 // CONCATENATED MODULE: ./src/utils/client.js
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /* global BlockAdBlock */
 
@@ -126,37 +156,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var blockAdBlock = null,
     browser = null,
-    mobileDetect = null,
+    client_isMobile = null,
     operatingSystem = null;
 
-function getMobileDetect() {
-	if (mobileDetect === null) {
+function getIsMobile() {
+	if (client_isMobile === null) {
 		var userAgent = window.navigator.userAgent;
 
-		mobileDetect = new external__mobile_detect__default.a(userAgent);
+		client_isMobile = typeof external__ismobilejs__default.a === 'function' ? external__ismobilejs__default()(userAgent) : external__ismobilejs__default.a;
 	}
 
-	return mobileDetect;
+	return client_isMobile;
 }
 
 var client_Client = function () {
 	function Client() {
-		_classCallCheck(this, Client);
+		classCallCheck__default()(this, Client);
 	}
 
-	_createClass(Client, [{
+	createClass__default()(Client, [{
 		key: 'isSmartphone',
 		value: function isSmartphone() {
-			var device = getMobileDetect();
+			var device = getIsMobile();
 
-			return device.mobile();
+			return device.phone;
 		}
 	}, {
 		key: 'isTablet',
 		value: function isTablet() {
-			var device = getMobileDetect();
+			var device = getIsMobile();
 
-			return device.tablet();
+			return device.tablet;
 		}
 	}, {
 		key: 'isDesktop',
@@ -271,7 +301,6 @@ var client_Client = function () {
 
 var client = new client_Client();
 // CONCATENATED MODULE: ./src/utils/dimensions.js
-
 function getTopOffset(element) {
 	var elementWindow = element.ownerDocument.defaultView;
 
@@ -321,13 +350,25 @@ function isInViewport(element) {
 
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
+var assign_ = __webpack_require__(3);
+var assign__default = /*#__PURE__*/__webpack_require__.n(assign_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
+var typeof_ = __webpack_require__(11);
+var typeof__default = /*#__PURE__*/__webpack_require__.n(typeof_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
+var promise_ = __webpack_require__(4);
+var promise__default = /*#__PURE__*/__webpack_require__.n(promise_);
+
 // CONCATENATED MODULE: ./src/utils/flow-control.js
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 
-var wait = function wait() {
+
+var flow_control_wait = function wait() {
 	var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-	return new Promise(function (resolve, reject) {
+	return new promise__default.a(function (resolve, reject) {
 		if (typeof milliseconds !== 'number') {
 			reject('Delay value must be a number.');
 			return;
@@ -337,12 +378,12 @@ var wait = function wait() {
 	});
 };
 
-var defer = function defer(fn) {
+var flow_control_defer = function defer(fn) {
 	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 		args[_key - 1] = arguments[_key];
 	}
 
-	return new Promise(function (resolve, reject) {
+	return new promise__default.a(function (resolve, reject) {
 		if (typeof fn !== 'function') {
 			reject('Expected a function.');
 			return;
@@ -357,11 +398,11 @@ var defer = function defer(fn) {
 function once(emitter, eventName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var isObject = (typeof emitter === 'undefined' ? 'undefined' : _typeof(emitter)) === 'object';
+	var isObject = (typeof emitter === 'undefined' ? 'undefined' : typeof__default()(emitter)) === 'object';
 	var hasAddEventListener = isObject && typeof emitter.addEventListener === 'function';
 	var hasOnce = isObject && typeof emitter.once === 'function';
 
-	return new Promise(function (resolve, reject) {
+	return new promise__default.a(function (resolve, reject) {
 		if (typeof options === 'boolean') {
 			options = { capture: options };
 		}
@@ -369,14 +410,13 @@ function once(emitter, eventName) {
 		if (hasOnce) {
 			emitter.once(eventName, resolve);
 		} else if (hasAddEventListener) {
-			emitter.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
+			emitter.addEventListener(eventName, resolve, assign__default()({}, options, { once: true }));
 		} else {
 			reject('Emitter does not have `addEventListener` nor `once` method.');
 		}
 	});
 }
 // CONCATENATED MODULE: ./src/utils/lazy-queue.js
-
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -393,21 +433,21 @@ function makeLazyQueue(queue, callback) {
 		throw new Error('LazyQueue requires an array as the first parameter');
 	}
 }
+// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
+var slicedToArray_ = __webpack_require__(12);
+var slicedToArray__default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
+
 // CONCATENATED MODULE: ./src/utils/query-string.js
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var query_string__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
 
-function query_string__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var QueryString = function () {
+var query_string_QueryString = function () {
 	function QueryString() {
-		query_string__classCallCheck(this, QueryString);
+		classCallCheck__default()(this, QueryString);
 	}
 
-	query_string__createClass(QueryString, [{
+	createClass__default()(QueryString, [{
 		key: 'getValues',
 		value: function getValues() {
 			var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -422,7 +462,7 @@ var QueryString = function () {
 
 			queryString.forEach(function (pair) {
 				var _pair$split = pair.split('='),
-				    _pair$split2 = _slicedToArray(_pair$split, 2),
+				    _pair$split2 = slicedToArray__default()(_pair$split, 2),
 				    id = _pair$split2[0],
 				    value = _pair$split2[1];
 
@@ -445,12 +485,11 @@ var QueryString = function () {
 	return QueryString;
 }();
 
-var queryString = new QueryString();
+var query_string_queryString = new query_string_QueryString();
 // CONCATENATED MODULE: ./src/utils/logger.js
 
 
-
-var debugGroup = queryString.get('adengine_debug') || '',
+var debugGroup = query_string_queryString.get('adengine_debug') || '',
     groups = debugGroup.split(',');
 
 if (debugGroup !== '') {
@@ -471,16 +510,12 @@ function logger(logGroup) {
 	}
 }
 // CONCATENATED MODULE: ./src/utils/sampler.js
-var sampler__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function sampler__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 function isSamplingIgnored(name) {
-	var ignored = (queryString.get('ignored_samplers') || '').split(',');
+	var ignored = (query_string_queryString.get('ignored_samplers') || '').split(',');
 
 	return ignored.indexOf(name) !== -1;
 }
@@ -489,12 +524,12 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var Sampler = function () {
+var sampler_Sampler = function () {
 	function Sampler() {
-		sampler__classCallCheck(this, Sampler);
+		classCallCheck__default()(this, Sampler);
 	}
 
-	sampler__createClass(Sampler, [{
+	createClass__default()(Sampler, [{
 		key: 'sample',
 		value: function sample(name, sampling) {
 			var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
@@ -506,20 +541,18 @@ var Sampler = function () {
 	return Sampler;
 }();
 
-var sampler = new Sampler();
+var sampler = new sampler_Sampler();
 // CONCATENATED MODULE: ./src/utils/script-loader.js
-var script_loader__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
 
-function script_loader__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ScriptLoader = function () {
+var script_loader_ScriptLoader = function () {
 	function ScriptLoader() {
-		script_loader__classCallCheck(this, ScriptLoader);
+		classCallCheck__default()(this, ScriptLoader);
 	}
 
-	script_loader__createClass(ScriptLoader, [{
+	createClass__default()(ScriptLoader, [{
 		key: 'createScript',
 		value: function createScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
@@ -546,7 +579,7 @@ var ScriptLoader = function () {
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-			return new Promise(function (resolve, reject) {
+			return new promise__default.a(function (resolve, reject) {
 				var script = _this.createScript(src, type, isAsync, node);
 
 				script.onload = resolve;
@@ -558,13 +591,14 @@ var ScriptLoader = function () {
 	return ScriptLoader;
 }();
 
-var scriptLoader = new ScriptLoader();
+var scriptLoader = new script_loader_ScriptLoader();
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
+var keys_ = __webpack_require__(2);
+var keys__default = /*#__PURE__*/__webpack_require__.n(keys_);
+
 // CONCATENATED MODULE: ./src/services/context-service.js
-var context_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function context_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var contextObject = {
 	adUnitId: '',
@@ -639,17 +673,17 @@ function context_service_segment(key, newValue) {
 	return seg[lastKey];
 }
 
-var Context = function () {
+var context_service_Context = function () {
 	function Context() {
-		context_service__classCallCheck(this, Context);
+		classCallCheck__default()(this, Context);
 
 		this.__useDefault = true;
 	}
 
-	context_service__createClass(Context, [{
+	createClass__default()(Context, [{
 		key: 'extend',
 		value: function extend(newContext) {
-			Object.assign(contextObject, newContext);
+			assign__default()(contextObject, newContext);
 		}
 	}, {
 		key: 'set',
@@ -681,24 +715,21 @@ var Context = function () {
 	return Context;
 }();
 
-var context = new Context();
+var context = new context_service_Context();
 // CONCATENATED MODULE: ./src/services/slot-service.js
-var slot_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function slot_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var slotNameMapping = {};
 var slot_service_slots = {};
 var slotStates = {};
 
-var SlotService = function () {
+var slot_service_SlotService = function () {
 	function SlotService() {
-		slot_service__classCallCheck(this, SlotService);
+		classCallCheck__default()(this, SlotService);
 	}
 
-	slot_service__createClass(SlotService, [{
+	createClass__default()(SlotService, [{
 		key: "add",
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
@@ -728,7 +759,7 @@ var SlotService = function () {
 	}, {
 		key: "forEach",
 		value: function forEach(callback) {
-			Object.keys(slot_service_slots).forEach(function (id) {
+			keys__default()(slot_service_slots).forEach(function (id) {
 				callback(slot_service_slots[id]);
 			});
 		}
@@ -747,7 +778,7 @@ var SlotService = function () {
 	return SlotService;
 }();
 
-var slotService = new SlotService();
+var slotService = new slot_service_SlotService();
 
 function setState(slotName, state) {
 	var slot = slotService.getBySlotName(slotName);
@@ -762,11 +793,8 @@ function setState(slotName, state) {
 	}
 }
 // CONCATENATED MODULE: ./src/services/btf-blocker-service.js
-var btf_blocker_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function btf_blocker_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -782,7 +810,7 @@ function finishQueue() {
 	if (window.ads.runtime.disableBtf) {
 		var slots = context.get('slots');
 
-		Object.keys(slots).forEach(function (adSlotKey) {
+		keys__default()(slots).forEach(function (adSlotKey) {
 			var adSlot = slots[adSlotKey];
 
 			if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
@@ -796,14 +824,14 @@ function finishQueue() {
 
 var btf_blocker_service_BtfBlockerService = function () {
 	function BtfBlockerService() {
-		btf_blocker_service__classCallCheck(this, BtfBlockerService);
+		classCallCheck__default()(this, BtfBlockerService);
 
 		this.slotsQueue = [];
 		this.atfEnded = false;
 		this.unblockedSlots = [];
 	}
 
-	btf_blocker_service__createClass(BtfBlockerService, [{
+	createClass__default()(BtfBlockerService, [{
 		key: 'init',
 		value: function init() {
 			var _this2 = this;
@@ -855,11 +883,8 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 // CONCATENATED MODULE: ./src/services/template-service.js
-var template_service__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function template_service__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -869,10 +894,10 @@ var template_service_logGroup = 'template-service',
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
-		template_service__classCallCheck(this, TemplateService);
+		classCallCheck__default()(this, TemplateService);
 	}
 
-	template_service__createClass(TemplateService, [{
+	createClass__default()(TemplateService, [{
 		key: 'register',
 		value: function register(template) {
 			var customConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -889,7 +914,7 @@ var template_service_TemplateService = function () {
 			}
 
 			if (customConfig) {
-				config = Object.assign(config, customConfig);
+				config = assign__default()(config, customConfig);
 			}
 
 			context.set('templates.' + name, config);
@@ -918,7 +943,6 @@ var templateService = new template_service_TemplateService();
 
 
 
-
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
 		var slot = slotService.getBySlotName(params.slotName);
@@ -926,12 +950,13 @@ function registerCustomAdLoader(methodName) {
 		templateService.init(params.type, slot, params);
 	};
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
+var stringify_ = __webpack_require__(5);
+var stringify__default = /*#__PURE__*/__webpack_require__.n(stringify_);
+
 // CONCATENATED MODULE: ./src/services/local-cache.js
-var local_cache__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function local_cache__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /* global Storage */
 
@@ -942,10 +967,10 @@ var _canUseStorage = void 0;
 
 var local_cache_LocalCache = function () {
 	function LocalCache() {
-		local_cache__classCallCheck(this, LocalCache);
+		classCallCheck__default()(this, LocalCache);
 	}
 
-	local_cache__createClass(LocalCache, [{
+	createClass__default()(LocalCache, [{
 		key: 'canUseStorage',
 		value: function canUseStorage() {
 			if (typeof _canUseStorage === 'undefined') {
@@ -1041,7 +1066,7 @@ var local_cache_LocalCache = function () {
 			}
 
 			try {
-				window.localStorage.setItem(key, JSON.stringify(cacheItem));
+				window.localStorage.setItem(key, stringify__default()(cacheItem));
 			} catch (e) {
 				// Local Storage is at capacity
 				return false;
@@ -1085,11 +1110,7 @@ var local_cache_LocalCache = function () {
 
 var localCache = new local_cache_LocalCache();
 // CONCATENATED MODULE: ./src/services/message-bus.js
-var message_bus__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function message_bus__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -1142,10 +1163,10 @@ function onMessage(message) {
 
 var message_bus_MessageBus = function () {
 	function MessageBus() {
-		message_bus__classCallCheck(this, MessageBus);
+		classCallCheck__default()(this, MessageBus);
 	}
 
-	message_bus__createClass(MessageBus, [{
+	createClass__default()(MessageBus, [{
 		key: 'init',
 		value: function init() {
 			logger(message_bus_logGroup, 'Register message listener');
@@ -1166,11 +1187,9 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // CONCATENATED MODULE: ./src/services/slot-tweaker.js
-var slot_tweaker__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
 
-function slot_tweaker__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -1180,10 +1199,10 @@ var slot_tweaker_logGroup = 'slot-tweaker';
 
 var slot_tweaker_SlotTweaker = function () {
 	function SlotTweaker() {
-		slot_tweaker__classCallCheck(this, SlotTweaker);
+		classCallCheck__default()(this, SlotTweaker);
 	}
 
-	slot_tweaker__createClass(SlotTweaker, [{
+	createClass__default()(SlotTweaker, [{
 		key: 'forceRepaint',
 		value: function forceRepaint(domElement) {
 			return domElement.offsetWidth;
@@ -1268,7 +1287,7 @@ var slot_tweaker_SlotTweaker = function () {
 			var container = this.getContainer(adSlot),
 			    iframe = container.querySelector('div[id*="_container_"] iframe');
 
-			return new Promise(function (resolve, reject) {
+			return new promise__default.a(function (resolve, reject) {
 				if (!iframe) {
 					reject('Cannot find iframe element');
 				}
@@ -1324,7 +1343,7 @@ var slot_tweaker_SlotTweaker = function () {
 		value: function setDataParam(adSlot, attrName, data) {
 			var container = this.getContainer(adSlot);
 
-			container.dataset[attrName] = typeof data === 'string' ? data : JSON.stringify(data);
+			container.dataset[attrName] = typeof data === 'string' ? data : stringify__default()(data);
 		}
 	}]);
 
@@ -1333,21 +1352,18 @@ var slot_tweaker_SlotTweaker = function () {
 
 var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
-var slot_data_params_updater__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function slot_data_params_updater__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 
 var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	function SlotDataParamsUpdater() {
-		slot_data_params_updater__classCallCheck(this, SlotDataParamsUpdater);
+		classCallCheck__default()(this, SlotDataParamsUpdater);
 	}
 
-	slot_data_params_updater__createClass(SlotDataParamsUpdater, [{
+	createClass__default()(SlotDataParamsUpdater, [{
 		key: 'getSlotSizes',
 		value: function getSlotSizes(adSlot) {
 			var result = {};
@@ -1356,7 +1372,7 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 				result[s.viewportSize[0] + 'x' + s.viewportSize[1]] = s.sizes;
 			});
 
-			return JSON.stringify(result);
+			return stringify__default()(result);
 		}
 	}, {
 		key: 'updateOnCreate',
@@ -1388,22 +1404,17 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
-
 // CONCATENATED MODULE: ./src/utils/string-builder.js
-var string_builder__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function string_builder__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 var string_builder_StringBuilder = function () {
 	function StringBuilder() {
-		string_builder__classCallCheck(this, StringBuilder);
+		classCallCheck__default()(this, StringBuilder);
 	}
 
-	string_builder__createClass(StringBuilder, [{
+	createClass__default()(StringBuilder, [{
 		key: 'build',
 		value: function build(string) {
 			var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1449,7 +1460,6 @@ var string_builder_StringBuilder = function () {
 
 var stringBuilder = new string_builder_StringBuilder();
 // CONCATENATED MODULE: ./src/utils/try-property.js
-
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -1480,27 +1490,34 @@ function tryProperty(obj) {
 
 	return null;
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
+var get_prototype_of_ = __webpack_require__(13);
+var get_prototype_of__default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(14);
+var possibleConstructorReturn__default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
+var inherits_ = __webpack_require__(15);
+var inherits__default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
 // EXTERNAL MODULE: external "events"
-var external__events_ = __webpack_require__(6);
+var external__events_ = __webpack_require__(16);
 var external__events__default = /*#__PURE__*/__webpack_require__.n(external__events_);
 
 // CONCATENATED MODULE: ./src/models/ad-slot.js
-var ad_slot__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
 
-function ad_slot__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
 
 
 
 var ad_slot_AdSlot = function (_EventEmitter) {
-	_inherits(AdSlot, _EventEmitter);
+	inherits__default()(AdSlot, _EventEmitter);
 
 	/**
   * Parse the object that's passed from the template to extract more details
@@ -1513,9 +1530,9 @@ var ad_slot_AdSlot = function (_EventEmitter) {
   *           gpt-bottom-leaderboard-desktop
   */
 	function AdSlot(ad) {
-		ad_slot__classCallCheck(this, AdSlot);
+		classCallCheck__default()(this, AdSlot);
 
-		var _this = _possibleConstructorReturn(this, (AdSlot.__proto__ || Object.getPrototypeOf(AdSlot)).call(this));
+		var _this = possibleConstructorReturn__default()(this, (AdSlot.__proto__ || get_prototype_of__default()(AdSlot)).call(this));
 
 		var segments = ad.id.split('-');
 
@@ -1542,7 +1559,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		return _this;
 	}
 
-	ad_slot__createClass(AdSlot, [{
+	createClass__default()(AdSlot, [{
 		key: 'getId',
 		value: function getId() {
 			return this.id;
@@ -1659,22 +1676,17 @@ ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 // CONCATENATED MODULE: ./src/models/index.js
 
-
 // CONCATENATED MODULE: ./src/video/vast-parser.js
-var vast_parser__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function vast_parser__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 var vast_parser_VastParser = function () {
 	function VastParser() {
-		vast_parser__classCallCheck(this, VastParser);
+		classCallCheck__default()(this, VastParser);
 	}
 
-	vast_parser__createClass(VastParser, [{
+	createClass__default()(VastParser, [{
 		key: 'getAdInfo',
 		value: function getAdInfo(imaAd) {
 			var adInfo = {};
@@ -1706,8 +1718,8 @@ var vast_parser_VastParser = function () {
 			var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 			var currentAd = this.getAdInfo(extra.imaAd),
-			    vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			    customParams = queryString.getValues(encodeURI(vastParams.cust_params));
+			    vastParams = query_string_queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
+			    customParams = query_string_queryString.getValues(encodeURI(vastParams.cust_params));
 
 			return {
 				contentType: currentAd.contentType || extra.contentType,
@@ -1725,11 +1737,8 @@ var vast_parser_VastParser = function () {
 
 var vastParser = new vast_parser_VastParser();
 // CONCATENATED MODULE: ./src/video/vast-debugger.js
-var vast_debugger__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function vast_debugger__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -1743,10 +1752,10 @@ function setAttribute(element, attribute, value) {
 
 var vast_debugger_VastDebugger = function () {
 	function VastDebugger() {
-		vast_debugger__classCallCheck(this, VastDebugger);
+		classCallCheck__default()(this, VastDebugger);
 	}
 
-	vast_debugger__createClass(VastDebugger, [{
+	createClass__default()(VastDebugger, [{
 		key: 'setVastAttributes',
 		value: function setVastAttributes(element, vastUrl, status, imaAd) {
 			var vastParams = vastParser.parse(vastUrl, {
@@ -1759,7 +1768,7 @@ var vast_debugger_VastDebugger = function () {
 			setAttribute(element, 'data-vast-position', vastParams.position);
 			setAttribute(element, 'data-vast-size', vastParams.size);
 			setAttribute(element, 'data-vast-status', status);
-			setAttribute(element, 'data-vast-params', JSON.stringify(vastParams.customParams));
+			setAttribute(element, 'data-vast-params', stringify__default()(vastParams.customParams));
 		}
 	}]);
 
@@ -1771,6 +1780,7 @@ var vastDebugger = new vast_debugger_VastDebugger();
 
 
 
+
 var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
     baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
     correlator = Math.round(Math.random() * 10000000000);
@@ -1778,9 +1788,9 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	var params = Object.assign({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
+	var params = assign__default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
-	return encodeURIComponent(Object.keys(params).filter(function (key) {
+	return encodeURIComponent(keys__default()(params).filter(function (key) {
 		return params[key];
 	}).map(function (key) {
 		return key + '=' + params[key];
@@ -1824,11 +1834,10 @@ function buildVastUrl(aspectRatio, slotName) {
 
 
 
-
 var google_ima_setup_logGroup = 'google-ima-setup';
 
 function getOverriddenVast() {
-	if (queryString.get('porvata_override_vast') === '1') {
+	if (query_string_queryString.get('porvata_override_vast') === '1') {
 		var vastXML = window.localStorage.getItem('porvata_vast');
 		logger(google_ima_setup_logGroup, 'Overridden VAST', vastXML);
 
@@ -1886,7 +1895,6 @@ var googleImaSetup = {
 	getRenderingSettings: getRenderingSettings
 };
 // CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker-script.js
-
 // Fixes for MOAT script incompatibility
 var eventMapping = {},
     listeners = [],
@@ -1917,11 +1925,7 @@ function initMoatTracking(a, f, c) {
 };
 // MOAT CODE END
 // CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker.js
-var moat_video_tracker__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function moat_video_tracker__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -1931,10 +1935,10 @@ var moat_video_tracker_logGroup = 'moat-video-tracker';
 
 var moat_video_tracker_MoatVideoTracker = function () {
 	function MoatVideoTracker() {
-		moat_video_tracker__classCallCheck(this, MoatVideoTracker);
+		classCallCheck__default()(this, MoatVideoTracker);
 	}
 
-	moat_video_tracker__createClass(MoatVideoTracker, [{
+	createClass__default()(MoatVideoTracker, [{
 		key: 'init',
 		value: function init(adsManager, container, viewMode, slicer1, slicer2) {
 			var ids = {
@@ -1958,11 +1962,7 @@ var moat_video_tracker_MoatVideoTracker = function () {
 
 var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
 // CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-player-factory.js
-var google_ima_player_factory__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function google_ima_player_factory__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -1978,7 +1978,7 @@ function getVideoElement() {
 
 var google_ima_player_factory_GoogleImaPlayer = function () {
 	function GoogleImaPlayer(adDisplayContainer, adsLoader, params) {
-		google_ima_player_factory__classCallCheck(this, GoogleImaPlayer);
+		classCallCheck__default()(this, GoogleImaPlayer);
 
 		this.isAdsManagerLoaded = false;
 		this.status = '';
@@ -1991,7 +1991,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 		this.vastUrl = '';
 	}
 
-	google_ima_player_factory__createClass(GoogleImaPlayer, [{
+	createClass__default()(GoogleImaPlayer, [{
 		key: 'setVastUrl',
 		value: function setVastUrl(vastUrl) {
 			this.vastUrl = vastUrl;
@@ -2173,7 +2173,7 @@ var imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
 function load() {
 	if (window.google && window.google.ima) {
-		return new Promise(function (resolve) {
+		return new promise__default.a(function (resolve) {
 			resolve();
 		});
 	}
@@ -2202,11 +2202,7 @@ var googleIma = {
 	getPlayer: getPlayer
 };
 // CONCATENATED MODULE: ./src/video/player/porvata/video-settings.js
-var video_settings__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function video_settings__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -2233,17 +2229,17 @@ function getMoatTrackingStatus(params) {
 	return false;
 }
 
-var VideoSettings = function () {
+var video_settings_VideoSettings = function () {
 	function VideoSettings() {
 		var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-		video_settings__classCallCheck(this, VideoSettings);
+		classCallCheck__default()(this, VideoSettings);
 
 		this.params = params;
 		this.moatTracking = getMoatTrackingStatus(params);
 	}
 
-	video_settings__createClass(VideoSettings, [{
+	createClass__default()(VideoSettings, [{
 		key: 'get',
 		value: function get(key) {
 			return this.params[key];
@@ -2268,11 +2264,7 @@ var VideoSettings = function () {
 	return VideoSettings;
 }();
 // CONCATENATED MODULE: ./src/video/player/porvata/porvata.js
-var porvata__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function porvata__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -2326,11 +2318,11 @@ var porvata_nativeFullscreenOnElement = function nativeFullscreenOnElement(eleme
 	};
 };
 
-var PorvataPlayer = function () {
+var porvata_PorvataPlayer = function () {
 	function PorvataPlayer(ima, params) {
 		var _this = this;
 
-		porvata__classCallCheck(this, PorvataPlayer);
+		classCallCheck__default()(this, PorvataPlayer);
 
 		this.ima = ima;
 		this.container = prepareVideoAdContainer(params);
@@ -2352,7 +2344,7 @@ var PorvataPlayer = function () {
 		}
 	}
 
-	porvata__createClass(PorvataPlayer, [{
+	createClass__default()(PorvataPlayer, [{
 		key: 'addEventListener',
 		value: function addEventListener(eventName, callback) {
 			this.ima.addEventListener(eventName, callback);
@@ -2530,10 +2522,10 @@ var PorvataPlayer = function () {
 
 var porvata_Porvata = function () {
 	function Porvata() {
-		porvata__classCallCheck(this, Porvata);
+		classCallCheck__default()(this, Porvata);
 	}
 
-	porvata__createClass(Porvata, null, [{
+	createClass__default()(Porvata, null, [{
 		key: 'addOnViewportChangeListener',
 
 
@@ -2574,14 +2566,14 @@ var porvata_Porvata = function () {
 				passback: 'porvata'
 			};
 
-			var videoSettings = new VideoSettings(params);
+			var videoSettings = new video_settings_VideoSettings(params);
 
 			porvataListener.init();
 
 			return googleIma.load().then(function () {
 				return googleIma.getPlayer(videoSettings);
 			}).then(function (ima) {
-				return new PorvataPlayer(ima, params);
+				return new porvata_PorvataPlayer(ima, params);
 			}).then(function (video) {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
@@ -2658,19 +2650,14 @@ var porvata_Porvata = function () {
 
 
 
-
 // CONCATENATED MODULE: ./src/video/index.js
 
 
 
 
-
 // CONCATENATED MODULE: ./src/listeners/porvata-listener.js
-var porvata_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function porvata_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -2683,7 +2670,7 @@ function getListeners() {
 
 var porvata_listener_PorvataListener = function () {
 	function PorvataListener(params) {
-		porvata_listener__classCallCheck(this, PorvataListener);
+		classCallCheck__default()(this, PorvataListener);
 
 		this.params = params;
 		this.listeners = getListeners().filter(function (listener) {
@@ -2698,7 +2685,7 @@ var porvata_listener_PorvataListener = function () {
 		};
 	}
 
-	porvata_listener__createClass(PorvataListener, [{
+	createClass__default()(PorvataListener, [{
 		key: 'init',
 		value: function init() {
 			this.dispatch('init');
@@ -2711,7 +2698,7 @@ var porvata_listener_PorvataListener = function () {
 			this.video = video;
 			this.dispatch('ready');
 
-			Object.keys(PorvataListener.EVENTS).forEach(function (eventKey) {
+			keys__default()(PorvataListener.EVENTS).forEach(function (eventKey) {
 				video.addEventListener(eventKey, function (event) {
 					var errorCode = event.getError && event.getError().getErrorCode();
 
@@ -2788,11 +2775,8 @@ porvata_listener_PorvataListener.EVENTS = {
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 // CONCATENATED MODULE: ./src/listeners/scroll-listener.js
-var scroll_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function scroll_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -2810,10 +2794,10 @@ function pushSlot(adStack, node) {
 
 var scroll_listener_ScrollListener = function () {
 	function ScrollListener() {
-		scroll_listener__classCallCheck(this, ScrollListener);
+		classCallCheck__default()(this, ScrollListener);
 	}
 
-	scroll_listener__createClass(ScrollListener, [{
+	createClass__default()(ScrollListener, [{
 		key: 'init',
 		value: function init() {
 			var requestAnimationFrameHandleAdded = false;
@@ -2822,7 +2806,7 @@ var scroll_listener_ScrollListener = function () {
 				if (!requestAnimationFrameHandleAdded) {
 					window.requestAnimationFrame(function () {
 						requestAnimationFrameHandleAdded = false;
-						Object.keys(scroll_listener_callbacks).forEach(function (id) {
+						keys__default()(scroll_listener_callbacks).forEach(function (id) {
 							if (typeof scroll_listener_callbacks[id] === 'function') {
 								scroll_listener_callbacks[id](event, id);
 							}
@@ -2876,11 +2860,7 @@ var scroll_listener_ScrollListener = function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // CONCATENATED MODULE: ./src/listeners/slot-listener.js
-var slot_listener__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function slot_listener__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -2970,10 +2950,10 @@ function slot_listener_dispatch(methodName, adSlot) {
 
 var slot_listener_SlotListener = function () {
 	function SlotListener() {
-		slot_listener__classCallCheck(this, SlotListener);
+		classCallCheck__default()(this, SlotListener);
 	}
 
-	slot_listener__createClass(SlotListener, [{
+	createClass__default()(SlotListener, [{
 		key: 'emitRenderEnded',
 		value: function emitRenderEnded(event, adSlot) {
 			var adType = getAdType(event, adSlot);
@@ -3007,9 +2987,7 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
-
 // CONCATENATED MODULE: ./src/utils/viewport-observer.js
-
 
 
 
@@ -3062,19 +3040,14 @@ var viewportObserver = {
 
 
 
-
 // CONCATENATED MODULE: ./src/templates/floating-ad.js
-var floating_ad__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function floating_ad__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 
 var floating_ad_FloatingAd = function () {
-	floating_ad__createClass(FloatingAd, null, [{
+	createClass__default()(FloatingAd, null, [{
 		key: 'getName',
 		value: function getName() {
 			return 'floating-ad';
@@ -3082,12 +3055,12 @@ var floating_ad_FloatingAd = function () {
 	}]);
 
 	function FloatingAd(adSlot) {
-		floating_ad__classCallCheck(this, FloatingAd);
+		classCallCheck__default()(this, FloatingAd);
 
 		this.adSlot = adSlot;
 	}
 
-	floating_ad__createClass(FloatingAd, [{
+	createClass__default()(FloatingAd, [{
 		key: 'init',
 		value: function init() {
 			var slotNode = document.getElementById(this.adSlot.getId());
@@ -3141,7 +3114,6 @@ var floating_ad_FloatingAd = function () {
 }();
 // CONCATENATED MODULE: ./src/templates/index.js
 
-
 // CONCATENATED MODULE: ./src/providers/gpt-targeting.js
 
 
@@ -3158,7 +3130,7 @@ function setupGptTargeting() {
 		}
 	}
 
-	Object.keys(targeting).forEach(function (key) {
+	keys__default()(targeting).forEach(function (key) {
 		setTargetingValue(key, targeting[key]);
 	});
 
@@ -3170,11 +3142,8 @@ function setupGptTargeting() {
 	});
 }
 // CONCATENATED MODULE: ./src/providers/gpt-provider.js
-var gpt_provider__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 
-
-function gpt_provider__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -3215,7 +3184,7 @@ var gpt_provider_GptProvider = function () {
 	function GptProvider() {
 		var _this = this;
 
-		gpt_provider__classCallCheck(this, GptProvider);
+		classCallCheck__default()(this, GptProvider);
 
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
@@ -3225,7 +3194,7 @@ var gpt_provider_GptProvider = function () {
 		});
 	}
 
-	gpt_provider__createClass(GptProvider, [{
+	createClass__default()(GptProvider, [{
 		key: 'init',
 		value: function init() {
 			if (initialized) {
@@ -3267,7 +3236,7 @@ var gpt_provider_GptProvider = function () {
 	}, {
 		key: 'applyTargetingParams',
 		value: function applyTargetingParams(gptSlot, targeting) {
-			Object.keys(targeting).forEach(function (key) {
+			keys__default()(targeting).forEach(function (key) {
 				return gptSlot.setTargeting(key, targeting[key]);
 			});
 		}
@@ -3276,7 +3245,7 @@ var gpt_provider_GptProvider = function () {
 		value: function parseTargetingParams(targeting) {
 			var result = {};
 
-			Object.keys(targeting).forEach(function (key) {
+			keys__default()(targeting).forEach(function (key) {
 				var value = targeting[key];
 
 				if (typeof value === 'function') {
@@ -3304,13 +3273,8 @@ var gpt_provider_GptProvider = function () {
 // CONCATENATED MODULE: ./src/providers/index.js
 
 
-
 // CONCATENATED MODULE: ./src/ad-engine.js
-var ad_engine__createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-
-
-function ad_engine__classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -3332,7 +3296,7 @@ var ad_engine_AdEngine = function () {
 	function AdEngine() {
 		var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-		ad_engine__classCallCheck(this, AdEngine);
+		classCallCheck__default()(this, AdEngine);
 
 		context.extend(config);
 		this.adStack = context.get('state.adStack');
@@ -3343,7 +3307,7 @@ var ad_engine_AdEngine = function () {
 		templateService.register(floating_ad_FloatingAd);
 	}
 
-	ad_engine__createClass(AdEngine, [{
+	createClass__default()(AdEngine, [{
 		key: 'init',
 		value: function init() {
 			var _this = this;
@@ -3395,13 +3359,12 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "vastDebugger", function() { return vastDebugger; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "vastParser", function() { return vastParser; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "buildVastUrl", function() { return buildVastUrl; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataPlayer", function() { return PorvataPlayer; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataPlayer", function() { return porvata_PorvataPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Porvata", function() { return porvata_Porvata; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "VideoSettings", function() { return VideoSettings; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "VideoSettings", function() { return video_settings_VideoSettings; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatVideoTracker", function() { return moatVideoTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "googleImaPlayerFactory", function() { return googleImaPlayerFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
-
 
 
 
@@ -3413,7 +3376,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.7.0');
+set__default()(window, versionField, 'v9.7.1');
 
 
 
@@ -3424,31 +3387,61 @@ set__default()(window, versionField, 'v9.7.0');
 
 
 /***/ }),
-/* 2 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("lodash/set");
 
 /***/ }),
-/* 3 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("lodash/get");
 
 /***/ }),
-/* 4 */
+/* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("mobile-detect");
+module.exports = require("ismobilejs");
 
 /***/ }),
-/* 5 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("blockadblock");
 
 /***/ }),
-/* 6 */
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/typeof");
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/slicedToArray");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/inherits");
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("events");
