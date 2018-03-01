@@ -153,7 +153,6 @@ export class PorvataPlayer {
 		const isFullscreen = this.isFullscreen();
 		const nativeFullscreen = this.nativeFullscreen;
 
-		this.fullscreen = !this.fullscreen;
 		this.muteProtect = true;
 
 		if (nativeFullscreen.isSupported()) {
@@ -165,6 +164,8 @@ export class PorvataPlayer {
 	}
 
 	onFullscreenChange() {
+		this.fullscreen = !this.fullscreen;
+
 		if (this.isFullscreen()) {
 			this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
 			document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);

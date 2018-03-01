@@ -2454,7 +2454,6 @@ var PorvataPlayer = function () {
 			var isFullscreen = this.isFullscreen();
 			var nativeFullscreen = this.nativeFullscreen;
 
-			this.fullscreen = !this.fullscreen;
 			this.muteProtect = true;
 
 			if (nativeFullscreen.isSupported()) {
@@ -2467,6 +2466,8 @@ var PorvataPlayer = function () {
 	}, {
 		key: 'onFullscreenChange',
 		value: function onFullscreenChange() {
+			this.fullscreen = !this.fullscreen;
+
 			if (this.isFullscreen()) {
 				this.container.classList.add(VIDEO_FULLSCREEN_CLASS_NAME);
 				document.documentElement.classList.add(STOP_SCROLLING_CLASS_NAME);
