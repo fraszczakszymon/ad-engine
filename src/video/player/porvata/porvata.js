@@ -60,6 +60,7 @@ export class PorvataPlayer {
 		this.nativeFullscreen = nativeFullscreen;
 		this.width = params.width;
 		this.height = params.height;
+		this.muteProtect = false;
 
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(() => this.onFullscreenChange());
@@ -152,6 +153,8 @@ export class PorvataPlayer {
 		const isFullscreen = this.isFullscreen();
 		const nativeFullscreen = this.nativeFullscreen;
 
+		this.muteProtect = true;
+
 		if (nativeFullscreen.isSupported()) {
 			const toggleNativeFullscreen = isFullscreen ? nativeFullscreen.exit : nativeFullscreen.enter;
 			toggleNativeFullscreen();
@@ -169,6 +172,12 @@ export class PorvataPlayer {
 		} else {
 			this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
 			document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
+
+			if (this.muteProtect) {
+				this.muteProtect = false;
+			} else if (this.isPlaying() && !this.isMuted()) {
+				this.mute();
+			}
 		}
 
 		this.resize();

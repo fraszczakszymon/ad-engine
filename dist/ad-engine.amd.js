@@ -3720,6 +3720,7 @@ var porvata_PorvataPlayer = function () {
 		this.nativeFullscreen = nativeFullscreen;
 		this.width = params.width;
 		this.height = params.height;
+		this.muteProtect = false;
 
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
@@ -3830,6 +3831,8 @@ var porvata_PorvataPlayer = function () {
 			var isFullscreen = this.isFullscreen();
 			var nativeFullscreen = this.nativeFullscreen;
 
+			this.muteProtect = true;
+
 			if (nativeFullscreen.isSupported()) {
 				var toggleNativeFullscreen = isFullscreen ? nativeFullscreen.exit : nativeFullscreen.enter;
 				toggleNativeFullscreen();
@@ -3848,6 +3851,12 @@ var porvata_PorvataPlayer = function () {
 			} else {
 				this.container.classList.remove(VIDEO_FULLSCREEN_CLASS_NAME);
 				document.documentElement.classList.remove(STOP_SCROLLING_CLASS_NAME);
+
+				if (this.muteProtect) {
+					this.muteProtect = false;
+				} else if (this.isPlaying() && !this.isMuted()) {
+					this.mute();
+				}
 			}
 
 			this.resize();
