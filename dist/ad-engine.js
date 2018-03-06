@@ -2590,6 +2590,17 @@ var porvata_Porvata = function () {
 					}
 				}
 
+				function setupAutoPlayMethod() {
+					if (params.blockOutOfViewportPausing) {
+						if (params.autoPlay && !autoPlayed) {
+							autoPlayed = true;
+							video.play();
+						}
+					} else {
+						viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					}
+				}
+
 				porvataListener.registerVideoEvents(video);
 
 				video.addEventListener('adCanPlay', function () {
@@ -2614,8 +2625,8 @@ var porvata_Porvata = function () {
 				});
 				video.addEventListener('start', function () {
 					video.ima.dispatchEvent('wikiaAdPlay');
-					if (!viewportListenerId) {
-						viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					if (!viewportListenerId && !autoPlayed) {
+						setupAutoPlayMethod();
 					}
 				});
 				video.addEventListener('resume', function () {
@@ -2635,7 +2646,7 @@ var porvata_Porvata = function () {
 				}
 
 				video.addEventListener('wikiaAdsManagerLoaded', function () {
-					viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					setupAutoPlayMethod();
 				});
 
 				return video;
@@ -3376,7 +3387,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.7.1');
+set__default()(window, versionField, 'v9.7.2');
 
 
 
