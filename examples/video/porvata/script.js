@@ -8,16 +8,22 @@ import {
 } from '@wikia/ad-engine';
 import adContext from '../../context';
 
-const closeButton = document.getElementById('player-close'),
+const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1',
+	closeButton = document.getElementById('player-close'),
 	container = document.getElementById('player'),
 	params = {
 		adProduct: 'test-video',
 		autoPlay: true,
+		blockOutOfViewportPausing,
 		container,
 		width: 300,
 		height: 250,
 		slotName: 'OUTSTREAM'
 	};
+
+if (blockOutOfViewportPausing) {
+	console.warn('🎬 Block out of viewport pausing enabled');
+}
 
 context.extend(adContext);
 context.set('targeting.artid', 292);

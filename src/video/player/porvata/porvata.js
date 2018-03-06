@@ -279,6 +279,16 @@ export class Porvata {
 					}
 				}
 
+				function setupAutoPlayMethod() {
+					if (params.blockOutOfViewportPausing) {
+						if (params.autoPlay) {
+							video.play();
+						}
+					} else {
+						viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					}
+				}
+
 				porvataListener.registerVideoEvents(video);
 
 				video.addEventListener('adCanPlay', () => {
@@ -303,8 +313,8 @@ export class Porvata {
 				});
 				video.addEventListener('start', () => {
 					video.ima.dispatchEvent('wikiaAdPlay');
-					if (!viewportListenerId) {
-						viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					if (!viewportListenerId && !autoPlayed) {
+						setupAutoPlayMethod();
 					}
 				});
 				video.addEventListener('resume', () => {
@@ -324,7 +334,7 @@ export class Porvata {
 				}
 
 				video.addEventListener('wikiaAdsManagerLoaded', () => {
-					viewportListenerId = Porvata.addOnViewportChangeListener(params, inViewportCallback);
+					setupAutoPlayMethod();
 				});
 
 				return video;
