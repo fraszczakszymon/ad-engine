@@ -8,15 +8,15 @@
 }
 
 .controls {
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
+	margin-left: 50%;
+	text-align: right;
+	transform: translateX(-50%);
+	width: 300px;
 }
 
-#player-close {
+.icon {
 	cursor: pointer;
-	text-align: center;
-}
-
-#player-close:hover {
-	text-decoration: underline;
+	margin-left: 10px;
 }
