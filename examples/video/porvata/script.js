@@ -20,6 +20,7 @@ const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1'
 		slotName: 'OUTSTREAM'
 	},
 	playerCloseButton = document.getElementById('player-close'),
+	playerFullscreenButton = document.getElementById('player-fullscreen'),
 	playerMuteButton = document.getElementById('player-mute'),
 	playerResumePlayButton = document.getElementById('player-play-pause'),
 	playerUnmuteButton = document.getElementById('player-unmute');
@@ -73,6 +74,9 @@ Porvata.inject(params)
 			_video.mute();
 			playerMuteButton.classList.add('hide');
 			playerUnmuteButton.classList.remove('hide');
+		});
+		playerFullscreenButton.addEventListener('click', () => {
+			_video.toggleFullscreen();
 		});
 		playerResumePlayButton.addEventListener('click', () => {
 			if (_video.isPlaying()) {
