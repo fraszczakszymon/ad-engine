@@ -81,6 +81,4 @@ Porvata.inject(params)
 				_video.resume();
 			}
 		});
-
-		window._video = _video;
 	});
