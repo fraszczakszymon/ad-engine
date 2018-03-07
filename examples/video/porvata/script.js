@@ -8,16 +8,26 @@ import {
 } from '@wikia/ad-engine';
 import adContext from '../../context';
 
-const closeButton = document.getElementById('player-close'),
+const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1',
 	container = document.getElementById('player'),
 	params = {
 		adProduct: 'test-video',
-		autoPlay: true,
+		autoPlay: utils.queryString.get('autoplay') !== '0',
+		blockOutOfViewportPausing,
 		container,
 		width: 300,
 		height: 250,
 		slotName: 'OUTSTREAM'
-	};
+	},
+	playerCloseButton = document.getElementById('player-close'),
+	playerFullscreenButton = document.getElementById('player-fullscreen'),
+	playerMuteButton = document.getElementById('player-mute'),
+	playerResumePlayButton = document.getElementById('player-play-pause'),
+	playerUnmuteButton = document.getElementById('player-unmute');
+
+if (blockOutOfViewportPausing) {
+	console.warn('🎬 Block out of viewport pausing enabled');
+}
 
 context.extend(adContext);
 context.set('targeting.artid', 292);
@@ -35,15 +45,44 @@ Porvata.inject(params)
 
 		_video.addEventListener('loaded', () => {
 			player.classList.remove('hide');
+			document.querySelector('.controls').classList.remove('hide');
+			if (_video.params.autoPlay) {
+				playerMuteButton.classList.add('hide');
+				playerUnmuteButton.classList.remove('hide');
+			} else {
+				playerMuteButton.classList.remove('hide');
+				playerUnmuteButton.classList.add('hide');
+			}
 		});
 		_video.addEventListener('wikiaAdCompleted', () => {
 			player.classList.add('hide');
+			document.querySelector('.controls').classList.add('hide');
 			_video.reload();
 		});
 		container.addEventListener('click', () => {
 			_video.play();
 		});
-		closeButton.addEventListener('click', () => {
+		playerCloseButton.addEventListener('click', () => {
 			_video.stop();
+		});
+		playerUnmuteButton.addEventListener('click', () => {
+			_video.unmute();
+			playerMuteButton.classList.remove('hide');
+			playerUnmuteButton.classList.add('hide');
+		});
+		playerMuteButton.addEventListener('click', () => {
+			_video.mute();
+			playerMuteButton.classList.add('hide');
+			playerUnmuteButton.classList.remove('hide');
+		});
+		playerFullscreenButton.addEventListener('click', () => {
+			_video.toggleFullscreen();
+		});
+		playerResumePlayButton.addEventListener('click', () => {
+			if (_video.isPlaying()) {
+				_video.pause();
+			} else {
+				_video.resume();
+			}
 		});
 	});
