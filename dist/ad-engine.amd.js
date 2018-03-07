@@ -3721,7 +3721,7 @@ var porvata_PorvataPlayer = function () {
 		this.width = params.width;
 		this.height = params.height;
 		this.muteProtect = false;
-		this.volumeValue = 0.75;
+		this.defaultVolume = 0.75;
 
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
@@ -3879,7 +3879,7 @@ var porvata_PorvataPlayer = function () {
 	}, {
 		key: 'unmute',
 		value: function unmute() {
-			this.setVolume(this.volumeValue);
+			this.setVolume(this.defaultVolume);
 
 			if (this.params.autoPlay && this.params.restartOnUnmute) {
 				this.rewind();

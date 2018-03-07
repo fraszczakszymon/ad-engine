@@ -61,7 +61,7 @@ export class PorvataPlayer {
 		this.width = params.width;
 		this.height = params.height;
 		this.muteProtect = false;
-		this.volumeValue = 0.75;
+		this.defaultVolume = 0.75;
 
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(() => this.onFullscreenChange());
@@ -197,7 +197,7 @@ export class PorvataPlayer {
 	}
 
 	unmute() {
-		this.setVolume(this.volumeValue);
+		this.setVolume(this.defaultVolume);
 
 		if (this.params.autoPlay && this.params.restartOnUnmute) {
 			this.rewind();
