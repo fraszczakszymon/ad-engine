@@ -3721,6 +3721,7 @@ var porvata_PorvataPlayer = function () {
 		this.width = params.width;
 		this.height = params.height;
 		this.muteProtect = false;
+		this.defaultVolume = 0.75;
 
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
@@ -3867,6 +3868,7 @@ var porvata_PorvataPlayer = function () {
 		value: function updateVideoDOMElement(volume) {
 			if (this.mobileVideoAd) {
 				this.mobileVideoAd.muted = volume === 0;
+				this.mobileVideoAd.volume = volume;
 			}
 		}
 	}, {
@@ -3877,7 +3879,7 @@ var porvata_PorvataPlayer = function () {
 	}, {
 		key: 'unmute',
 		value: function unmute() {
-			this.setVolume(0.75);
+			this.setVolume(this.defaultVolume);
 
 			if (this.params.autoPlay && this.params.restartOnUnmute) {
 				this.rewind();
