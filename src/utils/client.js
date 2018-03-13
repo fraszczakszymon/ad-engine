@@ -2,7 +2,7 @@
 import isMobileJs from 'ismobilejs';
 import AdBlockDetect from 'blockadblock';
 
-let blockAdBlock = null,
+let bab = null,
 	browser = null,
 	isMobile = null,
 	operatingSystem = null;
@@ -35,14 +35,14 @@ class Client {
 	}
 
 	checkBlocking(enabled = null, disabled = null) {
-		if (blockAdBlock === null) {
+		if (bab === null) {
 			if (typeof AdBlockDetect === 'undefined' || typeof BlockAdBlock === 'undefined') {
 				if (enabled !== null) enabled();
 
 				return;
 			}
 
-			blockAdBlock = new BlockAdBlock({
+			bab = new BlockAdBlock({
 				checkOnLoad: false,
 				resetOnEnd: true,
 				loopCheckTime: 50,
@@ -50,10 +50,10 @@ class Client {
 			});
 		}
 
-		if (enabled !== null) blockAdBlock.onDetected(enabled);
-		if (disabled !== null) blockAdBlock.onNotDetected(disabled);
+		if (enabled !== null) bab.onDetected(enabled);
+		if (disabled !== null) bab.onNotDetected(disabled);
 
-		blockAdBlock.check(true);
+		bab.check(true);
 	}
 
 	getDeviceType() {
