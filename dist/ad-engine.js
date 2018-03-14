@@ -154,7 +154,7 @@ var external__blockadblock__default = /*#__PURE__*/__webpack_require__.n(externa
 
 
 
-var blockAdBlock = null,
+var bab = null,
     browser = null,
     client_isMobile = null,
     operatingSystem = null;
@@ -199,14 +199,14 @@ var client_Client = function () {
 			var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 			var disabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			if (blockAdBlock === null) {
+			if (bab === null) {
 				if (typeof external__blockadblock__default.a === 'undefined' || typeof BlockAdBlock === 'undefined') {
 					if (enabled !== null) enabled();
 
 					return;
 				}
 
-				blockAdBlock = new BlockAdBlock({
+				bab = new BlockAdBlock({
 					checkOnLoad: false,
 					resetOnEnd: true,
 					loopCheckTime: 50,
@@ -214,10 +214,10 @@ var client_Client = function () {
 				});
 			}
 
-			if (enabled !== null) blockAdBlock.onDetected(enabled);
-			if (disabled !== null) blockAdBlock.onNotDetected(disabled);
+			if (enabled !== null) bab.onDetected(enabled);
+			if (disabled !== null) bab.onNotDetected(disabled);
 
-			blockAdBlock.check(true);
+			bab.check(true);
 		}
 	}, {
 		key: 'getDeviceType',
@@ -3389,7 +3389,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.7.2');
+set__default()(window, versionField, 'v9.7.3');
 
 
 
