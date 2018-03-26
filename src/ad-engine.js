@@ -33,6 +33,25 @@ export class AdEngine {
 		templateService.register(FloatingAd);
 	}
 
+	runAdQueue() {
+		let started = false,
+			timeout = null;
+
+		const promises = context.get('delayModules').map(module => module.isEnabled() && module.getPromise()) || [],
+			startAdQueue = () => {
+				if (!started) {
+					started = true;
+					clearTimeout(timeout);
+					this.adStack.start();
+				}
+			};
+
+		Promise.all(promises).then(startAdQueue);
+		if (promises.length > 0) {
+			timeout = setTimeout(startAdQueue, context.get('options.delayTimeout'));
+		}
+	}
+
 	init() {
 		const provider = new GptProvider();
 		btfBlockerService.init();
@@ -47,7 +66,7 @@ export class AdEngine {
 		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
 		messageBus.init();
 		slotTweaker.registerMessageListener();
-		this.adStack.start();
+		this.runAdQueue();
 
 		scrollListener.init();
 

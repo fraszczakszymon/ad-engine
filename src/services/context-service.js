@@ -1,6 +1,7 @@
 const contextObject = {
 		adUnitId: '',
 		events: {},
+		delayModules: [],
 		listeners: {
 			porvata: [],
 			slot: []
@@ -9,6 +10,7 @@ const contextObject = {
 			customAdLoader: {
 				globalMethodName: 'loadCustomAd'
 			},
+			delayTimeout: 2000,
 			video: {
 				moatTracking: {
 					enabled: true,
