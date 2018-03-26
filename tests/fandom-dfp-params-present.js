@@ -51,5 +51,5 @@ casper.test.begin('Test ad slot attributes', 1, function(test) {
 					}
 				});
 			});
-	}).runAdQueue();
+	}).run();
 });
