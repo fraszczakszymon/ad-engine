@@ -48,7 +48,7 @@ export class AdEngine {
 
 		Promise.all(promises).then(startAdQueue);
 		if (promises.length > 0) {
-			timeout = setTimeout(startAdQueue, context.get('options.delayTimeout'));
+			timeout = setTimeout(startAdQueue, context.get('options.maxDelayTimeout'));
 		}
 	}
 

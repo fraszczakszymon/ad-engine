@@ -10,7 +10,7 @@ const contextObject = {
 			customAdLoader: {
 				globalMethodName: 'loadCustomAd'
 			},
-			delayTimeout: 2000,
+			maxDelayTimeout: 2000,
 			video: {
 				moatTracking: {
 					enabled: true,

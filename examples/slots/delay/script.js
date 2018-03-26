@@ -24,7 +24,7 @@ const clickDelay = {
 	}, 1000);
 
 context.extend(adContext);
-context.set('options.delayTimeout', 10000);
+context.set('options.maxDelayTimeout', 10000);
 context.push('delayModules', clickDelay);
 
 new AdEngine().init();
