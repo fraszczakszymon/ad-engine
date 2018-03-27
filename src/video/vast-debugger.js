@@ -9,11 +9,7 @@ function setAttribute(element, attribute, value) {
 }
 
 class VastDebugger {
-	setVastAttributes(element, vastUrl, status, imaAd) {
-		const vastParams = vastParser.parse(vastUrl, {
-			imaAd
-		});
-
+	setVastAttributesFromVastParams(element, status, vastParams) {
 		setAttribute(element, 'data-vast-content-type', vastParams.contentType);
 		setAttribute(element, 'data-vast-creative-id', vastParams.creativeId);
 		setAttribute(element, 'data-vast-line-item-id', vastParams.lineItemId);
@@ -21,6 +17,14 @@ class VastDebugger {
 		setAttribute(element, 'data-vast-size', vastParams.size);
 		setAttribute(element, 'data-vast-status', status);
 		setAttribute(element, 'data-vast-params', JSON.stringify(vastParams.customParams));
+	}
+
+	setVastAttributes(element, vastUrl, status, imaAd) {
+		const vastParams = vastParser.parse(vastUrl, {
+			imaAd
+		});
+
+		this.setVastAttributesFromVastParams(element, status, vastParams)
 	}
 }
 
