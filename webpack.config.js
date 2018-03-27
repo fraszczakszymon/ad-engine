@@ -53,7 +53,7 @@ const environments = {
 			'slots/delay': './examples/slots/delay/script.js',
 			'slots/empty-response': './examples/slots/empty-response/script.js',
 			'templates/floating-ad': './examples/templates/floating-ad/script.js',
-			'utils/adblock-detect': './examples/utils/adblock-detect/script.js',
+			'utils/block-detect': './examples/utils/block-detect/script.js',
 			'utils/browser-detect': './examples/utils/browser-detect/script.js',
 			'video/porvata': './examples/video/porvata/script.js'
 		},

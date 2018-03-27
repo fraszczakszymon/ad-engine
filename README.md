@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-jspm install github:wikia/ad-engine@^1.1.0
+npm install github:Wikia/ad-engine#semver:^9.7.0
 ```
 
 ## Usage (ES6)
@@ -168,4 +168,24 @@ npm run test
 
 ```bash
 npm run lint
+```
+
+## Publish new version
+
+:warning: Make sure you're using latest version of node/npm (preferably node@9.x.x and npm@5.x.x)
+1. Use your regular workflow. Push changes to branch, test them and create pull request to dev.
+2. Switch to dev branch once you merge all changes and pull new changes from github
+3. Bump version (remember to follow Semantic Versioning)
+```
+npm version patch
+```
+This command runs preversion script which:
+
+* run all tests
+* lint all files
+* build dist directory with output files for "client's" repositories
+* adds built files to commited version
+4. Push changes to github
+```
+git push --follow-tags
 ```
