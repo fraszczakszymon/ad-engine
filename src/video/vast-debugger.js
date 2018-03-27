@@ -24,7 +24,7 @@ class VastDebugger {
 			imaAd
 		});
 
-		this.setVastAttributesFromVastParams(element, status, vastParams)
+		this.setVastAttributesFromVastParams(element, status, vastParams);
 	}
 }
 

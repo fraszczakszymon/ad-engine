@@ -5,6 +5,7 @@ let time = 10;
 
 const clickDelay = {
 		isEnabled: () => true,
+		getName: () => 'click-to-load',
 		getPromise: () => new Promise((resolve) => {
 			document.getElementById('clickDelay').addEventListener('click', () => {
 				resolve();

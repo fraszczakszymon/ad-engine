@@ -1,4 +1,4 @@
-import { makeLazyQueue } from './utils';
+import { logger, makeLazyQueue } from './utils';
 import { AdSlot } from './models';
 import { FloatingAd } from './templates';
 import { GptProvider } from './providers';
@@ -13,6 +13,8 @@ import {
 	messageBus
 } from './services';
 
+const logGroup = 'ad-engine';
+
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
@@ -20,6 +22,16 @@ function fillInUsingProvider(ad, provider) {
 		slotService.add(adSlot);
 		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
+}
+
+function getPromises() {
+	return (context.get('delayModules') || [])
+		.filter(module => module.isEnabled())
+		.map((module) => {
+			logger(logGroup, 'Register delay module', module.getName());
+
+			return module.getPromise();
+		}) || [];
 }
 
 export class AdEngine {
@@ -37,18 +49,29 @@ export class AdEngine {
 		let started = false,
 			timeout = null;
 
-		const promises = context.get('delayModules').map(module => module.isEnabled() && module.getPromise()) || [],
+		const promises = getPromises(),
 			startAdQueue = () => {
 				if (!started) {
 					started = true;
 					clearTimeout(timeout);
 					this.adStack.start();
 				}
-			};
+			},
+			maxTimeout = context.get('options.maxDelayTimeout');
 
-		Promise.all(promises).then(startAdQueue);
+		logger(logGroup, `Delay by ${promises.length} modules (${maxTimeout}ms timeout)`);
+
 		if (promises.length > 0) {
-			timeout = setTimeout(startAdQueue, context.get('options.maxDelayTimeout'));
+			Promise.all(promises).then(() => {
+				logger(logGroup, 'startAdQueue', 'All modules ready');
+				startAdQueue();
+			});
+			timeout = setTimeout(() => {
+				logger(logGroup, 'startAdQueue', 'Timeout reached');
+				startAdQueue();
+			}, maxTimeout);
+		} else {
+			startAdQueue();
 		}
 	}
 
