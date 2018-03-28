@@ -1,4 +1,4 @@
-/* eslint-disable no-console, import/no-extraneous-dependencies */
+/* eslint-disable no-console, import/no-extraneous-dependencies, import/no-unresolved */
 const { IncomingWebhook } = require('@slack/client');
 const version = require('../package.json').version;
 const previousVersion = require('./previous-package.json').version;
