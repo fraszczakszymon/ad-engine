@@ -86,13 +86,13 @@ module.exports = require("babel-runtime/core-js/object/keys");
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 5 */
@@ -351,7 +351,7 @@ function isInViewport(element) {
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(3);
+var assign_ = __webpack_require__(4);
 var assign__default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -359,7 +359,7 @@ var typeof_ = __webpack_require__(11);
 var typeof__default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(4);
+var promise_ = __webpack_require__(3);
 var promise__default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // CONCATENATED MODULE: ./src/utils/flow-control.js
@@ -603,6 +603,7 @@ var keys__default = /*#__PURE__*/__webpack_require__.n(keys_);
 var contextObject = {
 	adUnitId: '',
 	events: {},
+	delayModules: [],
 	listeners: {
 		porvata: [],
 		slot: []
@@ -611,6 +612,7 @@ var contextObject = {
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		},
+		maxDelayTimeout: 2000,
 		video: {
 			moatTracking: {
 				enabled: true,
@@ -1756,12 +1758,8 @@ var vast_debugger_VastDebugger = function () {
 	}
 
 	createClass__default()(VastDebugger, [{
-		key: 'setVastAttributes',
-		value: function setVastAttributes(element, vastUrl, status, imaAd) {
-			var vastParams = vastParser.parse(vastUrl, {
-				imaAd: imaAd
-			});
-
+		key: 'setVastAttributesFromVastParams',
+		value: function setVastAttributesFromVastParams(element, status, vastParams) {
 			setAttribute(element, 'data-vast-content-type', vastParams.contentType);
 			setAttribute(element, 'data-vast-creative-id', vastParams.creativeId);
 			setAttribute(element, 'data-vast-line-item-id', vastParams.lineItemId);
@@ -1769,6 +1767,15 @@ var vast_debugger_VastDebugger = function () {
 			setAttribute(element, 'data-vast-size', vastParams.size);
 			setAttribute(element, 'data-vast-status', status);
 			setAttribute(element, 'data-vast-params', stringify__default()(vastParams.customParams));
+		}
+	}, {
+		key: 'setVastAttributes',
+		value: function setVastAttributes(element, vastUrl, status, imaAd) {
+			var vastParams = vastParser.parse(vastUrl, {
+				imaAd: imaAd
+			});
+
+			this.setVastAttributesFromVastParams(element, status, vastParams);
 		}
 	}]);
 
@@ -3296,6 +3303,9 @@ var gpt_provider_GptProvider = function () {
 
 
 
+
+var ad_engine_logGroup = 'ad-engine';
+
 function fillInUsingProvider(ad, provider) {
 	var adSlot = new ad_slot_AdSlot(ad);
 
@@ -3303,6 +3313,16 @@ function fillInUsingProvider(ad, provider) {
 		slotService.add(adSlot);
 		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 	}
+}
+
+function getPromises() {
+	return (context.get('delayModules') || []).filter(function (module) {
+		return module.isEnabled();
+	}).map(function (module) {
+		logger(ad_engine_logGroup, 'Register delay module', module.getName());
+
+		return module.getPromise();
+	}) || [];
 }
 
 var ad_engine_AdEngine = function () {
@@ -3321,9 +3341,42 @@ var ad_engine_AdEngine = function () {
 	}
 
 	createClass__default()(AdEngine, [{
+		key: 'runAdQueue',
+		value: function runAdQueue() {
+			var _this = this;
+
+			var started = false,
+			    timeout = null;
+
+			var promises = getPromises(),
+			    startAdQueue = function startAdQueue() {
+				if (!started) {
+					started = true;
+					clearTimeout(timeout);
+					_this.adStack.start();
+				}
+			},
+			    maxTimeout = context.get('options.maxDelayTimeout');
+
+			logger(ad_engine_logGroup, 'Delay by ' + promises.length + ' modules (' + maxTimeout + 'ms timeout)');
+
+			if (promises.length > 0) {
+				promise__default.a.all(promises).then(function () {
+					logger(ad_engine_logGroup, 'startAdQueue', 'All modules ready');
+					startAdQueue();
+				});
+				timeout = setTimeout(function () {
+					logger(ad_engine_logGroup, 'startAdQueue', 'Timeout reached');
+					startAdQueue();
+				}, maxTimeout);
+			} else {
+				startAdQueue();
+			}
+		}
+	}, {
 		key: 'init',
 		value: function init() {
-			var _this = this;
+			var _this2 = this;
 
 			var provider = new gpt_provider_GptProvider();
 			btfBlockerService.init();
@@ -3331,20 +3384,20 @@ var ad_engine_AdEngine = function () {
 			makeLazyQueue(this.adStack, function (ad) {
 				fillInUsingProvider(ad, provider);
 
-				if (_this.adStack.length === 0) {
+				if (_this2.adStack.length === 0) {
 					provider.flush();
 				}
 			});
 			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
 			messageBus.init();
 			slotTweaker.registerMessageListener();
-			this.adStack.start();
+			this.runAdQueue();
 
 			scrollListener.init();
 
 			if (context.get('events.pushOnScroll')) {
 				context.get('events.pushOnScroll.ids').forEach(function (id) {
-					scrollListener.addSlot(_this.adStack, id, context.get('events.pushOnScroll.threshold'));
+					scrollListener.addSlot(_this2.adStack, id, context.get('events.pushOnScroll.threshold'));
 				});
 			}
 		}
@@ -3389,7 +3442,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v9.7.3');
+set__default()(window, versionField, 'v10.0.0');
 
 
 
