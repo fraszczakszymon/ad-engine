@@ -10,6 +10,7 @@ export default {
 		}
 	},
 	options: {
+		maxDelayTimeout: 2000,
 		porvata: {
 			audio: {
 				exposeToSlot: true,
