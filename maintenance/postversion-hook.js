@@ -18,7 +18,7 @@ const webhook = new IncomingWebhook(webhookUrl);
 let message;
 
 if (failed) {
-	message = `:x: <!here|here>: Something went wrong during *${repositoryName}* release (<${buildUrl}|show log>)`
+	message = `:x: <!here|here>: Something went wrong during *${repositoryName}* release (<${buildUrl}|show log>)`;
 } else {
 	const releaseLink = `<https://github.com/Wikia/${repositoryName}/releases/tag/v${version}|Release v${version}>`;
 	let diffLink = '';
