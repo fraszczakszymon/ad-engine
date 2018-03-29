@@ -31,9 +31,11 @@ const nativeFullscreenOnElement = (element) => {
 	const fullscreenChangeEvent = (whichProperty(document, [
 		'onwebkitfullscreenchange',
 		'onmozfullscreenchange',
-		'MSFullscreenChange',
+		'onmsfullscreenchange',
 		'onfullscreenchange'
-	]) || '').replace(/^on/, '');
+	]) || '')
+	.replace(/^on/, '')
+	.replace('msfullscreenchange', 'MSFullscreenChange');
 	const addChangeListener = (...args) => document.addEventListener(fullscreenChangeEvent, ...args);
 	const removeChangeListener = (...args) => document.removeEventListener(fullscreenChangeEvent, ...args);
 	const isSupported = () => Boolean(enter && exit);
