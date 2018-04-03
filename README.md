@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install github:Wikia/ad-engine#semver:^9.7.0
+npm install github:Wikia/ad-engine#v10.0.0
 ```
 
 ## Usage (ES6)
@@ -34,6 +34,19 @@ Context.extend({
 	listeners: {
 		porvata: [],
 		slot: []
+	},
+	options: {
+		maxDelayTimeout: 2000,
+		porvata: {
+			audio: {
+				exposeToSlot: true,
+				segment: '-audio',
+				key: 'audio'
+			}
+		},
+		customAdLoader: {
+			globalMethodName: 'loadCustomAd'
+		}
 	},
 	slots: {
 		'top-leaderboard': {
@@ -74,7 +87,10 @@ Context.extend({
 			defaultSizes: [],
 			targeting: {
 				loc: 'bottom'
-			}
+			},
+			viewportConflicts: [
+				'gpt-top-leaderboard'
+			]
 		}
 	}
 });
@@ -138,9 +154,13 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 ## Example pages
 
 * [Browser detect](examples/utils/browser-detect)
+* [AdBlock detect](examples/utils/block-detect)
 * [Floating ad template](examples/templates/floating-ad)
-* [Porvata video player](examples/video/porvata)
 * [Slot animations](examples/slots/animations)
+* [AdEngine start delay](examples/slots/delay)
+* [Ad empty response](examples/slots/empty-response)
+* [Viewport conflicts](examples/slots/viewport-conflicts)
+* [Porvata video player](examples/video/porvata)
 
 ### Access examples
 
