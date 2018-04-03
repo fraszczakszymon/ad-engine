@@ -1,3 +1,6 @@
+import { getTopOffset, logger } from '../utils';
+
+const groupName = 'slot-service';
 const slotNameMapping = {};
 const slots = {};
 const slotStates = {};
@@ -39,6 +42,32 @@ class SlotService {
 
 	disable(slotName) {
 		setState(slotName, false);
+	}
+
+	hasViewportConflict(adSlot) {
+		const slotHeight = adSlot.getElement().offsetHeight,
+			slotOffset = getTopOffset(adSlot.getElement()),
+			viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+		let hasConflict = false;
+		adSlot.getViewportConflicts().every((elementId) => {
+			const element = document.getElementById(elementId),
+				elementHeight = element.offsetHeight,
+				elementOffset = getTopOffset(element),
+				isFirst = elementOffset < slotOffset,
+				distance = isFirst ? slotOffset - elementOffset - elementHeight :
+					elementOffset - slotOffset - slotHeight;
+
+			if (distance < viewportHeight) {
+				hasConflict = true;
+			}
+
+			logger(groupName, 'hasViewportConflict', hasConflict, adSlot.getSlotName(), elementId);
+
+			return !hasConflict;
+		});
+
+		return hasConflict;
 	}
 }
 

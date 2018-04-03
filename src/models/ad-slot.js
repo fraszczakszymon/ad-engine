@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { context, slotTweaker, templateService } from '../services';
 import { stringBuilder } from '../utils';
+import { slotListener } from '../listeners';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
@@ -34,6 +35,7 @@ export class AdSlot extends EventEmitter {
 		this.enabled = !this.config.disabled;
 		this.viewed = false;
 		this.element = null;
+		this.status = null;
 
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
@@ -91,6 +93,14 @@ export class AdSlot extends EventEmitter {
 		return this.config.defaultSizes;
 	}
 
+	getViewportConflicts() {
+		return this.config.viewportConflicts || [];
+	}
+
+	getStatus() {
+		return this.status;
+	}
+
 	shouldLoad() {
 		const isMobile = context.get('state.isMobile'),
 			shouldLoad = this.screenSize === 'both',
@@ -124,17 +134,21 @@ export class AdSlot extends EventEmitter {
 		context.set(`slots.${this.location}-${this.type}.${key}`, value);
 	}
 
-	success() {
+	success(status = 'success') {
 		slotTweaker.show(this);
-		slotTweaker.setDataParam(this, 'slotResult', 'success');
+		this.status = status;
 
 		if (this.config.defaultTemplate) {
 			templateService.init(this.config.defaultTemplate, this);
 		}
+
+		slotListener.emitStatusChanged(this);
 	}
 
-	collapse() {
+	collapse(status = 'collapse') {
 		slotTweaker.hide(this);
-		slotTweaker.setDataParam(this, 'slotResult', 'collapse');
+		this.status = status;
+
+		slotListener.emitStatusChanged(this);
 	}
 }
