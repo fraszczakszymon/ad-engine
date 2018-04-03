@@ -2293,7 +2293,7 @@ var prepareVideoAdContainer = function prepareVideoAdContainer(params) {
 var porvata_nativeFullscreenOnElement = function nativeFullscreenOnElement(element) {
 	var enter = tryProperty(element, ['webkitRequestFullscreen', 'mozRequestFullScreen', 'msRequestFullscreen', 'requestFullscreen']);
 	var exit = tryProperty(document, ['webkitExitFullscreen', 'mozCancelFullScreen', 'msExitFullscreen', 'exitFullscreen']);
-	var fullscreenChangeEvent = (whichProperty(document, ['onwebkitfullscreenchange', 'onmozfullscreenchange', 'MSFullscreenChange', 'onfullscreenchange']) || '').replace(/^on/, '');
+	var fullscreenChangeEvent = (whichProperty(document, ['onwebkitfullscreenchange', 'onmozfullscreenchange', 'onmsfullscreenchange', 'onfullscreenchange']) || '').replace(/^on/, '').replace('msfullscreenchange', 'MSFullscreenChange');
 	var addChangeListener = function addChangeListener() {
 		var _document;
 
