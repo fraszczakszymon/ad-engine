@@ -40,8 +40,8 @@ class SlotService {
 		setState(slotName, true);
 	}
 
-	disable(slotName) {
-		setState(slotName, false);
+	disable(slotName, status = null) {
+		setState(slotName, false, status);
 	}
 
 	hasViewportConflict(adSlot) {
@@ -73,7 +73,7 @@ class SlotService {
 
 export const slotService = new SlotService();
 
-function setState(slotName, state) {
+function setState(slotName, state, status = null) {
 	const slot = slotService.getBySlotName(slotName);
 	slotStates[slotName] = state;
 
@@ -81,7 +81,7 @@ function setState(slotName, state) {
 		if (state) {
 			slot.enable();
 		} else {
-			slot.disable();
+			slot.disable(status);
 		}
 	}
 }

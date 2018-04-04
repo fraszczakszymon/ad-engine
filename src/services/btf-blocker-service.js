@@ -4,19 +4,23 @@ import { slotService } from './slot-service';
 
 const logGroup = 'btf-blocker';
 
+function disableBtf() {
+	const slots = context.get('slots');
+
+	Object.keys(slots).forEach((adSlotKey) => {
+		const adSlot = slots[adSlotKey];
+
+		if (!adSlot.aboveTheFold && this.unblockedSlots.indexOf(adSlot.getSlotName()) === -1) {
+			slotService.disable(adSlot.getSlotName(), 'blocked');
+		}
+	});
+}
+
 function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		const slots = context.get('slots');
-
-		Object.keys(slots).forEach((adSlotKey) => {
-			const adSlot = slots[adSlotKey];
-
-			if (!adSlot.aboveTheFold && this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
-				slotService.disable(adSlot.slotName);
-			}
-		});
+		disableBtf();
 	}
 
 	this.slotsQueue.start();
@@ -44,19 +48,27 @@ class BtfBlockerService {
 	}
 
 	push(adSlot, fillInCallback) {
+		function wrappedFillInCallback() {
+			if (slotService.hasViewportConflict(adSlot)) {
+				slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+			}
+
+			if (!adSlot.isEnabled()) {
+				logger(logGroup, adSlot.getId(), 'Slot blocked', adSlot.getStatus());
+				return;
+			}
+
+			logger(logGroup, adSlot.getId(), 'Filling in slot');
+			fillInCallback(adSlot);
+		}
+
 		if (!this.atfEnded && !adSlot.isAboveTheFold()) {
-			this.slotsQueue.push({ adSlot, fillInCallback });
+			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
 			logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
 			return;
 		}
 
-		if (this.atfEnded && !adSlot.isEnabled()) {
-			logger(logGroup, adSlot.getId(), 'BTF slot blocked');
-			return;
-		}
-
-		logger(logGroup, adSlot.getId(), 'Filling in slot');
-		fillInCallback(adSlot);
+		wrappedFillInCallback(adSlot);
 	}
 
 	unblock(slotName) {

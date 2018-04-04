@@ -101,6 +101,13 @@ export class AdSlot extends EventEmitter {
 		return this.status;
 	}
 
+	setStatus(status = null) {
+		this.status = status;
+		if (status !== null) {
+			slotListener.emitStatusChanged(this);
+		}
+	}
+
 	shouldLoad() {
 		const isMobile = context.get('state.isMobile'),
 			shouldLoad = this.screenSize === 'both',
@@ -126,8 +133,9 @@ export class AdSlot extends EventEmitter {
 		this.enabled = true;
 	}
 
-	disable() {
+	disable(status = null) {
 		this.enabled = false;
+		this.setStatus(status);
 	}
 
 	setConfigProperty(key, value) {
@@ -136,19 +144,15 @@ export class AdSlot extends EventEmitter {
 
 	success(status = 'success') {
 		slotTweaker.show(this);
-		this.status = status;
+		this.setStatus(status);
 
 		if (this.config.defaultTemplate) {
 			templateService.init(this.config.defaultTemplate, this);
 		}
-
-		slotListener.emitStatusChanged(this);
 	}
 
 	collapse(status = 'collapse') {
 		slotTweaker.hide(this);
-		this.status = status;
-
-		slotListener.emitStatusChanged(this);
+		this.setStatus(status);
 	}
 }

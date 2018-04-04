@@ -3,6 +3,8 @@ import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { slotService } from '../../src/services/slot-service';
 
+let adSlot;
+
 describe('slot-service', () => {
 	afterEach(() => {
 		document.getElementById.restore();
@@ -18,37 +20,40 @@ describe('slot-service', () => {
 			offsetParent: null,
 			ownerDocument: {}
 		});
+
+		adSlot = Object.assign({}, adSlotFake);
+		adSlot.getViewportConflicts = () => ['foo-container'];
 	});
 
 	it('getter by id', () => {
-		slotService.add(adSlotFake);
+		slotService.add(adSlot);
 
-		expect(adSlotFake).to.equal(slotService.get('gpt-fake-ad'));
+		expect(adSlot).to.equal(slotService.get('gpt-fake-ad'));
 	});
 
 	it('getter by slot name', () => {
-		slotService.add(adSlotFake);
+		slotService.add(adSlot);
 
-		expect(adSlotFake).to.equal(slotService.getBySlotName('FAKE_AD'));
+		expect(adSlot).to.equal(slotService.getBySlotName('FAKE_AD'));
 	});
 
 	it('foreach iterator', () => {
-		slotService.add(adSlotFake);
+		slotService.add(adSlot);
 
-		slotService.forEach((adSlot) => {
-			expect(adSlotFake).to.equal(adSlot);
+		slotService.forEach((slot) => {
+			expect(slot).to.equal(slot);
 		});
 	});
 
 	it('checks whether slot has viewport conflicts', () => {
-		adSlotFake.setOffsetTop(500);
+		adSlot.setOffsetTop(500);
 
-		expect(slotService.hasViewportConflict(adSlotFake)).to.equals(true);
+		expect(slotService.hasViewportConflict(adSlot)).to.equals(true);
 	});
 
 	it('checks whether slot does not have viewport conflicts (when there is enough space)', () => {
-		adSlotFake.setOffsetTop(2000);
+		adSlot.setOffsetTop(2000);
 
-		expect(slotService.hasViewportConflict(adSlotFake)).to.equals(false);
+		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
 	});
 });

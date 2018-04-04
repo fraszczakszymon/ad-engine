@@ -10,9 +10,15 @@ export default {
 	},
 
 	getViewportConflicts() {
-		return [
-			'foo-container'
-		];
+		return [];
+	},
+
+	isEnabled() {
+		return true;
+	},
+
+	getStatus() {
+		return null;
 	},
 
 	getElement() {

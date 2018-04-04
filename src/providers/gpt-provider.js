@@ -56,11 +56,6 @@ export class GptProvider {
 
 	fillIn(adSlot) {
 		window.googletag.cmd.push(() => {
-			if (slotService.hasViewportConflict(adSlot)) {
-				adSlot.collapse('viewport-conflict');
-				return;
-			}
-
 			const sizeMapping = window.googletag.sizeMapping(),
 				targeting = this.parseTargetingParams(adSlot.getTargeting());
 
