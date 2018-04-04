@@ -24,7 +24,7 @@ export default {
 			offsetTop,
 			offsetParent: null,
 			ownerDocument: {}
-		}
+		};
 	},
 
 	setOffsetTop(offset) {
