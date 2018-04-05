@@ -5,6 +5,17 @@ const slotNameMapping = {};
 const slots = {};
 const slotStates = {};
 
+function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
+	const element = document.getElementById(elementId),
+		elementHeight = element.offsetHeight,
+		elementOffset = getTopOffset(element),
+		isFirst = elementOffset < slotOffset,
+		distance = isFirst ? slotOffset - elementOffset - elementHeight :
+			elementOffset - slotOffset - slotHeight;
+
+	return distance < viewportHeight;
+}
+
 class SlotService {
 	add(adSlot) {
 		const slotName = adSlot.getSlotName();
@@ -49,23 +60,10 @@ class SlotService {
 			slotOffset = getTopOffset(adSlot.getElement()),
 			viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-		let hasConflict = false;
-		adSlot.getViewportConflicts().every((elementId) => {
-			const element = document.getElementById(elementId),
-				elementHeight = element.offsetHeight,
-				elementOffset = getTopOffset(element),
-				isFirst = elementOffset < slotOffset,
-				distance = isFirst ? slotOffset - elementOffset - elementHeight :
-					elementOffset - slotOffset - slotHeight;
-
-			if (distance < viewportHeight) {
-				hasConflict = true;
-			}
-
-			logger(groupName, 'hasViewportConflict', hasConflict, adSlot.getSlotName(), elementId);
-
-			return !hasConflict;
-		});
+		const hasConflict = adSlot.getViewportConflicts().some(
+			elementId => isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId)
+		);
+		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 		return hasConflict;
 	}
