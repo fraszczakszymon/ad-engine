@@ -4,7 +4,8 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-incontent-boxad'
+				'gpt-incontent-boxad',
+				'gpt-bottom-leaderboard'
 			],
 			threshold: 100
 		}
@@ -86,6 +87,22 @@ export default {
 			targeting: {
 				loc: 'hivi'
 			}
+		},
+		'bottom-leaderboard': {
+			slotName: 'BOTTOM_LEADERBOARD',
+			sizes: [
+				{
+					viewportSize: [728, 0],
+					sizes: [[728, 90]]
+				}
+			],
+			defaultSizes: [[300, 250]],
+			targeting: {
+				loc: 'footer'
+			},
+			viewportConflicts: [
+				'gpt-top-boxad'
+			]
 		},
 		'top-video': {
 			lowerSlotName: 'outstream',

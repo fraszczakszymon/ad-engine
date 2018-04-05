@@ -722,6 +722,9 @@ var context = new context_service_Context();
 
 
 
+
+
+var groupName = 'slot-service';
 var slotNameMapping = {};
 var slot_service_slots = {};
 var slotStates = {};
@@ -732,7 +735,7 @@ var slot_service_SlotService = function () {
 	}
 
 	createClass__default()(SlotService, [{
-		key: "add",
+		key: 'add',
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
@@ -747,33 +750,59 @@ var slot_service_SlotService = function () {
 			}
 		}
 	}, {
-		key: "get",
+		key: 'get',
 		value: function get(id) {
 			return slot_service_slots[id];
 		}
 	}, {
-		key: "getBySlotName",
+		key: 'getBySlotName',
 		value: function getBySlotName(slotName) {
 			var id = slotNameMapping[slotName];
 
 			return this.get(id);
 		}
 	}, {
-		key: "forEach",
+		key: 'forEach',
 		value: function forEach(callback) {
 			keys__default()(slot_service_slots).forEach(function (id) {
 				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
-		key: "enable",
+		key: 'enable',
 		value: function enable(slotName) {
 			setState(slotName, true);
 		}
 	}, {
-		key: "disable",
+		key: 'disable',
 		value: function disable(slotName) {
 			setState(slotName, false);
+		}
+	}, {
+		key: 'hasViewportConflict',
+		value: function hasViewportConflict(adSlot) {
+			var slotHeight = adSlot.getElement().offsetHeight,
+			    slotOffset = getTopOffset(adSlot.getElement()),
+			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+			var hasConflict = false;
+			adSlot.getViewportConflicts().every(function (elementId) {
+				var element = document.getElementById(elementId),
+				    elementHeight = element.offsetHeight,
+				    elementOffset = getTopOffset(element),
+				    isFirst = elementOffset < slotOffset,
+				    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
+
+				if (distance < viewportHeight) {
+					hasConflict = true;
+				}
+
+				logger(groupName, 'hasViewportConflict', hasConflict, adSlot.getSlotName(), elementId);
+
+				return !hasConflict;
+			});
+
+			return hasConflict;
 		}
 	}]);
 
@@ -1386,9 +1415,11 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	}, {
 		key: 'updateOnRenderEnd',
 		value: function updateOnRenderEnd(adSlot, event) {
-			slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+			if (event) {
+				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+			}
 		}
 	}]);
 
@@ -1518,6 +1549,7 @@ var external__events__default = /*#__PURE__*/__webpack_require__.n(external__eve
 
 
 
+
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits__default()(AdSlot, _EventEmitter);
 
@@ -1550,6 +1582,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.enabled = !_this.config.disabled;
 		_this.viewed = false;
 		_this.element = null;
+		_this.status = null;
 
 		_this.config.targeting = _this.config.targeting || {};
 		_this.config.targeting.src = _this.config.targeting.src || context.get('src');
@@ -1614,6 +1647,16 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			return this.config.defaultSizes;
 		}
 	}, {
+		key: 'getViewportConflicts',
+		value: function getViewportConflicts() {
+			return this.config.viewportConflicts || [];
+		}
+	}, {
+		key: 'getStatus',
+		value: function getStatus() {
+			return this.status;
+		}
+	}, {
 		key: 'shouldLoad',
 		value: function shouldLoad() {
 			var isMobile = context.get('state.isMobile'),
@@ -1656,18 +1699,26 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'success',
 		value: function success() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
+
 			slotTweaker.show(this);
-			slotTweaker.setDataParam(this, 'slotResult', 'success');
+			this.status = status;
 
 			if (this.config.defaultTemplate) {
 				templateService.init(this.config.defaultTemplate, this);
 			}
+
+			slotListener.emitStatusChanged(this);
 		}
 	}, {
 		key: 'collapse',
 		value: function collapse() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'collapse';
+
 			slotTweaker.hide(this);
-			slotTweaker.setDataParam(this, 'slotResult', 'collapse');
+			this.status = status;
+
+			slotListener.emitStatusChanged(this);
 		}
 	}]);
 
@@ -2978,6 +3029,8 @@ var slot_listener_SlotListener = function () {
 		value: function emitRenderEnded(event, adSlot) {
 			var adType = getAdType(event, adSlot);
 
+			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
+
 			switch (adType) {
 				case 'collapse':
 					adSlot.collapse();
@@ -2988,7 +3041,6 @@ var slot_listener_SlotListener = function () {
 			}
 
 			slot_listener_dispatch('onRenderEnded', adSlot, { adType: adType, event: event });
-			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 		}
 	}, {
 		key: 'emitImpressionViewable',
@@ -2996,6 +3048,12 @@ var slot_listener_SlotListener = function () {
 			adSlot.emit(ad_slot_AdSlot.SLOT_VIEWED_EVENT);
 			slot_listener_dispatch('onImpressionViewable', adSlot, { event: event });
 			slotTweaker.setDataParam(adSlot, 'slotViewed', true);
+		}
+	}, {
+		key: 'emitStatusChanged',
+		value: function emitStatusChanged(adSlot) {
+			slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
+			slot_listener_dispatch('onStatusChanged', adSlot);
 		}
 	}]);
 
@@ -3231,6 +3289,11 @@ var gpt_provider_GptProvider = function () {
 			var _this2 = this;
 
 			window.googletag.cmd.push(function () {
+				if (slotService.hasViewportConflict(adSlot)) {
+					adSlot.collapse('viewport-conflict');
+					return;
+				}
+
 				var sizeMapping = window.googletag.sizeMapping(),
 				    targeting = _this2.parseTargetingParams(adSlot.getTargeting());
 

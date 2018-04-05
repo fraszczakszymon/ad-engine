@@ -81,6 +81,8 @@ class SlotListener {
 	emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
+		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
+
 		switch (adType) {
 			case 'collapse':
 				adSlot.collapse();
@@ -91,13 +93,17 @@ class SlotListener {
 		}
 
 		dispatch('onRenderEnded', adSlot, { adType, event });
-		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 	}
 
 	emitImpressionViewable(event, adSlot) {
 		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
 		dispatch('onImpressionViewable', adSlot, { event });
 		slotTweaker.setDataParam(adSlot, 'slotViewed', true);
+	}
+
+	emitStatusChanged(adSlot) {
+		slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
+		dispatch('onStatusChanged', adSlot);
 	}
 }
 

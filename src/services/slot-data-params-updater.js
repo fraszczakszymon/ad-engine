@@ -20,9 +20,11 @@ class SlotDataParamsUpdater {
 	}
 
 	updateOnRenderEnd(adSlot, event) {
-		slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-		slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-		slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+		if (event) {
+			slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+			slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+		}
 	}
 }
 
