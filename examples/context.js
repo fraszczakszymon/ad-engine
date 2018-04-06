@@ -19,6 +19,13 @@ export default {
 				key: 'audio'
 			}
 		},
+		video: {
+			moatTracking: {
+				enabled: true,
+				partnerCode: 'wikiaimajsint377461931603',
+				sampling: 1
+			}
+		},
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		}

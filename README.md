@@ -44,6 +44,13 @@ Context.extend({
 				key: 'audio'
 			}
 		},
+		video: {
+			moatTracking: {
+				enabled: false,
+				partnerCode: 'foo',
+				sampling: 1
+			}
+		},
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		}
