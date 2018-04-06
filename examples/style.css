@@ -13,7 +13,6 @@ html, body {
 
 .wrapper {
 	background: #fff;
-	box-shadow: 0 2px 26px 3px rgba(0,0,0,0.05);
 	display: flex;
 	height: 100%;
 	flex-flow: row wrap;
@@ -48,7 +47,7 @@ pre {
 	height: auto;
 }
 
-.top-leaderboard, .top-boxad, .incontent-boxad {
+.top-leaderboard, .top-boxad, .incontent-boxad, .bottom-leaderboard {
 	background: #1976D2;
 	color: #eee;
 	font-size: 1.3em;
@@ -56,6 +55,10 @@ pre {
 	line-height: 250px;
 	margin: 0 auto;
 	width: 300px;
+}
+
+.bottom-leaderboard {
+	margin: 20px auto;
 }
 
 .incontent-boxad {
@@ -151,7 +154,7 @@ pre {
 		order: 2;
 		max-width: 300px;
 	}
-	.top-leaderboard {
+	.top-leaderboard, .bottom-leaderboard {
 		height: 90px;
 		line-height: 90px;
 		width: 728px;

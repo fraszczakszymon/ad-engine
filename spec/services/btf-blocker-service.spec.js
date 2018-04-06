@@ -25,7 +25,6 @@ describe('btf-blocker-service', () => {
 		atfSlot.isAboveTheFold = () => true;
 		btfSlot = Object.assign({}, adSlotFake);
 		btfSlot.isAboveTheFold = () => false;
-		btfSlot.isEnabled = () => {};
 	});
 
 	afterEach(() => {
@@ -71,5 +70,21 @@ describe('btf-blocker-service', () => {
 
 		onRenderEndedCallback(atfSlot);
 		expect(btfFillInSpy.called).to.be.ok;
+	});
+
+	it('should not fill in BTF if it is disabled', () => {
+		const atfFillInSpy = spy();
+		const btfFillInSpy = spy();
+
+		btfSlot.isEnabled = () => false;
+
+		btfBlockerService.push(atfSlot, atfFillInSpy);
+		btfBlockerService.push(btfSlot, btfFillInSpy);
+
+		expect(atfFillInSpy.called).to.be.ok;
+		expect(btfFillInSpy.called).to.not.be.ok;
+
+		onRenderEndedCallback(atfSlot);
+		expect(btfFillInSpy.called).to.not.be.ok;
 	});
 });

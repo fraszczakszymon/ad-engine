@@ -1,6 +1,20 @@
+import { getTopOffset, logger } from '../utils';
+
+const groupName = 'slot-service';
 const slotNameMapping = {};
 const slots = {};
 const slotStates = {};
+
+function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
+	const element = document.getElementById(elementId),
+		elementHeight = element.offsetHeight,
+		elementOffset = getTopOffset(element),
+		isFirst = elementOffset < slotOffset,
+		distance = isFirst ? slotOffset - elementOffset - elementHeight :
+			elementOffset - slotOffset - slotHeight;
+
+	return distance < viewportHeight;
+}
 
 class SlotService {
 	add(adSlot) {
@@ -37,14 +51,27 @@ class SlotService {
 		setState(slotName, true);
 	}
 
-	disable(slotName) {
-		setState(slotName, false);
+	disable(slotName, status = null) {
+		setState(slotName, false, status);
+	}
+
+	hasViewportConflict(adSlot) {
+		const slotHeight = adSlot.getElement().offsetHeight,
+			slotOffset = getTopOffset(adSlot.getElement()),
+			viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+		const hasConflict = adSlot.getViewportConflicts().some(
+			elementId => isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId)
+		);
+		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
+
+		return hasConflict;
 	}
 }
 
 export const slotService = new SlotService();
 
-function setState(slotName, state) {
+function setState(slotName, state, status = null) {
 	const slot = slotService.getBySlotName(slotName);
 	slotStates[slotName] = state;
 
@@ -52,7 +79,7 @@ function setState(slotName, state) {
 		if (state) {
 			slot.enable();
 		} else {
-			slot.disable();
+			slot.disable(status);
 		}
 	}
 }

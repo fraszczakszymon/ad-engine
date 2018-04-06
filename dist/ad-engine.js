@@ -722,9 +722,22 @@ var context = new context_service_Context();
 
 
 
+
+
+var groupName = 'slot-service';
 var slotNameMapping = {};
 var slot_service_slots = {};
 var slotStates = {};
+
+function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
+	var element = document.getElementById(elementId),
+	    elementHeight = element.offsetHeight,
+	    elementOffset = getTopOffset(element),
+	    isFirst = elementOffset < slotOffset,
+	    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
+
+	return distance < viewportHeight;
+}
 
 var slot_service_SlotService = function () {
 	function SlotService() {
@@ -732,7 +745,7 @@ var slot_service_SlotService = function () {
 	}
 
 	createClass__default()(SlotService, [{
-		key: "add",
+		key: 'add',
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
@@ -747,33 +760,49 @@ var slot_service_SlotService = function () {
 			}
 		}
 	}, {
-		key: "get",
+		key: 'get',
 		value: function get(id) {
 			return slot_service_slots[id];
 		}
 	}, {
-		key: "getBySlotName",
+		key: 'getBySlotName',
 		value: function getBySlotName(slotName) {
 			var id = slotNameMapping[slotName];
 
 			return this.get(id);
 		}
 	}, {
-		key: "forEach",
+		key: 'forEach',
 		value: function forEach(callback) {
 			keys__default()(slot_service_slots).forEach(function (id) {
 				callback(slot_service_slots[id]);
 			});
 		}
 	}, {
-		key: "enable",
+		key: 'enable',
 		value: function enable(slotName) {
 			setState(slotName, true);
 		}
 	}, {
-		key: "disable",
+		key: 'disable',
 		value: function disable(slotName) {
-			setState(slotName, false);
+			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			setState(slotName, false, status);
+		}
+	}, {
+		key: 'hasViewportConflict',
+		value: function hasViewportConflict(adSlot) {
+			var slotHeight = adSlot.getElement().offsetHeight,
+			    slotOffset = getTopOffset(adSlot.getElement()),
+			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+			var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
+				return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
+			});
+			logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
+
+			return hasConflict;
 		}
 	}]);
 
@@ -783,6 +812,8 @@ var slot_service_SlotService = function () {
 var slotService = new slot_service_SlotService();
 
 function setState(slotName, state) {
+	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
 	var slot = slotService.getBySlotName(slotName);
 	slotStates[slotName] = state;
 
@@ -790,7 +821,7 @@ function setState(slotName, state) {
 		if (state) {
 			slot.enable();
 		} else {
-			slot.disable();
+			slot.disable(status);
 		}
 	}
 }
@@ -804,21 +835,25 @@ function setState(slotName, state) {
 
 var logGroup = 'btf-blocker';
 
-function finishQueue() {
+function disableBtf() {
 	var _this = this;
 
+	var slots = context.get('slots');
+
+	keys__default()(slots).forEach(function (adSlotKey) {
+		var adSlot = slots[adSlotKey];
+
+		if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.getSlotName()) === -1) {
+			slotService.disable(adSlot.getSlotName(), 'blocked');
+		}
+	});
+}
+
+function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		var slots = context.get('slots');
-
-		keys__default()(slots).forEach(function (adSlotKey) {
-			var adSlot = slots[adSlotKey];
-
-			if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
-				slotService.disable(adSlot.slotName);
-			}
-		});
+		disableBtf();
 	}
 
 	this.slotsQueue.start();
@@ -856,19 +891,27 @@ var btf_blocker_service_BtfBlockerService = function () {
 	}, {
 		key: 'push',
 		value: function push(adSlot, fillInCallback) {
+			function wrappedFillInCallback() {
+				if (slotService.hasViewportConflict(adSlot)) {
+					slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+				}
+
+				if (!adSlot.isEnabled()) {
+					logger(logGroup, adSlot.getId(), 'Slot blocked', adSlot.getStatus());
+					return;
+				}
+
+				logger(logGroup, adSlot.getId(), 'Filling in slot');
+				fillInCallback(adSlot);
+			}
+
 			if (!this.atfEnded && !adSlot.isAboveTheFold()) {
-				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: fillInCallback });
+				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: wrappedFillInCallback });
 				logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
 				return;
 			}
 
-			if (this.atfEnded && !adSlot.isEnabled()) {
-				logger(logGroup, adSlot.getId(), 'BTF slot blocked');
-				return;
-			}
-
-			logger(logGroup, adSlot.getId(), 'Filling in slot');
-			fillInCallback(adSlot);
+			wrappedFillInCallback(adSlot);
 		}
 	}, {
 		key: 'unblock',
@@ -1386,9 +1429,11 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	}, {
 		key: 'updateOnRenderEnd',
 		value: function updateOnRenderEnd(adSlot, event) {
-			slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+			if (event) {
+				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+			}
 		}
 	}]);
 
@@ -1518,6 +1563,7 @@ var external__events__default = /*#__PURE__*/__webpack_require__.n(external__eve
 
 
 
+
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits__default()(AdSlot, _EventEmitter);
 
@@ -1550,6 +1596,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.enabled = !_this.config.disabled;
 		_this.viewed = false;
 		_this.element = null;
+		_this.status = null;
 
 		_this.config.targeting = _this.config.targeting || {};
 		_this.config.targeting.src = _this.config.targeting.src || context.get('src');
@@ -1614,6 +1661,26 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			return this.config.defaultSizes;
 		}
 	}, {
+		key: 'getViewportConflicts',
+		value: function getViewportConflicts() {
+			return this.config.viewportConflicts || [];
+		}
+	}, {
+		key: 'getStatus',
+		value: function getStatus() {
+			return this.status;
+		}
+	}, {
+		key: 'setStatus',
+		value: function setStatus() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+			this.status = status;
+			if (status !== null) {
+				slotListener.emitStatusChanged(this);
+			}
+		}
+	}, {
 		key: 'shouldLoad',
 		value: function shouldLoad() {
 			var isMobile = context.get('state.isMobile'),
@@ -1646,7 +1713,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'disable',
 		value: function disable() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 			this.enabled = false;
+			this.setStatus(status);
 		}
 	}, {
 		key: 'setConfigProperty',
@@ -1656,8 +1726,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'success',
 		value: function success() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
+
 			slotTweaker.show(this);
-			slotTweaker.setDataParam(this, 'slotResult', 'success');
+			this.setStatus(status);
 
 			if (this.config.defaultTemplate) {
 				templateService.init(this.config.defaultTemplate, this);
@@ -1666,8 +1738,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'collapse',
 		value: function collapse() {
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'collapse';
+
 			slotTweaker.hide(this);
-			slotTweaker.setDataParam(this, 'slotResult', 'collapse');
+			this.setStatus(status);
 		}
 	}]);
 
@@ -2978,6 +3052,8 @@ var slot_listener_SlotListener = function () {
 		value: function emitRenderEnded(event, adSlot) {
 			var adType = getAdType(event, adSlot);
 
+			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
+
 			switch (adType) {
 				case 'collapse':
 					adSlot.collapse();
@@ -2988,7 +3064,6 @@ var slot_listener_SlotListener = function () {
 			}
 
 			slot_listener_dispatch('onRenderEnded', adSlot, { adType: adType, event: event });
-			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
 		}
 	}, {
 		key: 'emitImpressionViewable',
@@ -2996,6 +3071,12 @@ var slot_listener_SlotListener = function () {
 			adSlot.emit(ad_slot_AdSlot.SLOT_VIEWED_EVENT);
 			slot_listener_dispatch('onImpressionViewable', adSlot, { event: event });
 			slotTweaker.setDataParam(adSlot, 'slotViewed', true);
+		}
+	}, {
+		key: 'emitStatusChanged',
+		value: function emitStatusChanged(adSlot) {
+			slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
+			slot_listener_dispatch('onStatusChanged', adSlot);
 		}
 	}]);
 
@@ -3442,7 +3523,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v10.0.2');
+set__default()(window, versionField, 'v10.1.0');
 
 
 
