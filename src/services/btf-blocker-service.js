@@ -20,7 +20,7 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		disableBtf();
+		disableBtf.bind(this)();
 	}
 
 	this.slotsQueue.start();
