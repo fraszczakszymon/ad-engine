@@ -50,6 +50,7 @@ const environments = {
 	development: {
 		entry: {
 			'slots/animations': './examples/slots/animations/script.js',
+			'slots/block-btf': './examples/slots/block-btf/script.js',
 			'slots/delay': './examples/slots/delay/script.js',
 			'slots/empty-response': './examples/slots/empty-response/script.js',
 			'slots/viewport-conflicts': './examples/slots/viewport-conflicts/script.js',
