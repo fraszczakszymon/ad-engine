@@ -2238,7 +2238,7 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		disableBtf();
+		disableBtf.bind(this)();
 	}
 
 	this.slotsQueue.start();
@@ -4908,7 +4908,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.1.0');
+set_default()(window, versionField, 'v10.1.1');
 
 
 
