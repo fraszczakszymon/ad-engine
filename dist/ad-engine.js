@@ -841,10 +841,10 @@ function disableBtf() {
 	var slots = context.get('slots');
 
 	keys__default()(slots).forEach(function (adSlotKey) {
-		var adSlot = slots[adSlotKey];
+		var slotConfig = slots[adSlotKey];
 
-		if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.getSlotName()) === -1) {
-			slotService.disable(adSlot.getSlotName(), 'blocked');
+		if (!slotConfig.aboveTheFold && _this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
+			slotService.disable(slotConfig.slotName, 'blocked');
 		}
 	});
 }
@@ -3523,7 +3523,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v10.1.1');
+set__default()(window, versionField, 'v10.1.2');
 
 
 
