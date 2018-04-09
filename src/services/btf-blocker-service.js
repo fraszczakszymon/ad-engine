@@ -8,10 +8,10 @@ function disableBtf() {
 	const slots = context.get('slots');
 
 	Object.keys(slots).forEach((adSlotKey) => {
-		const adSlot = slots[adSlotKey];
+		const slotConfig = slots[adSlotKey];
 
-		if (!adSlot.aboveTheFold && this.unblockedSlots.indexOf(adSlot.slotName) === -1) {
-			slotService.disable(adSlot.slotName, 'blocked');
+		if (!slotConfig.aboveTheFold && this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
+			slotService.disable(slotConfig.slotName, 'blocked');
 		}
 	});
 }
