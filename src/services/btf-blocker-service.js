@@ -8,10 +8,10 @@ function disableBtf() {
 	const slots = context.get('slots');
 
 	Object.keys(slots).forEach((adSlotKey) => {
-		const adSlot = slots[adSlotKey];
+		const slotConfig = slots[adSlotKey];
 
-		if (!adSlot.aboveTheFold && this.unblockedSlots.indexOf(adSlot.getSlotName()) === -1) {
-			slotService.disable(adSlot.getSlotName(), 'blocked');
+		if (!slotConfig.aboveTheFold && this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
+			slotService.disable(slotConfig.slotName, 'blocked');
 		}
 	});
 }
@@ -20,7 +20,7 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		disableBtf();
+		disableBtf.bind(this)();
 	}
 
 	this.slotsQueue.start();

@@ -793,6 +793,10 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'hasViewportConflict',
 		value: function hasViewportConflict(adSlot) {
+			if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
+				return false;
+			}
+
 			var slotHeight = adSlot.getElement().offsetHeight,
 			    slotOffset = getTopOffset(adSlot.getElement()),
 			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -841,10 +845,10 @@ function disableBtf() {
 	var slots = context.get('slots');
 
 	keys__default()(slots).forEach(function (adSlotKey) {
-		var adSlot = slots[adSlotKey];
+		var slotConfig = slots[adSlotKey];
 
-		if (!adSlot.aboveTheFold && _this.unblockedSlots.indexOf(adSlot.getSlotName()) === -1) {
-			slotService.disable(adSlot.getSlotName(), 'blocked');
+		if (!slotConfig.aboveTheFold && _this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
+			slotService.disable(slotConfig.slotName, 'blocked');
 		}
 	});
 }
@@ -853,7 +857,7 @@ function finishQueue() {
 	this.atfEnded = true;
 
 	if (window.ads.runtime.disableBtf) {
-		disableBtf();
+		disableBtf.bind(this)();
 	}
 
 	this.slotsQueue.start();
@@ -1664,6 +1668,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'getViewportConflicts',
 		value: function getViewportConflicts() {
 			return this.config.viewportConflicts || [];
+		}
+	}, {
+		key: 'hasDefinedViewportConflicts',
+		value: function hasDefinedViewportConflicts() {
+			return this.getViewportConflicts().length > 0;
 		}
 	}, {
 		key: 'getStatus',
@@ -3523,7 +3532,7 @@ if (get__default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v10.1.0');
+set__default()(window, versionField, 'v10.1.3');
 
 
 

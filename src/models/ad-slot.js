@@ -97,6 +97,10 @@ export class AdSlot extends EventEmitter {
 		return this.config.viewportConflicts || [];
 	}
 
+	hasDefinedViewportConflicts() {
+		return this.getViewportConflicts().length > 0;
+	}
+
 	getStatus() {
 		return this.status;
 	}
