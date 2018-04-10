@@ -56,6 +56,10 @@ class SlotService {
 	}
 
 	hasViewportConflict(adSlot) {
+		if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
+			return false;
+		}
+
 		const slotHeight = adSlot.getElement().offsetHeight,
 			slotOffset = getTopOffset(adSlot.getElement()),
 			viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

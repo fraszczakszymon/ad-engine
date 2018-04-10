@@ -23,6 +23,7 @@ describe('slot-service', () => {
 
 		adSlot = Object.assign({}, adSlotFake);
 		adSlot.getViewportConflicts = () => ['foo-container'];
+		adSlot.hasDefinedViewportConflicts = () => true;
 	});
 
 	it('getter by id', () => {
@@ -53,6 +54,18 @@ describe('slot-service', () => {
 
 	it('checks whether slot does not have viewport conflicts (when there is enough space)', () => {
 		adSlot.setOffsetTop(2000);
+
+		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
+	});
+
+	it('does not calculate conflicts when slot does not have defined any', () => {
+		adSlot.hasDefinedViewportConflicts = () => false;
+
+		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
+	});
+
+	it('does not calculate conflicts when slot does not have DOM element', () => {
+		adSlot.getElement = () => null;
 
 		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
 	});
