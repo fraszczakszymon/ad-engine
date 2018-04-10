@@ -2620,311 +2620,118 @@ var message_bus_MessageBus = function () {
 }();
 
 var messageBus = new message_bus_MessageBus();
-// CONCATENATED MODULE: ./src/services/slot-tweaker.js
+// CONCATENATED MODULE: ./src/providers/gpt-size-map.js
 
 
 
 
 
+var gpt_size_map_logGroup = 'gpt-size-map';
 
+var gpt_size_map_GptSizeMap = function () {
+	function GptSizeMap(sizeMap) {
+		classCallCheck_default()(this, GptSizeMap);
 
-
-var slot_tweaker_logGroup = 'slot-tweaker';
-
-var slot_tweaker_SlotTweaker = function () {
-	function SlotTweaker() {
-		classCallCheck_default()(this, SlotTweaker);
+		this.sizeMap = sizeMap || [];
+		logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
 	}
 
-	createClass_default()(SlotTweaker, [{
-		key: 'forceRepaint',
-		value: function forceRepaint(domElement) {
-			return domElement.offsetWidth;
-		}
-	}, {
-		key: 'getContainer',
-		value: function getContainer(adSlot) {
-			var container = document.getElementById(adSlot.getId());
-
-			if (!container) {
-				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getId());
-			}
-
-			return container;
-		}
-	}, {
-		key: 'hide',
-		value: function hide(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			if (container) {
-				logger(slot_tweaker_logGroup, 'hide', adSlot.getId());
-				container.classList.add('hide');
-			}
-		}
-	}, {
-		key: 'show',
-		value: function show(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			if (container) {
-				logger(slot_tweaker_logGroup, 'show', adSlot.getId());
-				container.classList.remove('hide');
-			}
-		}
-	}, {
-		key: 'collapse',
-		value: function collapse(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			container.style.maxHeight = container.scrollHeight + 'px';
-			this.forceRepaint(container);
-			container.classList.add('slot-animation');
-			container.style.maxHeight = '0';
-		}
-	}, {
-		key: 'expand',
-		value: function expand(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			container.style.maxHeight = container.offsetHeight + 'px';
-			container.classList.remove('hide');
-			container.classList.add('slot-animation');
-			container.style.maxHeight = container.scrollHeight + 'px';
-		}
-	}, {
-		key: 'makeResponsive',
-		value: function makeResponsive(adSlot) {
-			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-			var slotContainer = this.getContainer(adSlot);
-
-			slotContainer.classList.add('slot-responsive');
-
-			return this.onReady(adSlot).then(function (iframe) {
-				var container = iframe.parentElement;
-				if (!aspectRatio) {
-					var height = iframe.contentWindow.document.body.scrollHeight,
-					    width = iframe.contentWindow.document.body.scrollWidth;
-
-					aspectRatio = width / height;
-				}
-
-				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getId());
-				container.style.paddingBottom = 100 / aspectRatio + '%';
-				return iframe;
+	createClass_default()(GptSizeMap, [{
+		key: 'addSize',
+		value: function addSize(viewportSize, sizes) {
+			logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
+			this.sizeMap.push({
+				viewportSize: viewportSize,
+				sizes: sizes
 			});
 		}
 	}, {
-		key: 'onReady',
-		value: function onReady(adSlot) {
-			var container = this.getContainer(adSlot),
-			    iframe = container.querySelector('div[id*="_container_"] iframe');
-
-			return new promise_default.a(function (resolve, reject) {
-				if (!iframe) {
-					reject('Cannot find iframe element');
-				}
-
-				if (iframe.contentWindow.document.readyState === 'complete') {
-					resolve(iframe);
-				} else {
-					iframe.addEventListener('load', function () {
-						return resolve(iframe);
-					});
-				}
-			});
-		}
-	}, {
-		key: 'registerMessageListener',
-		value: function registerMessageListener() {
-			var _this = this;
-
-			messageBus.register({
-				keys: ['action', 'slotName'],
-				infinite: true
-			}, function (data) {
-				if (!data.slotName) {
-					logger(slot_tweaker_logGroup, 'Missing slot name');
-					return;
-				}
-
-				var adSlot = slotService.getBySlotName(data.slotName);
-
-				switch (data.action) {
-					case 'expand':
-						_this.expand(adSlot);
-						break;
-					case 'collapse':
-						_this.collapse(adSlot);
-						break;
-					case 'hide':
-						_this.hide(adSlot);
-						break;
-					case 'show':
-						_this.show(adSlot);
-						break;
-					case 'make-responsive':
-						_this.makeResponsive(adSlot, data.aspectRatio);
-						break;
-					default:
-						logger(slot_tweaker_logGroup, 'Unknown action', data.action);
-				}
-			});
-		}
-	}, {
-		key: 'setDataParam',
-		value: function setDataParam(adSlot, attrName, data) {
-			var container = this.getContainer(adSlot);
-
-			container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
-		}
-	}]);
-
-	return SlotTweaker;
-}();
-
-var slotTweaker = new slot_tweaker_SlotTweaker();
-// CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
-
-
-
-
-
-
-var slot_data_params_updater_SlotDataParamsUpdater = function () {
-	function SlotDataParamsUpdater() {
-		classCallCheck_default()(this, SlotDataParamsUpdater);
-	}
-
-	createClass_default()(SlotDataParamsUpdater, [{
-		key: 'getSlotSizes',
-		value: function getSlotSizes(adSlot) {
-			var result = {};
-
-			adSlot.getSizes().forEach(function (s) {
-				result[s.viewportSize[0] + 'x' + s.viewportSize[1]] = s.sizes;
-			});
-
-			return stringify_default()(result);
-		}
-	}, {
-		key: 'updateOnCreate',
-		value: function updateOnCreate(adSlot, targeting) {
-			slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
-			slotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);
-			slotTweaker.setDataParam(adSlot, 'sizes', this.getSlotSizes(adSlot));
-		}
-	}, {
-		key: 'updateOnRenderEnd',
-		value: function updateOnRenderEnd(adSlot, event) {
-			if (event) {
-				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
-			}
-		}
-	}]);
-
-	return SlotDataParamsUpdater;
-}();
-
-var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
-// CONCATENATED MODULE: ./src/services/index.js
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./src/utils/string-builder.js
-
-
-
-
-var string_builder_StringBuilder = function () {
-	function StringBuilder() {
-		classCallCheck_default()(this, StringBuilder);
-	}
-
-	createClass_default()(StringBuilder, [{
 		key: 'build',
-		value: function build(string) {
-			var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+		value: function build() {
+			logger(gpt_size_map_logGroup, this.sizeMap, 'creating GPT size mapping builder');
+			var builder = window.googletag && window.googletag.sizeMapping();
 
-			var matches = string.match(/{(.+?)}/g);
-
-			if (matches) {
-				matches.forEach(function (match) {
-					var key = match.replace('{', '').replace('}', ''),
-					    fallbackValue = context.get(key),
-					    keySegments = key.split('.');
-
-					var index = void 0,
-					    segment = void 0,
-					    value = parameters[keySegments[0]];
-
-					if (value) {
-						for (index = 1; index < keySegments.length; index += 1) {
-							segment = keySegments[index];
-							if (typeof value[segment] === 'undefined') {
-								value = undefined;
-								break;
-							}
-							value = value[segment];
-						}
-					}
-
-					if (typeof value === 'undefined') {
-						value = fallbackValue;
-					}
-					if (typeof value !== 'undefined') {
-						string = string.replace(match, value);
-					}
-				});
+			if (!builder) {
+				logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
+				return null;
 			}
 
-			return string;
+			this.sizeMap.forEach(function (_ref) {
+				var viewportSize = _ref.viewportSize,
+				    sizes = _ref.sizes;
+
+				builder.addSize(viewportSize, sizes);
+			});
+
+			return builder.build();
+		}
+	}, {
+		key: 'isEmpty',
+		value: function isEmpty() {
+			return !this.sizeMap.length;
+		}
+	}, {
+		key: 'mapAllSizes',
+		value: function mapAllSizes(callback) {
+			return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
+				var viewportSize = _ref2.viewportSize,
+				    sizes = _ref2.sizes;
+
+				var mappedSizes = callback(sizes, viewportSize, index);
+
+				logger(gpt_size_map_logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
+
+				return {
+					viewportSize: viewportSize,
+					sizes: mappedSizes
+				};
+			}));
+		}
+	}, {
+		key: 'toString',
+		value: function toString() {
+			logger(gpt_size_map_logGroup, this.sizeMap, 'casting to string');
+			var map = {};
+
+			this.sizeMap.forEach(function (_ref3) {
+				var viewportSize = _ref3.viewportSize,
+				    sizes = _ref3.sizes;
+
+				map[viewportSize.join('x')] = sizes;
+			});
+
+			return stringify_default()(map);
 		}
 	}]);
 
-	return StringBuilder;
+	return GptSizeMap;
 }();
+// CONCATENATED MODULE: ./src/providers/gpt-targeting.js
 
-var stringBuilder = new string_builder_StringBuilder();
-// CONCATENATED MODULE: ./src/utils/try-property.js
-function whichProperty(obj) {
-	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-	for (var i = 0; i < properties.length; i += 1) {
-		var property = properties[i];
 
-		if (typeof property !== 'string') {
-			throw new Error('property name must be a string');
-		}
+function setupGptTargeting() {
+	var tag = window.googletag.pubads(),
+	    targeting = context.get('targeting');
 
-		if (property in obj) {
-			return property;
+	function setTargetingValue(key, value) {
+		if (typeof value === 'function') {
+			tag.setTargeting(key, value());
+		} else {
+			tag.setTargeting(key, value);
 		}
 	}
 
-	return null;
-}
+	keys_default()(targeting).forEach(function (key) {
+		setTargetingValue(key, targeting[key]);
+	});
 
-function tryProperty(obj) {
-	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+	context.onChange('targeting', function (trigger, value) {
+		var segments = trigger.split('.'),
+		    key = segments[segments.length - 1];
 
-	var property = whichProperty(obj, properties);
-
-	if (property !== null) {
-		var propertyValue = obj[property];
-		return typeof propertyValue === 'function' ? propertyValue.bind(obj) : propertyValue;
-	}
-
-	return null;
+		setTargetingValue(key, value);
+	});
 }
 // EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/get-prototype-of.js
 var get_prototype_of = __webpack_require__(172);
@@ -4482,6 +4289,431 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
+// CONCATENATED MODULE: ./src/providers/gpt-provider.js
+
+
+
+
+
+
+
+
+
+var gpt_provider_logGroup = 'gpt-provider';
+
+var definedSlots = [],
+    initialized = false;
+
+function configure() {
+	var tag = window.googletag.pubads();
+
+	tag.enableSingleRequest();
+	tag.disableInitialLoad();
+	tag.addEventListener('slotRenderEnded', function (event) {
+		var id = event.slot.getSlotElementId(),
+		    slot = slotService.get(id);
+
+		// IE doesn't allow us to inspect GPT iframe at this point.
+		// Let's launch our callback in a setTimeout instead.
+		setTimeout(function () {
+			slotListener.emitRenderEnded(event, slot);
+		}, 0);
+	});
+
+	tag.addEventListener('impressionViewable', function (event) {
+		var id = event.slot.getSlotElementId(),
+		    slot = slotService.get(id);
+
+		slotListener.emitImpressionViewable(event, slot);
+	});
+	window.googletag.enableServices();
+}
+
+var gpt_provider_GptProvider = function () {
+	function GptProvider() {
+		var _this = this;
+
+		classCallCheck_default()(this, GptProvider);
+
+		window.googletag = window.googletag || {};
+		window.googletag.cmd = window.googletag.cmd || [];
+
+		window.googletag.cmd.push(function () {
+			_this.init();
+		});
+	}
+
+	createClass_default()(GptProvider, [{
+		key: 'init',
+		value: function init() {
+			if (initialized) {
+				return;
+			}
+
+			setupGptTargeting();
+			configure();
+			initialized = true;
+		}
+	}, {
+		key: 'fillIn',
+		value: function fillIn(adSlot) {
+			var _this2 = this;
+
+			window.googletag.cmd.push(function () {
+				var targeting = _this2.parseTargetingParams(adSlot.getTargeting());
+				var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
+
+				var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMap.build());
+
+				_this2.applyTargetingParams(gptSlot, targeting);
+				slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+
+				window.googletag.display(adSlot.getId());
+				definedSlots.push(gptSlot);
+
+				if (!adSlot.isAboveTheFold()) {
+					_this2.flush();
+				}
+
+				logger(gpt_provider_logGroup, adSlot.getId(), 'slot added');
+			});
+		}
+	}, {
+		key: 'applyTargetingParams',
+		value: function applyTargetingParams(gptSlot, targeting) {
+			keys_default()(targeting).forEach(function (key) {
+				return gptSlot.setTargeting(key, targeting[key]);
+			});
+		}
+	}, {
+		key: 'parseTargetingParams',
+		value: function parseTargetingParams(targeting) {
+			var result = {};
+
+			keys_default()(targeting).forEach(function (key) {
+				var value = targeting[key];
+
+				if (typeof value === 'function') {
+					value = value();
+				}
+				result[key] = value;
+			});
+
+			return result;
+		}
+	}, {
+		key: 'flush',
+		value: function flush() {
+			window.googletag.cmd.push(function () {
+				if (definedSlots.length) {
+					window.googletag.pubads().refresh(definedSlots);
+					definedSlots = [];
+				}
+			});
+		}
+	}]);
+
+	return GptProvider;
+}();
+// CONCATENATED MODULE: ./src/providers/index.js
+
+
+
+// CONCATENATED MODULE: ./src/services/slot-tweaker.js
+
+
+
+
+
+
+
+
+var slot_tweaker_logGroup = 'slot-tweaker';
+
+var slot_tweaker_SlotTweaker = function () {
+	function SlotTweaker() {
+		classCallCheck_default()(this, SlotTweaker);
+	}
+
+	createClass_default()(SlotTweaker, [{
+		key: 'forceRepaint',
+		value: function forceRepaint(domElement) {
+			return domElement.offsetWidth;
+		}
+	}, {
+		key: 'getContainer',
+		value: function getContainer(adSlot) {
+			var container = document.getElementById(adSlot.getId());
+
+			if (!container) {
+				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getId());
+			}
+
+			return container;
+		}
+	}, {
+		key: 'hide',
+		value: function hide(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			if (container) {
+				logger(slot_tweaker_logGroup, 'hide', adSlot.getId());
+				container.classList.add('hide');
+			}
+		}
+	}, {
+		key: 'show',
+		value: function show(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			if (container) {
+				logger(slot_tweaker_logGroup, 'show', adSlot.getId());
+				container.classList.remove('hide');
+			}
+		}
+	}, {
+		key: 'collapse',
+		value: function collapse(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			container.style.maxHeight = container.scrollHeight + 'px';
+			this.forceRepaint(container);
+			container.classList.add('slot-animation');
+			container.style.maxHeight = '0';
+		}
+	}, {
+		key: 'expand',
+		value: function expand(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			container.style.maxHeight = container.offsetHeight + 'px';
+			container.classList.remove('hide');
+			container.classList.add('slot-animation');
+			container.style.maxHeight = container.scrollHeight + 'px';
+		}
+	}, {
+		key: 'makeResponsive',
+		value: function makeResponsive(adSlot) {
+			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			var slotContainer = this.getContainer(adSlot);
+
+			slotContainer.classList.add('slot-responsive');
+
+			return this.onReady(adSlot).then(function (iframe) {
+				var container = iframe.parentElement;
+				if (!aspectRatio) {
+					var height = iframe.contentWindow.document.body.scrollHeight,
+					    width = iframe.contentWindow.document.body.scrollWidth;
+
+					aspectRatio = width / height;
+				}
+
+				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getId());
+				container.style.paddingBottom = 100 / aspectRatio + '%';
+				return iframe;
+			});
+		}
+	}, {
+		key: 'onReady',
+		value: function onReady(adSlot) {
+			var container = this.getContainer(adSlot),
+			    iframe = container.querySelector('div[id*="_container_"] iframe');
+
+			return new promise_default.a(function (resolve, reject) {
+				if (!iframe) {
+					reject('Cannot find iframe element');
+				}
+
+				if (iframe.contentWindow.document.readyState === 'complete') {
+					resolve(iframe);
+				} else {
+					iframe.addEventListener('load', function () {
+						return resolve(iframe);
+					});
+				}
+			});
+		}
+	}, {
+		key: 'registerMessageListener',
+		value: function registerMessageListener() {
+			var _this = this;
+
+			messageBus.register({
+				keys: ['action', 'slotName'],
+				infinite: true
+			}, function (data) {
+				if (!data.slotName) {
+					logger(slot_tweaker_logGroup, 'Missing slot name');
+					return;
+				}
+
+				var adSlot = slotService.getBySlotName(data.slotName);
+
+				switch (data.action) {
+					case 'expand':
+						_this.expand(adSlot);
+						break;
+					case 'collapse':
+						_this.collapse(adSlot);
+						break;
+					case 'hide':
+						_this.hide(adSlot);
+						break;
+					case 'show':
+						_this.show(adSlot);
+						break;
+					case 'make-responsive':
+						_this.makeResponsive(adSlot, data.aspectRatio);
+						break;
+					default:
+						logger(slot_tweaker_logGroup, 'Unknown action', data.action);
+				}
+			});
+		}
+	}, {
+		key: 'setDataParam',
+		value: function setDataParam(adSlot, attrName, data) {
+			var container = this.getContainer(adSlot);
+
+			container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
+		}
+	}]);
+
+	return SlotTweaker;
+}();
+
+var slotTweaker = new slot_tweaker_SlotTweaker();
+// CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
+
+
+
+
+
+
+var slot_data_params_updater_SlotDataParamsUpdater = function () {
+	function SlotDataParamsUpdater() {
+		classCallCheck_default()(this, SlotDataParamsUpdater);
+	}
+
+	createClass_default()(SlotDataParamsUpdater, [{
+		key: 'updateOnCreate',
+		value: function updateOnCreate(adSlot, targeting) {
+			slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
+			slotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);
+			slotTweaker.setDataParam(adSlot, 'sizes', new gpt_size_map_GptSizeMap(adSlot.getSizes()).toString());
+		}
+	}, {
+		key: 'updateOnRenderEnd',
+		value: function updateOnRenderEnd(adSlot, event) {
+			if (event) {
+				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+			}
+		}
+	}]);
+
+	return SlotDataParamsUpdater;
+}();
+
+var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
+// CONCATENATED MODULE: ./src/services/index.js
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./src/utils/string-builder.js
+
+
+
+
+var string_builder_StringBuilder = function () {
+	function StringBuilder() {
+		classCallCheck_default()(this, StringBuilder);
+	}
+
+	createClass_default()(StringBuilder, [{
+		key: 'build',
+		value: function build(string) {
+			var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			var matches = string.match(/{(.+?)}/g);
+
+			if (matches) {
+				matches.forEach(function (match) {
+					var key = match.replace('{', '').replace('}', ''),
+					    fallbackValue = context.get(key),
+					    keySegments = key.split('.');
+
+					var index = void 0,
+					    segment = void 0,
+					    value = parameters[keySegments[0]];
+
+					if (value) {
+						for (index = 1; index < keySegments.length; index += 1) {
+							segment = keySegments[index];
+							if (typeof value[segment] === 'undefined') {
+								value = undefined;
+								break;
+							}
+							value = value[segment];
+						}
+					}
+
+					if (typeof value === 'undefined') {
+						value = fallbackValue;
+					}
+					if (typeof value !== 'undefined') {
+						string = string.replace(match, value);
+					}
+				});
+			}
+
+			return string;
+		}
+	}]);
+
+	return StringBuilder;
+}();
+
+var stringBuilder = new string_builder_StringBuilder();
+// CONCATENATED MODULE: ./src/utils/try-property.js
+function whichProperty(obj) {
+	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	for (var i = 0; i < properties.length; i += 1) {
+		var property = properties[i];
+
+		if (typeof property !== 'string') {
+			throw new Error('property name must be a string');
+		}
+
+		if (property in obj) {
+			return property;
+		}
+	}
+
+	return null;
+}
+
+function tryProperty(obj) {
+	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	var property = whichProperty(obj, properties);
+
+	if (property !== null) {
+		var propertyValue = obj[property];
+		return typeof propertyValue === 'function' ? propertyValue.bind(obj) : propertyValue;
+	}
+
+	return null;
+}
 // CONCATENATED MODULE: ./src/utils/viewport-observer.js
 
 
@@ -4609,165 +4841,6 @@ var floating_ad_FloatingAd = function () {
 }();
 // CONCATENATED MODULE: ./src/templates/index.js
 
-// CONCATENATED MODULE: ./src/providers/gpt-targeting.js
-
-
-
-function setupGptTargeting() {
-	var tag = window.googletag.pubads(),
-	    targeting = context.get('targeting');
-
-	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
-			tag.setTargeting(key, value());
-		} else {
-			tag.setTargeting(key, value);
-		}
-	}
-
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
-	});
-
-	context.onChange('targeting', function (trigger, value) {
-		var segments = trigger.split('.'),
-		    key = segments[segments.length - 1];
-
-		setTargetingValue(key, value);
-	});
-}
-// CONCATENATED MODULE: ./src/providers/gpt-provider.js
-
-
-
-
-
-
-
-
-var gpt_provider_logGroup = 'gpt-provider';
-
-var definedSlots = [],
-    initialized = false;
-
-function configure() {
-	var tag = window.googletag.pubads();
-
-	tag.enableSingleRequest();
-	tag.disableInitialLoad();
-	tag.addEventListener('slotRenderEnded', function (event) {
-		var id = event.slot.getSlotElementId(),
-		    slot = slotService.get(id);
-
-		// IE doesn't allow us to inspect GPT iframe at this point.
-		// Let's launch our callback in a setTimeout instead.
-		setTimeout(function () {
-			slotListener.emitRenderEnded(event, slot);
-		}, 0);
-	});
-
-	tag.addEventListener('impressionViewable', function (event) {
-		var id = event.slot.getSlotElementId(),
-		    slot = slotService.get(id);
-
-		slotListener.emitImpressionViewable(event, slot);
-	});
-	window.googletag.enableServices();
-}
-
-var gpt_provider_GptProvider = function () {
-	function GptProvider() {
-		var _this = this;
-
-		classCallCheck_default()(this, GptProvider);
-
-		window.googletag = window.googletag || {};
-		window.googletag.cmd = window.googletag.cmd || [];
-
-		window.googletag.cmd.push(function () {
-			_this.init();
-		});
-	}
-
-	createClass_default()(GptProvider, [{
-		key: 'init',
-		value: function init() {
-			if (initialized) {
-				return;
-			}
-
-			setupGptTargeting();
-			configure();
-			initialized = true;
-		}
-	}, {
-		key: 'fillIn',
-		value: function fillIn(adSlot) {
-			var _this2 = this;
-
-			window.googletag.cmd.push(function () {
-				var sizeMapping = window.googletag.sizeMapping(),
-				    targeting = _this2.parseTargetingParams(adSlot.getTargeting());
-
-				adSlot.getSizes().forEach(function (item) {
-					sizeMapping.addSize(item.viewportSize, item.sizes);
-				});
-
-				var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMapping.build());
-
-				_this2.applyTargetingParams(gptSlot, targeting);
-				slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-
-				window.googletag.display(adSlot.getId());
-				definedSlots.push(gptSlot);
-
-				if (!adSlot.isAboveTheFold()) {
-					_this2.flush();
-				}
-
-				logger(gpt_provider_logGroup, adSlot.getId(), 'slot added');
-			});
-		}
-	}, {
-		key: 'applyTargetingParams',
-		value: function applyTargetingParams(gptSlot, targeting) {
-			keys_default()(targeting).forEach(function (key) {
-				return gptSlot.setTargeting(key, targeting[key]);
-			});
-		}
-	}, {
-		key: 'parseTargetingParams',
-		value: function parseTargetingParams(targeting) {
-			var result = {};
-
-			keys_default()(targeting).forEach(function (key) {
-				var value = targeting[key];
-
-				if (typeof value === 'function') {
-					value = value();
-				}
-				result[key] = value;
-			});
-
-			return result;
-		}
-	}, {
-		key: 'flush',
-		value: function flush() {
-			window.googletag.cmd.push(function () {
-				if (definedSlots.length) {
-					window.googletag.pubads().refresh(definedSlots);
-					definedSlots = [];
-				}
-			});
-		}
-	}]);
-
-	return GptProvider;
-}();
-// CONCATENATED MODULE: ./src/providers/index.js
-
-
 // CONCATENATED MODULE: ./src/ad-engine.js
 
 
@@ -4887,6 +4960,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotListener", function() { return slotListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptSizeMap", function() { return gpt_size_map_GptSizeMap; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "setupGptTargeting", function() { return setupGptTargeting; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "btfBlockerService", function() { return btfBlockerService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
@@ -4917,7 +4991,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.1.3');
+set_default()(window, versionField, 'v10.1.4');
 
 
 
