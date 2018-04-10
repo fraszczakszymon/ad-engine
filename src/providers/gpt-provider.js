@@ -1,4 +1,5 @@
 import { logger } from '../utils';
+import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
 import { slotService, slotDataParamsUpdater } from '../services';
@@ -56,17 +57,13 @@ export class GptProvider {
 
 	fillIn(adSlot) {
 		window.googletag.cmd.push(() => {
-			const sizeMapping = window.googletag.sizeMapping(),
-				targeting = this.parseTargetingParams(adSlot.getTargeting());
-
-			adSlot.getSizes().forEach((item) => {
-				sizeMapping.addSize(item.viewportSize, item.sizes);
-			});
+			const targeting = this.parseTargetingParams(adSlot.getTargeting());
+			const sizeMap = new GptSizeMap(adSlot.getSizes());
 
 			const gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
 				.addService(window.googletag.pubads())
 				.setCollapseEmptyDiv(true)
-				.defineSizeMapping(sizeMapping.build());
+				.defineSizeMapping(sizeMap.build());
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
