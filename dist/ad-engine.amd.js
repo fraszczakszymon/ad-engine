@@ -2178,6 +2178,10 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'hasViewportConflict',
 		value: function hasViewportConflict(adSlot) {
+			if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
+				return false;
+			}
+
 			var slotHeight = adSlot.getElement().offsetHeight,
 			    slotOffset = getTopOffset(adSlot.getElement()),
 			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -3049,6 +3053,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'getViewportConflicts',
 		value: function getViewportConflicts() {
 			return this.config.viewportConflicts || [];
+		}
+	}, {
+		key: 'hasDefinedViewportConflicts',
+		value: function hasDefinedViewportConflicts() {
+			return this.getViewportConflicts().length > 0;
 		}
 	}, {
 		key: 'getStatus',
@@ -4908,7 +4917,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.1.2');
+set_default()(window, versionField, 'v10.1.3');
 
 
 
