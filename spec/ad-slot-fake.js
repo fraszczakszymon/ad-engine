@@ -13,6 +13,10 @@ export default {
 		return [];
 	},
 
+	hasDefinedViewportConflicts() {
+		return false;
+	},
+
 	isEnabled() {
 		return true;
 	},
