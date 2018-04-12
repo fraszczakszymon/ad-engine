@@ -95,6 +95,13 @@ const targets = {
 			library: 'adEngine',
 			libraryTarget: 'commonjs2'
 		}
+	},
+	assign: {
+		output: {
+			filename: '[name].global.js',
+			library: 'Wikia.adEngine',
+			libraryTarget: 'assign'
+		}
 	}
 };
 
@@ -105,7 +112,8 @@ module.exports = function (env) {
 	if (isProduction) {
 		return [
 			merge(common, environments.production, targets.commonjs),
-			merge(common, environments.production, targets.amd)
+			merge(common, environments.production, targets.amd),
+			merge(common, environments.production, targets.assign)
 		];
 	} else if (isTest) {
 		return merge(common, environments.test);
