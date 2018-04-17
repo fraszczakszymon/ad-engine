@@ -45,6 +45,11 @@ module.exports =
 /******/ 		}
 /******/ 	};
 /******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -60,21 +65,22 @@ module.exports =
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 2 */
@@ -92,20 +98,80 @@ module.exports = require("babel-runtime/core-js/promise");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/json/stringify");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("ismobilejs");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/inherits");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/slicedToArray");
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/typeof");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("blockadblock");
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+__webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
@@ -124,28 +190,28 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(7);
-var set__default = /*#__PURE__*/__webpack_require__.n(set_);
+var set_ = __webpack_require__(15);
+var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(8);
-var get__default = /*#__PURE__*/__webpack_require__.n(get_);
+var get_ = __webpack_require__(14);
+var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(0);
-var classCallCheck__default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
+var classCallCheck_ = __webpack_require__(1);
+var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(1);
-var createClass__default = /*#__PURE__*/__webpack_require__.n(createClass_);
+var createClass_ = __webpack_require__(0);
+var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "ismobilejs"
-var external__ismobilejs_ = __webpack_require__(9);
-var external__ismobilejs__default = /*#__PURE__*/__webpack_require__.n(external__ismobilejs_);
+var external_ismobilejs_ = __webpack_require__(6);
+var external_ismobilejs_default = /*#__PURE__*/__webpack_require__.n(external_ismobilejs_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external__blockadblock_ = __webpack_require__(10);
-var external__blockadblock__default = /*#__PURE__*/__webpack_require__.n(external__blockadblock_);
+var external_blockadblock_ = __webpack_require__(13);
+var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/utils/client.js
 
@@ -163,7 +229,7 @@ function getIsMobile() {
 	if (client_isMobile === null) {
 		var userAgent = window.navigator.userAgent;
 
-		client_isMobile = typeof external__ismobilejs__default.a === 'function' ? external__ismobilejs__default()(userAgent) : external__ismobilejs__default.a;
+		client_isMobile = typeof external_ismobilejs_default.a === 'function' ? external_ismobilejs_default()(userAgent) : external_ismobilejs_default.a;
 	}
 
 	return client_isMobile;
@@ -171,10 +237,10 @@ function getIsMobile() {
 
 var client_Client = function () {
 	function Client() {
-		classCallCheck__default()(this, Client);
+		classCallCheck_default()(this, Client);
 	}
 
-	createClass__default()(Client, [{
+	createClass_default()(Client, [{
 		key: 'isSmartphone',
 		value: function isSmartphone() {
 			var device = getIsMobile();
@@ -200,7 +266,7 @@ var client_Client = function () {
 			var disabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 			if (bab === null) {
-				if (typeof external__blockadblock__default.a === 'undefined' || typeof BlockAdBlock === 'undefined') {
+				if (typeof external_blockadblock_default.a === 'undefined' || typeof BlockAdBlock === 'undefined') {
 					if (enabled !== null) enabled();
 
 					return;
@@ -351,16 +417,16 @@ function isInViewport(element) {
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(4);
-var assign__default = /*#__PURE__*/__webpack_require__.n(assign_);
+var assign_ = __webpack_require__(5);
+var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(11);
-var typeof__default = /*#__PURE__*/__webpack_require__.n(typeof_);
+var typeof_ = __webpack_require__(12);
+var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
 var promise_ = __webpack_require__(3);
-var promise__default = /*#__PURE__*/__webpack_require__.n(promise_);
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // CONCATENATED MODULE: ./src/utils/flow-control.js
 
@@ -368,7 +434,7 @@ var promise__default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 var flow_control_wait = function wait() {
 	var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-	return new promise__default.a(function (resolve, reject) {
+	return new promise_default.a(function (resolve, reject) {
 		if (typeof milliseconds !== 'number') {
 			reject('Delay value must be a number.');
 			return;
@@ -383,7 +449,7 @@ var flow_control_defer = function defer(fn) {
 		args[_key - 1] = arguments[_key];
 	}
 
-	return new promise__default.a(function (resolve, reject) {
+	return new promise_default.a(function (resolve, reject) {
 		if (typeof fn !== 'function') {
 			reject('Expected a function.');
 			return;
@@ -398,11 +464,11 @@ var flow_control_defer = function defer(fn) {
 function once(emitter, eventName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var isObject = (typeof emitter === 'undefined' ? 'undefined' : typeof__default()(emitter)) === 'object';
+	var isObject = (typeof emitter === 'undefined' ? 'undefined' : typeof_default()(emitter)) === 'object';
 	var hasAddEventListener = isObject && typeof emitter.addEventListener === 'function';
 	var hasOnce = isObject && typeof emitter.once === 'function';
 
-	return new promise__default.a(function (resolve, reject) {
+	return new promise_default.a(function (resolve, reject) {
 		if (typeof options === 'boolean') {
 			options = { capture: options };
 		}
@@ -410,7 +476,7 @@ function once(emitter, eventName) {
 		if (hasOnce) {
 			emitter.once(eventName, resolve);
 		} else if (hasAddEventListener) {
-			emitter.addEventListener(eventName, resolve, assign__default()({}, options, { once: true }));
+			emitter.addEventListener(eventName, resolve, assign_default()({}, options, { once: true }));
 		} else {
 			reject('Emitter does not have `addEventListener` nor `once` method.');
 		}
@@ -434,8 +500,8 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(12);
-var slicedToArray__default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
+var slicedToArray_ = __webpack_require__(11);
+var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/utils/query-string.js
 
@@ -444,10 +510,10 @@ var slicedToArray__default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 var query_string_QueryString = function () {
 	function QueryString() {
-		classCallCheck__default()(this, QueryString);
+		classCallCheck_default()(this, QueryString);
 	}
 
-	createClass__default()(QueryString, [{
+	createClass_default()(QueryString, [{
 		key: 'getValues',
 		value: function getValues() {
 			var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -462,7 +528,7 @@ var query_string_QueryString = function () {
 
 			queryString.forEach(function (pair) {
 				var _pair$split = pair.split('='),
-				    _pair$split2 = slicedToArray__default()(_pair$split, 2),
+				    _pair$split2 = slicedToArray_default()(_pair$split, 2),
 				    id = _pair$split2[0],
 				    value = _pair$split2[1];
 
@@ -526,10 +592,10 @@ function getRandomInt(min, max) {
 
 var sampler_Sampler = function () {
 	function Sampler() {
-		classCallCheck__default()(this, Sampler);
+		classCallCheck_default()(this, Sampler);
 	}
 
-	createClass__default()(Sampler, [{
+	createClass_default()(Sampler, [{
 		key: 'sample',
 		value: function sample(name, sampling) {
 			var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
@@ -549,10 +615,10 @@ var sampler = new sampler_Sampler();
 
 var script_loader_ScriptLoader = function () {
 	function ScriptLoader() {
-		classCallCheck__default()(this, ScriptLoader);
+		classCallCheck_default()(this, ScriptLoader);
 	}
 
-	createClass__default()(ScriptLoader, [{
+	createClass_default()(ScriptLoader, [{
 		key: 'createScript',
 		value: function createScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
@@ -579,7 +645,7 @@ var script_loader_ScriptLoader = function () {
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-			return new promise__default.a(function (resolve, reject) {
+			return new promise_default.a(function (resolve, reject) {
 				var script = _this.createScript(src, type, isAsync, node);
 
 				script.onload = resolve;
@@ -594,7 +660,7 @@ var script_loader_ScriptLoader = function () {
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
 var keys_ = __webpack_require__(2);
-var keys__default = /*#__PURE__*/__webpack_require__.n(keys_);
+var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // CONCATENATED MODULE: ./src/services/context-service.js
 
@@ -677,15 +743,15 @@ function context_service_segment(key, newValue) {
 
 var context_service_Context = function () {
 	function Context() {
-		classCallCheck__default()(this, Context);
+		classCallCheck_default()(this, Context);
 
 		this.__useDefault = true;
 	}
 
-	createClass__default()(Context, [{
+	createClass_default()(Context, [{
 		key: 'extend',
 		value: function extend(newContext) {
-			assign__default()(contextObject, newContext);
+			assign_default()(contextObject, newContext);
 		}
 	}, {
 		key: 'set',
@@ -741,10 +807,10 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 
 var slot_service_SlotService = function () {
 	function SlotService() {
-		classCallCheck__default()(this, SlotService);
+		classCallCheck_default()(this, SlotService);
 	}
 
-	createClass__default()(SlotService, [{
+	createClass_default()(SlotService, [{
 		key: 'add',
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
@@ -774,7 +840,7 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'forEach',
 		value: function forEach(callback) {
-			keys__default()(slot_service_slots).forEach(function (id) {
+			keys_default()(slot_service_slots).forEach(function (id) {
 				callback(slot_service_slots[id]);
 			});
 		}
@@ -844,7 +910,7 @@ function disableBtf() {
 
 	var slots = context.get('slots');
 
-	keys__default()(slots).forEach(function (adSlotKey) {
+	keys_default()(slots).forEach(function (adSlotKey) {
 		var slotConfig = slots[adSlotKey];
 
 		if (!slotConfig.aboveTheFold && _this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
@@ -865,14 +931,14 @@ function finishQueue() {
 
 var btf_blocker_service_BtfBlockerService = function () {
 	function BtfBlockerService() {
-		classCallCheck__default()(this, BtfBlockerService);
+		classCallCheck_default()(this, BtfBlockerService);
 
 		this.slotsQueue = [];
 		this.atfEnded = false;
 		this.unblockedSlots = [];
 	}
 
-	createClass__default()(BtfBlockerService, [{
+	createClass_default()(BtfBlockerService, [{
 		key: 'init',
 		value: function init() {
 			var _this2 = this;
@@ -943,10 +1009,10 @@ var template_service_logGroup = 'template-service',
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
-		classCallCheck__default()(this, TemplateService);
+		classCallCheck_default()(this, TemplateService);
 	}
 
-	createClass__default()(TemplateService, [{
+	createClass_default()(TemplateService, [{
 		key: 'register',
 		value: function register(template) {
 			var customConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -963,7 +1029,7 @@ var template_service_TemplateService = function () {
 			}
 
 			if (customConfig) {
-				config = assign__default()(config, customConfig);
+				config = assign_default()(config, customConfig);
 			}
 
 			context.set('templates.' + name, config);
@@ -1000,8 +1066,8 @@ function registerCustomAdLoader(methodName) {
 	};
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
-var stringify_ = __webpack_require__(5);
-var stringify__default = /*#__PURE__*/__webpack_require__.n(stringify_);
+var stringify_ = __webpack_require__(4);
+var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
 
 // CONCATENATED MODULE: ./src/services/local-cache.js
 
@@ -1016,10 +1082,10 @@ var _canUseStorage = void 0;
 
 var local_cache_LocalCache = function () {
 	function LocalCache() {
-		classCallCheck__default()(this, LocalCache);
+		classCallCheck_default()(this, LocalCache);
 	}
 
-	createClass__default()(LocalCache, [{
+	createClass_default()(LocalCache, [{
 		key: 'canUseStorage',
 		value: function canUseStorage() {
 			if (typeof _canUseStorage === 'undefined') {
@@ -1115,7 +1181,7 @@ var local_cache_LocalCache = function () {
 			}
 
 			try {
-				window.localStorage.setItem(key, stringify__default()(cacheItem));
+				window.localStorage.setItem(key, stringify_default()(cacheItem));
 			} catch (e) {
 				// Local Storage is at capacity
 				return false;
@@ -1212,10 +1278,10 @@ function onMessage(message) {
 
 var message_bus_MessageBus = function () {
 	function MessageBus() {
-		classCallCheck__default()(this, MessageBus);
+		classCallCheck_default()(this, MessageBus);
 	}
 
-	createClass__default()(MessageBus, [{
+	createClass_default()(MessageBus, [{
 		key: 'init',
 		value: function init() {
 			logger(message_bus_logGroup, 'Register message listener');
@@ -1245,13 +1311,13 @@ var gpt_size_map_logGroup = 'gpt-size-map';
 
 var gpt_size_map_GptSizeMap = function () {
 	function GptSizeMap(sizeMap) {
-		classCallCheck__default()(this, GptSizeMap);
+		classCallCheck_default()(this, GptSizeMap);
 
 		this.sizeMap = sizeMap || [];
 		logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
 	}
 
-	createClass__default()(GptSizeMap, [{
+	createClass_default()(GptSizeMap, [{
 		key: 'addSize',
 		value: function addSize(viewportSize, sizes) {
 			logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
@@ -1315,7 +1381,7 @@ var gpt_size_map_GptSizeMap = function () {
 				map[viewportSize.join('x')] = sizes;
 			});
 
-			return stringify__default()(map);
+			return stringify_default()(map);
 		}
 	}]);
 
@@ -1337,7 +1403,7 @@ function setupGptTargeting() {
 		}
 	}
 
-	keys__default()(targeting).forEach(function (key) {
+	keys_default()(targeting).forEach(function (key) {
 		setTargetingValue(key, targeting[key]);
 	});
 
@@ -1349,20 +1415,19 @@ function setupGptTargeting() {
 	});
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(13);
-var get_prototype_of__default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+var get_prototype_of_ = __webpack_require__(10);
+var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(14);
-var possibleConstructorReturn__default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+var possibleConstructorReturn_ = __webpack_require__(9);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(15);
-var inherits__default = /*#__PURE__*/__webpack_require__.n(inherits_);
+var inherits_ = __webpack_require__(8);
+var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "events"
-var external__events_ = __webpack_require__(16);
-var external__events__default = /*#__PURE__*/__webpack_require__.n(external__events_);
+var external_events_ = __webpack_require__(7);
 
 // CONCATENATED MODULE: ./src/models/ad-slot.js
 
@@ -1376,7 +1441,7 @@ var external__events__default = /*#__PURE__*/__webpack_require__.n(external__eve
 
 
 var ad_slot_AdSlot = function (_EventEmitter) {
-	inherits__default()(AdSlot, _EventEmitter);
+	inherits_default()(AdSlot, _EventEmitter);
 
 	/**
   * Parse the object that's passed from the template to extract more details
@@ -1389,9 +1454,9 @@ var ad_slot_AdSlot = function (_EventEmitter) {
   *           gpt-bottom-leaderboard-desktop
   */
 	function AdSlot(ad) {
-		classCallCheck__default()(this, AdSlot);
+		classCallCheck_default()(this, AdSlot);
 
-		var _this = possibleConstructorReturn__default()(this, (AdSlot.__proto__ || get_prototype_of__default()(AdSlot)).call(this));
+		var _this = possibleConstructorReturn_default()(this, (AdSlot.__proto__ || get_prototype_of_default()(AdSlot)).call(this));
 
 		var segments = ad.id.split('-');
 
@@ -1419,7 +1484,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		return _this;
 	}
 
-	createClass__default()(AdSlot, [{
+	createClass_default()(AdSlot, [{
 		key: 'getId',
 		value: function getId() {
 			return this.id;
@@ -1562,7 +1627,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}]);
 
 	return AdSlot;
-}(external__events_["EventEmitter"]);
+}(external_events_["EventEmitter"]);
 ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
@@ -1575,10 +1640,10 @@ ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 
 var vast_parser_VastParser = function () {
 	function VastParser() {
-		classCallCheck__default()(this, VastParser);
+		classCallCheck_default()(this, VastParser);
 	}
 
-	createClass__default()(VastParser, [{
+	createClass_default()(VastParser, [{
 		key: 'getAdInfo',
 		value: function getAdInfo(imaAd) {
 			var adInfo = {};
@@ -1644,10 +1709,10 @@ function setAttribute(element, attribute, value) {
 
 var vast_debugger_VastDebugger = function () {
 	function VastDebugger() {
-		classCallCheck__default()(this, VastDebugger);
+		classCallCheck_default()(this, VastDebugger);
 	}
 
-	createClass__default()(VastDebugger, [{
+	createClass_default()(VastDebugger, [{
 		key: 'setVastAttributesFromVastParams',
 		value: function setVastAttributesFromVastParams(element, status, vastParams) {
 			setAttribute(element, 'data-vast-content-type', vastParams.contentType);
@@ -1656,7 +1721,7 @@ var vast_debugger_VastDebugger = function () {
 			setAttribute(element, 'data-vast-position', vastParams.position);
 			setAttribute(element, 'data-vast-size', vastParams.size);
 			setAttribute(element, 'data-vast-status', status);
-			setAttribute(element, 'data-vast-params', stringify__default()(vastParams.customParams));
+			setAttribute(element, 'data-vast-params', stringify_default()(vastParams.customParams));
 		}
 	}, {
 		key: 'setVastAttributes',
@@ -1685,9 +1750,9 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	var params = assign__default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
+	var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
-	return encodeURIComponent(keys__default()(params).filter(function (key) {
+	return encodeURIComponent(keys_default()(params).filter(function (key) {
 		return params[key];
 	}).map(function (key) {
 		return key + '=' + params[key];
@@ -1832,10 +1897,10 @@ var moat_video_tracker_logGroup = 'moat-video-tracker';
 
 var moat_video_tracker_MoatVideoTracker = function () {
 	function MoatVideoTracker() {
-		classCallCheck__default()(this, MoatVideoTracker);
+		classCallCheck_default()(this, MoatVideoTracker);
 	}
 
-	createClass__default()(MoatVideoTracker, [{
+	createClass_default()(MoatVideoTracker, [{
 		key: 'init',
 		value: function init(adsManager, container, viewMode, slicer1, slicer2) {
 			var ids = {
@@ -1875,7 +1940,7 @@ function getVideoElement() {
 
 var google_ima_player_factory_GoogleImaPlayer = function () {
 	function GoogleImaPlayer(adDisplayContainer, adsLoader, params) {
-		classCallCheck__default()(this, GoogleImaPlayer);
+		classCallCheck_default()(this, GoogleImaPlayer);
 
 		this.isAdsManagerLoaded = false;
 		this.status = '';
@@ -1888,7 +1953,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 		this.vastUrl = '';
 	}
 
-	createClass__default()(GoogleImaPlayer, [{
+	createClass_default()(GoogleImaPlayer, [{
 		key: 'setVastUrl',
 		value: function setVastUrl(vastUrl) {
 			this.vastUrl = vastUrl;
@@ -2070,7 +2135,7 @@ var imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
 function load() {
 	if (window.google && window.google.ima) {
-		return new promise__default.a(function (resolve) {
+		return new promise_default.a(function (resolve) {
 			resolve();
 		});
 	}
@@ -2130,13 +2195,13 @@ var video_settings_VideoSettings = function () {
 	function VideoSettings() {
 		var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-		classCallCheck__default()(this, VideoSettings);
+		classCallCheck_default()(this, VideoSettings);
 
 		this.params = params;
 		this.moatTracking = getMoatTrackingStatus(params);
 	}
 
-	createClass__default()(VideoSettings, [{
+	createClass_default()(VideoSettings, [{
 		key: 'get',
 		value: function get(key) {
 			return this.params[key];
@@ -2219,7 +2284,7 @@ var porvata_PorvataPlayer = function () {
 	function PorvataPlayer(ima, params) {
 		var _this = this;
 
-		classCallCheck__default()(this, PorvataPlayer);
+		classCallCheck_default()(this, PorvataPlayer);
 
 		this.ima = ima;
 		this.container = prepareVideoAdContainer(params);
@@ -2242,7 +2307,7 @@ var porvata_PorvataPlayer = function () {
 		}
 	}
 
-	createClass__default()(PorvataPlayer, [{
+	createClass_default()(PorvataPlayer, [{
 		key: 'addEventListener',
 		value: function addEventListener(eventName, callback) {
 			this.ima.addEventListener(eventName, callback);
@@ -2421,10 +2486,10 @@ var porvata_PorvataPlayer = function () {
 
 var porvata_Porvata = function () {
 	function Porvata() {
-		classCallCheck__default()(this, Porvata);
+		classCallCheck_default()(this, Porvata);
 	}
 
-	createClass__default()(Porvata, null, [{
+	createClass_default()(Porvata, null, [{
 		key: 'addOnViewportChangeListener',
 
 
@@ -2580,7 +2645,7 @@ function getListeners() {
 
 var porvata_listener_PorvataListener = function () {
 	function PorvataListener(params) {
-		classCallCheck__default()(this, PorvataListener);
+		classCallCheck_default()(this, PorvataListener);
 
 		this.params = params;
 		this.listeners = getListeners().filter(function (listener) {
@@ -2595,7 +2660,7 @@ var porvata_listener_PorvataListener = function () {
 		};
 	}
 
-	createClass__default()(PorvataListener, [{
+	createClass_default()(PorvataListener, [{
 		key: 'init',
 		value: function init() {
 			this.dispatch('init');
@@ -2608,7 +2673,7 @@ var porvata_listener_PorvataListener = function () {
 			this.video = video;
 			this.dispatch('ready');
 
-			keys__default()(PorvataListener.EVENTS).forEach(function (eventKey) {
+			keys_default()(PorvataListener.EVENTS).forEach(function (eventKey) {
 				video.addEventListener(eventKey, function (event) {
 					var errorCode = event.getError && event.getError().getErrorCode();
 
@@ -2704,10 +2769,10 @@ function pushSlot(adStack, node) {
 
 var scroll_listener_ScrollListener = function () {
 	function ScrollListener() {
-		classCallCheck__default()(this, ScrollListener);
+		classCallCheck_default()(this, ScrollListener);
 	}
 
-	createClass__default()(ScrollListener, [{
+	createClass_default()(ScrollListener, [{
 		key: 'init',
 		value: function init() {
 			var requestAnimationFrameHandleAdded = false;
@@ -2716,7 +2781,7 @@ var scroll_listener_ScrollListener = function () {
 				if (!requestAnimationFrameHandleAdded) {
 					window.requestAnimationFrame(function () {
 						requestAnimationFrameHandleAdded = false;
-						keys__default()(scroll_listener_callbacks).forEach(function (id) {
+						keys_default()(scroll_listener_callbacks).forEach(function (id) {
 							if (typeof scroll_listener_callbacks[id] === 'function') {
 								scroll_listener_callbacks[id](event, id);
 							}
@@ -2860,10 +2925,10 @@ function slot_listener_dispatch(methodName, adSlot) {
 
 var slot_listener_SlotListener = function () {
 	function SlotListener() {
-		classCallCheck__default()(this, SlotListener);
+		classCallCheck_default()(this, SlotListener);
 	}
 
-	createClass__default()(SlotListener, [{
+	createClass_default()(SlotListener, [{
 		key: 'emitRenderEnded',
 		value: function emitRenderEnded(event, adSlot) {
 			var adType = getAdType(event, adSlot);
@@ -2948,7 +3013,7 @@ var gpt_provider_GptProvider = function () {
 	function GptProvider() {
 		var _this = this;
 
-		classCallCheck__default()(this, GptProvider);
+		classCallCheck_default()(this, GptProvider);
 
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
@@ -2958,7 +3023,7 @@ var gpt_provider_GptProvider = function () {
 		});
 	}
 
-	createClass__default()(GptProvider, [{
+	createClass_default()(GptProvider, [{
 		key: 'init',
 		value: function init() {
 			if (initialized) {
@@ -2996,7 +3061,7 @@ var gpt_provider_GptProvider = function () {
 	}, {
 		key: 'applyTargetingParams',
 		value: function applyTargetingParams(gptSlot, targeting) {
-			keys__default()(targeting).forEach(function (key) {
+			keys_default()(targeting).forEach(function (key) {
 				return gptSlot.setTargeting(key, targeting[key]);
 			});
 		}
@@ -3005,7 +3070,7 @@ var gpt_provider_GptProvider = function () {
 		value: function parseTargetingParams(targeting) {
 			var result = {};
 
-			keys__default()(targeting).forEach(function (key) {
+			keys_default()(targeting).forEach(function (key) {
 				var value = targeting[key];
 
 				if (typeof value === 'function') {
@@ -3047,10 +3112,10 @@ var slot_tweaker_logGroup = 'slot-tweaker';
 
 var slot_tweaker_SlotTweaker = function () {
 	function SlotTweaker() {
-		classCallCheck__default()(this, SlotTweaker);
+		classCallCheck_default()(this, SlotTweaker);
 	}
 
-	createClass__default()(SlotTweaker, [{
+	createClass_default()(SlotTweaker, [{
 		key: 'forceRepaint',
 		value: function forceRepaint(domElement) {
 			return domElement.offsetWidth;
@@ -3135,7 +3200,7 @@ var slot_tweaker_SlotTweaker = function () {
 			var container = this.getContainer(adSlot),
 			    iframe = container.querySelector('div[id*="_container_"] iframe');
 
-			return new promise__default.a(function (resolve, reject) {
+			return new promise_default.a(function (resolve, reject) {
 				if (!iframe) {
 					reject('Cannot find iframe element');
 				}
@@ -3191,7 +3256,7 @@ var slot_tweaker_SlotTweaker = function () {
 		value: function setDataParam(adSlot, attrName, data) {
 			var container = this.getContainer(adSlot);
 
-			container.dataset[attrName] = typeof data === 'string' ? data : stringify__default()(data);
+			container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
 		}
 	}]);
 
@@ -3208,10 +3273,10 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	function SlotDataParamsUpdater() {
-		classCallCheck__default()(this, SlotDataParamsUpdater);
+		classCallCheck_default()(this, SlotDataParamsUpdater);
 	}
 
-	createClass__default()(SlotDataParamsUpdater, [{
+	createClass_default()(SlotDataParamsUpdater, [{
 		key: 'updateOnCreate',
 		value: function updateOnCreate(adSlot, targeting) {
 			slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
@@ -3250,10 +3315,10 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 var string_builder_StringBuilder = function () {
 	function StringBuilder() {
-		classCallCheck__default()(this, StringBuilder);
+		classCallCheck_default()(this, StringBuilder);
 	}
 
-	createClass__default()(StringBuilder, [{
+	createClass_default()(StringBuilder, [{
 		key: 'build',
 		value: function build(string) {
 			var parameters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -3389,7 +3454,7 @@ var viewportObserver = {
 
 
 var floating_ad_FloatingAd = function () {
-	createClass__default()(FloatingAd, null, [{
+	createClass_default()(FloatingAd, null, [{
 		key: 'getName',
 		value: function getName() {
 			return 'floating-ad';
@@ -3397,12 +3462,12 @@ var floating_ad_FloatingAd = function () {
 	}]);
 
 	function FloatingAd(adSlot) {
-		classCallCheck__default()(this, FloatingAd);
+		classCallCheck_default()(this, FloatingAd);
 
 		this.adSlot = adSlot;
 	}
 
-	createClass__default()(FloatingAd, [{
+	createClass_default()(FloatingAd, [{
 		key: 'init',
 		value: function init() {
 			var slotNode = document.getElementById(this.adSlot.getId());
@@ -3492,7 +3557,7 @@ var ad_engine_AdEngine = function () {
 	function AdEngine() {
 		var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-		classCallCheck__default()(this, AdEngine);
+		classCallCheck_default()(this, AdEngine);
 
 		context.extend(config);
 		this.adStack = context.get('state.adStack');
@@ -3503,7 +3568,7 @@ var ad_engine_AdEngine = function () {
 		templateService.register(floating_ad_FloatingAd);
 	}
 
-	createClass__default()(AdEngine, [{
+	createClass_default()(AdEngine, [{
 		key: 'runAdQueue',
 		value: function runAdQueue() {
 			var _this = this;
@@ -3524,7 +3589,7 @@ var ad_engine_AdEngine = function () {
 			logger(ad_engine_logGroup, 'Delay by ' + promises.length + ' modules (' + maxTimeout + 'ms timeout)');
 
 			if (promises.length > 0) {
-				promise__default.a.all(promises).then(function () {
+				promise_default.a.all(promises).then(function () {
 					logger(ad_engine_logGroup, 'startAdQueue', 'All modules ready');
 					startAdQueue();
 				});
@@ -3602,11 +3667,11 @@ var ad_engine_AdEngine = function () {
 
 var versionField = 'ads.adEngineVersion';
 
-if (get__default()(window, versionField, null)) {
+if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set__default()(window, versionField, 'v10.1.4');
+set_default()(window, versionField, 'v10.1.4');
 
 
 
@@ -3615,66 +3680,6 @@ set__default()(window, versionField, 'v10.1.4');
 
 
 
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash/set");
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash/get");
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("ismobilejs");
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = require("blockadblock");
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/helpers/typeof");
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/helpers/slicedToArray");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/helpers/inherits");
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
 
 /***/ })
 /******/ ]);

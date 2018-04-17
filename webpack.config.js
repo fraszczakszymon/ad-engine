@@ -9,6 +9,7 @@ const get = require('lodash/get');
 const pkg = require('./package.json');
 
 const common = {
+	mode: 'development',
 	context: __dirname,
 	module: {
 		rules: [
@@ -32,6 +33,7 @@ const common = {
 
 const environments = {
 	production: {
+		mode: 'production',
 		entry: {
 			'ad-engine': './src/index.js'
 		},
@@ -60,16 +62,23 @@ const environments = {
 			'video/porvata': './examples/video/porvata/script.js'
 		},
 		devtool: 'cheap-module-eval-source-map',
+		optimization: {
+			splitChunks: {
+				cacheGroups: {
+					commons: {
+						name: 'vendor',
+						filename: '[name]/dist/vendor.js',
+						chunks: 'all'
+					}
+				}
+			}
+		},
 		output: {
 			path: path.resolve(__dirname, 'examples'),
 			filename: '[name]/dist/bundle.js'
 		},
 		plugins: [
-			new StringReplacePlugin(),
-			new webpack.optimize.CommonsChunkPlugin({
-				name: 'vendor',
-				filename: '[name]/dist/vendor.js'
-			})
+			new StringReplacePlugin()
 		],
 		resolve: {
 			alias: {
@@ -94,7 +103,10 @@ const targets = {
 			filename: '[name].js',
 			library: 'adEngine',
 			libraryTarget: 'commonjs2'
-		}
+		},
+		optimization: {
+			minimize: false
+		},
 	},
 	assign: {
 		output: {
