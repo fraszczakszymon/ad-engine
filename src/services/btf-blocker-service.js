@@ -39,12 +39,14 @@ class BtfBlockerService {
 			fillInCallback(adSlot);
 		});
 
-		context.push('listeners.slot', { onRenderEnded: (adSlot) => {
-			logger(logGroup, adSlot.getId(), 'Slot rendered');
-			if (!this.atfEnded && adSlot.isAboveTheFold()) {
-				finishQueue.bind(this)();
+		context.push('listeners.slot', {
+			onRenderEnded: (adSlot) => {
+				logger(logGroup, adSlot.getId(), 'Slot rendered');
+				if (!this.atfEnded && adSlot.isAboveTheFold()) {
+					finishQueue.bind(this)();
+				}
 			}
-		} });
+		});
 	}
 
 	push(adSlot, fillInCallback) {

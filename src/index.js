@@ -15,6 +15,4 @@ export * from './models';
 export * from './providers';
 export * from './services';
 export * from './video';
-export {
-	utils
-};
+export { utils };

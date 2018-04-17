@@ -123,9 +123,9 @@ module.exports = function (env) {
 
 	if (isProduction) {
 		return [
-			merge(common, environments.production, targets.commonjs),
 			merge(common, environments.production, targets.amd),
-			merge(common, environments.production, targets.assign)
+			merge(common, environments.production, targets.assign),
+			merge(common, environments.production, targets.commonjs)
 		];
 	} else if (isTest) {
 		return merge(common, environments.test);

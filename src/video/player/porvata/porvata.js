@@ -34,8 +34,8 @@ const nativeFullscreenOnElement = (element) => {
 		'onmsfullscreenchange',
 		'onfullscreenchange'
 	]) || '')
-	.replace(/^on/, '')
-	.replace('msfullscreenchange', 'MSFullscreenChange');
+		.replace(/^on/, '')
+		.replace('msfullscreenchange', 'MSFullscreenChange');
 	const addChangeListener = (...args) => document.addEventListener(fullscreenChangeEvent, ...args);
 	const removeChangeListener = (...args) => document.removeEventListener(fullscreenChangeEvent, ...args);
 	const isSupported = () => Boolean(enter && exit);
@@ -154,7 +154,7 @@ export class PorvataPlayer {
 
 	toggleFullscreen() {
 		const isFullscreen = this.isFullscreen();
-		const nativeFullscreen = this.nativeFullscreen;
+		const { nativeFullscreen } = this;
 
 		this.muteProtect = true;
 
@@ -223,7 +223,6 @@ export class PorvataPlayer {
 }
 
 export class Porvata {
-
 	/**
 	 * @private
 	 * @returns listener id

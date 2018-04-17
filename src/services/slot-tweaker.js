@@ -82,7 +82,7 @@ class SlotTweaker {
 
 		return new Promise((resolve, reject) => {
 			if (!iframe) {
-				reject('Cannot find iframe element');
+				reject(new Error('Cannot find iframe element'));
 			}
 
 			if (iframe.contentWindow.document.readyState === 'complete') {
@@ -134,7 +134,6 @@ class SlotTweaker {
 			data :
 			JSON.stringify(data);
 	}
-
 }
 
 export const slotTweaker = new SlotTweaker();

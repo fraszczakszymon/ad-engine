@@ -22,15 +22,16 @@ export class AdSlot extends EventEmitter {
 		super();
 
 		const segments = ad.id.split('-');
+		const [, location, type, screenSize] = segments;
 
 		if (segments.length < 3) {
 			throw new Error(`Invalid GPT id passed to parseId (${ad.id}).`);
 		}
 
 		this.id = ad.id;
-		this.location = segments[1];
-		this.screenSize = segments[3] ? segments[3] : 'both';
-		this.type = segments[2];
+		this.location = location;
+		this.screenSize = screenSize || 'both';
+		this.type = type;
 		this.config = context.get(`slots.${this.location}-${this.type}`) || {};
 		this.enabled = !this.config.disabled;
 		this.viewed = false;

@@ -110,37 +110,37 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("ismobilejs");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("events");
+module.exports = require("ismobilejs");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("events");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 12 */
@@ -206,7 +206,7 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "ismobilejs"
-var external_ismobilejs_ = __webpack_require__(6);
+var external_ismobilejs_ = __webpack_require__(7);
 var external_ismobilejs_default = /*#__PURE__*/__webpack_require__.n(external_ismobilejs_);
 
 // EXTERNAL MODULE: external "blockadblock"
@@ -228,6 +228,7 @@ var bab = null,
 function getIsMobile() {
 	if (client_isMobile === null) {
 		var userAgent = window.navigator.userAgent;
+
 
 		client_isMobile = typeof external_ismobilejs_default.a === 'function' ? external_ismobilejs_default()(userAgent) : external_ismobilejs_default.a;
 	}
@@ -305,6 +306,7 @@ var client_Client = function () {
 
 			var userAgent = window.navigator.userAgent;
 
+
 			operatingSystem = 'unknown';
 			if (userAgent.indexOf('Win') !== -1) {
 				operatingSystem = 'Windows';
@@ -331,9 +333,11 @@ var client_Client = function () {
 				return browser;
 			}
 
-			var appName = window.navigator.appName,
-			    appVersion = window.navigator.appVersion,
-			    userAgent = window.navigator.userAgent;
+			var _window$navigator = window.navigator,
+			    appName = _window$navigator.appName,
+			    appVersion = _window$navigator.appVersion,
+			    userAgent = _window$navigator.userAgent;
+
 
 			var temp = void 0,
 			    matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -436,7 +440,7 @@ var flow_control_wait = function wait() {
 	var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 	return new promise_default.a(function (resolve, reject) {
 		if (typeof milliseconds !== 'number') {
-			reject('Delay value must be a number.');
+			reject(new Error('Delay value must be a number.'));
 			return;
 		}
 
@@ -451,7 +455,7 @@ var flow_control_defer = function defer(fn) {
 
 	return new promise_default.a(function (resolve, reject) {
 		if (typeof fn !== 'function') {
-			reject('Expected a function.');
+			reject(new Error('Expected a function.'));
 			return;
 		}
 
@@ -478,7 +482,7 @@ function once(emitter, eventName) {
 		} else if (hasAddEventListener) {
 			emitter.addEventListener(eventName, resolve, assign_default()({}, options, { once: true }));
 		} else {
-			reject('Emitter does not have `addEventListener` nor `once` method.');
+			reject(new Error('Emitter does not have `addEventListener` nor `once` method.'));
 		}
 	});
 }
@@ -500,7 +504,7 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(11);
+var slicedToArray_ = __webpack_require__(6);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/utils/query-string.js
@@ -951,12 +955,14 @@ var btf_blocker_service_BtfBlockerService = function () {
 				fillInCallback(adSlot);
 			});
 
-			context.push('listeners.slot', { onRenderEnded: function onRenderEnded(adSlot) {
+			context.push('listeners.slot', {
+				onRenderEnded: function onRenderEnded(adSlot) {
 					logger(logGroup, adSlot.getId(), 'Slot rendered');
 					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
 						finishQueue.bind(_this2)();
 					}
-				} });
+				}
+			});
 		}
 	}, {
 		key: 'push',
@@ -1415,21 +1421,22 @@ function setupGptTargeting() {
 	});
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(10);
+var get_prototype_of_ = __webpack_require__(11);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(9);
+var possibleConstructorReturn_ = __webpack_require__(10);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(8);
+var inherits_ = __webpack_require__(9);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "events"
-var external_events_ = __webpack_require__(7);
+var external_events_ = __webpack_require__(8);
 
 // CONCATENATED MODULE: ./src/models/ad-slot.js
+
 
 
 
@@ -1460,14 +1467,19 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 		var segments = ad.id.split('-');
 
+		var _segments = slicedToArray_default()(segments, 4),
+		    location = _segments[1],
+		    type = _segments[2],
+		    screenSize = _segments[3];
+
 		if (segments.length < 3) {
 			throw new Error('Invalid GPT id passed to parseId (' + ad.id + ').');
 		}
 
 		_this.id = ad.id;
-		_this.location = segments[1];
-		_this.screenSize = segments[3] ? segments[3] : 'both';
-		_this.type = segments[2];
+		_this.location = location;
+		_this.screenSize = screenSize || 'both';
+		_this.type = type;
 		_this.config = context.get('slots.' + _this.location + '-' + _this.type) || {};
 		_this.enabled = !_this.config.disabled;
 		_this.viewed = false;
@@ -1638,6 +1650,7 @@ ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 
 
 
+
 var vast_parser_VastParser = function () {
 	function VastParser() {
 		classCallCheck_default()(this, VastParser);
@@ -1648,22 +1661,25 @@ var vast_parser_VastParser = function () {
 		value: function getAdInfo(imaAd) {
 			var adInfo = {};
 
-			var wrapperCreativeIds = void 0,
-			    wrapperIds = void 0;
-
 			if (imaAd) {
 				adInfo.lineItemId = imaAd.getAdId();
 				adInfo.creativeId = imaAd.getCreativeId();
 				adInfo.contentType = imaAd.getContentType();
 
-				wrapperIds = imaAd.getWrapperAdIds();
-				if (wrapperIds && wrapperIds.length) {
-					adInfo.lineItemId = wrapperIds[0];
+				var _ref = imaAd.getWrapperAdIds() || [],
+				    _ref2 = slicedToArray_default()(_ref, 1),
+				    lineItemId = _ref2[0];
+
+				if (lineItemId !== undefined) {
+					adInfo.lineItemId = lineItemId;
 				}
 
-				wrapperCreativeIds = imaAd.getWrapperCreativeIds();
-				if (wrapperCreativeIds && wrapperCreativeIds.length) {
-					adInfo.creativeId = wrapperCreativeIds[0];
+				var _ref3 = imaAd.getWrapperCreativeIds() || [],
+				    _ref4 = slicedToArray_default()(_ref3, 1),
+				    creativeId = _ref4[0];
+
+				if (creativeId !== undefined) {
+					adInfo.creativeId = creativeId;
 				}
 			}
 
@@ -2409,6 +2425,7 @@ var porvata_PorvataPlayer = function () {
 			var isFullscreen = this.isFullscreen();
 			var nativeFullscreen = this.nativeFullscreen;
 
+
 			this.muteProtect = true;
 
 			if (nativeFullscreen.isSupported()) {
@@ -2491,7 +2508,6 @@ var porvata_Porvata = function () {
 
 	createClass_default()(Porvata, null, [{
 		key: 'addOnViewportChangeListener',
-
 
 		/**
    * @private
@@ -3202,7 +3218,7 @@ var slot_tweaker_SlotTweaker = function () {
 
 			return new promise_default.a(function (resolve, reject) {
 				if (!iframe) {
-					reject('Cannot find iframe element');
+					reject(new Error('Cannot find iframe element'));
 				}
 
 				if (iframe.contentWindow.document.readyState === 'complete') {

@@ -10,13 +10,9 @@ describe('ad-slot', () => {
 	});
 
 	it('exception when id is wrong', () => {
-		expect(
-			() => {
-				new AdSlot({
-					id: 'gpt-foo'
-				});
-			}
-		).to.throw('Invalid GPT id passed to parseId (gpt-foo)');
+		expect(() => new AdSlot({
+			id: 'gpt-foo'
+		})).to.throw('Invalid GPT id passed to parseId (gpt-foo)');
 	});
 
 	it('base properties', () => {
