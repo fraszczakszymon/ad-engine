@@ -4,22 +4,19 @@ class VastParser {
 	getAdInfo(imaAd) {
 		const adInfo = {};
 
-		let wrapperCreativeIds,
-			wrapperIds;
-
 		if (imaAd) {
 			adInfo.lineItemId = imaAd.getAdId();
 			adInfo.creativeId = imaAd.getCreativeId();
 			adInfo.contentType = imaAd.getContentType();
 
-			wrapperIds = imaAd.getWrapperAdIds();
-			if (wrapperIds && wrapperIds.length) {
-				adInfo.lineItemId = wrapperIds[0];
+			const [lineItemId] = imaAd.getWrapperAdIds() || [];
+			if (lineItemId !== undefined) {
+				adInfo.lineItemId = lineItemId;
 			}
 
-			wrapperCreativeIds = imaAd.getWrapperCreativeIds();
-			if (wrapperCreativeIds && wrapperCreativeIds.length) {
-				adInfo.creativeId = wrapperCreativeIds[0];
+			const [creativeId] = imaAd.getWrapperCreativeIds() || [];
+			if (creativeId !== undefined) {
+				adInfo.creativeId = creativeId;
 			}
 		}
 

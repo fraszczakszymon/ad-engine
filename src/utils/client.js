@@ -9,7 +9,7 @@ let bab = null,
 
 function getIsMobile() {
 	if (isMobile === null) {
-		const userAgent = window.navigator.userAgent;
+		const { userAgent } = window.navigator;
 
 		isMobile = (typeof isMobileJs === 'function') ? isMobileJs(userAgent) : isMobileJs;
 	}
@@ -71,7 +71,7 @@ class Client {
 			return operatingSystem;
 		}
 
-		const userAgent = window.navigator.userAgent;
+		const { userAgent } = window.navigator;
 
 		operatingSystem = 'unknown';
 		if (userAgent.indexOf('Win') !== -1) {
@@ -98,9 +98,7 @@ class Client {
 			return browser;
 		}
 
-		const appName = window.navigator.appName,
-			appVersion = window.navigator.appVersion,
-			userAgent = window.navigator.userAgent;
+		const { appName, appVersion, userAgent } = window.navigator;
 
 		let temp,
 			matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];

@@ -1,6 +1,6 @@
 export const wait = (milliseconds = 0) => new Promise((resolve, reject) => {
 	if (typeof milliseconds !== 'number') {
-		reject('Delay value must be a number.');
+		reject(new Error('Delay value must be a number.'));
 		return;
 	}
 
@@ -9,7 +9,7 @@ export const wait = (milliseconds = 0) => new Promise((resolve, reject) => {
 
 export const defer = (fn, ...args) => new Promise((resolve, reject) => {
 	if (typeof fn !== 'function') {
-		reject('Expected a function.');
+		reject(new Error('Expected a function.'));
 		return;
 	}
 
@@ -31,7 +31,7 @@ export function once(emitter, eventName, options = {}) {
 		} else if (hasAddEventListener) {
 			emitter.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
 		} else {
-			reject('Emitter does not have `addEventListener` nor `once` method.');
+			reject(new Error('Emitter does not have `addEventListener` nor `once` method.'));
 		}
 	});
 }
