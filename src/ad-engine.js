@@ -38,11 +38,26 @@ export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
 		this.adStack = context.get('state.adStack');
+		this.providers = new Map();
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
 		templateService.register(FloatingAd);
+	}
+
+	setupProviders() {
+		this.providers.set('gpt', new GptProvider());
+
+		makeLazyQueue(this.adStack, (ad) => {
+			const gpt = this.providers.get('gpt');
+
+			fillInUsingProvider(ad, gpt);
+
+			if (this.adStack.length === 0) {
+				gpt.flush();
+			}
+		});
 	}
 
 	runAdQueue() {
@@ -75,17 +90,14 @@ export class AdEngine {
 		}
 	}
 
+	getProvider(name) {
+		return this.providers.get(name);
+	}
+
 	init() {
-		const provider = new GptProvider();
+		this.setupProviders();
 		btfBlockerService.init();
 
-		makeLazyQueue(this.adStack, (ad) => {
-			fillInUsingProvider(ad, provider);
-
-			if (this.adStack.length === 0) {
-				provider.flush();
-			}
-		});
 		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
 		messageBus.init();
 		slotTweaker.registerMessageListener();

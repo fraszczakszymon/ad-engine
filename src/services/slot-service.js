@@ -31,6 +31,15 @@ class SlotService {
 		}
 	}
 
+	remove(adSlot) {
+		const slotName = adSlot.getSlotName();
+
+		adSlot.disable('Marked for remove');
+		delete slots[adSlot.getId()];
+		delete slotNameMapping[slotName];
+		delete slotStates[slotName];
+	}
+
 	get(id) {
 		return slots[id];
 	}
