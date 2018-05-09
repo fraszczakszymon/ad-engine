@@ -8,3 +8,4 @@ export * from './slot-data-params-updater';
 export * from './slot-service';
 export * from './slot-tweaker';
 export * from './template-service';
+export * from './tracking-opt-out';

@@ -3,9 +3,11 @@ import { logger, defer } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { slotService, slotDataParamsUpdater } from '../services';
+import { slotService, slotDataParamsUpdater, trackingOptOut } from '../services';
 
 const logGroup = 'gpt-provider';
+const optOutName = 'gpt';
+
 export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) {
 	return window.googletag.cmd.push(() => method.apply(this, args));
 };
@@ -26,6 +28,8 @@ function configure() {
 		// Let's launch our callback in a setTimeout instead.
 		defer(() => slotListener.emitRenderEnded(event, slot));
 	});
+
+	tag.setRequestNonPersonalizedAds(trackingOptOut.isOptedOut(optOutName) ? 1 : 0);
 
 	tag.addEventListener('impressionViewable', (event) => {
 		const id = event.slot.getSlotElementId(),
