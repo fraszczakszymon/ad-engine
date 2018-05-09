@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { slotService } from '../../src/services/slot-service';
 
-let adSlot;
+let adSlot,
+	elementProperties = {};
 
 describe('slot-service', () => {
 	afterEach(() => {
@@ -11,13 +12,20 @@ describe('slot-service', () => {
 	});
 
 	beforeEach(() => {
+		elementProperties = {
+			offsetParent: {
+				offsetTop: 0,
+				offsetParent: null
+			}
+		};
+
 		sinon.stub(document, 'getElementById').withArgs('foo-container').returns({
 			classList: {
 				contains: () => {}
 			},
 			offsetHeight: 300,
 			offsetTop: 100,
-			offsetParent: null,
+			offsetParent: elementProperties.offsetParent,
 			ownerDocument: {}
 		});
 
@@ -66,6 +74,14 @@ describe('slot-service', () => {
 
 	it('does not calculate conflicts when slot does not have DOM element', () => {
 		adSlot.getElement = () => null;
+
+		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
+	});
+
+	it('checks whether slot does not have viewport conflicts with hidden element', () => {
+		elementProperties.offsetParent = null;
+
+		adSlot.setOffsetTop(2000);
 
 		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
 	});
