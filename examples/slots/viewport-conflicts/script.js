@@ -15,6 +15,10 @@ document.getElementById('addParagraph').addEventListener('click', () => {
 	article.appendChild(paragraph);
 });
 
+document.getElementById('hideTopBoxad').addEventListener('click', () => {
+	document.getElementById('gpt-top-boxad').classList.add('hide');
+});
+
 adContext.listeners.slot.push({
 	onStatusChanged: (adSlot) => {
 		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');
