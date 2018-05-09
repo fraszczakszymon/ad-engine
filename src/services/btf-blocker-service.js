@@ -16,16 +16,6 @@ function disableBtf() {
 	});
 }
 
-function finishQueue() {
-	this.atfEnded = true;
-
-	if (window.ads.runtime.disableBtf) {
-		disableBtf.bind(this)();
-	}
-
-	this.slotsQueue.start();
-}
-
 class BtfBlockerService {
 	constructor() {
 		this.slotsQueue = [];
@@ -43,10 +33,20 @@ class BtfBlockerService {
 			onRenderEnded: (adSlot) => {
 				logger(logGroup, adSlot.getId(), 'Slot rendered');
 				if (!this.atfEnded && adSlot.isAboveTheFold()) {
-					finishQueue.bind(this)();
+					this.finishAboveTheFold();
 				}
 			}
 		});
+	}
+
+	finishAboveTheFold() {
+		this.atfEnded = true;
+
+		if (window.ads.runtime.disableBtf) {
+			disableBtf.bind(this)();
+		}
+
+		this.slotsQueue.start();
 	}
 
 	push(adSlot, fillInCallback) {
