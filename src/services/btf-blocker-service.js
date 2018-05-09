@@ -51,7 +51,7 @@ class BtfBlockerService {
 		this.atfEnded = true;
 
 		if (window.ads.runtime.disableBtf) {
-			disableBtf.bind(this)();
+			disableBtf.call(this);
 		}
 
 		this.slotsQueue.start();
