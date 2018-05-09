@@ -824,8 +824,15 @@ var slot_service_slots = {};
 var slotStates = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
-	var element = document.getElementById(elementId),
-	    elementHeight = element.offsetHeight,
+	var element = document.getElementById(elementId);
+
+	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+	// Hidden element does not have offsetParent
+	if (element.offsetParent === null) {
+		return false;
+	}
+
+	var elementHeight = element.offsetHeight,
 	    elementOffset = getTopOffset(element),
 	    isFirst = elementOffset < slotOffset,
 	    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
@@ -3908,7 +3915,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.2.0');
+set_default()(window, versionField, 'v10.2.1');
 
 
 
