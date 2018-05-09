@@ -20,6 +20,7 @@ describe('btf-blocker-service', () => {
 		};
 
 		btfBlockerService.init();
+		btfBlockerService.resetState();
 
 		atfSlot = Object.assign({}, adSlotFake);
 		atfSlot.isAboveTheFold = () => true;
@@ -86,5 +87,14 @@ describe('btf-blocker-service', () => {
 
 		onRenderEndedCallback(atfSlot);
 		expect(btfFillInSpy.called).to.not.be.ok;
+	});
+
+	it('should fill in BTF slot when ATF is finished manually', () => {
+		const fillInSpy = spy();
+
+		btfBlockerService.push(btfSlot, fillInSpy);
+		btfBlockerService.finishAboveTheFold();
+
+		expect(fillInSpy.called).to.be.ok;
 	});
 });

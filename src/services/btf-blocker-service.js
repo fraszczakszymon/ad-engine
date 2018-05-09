@@ -18,17 +18,25 @@ function disableBtf() {
 
 class BtfBlockerService {
 	constructor() {
+		this.resetState();
+	}
+
+	resetState() {
 		this.slotsQueue = [];
 		this.atfEnded = false;
 		this.unblockedSlots = [];
-	}
 
-	init() {
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
 			fillInCallback(adSlot);
 		});
 
+		if (window.ads && window.ads.runtime) {
+			window.ads.runtime.disableBtf = false;
+		}
+	}
+
+	init() {
 		context.push('listeners.slot', {
 			onRenderEnded: (adSlot) => {
 				logger(logGroup, adSlot.getId(), 'Slot rendered');
