@@ -6,8 +6,15 @@ const slots = {};
 const slotStates = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
-	const element = document.getElementById(elementId),
-		elementHeight = element.offsetHeight,
+	const element = document.getElementById(elementId);
+
+	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+	// Hidden element does not have offsetParent
+	if (element.offsetParent === null) {
+		return false;
+	}
+
+	const elementHeight = element.offsetHeight,
 		elementOffset = getTopOffset(element),
 		isFirst = elementOffset < slotOffset,
 		distance = isFirst ? slotOffset - elementOffset - elementHeight :
