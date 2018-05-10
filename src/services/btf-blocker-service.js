@@ -1,6 +1,7 @@
 import { logger, makeLazyQueue } from '../utils';
 import { context } from './context-service';
 import { slotService } from './slot-service';
+import { events } from './events';
 
 const logGroup = 'btf-blocker';
 
@@ -16,37 +17,48 @@ function disableBtf() {
 	});
 }
 
-function finishQueue() {
-	this.atfEnded = true;
-
-	if (window.ads.runtime.disableBtf) {
-		disableBtf.bind(this)();
-	}
-
-	this.slotsQueue.start();
-}
-
 class BtfBlockerService {
 	constructor() {
+		this.resetState();
+	}
+
+	resetState() {
 		this.slotsQueue = [];
 		this.atfEnded = false;
 		this.unblockedSlots = [];
-	}
 
-	init() {
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
 			fillInCallback(adSlot);
 		});
 
+		if (window.ads && window.ads.runtime) {
+			window.ads.runtime.disableBtf = false;
+		}
+	}
+
+	init() {
 		context.push('listeners.slot', {
 			onRenderEnded: (adSlot) => {
 				logger(logGroup, adSlot.getId(), 'Slot rendered');
 				if (!this.atfEnded && adSlot.isAboveTheFold()) {
-					finishQueue.bind(this)();
+					this.finishAboveTheFold();
 				}
 			}
 		});
+		events.on(events.PAGE_CHANGE_EVENT, () => {
+			this.resetState();
+		});
+	}
+
+	finishAboveTheFold() {
+		this.atfEnded = true;
+
+		if (window.ads.runtime.disableBtf) {
+			disableBtf.call(this);
+		}
+
+		this.slotsQueue.start();
 	}
 
 	push(adSlot, fillInCallback) {
