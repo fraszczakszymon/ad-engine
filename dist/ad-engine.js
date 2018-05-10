@@ -98,25 +98,25 @@ module.exports = require("babel-runtime/core-js/promise");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/json/stringify");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 8 */
@@ -457,7 +457,7 @@ function isInViewport(element) {
 	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(6);
+var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -540,7 +540,7 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(4);
+var slicedToArray_ = __webpack_require__(7);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/utils/query-string.js
@@ -961,7 +961,7 @@ var symbol_ = __webpack_require__(15);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(7);
+var get_prototype_of_ = __webpack_require__(6);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
@@ -1313,7 +1313,7 @@ function registerCustomAdLoader(methodName) {
 	};
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
-var stringify_ = __webpack_require__(5);
+var stringify_ = __webpack_require__(4);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
 
 // CONCATENATED MODULE: ./src/services/local-cache.js
@@ -3224,7 +3224,6 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
-
 var _dec, _dec2, _dec3, _dec4, _dec5, _desc, _value, _class;
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -3399,30 +3398,29 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 		key: 'destroyGptSlots',
 		value: function destroyGptSlots(gptSlots) {
 			logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
+
+			gptSlots.forEach(function (gptSlot) {
+				var adSlot = slotService.get(gptSlot.getSlotElementId());
+
+				slotService.remove(adSlot);
+			});
+
 			var success = window.googletag.destroySlots(gptSlots);
 
 			if (!success) {
 				logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
 			}
-
-			gptSlots.forEach(function (slot) {
-				return slotService.remove(slot.getSlotElementId());
-			});
 		}
 	}, {
 		key: 'destroySlots',
 		value: function destroySlots(slotNames) {
 			var allSlots = window.googletag.pubads().getSlots();
 			var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
-				// google returns array
-				// - in our case it has always one element and this element is the one we are interested in
-				var _slot$getTargeting = slot.getTargeting('pos'),
-				    _slot$getTargeting2 = slicedToArray_default()(_slot$getTargeting, 1),
-				    positionTargeting = _slot$getTargeting2[0];
+				var slotId = slot.getSlotElementId();
 
-				if (!positionTargeting) {
-					logger(gpt_provider_logGroup, 'destroySlots', 'getTargeting doesn\'t return pos', positionTargeting, slot);
-				} else if (slotNames.indexOf(positionTargeting) > -1) {
+				if (!slotId) {
+					logger(gpt_provider_logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
+				} else if (slotNames.indexOf(slotId) > -1) {
 					return true;
 				}
 
@@ -4039,7 +4037,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.2.1');
+set_default()(window, versionField, 'v10.2.2');
 
 
 
