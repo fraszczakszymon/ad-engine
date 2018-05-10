@@ -1,16 +1,13 @@
 import { expect } from 'chai';
-import { spy, createSandbox } from 'sinon';
+import { spy } from 'sinon';
 import { GptProvider } from '../../src/providers/gpt-provider';
 import { context } from '../../src/services/context-service';
 
 let provider;
 let pubads;
-let sandbox;
 
 describe('gpt-provider', () => {
 	beforeEach(() => {
-		sandbox = createSandbox();
-
 		pubads = {
 			addEventListener: spy(),
 			disableInitialLoad: spy(),
@@ -27,10 +24,6 @@ describe('gpt-provider', () => {
 		window.googletag.cmd.push = (cb) => {
 			cb();
 		};
-	});
-
-	afterEach(() => {
-		sandbox.restore();
 	});
 
 	it('initialise and setup gpt provider', () => {
