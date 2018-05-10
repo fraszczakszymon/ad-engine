@@ -20,7 +20,7 @@ const contextObject = {
 			},
 			trackingOptOut: false,
 			trackingOptOutBlacklist: {
-				'gpt': true
+				gpt: true
 			}
 		},
 		slots: {},

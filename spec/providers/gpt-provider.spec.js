@@ -1,0 +1,53 @@
+import { expect } from 'chai';
+import { spy, createSandbox } from 'sinon';
+import { GptProvider } from '../../src/providers/gpt-provider';
+import { context } from '../../src/services/context-service';
+
+let provider;
+let pubads;
+let sandbox;
+
+describe('gpt-provider', () => {
+	beforeEach(() => {
+		sandbox = createSandbox();
+
+		pubads = {
+			addEventListener: spy(),
+			disableInitialLoad: spy(),
+			enableSingleRequest: spy(),
+			setRequestNonPersonalizedAds: spy()
+		};
+
+		window.googletag = {
+			pubads: () => pubads,
+			enableServices: spy()
+		};
+
+		window.googletag.cmd = window.googletag.cmd || [];
+		window.googletag.cmd.push = (cb) => {
+			cb();
+		};
+	});
+
+	afterEach(() => {
+		sandbox.restore();
+	});
+
+	it('initialise and setup gpt provider', () => {
+		provider = new GptProvider();
+
+		expect(pubads.disableInitialLoad.called).to.be.true;
+		expect(pubads.enableSingleRequest.called).to.be.true;
+		expect(pubads.addEventListener.calledTwice).to.be.true;
+		expect(pubads.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
+	});
+
+	it('initialise with non personalized ads when tracking opt out is enabled', () => {
+		context.set('options.trackingOptOut', true);
+
+		provider = new GptProvider();
+		provider.setupNonPersonalizedAds();
+
+		expect(pubads.setRequestNonPersonalizedAds.calledWith(1)).to.be.true;
+	});
+});

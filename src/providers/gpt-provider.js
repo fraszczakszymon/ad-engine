@@ -29,8 +29,6 @@ function configure() {
 		defer(() => slotListener.emitRenderEnded(event, slot));
 	});
 
-	tag.setRequestNonPersonalizedAds(trackingOptOut.isOptedOut(optOutName) ? 1 : 0);
-
 	tag.addEventListener('impressionViewable', (event) => {
 		const id = event.slot.getSlotElementId(),
 			slot = slotService.get(id);
@@ -56,7 +54,14 @@ export class GptProvider {
 
 		setupGptTargeting();
 		configure();
+		this.setupNonPersonalizedAds();
 		initialized = true;
+	}
+
+	setupNonPersonalizedAds() {
+		const tag = window.googletag.pubads();
+
+		tag.setRequestNonPersonalizedAds(trackingOptOut.isOptedOut(optOutName) ? 1 : 0);
 	}
 
 	@decorate(gptLazyMethod)

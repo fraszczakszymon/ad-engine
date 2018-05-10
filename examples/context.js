@@ -31,7 +31,7 @@ export default {
 		},
 		trackingOptOut: false,
 		trackingOptOutBlacklist: {
-			'gpt': true
+			gpt: true
 		}
 	},
 	listeners: {

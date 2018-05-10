@@ -8,8 +8,8 @@ describe('tracking-opt-out', () => {
 			options: {
 				trackingOptOut: false,
 				trackingOptOutBlacklist: {
-					'foo': true,
-					'bar': false
+					foo: true,
+					bar: false
 				}
 			}
 		});
