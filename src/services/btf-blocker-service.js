@@ -46,10 +46,9 @@ class BtfBlockerService {
 				}
 			}
 		});
-		// TODO: uncomment when ADEN-7078-cleans-up-event-service will be merged
-		// events.on(events.PAGE_CHANGE_EVENT, () => {
-		// 	this.resetState();
-		// });
+		events.on(events.PAGE_CHANGE_EVENT, () => {
+			this.resetState();
+		});
 	}
 
 	finishAboveTheFold() {
