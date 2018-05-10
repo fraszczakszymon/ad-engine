@@ -22,6 +22,12 @@ describe('vast-url-builder', () => {
 				tre: ['bar', 'zero'],
 				quattro: null,
 				wsi: 'xxxx'
+			},
+			options: {
+				trackingOptOut: false,
+				trackingOptOutBlacklist: {
+					gpt: true
+				}
 			}
 		});
 		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
@@ -171,5 +177,23 @@ describe('vast-url-builder', () => {
 		const custParams = /&vpos=/;
 
 		expect(vastUrl.match(custParams)).to.not.be.ok;
+	});
+
+	it('build URL with non personalized ads set to false if tracking opt out is disabled', () => {
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
+
+		const custParams = /&npa=0/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
+	});
+
+	it('build URL with non personalized ads set to true if tracking opt out is disabled', () => {
+		context.set('options.trackingOptOut', true);
+
+		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
+
+		const custParams = /&npa=1/;
+
+		expect(vastUrl.match(custParams)).to.be.ok;
 	});
 });
