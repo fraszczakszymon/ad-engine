@@ -119,25 +119,28 @@ export class GptProvider {
 	@decorate(gptLazyMethod)
 	destroyGptSlots(gptSlots) {
 		logger(logGroup, 'destroySlots', gptSlots);
+
+		gptSlots.forEach((gptSlot) => {
+			const adSlot = slotService.get(gptSlot.getSlotElementId());
+
+			slotService.remove(adSlot);
+		});
+
 		const success = window.googletag.destroySlots(gptSlots);
 
 		if (!success) {
 			logger(logGroup, 'destroySlots', gptSlots, 'failed');
 		}
-
-		gptSlots.forEach(slot => slotService.remove(slot.getSlotElementId()));
 	}
 
 	destroySlots(slotNames) {
 		const allSlots = window.googletag.pubads().getSlots();
 		const slotsToDestroy = (slotNames && slotNames.length) ? allSlots.filter((slot) => {
-			// google returns array
-			// - in our case it has always one element and this element is the one we are interested in
-			const [positionTargeting] = slot.getTargeting('pos');
+			const slotId = slot.getSlotElementId();
 
-			if (!positionTargeting) {
-				logger(logGroup, 'destroySlots', 'getTargeting doesn\'t return pos', positionTargeting, slot);
-			} else if (slotNames.indexOf(positionTargeting) > -1) {
+			if (!slotId) {
+				logger(logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
+			} else if (slotNames.indexOf(slotId) > -1) {
 				return true;
 			}
 

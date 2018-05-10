@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -116,82 +116,94 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("ismobilejs");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/map");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("ismobilejs");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("babel-runtime/core-js/map");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -202,7 +214,7 @@ __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
-__webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
+__webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
@@ -214,11 +226,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(19);
+var set_ = __webpack_require__(21);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(18);
+var get_ = __webpack_require__(20);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -230,11 +242,11 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "ismobilejs"
-var external_ismobilejs_ = __webpack_require__(14);
+var external_ismobilejs_ = __webpack_require__(16);
 var external_ismobilejs_default = /*#__PURE__*/__webpack_require__.n(external_ismobilejs_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(17);
+var external_blockadblock_ = __webpack_require__(19);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/utils/client.js
@@ -449,7 +461,7 @@ var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(16);
+var typeof_ = __webpack_require__(11);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -489,7 +501,7 @@ var flow_control_defer = function defer(fn) {
 	});
 };
 
-function once(emitter, eventName) {
+function flow_control_once(emitter, eventName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	var isObject = (typeof emitter === 'undefined' ? 'undefined' : typeof_default()(emitter)) === 'object';
@@ -940,7 +952,182 @@ function setState(slotName, state) {
 		}
 	}
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
+var get_own_property_names_ = __webpack_require__(17);
+var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
+var symbol_ = __webpack_require__(15);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
+var get_prototype_of_ = __webpack_require__(7);
+var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(10);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/get"
+var helpers_get_ = __webpack_require__(12);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
+var inherits_ = __webpack_require__(14);
+var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
+// EXTERNAL MODULE: external "eventemitter3"
+var external_eventemitter3_ = __webpack_require__(13);
+var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
+
+// CONCATENATED MODULE: ./src/services/events.js
+
+
+
+
+
+
+
+
+
+
+
+var events_EventService = function (_EventEmitter) {
+	inherits_default()(EventService, _EventEmitter);
+
+	function EventService() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		classCallCheck_default()(this, EventService);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _temp), possibleConstructorReturn_default()(_this, _ret);
+	}
+
+	createClass_default()(EventService, [{
+		key: 'pageChange',
+		value: function pageChange() {
+			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+				args[_key2] = arguments[_key2];
+			}
+
+			this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
+		}
+	}, {
+		key: 'pageRender',
+		value: function pageRender() {
+			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+				args[_key3] = arguments[_key3];
+			}
+
+			this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
+		}
+	}, {
+		key: 'hasEvent',
+		value: function hasEvent(event) {
+			var _this2 = this;
+
+			return get_own_property_names_default()(this).some(function (name) {
+				return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
+			});
+		}
+	}, {
+		key: 'emit',
+		value: function emit(event) {
+			var _get2;
+
+			if (!this.hasEvent(event)) {
+				throw new Error('Event "' + event + '" is not registered. Please register an event first.');
+			}
+
+			for (var _len4 = arguments.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+				args[_key4 - 1] = arguments[_key4];
+			}
+
+			(_get2 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'emit', this)).call.apply(_get2, [this, event].concat(args));
+		}
+	}, {
+		key: 'on',
+		value: function on(event) {
+			var _get3;
+
+			if (!this.hasEvent(event)) {
+				throw new Error('You can\'t listen for an event which is not registered yet.');
+			}
+
+			for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+				args[_key5 - 1] = arguments[_key5];
+			}
+
+			(_get3 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'on', this)).call.apply(_get3, [this, event].concat(args));
+		}
+	}, {
+		key: 'addListener',
+		value: function addListener(event) {
+			var _get4;
+
+			if (!this.hasEvent(event)) {
+				throw new Error('You can\'t listen for an event which is not registered yet.');
+			}
+
+			for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+				args[_key6 - 1] = arguments[_key6];
+			}
+
+			(_get4 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'addListener', this)).call.apply(_get4, [this, event].concat(args));
+		}
+	}, {
+		key: 'once',
+		value: function once(event) {
+			var _get5;
+
+			if (!this.hasEvent(event)) {
+				throw new Error('You can\'t listen for an event which is not registered yet.');
+			}
+
+			for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+				args[_key7 - 1] = arguments[_key7];
+			}
+
+			(_get5 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'once', this)).call.apply(_get5, [this, event].concat(args));
+		}
+	}, {
+		key: 'registerEvent',
+		value: function registerEvent(name) {
+			if (typeof name !== 'string') {
+				throw new Error('Event name must be a string.');
+			}
+
+			if (this[name] !== undefined) {
+				throw new Error('Event or property "' + name + '" already exists.');
+			}
+
+			this[name] = symbol_default()(name);
+
+			return this[name];
+		}
+	}, {
+		key: 'getRegisteredEventNames',
+		value: function getRegisteredEventNames() {
+			var _this3 = this;
+
+			return get_own_property_names_default()(this).filter(function (name) {
+				return typeof_default()(_this3[name]) === 'symbol';
+			});
+		}
+	}]);
+
+	return EventService;
+}(external_eventemitter3_default.a);
+
+var events = new events_EventService();
 // CONCATENATED MODULE: ./src/services/btf-blocker-service.js
+
 
 
 
@@ -964,29 +1151,19 @@ function disableBtf() {
 	});
 }
 
-function finishQueue() {
-	this.atfEnded = true;
-
-	if (window.ads.runtime.disableBtf) {
-		disableBtf.bind(this)();
-	}
-
-	this.slotsQueue.start();
-}
-
 var btf_blocker_service_BtfBlockerService = function () {
 	function BtfBlockerService() {
 		classCallCheck_default()(this, BtfBlockerService);
 
-		this.slotsQueue = [];
-		this.atfEnded = false;
-		this.unblockedSlots = [];
+		this.resetState();
 	}
 
 	createClass_default()(BtfBlockerService, [{
-		key: 'init',
-		value: function init() {
-			var _this2 = this;
+		key: 'resetState',
+		value: function resetState() {
+			this.slotsQueue = [];
+			this.atfEnded = false;
+			this.unblockedSlots = [];
 
 			makeLazyQueue(this.slotsQueue, function (_ref) {
 				var adSlot = _ref.adSlot,
@@ -996,14 +1173,37 @@ var btf_blocker_service_BtfBlockerService = function () {
 				fillInCallback(adSlot);
 			});
 
+			if (window.ads && window.ads.runtime) {
+				window.ads.runtime.disableBtf = false;
+			}
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			var _this2 = this;
+
 			context.push('listeners.slot', {
 				onRenderEnded: function onRenderEnded(adSlot) {
 					logger(logGroup, adSlot.getId(), 'Slot rendered');
 					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
-						finishQueue.bind(_this2)();
+						_this2.finishAboveTheFold();
 					}
 				}
 			});
+			events.on(events.PAGE_CHANGE_EVENT, function () {
+				_this2.resetState();
+			});
+		}
+	}, {
+		key: 'finishAboveTheFold',
+		value: function finishAboveTheFold() {
+			this.atfEnded = true;
+
+			if (window.ads.runtime.disableBtf) {
+				disableBtf.call(this);
+			}
+
+			this.slotsQueue.start();
 		}
 	}, {
 		key: 'push',
@@ -1112,94 +1312,6 @@ function registerCustomAdLoader(methodName) {
 		templateService.init(params.type, slot, params);
 	};
 }
-// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(10);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(13);
-var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(9);
-var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(12);
-var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
-// EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(11);
-var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
-
-// CONCATENATED MODULE: ./src/services/events.js
-
-
-
-
-
-
-
-
-var events_EventService = function (_EventEmitter) {
-	inherits_default()(EventService, _EventEmitter);
-
-	function EventService() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		classCallCheck_default()(this, EventService);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.PAGE_CHANGE_EVENT = symbol_default()('pageChange'), _this.LOAD_EVENT = symbol_default()('load'), _this.MENU_OPEN_EVENT = symbol_default()('menuOpen'), _this.AFTER_PAGE_WITH_ADS_RENDER_EVENT = symbol_default()('afterPageWithAdsRender'), _temp), possibleConstructorReturn_default()(_this, _ret);
-	}
-
-	createClass_default()(EventService, [{
-		key: 'pageChange',
-		value: function pageChange() {
-			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-				args[_key2] = arguments[_key2];
-			}
-
-			this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
-		}
-	}, {
-		key: 'afterPageWithAdsRender',
-		value: function afterPageWithAdsRender() {
-			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-				args[_key3] = arguments[_key3];
-			}
-
-			this.emit.apply(this, [this.AFTER_PAGE_WITH_ADS_RENDER_EVENT].concat(args));
-		}
-	}, {
-		key: 'menuOpen',
-		value: function menuOpen() {
-			for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-				args[_key4] = arguments[_key4];
-			}
-
-			this.emit.apply(this, [this.MENU_OPEN_EVENT].concat(args));
-		}
-	}, {
-		key: 'load',
-		value: function load() {
-			for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-				args[_key5] = arguments[_key5];
-			}
-
-			this.emit.apply(this, [this.LOAD_EVENT].concat(args));
-		}
-	}]);
-
-	return EventService;
-}(external_eventemitter3_default.a);
-
-var events = new events_EventService();
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
 var stringify_ = __webpack_require__(5);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
@@ -1437,11 +1549,11 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(8);
+var get_own_property_descriptor_ = __webpack_require__(9);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(7);
+var external_core_decorators_ = __webpack_require__(8);
 
 // CONCATENATED MODULE: ./src/providers/gpt-size-map.js
 
@@ -3207,12 +3319,24 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 	createClass_default()(GptProvider, [{
 		key: 'init',
 		value: function init() {
+			var _this2 = this;
+
 			if (initialized) {
 				return;
 			}
 
 			setupGptTargeting();
 			configure();
+			events.on(events.PAGE_CHANGE_EVENT, function () {
+				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+				if (!options.doNotDestroyGptSlots) {
+					_this2.destroySlots();
+				}
+			});
+			events.on(events.PAGE_RENDER_EVENT, function () {
+				return _this2.updateCorrelator();
+			});
 			initialized = true;
 		}
 	}, {
@@ -3628,7 +3752,7 @@ function updateInViewport(listener) {
 	}
 }
 
-function addListener(element, callback) {
+function viewport_observer_addListener(element, callback) {
 	var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	var listener = {
@@ -3653,7 +3777,7 @@ function removeListener(listenerId) {
 }
 
 var viewportObserver = {
-	addListener: addListener,
+	addListener: viewport_observer_addListener,
 	removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/utils/index.js
@@ -3669,7 +3793,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/map"
-var map_ = __webpack_require__(15);
+var map_ = __webpack_require__(18);
 var map_default = /*#__PURE__*/__webpack_require__.n(map_);
 
 // CONCATENATED MODULE: ./src/templates/floating-ad.js
