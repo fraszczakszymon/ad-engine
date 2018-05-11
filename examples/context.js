@@ -28,6 +28,10 @@ export default {
 		},
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
+		},
+		trackingOptOut: false,
+		trackingOptOutBlacklist: {
+			gpt: true
 		}
 	},
 	listeners: {

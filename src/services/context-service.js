@@ -17,6 +17,10 @@ const contextObject = {
 					partnerCode: 'wikiaimajsint377461931603',
 					sampling: 1
 				}
+			},
+			trackingOptOut: false,
+			trackingOptOutBlacklist: {
+				gpt: true
 			}
 		},
 		slots: {},

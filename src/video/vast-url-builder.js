@@ -1,8 +1,9 @@
-import { context, slotService } from '../services';
+import { context, slotService, trackingOptOut } from '../services';
 
 const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
-	correlator = Math.round(Math.random() * 10000000000);
+	correlator = Math.round(Math.random() * 10000000000),
+	optOutName = 'gpt';
 
 function getCustomParameters(slot, extraTargeting = {}) {
 	const params = Object.assign({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
@@ -52,6 +53,8 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	if (options.numberOfAds !== undefined) {
 		params.push(`pmad=${options.numberOfAds}`);
 	}
+
+	params.push(`npa=${trackingOptOut.isOptedOut(optOutName) ? 1 : 0}`);
 
 	return baseUrl + params.join('&');
 }

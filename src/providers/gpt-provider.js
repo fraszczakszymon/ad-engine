@@ -3,9 +3,11 @@ import { logger, defer } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { slotService, slotDataParamsUpdater, events } from '../services';
+import { events, slotService, slotDataParamsUpdater, trackingOptOut } from '../services';
 
 const logGroup = 'gpt-provider';
+const optOutName = 'gpt';
+
 export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) {
 	return window.googletag.cmd.push(() => method.apply(this, args));
 };
@@ -52,6 +54,7 @@ export class GptProvider {
 
 		setupGptTargeting();
 		configure();
+		this.setupNonPersonalizedAds();
 		events.on(events.PAGE_CHANGE_EVENT, (options = {}) => {
 			if (!options.doNotDestroyGptSlots) {
 				this.destroySlots();
@@ -59,6 +62,12 @@ export class GptProvider {
 		});
 		events.on(events.PAGE_RENDER_EVENT, () => this.updateCorrelator());
 		initialized = true;
+	}
+
+	setupNonPersonalizedAds() {
+		const tag = window.googletag.pubads();
+
+		tag.setRequestNonPersonalizedAds(trackingOptOut.isOptedOut(optOutName) ? 1 : 0);
 	}
 
 	@decorate(gptLazyMethod)
