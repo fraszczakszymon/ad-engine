@@ -725,6 +725,10 @@ var contextObject = {
 				partnerCode: 'wikiaimajsint377461931603',
 				sampling: 1
 			}
+		},
+		trackingOptOut: false,
+		trackingOptOutBlacklist: {
+			gpt: true
 		}
 	},
 	slots: {},
@@ -1994,7 +1998,8 @@ var vastDebugger = new vast_debugger_VastDebugger();
 
 var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
     baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
-    correlator = Math.round(Math.random() * 10000000000);
+    correlator = Math.round(Math.random() * 10000000000),
+    optOutName = 'gpt';
 
 function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -2037,6 +2042,8 @@ function buildVastUrl(aspectRatio, slotName) {
 	if (options.numberOfAds !== undefined) {
 		params.push('pmad=' + options.numberOfAds);
 	}
+
+	params.push('npa=' + (trackingOptOut.isOptedOut(optOutName) ? 1 : 0));
 
 	return baseUrl + params.join('&');
 }
@@ -3263,6 +3270,8 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 
 var gpt_provider_logGroup = 'gpt-provider';
+var gpt_provider_optOutName = 'gpt';
+
 var gptLazyMethod = function gptLazyMethod(method) {
 	return function decoratedGptLazyMethod() {
 		var _this = this;
@@ -3326,6 +3335,7 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 
 			setupGptTargeting();
 			configure();
+			this.setupNonPersonalizedAds();
 			events.on(events.PAGE_CHANGE_EVENT, function () {
 				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -3337,6 +3347,13 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 				return _this2.updateCorrelator();
 			});
 			initialized = true;
+		}
+	}, {
+		key: 'setupNonPersonalizedAds',
+		value: function setupNonPersonalizedAds() {
+			var tag = window.googletag.pubads();
+
+			tag.setRequestNonPersonalizedAds(trackingOptOut.isOptedOut(gpt_provider_optOutName) ? 1 : 0);
 		}
 	}, {
 		key: 'fillIn',
@@ -3640,7 +3657,31 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 }();
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
+// CONCATENATED MODULE: ./src/services/tracking-opt-out.js
+
+
+
+var isOptOutByQueryParam = !!parseInt(query_string_queryString.get('trackingoptout') || '', 10);
+
+function isOptOutEnabled() {
+	return isOptOutByQueryParam || context.get('options.trackingOptOut');
+}
+
+function isBlacklisted(featureName) {
+	var blacklist = context.get('options.trackingOptOutBlacklist') || {};
+
+	return blacklist[featureName];
+}
+
+function isOptedOut(tracking) {
+	return isOptOutEnabled() && isBlacklisted(tracking);
+}
+
+var trackingOptOut = {
+	isOptedOut: isOptedOut
+};
 // CONCATENATED MODULE: ./src/services/index.js
+
 
 
 
@@ -4017,6 +4058,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotService", function() { return slotService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotTweaker", function() { return slotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "templateService", function() { return templateService; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "trackingOptOut", function() { return trackingOptOut; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "vastDebugger", function() { return vastDebugger; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "vastParser", function() { return vastParser; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "buildVastUrl", function() { return buildVastUrl; });
@@ -4037,7 +4079,7 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v10.2.2');
+set_default()(window, versionField, 'v10.3.0');
 
 
 
