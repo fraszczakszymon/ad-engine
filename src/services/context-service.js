@@ -18,10 +18,7 @@ const contextObject = {
 					sampling: 1
 				}
 			},
-			trackingOptOut: false,
-			trackingOptOutBlacklist: {
-				gpt: true
-			}
+			trackingOptIn: false
 		},
 		slots: {},
 		src: 'gpt',

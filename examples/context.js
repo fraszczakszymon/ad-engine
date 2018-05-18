@@ -29,10 +29,7 @@ export default {
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		},
-		trackingOptOut: false,
-		trackingOptOutBlacklist: {
-			gpt: true
-		}
+		trackingOptIn: false
 	},
 	listeners: {
 		porvata: [
