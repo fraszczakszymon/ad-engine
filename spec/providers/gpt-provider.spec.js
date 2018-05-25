@@ -24,6 +24,8 @@ describe('gpt-provider', () => {
 		window.googletag.cmd.push = (cb) => {
 			cb();
 		};
+
+		context.set('options.trackingOptIn', true);
 	});
 
 	it('initialise and setup gpt provider', () => {
@@ -35,8 +37,8 @@ describe('gpt-provider', () => {
 		expect(pubads.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
 	});
 
-	it('initialise with non personalized ads when tracking opt out is enabled', () => {
-		context.set('options.trackingOptOut', true);
+	it('initialise with non personalized ads when tracking in is disabled', () => {
+		context.set('options.trackingOptIn', false);
 
 		provider = new GptProvider();
 		provider.setupNonPersonalizedAds();

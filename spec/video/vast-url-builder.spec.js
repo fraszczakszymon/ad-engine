@@ -24,10 +24,7 @@ describe('vast-url-builder', () => {
 				wsi: 'xxxx'
 			},
 			options: {
-				trackingOptOut: false,
-				trackingOptOutBlacklist: {
-					gpt: true
-				}
+				trackingOptIn: false
 			}
 		});
 		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
@@ -179,7 +176,9 @@ describe('vast-url-builder', () => {
 		expect(vastUrl.match(custParams)).to.not.be.ok;
 	});
 
-	it('build URL with non personalized ads set to false if tracking opt out is disabled', () => {
+	it('build URL with non personalized ads set to false if tracking opt in is enabled', () => {
+		context.set('options.trackingOptIn', true);
+
 		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
 		const custParams = /&npa=0/;
@@ -187,8 +186,8 @@ describe('vast-url-builder', () => {
 		expect(vastUrl.match(custParams)).to.be.ok;
 	});
 
-	it('build URL with non personalized ads set to true if tracking opt out is disabled', () => {
-		context.set('options.trackingOptOut', true);
+	it('build URL with non personalized ads set to true if tracking opt in is disabled', () => {
+		context.set('options.trackingOptIn', false);
 
 		const vastUrl = buildVastUrl(1, 'TOP_LEADERBOARD');
 
