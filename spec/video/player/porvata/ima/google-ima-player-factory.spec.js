@@ -66,7 +66,7 @@ describe('google-ima-player', () => {
 		};
 
 		context.extend(ConfigMock);
-		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		slotService.add(new AdSlot({ id: 'TOP_LEADERBOARD' }));
 	});
 
 	it('request ads on create', () => {

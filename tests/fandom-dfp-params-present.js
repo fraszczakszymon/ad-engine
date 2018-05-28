@@ -39,7 +39,7 @@ casper.test.begin('Test ad slot attributes', 1, function(test) {
 
 		casper.waitForResource(
 			'https://tpc.googlesyndication.com/pagead/imgad?id=CICAgKDL0suR1gEQARgBMggtHRiVJ9zWuA', function() {
-				var topLeaderboard = this.getElementInfo('div[id="gpt-top-leaderboard"]');
+				var topLeaderboard = this.getElementInfo('#TOP_LEADERBOARD');
 
 				testCases.forEach(function(testCase) {
 					var actual = topLeaderboard.attributes[testCase.attr];

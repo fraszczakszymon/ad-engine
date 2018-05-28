@@ -3,11 +3,8 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-incontent-boxad-desktop',
-				'gpt-incontent-boxad-mobile',
-				'gpt-bottom-leaderboard',
-				'gpt-bottom-leaderboard-desktop',
-				'gpt-bottom-leaderboard-mobile'
+				'INCONTENT_BOXAD',
+				'BOTTOM_LEADERBOARD'
 			],
 			threshold: 100
 		}

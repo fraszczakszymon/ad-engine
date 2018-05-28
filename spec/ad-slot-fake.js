@@ -1,10 +1,6 @@
 let offsetTop = 1000;
 
 export default {
-	getId() {
-		return 'gpt-fake-ad';
-	},
-
 	getSlotName() {
 		return 'FAKE_AD';
 	},

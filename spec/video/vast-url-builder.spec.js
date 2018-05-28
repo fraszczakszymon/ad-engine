@@ -27,7 +27,7 @@ describe('vast-url-builder', () => {
 				trackingOptIn: false
 			}
 		});
-		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		slotService.add(new AdSlot({ id: 'TOP_LEADERBOARD' }));
 	});
 
 	it('build URL with DFP domain', () => {

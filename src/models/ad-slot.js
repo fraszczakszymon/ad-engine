@@ -11,22 +11,13 @@ export class AdSlot extends EventEmitter {
 	constructor(ad) {
 		super();
 
-		const segments = ad.id.split('-');
-		const [, location, type] = segments;
-
-		if (segments.length < 3) {
-			throw new Error(`Invalid GPT id passed to parseId (${ad.id}).`);
-		}
-
-		this.id = ad.id;
-		this.location = location;
-		this.type = type;
-		this.config = context.get(`slots.${this.location}-${this.type}`) || {};
+		this.config = context.get(`slots.${ad.id}`) || {};
 		this.enabled = !this.config.disabled;
 		this.viewed = false;
 		this.element = null;
 		this.status = null;
 
+		this.config.slotName = this.config.slotName || ad.id;
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
@@ -34,10 +25,6 @@ export class AdSlot extends EventEmitter {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
 		});
-	}
-
-	getId() {
-		return this.id;
 	}
 
 	getAdUnit() {
@@ -61,7 +48,7 @@ export class AdSlot extends EventEmitter {
 
 	getElement() {
 		if (!this.element) {
-			this.element = document.getElementById(this.id);
+			this.element = document.getElementById(this.getSlotName());
 		}
 
 		return this.element;
@@ -124,7 +111,7 @@ export class AdSlot extends EventEmitter {
 	}
 
 	setConfigProperty(key, value) {
-		context.set(`slots.${this.location}-${this.type}.${key}`, value);
+		context.set(`slots.${this.config.slotName}.${key}`, value);
 	}
 
 	success(status = 'success') {

@@ -31,7 +31,7 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 			`description_url=${encodeURIComponent(window.location.href)}`,
 			`correlator=${correlator}`
 		],
-		slot = slotService.getBySlotName(slotName);
+		slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push(`iu=${slot.getVideoAdUnit()}`);

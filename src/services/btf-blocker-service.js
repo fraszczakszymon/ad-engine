@@ -28,7 +28,7 @@ class BtfBlockerService {
 		this.unblockedSlots = [];
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
-			logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
+			logger(logGroup, adSlot.getSlotName(), 'Filling delayed BTF slot');
 			fillInCallback(adSlot);
 		});
 
@@ -40,7 +40,7 @@ class BtfBlockerService {
 	init() {
 		context.push('listeners.slot', {
 			onRenderEnded: (adSlot) => {
-				logger(logGroup, adSlot.getId(), 'Slot rendered');
+				logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
 				if (!this.atfEnded && adSlot.isAboveTheFold()) {
 					this.finishAboveTheFold();
 				}
@@ -68,17 +68,17 @@ class BtfBlockerService {
 			}
 
 			if (!adSlot.isEnabled()) {
-				logger(logGroup, adSlot.getId(), 'Slot blocked', adSlot.getStatus());
+				logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
 				return;
 			}
 
-			logger(logGroup, adSlot.getId(), 'Filling in slot');
+			logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
 			fillInCallback(adSlot);
 		}
 
 		if (!this.atfEnded && !adSlot.isAboveTheFold()) {
 			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
-			logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
+			logger(logGroup, adSlot.getSlotName(), 'BTF slot pushed to queue');
 			return;
 		}
 

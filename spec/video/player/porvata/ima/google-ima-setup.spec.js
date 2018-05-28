@@ -17,7 +17,7 @@ describe('google-ima-setup', () => {
 			}
 		};
 		context.extend(ConfigMock);
-		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		slotService.add(new AdSlot({ id: 'TOP_LEADERBOARD' }));
 	});
 
 	it('create request', () => {

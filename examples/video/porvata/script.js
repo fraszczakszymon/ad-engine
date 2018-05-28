@@ -36,7 +36,7 @@ context.set('targeting.wpage', '100% Orange Juice');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 
-slotService.add(new AdSlot({ id: 'gpt-top-video' }));
+slotService.add(new AdSlot({ id: 'OUTSTREAM' }));
 
 scrollListener.init();
 Porvata.inject(params)

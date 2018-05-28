@@ -26,7 +26,7 @@ Context.extend({
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-bottom-leaderboard'
+				'BOTTOM_LEADERBOARD'
 			],
 			threshold: 100
 		}
@@ -96,7 +96,7 @@ Context.extend({
 				loc: 'bottom'
 			},
 			viewportConflicts: [
-				'gpt-top-leaderboard'
+				'TOP_LEADERBOARD'
 			]
 		}
 	}
@@ -138,10 +138,10 @@ new AdEngine().init();
 Request immediately:
 
 ```html
-<div id="gpt-top-leaderboard">
+<div id="TOP_LEADERBOARD">
 	<script>
 		window.adsQueue.push({
-			id: 'gpt-top-leaderboard'
+			id: 'TOP_LEADERBOARD'
 		});
 	</script>
 </div>
@@ -150,7 +150,7 @@ Request immediately:
 or prepare on scroll container (check above context configuration):
 
 ```html
-<div id="gpt-bottom-leaderboard"></div>
+<div id="BOTTOM_LEADERBOARD"></div>
 ```
 
 ### Debug mode

@@ -16,7 +16,7 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	const adSlot = slotService.getBySlotName(params.slotName),
+	const adSlot = slotService.get(params.slotName),
 		adsRequest = new window.google.ima.AdsRequest(),
 		overriddenVast = getOverriddenVast();
 

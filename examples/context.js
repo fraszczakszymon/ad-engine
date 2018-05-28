@@ -4,8 +4,8 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-incontent-boxad',
-				'gpt-bottom-leaderboard'
+				'INCONTENT_BOXAD',
+				'BOTTOM_LEADERBOARD'
 			],
 			threshold: 100
 		}
@@ -42,18 +42,17 @@ export default {
 		slot: [
 			{
 				onRenderEnded(adSlot) {
-					console.log('💸 Custom listener: onRenderEnded', adSlot.getId());
+					console.log('💸 Custom listener: onRenderEnded', adSlot.getSlotName());
 				},
 				onImpressionViewable(adSlot) {
-					console.log('👁 Custom listener: onImpressionViewable', adSlot.getId());
+					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
 				}
 			}
 		]
 	},
 	networkId: '5441',
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		TOP_LEADERBOARD: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -66,8 +65,7 @@ export default {
 				loc: 'top'
 			}
 		},
-		'top-boxad': {
-			slotName: 'TOP_BOXAD',
+		TOP_BOXAD: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -82,8 +80,7 @@ export default {
 				}
 			}
 		},
-		'incontent-boxad': {
-			slotName: 'INCONTENT_BOXAD',
+		INCONTENT_BOXAD: {
 			sizes: [
 				{
 					viewportSize: [768, 0],
@@ -96,8 +93,7 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		'bottom-leaderboard': {
-			slotName: 'BOTTOM_LEADERBOARD',
+		BOTTOM_LEADERBOARD: {
 			sizes: [
 				{
 					viewportSize: [728, 0],
@@ -109,13 +105,12 @@ export default {
 				loc: 'footer'
 			},
 			viewportConflicts: [
-				'gpt-top-boxad'
+				'TOP_BOXAD'
 			]
 		},
-		'top-video': {
+		OUTSTREAM: {
 			lowerSlotName: 'outstream',
 			slotGroup: 'VIDEO',
-			slotName: 'OUTSTREAM',
 			targeting: {},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
 			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'

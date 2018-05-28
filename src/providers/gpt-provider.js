@@ -74,7 +74,7 @@ export class GptProvider {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
 
-		const gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId())
+		const gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
 			.addService(window.googletag.pubads())
 			.setCollapseEmptyDiv(true)
 			.defineSizeMapping(sizeMap.build());
@@ -82,14 +82,14 @@ export class GptProvider {
 		this.applyTargetingParams(gptSlot, targeting);
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
-		window.googletag.display(adSlot.getId());
+		window.googletag.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);
 
 		if (!adSlot.isAboveTheFold()) {
 			this.flush();
 		}
 
-		logger(logGroup, adSlot.getId(), 'slot added');
+		logger(logGroup, adSlot.getSlotName(), 'slot added');
 	}
 
 	applyTargetingParams(gptSlot, targeting) {

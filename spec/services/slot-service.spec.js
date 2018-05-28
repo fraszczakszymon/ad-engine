@@ -34,16 +34,10 @@ describe('slot-service', () => {
 		adSlot.hasDefinedViewportConflicts = () => true;
 	});
 
-	it('getter by id', () => {
+	it('getter', () => {
 		slotService.add(adSlot);
 
-		expect(adSlot).to.equal(slotService.get('gpt-fake-ad'));
-	});
-
-	it('getter by slot name', () => {
-		slotService.add(adSlot);
-
-		expect(adSlot).to.equal(slotService.getBySlotName('FAKE_AD'));
+		expect(adSlot).to.equal(slotService.get('FAKE_AD'));
 	});
 
 	it('foreach iterator', () => {
