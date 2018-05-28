@@ -12,9 +12,7 @@ describe('vast-url-builder', () => {
 				adUnitId: '/5441/wka.fandom/{src}/{slotConfig.slotName}'
 			},
 			slots: {
-				'top-leaderboard': {
-					slotName: 'TOP_LEADERBOARD'
-				}
+				TOP_LEADERBOARD: {}
 			},
 			targeting: {
 				uno: 'foo',

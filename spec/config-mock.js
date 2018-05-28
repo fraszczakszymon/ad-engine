@@ -10,8 +10,7 @@ export default {
 		}
 	},
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		TOP_LEADERBOARD: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -44,9 +43,8 @@ export default {
 				loc: 'top'
 			}
 		},
-		'bottom-leaderboard': {
+		BOTTOM_LEADERBOARD: {
 			disabled: true,
-			slotName: 'BOTTOM_LEADERBOARD',
 			sizes: [
 				{
 					viewportSize: [1024, 300],
@@ -66,7 +64,7 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		'top-boxad': {
+		TOP_BOXAD: {
 			slotName: 'TOP_BOXAD',
 			aboveTheFold: true,
 			sizes: [
@@ -84,9 +82,8 @@ export default {
 				loc: 'top'
 			}
 		},
-		'incontent-boxad': {
+		INCONTENT_BOXAD: {
 			disabled: true,
-			slotName: 'INCONTENT_BOXAD',
 			sizes: [
 				{
 					viewportSize: [0, 0],
@@ -103,8 +100,7 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		'bottom-boxad': {
-			slotName: 'BOTTOM_BOXAD',
+		BOTTOM_BOXAD: {
 			sizes: [
 				{
 					viewportSize: [0, 0],
@@ -120,8 +116,7 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		'top-skin': {
-			slotName: 'INVISIBLE_SKIN',
+		INVISIBLE_SKIN: {
 			aboveTheFold: true,
 			sizes: [
 				{

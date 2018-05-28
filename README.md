@@ -56,8 +56,7 @@ Context.extend({
 		}
 	},
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		TOP_LEADERBOARD: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -78,9 +77,8 @@ Context.extend({
 				loc: 'top'
 			}
 		},
-		'bottom-leaderboard': {
+		BOTTOM_LEADERBOARD: {
 			disabled: true,
-			slotName: 'BOTTOM_LEADERBOARD',
 			sizes: [
 				{
 					viewportSize: [728, 100],
