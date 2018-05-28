@@ -29,6 +29,7 @@ export default {
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		},
+		slotRepeater: true,
 		trackingOptIn: false
 	},
 	listeners: {
@@ -91,6 +92,26 @@ export default {
 			defaultTemplate: 'floating-ad',
 			targeting: {
 				loc: 'hivi'
+			}
+		},
+		REPEATABLE_BOXAD_1: {
+			defaultSizes: [[300, 250]],
+			repeatable: {
+				appendBeforeSelector: '.main p',
+				limit: null,
+				slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+				targetingKey: 'rv'
+			},
+			sizes: [
+				{
+					viewportSize: [768, 0],
+					sizes: [[300, 250], [300, 600]]
+				}
+			],
+			targeting: {
+				loc: 'hivi',
+				pos: 'REPEATABLE_BOXAD',
+				rv: 1
 			}
 		},
 		BOTTOM_LEADERBOARD: {

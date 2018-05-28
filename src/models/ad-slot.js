@@ -101,6 +101,14 @@ export class AdSlot extends EventEmitter {
 		return this.viewed;
 	}
 
+	isRepeatable() {
+		return !!this.config.repeatable;
+	}
+
+	getCopy() {
+		return JSON.parse(JSON.stringify(this.config));
+	}
+
 	enable() {
 		this.enabled = true;
 	}

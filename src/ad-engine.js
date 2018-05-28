@@ -5,6 +5,7 @@ import { GptProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
+	slotRepeater,
 	slotTweaker,
 	slotService,
 	templateService,
@@ -102,11 +103,15 @@ export class AdEngine {
 		this.runAdQueue();
 
 		scrollListener.init();
+		slotRepeater.init();
 
 		if (context.get('events.pushOnScroll')) {
-			context.get('events.pushOnScroll.ids').forEach((id) => {
+			const pushOnScrollQueue = context.get('events.pushOnScroll.ids');
+
+			makeLazyQueue(pushOnScrollQueue, (id) => {
 				scrollListener.addSlot(this.adStack, id, context.get('events.pushOnScroll.threshold'));
 			});
+			pushOnScrollQueue.start();
 		}
 	}
 }
