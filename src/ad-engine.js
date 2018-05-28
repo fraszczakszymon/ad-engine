@@ -18,10 +18,8 @@ const logGroup = 'ad-engine';
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
-	if (adSlot.shouldLoad()) {
-		slotService.add(adSlot);
-		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
-	}
+	slotService.add(adSlot);
+	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 }
 
 function getPromises() {

@@ -22,7 +22,7 @@ export class AdSlot extends EventEmitter {
 		super();
 
 		const segments = ad.id.split('-');
-		const [, location, type, screenSize] = segments;
+		const [, location, type] = segments;
 
 		if (segments.length < 3) {
 			throw new Error(`Invalid GPT id passed to parseId (${ad.id}).`);
@@ -30,7 +30,6 @@ export class AdSlot extends EventEmitter {
 
 		this.id = ad.id;
 		this.location = location;
-		this.screenSize = screenSize || 'both';
 		this.type = type;
 		this.config = context.get(`slots.${this.location}-${this.type}`) || {};
 		this.enabled = !this.config.disabled;
@@ -111,15 +110,6 @@ export class AdSlot extends EventEmitter {
 		if (status !== null) {
 			slotListener.emitStatusChanged(this);
 		}
-	}
-
-	shouldLoad() {
-		const isMobile = context.get('state.isMobile'),
-			shouldLoad = this.screenSize === 'both',
-			shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
-			shouldLoadMobile = isMobile && this.screenSize === 'mobile';
-
-		return shouldLoad || shouldLoadDesktop || shouldLoadMobile;
 	}
 
 	isAboveTheFold() {
