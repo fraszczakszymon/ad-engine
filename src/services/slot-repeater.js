@@ -11,14 +11,15 @@ function findNextSibling(lastSlotElement, config) {
 
 	config.previousSiblingIndex = config.previousSiblingIndex || 0;
 
-	for (let i = config.previousSiblingIndex; i < elements.length; i++) {
-		const elementPosition = getTopOffset(elements[i]);
+	for (; config.previousSiblingIndex < elements.length; config.previousSiblingIndex += 1) {
+		const elementPosition = getTopOffset(elements[config.previousSiblingIndex]);
 
 		if (minimalPosition <= elementPosition) {
-			config.previousSiblingIndex = i;
-			return elements[i];
+			return elements[config.previousSiblingIndex];
 		}
 	}
+
+	return null;
 }
 
 function insertNewSlotPlaceholder(slotName, nextSibling) {
@@ -32,7 +33,6 @@ function insertNewSlotPlaceholder(slotName, nextSibling) {
 
 function repeatSlot(adSlot) {
 	if (context.get('options.slotRepeater') && adSlot.isEnabled() && adSlot.isRepeatable()) {
-
 		const newSlotDefinition = adSlot.getCopy();
 		const config = newSlotDefinition.repeatable;
 
