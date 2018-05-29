@@ -5,9 +5,9 @@ import { stringBuilder } from '../utils/string-builder';
 
 const logGroup = 'slot-repeater';
 
-function findNextSibling(lastSlotElement, config) {
+function findNextSibling(previousSlotElement, config) {
 	const elements = document.querySelectorAll(config.appendBeforeSelector);
-	const minimalPosition = getTopOffset(lastSlotElement) + lastSlotElement.offsetHeight + getViewportHeight();
+	const minimalPosition = getTopOffset(previousSlotElement) + previousSlotElement.offsetHeight + getViewportHeight();
 
 	config.previousSiblingIndex = config.previousSiblingIndex || 0;
 
@@ -22,11 +22,11 @@ function findNextSibling(lastSlotElement, config) {
 	return null;
 }
 
-function insertNewSlotPlaceholder(slotName, nextSibling) {
+function insertNewSlotPlaceholder(previousSlotElement, slotName, nextSibling) {
 	const placeholder = document.createElement('div');
-	placeholder.id = slotName;
 
-	// placeholder.classList.add('repeatable-boxad', 'hide');
+	placeholder.id = slotName;
+	placeholder.className = previousSlotElement.className;
 
 	nextSibling.parentNode.insertBefore(placeholder, nextSibling);
 }
@@ -49,7 +49,7 @@ function repeatSlot(adSlot) {
 		const nextSibling = findNextSibling(adSlot.getElement(), config);
 
 		if (nextSibling) {
-			insertNewSlotPlaceholder(newSlotDefinition.slotName, nextSibling);
+			insertNewSlotPlaceholder(adSlot.getElement(), newSlotDefinition.slotName, nextSibling);
 			context.set(`slots.${newSlotDefinition.slotName}`, newSlotDefinition);
 			context.push('events.pushOnScroll.ids', newSlotDefinition.slotName);
 
