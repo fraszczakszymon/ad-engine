@@ -10,7 +10,6 @@ function findNextSiblingForSlot(previousSlotElement, elements, config) {
 	const minimalPosition = getTopOffset(previousSlotElement) + previousSlotElement.offsetHeight + getViewportHeight();
 
 	config.previousSiblingIndex = config.previousSiblingIndex || 0;
-
 	for (; config.previousSiblingIndex < elements.length; config.previousSiblingIndex += 1) {
 		const elementPosition = getTopOffset(elements[config.previousSiblingIndex]);
 
@@ -55,7 +54,8 @@ function repeatSlot(adSlot) {
 
 	if (config.limit !== null && newSlotDefinition.targeting[config.targetingKey] > config.limit) {
 		logger(logGroup, `Limit reached for ${slotName}`);
-		return;
+
+		return false;
 	}
 
 	const elements = document.querySelectorAll(config.appendBeforeSelector);
@@ -67,24 +67,32 @@ function repeatSlot(adSlot) {
 		context.push('events.pushOnScroll.ids', slotName);
 
 		logger(logGroup, 'Repeat slot', slotName);
-	} else {
-		insertFakePlaceholderAfterLastSelector(slotName, elements, config);
-		slotService.disable(slotName, 'viewport-conflict');
-		context.push('events.pushOnScroll.ids', slotName);
 
-		logger(logGroup, `There is not enough space for ${slotName}`);
+		return true;
 	}
+
+	insertFakePlaceholderAfterLastSelector(slotName, elements, config);
+	slotService.disable(slotName, 'viewport-conflict');
+	context.push('events.pushOnScroll.ids', slotName);
+
+	logger(logGroup, `There is not enough space for ${slotName}`);
+
+	return false;
 }
 
 class SlotRepeater {
 	init() {
-		context.push('listeners.slot', {
-			onRenderEnded: (adSlot) => {
-				if (context.get('options.slotRepeater') && adSlot.isEnabled() && adSlot.isRepeatable()) {
-					repeatSlot(adSlot);
+		if (context.get('options.slotRepeater')) {
+			context.push('listeners.slot', {
+				onRenderEnded: (adSlot) => {
+					if (adSlot.isEnabled() && adSlot.isRepeatable()) {
+						return repeatSlot(adSlot);
+					}
+
+					return false;
 				}
-			}
-		});
+			});
+		}
 	}
 }
 
