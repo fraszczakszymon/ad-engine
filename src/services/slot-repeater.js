@@ -51,7 +51,7 @@ function repeatSlot(adSlot) {
 		slotConfig: newSlotDefinition
 	});
 
-	const slotName = newSlotDefinition.slotName;
+	const { slotName } = newSlotDefinition;
 
 	if (config.limit !== null && newSlotDefinition.targeting[config.targetingKey] > config.limit) {
 		logger(logGroup, `Limit reached for ${slotName}`);
