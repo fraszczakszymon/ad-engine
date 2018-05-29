@@ -22,11 +22,12 @@ function findNextSibling(previousSlotElement, config) {
 	return null;
 }
 
-function insertNewSlotPlaceholder(previousSlotElement, slotName, nextSibling) {
+function insertNewSlotPlaceholder(previousSlotElement, slotName, config, nextSibling) {
 	const placeholder = document.createElement('div');
+	const additionalClasses = config.additionalClasses || '';
 
 	placeholder.id = slotName;
-	placeholder.className = previousSlotElement.className;
+	placeholder.className = `${previousSlotElement.className} ${additionalClasses}`;
 
 	nextSibling.parentNode.insertBefore(placeholder, nextSibling);
 }
@@ -41,22 +42,24 @@ function repeatSlot(adSlot) {
 			slotConfig: newSlotDefinition
 		});
 
+		const slotName = newSlotDefinition.slotName;
+
 		if (config.limit !== null && newSlotDefinition.targeting[config.targetingKey] > config.limit) {
-			logger(logGroup, `Limit reached for ${newSlotDefinition.slotName}`);
+			logger(logGroup, `Limit reached for ${slotName}`);
 			return;
 		}
 
 		const nextSibling = findNextSibling(adSlot.getElement(), config);
 
 		if (nextSibling) {
-			insertNewSlotPlaceholder(adSlot.getElement(), newSlotDefinition.slotName, nextSibling);
-			context.set(`slots.${newSlotDefinition.slotName}`, newSlotDefinition);
-			context.push('events.pushOnScroll.ids', newSlotDefinition.slotName);
+			insertNewSlotPlaceholder(adSlot.getElement(), slotName, config, nextSibling);
+			context.set(`slots.${slotName}`, newSlotDefinition);
+			context.push('events.pushOnScroll.ids', slotName);
 
-			logger(logGroup, 'Repeat slot', newSlotDefinition.slotName);
+			logger(logGroup, 'Repeat slot', slotName);
+		} else {
+			logger(logGroup, `There is not enough space for ${slotName}`);
 		}
-
-		logger(logGroup, `There is not enough space for ${newSlotDefinition.slotName}`);
 	}
 }
 

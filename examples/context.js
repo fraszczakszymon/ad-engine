@@ -97,6 +97,7 @@ export default {
 		REPEATABLE_BOXAD_1: {
 			defaultSizes: [[300, 250]],
 			repeatable: {
+				additionalClasses: 'hide',
 				appendBeforeSelector: '.main p',
 				limit: null,
 				slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
