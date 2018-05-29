@@ -3,6 +3,7 @@ import { getTopOffset, logger } from '../utils';
 const groupName = 'slot-service';
 const slots = {};
 const slotStates = {};
+const slotStatuses = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
 	const element = document.getElementById(elementId);
@@ -29,7 +30,7 @@ class SlotService {
 		slots[slotName] = adSlot;
 
 		if (slotStates[slotName] === false) {
-			adSlot.disable();
+			adSlot.disable(slotStatuses[slotName]);
 		}
 		if (slotStates[slotName] === true) {
 			adSlot.enable();
@@ -42,6 +43,7 @@ class SlotService {
 		adSlot.disable('Marked for remove');
 		delete slots[slotName];
 		delete slotStates[slotName];
+		delete slotStatuses[slotName];
 	}
 
 	get(id) {
@@ -93,6 +95,7 @@ export const slotService = new SlotService();
 function setState(slotName, state, status = null) {
 	const slot = slotService.get(slotName);
 	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
 
 	if (slot) {
 		if (state) {

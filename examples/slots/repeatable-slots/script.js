@@ -1,8 +1,6 @@
 import { AdEngine, btfBlockerService, context, utils } from '@wikia/ad-engine';
 import adContext from '../../context';
 
-new AdEngine(adContext).init();
-
 const contentTemplate = document.querySelector('.content-template').innerHTML;
 const mainContainer = document.getElementById('main-container');
 const limit = utils.queryString.get('limit') || null;
@@ -16,11 +14,19 @@ function loadContent() {
 	mainContainer.appendChild(newContent);
 }
 
+adContext.listeners.slot.push({
+	onStatusChanged: (adSlot) => {
+		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');
+	}
+});
+
 context.set('slots.REPEATABLE_BOXAD_1.repeatable.limit', limit);
 
 for (let i = 0; i < contentLength; i += 1) {
 	loadContent();
 }
+
+new AdEngine(adContext).init();
 
 btfBlockerService.finishAboveTheFold();
 
