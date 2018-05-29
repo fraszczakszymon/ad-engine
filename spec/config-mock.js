@@ -3,14 +3,14 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'INCONTENT_BOXAD',
-				'BOTTOM_LEADERBOARD'
+				'incontent_boxad',
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
 	},
 	slots: {
-		TOP_LEADERBOARD: {
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -43,7 +43,7 @@ export default {
 				loc: 'top'
 			}
 		},
-		BOTTOM_LEADERBOARD: {
+		bottom_leaderboard: {
 			disabled: true,
 			sizes: [
 				{
@@ -64,8 +64,8 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		TOP_BOXAD: {
-			slotName: 'TOP_BOXAD',
+		top_boxad: {
+			slotName: 'top_boxad',
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -82,7 +82,7 @@ export default {
 				loc: 'top'
 			}
 		},
-		INCONTENT_BOXAD: {
+		incontent_boxad: {
 			disabled: true,
 			sizes: [
 				{
@@ -100,7 +100,7 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		BOTTOM_BOXAD: {
+		bottom_boxad: {
 			sizes: [
 				{
 					viewportSize: [0, 0],

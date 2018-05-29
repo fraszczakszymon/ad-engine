@@ -32,7 +32,7 @@ describe('google-ima', () => {
 					querySelector: () => mocks.domElement
 				},
 				height: 100,
-				slotName: 'TOP_LEADERBOARD',
+				slotName: 'top_leaderboard',
 				width: 100
 			},
 			videoSettings: {

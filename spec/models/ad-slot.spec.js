@@ -11,10 +11,10 @@ describe('ad-slot', () => {
 
 	it('base properties', () => {
 		const adSlot = new AdSlot({
-			id: 'TOP_LEADERBOARD'
+			id: 'top_leaderboard'
 		});
 
-		expect(adSlot.getSlotName()).to.equal('TOP_LEADERBOARD');
+		expect(adSlot.getSlotName()).to.equal('top_leaderboard');
 		expect(adSlot.getSizes().length > 0).to.equal(true);
 		expect(adSlot.getDefaultSizes().length > 0).to.equal(true);
 	});
@@ -22,28 +22,28 @@ describe('ad-slot', () => {
 	it('home ad unit', () => {
 		context.set('custom.pageType', 'home');
 		const adSlot = new AdSlot({
-			id: 'TOP_LEADERBOARD'
+			id: 'top_leaderboard'
 		});
 
-		expect(adSlot.getAdUnit()).to.equal('/5441/something/_home/TOP_LEADERBOARD');
+		expect(adSlot.getAdUnit()).to.equal('/5441/something/_home/top_leaderboard');
 	});
 
 	it('vertical ad unit', () => {
 		context.set('custom.pageType', 'vertical');
 		const adSlot = new AdSlot({
-			id: 'TOP_LEADERBOARD'
+			id: 'top_leaderboard'
 		});
 
-		expect(adSlot.getAdUnit()).to.equal('/5441/something/_vertical/TOP_LEADERBOARD');
+		expect(adSlot.getAdUnit()).to.equal('/5441/something/_vertical/top_leaderboard');
 	});
 
 	it('with article ad unit', () => {
 		context.set('custom.pageType', 'article');
 		const adSlot = new AdSlot({
-			id: 'TOP_BOXAD'
+			id: 'top_boxad'
 		});
 
-		expect(adSlot.getAdUnit()).to.equal('/5441/something/_article/TOP_BOXAD');
+		expect(adSlot.getAdUnit()).to.equal('/5441/something/_article/top_boxad');
 	});
 
 	it('with other ad unit', () => {

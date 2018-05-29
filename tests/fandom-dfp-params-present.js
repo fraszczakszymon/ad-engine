@@ -29,7 +29,7 @@ casper.test.begin('Test ad slot attributes', 1, function(test) {
 			},
 			{
 				attr: 'data-gpt-slot-params',
-				expectedString: '{"loc":"top","src":"test","pos":"TOP_LEADERBOARD"}'
+				expectedString: '{"loc":"top","src":"test","pos":"top_leaderboard"}'
 			},
 			{
 				attr: 'data-slot-result',
@@ -39,7 +39,7 @@ casper.test.begin('Test ad slot attributes', 1, function(test) {
 
 		casper.waitForResource(
 			'https://tpc.googlesyndication.com/pagead/imgad?id=CICAgKDL0suR1gEQARgBMggtHRiVJ9zWuA', function() {
-				var topLeaderboard = this.getElementInfo('#TOP_LEADERBOARD');
+				var topLeaderboard = this.getElementInfo('#top_leaderboard');
 
 				testCases.forEach(function(testCase) {
 					var actual = topLeaderboard.attributes[testCase.attr];

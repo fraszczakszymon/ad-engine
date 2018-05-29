@@ -17,14 +17,14 @@ describe('google-ima-setup', () => {
 			}
 		};
 		context.extend(ConfigMock);
-		slotService.add(new AdSlot({ id: 'TOP_LEADERBOARD' }));
+		slotService.add(new AdSlot({ id: 'top_leaderboard' }));
 	});
 
 	it('create request', () => {
 		const request = googleImaSetup.createRequest({
 			vastUrl: '/foo/bar',
 			height: 25,
-			slotName: 'TOP_LEADERBOARD',
+			slotName: 'top_leaderboard',
 			width: 50
 		});
 

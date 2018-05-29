@@ -20,7 +20,7 @@ adContext.listeners.slot.push({
 	}
 });
 
-context.set('slots.REPEATABLE_BOXAD_1.repeatable.limit', limit);
+context.set('slots.repeatable_boxad_1.repeatable.limit', limit);
 
 for (let i = 0; i < contentLength; i += 1) {
 	loadContent();
@@ -31,5 +31,5 @@ new AdEngine(adContext).init();
 btfBlockerService.finishAboveTheFold();
 
 window.adsQueue.push({
-	id: 'REPEATABLE_BOXAD_1'
+	id: 'repeatable_boxad_1'
 });

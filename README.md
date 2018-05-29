@@ -26,7 +26,7 @@ Context.extend({
 	events: {
 		pushOnScroll: {
 			ids: [
-				'BOTTOM_LEADERBOARD'
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
@@ -56,7 +56,7 @@ Context.extend({
 		}
 	},
 	slots: {
-		TOP_LEADERBOARD: {
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -77,13 +77,13 @@ Context.extend({
 				loc: 'top'
 			}
 		},
-		INCONTENT_BOXAD_1: {
+		incontent_boxad_1: {
 			defaultSizes: [[300, 250]],
 			repeatable: {
 				additionalClasses: 'hide',
 				appendBeforeSelector: '.main p',
 				limit: null,
-				slotNamePattern: 'INCONTENT_BOXAD_{slotConfig.targeting.rv}',
+				slotNamePattern: 'incontent_boxad_{slotConfig.targeting.rv}',
 				targetingKey: 'rv'
 			},
 			sizes: [
@@ -94,11 +94,11 @@ Context.extend({
 			],
 			targeting: {
 				loc: 'hivi',
-				pos: 'INCONTENT_BOXAD',
+				pos: 'incontent_boxad',
 				rv: 1
 			}
 		},
-		BOTTOM_LEADERBOARD: {
+		bottom_leaderboard: {
 			disabled: true,
 			sizes: [
 				{
@@ -115,7 +115,7 @@ Context.extend({
 				loc: 'bottom'
 			},
 			viewportConflicts: [
-				'TOP_LEADERBOARD'
+				'top_leaderboard'
 			]
 		}
 	}
@@ -157,10 +157,10 @@ new AdEngine().init();
 Request immediately:
 
 ```html
-<div id="TOP_LEADERBOARD">
+<div id="top_leaderboard">
 	<script>
 		window.adsQueue.push({
-			id: 'TOP_LEADERBOARD'
+			id: 'top_leaderboard'
 		});
 	</script>
 </div>
@@ -169,7 +169,7 @@ Request immediately:
 or prepare on scroll container (check above context configuration):
 
 ```html
-<div id="BOTTOM_LEADERBOARD"></div>
+<div id="bottom_leaderboard"></div>
 ```
 
 ### Debug mode

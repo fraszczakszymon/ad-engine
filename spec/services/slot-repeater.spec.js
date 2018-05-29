@@ -90,12 +90,12 @@ describe('slot-repeater', () => {
 			additionalClasses: 'hide',
 			appendBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
 			targetingKey: 'rv'
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
-		expect(context.get('events.pushOnScroll.ids.0')).to.equal('REPEATABLE_BOXAD_2');
+		expect(context.get('events.pushOnScroll.ids.0')).to.equal('repeatable_boxad_2');
 	});
 
 	it('ad-slot is not repeated when it is configured as repeatable but limit is reached', () => {
@@ -107,7 +107,7 @@ describe('slot-repeater', () => {
 		adSlot.config.repeatable = {
 			appendBeforeSelector: '.foo bar',
 			limit: 1,
-			slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
 			targetingKey: 'rv'
 		};
 
@@ -124,13 +124,13 @@ describe('slot-repeater', () => {
 		adSlot.config.repeatable = {
 			appendBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
 			targetingKey: 'rv'
 		};
 		sibling.offsetTop = 300;
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.false;
-		expect(context.get('events.pushOnScroll.ids.0')).to.equal('REPEATABLE_BOXAD_2');
+		expect(context.get('events.pushOnScroll.ids.0')).to.equal('repeatable_boxad_2');
 	});
 
 	it('ad-slot is repeated when it is configured as repeatable and sibling is far away', () => {
@@ -142,11 +142,11 @@ describe('slot-repeater', () => {
 		adSlot.config.repeatable = {
 			appendBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
 			targetingKey: 'rv'
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
-		expect(context.get('events.pushOnScroll.ids.0')).to.equal('REPEATABLE_BOXAD_2');
+		expect(context.get('events.pushOnScroll.ids.0')).to.equal('repeatable_boxad_2');
 	});
 });

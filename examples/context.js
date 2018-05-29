@@ -4,8 +4,8 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'INCONTENT_BOXAD',
-				'BOTTOM_LEADERBOARD'
+				'incontent_boxad',
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
@@ -53,7 +53,7 @@ export default {
 	},
 	networkId: '5441',
 	slots: {
-		TOP_LEADERBOARD: {
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -66,7 +66,7 @@ export default {
 				loc: 'top'
 			}
 		},
-		TOP_BOXAD: {
+		top_boxad: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -81,7 +81,7 @@ export default {
 				}
 			}
 		},
-		INCONTENT_BOXAD: {
+		incontent_boxad: {
 			sizes: [
 				{
 					viewportSize: [768, 0],
@@ -94,13 +94,13 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		REPEATABLE_BOXAD_1: {
+		repeatable_boxad_1: {
 			defaultSizes: [[300, 250]],
 			repeatable: {
 				additionalClasses: 'hide',
 				appendBeforeSelector: '.main p',
 				limit: null,
-				slotNamePattern: 'REPEATABLE_BOXAD_{slotConfig.targeting.rv}',
+				slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
 				targetingKey: 'rv'
 			},
 			sizes: [
@@ -111,11 +111,11 @@ export default {
 			],
 			targeting: {
 				loc: 'hivi',
-				pos: 'REPEATABLE_BOXAD',
+				pos: 'repeatable_boxad',
 				rv: 1
 			}
 		},
-		BOTTOM_LEADERBOARD: {
+		bottom_leaderboard: {
 			sizes: [
 				{
 					viewportSize: [728, 0],
@@ -127,10 +127,10 @@ export default {
 				loc: 'footer'
 			},
 			viewportConflicts: [
-				'TOP_BOXAD'
+				'top_boxad'
 			]
 		},
-		OUTSTREAM: {
+		outstream: {
 			lowerSlotName: 'outstream',
 			slotGroup: 'VIDEO',
 			targeting: {},
