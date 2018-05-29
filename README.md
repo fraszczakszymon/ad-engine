@@ -77,6 +77,27 @@ Context.extend({
 				loc: 'top'
 			}
 		},
+		INCONTENT_BOXAD_1: {
+			defaultSizes: [[300, 250]],
+			repeatable: {
+				additionalClasses: 'hide',
+				appendBeforeSelector: '.main p',
+				limit: null,
+				slotNamePattern: 'INCONTENT_BOXAD_{slotConfig.targeting.rv}',
+				targetingKey: 'rv'
+			},
+			sizes: [
+				{
+					viewportSize: [768, 0],
+					sizes: [[300, 250], [300, 600]]
+				}
+			],
+			targeting: {
+				loc: 'hivi',
+				pos: 'INCONTENT_BOXAD',
+				rv: 1
+			}
+		},
 		BOTTOM_LEADERBOARD: {
 			disabled: true,
 			sizes: [
