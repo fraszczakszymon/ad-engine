@@ -116,7 +116,7 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		INVISIBLE_SKIN: {
+		invisible_skin: {
 			aboveTheFold: true,
 			sizes: [
 				{
