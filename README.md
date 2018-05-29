@@ -183,8 +183,11 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 * [AdBlock detect](examples/utils/block-detect)
 * [Floating ad template](examples/templates/floating-ad)
 * [Slot animations](examples/slots/animations)
+* [Block BTF](examples/slots/block-btf)
+* [BTF only (skip ATF slots)](examples/slots/btf-only)
 * [AdEngine start delay](examples/slots/delay)
 * [Ad empty response](examples/slots/empty-response)
+* [Repeatable slots](examples/slots/repeatable-slots)
 * [Viewport conflicts](examples/slots/viewport-conflicts)
 * [Porvata video player](examples/video/porvata)
 
