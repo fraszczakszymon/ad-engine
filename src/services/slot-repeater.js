@@ -52,9 +52,9 @@ function repeatSlot(adSlot) {
 	const config = newSlotDefinition.repeatable;
 
 	config.index += 1;
-	newSlotDefinition.slotName = buildString(config.slotNamePattern, newSlotDefinition);
 
-	const { slotName } = newSlotDefinition;
+	const slotName = buildString(config.slotNamePattern, newSlotDefinition);
+	newSlotDefinition.slotName = slotName;
 
 	if (config.limit !== null && config.index > config.limit) {
 		logger(logGroup, `Limit reached for ${slotName}`);
