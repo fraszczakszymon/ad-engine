@@ -20,7 +20,7 @@ adContext.listeners.slot.push({
 	}
 });
 
-context.set('slots.repeatable_boxad_1.repeatable.limit', limit);
+context.set('slots.repeatable_boxad_1.repeat.limit', limit);
 
 for (let i = 0; i < contentLength; i += 1) {
 	loadContent();

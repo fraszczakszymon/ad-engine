@@ -49,28 +49,28 @@ function buildString(pattern, definition) {
 
 function repeatSlot(adSlot) {
 	const newSlotDefinition = adSlot.getCopy();
-	const config = newSlotDefinition.repeatable;
+	const repeatConfig = newSlotDefinition.repeat;
 
-	config.index += 1;
+	repeatConfig.index += 1;
 
-	const slotName = buildString(config.slotNamePattern, newSlotDefinition);
+	const slotName = buildString(repeatConfig.slotNamePattern, newSlotDefinition);
 	newSlotDefinition.slotName = slotName;
 
-	if (config.limit !== null && config.index > config.limit) {
+	if (repeatConfig.limit !== null && repeatConfig.index > repeatConfig.limit) {
 		logger(logGroup, `Limit reached for ${slotName}`);
 
 		return false;
 	}
 
-	const elements = document.querySelectorAll(config.insertBeforeSelector);
-	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, config);
+	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
+	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
 
 	if (nextSibling) {
-		insertNewSlotContainer(adSlot.getElement(), slotName, config, nextSibling);
+		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
 		context.set(`slots.${slotName}`, newSlotDefinition);
-		if (config.updateProperties) {
-			Object.keys(config.updateProperties).forEach((key) => {
-				const value = buildString(config.updateProperties[key], newSlotDefinition);
+		if (repeatConfig.updateProperties) {
+			Object.keys(repeatConfig.updateProperties).forEach((key) => {
+				const value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
 
 				context.set(`slots.${slotName}.${key}`, value);
 			});
@@ -82,7 +82,7 @@ function repeatSlot(adSlot) {
 		return true;
 	}
 
-	insertFakePlaceholderAfterLastSelector(slotName, elements, config);
+	insertFakePlaceholderAfterLastSelector(slotName, elements, repeatConfig);
 	slotService.disable(slotName, 'viewport-conflict');
 	context.push('events.pushOnScroll.ids', slotName);
 

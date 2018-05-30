@@ -86,13 +86,13 @@ describe('slot-repeater', () => {
 		const repeater = context.get('listeners.slot.0');
 
 		adSlot.isRepeatable = () => true;
-		adSlot.config.repeatable = {
+		adSlot.config.repeat = {
 			index: 1,
 			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeatable.index}'
+				'targeting.rv': '{slotConfig.repeat.index}'
 			}
 		};
 
@@ -106,13 +106,13 @@ describe('slot-repeater', () => {
 		const repeater = context.get('listeners.slot.0');
 
 		adSlot.isRepeatable = () => true;
-		adSlot.config.repeatable = {
+		adSlot.config.repeat = {
 			index: 2,
 			insertBeforeSelector: '.foo bar',
 			limit: 2,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeatable.index}'
+				'targeting.rv': '{slotConfig.repeat.index}'
 			}
 		};
 
@@ -126,13 +126,13 @@ describe('slot-repeater', () => {
 		const repeater = context.get('listeners.slot.0');
 
 		adSlot.isRepeatable = () => true;
-		adSlot.config.repeatable = {
+		adSlot.config.repeat = {
 			index: 1,
 			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeatable.index}'
+				'targeting.rv': '{slotConfig.repeat.index}'
 			}
 		};
 		sibling.offsetTop = 300;
@@ -147,13 +147,13 @@ describe('slot-repeater', () => {
 		const repeater = context.get('listeners.slot.0');
 
 		adSlot.isRepeatable = () => true;
-		adSlot.config.repeatable = {
+		adSlot.config.repeat = {
 			index: 1,
 			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeatable.index}'
+				'targeting.rv': '{slotConfig.repeat.index}'
 			}
 		};
 

@@ -79,14 +79,14 @@ Context.extend({
 		},
 		incontent_boxad_1: {
 			defaultSizes: [[300, 250]],
-			repeatable: {
+			repeat: {
 				additionalClasses: 'hide',
 				index: 1,
 				insertBeforeSelector: '.main p',
 				limit: null,
-				slotNamePattern: 'incontent_boxad_{slotConfig.repeatable.index}',
+				slotNamePattern: 'incontent_boxad_{slotConfig.repeat.index}',
 				updateProperties: {
-					'targeting.rv': '{slotConfig.repeatable.index}'
+					'targeting.rv': '{slotConfig.repeat.index}'
 				}
 			},
 			sizes: [
