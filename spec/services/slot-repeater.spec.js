@@ -87,11 +87,13 @@ describe('slot-repeater', () => {
 
 		adSlot.isRepeatable = () => true;
 		adSlot.config.repeatable = {
-			additionalClasses: 'hide',
-			appendBeforeSelector: '.foo bar',
+			index: 1,
+			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
-			targetingKey: 'rv'
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			updateProperties: {
+				'targeting.rv': '{slotConfig.repeatable.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
@@ -105,10 +107,13 @@ describe('slot-repeater', () => {
 
 		adSlot.isRepeatable = () => true;
 		adSlot.config.repeatable = {
-			appendBeforeSelector: '.foo bar',
-			limit: 1,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
-			targetingKey: 'rv'
+			index: 2,
+			insertBeforeSelector: '.foo bar',
+			limit: 2,
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			updateProperties: {
+				'targeting.rv': '{slotConfig.repeatable.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.false;
@@ -122,10 +127,13 @@ describe('slot-repeater', () => {
 
 		adSlot.isRepeatable = () => true;
 		adSlot.config.repeatable = {
-			appendBeforeSelector: '.foo bar',
+			index: 1,
+			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
-			targetingKey: 'rv'
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			updateProperties: {
+				'targeting.rv': '{slotConfig.repeatable.index}'
+			}
 		};
 		sibling.offsetTop = 300;
 
@@ -140,10 +148,13 @@ describe('slot-repeater', () => {
 
 		adSlot.isRepeatable = () => true;
 		adSlot.config.repeatable = {
-			appendBeforeSelector: '.foo bar',
+			index: 1,
+			insertBeforeSelector: '.foo bar',
 			limit: null,
-			slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
-			targetingKey: 'rv'
+			slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+			updateProperties: {
+				'targeting.rv': '{slotConfig.repeatable.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;

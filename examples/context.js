@@ -98,10 +98,13 @@ export default {
 			defaultSizes: [[300, 250]],
 			repeatable: {
 				additionalClasses: 'hide',
-				appendBeforeSelector: '.main p',
+				index: 1,
+				insertBeforeSelector: '.main p',
 				limit: null,
-				slotNamePattern: 'repeatable_boxad_{slotConfig.targeting.rv}',
-				targetingKey: 'rv'
+				slotNamePattern: 'repeatable_boxad_{slotConfig.repeatable.index}',
+				updateProperties: {
+					'targeting.rv': '{slotConfig.repeatable.index}'
+				}
 			},
 			sizes: [
 				{

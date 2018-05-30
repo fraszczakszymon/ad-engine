@@ -41,29 +41,40 @@ function insertFakePlaceholderAfterLastSelector(slotName, elements) {
 	lastElement.parentNode.insertBefore(placeholder, lastElement.nextSibling);
 }
 
+function buildString(pattern, definition) {
+	return stringBuilder.build(pattern, {
+		slotConfig: definition
+	});
+}
+
 function repeatSlot(adSlot) {
 	const newSlotDefinition = adSlot.getCopy();
 	const config = newSlotDefinition.repeatable;
 
-	newSlotDefinition.targeting[config.targetingKey] += 1;
-	newSlotDefinition.slotName = stringBuilder.build(config.slotNamePattern, {
-		slotConfig: newSlotDefinition
-	});
+	config.index += 1;
+	newSlotDefinition.slotName = buildString(config.slotNamePattern, newSlotDefinition);
 
 	const { slotName } = newSlotDefinition;
 
-	if (config.limit !== null && newSlotDefinition.targeting[config.targetingKey] > config.limit) {
+	if (config.limit !== null && config.index > config.limit) {
 		logger(logGroup, `Limit reached for ${slotName}`);
 
 		return false;
 	}
 
-	const elements = document.querySelectorAll(config.appendBeforeSelector);
+	const elements = document.querySelectorAll(config.insertBeforeSelector);
 	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, config);
 
 	if (nextSibling) {
 		insertNewSlotContainer(adSlot.getElement(), slotName, config, nextSibling);
 		context.set(`slots.${slotName}`, newSlotDefinition);
+		if (config.updateProperties) {
+			Object.keys(config.updateProperties).forEach((key) => {
+				const value = buildString(config.updateProperties[key], newSlotDefinition);
+
+				context.set(`slots.${slotName}.${key}`, value);
+			});
+		}
 		context.push('events.pushOnScroll.ids', slotName);
 
 		logger(logGroup, 'Repeat slot', slotName);
