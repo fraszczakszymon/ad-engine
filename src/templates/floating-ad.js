@@ -11,7 +11,7 @@ export class FloatingAd {
 	}
 
 	init() {
-		const slotNode = document.getElementById(this.adSlot.getId());
+		const slotNode = document.getElementById(this.adSlot.getSlotName());
 
 		let container,
 			containerOffset,

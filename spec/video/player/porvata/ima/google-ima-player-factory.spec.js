@@ -41,7 +41,7 @@ describe('google-ima-player', () => {
 					querySelector: () => mocks.domElement
 				},
 				height: 100,
-				slotName: 'TOP_LEADERBOARD',
+				slotName: 'top_leaderboard',
 				width: 100
 			},
 			videoSettings: {
@@ -66,7 +66,7 @@ describe('google-ima-player', () => {
 		};
 
 		context.extend(ConfigMock);
-		slotService.add(new AdSlot({ id: 'gpt-top-leaderboard' }));
+		slotService.add(new AdSlot({ id: 'top_leaderboard' }));
 	});
 
 	it('request ads on create', () => {

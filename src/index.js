@@ -8,6 +8,7 @@ if (get(window, versionField, null)) {
 }
 
 set(window, versionField, 'v<?= PACKAGE(version) ?>');
+utils.logger('ad-engine', 'v<?= PACKAGE(version) ?>');
 
 export * from './ad-engine';
 export * from './listeners';

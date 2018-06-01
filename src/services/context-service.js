@@ -18,6 +18,7 @@ const contextObject = {
 					sampling: 1
 				}
 			},
+			slotRepeater: false,
 			trackingOptIn: false
 		},
 		slots: {},

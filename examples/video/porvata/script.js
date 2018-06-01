@@ -17,7 +17,7 @@ const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1'
 		container,
 		width: 300,
 		height: 250,
-		slotName: 'OUTSTREAM'
+		slotName: 'outstream'
 	},
 	playerCloseButton = document.getElementById('player-close'),
 	playerFullscreenButton = document.getElementById('player-fullscreen'),
@@ -36,7 +36,7 @@ context.set('targeting.wpage', '100% Orange Juice');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 
-slotService.add(new AdSlot({ id: 'gpt-top-video' }));
+slotService.add(new AdSlot({ id: 'outstream' }));
 
 scrollListener.init();
 Porvata.inject(params)

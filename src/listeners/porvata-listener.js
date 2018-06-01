@@ -62,7 +62,7 @@ export class PorvataListener {
 		});
 
 		if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
-			const adSlot = slotService.getBySlotName(this.params.position);
+			const adSlot = slotService.get(this.params.position);
 			adSlot.emit(AdSlot.VIDEO_VIEWED_EVENT);
 		}
 	}

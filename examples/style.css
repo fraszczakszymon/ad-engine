@@ -47,7 +47,7 @@ pre {
 	height: auto;
 }
 
-.top-leaderboard, .top-boxad, .incontent-boxad, .bottom-leaderboard {
+.top-leaderboard, .top-boxad, .incontent-boxad, .repeatable-boxad, .bottom-leaderboard {
 	background: #1976D2;
 	color: #eee;
 	font-size: 1.3em;

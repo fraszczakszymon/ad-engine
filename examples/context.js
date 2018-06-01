@@ -4,8 +4,8 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-incontent-boxad',
-				'gpt-bottom-leaderboard'
+				'incontent_boxad',
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
@@ -29,6 +29,7 @@ export default {
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd'
 		},
+		slotRepeater: true,
 		trackingOptIn: false
 	},
 	listeners: {
@@ -42,18 +43,17 @@ export default {
 		slot: [
 			{
 				onRenderEnded(adSlot) {
-					console.log('💸 Custom listener: onRenderEnded', adSlot.getId());
+					console.log('💸 Custom listener: onRenderEnded', adSlot.getSlotName());
 				},
 				onImpressionViewable(adSlot) {
-					console.log('👁 Custom listener: onImpressionViewable', adSlot.getId());
+					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
 				}
 			}
 		]
 	},
 	networkId: '5441',
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -66,8 +66,7 @@ export default {
 				loc: 'top'
 			}
 		},
-		'top-boxad': {
-			slotName: 'TOP_BOXAD',
+		top_boxad: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -82,8 +81,7 @@ export default {
 				}
 			}
 		},
-		'incontent-boxad': {
-			slotName: 'INCONTENT_BOXAD',
+		incontent_boxad: {
 			sizes: [
 				{
 					viewportSize: [768, 0],
@@ -96,8 +94,31 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		'bottom-leaderboard': {
-			slotName: 'BOTTOM_LEADERBOARD',
+		repeatable_boxad_1: {
+			defaultSizes: [[300, 250]],
+			repeat: {
+				additionalClasses: 'hide',
+				index: 1,
+				insertBeforeSelector: '.main p',
+				limit: null,
+				slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
+				updateProperties: {
+					'targeting.rv': '{slotConfig.repeat.index}'
+				}
+			},
+			sizes: [
+				{
+					viewportSize: [768, 0],
+					sizes: [[300, 250], [300, 600]]
+				}
+			],
+			targeting: {
+				loc: 'hivi',
+				pos: 'repeatable_boxad',
+				rv: 1
+			}
+		},
+		bottom_leaderboard: {
 			sizes: [
 				{
 					viewportSize: [728, 0],
@@ -109,13 +130,12 @@ export default {
 				loc: 'footer'
 			},
 			viewportConflicts: [
-				'gpt-top-boxad'
+				'top_boxad'
 			]
 		},
-		'top-video': {
+		outstream: {
 			lowerSlotName: 'outstream',
 			slotGroup: 'VIDEO',
-			slotName: 'OUTSTREAM',
 			targeting: {},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
 			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'

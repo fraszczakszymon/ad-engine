@@ -26,7 +26,7 @@ Context.extend({
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-bottom-leaderboard'
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
@@ -56,8 +56,7 @@ Context.extend({
 		}
 	},
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -78,9 +77,32 @@ Context.extend({
 				loc: 'top'
 			}
 		},
-		'bottom-leaderboard': {
+		incontent_boxad_1: {
+			defaultSizes: [[300, 250]],
+			repeat: {
+				additionalClasses: 'hide',
+				index: 1,
+				insertBeforeSelector: '.main p',
+				limit: null,
+				slotNamePattern: 'incontent_boxad_{slotConfig.repeat.index}',
+				updateProperties: {
+					'targeting.rv': '{slotConfig.repeat.index}'
+				}
+			},
+			sizes: [
+				{
+					viewportSize: [768, 0],
+					sizes: [[300, 250], [300, 600]]
+				}
+			],
+			targeting: {
+				loc: 'hivi',
+				pos: 'incontent_boxad',
+				rv: 1
+			}
+		},
+		bottom_leaderboard: {
 			disabled: true,
-			slotName: 'BOTTOM_LEADERBOARD',
 			sizes: [
 				{
 					viewportSize: [728, 100],
@@ -96,7 +118,7 @@ Context.extend({
 				loc: 'bottom'
 			},
 			viewportConflicts: [
-				'gpt-top-leaderboard'
+				'top_leaderboard'
 			]
 		}
 	}
@@ -138,10 +160,10 @@ new AdEngine().init();
 Request immediately:
 
 ```html
-<div id="gpt-top-leaderboard">
+<div id="top_leaderboard">
 	<script>
 		window.adsQueue.push({
-			id: 'gpt-top-leaderboard'
+			id: 'top_leaderboard'
 		});
 	</script>
 </div>
@@ -150,7 +172,7 @@ Request immediately:
 or prepare on scroll container (check above context configuration):
 
 ```html
-<div id="gpt-bottom-leaderboard"></div>
+<div id="bottom_leaderboard"></div>
 ```
 
 ### Debug mode
@@ -164,8 +186,11 @@ In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<
 * [AdBlock detect](examples/utils/block-detect)
 * [Floating ad template](examples/templates/floating-ad)
 * [Slot animations](examples/slots/animations)
+* [Block BTF](examples/slots/block-btf)
+* [BTF only (skip ATF slots)](examples/slots/btf-only)
 * [AdEngine start delay](examples/slots/delay)
 * [Ad empty response](examples/slots/empty-response)
+* [Repeatable slots](examples/slots/repeatable-slots)
 * [Viewport conflicts](examples/slots/viewport-conflicts)
 * [Porvata video player](examples/video/porvata)
 

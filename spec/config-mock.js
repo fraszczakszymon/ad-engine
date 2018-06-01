@@ -3,18 +3,14 @@ export default {
 	events: {
 		pushOnScroll: {
 			ids: [
-				'gpt-incontent-boxad-desktop',
-				'gpt-incontent-boxad-mobile',
-				'gpt-bottom-leaderboard',
-				'gpt-bottom-leaderboard-desktop',
-				'gpt-bottom-leaderboard-mobile'
+				'incontent_boxad',
+				'bottom_leaderboard'
 			],
 			threshold: 100
 		}
 	},
 	slots: {
-		'top-leaderboard': {
-			slotName: 'TOP_LEADERBOARD',
+		top_leaderboard: {
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -47,9 +43,8 @@ export default {
 				loc: 'top'
 			}
 		},
-		'bottom-leaderboard': {
+		bottom_leaderboard: {
 			disabled: true,
-			slotName: 'BOTTOM_LEADERBOARD',
 			sizes: [
 				{
 					viewportSize: [1024, 300],
@@ -69,8 +64,8 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		'top-boxad': {
-			slotName: 'TOP_BOXAD',
+		top_boxad: {
+			slotName: 'top_boxad',
 			aboveTheFold: true,
 			sizes: [
 				{
@@ -87,9 +82,8 @@ export default {
 				loc: 'top'
 			}
 		},
-		'incontent-boxad': {
+		incontent_boxad: {
 			disabled: true,
-			slotName: 'INCONTENT_BOXAD',
 			sizes: [
 				{
 					viewportSize: [0, 0],
@@ -106,8 +100,7 @@ export default {
 				loc: 'hivi'
 			}
 		},
-		'bottom-boxad': {
-			slotName: 'BOTTOM_BOXAD',
+		bottom_boxad: {
 			sizes: [
 				{
 					viewportSize: [0, 0],
@@ -123,8 +116,7 @@ export default {
 				loc: 'bottom'
 			}
 		},
-		'top-skin': {
-			slotName: 'INVISIBLE_SKIN',
+		invisible_skin: {
 			aboveTheFold: true,
 			sizes: [
 				{

@@ -1,9 +1,9 @@
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
-const slotNameMapping = {};
 const slots = {};
 const slotStates = {};
+const slotStatuses = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
 	const element = document.getElementById(elementId);
@@ -27,11 +27,10 @@ class SlotService {
 	add(adSlot) {
 		const slotName = adSlot.getSlotName();
 
-		slots[adSlot.getId()] = adSlot;
-		slotNameMapping[slotName] = adSlot.getId();
+		slots[slotName] = adSlot;
 
 		if (slotStates[slotName] === false) {
-			adSlot.disable();
+			adSlot.disable(slotStatuses[slotName]);
 		}
 		if (slotStates[slotName] === true) {
 			adSlot.enable();
@@ -42,19 +41,21 @@ class SlotService {
 		const slotName = adSlot.getSlotName();
 
 		adSlot.disable('Marked for remove');
-		delete slots[adSlot.getId()];
-		delete slotNameMapping[slotName];
+		delete slots[slotName];
 		delete slotStates[slotName];
+		delete slotStatuses[slotName];
 	}
 
 	get(id) {
 		return slots[id];
 	}
 
+	/**
+	 * @deprecated since 12.0.0
+	 * Use get function
+	 */
 	getBySlotName(slotName) {
-		const id = slotNameMapping[slotName];
-
-		return this.get(id);
+		return this.get(slotName);
 	}
 
 	forEach(callback) {
@@ -92,8 +93,9 @@ class SlotService {
 export const slotService = new SlotService();
 
 function setState(slotName, state, status = null) {
-	const slot = slotService.getBySlotName(slotName);
+	const slot = slotService.get(slotName);
 	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
 
 	if (slot) {
 		if (state) {

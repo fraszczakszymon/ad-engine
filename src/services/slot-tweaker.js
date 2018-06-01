@@ -10,10 +10,10 @@ class SlotTweaker {
 	}
 
 	getContainer(adSlot) {
-		const container = document.getElementById(adSlot.getId());
+		const container = document.getElementById(adSlot.getSlotName());
 
 		if (!container) {
-			logger(logGroup, 'cannot find container', adSlot.getId());
+			logger(logGroup, 'cannot find container', adSlot.getSlotName());
 		}
 
 		return container;
@@ -23,7 +23,7 @@ class SlotTweaker {
 		const container = this.getContainer(adSlot);
 
 		if (container) {
-			logger(logGroup, 'hide', adSlot.getId());
+			logger(logGroup, 'hide', adSlot.getSlotName());
 			container.classList.add('hide');
 		}
 	}
@@ -32,7 +32,7 @@ class SlotTweaker {
 		const container = this.getContainer(adSlot);
 
 		if (container) {
-			logger(logGroup, 'show', adSlot.getId());
+			logger(logGroup, 'show', adSlot.getSlotName());
 			container.classList.remove('hide');
 		}
 	}
@@ -70,7 +70,7 @@ class SlotTweaker {
 					aspectRatio = width / height;
 				}
 
-				logger(logGroup, 'make responsive', adSlot.getId());
+				logger(logGroup, 'make responsive', adSlot.getSlotName());
 				container.style.paddingBottom = `${100 / aspectRatio}%`;
 				return iframe;
 			});
@@ -103,7 +103,7 @@ class SlotTweaker {
 				return;
 			}
 
-			const adSlot = slotService.getBySlotName(data.slotName);
+			const adSlot = slotService.get(data.slotName);
 
 			switch (data.action) {
 				case 'expand':

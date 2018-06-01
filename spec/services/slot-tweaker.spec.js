@@ -5,7 +5,7 @@ import { slotTweaker } from '../../src/services/slot-tweaker';
 
 describe('slot-tweaker', () => {
 	beforeEach(() => {
-		sinon.stub(document, 'getElementById').withArgs(adSlotFake.getId()).returns({
+		sinon.stub(document, 'getElementById').withArgs(adSlotFake.getSlotName()).returns({
 			dataset: {}
 		});
 	});

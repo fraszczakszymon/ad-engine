@@ -101,7 +101,7 @@ describe('porvata-listener', () => {
 
 		const adSlotMock = { emit: spy(), getSlotName: function () {} };
 
-		sandbox.stub(slotService, 'getBySlotName').returns(adSlotMock);
+		sandbox.stub(slotService, 'get').returns(adSlotMock);
 
 		listener.dispatch(PorvataListener.EVENTS.viewable_impression);
 
