@@ -116,25 +116,25 @@ module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 11 */
@@ -211,6 +211,7 @@ __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
+__webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
@@ -258,18 +259,18 @@ var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_
 
 var bab = null,
     browser = null,
-    client_isMobile = null,
+    isMobile = null,
     operatingSystem = null;
 
 function getIsMobile() {
-	if (client_isMobile === null) {
+	if (isMobile === null) {
 		var userAgent = window.navigator.userAgent;
 
 
-		client_isMobile = typeof external_ismobilejs_default.a === 'function' ? external_ismobilejs_default()(userAgent) : external_ismobilejs_default.a;
+		isMobile = typeof external_ismobilejs_default.a === 'function' ? external_ismobilejs_default()(userAgent) : external_ismobilejs_default.a;
 	}
 
-	return client_isMobile;
+	return isMobile;
 }
 
 var client_Client = function () {
@@ -435,6 +436,10 @@ function getTopOffset(element) {
 	return topPos;
 }
 
+function getViewportHeight() {
+	return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+}
+
 function isInViewport(element) {
 	var topOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	var bottomOffset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
@@ -450,7 +455,7 @@ function isInViewport(element) {
 	    elementTop = getTopOffset(element),
 	    elementBottom = elementTop + elementHeight,
 	    scrollPosition = window.scrollY,
-	    viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+	    viewportHeight = getViewportHeight(),
 	    viewportTop = topOffset + scrollPosition,
 	    viewportBottom = bottomOffset + scrollPosition + viewportHeight;
 
@@ -540,7 +545,7 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(7);
+var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/utils/query-string.js
@@ -726,6 +731,7 @@ var contextObject = {
 				sampling: 1
 			}
 		},
+		slotRepeater: false,
 		trackingOptIn: false
 	},
 	slots: {},
@@ -832,9 +838,9 @@ var context = new context_service_Context();
 
 
 var groupName = 'slot-service';
-var slotNameMapping = {};
 var slot_service_slots = {};
 var slotStates = {};
+var slotStatuses = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
 	var element = document.getElementById(elementId);
@@ -863,11 +869,10 @@ var slot_service_SlotService = function () {
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
-			slot_service_slots[adSlot.getId()] = adSlot;
-			slotNameMapping[slotName] = adSlot.getId();
+			slot_service_slots[slotName] = adSlot;
 
 			if (slotStates[slotName] === false) {
-				adSlot.disable();
+				adSlot.disable(slotStatuses[slotName]);
 			}
 			if (slotStates[slotName] === true) {
 				adSlot.enable();
@@ -879,21 +884,25 @@ var slot_service_SlotService = function () {
 			var slotName = adSlot.getSlotName();
 
 			adSlot.disable('Marked for remove');
-			delete slot_service_slots[adSlot.getId()];
-			delete slotNameMapping[slotName];
+			delete slot_service_slots[slotName];
 			delete slotStates[slotName];
+			delete slotStatuses[slotName];
 		}
 	}, {
 		key: 'get',
 		value: function get(id) {
 			return slot_service_slots[id];
 		}
+
+		/**
+   * @deprecated since 12.0.0
+   * Use get function
+   */
+
 	}, {
 		key: 'getBySlotName',
 		value: function getBySlotName(slotName) {
-			var id = slotNameMapping[slotName];
-
-			return this.get(id);
+			return this.get(slotName);
 		}
 	}, {
 		key: 'forEach',
@@ -942,8 +951,9 @@ var slotService = new slot_service_SlotService();
 function setState(slotName, state) {
 	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-	var slot = slotService.getBySlotName(slotName);
+	var slot = slotService.get(slotName);
 	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
 
 	if (slot) {
 		if (state) {
@@ -966,7 +976,7 @@ var get_prototype_of_ = __webpack_require__(6);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(10);
+var possibleConstructorReturn_ = __webpack_require__(9);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -1170,7 +1180,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 				var adSlot = _ref.adSlot,
 				    fillInCallback = _ref.fillInCallback;
 
-				logger(logGroup, adSlot.getId(), 'Filling delayed BTF slot');
+				logger(logGroup, adSlot.getSlotName(), 'Filling delayed BTF slot');
 				fillInCallback(adSlot);
 			});
 
@@ -1185,7 +1195,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			context.push('listeners.slot', {
 				onRenderEnded: function onRenderEnded(adSlot) {
-					logger(logGroup, adSlot.getId(), 'Slot rendered');
+					logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
 					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
 						_this2.finishAboveTheFold();
 					}
@@ -1215,17 +1225,17 @@ var btf_blocker_service_BtfBlockerService = function () {
 				}
 
 				if (!adSlot.isEnabled()) {
-					logger(logGroup, adSlot.getId(), 'Slot blocked', adSlot.getStatus());
+					logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
 					return;
 				}
 
-				logger(logGroup, adSlot.getId(), 'Filling in slot');
+				logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
 				fillInCallback(adSlot);
 			}
 
 			if (!this.atfEnded && !adSlot.isAboveTheFold()) {
 				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: wrappedFillInCallback });
-				logger(logGroup, adSlot.getId(), 'BTF slot pushed to queue');
+				logger(logGroup, adSlot.getSlotName(), 'BTF slot pushed to queue');
 				return;
 			}
 
@@ -1308,7 +1318,7 @@ var templateService = new template_service_TemplateService();
 
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
-		var slot = slotService.getBySlotName(params.slotName);
+		var slot = slotService.get(params.slotName);
 
 		templateService.init(params.type, slot, params);
 	};
@@ -1550,11 +1560,11 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(9);
+var get_own_property_descriptor_ = __webpack_require__(8);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(8);
+var external_core_decorators_ = __webpack_require__(7);
 
 // CONCATENATED MODULE: ./src/providers/gpt-size-map.js
 
@@ -1684,42 +1694,18 @@ function setupGptTargeting() {
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits_default()(AdSlot, _EventEmitter);
 
-	/**
-  * Parse the object that's passed from the template to extract more details
-  * @param {object} ad Object containing an ad id and page type
-  *      Format of id is:
-  *           gpt-<location>-<ad-type>[-<screen-size>]
-  *      Examples:
-  *           gpt-top-leaderboard
-  *           gpt-bottom-boxad-mobile
-  *           gpt-bottom-leaderboard-desktop
-  */
 	function AdSlot(ad) {
 		classCallCheck_default()(this, AdSlot);
 
 		var _this = possibleConstructorReturn_default()(this, (AdSlot.__proto__ || get_prototype_of_default()(AdSlot)).call(this));
 
-		var segments = ad.id.split('-');
-
-		var _segments = slicedToArray_default()(segments, 4),
-		    location = _segments[1],
-		    type = _segments[2],
-		    screenSize = _segments[3];
-
-		if (segments.length < 3) {
-			throw new Error('Invalid GPT id passed to parseId (' + ad.id + ').');
-		}
-
-		_this.id = ad.id;
-		_this.location = location;
-		_this.screenSize = screenSize || 'both';
-		_this.type = type;
-		_this.config = context.get('slots.' + _this.location + '-' + _this.type) || {};
+		_this.config = context.get('slots.' + ad.id) || {};
 		_this.enabled = !_this.config.disabled;
 		_this.viewed = false;
 		_this.element = null;
 		_this.status = null;
 
+		_this.config.slotName = _this.config.slotName || ad.id;
 		_this.config.targeting = _this.config.targeting || {};
 		_this.config.targeting.src = _this.config.targeting.src || context.get('src');
 		_this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
@@ -1731,11 +1717,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}
 
 	createClass_default()(AdSlot, [{
-		key: 'getId',
-		value: function getId() {
-			return this.id;
-		}
-	}, {
 		key: 'getAdUnit',
 		value: function getAdUnit() {
 			if (!this.adUnit) {
@@ -1757,7 +1738,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'getElement',
 		value: function getElement() {
 			if (!this.element) {
-				this.element = document.getElementById(this.id);
+				this.element = document.getElementById(this.getSlotName());
 			}
 
 			return this.element;
@@ -1808,16 +1789,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			}
 		}
 	}, {
-		key: 'shouldLoad',
-		value: function shouldLoad() {
-			var isMobile = context.get('state.isMobile'),
-			    shouldLoad = this.screenSize === 'both',
-			    shouldLoadDesktop = !isMobile && this.screenSize === 'desktop',
-			    shouldLoadMobile = isMobile && this.screenSize === 'mobile';
-
-			return shouldLoad || shouldLoadDesktop || shouldLoadMobile;
-		}
-	}, {
 		key: 'isAboveTheFold',
 		value: function isAboveTheFold() {
 			return !!this.config.aboveTheFold;
@@ -1831,6 +1802,16 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'isViewed',
 		value: function isViewed() {
 			return this.viewed;
+		}
+	}, {
+		key: 'isRepeatable',
+		value: function isRepeatable() {
+			return !!this.config.repeat;
+		}
+	}, {
+		key: 'getCopy',
+		value: function getCopy() {
+			return JSON.parse(stringify_default()(this.config));
 		}
 	}, {
 		key: 'enable',
@@ -1848,7 +1829,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'setConfigProperty',
 		value: function setConfigProperty(key, value) {
-			context.set('slots.' + this.location + '-' + this.type + '.' + key, value);
+			context.set('slots.' + this.config.slotName + '.' + key, value);
 		}
 	}, {
 		key: 'success',
@@ -2017,7 +1998,7 @@ function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=' + (aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480'), 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
-	    slot = slotService.getBySlotName(slotName);
+	    slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push('iu=' + slot.getVideoAdUnit());
@@ -2062,7 +2043,7 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	var adSlot = slotService.getBySlotName(params.slotName),
+	var adSlot = slotService.get(params.slotName),
 	    adsRequest = new window.google.ima.AdsRequest(),
 	    overriddenVast = getOverriddenVast();
 
@@ -2948,7 +2929,7 @@ var porvata_listener_PorvataListener = function () {
 			});
 
 			if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
-				var adSlot = slotService.getBySlotName(this.params.position);
+				var adSlot = slotService.get(this.params.position);
 				adSlot.emit(ad_slot_AdSlot.VIDEO_VIEWED_EVENT);
 			}
 		}
@@ -3356,19 +3337,19 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 			var targeting = this.parseTargetingParams(adSlot.getTargeting());
 			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
 
-			var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getId()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMap.build());
+			var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMap.build());
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 
-			window.googletag.display(adSlot.getId());
+			window.googletag.display(adSlot.getSlotName());
 			definedSlots.push(gptSlot);
 
 			if (!adSlot.isAboveTheFold()) {
 				this.flush();
 			}
 
-			logger(gpt_provider_logGroup, adSlot.getId(), 'slot added');
+			logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
 		}
 	}, {
 		key: 'applyTargetingParams',
@@ -3477,10 +3458,10 @@ var slot_tweaker_SlotTweaker = function () {
 	}, {
 		key: 'getContainer',
 		value: function getContainer(adSlot) {
-			var container = document.getElementById(adSlot.getId());
+			var container = document.getElementById(adSlot.getSlotName());
 
 			if (!container) {
-				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getId());
+				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
 			}
 
 			return container;
@@ -3491,7 +3472,7 @@ var slot_tweaker_SlotTweaker = function () {
 			var container = this.getContainer(adSlot);
 
 			if (container) {
-				logger(slot_tweaker_logGroup, 'hide', adSlot.getId());
+				logger(slot_tweaker_logGroup, 'hide', adSlot.getSlotName());
 				container.classList.add('hide');
 			}
 		}
@@ -3501,7 +3482,7 @@ var slot_tweaker_SlotTweaker = function () {
 			var container = this.getContainer(adSlot);
 
 			if (container) {
-				logger(slot_tweaker_logGroup, 'show', adSlot.getId());
+				logger(slot_tweaker_logGroup, 'show', adSlot.getSlotName());
 				container.classList.remove('hide');
 			}
 		}
@@ -3543,7 +3524,7 @@ var slot_tweaker_SlotTweaker = function () {
 					aspectRatio = width / height;
 				}
 
-				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getId());
+				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
 				container.style.paddingBottom = 100 / aspectRatio + '%';
 				return iframe;
 			});
@@ -3582,7 +3563,7 @@ var slot_tweaker_SlotTweaker = function () {
 					return;
 				}
 
-				var adSlot = slotService.getBySlotName(data.slotName);
+				var adSlot = slotService.get(data.slotName);
 
 				switch (data.action) {
 					case 'expand':
@@ -3652,6 +3633,129 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 }();
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
+// CONCATENATED MODULE: ./src/services/slot-repeater.js
+
+
+
+
+
+
+
+
+
+var slot_repeater_logGroup = 'slot-repeater';
+
+function findNextSiblingForSlot(previousSlotElement, elements, config) {
+	var minimalPosition = getTopOffset(previousSlotElement) + previousSlotElement.offsetHeight + getViewportHeight();
+
+	config.previousSiblingIndex = config.previousSiblingIndex || 0;
+	for (; config.previousSiblingIndex < elements.length; config.previousSiblingIndex += 1) {
+		var elementPosition = getTopOffset(elements[config.previousSiblingIndex]);
+
+		if (minimalPosition <= elementPosition) {
+			return elements[config.previousSiblingIndex];
+		}
+	}
+
+	return null;
+}
+
+function insertNewSlotContainer(previousSlotElement, slotName, config, nextSibling) {
+	var container = document.createElement('div');
+	var additionalClasses = config.additionalClasses || '';
+
+	container.id = slotName;
+	container.className = previousSlotElement.className + ' ' + additionalClasses;
+
+	nextSibling.parentNode.insertBefore(container, nextSibling);
+}
+
+function insertFakePlaceholderAfterLastSelector(slotName, elements) {
+	var lastElement = elements[elements.length - 1];
+	var placeholder = document.createElement('div');
+
+	placeholder.id = slotName;
+	placeholder.className = 'hide';
+
+	lastElement.parentNode.insertBefore(placeholder, lastElement.nextSibling);
+}
+
+function buildString(pattern, definition) {
+	return stringBuilder.build(pattern, {
+		slotConfig: definition
+	});
+}
+
+function repeatSlot(adSlot) {
+	var newSlotDefinition = adSlot.getCopy();
+	var repeatConfig = newSlotDefinition.repeat;
+
+	repeatConfig.index += 1;
+
+	var slotName = buildString(repeatConfig.slotNamePattern, newSlotDefinition);
+	newSlotDefinition.slotName = slotName;
+
+	if (repeatConfig.limit !== null && repeatConfig.index > repeatConfig.limit) {
+		logger(slot_repeater_logGroup, 'Limit reached for ' + slotName);
+
+		return false;
+	}
+
+	var elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
+	var nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
+
+	if (nextSibling) {
+		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
+		context.set('slots.' + slotName, newSlotDefinition);
+		if (repeatConfig.updateProperties) {
+			keys_default()(repeatConfig.updateProperties).forEach(function (key) {
+				var value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
+
+				context.set('slots.' + slotName + '.' + key, value);
+			});
+		}
+		context.push('events.pushOnScroll.ids', slotName);
+
+		logger(slot_repeater_logGroup, 'Repeat slot', slotName);
+
+		return true;
+	}
+
+	insertFakePlaceholderAfterLastSelector(slotName, elements, repeatConfig);
+	slotService.disable(slotName, 'viewport-conflict');
+	context.push('events.pushOnScroll.ids', slotName);
+
+	logger(slot_repeater_logGroup, 'There is not enough space for ' + slotName);
+
+	return false;
+}
+
+var slot_repeater_SlotRepeater = function () {
+	function SlotRepeater() {
+		classCallCheck_default()(this, SlotRepeater);
+	}
+
+	createClass_default()(SlotRepeater, [{
+		key: 'init',
+		value: function init() {
+			if (context.get('options.slotRepeater')) {
+				context.push('listeners.slot', {
+					onRenderEnded: function onRenderEnded(adSlot) {
+						if (adSlot.isEnabled() && adSlot.isRepeatable()) {
+							return repeatSlot(adSlot);
+						}
+
+						return false;
+					}
+				});
+			}
+		}
+	}]);
+
+	return SlotRepeater;
+}();
+
+var slotRepeater = new slot_repeater_SlotRepeater();
 // CONCATENATED MODULE: ./src/services/tracking-opt-in.js
 
 
@@ -3666,6 +3770,7 @@ var trackingOptIn = {
 	isOptedIn: isOptedIn
 };
 // CONCATENATED MODULE: ./src/services/index.js
+
 
 
 
@@ -3843,7 +3948,7 @@ var floating_ad_FloatingAd = function () {
 	createClass_default()(FloatingAd, [{
 		key: 'init',
 		value: function init() {
-			var slotNode = document.getElementById(this.adSlot.getId());
+			var slotNode = document.getElementById(this.adSlot.getSlotName());
 
 			var container = void 0,
 			    containerOffset = void 0,
@@ -3911,10 +4016,8 @@ var ad_engine_logGroup = 'ad-engine';
 function fillInUsingProvider(ad, provider) {
 	var adSlot = new ad_slot_AdSlot(ad);
 
-	if (adSlot.shouldLoad()) {
-		slotService.add(adSlot);
-		btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
-	}
+	slotService.add(adSlot);
+	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 }
 
 function getPromises() {
@@ -4012,11 +4115,15 @@ var ad_engine_AdEngine = function () {
 			this.runAdQueue();
 
 			scrollListener.init();
+			slotRepeater.init();
 
 			if (context.get('events.pushOnScroll')) {
-				context.get('events.pushOnScroll.ids').forEach(function (id) {
+				var pushOnScrollQueue = context.get('events.pushOnScroll.ids');
+
+				makeLazyQueue(pushOnScrollQueue, function (id) {
 					scrollListener.addSlot(_this3.adStack, id, context.get('events.pushOnScroll.threshold'));
 				});
+				pushOnScrollQueue.start();
 			}
 		}
 	}]);
@@ -4040,6 +4147,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotService", function() { return slotService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotTweaker", function() { return slotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "templateService", function() { return templateService; });
@@ -4065,6 +4173,7 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v11.0.0');
+logger('ad-engine', 'v11.0.0');
 
 
 
