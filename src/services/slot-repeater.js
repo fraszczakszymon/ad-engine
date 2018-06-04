@@ -62,19 +62,20 @@ function repeatSlot(adSlot) {
 		return false;
 	}
 
+	context.set(`slots.${slotName}`, newSlotDefinition);
+	if (repeatConfig.updateProperties) {
+		Object.keys(repeatConfig.updateProperties).forEach((key) => {
+			const value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
+
+			context.set(`slots.${slotName}.${key}`, value);
+		});
+	}
+
 	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
 	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
 
 	if (nextSibling) {
 		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-		context.set(`slots.${slotName}`, newSlotDefinition);
-		if (repeatConfig.updateProperties) {
-			Object.keys(repeatConfig.updateProperties).forEach((key) => {
-				const value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
-
-				context.set(`slots.${slotName}.${key}`, value);
-			});
-		}
 		context.push('events.pushOnScroll.ids', slotName);
 
 		logger(logGroup, 'Repeat slot', slotName);

@@ -15,8 +15,8 @@ function loadContent() {
 }
 
 adContext.listeners.slot.push({
-	onStatusChanged: (adSlot) => {
-		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');
+	onStatusChanged: (adSlot, data) => {
+		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold', data);
 	}
 });
 
