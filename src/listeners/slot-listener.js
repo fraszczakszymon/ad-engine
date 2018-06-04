@@ -32,10 +32,10 @@ function getAdType(event, adSlot) {
 	return 'success';
 }
 
-function getData({ adType, event }) {
+function getData(adSlot, { adType, event }) {
 	const data = {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
-		status: adType,
+		status: adType || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: (new Date()).getHours(),
 		timestamp: new Date().getTime(),
@@ -65,7 +65,7 @@ function dispatch(methodName, adSlot, adInfo = {}) {
 		listeners = context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
 
-	const data = getData(adInfo);
+	const data = getData(adSlot, adInfo);
 
 	listeners.forEach((listener) => {
 		if (typeof listener[methodName] !== 'function') {
