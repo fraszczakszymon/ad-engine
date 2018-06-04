@@ -3104,13 +3104,13 @@ function getAdType(event, adSlot) {
 	return 'success';
 }
 
-function slot_listener_getData(_ref) {
+function slot_listener_getData(adSlot, _ref) {
 	var adType = _ref.adType,
 	    event = _ref.event;
 
 	var data = {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
-		status: adType,
+		status: adType || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
@@ -3144,7 +3144,7 @@ function slot_listener_dispatch(methodName, adSlot) {
 		});
 	}
 
-	var data = slot_listener_getData(adInfo);
+	var data = slot_listener_getData(adSlot, adInfo);
 
 	slot_listener_listeners.forEach(function (listener) {
 		if (typeof listener[methodName] !== 'function') {
@@ -3701,19 +3701,20 @@ function repeatSlot(adSlot) {
 		return false;
 	}
 
+	context.set('slots.' + slotName, newSlotDefinition);
+	if (repeatConfig.updateProperties) {
+		keys_default()(repeatConfig.updateProperties).forEach(function (key) {
+			var value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
+
+			context.set('slots.' + slotName + '.' + key, value);
+		});
+	}
+
 	var elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
 	var nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
 
 	if (nextSibling) {
 		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-		context.set('slots.' + slotName, newSlotDefinition);
-		if (repeatConfig.updateProperties) {
-			keys_default()(repeatConfig.updateProperties).forEach(function (key) {
-				var value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
-
-				context.set('slots.' + slotName + '.' + key, value);
-			});
-		}
 		context.push('events.pushOnScroll.ids', slotName);
 
 		logger(slot_repeater_logGroup, 'Repeat slot', slotName);
@@ -4172,8 +4173,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.0');
-logger('ad-engine', 'v12.0.0');
+set_default()(window, versionField, 'v12.0.1');
+logger('ad-engine', 'v12.0.1');
 
 
 
