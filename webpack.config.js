@@ -116,11 +116,11 @@ const targets = {
 			minimize: false
 		},
 	},
-	assign: {
+	window: {
 		output: {
 			filename: '[name].global.js',
-			library: 'Wikia.adEngine',
-			libraryTarget: 'assign'
+			library: ['Wikia', 'adEngine'],
+			libraryTarget: 'window'
 		}
 	}
 };
@@ -132,7 +132,7 @@ module.exports = function (env) {
 	if (isProduction) {
 		return [
 			merge(common, environments.production, targets.amd),
-			merge(common, environments.production, targets.assign),
+			merge(common, environments.production, targets.window),
 			merge(common, environments.production, targets.commonjs)
 		];
 	} else if (isTest) {
