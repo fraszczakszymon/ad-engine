@@ -5,6 +5,7 @@ import { GptProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
+	events,
 	slotRepeater,
 	slotTweaker,
 	slotService,
@@ -38,11 +39,16 @@ export class AdEngine {
 		context.extend(config);
 		this.adStack = context.get('state.adStack');
 		this.providers = new Map();
+		this.started = false;
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
 		templateService.register(FloatingAd);
+
+		events.on(events.PAGE_CHANGE_EVENT, () => {
+			this.started = false;
+		});
 	}
 
 	setupProviders() {
@@ -60,13 +66,12 @@ export class AdEngine {
 	}
 
 	runAdQueue() {
-		let started = false,
-			timeout = null;
+		let timeout = null;
 
 		const promises = getPromises(),
 			startAdQueue = () => {
-				if (!started) {
-					started = true;
+				if (!this.started) {
+					this.started = true;
 					clearTimeout(timeout);
 					this.adStack.start();
 				}
