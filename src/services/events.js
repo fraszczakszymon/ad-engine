@@ -1,6 +1,8 @@
 import EventEmitter from 'eventemitter3';
 
 class EventService extends EventEmitter {
+	AD_SLOT_CREATED = Symbol('AD_SLOT_CREATED');
+	AD_STACK_START = Symbol('AD_STACK_START');
 	PAGE_CHANGE_EVENT = Symbol('PAGE_CHANGE_EVENT');
 	PAGE_RENDER_EVENT = Symbol('PAGE_RENDER_EVENT');
 
