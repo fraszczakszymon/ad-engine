@@ -52,15 +52,6 @@ function repeatSlot(adSlot) {
 		return false;
 	}
 
-	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
-	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
-
-	if (nextSibling) {
-		logger(logGroup, `There is not enough space for next ${slotName}`);
-
-		return false;
-	}
-
 	context.set(`slots.${slotName}`, newSlotDefinition);
 	if (repeatConfig.updateProperties) {
 		Object.keys(repeatConfig.updateProperties).forEach((key) => {
@@ -68,6 +59,15 @@ function repeatSlot(adSlot) {
 
 			context.set(`slots.${slotName}.${key}`, value);
 		});
+	}
+
+	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
+	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
+
+	if (!nextSibling) {
+		logger(logGroup, `There is not enough space for ${slotName}`);
+
+		return false;
 	}
 
 	insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
