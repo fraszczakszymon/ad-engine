@@ -170,13 +170,13 @@ module.exports = require("babel-runtime/core-js/symbol");
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("ismobilejs");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("current-device");
 
 /***/ }),
 /* 18 */
@@ -242,9 +242,9 @@ var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_)
 var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
-// EXTERNAL MODULE: external "ismobilejs"
-var external_ismobilejs_ = __webpack_require__(16);
-var external_ismobilejs_default = /*#__PURE__*/__webpack_require__.n(external_ismobilejs_);
+// EXTERNAL MODULE: external "current-device"
+var external_current_device_ = __webpack_require__(17);
+var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
 var external_blockadblock_ = __webpack_require__(19);
@@ -259,19 +259,7 @@ var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_
 
 var bab = null,
     browser = null,
-    isMobile = null,
     operatingSystem = null;
-
-function getIsMobile() {
-	if (isMobile === null) {
-		var userAgent = window.navigator.userAgent;
-
-
-		isMobile = typeof external_ismobilejs_default.a === 'function' ? external_ismobilejs_default()(userAgent) : external_ismobilejs_default.a;
-	}
-
-	return isMobile;
-}
 
 var client_Client = function () {
 	function Client() {
@@ -281,16 +269,12 @@ var client_Client = function () {
 	createClass_default()(Client, [{
 		key: 'isSmartphone',
 		value: function isSmartphone() {
-			var device = getIsMobile();
-
-			return device.phone;
+			return external_current_device_default.a.mobile();
 		}
 	}, {
 		key: 'isTablet',
 		value: function isTablet() {
-			var device = getIsMobile();
-
-			return device.tablet;
+			return external_current_device_default.a.tablet();
 		}
 	}, {
 		key: 'isDesktop',
@@ -964,7 +948,7 @@ function setState(slotName, state) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(17);
+var get_own_property_names_ = __webpack_require__(16);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -4187,8 +4171,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.4');
-logger('ad-engine', 'v12.0.4');
+set_default()(window, versionField, 'v12.0.5');
+logger('ad-engine', 'v12.0.5');
 
 
 
