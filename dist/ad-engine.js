@@ -4040,7 +4040,6 @@ var ad_engine_AdEngine = function () {
 		classCallCheck_default()(this, AdEngine);
 
 		context.extend(config);
-		this.adStack = context.get('state.adStack');
 		this.providers = new map_default.a();
 		this.started = false;
 
@@ -4051,25 +4050,33 @@ var ad_engine_AdEngine = function () {
 
 		events.on(events.PAGE_CHANGE_EVENT, function () {
 			_this.started = false;
+			_this.setupQueue();
 		});
 	}
 
 	createClass_default()(AdEngine, [{
 		key: 'setupProviders',
 		value: function setupProviders() {
+			this.providers.set('gpt', new gpt_provider_GptProvider());
+		}
+	}, {
+		key: 'setupQueue',
+		value: function setupQueue() {
 			var _this2 = this;
 
-			this.providers.set('gpt', new gpt_provider_GptProvider());
+			this.adStack = context.get('state.adStack');
 
-			makeLazyQueue(this.adStack, function (ad) {
-				var gpt = _this2.providers.get('gpt');
+			if (!this.adStack.start) {
+				makeLazyQueue(this.adStack, function (ad) {
+					var gpt = _this2.providers.get('gpt');
 
-				fillInUsingProvider(ad, gpt);
+					fillInUsingProvider(ad, gpt);
 
-				if (_this2.adStack.length === 0) {
-					gpt.flush();
-				}
-			});
+					if (_this2.adStack.length === 0) {
+						gpt.flush();
+					}
+				});
+			}
 		}
 	}, {
 		key: 'runAdQueue',
@@ -4114,6 +4121,7 @@ var ad_engine_AdEngine = function () {
 			var _this4 = this;
 
 			this.setupProviders();
+			this.setupQueue();
 			btfBlockerService.init();
 
 			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
@@ -4179,8 +4187,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.3');
-logger('ad-engine', 'v12.0.3');
+set_default()(window, versionField, 'v12.0.4');
+logger('ad-engine', 'v12.0.4');
 
 
 
