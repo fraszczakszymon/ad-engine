@@ -77,6 +77,7 @@ export class AdEngine {
 		const promises = getPromises(),
 			startAdQueue = () => {
 				if (!this.started) {
+					events.emit(events.AD_STACK_START);
 					this.started = true;
 					clearTimeout(timeout);
 					this.adStack.start();

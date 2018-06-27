@@ -1,7 +1,8 @@
 import EventEmitter from 'eventemitter3';
 
 class EventService extends EventEmitter {
-	PAGE_CHANGE_EVENT = Symbol('PAGE_CHANGE_EVENT');
+	AD_STACK_START = Symbol('AD_STACK_START');
+	PAGE_RENDER_EVENT = Symbol('PAGE_RENDER_EVENT');
 	PAGE_RENDER_EVENT = Symbol('PAGE_RENDER_EVENT');
 
 	pageChange(...args) {
