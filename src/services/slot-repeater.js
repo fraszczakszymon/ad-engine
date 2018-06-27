@@ -31,16 +31,6 @@ function insertNewSlotContainer(previousSlotElement, slotName, config, nextSibli
 	nextSibling.parentNode.insertBefore(container, nextSibling);
 }
 
-function insertFakePlaceholderAfterLastSelector(slotName, elements) {
-	const lastElement = elements[elements.length - 1];
-	const placeholder = document.createElement('div');
-
-	placeholder.id = slotName;
-	placeholder.className = 'hide';
-
-	lastElement.parentNode.insertBefore(placeholder, lastElement.nextSibling);
-}
-
 function buildString(pattern, definition) {
 	return stringBuilder.build(pattern, {
 		slotConfig: definition
@@ -62,6 +52,15 @@ function repeatSlot(adSlot) {
 		return false;
 	}
 
+	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
+	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
+
+	if (nextSibling) {
+		logger(logGroup, `There is not enough space for next ${slotName}`);
+
+		return false;
+	}
+
 	context.set(`slots.${slotName}`, newSlotDefinition);
 	if (repeatConfig.updateProperties) {
 		Object.keys(repeatConfig.updateProperties).forEach((key) => {
@@ -71,25 +70,12 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
-	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
-
-	if (nextSibling) {
-		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-		context.push('events.pushOnScroll.ids', slotName);
-
-		logger(logGroup, 'Repeat slot', slotName);
-
-		return true;
-	}
-
-	insertFakePlaceholderAfterLastSelector(slotName, elements, repeatConfig);
-	slotService.disable(slotName, 'viewport-conflict');
+	insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
 	context.push('events.pushOnScroll.ids', slotName);
 
-	logger(logGroup, `There is not enough space for ${slotName}`);
+	logger(logGroup, 'Repeat slot', slotName);
 
-	return false;
+	return true;
 }
 
 class SlotRepeater {
