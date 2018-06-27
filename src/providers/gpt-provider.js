@@ -105,7 +105,10 @@ export class GptProvider {
 			if (typeof (value) === 'function') {
 				value = value();
 			}
-			result[key] = value;
+
+			if (value !== null) {
+				result[key] = value;
+			}
 		});
 
 		return result;
