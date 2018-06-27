@@ -1,7 +1,6 @@
 import { context } from './context-service';
 import { logger } from '../utils';
 import { getTopOffset, getViewportHeight } from '../utils/dimensions';
-import { slotService } from './slot-service';
 import { stringBuilder } from '../utils/string-builder';
 
 const logGroup = 'slot-repeater';
