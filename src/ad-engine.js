@@ -21,6 +21,8 @@ function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
 	slotService.add(adSlot);
+	events.emit(events.AD_SLOT_CREATED, adSlot);
+
 	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 }
 
