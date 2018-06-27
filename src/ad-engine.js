@@ -5,6 +5,7 @@ import { GptProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
+	events,
 	slotRepeater,
 	slotTweaker,
 	slotService,
@@ -36,37 +37,47 @@ function getPromises() {
 export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
-		this.adStack = context.get('state.adStack');
 		this.providers = new Map();
+		this.started = false;
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
 		templateService.register(FloatingAd);
+
+		events.on(events.PAGE_CHANGE_EVENT, () => {
+			this.started = false;
+			this.setupQueue();
+		});
 	}
 
 	setupProviders() {
 		this.providers.set('gpt', new GptProvider());
+	}
 
-		makeLazyQueue(this.adStack, (ad) => {
-			const gpt = this.providers.get('gpt');
+	setupQueue() {
+		this.adStack = context.get('state.adStack');
 
-			fillInUsingProvider(ad, gpt);
+		if (!this.adStack.start) {
+			makeLazyQueue(this.adStack, (ad) => {
+				const gpt = this.providers.get('gpt');
 
-			if (this.adStack.length === 0) {
-				gpt.flush();
-			}
-		});
+				fillInUsingProvider(ad, gpt);
+
+				if (this.adStack.length === 0) {
+					gpt.flush();
+				}
+			});
+		}
 	}
 
 	runAdQueue() {
-		let started = false,
-			timeout = null;
+		let timeout = null;
 
 		const promises = getPromises(),
 			startAdQueue = () => {
-				if (!started) {
-					started = true;
+				if (!this.started) {
+					this.started = true;
 					clearTimeout(timeout);
 					this.adStack.start();
 				}
@@ -95,6 +106,7 @@ export class AdEngine {
 
 	init() {
 		this.setupProviders();
+		this.setupQueue();
 		btfBlockerService.init();
 
 		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
