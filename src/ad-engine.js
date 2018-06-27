@@ -37,7 +37,6 @@ function getPromises() {
 export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
-		this.adStack = context.get('state.adStack');
 		this.providers = new Map();
 		this.started = false;
 
@@ -48,21 +47,28 @@ export class AdEngine {
 
 		events.on(events.PAGE_CHANGE_EVENT, () => {
 			this.started = false;
+			this.setupQueue();
 		});
 	}
 
 	setupProviders() {
 		this.providers.set('gpt', new GptProvider());
+	}
 
-		makeLazyQueue(this.adStack, (ad) => {
-			const gpt = this.providers.get('gpt');
+	setupQueue() {
+		this.adStack = context.get('state.adStack');
 
-			fillInUsingProvider(ad, gpt);
+		if (!this.adStack.start) {
+			makeLazyQueue(this.adStack, (ad) => {
+				const gpt = this.providers.get('gpt');
 
-			if (this.adStack.length === 0) {
-				gpt.flush();
-			}
-		});
+				fillInUsingProvider(ad, gpt);
+
+				if (this.adStack.length === 0) {
+					gpt.flush();
+				}
+			});
+		}
 	}
 
 	runAdQueue() {
@@ -100,6 +106,7 @@ export class AdEngine {
 
 	init() {
 		this.setupProviders();
+		this.setupQueue();
 		btfBlockerService.init();
 
 		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
