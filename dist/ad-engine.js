@@ -128,43 +128,43 @@ module.exports = require("babel-runtime/core-js/object/get-own-property-descript
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 16 */
@@ -450,7 +450,7 @@ var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(11);
+var typeof_ = __webpack_require__(12);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -529,7 +529,7 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(10);
+var slicedToArray_ = __webpack_require__(11);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/utils/query-string.js
@@ -952,7 +952,7 @@ var get_own_property_names_ = __webpack_require__(16);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(15);
+var symbol_ = __webpack_require__(9);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
@@ -960,19 +960,19 @@ var get_prototype_of_ = __webpack_require__(6);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(9);
+var possibleConstructorReturn_ = __webpack_require__(10);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(12);
+var helpers_get_ = __webpack_require__(13);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(14);
+var inherits_ = __webpack_require__(15);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(13);
+var external_eventemitter3_ = __webpack_require__(14);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/services/events.js
@@ -1001,7 +1001,7 @@ var events_EventService = function (_EventEmitter) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _temp), possibleConstructorReturn_default()(_this, _ret);
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _temp), possibleConstructorReturn_default()(_this, _ret);
 	}
 
 	createClass_default()(EventService, [{
@@ -4002,6 +4002,8 @@ function fillInUsingProvider(ad, provider) {
 	var adSlot = new ad_slot_AdSlot(ad);
 
 	slotService.add(adSlot);
+	events.emit(events.AD_SLOT_CREATED, adSlot);
+
 	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 }
 
@@ -4072,6 +4074,7 @@ var ad_engine_AdEngine = function () {
 			var promises = getPromises(),
 			    startAdQueue = function startAdQueue() {
 				if (!_this3.started) {
+					events.emit(events.AD_STACK_START);
 					_this3.started = true;
 					clearTimeout(timeout);
 					_this3.adStack.start();
@@ -4171,8 +4174,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.5');
-logger('ad-engine', 'v12.0.5');
+set_default()(window, versionField, 'v12.0.6');
+logger('ad-engine', 'v12.0.6');
 
 
 
