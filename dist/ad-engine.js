@@ -4033,6 +4033,8 @@ function getPromises() {
 
 var ad_engine_AdEngine = function () {
 	function AdEngine() {
+		var _this = this;
+
 		var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 		classCallCheck_default()(this, AdEngine);
@@ -4040,26 +4042,31 @@ var ad_engine_AdEngine = function () {
 		context.extend(config);
 		this.adStack = context.get('state.adStack');
 		this.providers = new map_default.a();
+		this.started = false;
 
 		window.ads = window.ads || {};
 		window.ads.runtime = window.ads.runtime || {};
 
 		templateService.register(floating_ad_FloatingAd);
+
+		events.on(events.PAGE_CHANGE_EVENT, function () {
+			_this.started = false;
+		});
 	}
 
 	createClass_default()(AdEngine, [{
 		key: 'setupProviders',
 		value: function setupProviders() {
-			var _this = this;
+			var _this2 = this;
 
 			this.providers.set('gpt', new gpt_provider_GptProvider());
 
 			makeLazyQueue(this.adStack, function (ad) {
-				var gpt = _this.providers.get('gpt');
+				var gpt = _this2.providers.get('gpt');
 
 				fillInUsingProvider(ad, gpt);
 
-				if (_this.adStack.length === 0) {
+				if (_this2.adStack.length === 0) {
 					gpt.flush();
 				}
 			});
@@ -4067,17 +4074,16 @@ var ad_engine_AdEngine = function () {
 	}, {
 		key: 'runAdQueue',
 		value: function runAdQueue() {
-			var _this2 = this;
+			var _this3 = this;
 
-			var started = false,
-			    timeout = null;
+			var timeout = null;
 
 			var promises = getPromises(),
 			    startAdQueue = function startAdQueue() {
-				if (!started) {
-					started = true;
+				if (!_this3.started) {
+					_this3.started = true;
 					clearTimeout(timeout);
-					_this2.adStack.start();
+					_this3.adStack.start();
 				}
 			},
 			    maxTimeout = context.get('options.maxDelayTimeout');
@@ -4105,7 +4111,7 @@ var ad_engine_AdEngine = function () {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this3 = this;
+			var _this4 = this;
 
 			this.setupProviders();
 			btfBlockerService.init();
@@ -4122,7 +4128,7 @@ var ad_engine_AdEngine = function () {
 				var pushOnScrollQueue = context.get('events.pushOnScroll.ids');
 
 				makeLazyQueue(pushOnScrollQueue, function (id) {
-					scrollListener.addSlot(_this3.adStack, id, context.get('events.pushOnScroll.threshold'));
+					scrollListener.addSlot(_this4.adStack, id, context.get('events.pushOnScroll.threshold'));
 				});
 				pushOnScrollQueue.start();
 			}
@@ -4173,8 +4179,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.2');
-logger('ad-engine', 'v12.0.2');
+set_default()(window, versionField, 'v12.0.3');
+logger('ad-engine', 'v12.0.3');
 
 
 
