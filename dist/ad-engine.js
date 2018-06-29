@@ -3094,7 +3094,8 @@ function slot_listener_getData(adSlot, _ref) {
 
 	var data = {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
-		status: adType || adSlot.getStatus(),
+		adType: adType || '',
+		status: adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
@@ -3353,7 +3354,10 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 				if (typeof value === 'function') {
 					value = value();
 				}
-				result[key] = value;
+
+				if (value !== null) {
+					result[key] = value;
+				}
 			});
 
 			return result;
@@ -3626,7 +3630,6 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
-
 var slot_repeater_logGroup = 'slot-repeater';
 
 function findNextSiblingForSlot(previousSlotElement, elements, config) {
@@ -3652,16 +3655,6 @@ function insertNewSlotContainer(previousSlotElement, slotName, config, nextSibli
 	container.className = previousSlotElement.className + ' ' + additionalClasses;
 
 	nextSibling.parentNode.insertBefore(container, nextSibling);
-}
-
-function insertFakePlaceholderAfterLastSelector(slotName, elements) {
-	var lastElement = elements[elements.length - 1];
-	var placeholder = document.createElement('div');
-
-	placeholder.id = slotName;
-	placeholder.className = 'hide';
-
-	lastElement.parentNode.insertBefore(placeholder, lastElement.nextSibling);
 }
 
 function buildString(pattern, definition) {
@@ -3697,22 +3690,18 @@ function repeatSlot(adSlot) {
 	var elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
 	var nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
 
-	if (nextSibling) {
-		insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-		context.push('events.pushOnScroll.ids', slotName);
+	if (!nextSibling) {
+		logger(slot_repeater_logGroup, 'There is not enough space for ' + slotName);
 
-		logger(slot_repeater_logGroup, 'Repeat slot', slotName);
-
-		return true;
+		return false;
 	}
 
-	insertFakePlaceholderAfterLastSelector(slotName, elements, repeatConfig);
-	slotService.disable(slotName, 'viewport-conflict');
+	insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
 	context.push('events.pushOnScroll.ids', slotName);
 
-	logger(slot_repeater_logGroup, 'There is not enough space for ' + slotName);
+	logger(slot_repeater_logGroup, 'Repeat slot', slotName);
 
-	return false;
+	return true;
 }
 
 var slot_repeater_SlotRepeater = function () {
@@ -4174,8 +4163,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.6');
-logger('ad-engine', 'v12.0.6');
+set_default()(window, versionField, 'v12.0.7');
+logger('ad-engine', 'v12.0.7');
 
 
 
