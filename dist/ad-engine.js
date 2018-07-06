@@ -2920,12 +2920,18 @@ var porvata_listener_PorvataListener = function () {
 	}, {
 		key: 'getData',
 		value: function getData(eventName, errorCode) {
-			var imaAd = this.video && this.video.ima.getAdsManager() && this.video.ima.getAdsManager().getCurrentAd(),
-			    _vastParser$getAdInfo = vastParser.getAdInfo(imaAd),
+			var imaAd = this.video && this.video.ima.getAdsManager() && this.video.ima.getAdsManager().getCurrentAd();
+
+			var _vastParser$getAdInfo = vastParser.getAdInfo(imaAd),
 			    contentType = _vastParser$getAdInfo.contentType,
 			    creativeId = _vastParser$getAdInfo.creativeId,
 			    lineItemId = _vastParser$getAdInfo.lineItemId;
 
+			if (!imaAd && this.video && this.video.container) {
+				contentType = this.video.container.getAttribute('data-vast-content-type');
+				creativeId = this.video.container.getAttribute('data-vast-creative-id');
+				lineItemId = this.video.container.getAttribute('data-vast-line-item-id');
+			}
 
 			return {
 				ad_error_code: errorCode,
