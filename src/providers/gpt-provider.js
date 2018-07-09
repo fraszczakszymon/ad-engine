@@ -122,7 +122,10 @@ export class GptProvider {
 	@decorate(gptLazyMethod)
 	flush() {
 		if (definedSlots.length) {
-			window.googletag.pubads().refresh(definedSlots);
+			window.googletag.pubads().refresh(
+				definedSlots,
+				{ changeCorrelator: false }
+			);
 			definedSlots = [];
 		}
 	}
