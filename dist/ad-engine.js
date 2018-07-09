@@ -3377,7 +3377,7 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 		key: 'flush',
 		value: function flush() {
 			if (definedSlots.length) {
-				window.googletag.pubads().refresh(definedSlots);
+				window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
 				definedSlots = [];
 			}
 		}
@@ -4169,8 +4169,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.8');
-logger('ad-engine', 'v12.0.8');
+set_default()(window, versionField, 'v12.0.9');
+logger('ad-engine', 'v12.0.9');
 
 
 
