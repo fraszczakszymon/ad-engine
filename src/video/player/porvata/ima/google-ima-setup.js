@@ -29,6 +29,8 @@ function createRequest(params) {
 			segment = context.get('options.porvata.audio.segment');
 
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+		adSlot.setConfigProperty('audio', !params.autoPlay);
+		adSlot.setConfigProperty('autoplay', params.autoPlay);
 		adSlot.setConfigProperty(`targeting.${key}`, params.autoPlay ? 'no' : 'yes');
 	}
 
