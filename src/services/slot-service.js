@@ -1,4 +1,4 @@
-import { context } from './context-service';
+import { context, events } from './context-service';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
@@ -36,6 +36,8 @@ class SlotService {
 		if (slotStates[slotName] === true) {
 			adSlot.enable();
 		}
+
+		events.emit(events.AD_SLOT_CREATED, adSlot);
 	}
 
 	remove(adSlot) {
