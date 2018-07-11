@@ -104,6 +104,14 @@ class Context {
 		onChangeCallbacks[key] = onChangeCallbacks[key] || [];
 		onChangeCallbacks[key].push(callback);
 	}
+
+	removeListeners(key) {
+		Object.keys(onChangeCallbacks).forEach((contextKey) => {
+			if (contextKey === key || contextKey.indexOf(`${key}.`) === 0) {
+				delete onChangeCallbacks[contextKey];
+			}
+		});
+	}
 }
 
 export const context = new Context();

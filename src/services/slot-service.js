@@ -1,3 +1,4 @@
+import { context } from './context-service';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
@@ -40,6 +41,7 @@ class SlotService {
 	remove(adSlot) {
 		const slotName = adSlot.getSlotName();
 
+		context.removeListeners(`slots.${slotName}`);
 		adSlot.disable('Marked for remove');
 		delete slots[slotName];
 		delete slotStates[slotName];
