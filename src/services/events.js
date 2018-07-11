@@ -1,4 +1,7 @@
 import EventEmitter from 'eventemitter3';
+import { logger } from '../utils';
+
+const groupName = 'events';
 
 class EventService extends EventEmitter {
 	AD_SLOT_CREATED = Symbol('AD_SLOT_CREATED');
@@ -26,6 +29,7 @@ class EventService extends EventEmitter {
 		}
 
 		super.emit(event, ...args);
+		logger(groupName, 'emit', event, ...args);
 	}
 
 	on(event, ...args) {
