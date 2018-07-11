@@ -1,4 +1,5 @@
-import { context, events } from './context-service';
+import { context } from './context-service';
+import { events } from './events';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
