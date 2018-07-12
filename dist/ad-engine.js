@@ -695,6 +695,7 @@ var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 
 
+
 var contextObject = {
 	adUnitId: '',
 	events: {},
@@ -809,144 +810,21 @@ var context_service_Context = function () {
 			onChangeCallbacks[key] = onChangeCallbacks[key] || [];
 			onChangeCallbacks[key].push(callback);
 		}
+	}, {
+		key: 'removeListeners',
+		value: function removeListeners(key) {
+			keys_default()(onChangeCallbacks).forEach(function (contextKey) {
+				if (contextKey === key || contextKey.indexOf(key + '.') === 0) {
+					delete onChangeCallbacks[contextKey];
+				}
+			});
+		}
 	}]);
 
 	return Context;
 }();
 
 var context = new context_service_Context();
-// CONCATENATED MODULE: ./src/services/slot-service.js
-
-
-
-
-
-var groupName = 'slot-service';
-var slot_service_slots = {};
-var slotStates = {};
-var slotStatuses = {};
-
-function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
-	var element = document.getElementById(elementId);
-
-	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
-	// Hidden element does not have offsetParent
-	if (element.offsetParent === null) {
-		return false;
-	}
-
-	var elementHeight = element.offsetHeight,
-	    elementOffset = getTopOffset(element),
-	    isFirst = elementOffset < slotOffset,
-	    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
-
-	return distance < viewportHeight;
-}
-
-var slot_service_SlotService = function () {
-	function SlotService() {
-		classCallCheck_default()(this, SlotService);
-	}
-
-	createClass_default()(SlotService, [{
-		key: 'add',
-		value: function add(adSlot) {
-			var slotName = adSlot.getSlotName();
-
-			slot_service_slots[slotName] = adSlot;
-
-			if (slotStates[slotName] === false) {
-				adSlot.disable(slotStatuses[slotName]);
-			}
-			if (slotStates[slotName] === true) {
-				adSlot.enable();
-			}
-		}
-	}, {
-		key: 'remove',
-		value: function remove(adSlot) {
-			var slotName = adSlot.getSlotName();
-
-			adSlot.disable('Marked for remove');
-			delete slot_service_slots[slotName];
-			delete slotStates[slotName];
-			delete slotStatuses[slotName];
-		}
-	}, {
-		key: 'get',
-		value: function get(id) {
-			return slot_service_slots[id];
-		}
-
-		/**
-   * @deprecated since 12.0.0
-   * Use get function
-   */
-
-	}, {
-		key: 'getBySlotName',
-		value: function getBySlotName(slotName) {
-			return this.get(slotName);
-		}
-	}, {
-		key: 'forEach',
-		value: function forEach(callback) {
-			keys_default()(slot_service_slots).forEach(function (id) {
-				callback(slot_service_slots[id]);
-			});
-		}
-	}, {
-		key: 'enable',
-		value: function enable(slotName) {
-			setState(slotName, true);
-		}
-	}, {
-		key: 'disable',
-		value: function disable(slotName) {
-			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-			setState(slotName, false, status);
-		}
-	}, {
-		key: 'hasViewportConflict',
-		value: function hasViewportConflict(adSlot) {
-			if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
-				return false;
-			}
-
-			var slotHeight = adSlot.getElement().offsetHeight,
-			    slotOffset = getTopOffset(adSlot.getElement()),
-			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-			var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
-				return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
-			});
-			logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
-
-			return hasConflict;
-		}
-	}]);
-
-	return SlotService;
-}();
-
-var slotService = new slot_service_SlotService();
-
-function setState(slotName, state) {
-	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	var slot = slotService.get(slotName);
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
-	}
-}
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
 var get_own_property_names_ = __webpack_require__(16);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
@@ -986,6 +864,9 @@ var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 
+
+
+var groupName = 'events';
 
 var events_EventService = function (_EventEmitter) {
 	inherits_default()(EventService, _EventEmitter);
@@ -1045,6 +926,7 @@ var events_EventService = function (_EventEmitter) {
 			}
 
 			(_get2 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'emit', this)).call.apply(_get2, [this, event].concat(args));
+			logger.apply(undefined, [groupName, 'emit', event].concat(args));
 		}
 	}, {
 		key: 'on',
@@ -1121,6 +1003,143 @@ var events_EventService = function (_EventEmitter) {
 }(external_eventemitter3_default.a);
 
 var events = new events_EventService();
+// CONCATENATED MODULE: ./src/services/slot-service.js
+
+
+
+
+
+
+
+var slot_service_groupName = 'slot-service';
+var slot_service_slots = {};
+var slotStates = {};
+var slotStatuses = {};
+
+function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
+	var element = document.getElementById(elementId);
+
+	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+	// Hidden element does not have offsetParent
+	if (element.offsetParent === null) {
+		return false;
+	}
+
+	var elementHeight = element.offsetHeight,
+	    elementOffset = getTopOffset(element),
+	    isFirst = elementOffset < slotOffset,
+	    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
+
+	return distance < viewportHeight;
+}
+
+var slot_service_SlotService = function () {
+	function SlotService() {
+		classCallCheck_default()(this, SlotService);
+	}
+
+	createClass_default()(SlotService, [{
+		key: 'add',
+		value: function add(adSlot) {
+			var slotName = adSlot.getSlotName();
+
+			slot_service_slots[slotName] = adSlot;
+
+			if (slotStates[slotName] === false) {
+				adSlot.disable(slotStatuses[slotName]);
+			}
+			if (slotStates[slotName] === true) {
+				adSlot.enable();
+			}
+
+			events.emit(events.AD_SLOT_CREATED, adSlot);
+		}
+	}, {
+		key: 'remove',
+		value: function remove(adSlot) {
+			var slotName = adSlot.getSlotName();
+
+			context.removeListeners('slots.' + slotName);
+			adSlot.disable('Marked for remove');
+			delete slot_service_slots[slotName];
+			delete slotStates[slotName];
+			delete slotStatuses[slotName];
+		}
+	}, {
+		key: 'get',
+		value: function get(id) {
+			return slot_service_slots[id];
+		}
+
+		/**
+   * @deprecated since 12.0.0
+   * Use get function
+   */
+
+	}, {
+		key: 'getBySlotName',
+		value: function getBySlotName(slotName) {
+			return this.get(slotName);
+		}
+	}, {
+		key: 'forEach',
+		value: function forEach(callback) {
+			keys_default()(slot_service_slots).forEach(function (id) {
+				callback(slot_service_slots[id]);
+			});
+		}
+	}, {
+		key: 'enable',
+		value: function enable(slotName) {
+			setState(slotName, true);
+		}
+	}, {
+		key: 'disable',
+		value: function disable(slotName) {
+			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			setState(slotName, false, status);
+		}
+	}, {
+		key: 'hasViewportConflict',
+		value: function hasViewportConflict(adSlot) {
+			if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
+				return false;
+			}
+
+			var slotHeight = adSlot.getElement().offsetHeight,
+			    slotOffset = getTopOffset(adSlot.getElement()),
+			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+			var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
+				return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
+			});
+			logger(slot_service_groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
+
+			return hasConflict;
+		}
+	}]);
+
+	return SlotService;
+}();
+
+var slotService = new slot_service_SlotService();
+
+function setState(slotName, state) {
+	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+	var slot = slotService.get(slotName);
+	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
+
+	if (slot) {
+		if (state) {
+			slot.enable();
+		} else {
+			slot.disable(status);
+		}
+	}
+}
 // CONCATENATED MODULE: ./src/services/btf-blocker-service.js
 
 
@@ -2040,6 +2059,7 @@ function createRequest(params) {
 		    segment = context.get('options.porvata.audio.segment');
 
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+		adSlot.setConfigProperty('audio', !params.autoPlay);
 		adSlot.setConfigProperty('targeting.' + key, params.autoPlay ? 'no' : 'yes');
 	}
 
@@ -3997,7 +4017,6 @@ function fillInUsingProvider(ad, provider) {
 	var adSlot = new ad_slot_AdSlot(ad);
 
 	slotService.add(adSlot);
-	events.emit(events.AD_SLOT_CREATED, adSlot);
 
 	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
 }
@@ -4169,8 +4188,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.9');
-logger('ad-engine', 'v12.0.9');
+set_default()(window, versionField, 'v12.0.10');
+logger('ad-engine', 'v12.0.10');
 
 
 
