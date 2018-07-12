@@ -14,6 +14,7 @@ if (!webhookUrl) {
 }
 
 const webhook = new IncomingWebhook(webhookUrl);
+const jenkinsUrl = 'http://jenkins.wikia-prod:8080';
 
 let text;
 let attachments = [];
@@ -37,7 +38,7 @@ if (failed) {
 				{
 					type: 'button',
 					text: 'ad-products',
-					url: `http://jenkins:8080/job/update_dependencies_adproducts/parambuild/?adengine_version=v${version}`
+					url: `${jenkinsUrl}/job/update_dependencies_adproducts/parambuild/?adengine_version=v${version}`
 				}
 			]
 		}
