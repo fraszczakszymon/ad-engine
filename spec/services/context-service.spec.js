@@ -74,4 +74,42 @@ describe('context-service', () => {
 		expect(context.get('array').length).to.equal(1);
 		expect(context.get('array')[0]).to.equal('newValue');
 	});
+
+	it('remove child event listener', () => {
+		const callbacks = {
+			foo: () => {},
+			fooBar: () => {}
+		};
+
+		sinon.spy(callbacks, 'foo');
+		sinon.spy(callbacks, 'fooBar');
+
+		context.onChange('foo', callbacks.foo);
+		context.onChange('foo.bar', callbacks.fooBar);
+
+		context.removeListeners('foo.bar');
+		context.set('foo.bar', 'newValue');
+
+		expect(callbacks.foo.calledWith('foo.bar', 'newValue')).to.be.ok;
+		expect(callbacks.fooBar.called).not.to.be.ok;
+	});
+
+	it('remove parent event listener', () => {
+		const callbacks = {
+			foo: () => {},
+			fooBar: () => {}
+		};
+
+		sinon.spy(callbacks, 'foo');
+		sinon.spy(callbacks, 'fooBar');
+
+		context.onChange('foo', callbacks.foo);
+		context.onChange('foo.bar', callbacks.fooBar);
+
+		context.removeListeners('foo');
+		context.set('foo.bar', 'newValue');
+
+		expect(callbacks.foo.called).not.to.be.ok;
+		expect(callbacks.fooBar.called).not.to.be.ok;
+	});
 });
