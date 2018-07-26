@@ -54,7 +54,9 @@ function repeatSlot(adSlot) {
 	context.set(`slots.${slotName}`, newSlotDefinition);
 	if (repeatConfig.updateProperties) {
 		Object.keys(repeatConfig.updateProperties).forEach((key) => {
-			const value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
+			const value = typeof repeatConfig.updateProperties[key] === 'string'
+				? buildString(repeatConfig.updateProperties[key], newSlotDefinition)
+				: repeatConfig.updateProperties[key];
 
 			context.set(`slots.${slotName}.${key}`, value);
 		});
