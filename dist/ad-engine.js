@@ -3707,7 +3707,7 @@ function repeatSlot(adSlot) {
 	context.set('slots.' + slotName, newSlotDefinition);
 	if (repeatConfig.updateProperties) {
 		keys_default()(repeatConfig.updateProperties).forEach(function (key) {
-			var value = buildString(repeatConfig.updateProperties[key], newSlotDefinition);
+			var value = typeof repeatConfig.updateProperties[key] === 'string' ? buildString(repeatConfig.updateProperties[key], newSlotDefinition) : repeatConfig.updateProperties[key];
 
 			context.set('slots.' + slotName + '.' + key, value);
 		});
@@ -4188,8 +4188,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.10');
-logger('ad-engine', 'v12.0.10');
+set_default()(window, versionField, 'v12.0.11');
+logger('ad-engine', 'v12.0.11');
 
 
 
