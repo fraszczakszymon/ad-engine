@@ -2962,7 +2962,7 @@ var porvata_listener_PorvataListener = function () {
 				event_name: eventName,
 				line_item_id: lineItemId || 0,
 				player: PorvataListener.PLAYER_NAME,
-				position: this.params.position || '(none)',
+				position: this.params.position.toLowerCase() || '(none)',
 				timestamp: new Date().getTime(),
 				audio: this.params.withAudio ? 1 : 0
 			};
