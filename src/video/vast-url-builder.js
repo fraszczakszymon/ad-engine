@@ -15,10 +15,6 @@ function getCustomParameters(slot, extraTargeting = {}) {
 	);
 }
 
-function isNumeric(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
 			'output=vast',

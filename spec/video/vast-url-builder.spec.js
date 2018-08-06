@@ -50,12 +50,6 @@ describe('vast-url-builder', () => {
 		expect(vastUrl.match(/&iu=\/5441\/wka\.fandom\/test\/top_leaderboard&/g)).to.be.ok;
 	});
 
-	it('build URL with vertical ad size', () => {
-		const vastUrl = buildVastUrl(0.5, 'top_leaderboard');
-
-		expect(vastUrl.match(/&sz=320x480&/g)).to.be.ok;
-	});
-
 	it('build URL with horizontal ad size', () => {
 		const vastUrl = buildVastUrl(1.5, 'top_leaderboard');
 
