@@ -30,7 +30,7 @@ export function getViewportHeight() {
 	return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }
 
-export function isInViewport(element, topOffset = 0, bottomOffset = 0) {
+export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThreshold = 0.5) {
 	const alwaysInViewportPositions = ['fixed', 'sticky'],
 		elementPosition = window.getComputedStyle(element).position;
 
@@ -44,8 +44,9 @@ export function isInViewport(element, topOffset = 0, bottomOffset = 0) {
 		scrollPosition = window.scrollY,
 		viewportHeight = getViewportHeight(),
 		viewportTop = topOffset + scrollPosition,
-		viewportBottom = bottomOffset + scrollPosition + viewportHeight;
+		viewportBottom = bottomOffset + scrollPosition + viewportHeight,
+		minimumElementArea = areaThreshold * elementHeight;
 
-	return elementTop >= (viewportTop - elementHeight / 2) &&
-		elementBottom <= (viewportBottom + elementHeight / 2);
+	return elementTop >= (viewportTop - minimumElementArea) &&
+		elementBottom <= (viewportBottom + minimumElementArea);
 }

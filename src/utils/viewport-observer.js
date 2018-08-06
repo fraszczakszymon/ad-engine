@@ -2,7 +2,12 @@ import { scrollListener } from '../listeners';
 import { isInViewport } from './dimensions';
 
 function updateInViewport(listener) {
-	const newInViewport = isInViewport(listener.element);
+	const newInViewport = isInViewport(
+		listener.element,
+		listener.offsetTop,
+		listener.offsetBottom,
+		listener.areaThreshold
+	);
 
 	if (newInViewport !== listener.inViewport) {
 		listener.callback(newInViewport);
@@ -16,6 +21,7 @@ function addListener(element, callback, params = {}) {
 			callback,
 			offsetTop: params.offsetTop || 0,
 			offsetBottom: params.offsetBottom || 0,
+			areaThreshold: params.areaThreshold,
 			inViewport: false
 		},
 		updateCallback = () => {
