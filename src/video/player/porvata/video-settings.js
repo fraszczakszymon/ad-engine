@@ -44,4 +44,8 @@ export class VideoSettings {
 	isMoatTrackingEnabled() {
 		return this.moatTracking;
 	}
+
+	isAutoPlay() {
+		return this.params.autoPlay;
+	}
 }
