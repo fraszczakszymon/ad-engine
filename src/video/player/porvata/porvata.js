@@ -56,6 +56,7 @@ export class PorvataPlayer {
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
 		this.videoSettings = videoSettings;
+		this.isFloating = false;
 
 		const nativeFullscreen = nativeFullscreenOnElement(this.container);
 
