@@ -78,7 +78,7 @@ class Client {
 		return operatingSystem;
 	}
 
-	getBrowserInfo() {
+	getBrowser() {
 		if (browser !== null) {
 			return browser;
 		}
@@ -108,16 +108,7 @@ class Client {
 		}
 		browser = matches.join(' ');
 
-		return {
-			name: matches[0] || '',
-			version: matches[1] ? parseInt(matches[1], 10) : ''
-		};
-	}
-
-	getBrowser() {
-		const info = this.getBrowserInfo();
-
-		return `${info.name} ${info.version}`;
+		return browser;
 	}
 }
 

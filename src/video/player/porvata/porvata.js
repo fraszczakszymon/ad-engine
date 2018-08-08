@@ -353,8 +353,8 @@ export class Porvata {
 
 	static isVideoAutoplaySupported() {
 		const isAndroid = client.getOperatingSystem() === 'Android';
-		const browser = client.getBrowserInfo();
-		const isCompatibleChrome = browser.name.indexOf('Chrome') !== -1 && browser.version >= 54;
+		const browser = client.getBrowser().split(' ');
+		const isCompatibleChrome = browser[0].indexOf('Chrome') !== -1 && parseInt(browser[1], 10) >= 54;
 
 		return !isAndroid || isCompatibleChrome;
 	}
