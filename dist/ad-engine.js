@@ -348,8 +348,8 @@ var client_Client = function () {
 			return operatingSystem;
 		}
 	}, {
-		key: 'getBrowserInfo',
-		value: function getBrowserInfo() {
+		key: 'getBrowser',
+		value: function getBrowser() {
 			if (client_browser !== null) {
 				return client_browser;
 			}
@@ -383,17 +383,7 @@ var client_Client = function () {
 			}
 			client_browser = matches.join(' ');
 
-			return {
-				name: matches[0] || '',
-				version: matches[1] ? parseInt(matches[1], 10) : ''
-			};
-		}
-	}, {
-		key: 'getBrowser',
-		value: function getBrowser() {
-			var info = this.getBrowserInfo();
-
-			return info.name + ' ' + info.version;
+			return client_browser;
 		}
 	}]);
 
@@ -2900,8 +2890,8 @@ var porvata_Porvata = function () {
 		key: 'isVideoAutoplaySupported',
 		value: function isVideoAutoplaySupported() {
 			var isAndroid = client.getOperatingSystem() === 'Android';
-			var browser = client.getBrowserInfo();
-			var isCompatibleChrome = browser.name.indexOf('Chrome') !== -1 && browser.version >= 54;
+			var browser = client.getBrowser().split(' ');
+			var isCompatibleChrome = browser[0].indexOf('Chrome') !== -1 && parseInt(browser[1], 10) >= 54;
 
 			return !isAndroid || isCompatibleChrome;
 		}
@@ -4243,8 +4233,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.1.0');
-logger('ad-engine', 'v12.1.0');
+set_default()(window, versionField, 'v12.1.1');
+logger('ad-engine', 'v12.1.1');
 
 
 
