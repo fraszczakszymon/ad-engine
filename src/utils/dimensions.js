@@ -1,3 +1,8 @@
+/**
+ * Returns element's offset of given element from the top of the page
+ * @param element DOM element
+ * @returns {number}
+ */
 export function getTopOffset(element) {
 	const elementWindow = element.ownerDocument.defaultView;
 
@@ -26,10 +31,22 @@ export function getTopOffset(element) {
 	return topPos;
 }
 
+/**
+ * Returns client's viewport height
+ * @returns {number}
+ */
 export function getViewportHeight() {
 	return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }
 
+/**
+ * Checks whether given element is in the viewport
+ * @param element DOM element that is going to be checked
+ * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
+ * @param bottomOffset bottom offset that defines bottom margin of viewport
+ * @param areaThreshold element area that needs to be in/outside viewport to decide whether element is in the viewport
+ * @returns {boolean}
+ */
 export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThreshold = 0.5) {
 	const alwaysInViewportPositions = ['fixed', 'sticky'],
 		elementPosition = window.getComputedStyle(element).position;
