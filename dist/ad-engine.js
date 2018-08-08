@@ -258,7 +258,7 @@ var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_
 
 
 var bab = null,
-    browser = null,
+    client_browser = null,
     operatingSystem = null;
 
 var client_Client = function () {
@@ -348,10 +348,10 @@ var client_Client = function () {
 			return operatingSystem;
 		}
 	}, {
-		key: 'getBrowser',
-		value: function getBrowser() {
-			if (browser !== null) {
-				return browser;
+		key: 'getBrowserInfo',
+		value: function getBrowserInfo() {
+			if (client_browser !== null) {
+				return client_browser;
 			}
 
 			var _window$navigator = window.navigator,
@@ -365,14 +365,14 @@ var client_Client = function () {
 
 			if (/trident/i.test(matches[1])) {
 				temp = /\brv[ :]+(\d+)/g.exec(userAgent) || [];
-				browser = 'IE ' + (temp[1] || '');
-				return browser;
+				client_browser = 'IE ' + (temp[1] || '');
+				return client_browser;
 			}
 			if (matches[1] === 'Chrome') {
 				temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/);
 				if (temp !== null) {
-					browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
-					return browser;
+					client_browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
+					return client_browser;
 				}
 			}
 
@@ -381,9 +381,19 @@ var client_Client = function () {
 			if (temp !== null) {
 				matches.splice(1, 1, temp[1]);
 			}
-			browser = matches.join(' ');
+			client_browser = matches.join(' ');
 
-			return browser;
+			return {
+				name: matches[0] || '',
+				version: matches[1] ? parseInt(matches[1], 10) : ''
+			};
+		}
+	}, {
+		key: 'getBrowser',
+		value: function getBrowser() {
+			var info = this.getBrowserInfo();
+
+			return info.name + ' ' + info.version;
 		}
 	}]);
 
@@ -392,6 +402,11 @@ var client_Client = function () {
 
 var client = new client_Client();
 // CONCATENATED MODULE: ./src/utils/dimensions.js
+/**
+ * Returns element's offset of given element from the top of the page
+ * @param element DOM element
+ * @returns {number}
+ */
 function getTopOffset(element) {
 	var elementWindow = element.ownerDocument.defaultView;
 
@@ -420,13 +435,26 @@ function getTopOffset(element) {
 	return topPos;
 }
 
+/**
+ * Returns client's viewport height
+ * @returns {number}
+ */
 function getViewportHeight() {
 	return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 }
 
+/**
+ * Checks whether given element is in the viewport
+ * @param element DOM element that is going to be checked
+ * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
+ * @param bottomOffset bottom offset that defines bottom margin of viewport
+ * @param areaThreshold element area that needs to be in/outside viewport to decide whether element is in the viewport
+ * @returns {boolean}
+ */
 function isInViewport(element) {
 	var topOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	var bottomOffset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+	var areaThreshold = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.5;
 
 	var alwaysInViewportPositions = ['fixed', 'sticky'],
 	    elementPosition = window.getComputedStyle(element).position;
@@ -441,9 +469,10 @@ function isInViewport(element) {
 	    scrollPosition = window.scrollY,
 	    viewportHeight = getViewportHeight(),
 	    viewportTop = topOffset + scrollPosition,
-	    viewportBottom = bottomOffset + scrollPosition + viewportHeight;
+	    viewportBottom = bottomOffset + scrollPosition + viewportHeight,
+	    minimumElementArea = areaThreshold * elementHeight;
 
-	return elementTop >= viewportTop - elementHeight / 2 && elementBottom <= viewportBottom + elementHeight / 2;
+	return elementTop >= viewportTop - minimumElementArea && elementBottom <= viewportBottom + minimumElementArea;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(5);
@@ -1993,14 +2022,10 @@ function getCustomParameters(slot) {
 	}).join('&'));
 }
 
-function isNumeric(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=' + (aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480'), 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
 	    slot = slotService.get(slotName);
 
 	if (slot) {
@@ -2344,8 +2369,14 @@ var googleImaPlayerFactory = {
 			});
 		}, false);
 
-		adsLoader.addEventListener('adError', function () {
-			return player.setVastAttributes('error');
+		adsLoader.addEventListener('adError', function (event) {
+			var emptyVastErrorCode = window.google.ima.AdError.ErrorCode.VAST_EMPTY_RESPONSE;
+
+			if (typeof event.getError === 'function' && event.getError().getErrorCode() === emptyVastErrorCode) {
+				player.dispatchEvent('wikiaEmptyAd');
+			}
+
+			player.setVastAttributes('error');
 		});
 
 		player.setVastUrl(adRequest.adTagUrl);
@@ -2458,6 +2489,11 @@ var video_settings_VideoSettings = function () {
 		value: function isMoatTrackingEnabled() {
 			return this.moatTracking;
 		}
+	}, {
+		key: 'isAutoPlay',
+		value: function isAutoPlay() {
+			return this.params.autoPlay;
+		}
 	}]);
 
 	return VideoSettings;
@@ -2518,7 +2554,7 @@ var porvata_nativeFullscreenOnElement = function nativeFullscreenOnElement(eleme
 };
 
 var porvata_PorvataPlayer = function () {
-	function PorvataPlayer(ima, params) {
+	function PorvataPlayer(ima, params, videoSettings) {
 		var _this = this;
 
 		classCallCheck_default()(this, PorvataPlayer);
@@ -2527,6 +2563,8 @@ var porvata_PorvataPlayer = function () {
 		this.container = prepareVideoAdContainer(params);
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
+		this.videoSettings = videoSettings;
+		this.isFloating = false;
 
 		var nativeFullscreen = porvata_nativeFullscreenOnElement(this.container);
 
@@ -2774,7 +2812,7 @@ var porvata_Porvata = function () {
 			return googleIma.load().then(function () {
 				return googleIma.getPlayer(videoSettings);
 			}).then(function (ima) {
-				return new porvata_PorvataPlayer(ima, params);
+				return new porvata_PorvataPlayer(ima, params, videoSettings);
 			}).then(function (video) {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
@@ -2852,6 +2890,20 @@ var porvata_Porvata = function () {
 
 				return video;
 			});
+		}
+	}, {
+		key: 'isVpaid',
+		value: function isVpaid(contentType) {
+			return contentType === 'application/javascript';
+		}
+	}, {
+		key: 'isVideoAutoplaySupported',
+		value: function isVideoAutoplaySupported() {
+			var isAndroid = client.getOperatingSystem() === 'Android';
+			var browser = client.getBrowserInfo();
+			var isCompatibleChrome = browser.name.indexOf('Chrome') !== -1 && browser.version >= 54;
+
+			return !isAndroid || isCompatibleChrome;
 		}
 	}]);
 
@@ -3182,6 +3234,8 @@ var slot_listener_SlotListener = function () {
 			switch (adType) {
 				case 'collapse':
 					adSlot.collapse();
+					break;
+				case 'manual':
 					break;
 				default:
 					adSlot.success();
@@ -3873,7 +3927,7 @@ function tryProperty(obj) {
 
 
 function updateInViewport(listener) {
-	var newInViewport = isInViewport(listener.element);
+	var newInViewport = isInViewport(listener.element, listener.offsetTop, listener.offsetBottom, listener.areaThreshold);
 
 	if (newInViewport !== listener.inViewport) {
 		listener.callback(newInViewport);
@@ -3889,6 +3943,7 @@ function viewport_observer_addListener(element, callback) {
 		callback: callback,
 		offsetTop: params.offsetTop || 0,
 		offsetBottom: params.offsetBottom || 0,
+		areaThreshold: params.areaThreshold,
 		inViewport: false
 	},
 	    updateCallback = function updateCallback() {
@@ -4188,8 +4243,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.0.12');
-logger('ad-engine', 'v12.0.12');
+set_default()(window, versionField, 'v12.1.0');
+logger('ad-engine', 'v12.1.0');
 
 
 
