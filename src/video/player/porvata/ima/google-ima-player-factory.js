@@ -159,7 +159,15 @@ export const googleImaPlayerFactory = {
 			adsManager.addEventListener('adError', () => player.setVastAttributes('error'));
 		}, false);
 
-		adsLoader.addEventListener('adError', () => player.setVastAttributes('error'));
+		adsLoader.addEventListener('adError', (event) => {
+			const emptyVastErrorCode = window.google.ima.AdError.ErrorCode.VAST_EMPTY_RESPONSE;
+
+			if (typeof event.getError === 'function' && event.getError().getErrorCode() === emptyVastErrorCode) {
+				player.dispatchEvent('wikiaEmptyAd');
+			}
+
+			player.setVastAttributes('error');
+		});
 
 		player.setVastUrl(adRequest.adTagUrl);
 		adsLoader.requestAds(adRequest);

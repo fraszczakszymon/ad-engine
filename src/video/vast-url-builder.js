@@ -15,10 +15,6 @@ function getCustomParameters(slot, extraTargeting = {}) {
 	);
 }
 
-function isNumeric(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
 			'output=vast',
@@ -26,7 +22,7 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 			'gdfp_req=1',
 			'impl=s',
 			'unviewed_position_start=1',
-			`sz=${(aspectRatio > 1 || !isNumeric(aspectRatio) ? '640x480' : '320x480')}`,
+			'sz=640x480',
 			`url=${encodeURIComponent(window.location.href)}`,
 			`description_url=${encodeURIComponent(window.location.href)}`,
 			`correlator=${correlator}`

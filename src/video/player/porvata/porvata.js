@@ -1,7 +1,7 @@
 import { googleIma } from './ima/google-ima';
 import { PorvataListener } from '../../../listeners';
 import { VideoSettings } from './video-settings';
-import { viewportObserver, tryProperty, whichProperty } from '../../../utils';
+import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
@@ -50,11 +50,13 @@ const nativeFullscreenOnElement = (element) => {
 };
 
 export class PorvataPlayer {
-	constructor(ima, params) {
+	constructor(ima, params, videoSettings) {
 		this.ima = ima;
 		this.container = prepareVideoAdContainer(params);
 		this.mobileVideoAd = params.container.querySelector('video');
 		this.params = params;
+		this.videoSettings = videoSettings;
+		this.isFloating = false;
 
 		const nativeFullscreen = nativeFullscreenOnElement(this.container);
 
@@ -265,7 +267,7 @@ export class Porvata {
 
 		return googleIma.load()
 			.then(() => googleIma.getPlayer(videoSettings))
-			.then(ima => new PorvataPlayer(ima, params))
+			.then(ima => new PorvataPlayer(ima, params, videoSettings))
 			.then((video) => {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
@@ -343,5 +345,17 @@ export class Porvata {
 
 				return video;
 			});
+	}
+
+	static isVpaid(contentType) {
+		return contentType === 'application/javascript';
+	}
+
+	static isVideoAutoplaySupported() {
+		const isAndroid = client.getOperatingSystem() === 'Android';
+		const browser = client.getBrowserInfo();
+		const isCompatibleChrome = browser.name.indexOf('Chrome') !== -1 && browser.version >= 54;
+
+		return !isAndroid || isCompatibleChrome;
 	}
 }

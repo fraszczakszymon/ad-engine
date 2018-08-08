@@ -88,6 +88,8 @@ class SlotListener {
 			case 'collapse':
 				adSlot.collapse();
 				break;
+			case 'manual':
+				break;
 			default:
 				adSlot.success();
 				break;
