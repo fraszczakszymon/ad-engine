@@ -2820,7 +2820,7 @@ var porvata_Porvata = function () {
 				}
 
 				function setupAutoPlayMethod() {
-					if (params.blockOutOfViewportPausing) {
+					if (params.blockOutOfViewportPausing && !params.startInViewportOnly) {
 						if (params.autoPlay && !autoPlayed) {
 							autoPlayed = true;
 							video.play();
@@ -4233,8 +4233,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.1.1');
-logger('ad-engine', 'v12.1.1');
+set_default()(window, versionField, 'v12.1.2');
+logger('ad-engine', 'v12.1.2');
 
 
 
