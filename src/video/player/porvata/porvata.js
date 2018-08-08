@@ -285,7 +285,7 @@ export class Porvata {
 				}
 
 				function setupAutoPlayMethod() {
-					if (params.blockOutOfViewportPausing) {
+					if (params.blockOutOfViewportPausing && !params.startInViewportOnly) {
 						if (params.autoPlay && !autoPlayed) {
 							autoPlayed = true;
 							video.play();
