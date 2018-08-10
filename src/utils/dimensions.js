@@ -68,7 +68,7 @@ export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThres
 		elementBottom <= (viewportBottom + minimumElementArea);
 }
 
-export function isInTheSameViewport(element, elementsToCompare) {
+export function isInTheSameViewport(element, elementsToCompare = []) {
 	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
 	// Hidden element does not have offsetParent
 	if (element.offsetParent === null) {
