@@ -213,6 +213,7 @@ __webpack_require__.d(utils_namespaceObject, "client", function() { return clien
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
+__webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() { return isInTheSameViewport; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
@@ -463,6 +464,32 @@ function isInViewport(element) {
 	    minimumElementArea = areaThreshold * elementHeight;
 
 	return elementTop >= viewportTop - minimumElementArea && elementBottom <= viewportBottom + minimumElementArea;
+}
+
+function isInTheSameViewport(element) {
+	var elementsToCompare = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+	// Hidden element does not have offsetParent
+	if (element.offsetParent === null) {
+		return false;
+	}
+
+	var elementHeight = element.offsetHeight;
+	var elementOffset = getTopOffset(element);
+	var viewportHeight = getViewportHeight();
+
+	var conflicts = elementsToCompare.filter(function (conflictElement) {
+		var conflictHeight = conflictElement.offsetHeight;
+		var conflictOffset = getTopOffset(conflictElement);
+		var isFirst = conflictOffset < elementOffset;
+
+		var distance = isFirst ? elementOffset - conflictOffset - conflictHeight : conflictOffset - elementOffset - elementHeight;
+
+		return distance < viewportHeight;
+	});
+
+	return conflicts.length > 0;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(5);
@@ -3232,6 +3259,13 @@ var slot_listener_SlotListener = function () {
 					break;
 			}
 
+			var slotsToPush = context.get('events.pushAfterRendered.' + adSlot.getSlotName());
+			if (slotsToPush) {
+				slotsToPush.forEach(function (slotName) {
+					slotInjector.inject(slotName);
+				});
+			}
+
 			slot_listener_dispatch('onRenderEnded', adSlot, { adType: adType, event: event });
 		}
 	}, {
@@ -3691,6 +3725,71 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 }();
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
+// CONCATENATED MODULE: ./src/services/slot-injector.js
+
+
+
+
+
+
+var slot_injector_logGroup = 'slot-repeater';
+
+function findNextSuitablePlace() {
+	var anchorElements = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var conflictingElements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	var i = void 0;
+	for (i = 0; i < anchorElements.length; i += 1) {
+		if (!isInTheSameViewport(anchorElements[i], conflictingElements)) {
+			return anchorElements[i];
+		}
+	}
+
+	return null;
+}
+
+function insertNewSlot(slotName, nextSibling) {
+	var container = document.createElement('div');
+
+	container.id = slotName;
+
+	nextSibling.parentNode.insertBefore(container, nextSibling);
+	context.push('events.pushOnScroll.ids', slotName);
+
+	return container;
+}
+
+var slot_injector_SlotInjector = function () {
+	function SlotInjector() {
+		classCallCheck_default()(this, SlotInjector);
+	}
+
+	createClass_default()(SlotInjector, [{
+		key: 'inject',
+		value: function inject(slotName) {
+			var config = context.get('slots.' + slotName);
+			var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
+			var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
+
+			var nextSibling = findNextSuitablePlace(anchorElements, conflictingElements);
+
+			if (!nextSibling) {
+				logger(slot_injector_logGroup, 'There is not enough space for ' + slotName);
+
+				return null;
+			}
+
+			var container = insertNewSlot(slotName, nextSibling);
+			logger(slot_injector_logGroup, 'Inject slot', slotName);
+
+			return container;
+		}
+	}]);
+
+	return SlotInjector;
+}();
+
+var slotInjector = new slot_injector_SlotInjector();
 // CONCATENATED MODULE: ./src/services/slot-repeater.js
 
 
@@ -3701,31 +3800,6 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 var slot_repeater_logGroup = 'slot-repeater';
-
-function findNextSiblingForSlot(previousSlotElement, elements, config) {
-	var minimalPosition = getTopOffset(previousSlotElement) + previousSlotElement.offsetHeight + getViewportHeight();
-
-	config.previousSiblingIndex = config.previousSiblingIndex || 0;
-	for (; config.previousSiblingIndex < elements.length; config.previousSiblingIndex += 1) {
-		var elementPosition = getTopOffset(elements[config.previousSiblingIndex]);
-
-		if (minimalPosition <= elementPosition) {
-			return elements[config.previousSiblingIndex];
-		}
-	}
-
-	return null;
-}
-
-function insertNewSlotContainer(previousSlotElement, slotName, config, nextSibling) {
-	var container = document.createElement('div');
-	var additionalClasses = config.additionalClasses || '';
-
-	container.id = slotName;
-	container.className = previousSlotElement.className + ' ' + additionalClasses;
-
-	nextSibling.parentNode.insertBefore(container, nextSibling);
-}
 
 function buildString(pattern, definition) {
 	return stringBuilder.build(pattern, {
@@ -3757,21 +3831,15 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	var elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
-	var nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
+	var container = slotInjector.inject(slotName);
+	var additionalClasses = repeatConfig.additionalClasses || '';
 
-	if (!nextSibling) {
-		logger(slot_repeater_logGroup, 'There is not enough space for ' + slotName);
-
-		return false;
+	if (container !== null) {
+		container.className = adSlot.getElement().className + ' ' + additionalClasses;
+		return true;
 	}
 
-	insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-	context.push('events.pushOnScroll.ids', slotName);
-
-	logger(slot_repeater_logGroup, 'Repeat slot', slotName);
-
-	return true;
+	return false;
 }
 
 var slot_repeater_SlotRepeater = function () {
@@ -3814,6 +3882,7 @@ var trackingOptIn = {
 	isOptedIn: isOptedIn
 };
 // CONCATENATED MODULE: ./src/services/index.js
+
 
 
 
@@ -4208,6 +4277,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotInjector", function() { return slotInjector; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotService", function() { return slotService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotTweaker", function() { return slotTweaker; });
@@ -4233,8 +4303,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v12.1.2');
-logger('ad-engine', 'v12.1.2');
+set_default()(window, versionField, 'v13.0.0');
+logger('ad-engine', 'v13.0.0');
 
 
 
