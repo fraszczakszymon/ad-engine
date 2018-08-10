@@ -1,6 +1,6 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater } from '../services';
+import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -93,6 +93,13 @@ class SlotListener {
 			default:
 				adSlot.success();
 				break;
+		}
+
+		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
+		if (slotsToPush) {
+			slotsToPush.forEach((slotName) => {
+				slotInjector.inject(slotName);
+			});
 		}
 
 		dispatch('onRenderEnded', adSlot, { adType, event });

@@ -137,6 +137,24 @@ pre {
 	text-shadow: 1px 1px 1px #a01b1b;
 }
 
+#incontent_player {
+	margin: 0 auto;
+	width: 320px;
+}
+
+#incontent_player::before {
+	content: 'Dynamic placeholder for incontent_player';
+	display: block;
+	font-size: .625rem;
+	font-weight: 700;
+	line-height: .75rem;
+	margin: 0;
+	padding-bottom: 6px;
+	padding-top: 6px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
 @media all and (min-width: 600px) {
 	.aside {
 		flex: 1 auto;

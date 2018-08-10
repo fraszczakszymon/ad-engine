@@ -1,52 +1,22 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
-import { context } from '../../src/services/context-service';
-import { slotRepeater } from '../../src/services/slot-repeater';
+import { context, slotInjector, slotRepeater } from '../../src/services';
 
-let adSlot,
-	elementProperties = {},
-	sibling = {};
 
 describe('slot-repeater', () => {
+	let adSlot;
+	let injectedContainer;
+	let sandbox;
+
 	afterEach(() => {
-		document.getElementById.restore();
-		document.querySelectorAll.restore();
+		sandbox.restore();
 	});
 
 	beforeEach(() => {
-		elementProperties = {
-			offsetParent: {
-				offsetTop: 0,
-				offsetParent: null
-			}
-		};
-
-		sibling = {
-			classList: {
-				contains: () => {}
-			},
-			offsetHeight: 300,
-			offsetTop: 5000,
-			offsetParent: elementProperties.offsetParent,
-			ownerDocument: {},
-			parentNode: {
-				insertBefore: () => {}
-			}
-		};
-
-		sinon.stub(document, 'getElementById').withArgs('foo-container').returns({
-			classList: {
-				contains: () => {}
-			},
-			offsetHeight: 300,
-			offsetTop: 100,
-			offsetParent: elementProperties.offsetParent,
-			ownerDocument: {}
-		});
-
-		sinon.stub(document, 'querySelectorAll').withArgs('.foo bar').returns([sibling]);
-
+		sandbox = sinon.createSandbox();
+		injectedContainer = {};
+		sandbox.stub(slotInjector, 'inject').callsFake(() => injectedContainer);
 		adSlot = Object.assign({}, adSlotFake);
 
 		context.set('listeners.slot', []);
@@ -97,7 +67,6 @@ describe('slot-repeater', () => {
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
-		expect(context.get('events.pushOnScroll.ids.0')).to.equal('repeatable_boxad_2');
 	});
 
 	it('ad-slot is not repeated when it is configured as repeatable but limit is reached', () => {
@@ -117,7 +86,6 @@ describe('slot-repeater', () => {
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.false;
-		expect(context.get('events.pushOnScroll.ids').length).to.equal(0);
 	});
 
 	it('ad-slot is not repeated when it is configured as repeatable and sibling is too close', () => {
@@ -135,7 +103,7 @@ describe('slot-repeater', () => {
 				'targeting.rv': '{slotConfig.repeat.index}'
 			}
 		};
-		sibling.offsetTop = 300;
+		injectedContainer = null;
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.false;
 	});
@@ -157,6 +125,5 @@ describe('slot-repeater', () => {
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
-		expect(context.get('events.pushOnScroll.ids.0')).to.equal('repeatable_boxad_2');
 	});
 });

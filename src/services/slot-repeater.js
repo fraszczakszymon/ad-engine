@@ -1,34 +1,9 @@
 import { context } from './context-service';
+import { slotInjector } from './slot-injector';
 import { logger } from '../utils';
-import { getTopOffset, getViewportHeight } from '../utils/dimensions';
 import { stringBuilder } from '../utils/string-builder';
 
 const logGroup = 'slot-repeater';
-
-function findNextSiblingForSlot(previousSlotElement, elements, config) {
-	const minimalPosition = getTopOffset(previousSlotElement) + previousSlotElement.offsetHeight + getViewportHeight();
-
-	config.previousSiblingIndex = config.previousSiblingIndex || 0;
-	for (; config.previousSiblingIndex < elements.length; config.previousSiblingIndex += 1) {
-		const elementPosition = getTopOffset(elements[config.previousSiblingIndex]);
-
-		if (minimalPosition <= elementPosition) {
-			return elements[config.previousSiblingIndex];
-		}
-	}
-
-	return null;
-}
-
-function insertNewSlotContainer(previousSlotElement, slotName, config, nextSibling) {
-	const container = document.createElement('div');
-	const additionalClasses = config.additionalClasses || '';
-
-	container.id = slotName;
-	container.className = `${previousSlotElement.className} ${additionalClasses}`;
-
-	nextSibling.parentNode.insertBefore(container, nextSibling);
-}
 
 function buildString(pattern, definition) {
 	return stringBuilder.build(pattern, {
@@ -62,21 +37,15 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	const elements = document.querySelectorAll(repeatConfig.insertBeforeSelector);
-	const nextSibling = findNextSiblingForSlot(adSlot.getElement(), elements, repeatConfig);
+	const container = slotInjector.inject(slotName);
+	const additionalClasses = repeatConfig.additionalClasses || '';
 
-	if (!nextSibling) {
-		logger(logGroup, `There is not enough space for ${slotName}`);
-
-		return false;
+	if (container !== null) {
+		container.className = `${adSlot.getElement().className} ${additionalClasses}`;
+		return true;
 	}
 
-	insertNewSlotContainer(adSlot.getElement(), slotName, repeatConfig, nextSibling);
-	context.push('events.pushOnScroll.ids', slotName);
-
-	logger(logGroup, 'Repeat slot', slotName);
-
-	return true;
+	return false;
 }
 
 class SlotRepeater {
