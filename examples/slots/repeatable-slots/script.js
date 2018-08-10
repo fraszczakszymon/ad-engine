@@ -22,6 +22,7 @@ adContext.listeners.slot.push({
 
 context.extend(adContext);
 context.set('slots.repeatable_boxad_1.repeat.limit', limit);
+context.set('slots.incontent_player.defaultSizes', [[320, 50]]);
 
 for (let i = 0; i < contentLength; i += 1) {
 	loadContent();

@@ -8,6 +8,11 @@ export default {
 				'bottom_leaderboard'
 			],
 			threshold: 100
+		},
+		pushAfterRendered: {
+			repeatable_boxad_1: [
+				'incontent_player'
+			]
 		}
 	},
 	options: {
@@ -94,12 +99,21 @@ export default {
 				loc: 'hivi'
 			}
 		},
+		incontent_player: {
+			avoidConflictWith: '.repeatable-boxad',
+			defaultSizes: [[1, 1]],
+			insertBeforeSelector: '.main p',
+			targeting: {
+				loc: 'hivi'
+			}
+		},
 		repeatable_boxad_1: {
 			defaultSizes: [[300, 250]],
+			avoidConflictWith: '.repeatable-boxad,#incontent_player',
+			insertBeforeSelector: '.main p',
 			repeat: {
 				additionalClasses: 'hide',
 				index: 1,
-				insertBeforeSelector: '.main p',
 				limit: null,
 				slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 				updateProperties: {

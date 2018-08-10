@@ -67,3 +67,28 @@ export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThres
 	return elementTop >= (viewportTop - minimumElementArea) &&
 		elementBottom <= (viewportBottom + minimumElementArea);
 }
+
+export function isInTheSameViewport(element, elementsToCompare) {
+	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+	// Hidden element does not have offsetParent
+	if (element.offsetParent === null) {
+		return false;
+	}
+
+	const elementHeight = element.offsetHeight;
+	const elementOffset = getTopOffset(element);
+	const viewportHeight = getViewportHeight();
+
+	const conflicts = elementsToCompare.filter((conflictElement) => {
+		const conflictHeight = conflictElement.offsetHeight;
+		const conflictOffset = getTopOffset(conflictElement);
+		const isFirst = conflictOffset < elementOffset;
+
+		const distance = isFirst ? elementOffset - conflictOffset - conflictHeight :
+			conflictOffset - elementOffset - elementHeight;
+
+		return distance < viewportHeight;
+	});
+
+	return conflicts.length > 0;
+}
