@@ -1119,11 +1119,17 @@ var slot_service_SlotService = function () {
 			}
 
 			// Find by pos in case of FMR X (slot name is for example incontent_boxad_1 instead of incontent_boxad)
-			var slotByPos = slot_service_slots.filter(function (slot) {
-				return slot.config && slot.config.targeting.pos && (slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id);
+			var slotByPos = null;
+
+			keys_default()(slot_service_slots).forEach(function (slot) {
+				slot = slot_service_slots[slot];
+
+				if (!slotByPos && slot.config && slot.config.targeting && slot.config.targeting.pos && (slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
+					slotByPos = slot;
+				}
 			});
 
-			return slotByPos[0];
+			return slotByPos;
 		}
 
 		/**
@@ -4312,8 +4318,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.0.1');
-logger('ad-engine', 'v13.0.1');
+set_default()(window, versionField, 'v13.0.2');
+logger('ad-engine', 'v13.0.2');
 
 
 
