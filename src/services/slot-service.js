@@ -57,12 +57,16 @@ class SlotService {
 		}
 
 		// Find by pos in case of FMR X (slot name is for example incontent_boxad_1 instead of incontent_boxad)
-		const slotByPos = slots.filter(slot => (
-			slot.config && slot.config.targeting.pos &&
-			(slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)
-		));
+		let slotByPos = null;
 
-		return slotByPos[0];
+		Object.keys(slots).forEach((slot) => {
+			if (!slotByPos && slot.config && slot.config.targeting.pos &&
+				(slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
+				slotByPos = slot;
+			}
+		});
+
+		return slotByPos;
 	}
 
 	/**
