@@ -52,7 +52,16 @@ class SlotService {
 	}
 
 	get(id) {
-		return slots[id];
+		if (slots[id]) {
+			return slots[id];
+		}
+
+		const slotByPos = slots.filter(slot => (
+			slot.config && slot.config.targeting.pos &&
+			(slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)
+		));
+
+		return slotByPos[0];
 	}
 
 	/**
