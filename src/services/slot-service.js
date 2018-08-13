@@ -60,6 +60,8 @@ class SlotService {
 		let slotByPos = null;
 
 		Object.keys(slots).forEach((slot) => {
+			slot = slots[slot];
+
 			if (!slotByPos && slot.config && slot.config.targeting.pos &&
 				(slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
 				slotByPos = slot;
