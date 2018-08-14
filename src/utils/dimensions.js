@@ -80,6 +80,10 @@ export function isInTheSameViewport(element, elementsToCompare = []) {
 	const viewportHeight = getViewportHeight();
 
 	const conflicts = elementsToCompare.filter((conflictElement) => {
+		if (element.previousSibling.isSameNode(conflictElement) || element.nextSibling.isSameNode(conflictElement)) {
+			return true;
+		}
+
 		const conflictHeight = conflictElement.offsetHeight;
 		const conflictOffset = getTopOffset(conflictElement);
 		const isFirst = conflictOffset < elementOffset;
