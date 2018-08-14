@@ -480,6 +480,10 @@ function isInTheSameViewport(element) {
 	var viewportHeight = getViewportHeight();
 
 	var conflicts = elementsToCompare.filter(function (conflictElement) {
+		if (element.previousSibling && element.previousSibling.isSameNode(conflictElement) || element.nextSibling && element.nextSibling.isSameNode(conflictElement)) {
+			return true;
+		}
+
 		var conflictHeight = conflictElement.offsetHeight;
 		var conflictOffset = getTopOffset(conflictElement);
 		var isFirst = conflictOffset < elementOffset;
@@ -4318,8 +4322,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.0.2');
-logger('ad-engine', 'v13.0.2');
+set_default()(window, versionField, 'v13.0.3');
+logger('ad-engine', 'v13.0.3');
 
 
 
