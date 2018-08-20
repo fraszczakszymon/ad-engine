@@ -45,4 +45,20 @@ describe('gpt-provider', () => {
 
 		expect(pubads.setRequestNonPersonalizedAds.calledWith(1)).to.be.true;
 	});
+
+	it('should not enable Single Request Architecture if context.options.isSraDisabled is true', () => {
+		context.set('options.isSraDisabled', true);
+
+		provider = new GptProvider();
+
+		expect(pubads.enableSingleRequest.called).to.be.false;
+	});
+
+	it('should enable Single Request Architecture if context.options.isSraDisabled is false', () => {
+		context.set('options.isSraDisabled', false);
+
+		provider = new GptProvider();
+
+		expect(pubads.enableSingleRequest.called).to.be.true;
+	});
 });
