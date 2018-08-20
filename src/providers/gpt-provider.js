@@ -40,16 +40,21 @@ function configure() {
 }
 
 export class GptProvider {
-	constructor() {
+	constructor(forceInit = false) {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
 
-		this.init();
+		this.init(forceInit);
+	}
+
+	isInitialized() {
+		return initialized;
 	}
 
 	@decorate(gptLazyMethod)
 	init() {
-		if (initialized) {
+		console.log(this.isInitialized());
+		if (this.isInitialized()) {
 			return;
 		}
 
