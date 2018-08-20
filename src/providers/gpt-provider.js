@@ -3,7 +3,7 @@ import { logger, defer } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
+import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
 
 const logGroup = 'gpt-provider';
 
@@ -17,7 +17,9 @@ let initialized = false;
 function configure() {
 	const tag = window.googletag.pubads();
 
-	tag.enableSingleRequest();
+	if (!context.get('options.isSraDisabled')) {
+		tag.enableSingleRequest();
+	}
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', (event) => {
 		const id = event.slot.getSlotElementId();
