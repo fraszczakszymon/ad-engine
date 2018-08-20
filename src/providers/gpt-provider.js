@@ -53,7 +53,6 @@ export class GptProvider {
 
 	@decorate(gptLazyMethod)
 	init() {
-		console.log(this.isInitialized());
 		if (this.isInitialized()) {
 			return;
 		}
