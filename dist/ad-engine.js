@@ -3376,7 +3376,9 @@ var initialized = false;
 function configure() {
 	var tag = window.googletag.pubads();
 
-	tag.enableSingleRequest();
+	if (!context.get('options.isSraDisabled')) {
+		tag.enableSingleRequest();
+	}
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', function (event) {
 		var id = event.slot.getSlotElementId();

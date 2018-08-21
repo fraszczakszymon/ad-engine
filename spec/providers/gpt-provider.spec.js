@@ -1,13 +1,24 @@
 import { expect } from 'chai';
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 import { GptProvider } from '../../src/providers/gpt-provider';
 import { context } from '../../src/services/context-service';
 
 let provider;
 let pubads;
+let isInitializedCb;
 
 describe('gpt-provider', () => {
+	before(() => {
+		isInitializedCb = stub(GptProvider.prototype, 'isInitialized');
+	});
+
+	after(() => {
+		isInitializedCb.reset();
+	});
+
 	beforeEach(() => {
+		isInitializedCb.returns(false);
+
 		pubads = {
 			addEventListener: spy(),
 			disableInitialLoad: spy(),
@@ -28,7 +39,15 @@ describe('gpt-provider', () => {
 		context.set('options.trackingOptIn', true);
 	});
 
+	afterEach(() => {
+		isInitializedCb.reset();
+	});
+
 	it('initialise and setup gpt provider', () => {
+		isInitializedCb.callThrough();
+
+		provider = new GptProvider();
+		provider = new GptProvider();
 		provider = new GptProvider();
 
 		expect(pubads.disableInitialLoad.called).to.be.true;
@@ -44,5 +63,21 @@ describe('gpt-provider', () => {
 		provider.setupNonPersonalizedAds();
 
 		expect(pubads.setRequestNonPersonalizedAds.calledWith(1)).to.be.true;
+	});
+
+	it('should not enable Single Request Architecture if context.options.isSraDisabled is true', () => {
+		context.set('options.isSraDisabled', true);
+
+		provider = new GptProvider();
+
+		expect(pubads.enableSingleRequest.called).to.be.false;
+	});
+
+	it('should enable Single Request Architecture if context.options.isSraDisabled is false', () => {
+		context.set('options.isSraDisabled', false);
+
+		provider = new GptProvider();
+
+		expect(pubads.enableSingleRequest.called).to.be.true;
 	});
 });
