@@ -3402,20 +3402,27 @@ function configure() {
 
 var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec2 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec3 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec4 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec5 = Object(external_core_decorators_["decorate"])(gptLazyMethod), (_class = function () {
 	function GptProvider() {
+		var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 		classCallCheck_default()(this, GptProvider);
 
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
 
-		this.init();
+		this.init(forceInit);
 	}
 
 	createClass_default()(GptProvider, [{
+		key: 'isInitialized',
+		value: function isInitialized() {
+			return initialized;
+		}
+	}, {
 		key: 'init',
 		value: function init() {
 			var _this2 = this;
 
-			if (initialized) {
+			if (this.isInitialized()) {
 				return;
 			}
 
@@ -4324,8 +4331,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.0.3');
-logger('ad-engine', 'v13.0.3');
+set_default()(window, versionField, 'v13.1.0');
+logger('ad-engine', 'v13.1.0');
 
 
 
