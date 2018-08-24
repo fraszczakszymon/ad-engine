@@ -1926,6 +1926,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
+ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
 // CONCATENATED MODULE: ./src/models/index.js
 
 // CONCATENATED MODULE: ./src/video/vast-parser.js
@@ -4331,8 +4333,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.0');
-logger('ad-engine', 'v13.1.0');
+set_default()(window, versionField, 'v13.1.1');
+logger('ad-engine', 'v13.1.1');
 
 
 
