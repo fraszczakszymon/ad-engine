@@ -27,10 +27,15 @@ function insertNewSlot(slotName, nextSibling) {
 }
 
 class SlotInjector {
-	inject(slotName) {
+	inject(slotName, injectBelowConflictingElements = false) {
 		const config = context.get(`slots.${slotName}`);
-		const anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
+		let anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
 		const conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
+
+		if (injectBelowConflictingElements) {
+			const highestOffset = Math.max(...conflictingElements.map(el => el.offsetTop));
+			anchorElements = anchorElements.filter(el => el.offsetTop > highestOffset);
+		}
 
 		const nextSibling = findNextSuitablePlace(anchorElements, conflictingElements);
 

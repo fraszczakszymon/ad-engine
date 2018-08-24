@@ -37,7 +37,8 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	const container = slotInjector.inject(slotName);
+	const injectBelowConflictingElements = !!adSlot.config.repeat.injectBelowConflictingElements;
+	const container = slotInjector.inject(slotName, injectBelowConflictingElements);
 	const additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {
