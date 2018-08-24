@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 23);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -188,22 +188,28 @@ module.exports = require("babel-runtime/core-js/map");
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 22 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -228,11 +234,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(21);
+var set_ = __webpack_require__(22);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(20);
+var get_ = __webpack_require__(21);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -248,7 +254,7 @@ var external_current_device_ = __webpack_require__(17);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(19);
+var external_blockadblock_ = __webpack_require__(20);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/utils/client.js
@@ -3755,7 +3761,12 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 }();
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
+// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
+var toConsumableArray_ = __webpack_require__(19);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
 // CONCATENATED MODULE: ./src/services/slot-injector.js
+
 
 
 
@@ -3797,9 +3808,20 @@ var slot_injector_SlotInjector = function () {
 	createClass_default()(SlotInjector, [{
 		key: 'inject',
 		value: function inject(slotName) {
+			var injectBelowConflictingElements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
 			var config = context.get('slots.' + slotName);
 			var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
 			var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
+
+			if (injectBelowConflictingElements) {
+				var highestOffset = Math.max.apply(Math, toConsumableArray_default()(conflictingElements.map(function (el) {
+					return el.offsetTop;
+				})));
+				anchorElements = anchorElements.filter(function (el) {
+					return el.offsetTop > highestOffset;
+				});
+			}
 
 			var nextSibling = findNextSuitablePlace(anchorElements, conflictingElements);
 
@@ -3861,7 +3883,8 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	var container = slotInjector.inject(slotName);
+	var injectBelowConflictingElements = !!adSlot.config.repeat.injectBelowConflictingElements;
+	var container = slotInjector.inject(slotName, injectBelowConflictingElements);
 	var additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {
@@ -4333,8 +4356,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.1');
-logger('ad-engine', 'v13.1.1');
+set_default()(window, versionField, 'v13.1.2');
+logger('ad-engine', 'v13.1.2');
 
 
 
