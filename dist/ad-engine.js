@@ -1926,6 +1926,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
+ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
 // CONCATENATED MODULE: ./src/models/index.js
 
 // CONCATENATED MODULE: ./src/video/vast-parser.js
