@@ -2,6 +2,7 @@
 	"presets": [
 		["env", {
 			"targets": {
+				"node": "current",
 				"browsers": ["last 2 versions", "safari >= 9.0", "ie 11", "> 2%"]
 			},
 			"modules": false
@@ -19,5 +20,17 @@
 		}],
 		"syntax-dynamic-import",
 		"lodash"
-	]
+	],
+	"env": {
+		"test": {
+			"presets": [
+				["env",
+				{
+					"targets": {
+						"node": "current"
+					}
+				}]
+			]
+		}
+	}
 }
