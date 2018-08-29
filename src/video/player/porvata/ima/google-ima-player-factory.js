@@ -134,6 +134,7 @@ export const googleImaPlayerFactory = {
 			videoElement = getVideoElement();
 
 		if (player.videoAd) {
+			player.videoAd.style.backgroundColor = 'transparent';
 			videoSettings.getContainer().classList.add('porvata');
 		}
 
