@@ -2390,7 +2390,7 @@ var googleImaPlayerFactory = {
 		    videoElement = getVideoElement();
 
 		if (player.videoAd) {
-			player.videoAd.style.backgroundColor = 'transparent';
+			player.videoAd.classList.add('porvata-video');
 			videoSettings.getContainer().classList.add('porvata');
 		}
 
