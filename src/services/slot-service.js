@@ -25,6 +25,20 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
+function setState(slotName, state, status = null) {
+	const slot = slotService.get(slotName);
+	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
+
+	if (slot) {
+		if (state) {
+			slot.enable();
+		} else {
+			slot.disable(status);
+		}
+	}
+}
+
 class SlotService {
 	add(adSlot) {
 		const slotName = adSlot.getSlotName();
@@ -71,14 +85,6 @@ class SlotService {
 		return slotByPos;
 	}
 
-	/**
-	 * @deprecated since 12.0.0
-	 * Use get function
-	 */
-	getBySlotName(slotName) {
-		return this.get(slotName);
-	}
-
 	forEach(callback) {
 		Object.keys(slots).forEach((id) => {
 			callback(slots[id]);
@@ -91,6 +97,12 @@ class SlotService {
 
 	disable(slotName, status = null) {
 		setState(slotName, false, status);
+	}
+
+	getState(slotName) {
+		// Comparing with false in order to get truthy value for slot
+		// that wasn't disabled or enabled (in case when state is undefined)
+		return slotStates[slotName] !== false;
 	}
 
 	hasViewportConflict(adSlot) {
@@ -112,17 +124,3 @@ class SlotService {
 }
 
 export const slotService = new SlotService();
-
-function setState(slotName, state, status = null) {
-	const slot = slotService.get(slotName);
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
-	}
-}

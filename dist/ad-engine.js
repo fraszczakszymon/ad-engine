@@ -1089,6 +1089,22 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
+function setState(slotName, state) {
+	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+	var slot = slotService.get(slotName);
+	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
+
+	if (slot) {
+		if (state) {
+			slot.enable();
+		} else {
+			slot.disable(status);
+		}
+	}
+}
+
 var slot_service_SlotService = function () {
 	function SlotService() {
 		classCallCheck_default()(this, SlotService);
@@ -1141,17 +1157,6 @@ var slot_service_SlotService = function () {
 
 			return slotByPos;
 		}
-
-		/**
-   * @deprecated since 12.0.0
-   * Use get function
-   */
-
-	}, {
-		key: 'getBySlotName',
-		value: function getBySlotName(slotName) {
-			return this.get(slotName);
-		}
 	}, {
 		key: 'forEach',
 		value: function forEach(callback) {
@@ -1170,6 +1175,13 @@ var slot_service_SlotService = function () {
 			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 			setState(slotName, false, status);
+		}
+	}, {
+		key: 'getState',
+		value: function getState(slotName) {
+			// Comparing with false in order to get truthy value for slot
+			// that wasn't disabled or enabled (in case when state is undefined)
+			return slotStates[slotName] !== false;
 		}
 	}, {
 		key: 'hasViewportConflict',
@@ -1195,22 +1207,6 @@ var slot_service_SlotService = function () {
 }();
 
 var slotService = new slot_service_SlotService();
-
-function setState(slotName, state) {
-	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	var slot = slotService.get(slotName);
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
-	}
-}
 // CONCATENATED MODULE: ./src/services/btf-blocker-service.js
 
 
