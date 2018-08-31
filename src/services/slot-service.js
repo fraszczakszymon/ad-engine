@@ -30,12 +30,10 @@ function setState(slotName, state, status = null) {
 	slotStates[slotName] = state;
 	slotStatuses[slotName] = status;
 
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
+	if (slot && state) {
+		slot.enable();
+	} else if (slot && !state) {
+		slot.disable(status);
 	}
 }
 
