@@ -1,3 +1,5 @@
+import { timeouts } from '../common/timeouts';
+
 class Helpers {
 	get gdprModalOverlay() {
 		return '[data-tracking-opt-in-overlay="true"]';
@@ -11,9 +13,13 @@ class Helpers {
 		return '#incontent_boxad';
 	}
 
+	get fandomLayout() {
+		return '.feed-layout';
+	}
+
 	gdprModal(decision = true) {
 		if (browser.isVisible(this.gdprModalOverlay)) {
-			browser.waitForVisible(this.gdprAccept, 5000);
+			browser.waitForVisible(this.gdprAccept, timeouts.standard);
 			if (decision) {
 				browser.element(this.gdprAccept).click();
 			} else {
@@ -22,7 +28,7 @@ class Helpers {
 		} else {
 			console.log('Modal not visible');
 		}
-		browser.waitForVisible(this.gdprModalOverlay, 5000, true);
+		browser.waitForVisible(this.gdprModalOverlay, timeouts.standard, true);
 	}
 }
 

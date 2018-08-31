@@ -10,7 +10,6 @@ class FloatingAd {
 	get incontentBoxad() {
 		return '#incontent_boxad';
 	}
-
 }
 
 export default new FloatingAd();
