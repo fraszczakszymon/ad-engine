@@ -241,3 +241,36 @@ This command runs preversion script which:
 ```
 git push --follow-tags
 ```
+
+
+### WebdriverIO tests
+
+Install dependencies
+
+```bash
+npm install
+```
+
+For allure reports
+
+```bash
+npm install -g allure-commandline --save-dev
+```
+
+## Run tests
+
+In one session run ad-engine and in other run tests
+
+```bash
+npm run serve
+```
+
+```bash
+npm run wdio
+```
+
+## Generate report
+
+```bash
+allure generate --clean && allure open
+```
