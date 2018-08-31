@@ -1096,12 +1096,10 @@ function setState(slotName, state) {
 	slotStates[slotName] = state;
 	slotStatuses[slotName] = status;
 
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
+	if (slot && state) {
+		slot.enable();
+	} else if (slot && !state) {
+		slot.disable(status);
 	}
 }
 
@@ -4352,8 +4350,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.2');
-logger('ad-engine', 'v13.1.2');
+set_default()(window, versionField, 'v13.1.3');
+logger('ad-engine', 'v13.1.3');
 
 
 
