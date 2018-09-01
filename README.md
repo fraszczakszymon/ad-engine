@@ -243,7 +243,7 @@ git push --follow-tags
 ```
 
 
-### WebdriverIO tests
+## WebdriverIO tests
 
 Install dependencies
 
@@ -257,7 +257,7 @@ For allure reports
 npm install -g allure-commandline --save-dev
 ```
 
-## Run tests
+### Run tests
 
 In one session run ad-engine and in other run tests
 
@@ -269,7 +269,7 @@ npm run serve
 npm run wdio
 ```
 
-## Generate report
+### Generate report
 
 ```bash
 allure generate --clean && allure open
