@@ -20,6 +20,10 @@ export class AdSlot extends EventEmitter {
 		this.element = null;
 		this.status = null;
 
+		this.creativeId = null;
+		this.creativeSize = null;
+		this.lineItemId = null;
+
 		this.config.slotName = this.config.slotName || ad.id;
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
