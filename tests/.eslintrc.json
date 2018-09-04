@@ -26,6 +26,22 @@
     },
     "globals": {
         "document": false,
-        "window": false
-    }
+        "window": false,
+        "afterEach": false,
+        "beforeEach": false,
+        "after": false,
+        "before": false,
+        "describe": false,
+        "it": false,
+        "xit": false,
+        "browser": false
+    },
+    "overrides": [
+        {
+            "files": [ "wdio/**/*.js"],
+            "rules": {
+                "no-console": 0
+            }
+        }
+    ]
 }

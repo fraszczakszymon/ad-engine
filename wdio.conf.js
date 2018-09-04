@@ -1,6 +1,6 @@
 exports.config = {
 	specs: [
-		'./wdio/tests/**/*.js'
+		'./tests/specs/**/*.js'
 	],
 	exclude: [
 	],
