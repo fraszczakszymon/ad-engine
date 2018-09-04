@@ -9,6 +9,7 @@
         "import/prefer-default-export": 0,
         "indent": [2, "tab", {"VariableDeclarator": 1, "SwitchCase": 1}],
         "max-len": [2, 120, 2],
+        "no-console": 0,
         "no-mixed-operators": 0,
         "no-param-reassign": 0,
         "no-use-before-define": 0,
@@ -35,13 +36,5 @@
         "it": false,
         "xit": false,
         "browser": false
-    },
-    "overrides": [
-        {
-            "files": [ "wdio/**/*.js"],
-            "rules": {
-                "no-console": 0
-            }
-        }
-    ]
+    }
 }
