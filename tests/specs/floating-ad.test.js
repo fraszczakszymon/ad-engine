@@ -16,11 +16,11 @@ describe('It will test floating ad page', () => {
 		browser.scroll(0, 5000);
 		const size = browser.getElementSize(floatingAdPage.incontentBoxad);
 		expect(size.width)
-				.to
-				.equal(300, 'Width incorrect');
+			.to
+			.equal(300, 'Width incorrect');
 		expect(size.height)
-				.to
-				.equal(250, 'Height incorrect');
+			.to
+			.equal(250, 'Height incorrect');
 		expect(browser.isVisible(floatingAdPage.incontentBoxadFloating)).to.be.true;
 	});
 
@@ -28,15 +28,14 @@ describe('It will test floating ad page', () => {
 	it('floating ad and the redirection after clicking it', () => {
 		browser.waitForVisible(floatingAdPage.incontentBoxad, timeouts.standard);
 		browser.element(floatingAdPage.incontentBoxad)
-				.click();
+			.click();
 
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
 		helpers.waitForUrl('http://www.wikia.com/fandom');
 		expect(browser.getUrl())
-				.to
-				.equal('http://www.wikia.com/fandom');
+			.to
+			.equal('http://www.wikia.com/fandom');
 	});
-
 });

@@ -14,11 +14,10 @@ describe('It will test top boxad page', () => {
 		const size = browser.getElementSize(topBoxad.topBoxadRail);
 
 		expect(size.width)
-				.to
-				.equal(300, 'Width incorrect');
+			.to
+			.equal(300, 'Width incorrect');
 		expect(size.height)
-				.to
-				.equal(1200, 'Height incorrect');
+			.to
+			.equal(1200, 'Height incorrect');
 	});
-
 });
