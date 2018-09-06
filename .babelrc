@@ -19,5 +19,17 @@
 		}],
 		"syntax-dynamic-import",
 		"lodash"
-	]
+	],
+	"env": {
+		"test": {
+			"presets": [
+				["env",
+				{
+					"targets": {
+						"node": "current"
+					}
+				}]
+			]
+		}
+	}
 }

@@ -1,4 +1,4 @@
-import { AdEngine } from '@wikia/ad-engine';
+import { AdEngine, slotService } from '@wikia/ad-engine';
 import adContext from '../../context';
 
 const article = document.querySelector('.main');
@@ -16,12 +16,12 @@ document.getElementById('addParagraph').addEventListener('click', () => {
 });
 
 document.getElementById('hideTopBoxad').addEventListener('click', () => {
-	document.getElementById('top_boxad').classList.add('hide');
+	slotService.get('top_boxad').collapse();
 });
 
 adContext.listeners.slot.push({
-	onStatusChanged: (adSlot) => {
-		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');
+	onStatusChanged: (adSlot, data) => {
+		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold', data);
 	}
 });
 

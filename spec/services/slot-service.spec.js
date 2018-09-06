@@ -79,4 +79,20 @@ describe('slot-service', () => {
 
 		expect(slotService.hasViewportConflict(adSlot)).to.equals(false);
 	});
+
+	it('slot state is truthy when it was not defined before', () => {
+		expect(slotService.getState('foo')).to.equals(true);
+	});
+
+	it('slot state is truthy when it was enabled before', () => {
+		slotService.enable('foo');
+
+		expect(slotService.getState('foo')).to.equals(true);
+	});
+
+	it('slot state is falsy when it was disabled before', () => {
+		slotService.disable('foo');
+
+		expect(slotService.getState('foo')).to.equals(false);
+	});
 });

@@ -1089,6 +1089,20 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
+function setState(slotName, state) {
+	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+	var slot = slotService.get(slotName);
+	slotStates[slotName] = state;
+	slotStatuses[slotName] = status;
+
+	if (slot && state) {
+		slot.enable();
+	} else if (slot && !state) {
+		slot.disable(status);
+	}
+}
+
 var slot_service_SlotService = function () {
 	function SlotService() {
 		classCallCheck_default()(this, SlotService);
@@ -1141,17 +1155,6 @@ var slot_service_SlotService = function () {
 
 			return slotByPos;
 		}
-
-		/**
-   * @deprecated since 12.0.0
-   * Use get function
-   */
-
-	}, {
-		key: 'getBySlotName',
-		value: function getBySlotName(slotName) {
-			return this.get(slotName);
-		}
 	}, {
 		key: 'forEach',
 		value: function forEach(callback) {
@@ -1170,6 +1173,13 @@ var slot_service_SlotService = function () {
 			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 			setState(slotName, false, status);
+		}
+	}, {
+		key: 'getState',
+		value: function getState(slotName) {
+			// Comparing with false in order to get truthy value for slot
+			// that wasn't disabled or enabled (in case when state is undefined)
+			return slotStates[slotName] !== false;
 		}
 	}, {
 		key: 'hasViewportConflict',
@@ -1195,22 +1205,6 @@ var slot_service_SlotService = function () {
 }();
 
 var slotService = new slot_service_SlotService();
-
-function setState(slotName, state) {
-	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	var slot = slotService.get(slotName);
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot) {
-		if (state) {
-			slot.enable();
-		} else {
-			slot.disable(status);
-		}
-	}
-}
 // CONCATENATED MODULE: ./src/services/btf-blocker-service.js
 
 
@@ -1778,6 +1772,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.viewed = false;
 		_this.element = null;
 		_this.status = null;
+
+		_this.creativeId = null;
+		_this.creativeSize = null;
+		_this.lineItemId = null;
 
 		_this.config.slotName = _this.config.slotName || ad.id;
 		_this.config.targeting = _this.config.targeting || {};
@@ -3211,35 +3209,20 @@ function getAdType(event, adSlot) {
 }
 
 function slot_listener_getData(adSlot, _ref) {
-	var adType = _ref.adType,
-	    event = _ref.event;
+	var adType = _ref.adType;
 
-	var data = {
+	return {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 		adType: adType || '',
+		creative_id: adSlot.creativeId,
+		creative_size: adSlot.creativeSize,
+		line_item_id: adSlot.lineItemId,
 		status: adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
 		viewport_height: window.innerHeight || 0
 	};
-
-	if (event) {
-		if (event.slot) {
-			var response = event.slot.getResponseInformation();
-
-			if (response) {
-				data.creative_id = response.creativeId;
-				data.line_item_id = response.lineItemId;
-			}
-		}
-
-		if (event.size && event.size.length) {
-			data.creative_size = event.size.join('x');
-		}
-	}
-
-	return data;
 }
 
 function slot_listener_dispatch(methodName, adSlot) {
@@ -3274,6 +3257,20 @@ var slot_listener_SlotListener = function () {
 			var adType = getAdType(event, adSlot);
 
 			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
+			if (event) {
+				if (event.slot) {
+					var response = event.slot.getResponseInformation();
+
+					if (response) {
+						adSlot.creativeId = response.creativeId;
+						adSlot.lineItemId = response.lineItemId;
+					}
+				}
+
+				if (event.size && event.size.length) {
+					adSlot.creativeSize = event.size.join('x');
+				}
+			}
 
 			switch (adType) {
 				case 'collapse':
@@ -3299,7 +3296,7 @@ var slot_listener_SlotListener = function () {
 		key: 'emitImpressionViewable',
 		value: function emitImpressionViewable(event, adSlot) {
 			adSlot.emit(ad_slot_AdSlot.SLOT_VIEWED_EVENT);
-			slot_listener_dispatch('onImpressionViewable', adSlot, { event: event });
+			slot_listener_dispatch('onImpressionViewable', adSlot);
 			slotTweaker.setDataParam(adSlot, 'slotViewed', true);
 		}
 	}, {
@@ -4356,8 +4353,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.2');
-logger('ad-engine', 'v13.1.2');
+set_default()(window, versionField, 'v13.1.4');
+logger('ad-engine', 'v13.1.4');
 
 
 
