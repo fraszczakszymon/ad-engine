@@ -10,7 +10,7 @@ describe('It will test floating ad page', () => {
 	});
 
 
-	it('will test visibility of floating ad', () => {
+	xit('will test visibility of floating ad', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(floatingAdPage.incontentBoxad, timeouts.standard);
 		browser.scroll(0, 5000);
@@ -25,7 +25,7 @@ describe('It will test floating ad page', () => {
 	});
 
 
-	it('floating ad and the redirection after clicking it', () => {
+	xit('floating ad and the redirection after clicking it', () => {
 		browser.waitForVisible(floatingAdPage.incontentBoxad, timeouts.standard);
 		browser.element(floatingAdPage.incontentBoxad)
 			.click();

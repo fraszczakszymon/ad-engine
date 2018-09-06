@@ -269,8 +269,8 @@ npm run serve
 npm run wdio
 ```
 
-### Generate report
+### Generate Allure report
 
 ```bash
-allure generate --clean && allure open
+npm run allure
 ```

@@ -8,7 +8,7 @@ describe('It will test top boxad page', () => {
 		browser.url('templates/floating-ad/');
 	});
 
-	it('will test visibility of top boxad', () => {
+	xit('will test visibility of top boxad', () => {
 		browser.waitForVisible(topBoxad.topBoxadRail, timeouts.standard);
 
 		const size = browser.getElementSize(topBoxad.topBoxadRail);
