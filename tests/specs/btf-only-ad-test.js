@@ -9,7 +9,7 @@ describe('It will test btf ads', () => {
 		browser.url('slots/btf-only/');
 	});
 
-	it('will test the visibility of btf ad after manually finishing the queue', () => {
+	xit('will test the visibility of btf ad after manually finishing the queue', () => {
 		browser.waitForVisible(btfOnlyAd.finishQueueButton, timeouts.standard);
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);

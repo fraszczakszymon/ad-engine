@@ -14,7 +14,7 @@ describe('It will test porvata player', () => {
 		helpers.waitForVideoOverlay();
 	});
 
-	xit('will test visibility of player', () => {
+	xit('will test porvata player visibility', () => {
 		const size = browser.getElementSize(porvata.porvataPlayer);
 
 		expect(size.width)
@@ -23,10 +23,10 @@ describe('It will test porvata player', () => {
 		expect(size.height)
 			.to
 			.equal(250, 'Height incorrect');
-		expect(browser.isVisible(porvata.porvataPlayer)).to.be.true;
+		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer)).to.be.true;
 	});
 
-	xit('will test redirection to news and stories after clicking on a video in the player', () => {
+	xit('will test redirection to news and stories after clicking on a video in the porvata player', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -42,7 +42,7 @@ describe('It will test porvata player', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
 
-		const unmuted = browser.isExisting(`${porvata.unmuteButton}.icon.hide`);
+		const unmuted = browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`);
 
 		expect(unmuted)
 			.to
@@ -54,7 +54,7 @@ describe('It will test porvata player', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 
-		const fullscreenOn = browser.isExisting('.stop-scrolling');
+		const fullscreenOn = browser.isExisting(porvata.stopScrolling);
 
 		expect(fullscreenOn).to.be.true;
 	});
@@ -63,7 +63,7 @@ describe('It will test porvata player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 
-		const playerOff = browser.isExisting('.video-player.hide');
+		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
 
 		expect(playerOff).to.be.true;
 	});
@@ -71,7 +71,7 @@ describe('It will test porvata player', () => {
 	xit('will test if autoplay is disabled upon entering the page', () => {
 		browser.url(`${porvata.pageLink}${porvata.turnAutoplay(false)}`);
 
-		const playerOff = browser.isExisting('.video-player.hide');
+		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
 
 		expect(playerOff).to.be.true;
 	});

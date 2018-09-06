@@ -22,7 +22,7 @@ describe('It will test top leaderboard ad page', () => {
 			.equal(90, 'Height incorrect');
 	});
 
-	xit('top leaderboard and the redirection after clicking it', () => {
+	it('top leaderboard and the redirection after clicking it', () => {
 		browser.waitForVisible(topLeaderboard.topLeaderboard, timeouts.standard);
 		browser.element(topLeaderboard.topLeaderboard)
 			.click();

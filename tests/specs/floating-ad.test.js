@@ -21,11 +21,11 @@ describe('It will test floating ad page', () => {
 		expect(size.height)
 			.to
 			.equal(250, 'Height incorrect');
-		expect(browser.isVisible(floatingAdPage.incontentBoxadFloating)).to.be.true;
+		expect(browser.isVisibleWithinViewport(floatingAdPage.incontentBoxadFloating)).to.be.true;
 	});
 
 
-	xit('floating ad and the redirection after clicking it', () => {
+	xit('floating ad redirecting to news and stories', () => {
 		browser.waitForVisible(floatingAdPage.incontentBoxad, timeouts.standard);
 		browser.element(floatingAdPage.incontentBoxad)
 			.click();
