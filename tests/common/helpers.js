@@ -17,6 +17,19 @@ class Helpers {
 			browser.pause(250);
 		}
 	}
+
+	/**
+	 * Closes all the tabs but the first one and switches back to it.
+	 */
+	closeNewTabs() {
+		const tabIds = browser.getTabIds();
+		if (tabIds.length > 1) {
+			for (let i = 1; i < tabIds.length - 1; i += 1) {
+				browser.close(i);
+			}
+		}
+		browser.switchTab(0);
+	}
 }
 
 export default new Helpers();

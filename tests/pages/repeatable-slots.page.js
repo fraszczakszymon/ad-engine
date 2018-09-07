@@ -3,8 +3,10 @@ import helpers from '../common/helpers';
 class RepeatableSlots {
 	constructor() {
 		this.pageLink = 'slots/repeatable-slots/';
+		this.boxadWidth = 300;
+		this.boxadHeight = 250;
 		this.firstRepeatableBoxad = '#repeatable_boxad_1';
-		this.secondRepeatableBoxad = '#incontent_player';
+		this.secondRepeatableBoxad = '#repeatable_boxad_2';
 	}
 
 	scrollBetweenBoxads(distance = 500) {

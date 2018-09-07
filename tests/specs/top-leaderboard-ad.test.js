@@ -15,13 +15,13 @@ describe('It will test top leaderboard ad page', () => {
 
 		expect(size.width)
 			.to
-			.equal(728, 'Width incorrect');
+			.equal(topLeaderboard.topLeaderboardWidth, 'Width incorrect');
 		expect(size.height)
 			.to
-			.equal(90, 'Height incorrect');
+			.equal(topLeaderboard.topLeaderboardHeight, 'Height incorrect');
 	});
 
-	xit('top leaderboard and the redirection after clicking it', () => {
+	xit('top leaderboard redirect on click', () => {
 		browser.element(topLeaderboard.topLeaderboard)
 			.click();
 
@@ -32,5 +32,6 @@ describe('It will test top leaderboard ad page', () => {
 		expect(browser.getUrl())
 			.to
 			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
 	});
 });

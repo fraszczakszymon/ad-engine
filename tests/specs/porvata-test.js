@@ -19,17 +19,17 @@ describe('It will test porvata player', () => {
 
 		expect(size.width)
 			.to
-			.equal(300, 'Width incorrect');
+			.equal(porvata.playerWidth, 'Width incorrect');
 		expect(size.height)
 			.to
-			.equal(250, 'Height incorrect');
+			.equal(porvata.playerHeight, 'Height incorrect');
 		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer))
 			.to
 			.be
 			.true;
 	});
 
-	xit('will test redirection to news and stories after clicking on a video in the porvata player', () => {
+	xit('will test redirect on click in porvata player', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -39,6 +39,7 @@ describe('It will test porvata player', () => {
 		expect(browser.getUrl())
 			.to
 			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
 	});
 
 	xit('will test if clicking unmute button unmutes the video', () => {
@@ -53,7 +54,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test if clicking fullscreen button sets the video on full screen', () => {
+	xit('will test opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 
@@ -65,7 +66,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test if clicking close button stops the player', () => {
+	xit('will test closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 

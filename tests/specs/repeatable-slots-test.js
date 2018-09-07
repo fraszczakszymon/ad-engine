@@ -16,17 +16,17 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(size.width)
 			.to
-			.equal(300, 'Width incorrect');
+			.equal(repeatableSlots.boxadWidth, 'Width incorrect');
 		expect(size.height)
 			.to
-			.equal(250, 'Height incorrect');
+			.equal(repeatableSlots.boxadHeight, 'Height incorrect');
 		expect(browser.isVisibleWithinViewport(repeatableSlots.firstRepeatableBoxad))
 			.to
 			.be
 			.true;
 	});
 
-	xit('will test redirection to news and stories after clicking on an ad', () => {
+	xit('will test redirect on click', () => {
 		browser.waitForVisible(repeatableSlots.firstRepeatableBoxad, timeouts.standard);
 		browser.click(repeatableSlots.firstRepeatableBoxad);
 
@@ -37,6 +37,7 @@ describe('It will test repeatable slots ads ', () => {
 		expect(browser.getUrl())
 			.to
 			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
 	});
 
 	xit('will test second boxad visibility and dimensions', () => {
@@ -46,10 +47,10 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(size.width)
 			.to
-			.equal(300, 'Width incorrect');
+			.equal(repeatableSlots.boxadWidth, 'Width incorrect');
 		expect(size.height)
 			.to
-			.equal(250, 'Height incorrect');
+			.equal(repeatableSlots.boxadHeight, 'Height incorrect');
 		expect(browser.isVisibleWithinViewport(repeatableSlots.secondRepeatableBoxad))
 			.to
 			.be

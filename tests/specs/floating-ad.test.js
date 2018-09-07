@@ -17,10 +17,10 @@ describe('It will test floating ad page', () => {
 		const size = browser.getElementSize(floatingAd.incontentBoxad);
 		expect(size.width)
 			.to
-			.equal(300, 'Width incorrect');
+			.equal(floatingAd.floatingAdWidth, 'Width incorrect');
 		expect(size.height)
 			.to
-			.equal(250, 'Height incorrect');
+			.equal(floatingAd.floatingAdHeight, 'Height incorrect');
 		expect(browser.isVisibleWithinViewport(floatingAd.incontentBoxadFloating))
 			.to
 			.be
@@ -28,7 +28,7 @@ describe('It will test floating ad page', () => {
 	});
 
 
-	xit('floating ad redirecting to news and stories', () => {
+	xit('floating ad redirect on click', () => {
 		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
 		browser.element(floatingAd.incontentBoxad)
 			.click();
@@ -40,5 +40,6 @@ describe('It will test floating ad page', () => {
 		expect(browser.getUrl())
 			.to
 			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
 	});
 });
