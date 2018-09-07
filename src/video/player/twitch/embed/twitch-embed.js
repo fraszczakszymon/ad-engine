@@ -12,11 +12,16 @@ function load() {
 	return scriptLoader.loadScript(twitchLibraryUrl);
 }
 
+function getLibrary() {
+	return window.Twitch;
+}
+
 function getPlayer(identifier, videoSettings) {
 	return new window.Twitch.Player(identifier, videoSettings);
 }
 
 export const twitchEmbed = {
 	load,
+	getLibrary,
 	getPlayer
 };
