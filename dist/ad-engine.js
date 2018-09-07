@@ -2252,7 +2252,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 		this.adsLoader = adsLoader;
 		this.adsManager = null;
 		this.params = params;
-		this.mobileVideoAd = params.container.querySelector('video');
+		this.videoAd = params.container.querySelector('video');
 		this.eventListeners = {};
 		this.vastUrl = '';
 	}
@@ -2298,10 +2298,9 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 	}, {
 		key: 'setAutoPlay',
 		value: function setAutoPlay(value) {
-			// mobileVideoAd DOM element is present on mobile only
-			if (this.mobileVideoAd) {
-				this.mobileVideoAd.autoplay = value;
-				this.mobileVideoAd.muted = value;
+			if (this.videoAd) {
+				this.videoAd.autoplay = value;
+				this.videoAd.muted = value;
 			}
 			this.params.autoPlay = value;
 		}
@@ -2388,8 +2387,9 @@ var googleImaPlayerFactory = {
 		    player = new google_ima_player_factory_GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
 		    videoElement = getVideoElement();
 
-		if (player.mobileVideoAd) {
-			videoSettings.getContainer().classList.add('mobile-porvata');
+		if (player.videoAd) {
+			player.videoAd.classList.add('porvata-video');
+			videoSettings.getContainer().classList.add('porvata');
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', function (adsManagerLoadedEvent) {

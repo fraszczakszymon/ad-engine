@@ -83,8 +83,8 @@ describe('google-ima-player', () => {
 		mocks.videoParams.autoPlay = true;
 		const player = googleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
 
-		expect(player.mobileVideoAd.autoplay).to.be.ok;
-		expect(player.mobileVideoAd.muted).to.be.ok;
+		expect(player.videoAd.autoplay).to.be.ok;
+		expect(player.videoAd.muted).to.be.ok;
 	});
 
 	it('destroy ad and request new when reload is called', () => {
