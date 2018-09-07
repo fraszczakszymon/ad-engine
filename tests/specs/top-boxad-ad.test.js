@@ -5,7 +5,7 @@ const { expect } = require('chai');
 
 describe('It will test top boxad page', () => {
 	beforeEach(() => {
-		browser.url('templates/floating-ad/');
+		browser.url(topBoxad.pageLink);
 	});
 
 	xit('will test visibility of top boxad', () => {

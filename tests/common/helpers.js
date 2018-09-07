@@ -1,7 +1,12 @@
 class Helpers {
+	constructor() {
+		this.newsAndStories = 'http://www.wikia.com/fandom';
+	}
+
 	waitForUrl(newUrl) {
 		browser.waitUntil(() => browser.getUrl() === newUrl, 10000, 'expected new page after 10 seconds', 500);
 	}
+
 	waitForVideoOverlay() {
 		browser.pause(5000);
 	}

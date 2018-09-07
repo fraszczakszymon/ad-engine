@@ -23,8 +23,13 @@ describe('It will test porvata player', () => {
 		expect(size.height)
 			.to
 			.equal(250, 'Height incorrect');
-		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer)).to.be.true;
+		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer))
+			.to
+			.be
+			.true;
 	});
+
+	// links in this test will be changed after it is fixed on the page
 
 	xit('will test redirection to news and stories after clicking on a video in the porvata player', () => {
 		browser.click(porvata.porvataPlayer);

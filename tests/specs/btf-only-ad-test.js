@@ -6,7 +6,7 @@ const { expect } = require('chai');
 
 describe('It will test btf ads', () => {
 	beforeEach(() => {
-		browser.url('slots/btf-only/');
+		browser.url(btfOnlyAd.pageLink);
 	});
 
 	xit('will test the visibility of btf ad after manually finishing the queue', () => {
@@ -23,6 +23,9 @@ describe('It will test btf ads', () => {
 		expect(size.height)
 			.to
 			.equal(250, 'Height incorrect');
-		expect(browser.isVisibleWithinViewport(btfOnlyAd.btfAd)).to.be.true;
+		expect(browser.isVisibleWithinViewport(btfOnlyAd.btfAd))
+			.to
+			.be
+			.true;
 	});
 });
