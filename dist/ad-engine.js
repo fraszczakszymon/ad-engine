@@ -2956,7 +2956,82 @@ var porvata_Porvata = function () {
 
 
 
+// CONCATENATED MODULE: ./src/video/player/twitch/embed/twitch-embed.js
+
+
+
+var twitchLibraryUrl = '//player.twitch.tv/js/embed/v1.js';
+
+function twitch_embed_load() {
+	if (window.Twitch) {
+		return new promise_default.a(function (resolve) {
+			resolve();
+		});
+	}
+
+	return scriptLoader.loadScript(twitchLibraryUrl);
+}
+
+function twitch_embed_getPlayer(identifier, videoSettings) {
+	return new window.Twitch.Player(identifier, videoSettings);
+}
+
+var twitchEmbed = {
+	load: twitch_embed_load,
+	getPlayer: twitch_embed_getPlayer
+};
+// CONCATENATED MODULE: ./src/video/player/twitch/twitch.js
+
+
+
+
+var twitch_TwitchPlayer = function () {
+	function TwitchPlayer(identifier, videoSettings) {
+		classCallCheck_default()(this, TwitchPlayer);
+
+		this.identifier = identifier;
+		this.videoSettings = videoSettings;
+
+		this.player = twitch_Twitch.inject(identifier, videoSettings);
+	}
+
+	createClass_default()(TwitchPlayer, [{
+		key: 'getIdentifier',
+		value: function getIdentifier() {
+			return this.identifier;
+		}
+	}, {
+		key: 'setVolume',
+		value: function setVolume(volume) {
+			this.player.setVolume(volume);
+		}
+	}]);
+
+	return TwitchPlayer;
+}();
+
+var twitch_Twitch = function () {
+	function Twitch() {
+		classCallCheck_default()(this, Twitch);
+	}
+
+	createClass_default()(Twitch, null, [{
+		key: 'inject',
+		value: function inject(identifier, videoSettings) {
+			return twitchEmbed.load().then(function (player) {
+				twitchEmbed.getPlayer(identifier, videoSettings);
+
+				return player;
+			});
+		}
+	}]);
+
+	return Twitch;
+}();
+// CONCATENATED MODULE: ./src/video/player/twitch/index.js
+
 // CONCATENATED MODULE: ./src/video/index.js
+
 
 
 
@@ -4341,6 +4416,8 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "VideoSettings", function() { return video_settings_VideoSettings; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatVideoTracker", function() { return moatVideoTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "googleImaPlayerFactory", function() { return googleImaPlayerFactory; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchPlayer", function() { return twitch_TwitchPlayer; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Twitch", function() { return twitch_Twitch; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 
 
