@@ -37,10 +37,10 @@ describe('It will test porvata player', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl('http://fandom.wikia.com/');
+		helpers.waitForUrl(helpers.newsAndStories);
 		expect(browser.getUrl())
 			.to
-			.equal('http://fandom.wikia.com/');
+			.equal(helpers.newsAndStories);
 	});
 
 	xit('will test if clicking unmute button unmutes the video', () => {
