@@ -8,7 +8,7 @@ class Porvata {
 		this.closePlayerButton = '#player-close';
 		this.stopScrolling = '.stop-scrolling';
 		this.videoPlayerHidden = '.video-player.hide';
-		this.iconHidden = 'icon.hide';
+		this.iconHidden = '.icon.hide';
 	}
 
 	/**

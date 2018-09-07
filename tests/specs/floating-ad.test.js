@@ -21,7 +21,10 @@ describe('It will test floating ad page', () => {
 		expect(size.height)
 			.to
 			.equal(250, 'Height incorrect');
-		expect(browser.isVisibleWithinViewport(floatingAd.incontentBoxadFloating)).to.be.true;
+		expect(browser.isVisibleWithinViewport(floatingAd.incontentBoxadFloating))
+			.to
+			.be
+			.true;
 	});
 
 

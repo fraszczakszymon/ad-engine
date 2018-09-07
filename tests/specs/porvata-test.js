@@ -29,8 +29,6 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	// links in this test will be changed after it is fixed on the page
-
 	xit('will test redirection to news and stories after clicking on a video in the porvata player', () => {
 		browser.click(porvata.porvataPlayer);
 
@@ -61,7 +59,10 @@ describe('It will test porvata player', () => {
 
 		const fullscreenOn = browser.isExisting(porvata.stopScrolling);
 
-		expect(fullscreenOn).to.be.true;
+		expect(fullscreenOn)
+			.to
+			.be
+			.true;
 	});
 
 	xit('will test if clicking close button stops the player', () => {
@@ -70,7 +71,10 @@ describe('It will test porvata player', () => {
 
 		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
 
-		expect(playerOff).to.be.true;
+		expect(playerOff)
+			.to
+			.be
+			.true;
 	});
 
 	xit('will test if autoplay is disabled upon entering the page', () => {
@@ -78,6 +82,9 @@ describe('It will test porvata player', () => {
 
 		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
 
-		expect(playerOff).to.be.true;
+		expect(playerOff)
+			.to
+			.be
+			.true;
 	});
 });
