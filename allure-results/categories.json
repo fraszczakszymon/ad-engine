@@ -9,10 +9,10 @@
   },
   {
     "name": "Broken (malfunctioning) tests",
-    "matchedStatuses": ["broken"]
+    "matchedStatuses": ["failed"]
   },
   {
     "name": "Failed (burning) tests",
-    "matchedStatuses": ["failed"]
+    "matchedStatuses": ["broken"]
   }
 ]

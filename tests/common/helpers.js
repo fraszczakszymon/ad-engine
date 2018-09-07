@@ -23,12 +23,14 @@ class Helpers {
 	 */
 	closeNewTabs() {
 		const tabIds = browser.getTabIds();
+
 		if (tabIds.length > 1) {
-			for (let i = 1; i < tabIds.length - 1; i += 1) {
+			for (let i = 1; i <= tabIds.length - 1; i += 1) {
 				browser.close(i);
 			}
 		}
-		browser.switchTab(0);
+
+		browser.switchTab(tabIds[0]);
 	}
 }
 

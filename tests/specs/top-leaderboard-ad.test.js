@@ -10,7 +10,7 @@ describe('It will test top leaderboard ad page', () => {
 		browser.waitForVisible(topLeaderboard.topLeaderboard, timeouts.standard);
 	});
 
-	xit('will test visibility of top leaderboard', () => {
+	it('will test visibility of top leaderboard', () => {
 		const size = browser.getElementSize(topLeaderboard.topLeaderboard);
 
 		expect(size.width)
@@ -21,7 +21,7 @@ describe('It will test top leaderboard ad page', () => {
 			.equal(topLeaderboard.topLeaderboardHeight, 'Height incorrect');
 	});
 
-	xit('top leaderboard redirect on click', () => {
+	it('top leaderboard redirect on click', () => {
 		browser.element(topLeaderboard.topLeaderboard)
 			.click();
 

@@ -14,7 +14,7 @@ describe('It will test porvata player', () => {
 		helpers.waitForVideoOverlay();
 	});
 
-	xit('will test porvata player visibility', () => {
+	it('will test porvata player visibility', () => {
 		const size = browser.getElementSize(porvata.porvataPlayer);
 
 		expect(size.width)
@@ -29,7 +29,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test redirect on click in porvata player', () => {
+	it('will test redirect on click in porvata player', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -42,7 +42,7 @@ describe('It will test porvata player', () => {
 		helpers.closeNewTabs();
 	});
 
-	xit('will test if clicking unmute button unmutes the video', () => {
+	it('will test if clicking unmute button unmutes the video', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
 
@@ -54,7 +54,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test opening full screen', () => {
+	it('will test opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 
@@ -66,7 +66,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test closing the player', () => {
+	it('will test closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 
@@ -78,7 +78,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	xit('will test if autoplay is disabled upon entering the page', () => {
+	it('will test if autoplay is disabled upon entering the page', () => {
 		browser.url(`${porvata.pageLink}${porvata.turnAutoplay(false)}`);
 
 		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
