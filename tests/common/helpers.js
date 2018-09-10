@@ -3,12 +3,12 @@ class Helpers {
 		this.newsAndStories = 'http://www.wikia.com/fandom';
 	}
 
+	/**
+	 * Waits for the URL provided as the parameter
+	 * @param {string} newUrl - URL we are waiting for
+	 */
 	waitForUrl(newUrl) {
 		browser.waitUntil(() => browser.getUrl() === newUrl, 10000, 'expected new page after 10 seconds', 500);
-	}
-
-	waitForVideoOverlay() {
-		browser.pause(5000);
 	}
 
 	slowScroll(px, scrollFromElement = null) {

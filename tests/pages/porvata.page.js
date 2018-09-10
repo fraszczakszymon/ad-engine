@@ -14,6 +14,13 @@ class Porvata {
 	}
 
 	/**
+	 * Pauses the test for 5 seconds (required for porvata toolbar tests to work)
+	 */
+	waitForVideoOverlay() {
+		browser.pause(5000);
+	}
+
+	/**
 	 * Returns autoplay on or off
 	 * @param {boolean} autoplay - true/false
 	 * @returns {string}
