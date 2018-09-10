@@ -11,12 +11,20 @@ class Helpers {
 		browser.pause(5000);
 	}
 
-	slowScroll(px) {
-		for (let i = (px / 10); i < px; i += i) {
-			browser.scroll(0, i);
-			browser.pause(250);
+	slowScroll(px, scrollFromElement = null) {
+		if (scrollFromElement !== null) {
+			for (let i = (px / 10); i < px; i += i) {
+				browser.scroll(scrollFromElement, 0, i);
+				browser.pause(250);
+			}
+		} else {
+			for (let i = (px / 10); i < px; i += i) {
+				browser.scroll(0, i);
+				browser.pause(250);
+			}
 		}
 	}
+
 
 	/**
 	 * Closes all the tabs but the first one and switches back to it.
@@ -29,8 +37,25 @@ class Helpers {
 				browser.close(i);
 			}
 		}
-
 		browser.switchTab(tabIds[0]);
+	}
+
+	/**
+	 * Adds additional parameters to URL
+	 * @param {string} url - base URL
+	 * @param {array} parameters - array of parameters to add
+	 * @returns {string} given URL with added parameters
+	 */
+	addParametersToUrl(url, parameters) {
+		let finalLink = `${url}?${parameters[0]}`;
+
+		parameters.shift();
+		if (parameters.length > 0) {
+			parameters.forEach((parameter) => {
+				finalLink = `${finalLink}&${parameter}`;
+			});
+		}
+		return finalLink;
 	}
 }
 

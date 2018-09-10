@@ -1,7 +1,7 @@
 class Porvata {
 	constructor() {
 		this.pageLink = 'video/porvata/';
-		this.autoplayLink = '?autoplay';
+		this.autoplayLink = 'autoplay';
 		this.porvataPlayer = '#player';
 		this.playerWidth = 300;
 		this.playerHeight = 250;
