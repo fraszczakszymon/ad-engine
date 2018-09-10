@@ -79,7 +79,7 @@ describe('It will test porvata player', () => {
 	});
 
 	it('will test if autoplay is disabled upon entering the page', () => {
-		browser.url(`${porvata.pageLink}${porvata.turnAutoplay(false)}`);
+		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
 
 		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
 
