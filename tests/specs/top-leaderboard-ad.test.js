@@ -21,7 +21,7 @@ describe('It will test top leaderboard ad page', () => {
 			.equal(topLeaderboard.topLeaderboardHeight, 'Height incorrect');
 	});
 
-	it('top leaderboard redirect on click', () => {
+	it('will test top leaderboard redirect on click', () => {
 		browser.element(topLeaderboard.topLeaderboard)
 			.click();
 
