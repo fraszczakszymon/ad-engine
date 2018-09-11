@@ -1,3 +1,5 @@
+const valueToDivideBy = 10;
+
 class Helpers {
 	constructor() {
 		this.newsAndStories = 'http://www.wikia.com/fandom';
@@ -18,7 +20,7 @@ class Helpers {
 	 */
 	slowScroll(px, scrollFromElement = null) {
 		if (scrollFromElement !== null) {
-			for (let i = (px / 10); i < px; i += i) {
+			for (let i = (px / valueToDivideBy); i < px; i += i) {
 				browser.scroll(scrollFromElement, 0, i);
 				browser.pause(250);
 			}

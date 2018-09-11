@@ -8,11 +8,11 @@
     "matchedStatuses": ["skipped"]
   },
   {
-    "name": "Failed tests",
+    "name": "Broken tests",
     "matchedStatuses": ["failed"]
   },
   {
-    "name": "Broken tests",
+    "name": "Failed tests",
     "matchedStatuses": ["broken"]
   }
 ]
