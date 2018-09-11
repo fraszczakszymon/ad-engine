@@ -11,6 +11,12 @@ class Helpers {
 		browser.waitUntil(() => browser.getUrl() === newUrl, 10000, 'expected new page after 10 seconds', 500);
 	}
 
+	/**
+	 * Scrolls by given number of pixels starting from the given element. If no element is given, it scrolls from the top.
+	 * @param {number} px - number of pixels by which we want to scroll
+	 * @param scrollFromElement - element we want to scroll from
+	 */
+
 	slowScroll(px, scrollFromElement = null) {
 		if (scrollFromElement !== null) {
 			for (let i = (px / 10); i < px; i += i) {
