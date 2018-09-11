@@ -4,14 +4,14 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-// try to remove waitForVideoOverlay from beforeEach to execute tests faster (most of them need it now)
+// TODO try to remove waitForVideoOverlay from beforeEach to execute tests faster (most of them need it now)
 
 describe('It will test porvata player', () => {
 	beforeEach(() => {
 		browser.url(porvata.pageLink);
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
 		browser.scroll(porvata.porvataPlayer);
-		helpers.waitForVideoOverlay();
+		porvata.waitForVideoOverlay();
 	});
 
 	it('will test porvata player visibility', () => {

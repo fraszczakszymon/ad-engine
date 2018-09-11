@@ -39,7 +39,7 @@ class RepeatableSlots {
 
 	/**
 	 * Provides parameter to add more paragraphs
-	 * @param {number}lengthNumber - number of added paragraphs multiplied by 5
+	 * @param {number}lengthNumber - number of added paragraphs multiplied by 15
 	 * @returns {string} parameter with paragraphs added
 	 */
 	setLengthOfContent(lengthNumber = 5) {

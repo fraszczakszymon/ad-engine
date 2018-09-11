@@ -10,7 +10,7 @@ describe('It will test repeatable slots ads ', () => {
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 	});
 
-	xit('will test first boxad visibility and dimensions', () => {
+	it('will test first boxad visibility and dimensions', () => {
 		const size = browser.getElementSize(repeatableSlots.getRepeatableSlot(1));
 
 		expect(size.width)
@@ -25,7 +25,7 @@ describe('It will test repeatable slots ads ', () => {
 			.true;
 	});
 
-	xit('will test redirect on click', () => {
+	it('will test redirect on click', () => {
 		browser.click(repeatableSlots.getRepeatableSlot(1));
 
 		const tabIds = browser.getTabIds();
@@ -56,7 +56,7 @@ describe('It will test repeatable slots ads ', () => {
 			.false;
 	});
 
-	xit('will test 8 boxads', () => {
+	it('will test 8 boxads', () => {
 		const numberOfSlots = 8;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));
