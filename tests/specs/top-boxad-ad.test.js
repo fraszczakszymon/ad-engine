@@ -15,9 +15,9 @@ describe('It will test top boxad page', () => {
 
 		expect(size.width)
 			.to
-			.equal(topBoxad.topBoxadWidth, 'Width incorrect');
+			.equal(topBoxad.topBoxadWidth, 'Top boxad width incorrect');
 		expect(size.height)
 			.to
-			.equal(topBoxad.topBoxadHeight, 'Height incorrect');
+			.equal(topBoxad.topBoxadHeight, 'Top boxad height incorrect');
 	});
 });

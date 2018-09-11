@@ -15,10 +15,10 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(size.width)
 			.to
-			.equal(repeatableSlots.boxadWidth, 'Width incorrect');
+			.equal(repeatableSlots.boxadWidth, 'Boxad width incorrect');
 		expect(size.height)
 			.to
-			.equal(repeatableSlots.boxadHeight, 'Height incorrect');
+			.equal(repeatableSlots.boxadHeight, 'Boxad height incorrect');
 		expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)))
 			.to
 			.be
