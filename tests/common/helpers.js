@@ -1,4 +1,5 @@
 const valueToDivideBy = 10;
+const pauseBetweenScrolls = 250;
 
 class Helpers {
 	constructor() {
@@ -22,12 +23,12 @@ class Helpers {
 		if (scrollFromElement !== null) {
 			for (let i = (px / valueToDivideBy); i < px; i += i) {
 				browser.scroll(scrollFromElement, 0, i);
-				browser.pause(250);
+				browser.pause(pauseBetweenScrolls);
 			}
 		} else {
-			for (let i = (px / 10); i < px; i += i) {
+			for (let i = (px / valueToDivideBy); i < px; i += i) {
 				browser.scroll(0, i);
-				browser.pause(250);
+				browser.pause(pauseBetweenScrolls);
 			}
 		}
 	}
