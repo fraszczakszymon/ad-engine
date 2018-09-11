@@ -30,7 +30,6 @@ class Helpers {
 		}
 	}
 
-
 	/**
 	 * Closes all the tabs but the first one and switches back to it.
 	 */
@@ -57,7 +56,7 @@ class Helpers {
 		parameters.shift();
 		if (parameters.length > 0) {
 			parameters.forEach((parameter) => {
-				finalLink = `${finalLink}&${parameter}`;
+				finalLink += `&${parameter}`;
 			});
 		}
 		return finalLink;

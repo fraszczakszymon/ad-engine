@@ -4,8 +4,6 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-// TODO try to remove waitForVideoOverlay from beforeEach to execute tests faster (most of them need it now)
-
 describe('It will test porvata player', () => {
 	beforeEach(() => {
 		browser.url(porvata.pageLink);
@@ -45,10 +43,7 @@ describe('It will test porvata player', () => {
 	it('will test if clicking unmute button unmutes the video', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
-
-		const unmuted = browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`);
-
-		expect(unmuted)
+		expect(browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`))
 			.to
 			.be
 			.true;
@@ -57,10 +52,7 @@ describe('It will test porvata player', () => {
 	it('will test opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
-
-		const fullscreenOn = browser.isExisting(porvata.stopScrolling);
-
-		expect(fullscreenOn)
+		expect(browser.isExisting(porvata.stopScrolling))
 			.to
 			.be
 			.true;
@@ -69,10 +61,7 @@ describe('It will test porvata player', () => {
 	it('will test closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
-
-		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
-
-		expect(playerOff)
+		expect(browser.isExisting(porvata.videoPlayerHidden))
 			.to
 			.be
 			.true;
@@ -80,10 +69,7 @@ describe('It will test porvata player', () => {
 
 	it('will test if autoplay is disabled upon entering the page', () => {
 		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
-
-		const playerOff = browser.isExisting(porvata.videoPlayerHidden);
-
-		expect(playerOff)
+		expect(browser.isExisting(porvata.videoPlayerHidden))
 			.to
 			.be
 			.true;

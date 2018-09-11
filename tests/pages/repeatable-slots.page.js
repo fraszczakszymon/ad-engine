@@ -20,7 +20,7 @@ class RepeatableSlots {
 	}
 
 	/**
-	 * Sets number of ad slots to load
+	 * Provides parameter to set number of ad slots to load
 	 * @param {number} slotNumber - slots to load
 	 * @returns {string} parameter with number of slots
 	 */
