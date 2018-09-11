@@ -19,10 +19,10 @@ describe('It will test btf ads', () => {
 
 		expect(size.width)
 			.to
-			.equal(btfOnlyAd.btfAdWidth, 'Width incorrect');
+			.equal(btfOnlyAd.btfAdWidth, 'BTF ad width incorrect');
 		expect(size.height)
 			.to
-			.equal(btfOnlyAd.btfAdHeight, 'Height incorrect');
+			.equal(btfOnlyAd.btfAdHeight, 'BTF ad height incorrect');
 		expect(browser.isVisibleWithinViewport(btfOnlyAd.btfAd))
 			.to
 			.be

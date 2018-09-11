@@ -15,10 +15,10 @@ describe('It will test top leaderboard ad page', () => {
 
 		expect(size.width)
 			.to
-			.equal(topLeaderboard.topLeaderboardWidth, 'Width incorrect');
+			.equal(topLeaderboard.topLeaderboardWidth, 'Top leaderboard width incorrect');
 		expect(size.height)
 			.to
-			.equal(topLeaderboard.topLeaderboardHeight, 'Height incorrect');
+			.equal(topLeaderboard.topLeaderboardHeight, 'Top leaderboard height incorrect');
 	});
 
 	it('will test top leaderboard redirect on click', () => {
