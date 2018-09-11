@@ -16,7 +16,6 @@ class Helpers {
 	 * @param {number} px - number of pixels by which we want to scroll
 	 * @param scrollFromElement - element we want to scroll from
 	 */
-
 	slowScroll(px, scrollFromElement = null) {
 		if (scrollFromElement !== null) {
 			for (let i = (px / 10); i < px; i += i) {
