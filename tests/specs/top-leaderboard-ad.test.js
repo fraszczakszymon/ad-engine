@@ -22,8 +22,7 @@ describe('It will test top leaderboard ad page', () => {
 	});
 
 	it('will test top leaderboard redirect on click', () => {
-		browser.element(topLeaderboard.topLeaderboard)
-			.click();
+		browser.click(topLeaderboard.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
 

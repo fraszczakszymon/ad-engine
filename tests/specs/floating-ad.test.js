@@ -30,8 +30,7 @@ describe('It will test floating ad page', () => {
 
 	it(' will test floating ad redirect on click', () => {
 		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
-		browser.element(floatingAd.incontentBoxad)
-			.click();
+		browser.click(floatingAd.incontentBoxad);
 
 		const tabIds = browser.getTabIds();
 

@@ -9,8 +9,7 @@ describe('It will test delay ad page', () => {
 		browser.url(delayAd.pageLink);
 	});
 
-
-	xit('will test visibility and dimensions of delayed top leaderboard and top boxad', () => {
+	it('will test visibility and dimensions of delayed top leaderboard and top boxad', () => {
 		delayAd.waitToLoadAds();
 		browser.waitForVisible(delayAd.topLeaderboard, timeouts.standard);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
@@ -41,11 +40,10 @@ describe('It will test delay ad page', () => {
 			.true;
 	});
 
-	xit('will test if ads show up after clicking the button', () => {
-		browser.waitForVisible(delayAd.loadAdsButton);
+	it('will test if ads show up after clicking the button and if they were viewed', () => {
+		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(delayAd.topLeaderboard);
-		browser.waitForVisible(delayAd.topBoxad);
+		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(delayAd.topLeaderboard))
 			.to
 			.be
@@ -54,11 +52,16 @@ describe('It will test delay ad page', () => {
 			.to
 			.be
 			.true;
+		expect(browser.element(delayAd.topLeaderboard).getAttribute('data-slot-result'))
+			.to
+			.equal('success', 'Slot failed to do stuff');
+		expect(browser.element(delayAd.topBoxad).getAttribute('data-slot-result'))
+			.to
+			.equal('success', 'Slot failed to do stuff');
 	});
-	xit('will test redirect after clicking on a top leaderboard ad', () => {
-		browser.element(delayAd.loadAdsButton)
-			.click();
-		browser.waitForVisible(delayAd.topLeaderboard);
+	it('will test redirect after clicking on a top leaderboard ad', () => {
+		browser.click(delayAd.loadAdsButton);
+		browser.waitForVisible(delayAd.topLeaderboard, timeouts.standard);
 		browser.click(delayAd.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -71,11 +74,9 @@ describe('It will test delay ad page', () => {
 		helpers.closeNewTabs();
 	});
 	it('will test redirect after clicking on a top leaderboard ad', () => {
-		browser.element(delayAd.loadAdsButton)
-			.click();
-		browser.waitForVisible(delayAd.topBoxad);
+		browser.click(delayAd.loadAdsButton);
+		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
 		browser.click(delayAd.topBoxad);
-
 
 		const tabIds = browser.getTabIds();
 
