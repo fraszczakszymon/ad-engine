@@ -206,6 +206,98 @@ const adProducts = {
 	}
 };
 
+const adBidders = {
+	config: {
+		mode: 'production',
+		entry: {
+			'ad-bidders': './src/bidders/index.js',
+		},
+		devtool: 'source-map',
+		output: {
+			path: path.resolve(__dirname, 'dist'),
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify('production')
+			}),
+			new webpack.optimize.ModuleConcatenationPlugin()
+		]
+	},
+	targets: {
+		commonjs: {
+			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)).concat([
+				/^@wikia\/ad-engine/
+			]),
+			output: {
+				filename: '[name].js',
+				library: 'adEngine',
+				libraryTarget: 'commonjs2'
+			},
+			optimization: {
+				minimize: false
+			}
+		},
+		window: {
+			externals: {
+				'@wikia/ad-engine': {
+					window: ['Wikia', 'adEngine']
+				}
+			},
+			output: {
+				filename: '[name].global.js',
+				library: ['Wikia', 'adBidders'],
+				libraryTarget: 'window'
+			}
+		}
+	}
+};
+
+const adServices = {
+	config: {
+		mode: 'production',
+		entry: {
+			'ad-services': './src/services/index.js',
+		},
+		devtool: 'source-map',
+		output: {
+			path: path.resolve(__dirname, 'dist'),
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify('production')
+			}),
+			new webpack.optimize.ModuleConcatenationPlugin()
+		]
+	},
+	targets: {
+		commonjs: {
+			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)).concat([
+				/^@wikia\/ad-engine/
+			]),
+			output: {
+				filename: '[name].js',
+				library: 'adEngine',
+				libraryTarget: 'commonjs2'
+			},
+			optimization: {
+				minimize: false
+			}
+		},
+		window: {
+			externals: {
+				'@wikia/ad-engine': {
+					window: ['Wikia', 'adEngine']
+				}
+			},
+			output: {
+				filename: '[name].global.js',
+				library: ['Wikia', 'adServices'],
+				libraryTarget: 'window'
+			}
+		}
+	}
+};
+
 module.exports = function (env) {
 	const isProduction = (process.env.NODE_ENV === 'production') || (env && env.production);
 	const isTest = (env && env.test);
@@ -215,7 +307,11 @@ module.exports = function (env) {
 			merge(common, adEngine.config, adEngine.targets.window),
 			merge(common, adEngine.config, adEngine.targets.commonjs),
 			merge(common, adProducts.config, adProducts.targets.window),
-			merge(common, adProducts.config, adProducts.targets.commonjs)
+			merge(common, adProducts.config, adProducts.targets.commonjs),
+			merge(common, adBidders.config, adBidders.targets.commonjs),
+			merge(common, adBidders.config, adBidders.targets.window),
+			merge(common, adServices.config, adServices.targets.commonjs),
+			merge(common, adServices.config, adServices.targets.window)
 		];
 	} else if (isTest) {
 		return merge(common, test);

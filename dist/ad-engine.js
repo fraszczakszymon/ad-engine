@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 23);
+/******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,37 +110,37 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 12 */
@@ -194,22 +194,28 @@ module.exports = require("babel-runtime/helpers/toConsumableArray");
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 23 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -223,6 +229,17 @@ __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() {
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
+__webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
+__webpack_require__.d(utils_namespaceObject, "getContinentCode", function() { return getContinentCode; });
+__webpack_require__.d(utils_namespaceObject, "getRegionCode", function() { return getRegionCode; });
+__webpack_require__.d(utils_namespaceObject, "isProperCountry", function() { return isProperCountry; });
+__webpack_require__.d(utils_namespaceObject, "isProperRegion", function() { return isProperRegion; });
+__webpack_require__.d(utils_namespaceObject, "isProperContinent", function() { return isProperContinent; });
+__webpack_require__.d(utils_namespaceObject, "resetSamplingCache", function() { return resetSamplingCache; });
+__webpack_require__.d(utils_namespaceObject, "getSamplingResults", function() { return getSamplingResults; });
+__webpack_require__.d(utils_namespaceObject, "isProperGeo", function() { return isProperGeo; });
+__webpack_require__.d(utils_namespaceObject, "mapSamplingResults", function() { return mapSamplingResults; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
@@ -234,11 +251,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(22);
+var set_ = __webpack_require__(23);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(21);
+var get_ = __webpack_require__(22);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -254,7 +271,7 @@ var external_current_device_ = __webpack_require__(17);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(20);
+var external_blockadblock_ = __webpack_require__(21);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.js
@@ -567,6 +584,273 @@ function flow_control_once(emitter, eventName) {
 		}
 	});
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
+var keys_ = __webpack_require__(2);
+var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
+var slicedToArray_ = __webpack_require__(6);
+var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
+
+// EXTERNAL MODULE: external "js-cookie"
+var external_js_cookie_ = __webpack_require__(20);
+var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
+
+// CONCATENATED MODULE: ./src/ad-engine/utils/random.js
+// TODO remove this module
+// It is a workaround for issue with mocking Math.random in our environment
+// https://github.com/babel/babel/issues/5426#issuecomment-284839994
+
+function getRandom() {
+	return Math.random();
+}
+
+/* harmony default export */ var random = ({
+	getRandom: getRandom
+});
+// CONCATENATED MODULE: ./src/ad-engine/utils/geo.js
+
+
+
+
+
+var earth = 'XX',
+    negativePrefix = 'non-',
+    precision = Math.pow(10, 6),
+    // precision to 0.00000001 (or 0.000001%) of traffic
+samplingSeparator = '/';
+
+var geoData = null,
+    cache = {};
+
+function hasSampling(geo) {
+	return function (value) {
+		return value.indexOf(negativePrefix) !== 0 && value.indexOf(geo + samplingSeparator) > -1;
+	};
+}
+
+function getSamplingLimits(value) {
+	var _value$split = value.split(samplingSeparator),
+	    _value$split2 = slicedToArray_default()(_value$split, 2),
+	    samplingValue = _value$split2[1];
+
+	return Math.round(parseFloat(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
+}
+
+function addResultToCache(name, result, samplingLimits) {
+	var _samplingLimits = slicedToArray_default()(samplingLimits, 1),
+	    limitValue = _samplingLimits[0];
+
+	cache[name] = {
+		name: name,
+		group: result ? 'B' : 'A',
+		limit: (result ? limitValue : precision * 100 - limitValue) / precision,
+		result: result
+	};
+}
+
+function getResult(samplingLimits, name) {
+	var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0,
+	    // eslint-disable-line no-bitwise
+	result = samplingLimits.some(function (value) {
+		return randomValue < value;
+	});
+
+	if (name) {
+		addResultToCache(name, result, samplingLimits);
+	}
+
+	return result;
+}
+
+function isSampledForGeo(countryList, geo, name) {
+	var countryListWithSampling = countryList.filter(hasSampling(geo));
+
+	if (countryListWithSampling.length === 0) {
+		return false;
+	}
+
+	return getResult(countryListWithSampling.map(getSamplingLimits), name);
+}
+
+function containsEarth(countryList, name) {
+	return countryList.indexOf(earth) > -1 || isSampledForGeo(countryList, earth, name);
+}
+
+/**
+ * Return geo data from cookie
+ * @returns {Object}
+ */
+function getGeoData() {
+	if (geoData === null) {
+		var jsonData = decodeURIComponent(external_js_cookie_default.a.get('Geo'));
+
+		try {
+			geoData = JSON.parse(jsonData) || {};
+		} catch (e) {
+			geoData = {};
+		}
+	}
+
+	return geoData;
+}
+
+/**
+ * Set geo data
+ * @param {Object} data
+ * @returns {void}
+ */
+function setGeoData(data) {
+	geoData = data;
+}
+
+/**
+ * Return country code based on cookie
+ * @returns {string}
+ */
+function getCountryCode() {
+	return getGeoData().country;
+}
+
+/**
+ * Return continent code based on cookie
+ * @returns {string}
+ */
+function getContinentCode() {
+	return getGeoData().continent;
+}
+
+/**
+ * Return region code based on cookie
+ * @returns {*}
+ */
+function getRegionCode() {
+	return getGeoData().region;
+}
+
+/**
+ * Checks whether current country (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined}name
+ * @returns {boolean}
+ */
+function isProperCountry() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	return !!(countryList && countryList.indexOf && (countryList.indexOf(getCountryCode()) > -1 || isSampledForGeo(countryList, getCountryCode(), name)));
+}
+
+/**
+ * Checks whether current regions (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperRegion() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	var code = getCountryCode() + '-' + getRegionCode();
+	return !!(countryList && countryList.indexOf && (countryList.indexOf(code) > -1 || isSampledForGeo(countryList, code, name)));
+}
+
+function containsContinent() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	var geo = earth + '-' + getContinentCode();
+	return countryList.indexOf(geo) > -1 || isSampledForGeo(countryList, geo, name);
+}
+
+/**
+ * Checks whether current continent (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperContinent() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	return !!(countryList && countryList.indexOf && (containsEarth(countryList, name) || containsContinent(countryList, name)));
+}
+
+/**
+ * Checks whether current geo is excluded in array (by using non- prefix)
+ * @param {string[]} countryList
+ * @returns {boolean}
+ */
+function isGeoExcluded() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+	return !!(countryList.indexOf('' + negativePrefix + getCountryCode()) > -1 || countryList.indexOf('' + negativePrefix + getCountryCode() + '-' + getRegionCode()) > -1 || countryList.indexOf('' + negativePrefix + earth + '-' + getContinentCode()) > -1);
+}
+
+function getResultLog(name) {
+	var entry = cache[name];
+
+	return entry.name + '_' + entry.group + '_' + entry.limit;
+}
+
+function resetSamplingCache() {
+	cache = {};
+}
+
+function getSamplingResults() {
+	return keys_default()(cache).map(getResultLog);
+}
+
+/**
+ * Checks whether current geo (from cookie) is listed in array and it's not excluded
+ *
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperGeo() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+	if (name !== undefined && typeof cache[name] !== 'undefined') {
+		return cache[name].result;
+	}
+	return !!(countryList && countryList.indexOf && !isGeoExcluded(countryList) && (isProperContinent(countryList, name) || isProperCountry(countryList, name) || isProperRegion(countryList, name)));
+}
+
+/**
+ * Transform sampling results using supplied key-values map.
+ *
+ * @param {string[] | undefined} keyVals mapping
+ * @returns {string[]}
+ */
+function mapSamplingResults(keyVals) {
+	if (!keyVals || !keyVals.length) {
+		return [];
+	}
+
+	var labradorVariables = geo_module.getSamplingResults();
+
+	return keyVals.map(function (keyVal) {
+		return keyVal.split(':');
+	}).filter(function (keyVal) {
+		return labradorVariables.indexOf(keyVal[0]) !== -1;
+	}).map(function (keyVal) {
+		return keyVal[1];
+	});
+}
+
+var geo_module = {
+	getContinentCode: getContinentCode,
+	getCountryCode: getCountryCode,
+	getRegionCode: getRegionCode,
+	getSamplingResults: getSamplingResults,
+	isProperGeo: isProperGeo,
+	resetSamplingCache: resetSamplingCache,
+	mapSamplingResults: mapSamplingResults
+};
+
+/* harmony default export */ var geo = (geo_module);
 // CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
@@ -584,10 +868,6 @@ function makeLazyQueue(queue, callback) {
 		throw new Error('LazyQueue requires an array as the first parameter');
 	}
 }
-// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(11);
-var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
-
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.js
 
 
@@ -743,10 +1023,6 @@ var script_loader_ScriptLoader = function () {
 }();
 
 var scriptLoader = new script_loader_ScriptLoader();
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
-var keys_ = __webpack_require__(2);
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
-
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
 
 
@@ -886,15 +1162,15 @@ var get_own_property_names_ = __webpack_require__(16);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(9);
+var symbol_ = __webpack_require__(10);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(6);
+var get_prototype_of_ = __webpack_require__(7);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(10);
+var possibleConstructorReturn_ = __webpack_require__(11);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -1628,11 +1904,11 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(8);
+var get_own_property_descriptor_ = __webpack_require__(9);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(7);
+var external_core_decorators_ = __webpack_require__(8);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
@@ -4074,6 +4350,7 @@ var viewportObserver = {
 	removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/ad-engine/utils/index.js
+
 
 
 

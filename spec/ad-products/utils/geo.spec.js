@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
-import * as geo from '../../../src/ad-products/utils/geo';
-import Random from '../../../src/ad-products/utils/random';
+import * as geo from '../../../src/ad-engine/utils/geo';
+import Random from '../../../src/ad-engine/utils/random';
 
 describe('Geo', () => {
 	let sandbox;
