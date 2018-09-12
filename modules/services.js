@@ -1,1 +1,1 @@
-dist/ad-services.js
+../dist/ad-services.js

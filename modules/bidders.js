@@ -1,1 +1,1 @@
-dist/ad-bidders.js
+../dist/ad-bidders.js
