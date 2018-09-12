@@ -44,6 +44,7 @@ describe('It will test delay ad page', () => {
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
+		browser.waitUntil(() => browser.element(delayAd.topLeaderboard).getAttribute(delayAd.viewedAttribute) === 'true', timeouts.standard, 'Slot has not been viewed', helpers.interval);
 		expect(browser.isVisibleWithinViewport(delayAd.topLeaderboard))
 			.to
 			.be
@@ -52,19 +53,20 @@ describe('It will test delay ad page', () => {
 			.to
 			.be
 			.true;
-		expect(browser.element(delayAd.topLeaderboard).getAttribute('data-slot-result'))
+		expect(browser.element(delayAd.topLeaderboard).getAttribute(delayAd.resultAttribute))
 			.to
 			.equal('success', 'Slot failed to load');
-		expect(browser.element(delayAd.topBoxad).getAttribute('data-slot-result'))
+		expect(browser.element(delayAd.topBoxad).getAttribute(delayAd.resultAttribute))
 			.to
 			.equal('success', 'Slot failed to load');
-		expect(browser.element(delayAd.topLeaderboard).getAttribute('data-slot-viewed'))
+		expect(browser.element(delayAd.topLeaderboard).getAttribute(delayAd.viewedAttribute))
 			.to
 			.equal('true', 'Slot has not been counted as viewed');
-		expect(browser.element(delayAd.topBoxad).getAttribute('data-slot-viewed'))
+		expect(browser.element(delayAd.topBoxad).getAttribute(delayAd.viewedAttribute))
 			.to
 			.equal('true', 'Slot has not been counted as viewed');
 	});
+
 	it('will test redirect after clicking on a top leaderboard ad', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(delayAd.topLeaderboard, timeouts.standard);
@@ -79,6 +81,7 @@ describe('It will test delay ad page', () => {
 			.equal(helpers.newsAndStories);
 		helpers.closeNewTabs();
 	});
+
 	it('will test redirect after clicking on a top leaderboard ad', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);

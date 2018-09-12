@@ -9,7 +9,6 @@ describe('It will test floating ad page', () => {
 		browser.url(floatingAd.pageLink);
 	});
 
-
 	it('will test visibility of floating ad', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
@@ -26,7 +25,6 @@ describe('It will test floating ad page', () => {
 			.be
 			.true;
 	});
-
 
 	it(' will test floating ad redirect on click', () => {
 		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);

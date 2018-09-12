@@ -9,6 +9,8 @@ class DelayAd {
 		this.topLeaderboard = '#top_leaderboard[data-gpt-line-item-id="271491732"]';
 		this.topBoxad = '#top_boxad[data-gpt-line-item-id="271491732"]';
 		this.loadAdsButton = '#clickDelay';
+		this.resultAttribute = 'data-slot-result';
+		this.viewedAttribute = 'data-slot-viewed';
 		this.topLeaderboardWidth = 728;
 		this.topLeaderboardHeight = 90;
 		this.topBoxadWidth = 300;
@@ -19,8 +21,8 @@ class DelayAd {
 	 * Waits for the delay to pass so the ads load up
 	 */
 	waitToLoadAds() {
-		browser.waitUntil(() => browser.element(this.loadAdsButton).getText() === 'Load ads (9s)', timeouts.standard, 'Button not loaded', helpers.interval);
-		browser.waitUntil(() => browser.element(this.loadAdsButton).getText() === 'Load ads', loadAdTime, 'Ads not loaded', helpers.interval);
+		browser.waitUntil(() => browser.getText(this.loadAdsButton) === 'Load ads (9s)', timeouts.standard, 'Button not loaded', helpers.interval);
+		browser.waitUntil(() => browser.getText(this.loadAdsButton) === 'Load ads', loadAdTime, 'Ads not loaded', helpers.interval);
 	}
 }
 
