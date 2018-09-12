@@ -21,6 +21,9 @@ exports.config = {
 		topLeaderboard: [
 			'./tests/specs/top-leaderboard-ad.test.js',
 		],
+		delayAd: [
+			'./tests/specs/delay-ad.test.js',
+		],
 		otherFeature: [
 
 		]

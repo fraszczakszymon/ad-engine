@@ -1,11 +1,11 @@
 const newUrlTimeout = 10000;
-const interval = 500;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 
 class Helpers {
 	constructor() {
 		this.newsAndStories = 'http://www.wikia.com/fandom';
+		this.interval = 500;
 	}
 
 	/**
@@ -13,7 +13,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => browser.getUrl() === newUrl, newUrlTimeout, 'expected new page after 10 seconds', interval);
+		browser.waitUntil(() => browser.getUrl() === newUrl, newUrlTimeout, 'expected new page after 10 seconds', this.interval);
 	}
 
 	/**
