@@ -1,0 +1,51 @@
+import { context } from '../../../services/index';
+import { sampler } from '../../../utils/index';
+
+function getMoatTrackingStatus(params) {
+	const sampling = context.get('options.video.moatTracking.sampling');
+
+	if (typeof params.moatTracking === 'boolean') {
+		return params.moatTracking;
+	}
+
+	if (!context.get('options.video.moatTracking.enabled')) {
+		return false;
+	}
+
+	if (sampling === 100) {
+		return true;
+	}
+
+	if (sampling > 0) {
+		return sampler.sample('moat_video_tracking', sampling);
+	}
+
+	return false;
+}
+
+export class VideoSettings {
+	constructor(params = {}) {
+		this.params = params;
+		this.moatTracking = getMoatTrackingStatus(params);
+	}
+
+	get(key) {
+		return this.params[key];
+	}
+
+	getContainer() {
+		return this.get('container');
+	}
+
+	getParams() {
+		return this.params;
+	}
+
+	isMoatTrackingEnabled() {
+		return this.moatTracking;
+	}
+
+	isAutoPlay() {
+		return this.params.autoPlay;
+	}
+}

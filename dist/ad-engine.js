@@ -257,7 +257,7 @@ var external_current_device_default = /*#__PURE__*/__webpack_require__.n(externa
 var external_blockadblock_ = __webpack_require__(20);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
-// CONCATENATED MODULE: ./src/utils/client.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/client.js
 
 
 /* global BlockAdBlock */
@@ -398,7 +398,7 @@ var client_Client = function () {
 }();
 
 var client = new client_Client();
-// CONCATENATED MODULE: ./src/utils/dimensions.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/dimensions.js
 /**
  * Returns element's offset of given element from the top of the page
  * @param element DOM element
@@ -513,7 +513,7 @@ var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 var promise_ = __webpack_require__(3);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
-// CONCATENATED MODULE: ./src/utils/flow-control.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/flow-control.js
 
 
 
@@ -567,7 +567,7 @@ function flow_control_once(emitter, eventName) {
 		}
 	});
 }
-// CONCATENATED MODULE: ./src/utils/lazy-queue.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -588,7 +588,7 @@ function makeLazyQueue(queue, callback) {
 var slicedToArray_ = __webpack_require__(11);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
-// CONCATENATED MODULE: ./src/utils/query-string.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/query-string.js
 
 
 
@@ -637,7 +637,7 @@ var query_string_QueryString = function () {
 }();
 
 var query_string_queryString = new query_string_QueryString();
-// CONCATENATED MODULE: ./src/utils/logger.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/logger.js
 
 
 var debugGroup = query_string_queryString.get('adengine_debug') || '',
@@ -660,7 +660,7 @@ function logger(logGroup) {
 		window.console.info(logGroup, logValues);
 	}
 }
-// CONCATENATED MODULE: ./src/utils/sampler.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/sampler.js
 
 
 
@@ -693,7 +693,7 @@ var sampler_Sampler = function () {
 }();
 
 var sampler = new sampler_Sampler();
-// CONCATENATED MODULE: ./src/utils/script-loader.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/script-loader.js
 
 
 
@@ -747,7 +747,7 @@ var scriptLoader = new script_loader_ScriptLoader();
 var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
-// CONCATENATED MODULE: ./src/services/context-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
 
 
 
@@ -909,7 +909,7 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 var external_eventemitter3_ = __webpack_require__(14);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
-// CONCATENATED MODULE: ./src/services/events.js
+// CONCATENATED MODULE: ./src/ad-engine/services/events.js
 
 
 
@@ -1059,7 +1059,7 @@ var events_EventService = function (_EventEmitter) {
 }(external_eventemitter3_default.a);
 
 var events = new events_EventService();
-// CONCATENATED MODULE: ./src/services/slot-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
 
 
 
@@ -1205,7 +1205,7 @@ var slot_service_SlotService = function () {
 }();
 
 var slotService = new slot_service_SlotService();
-// CONCATENATED MODULE: ./src/services/btf-blocker-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/btf-blocker-service.js
 
 
 
@@ -1323,7 +1323,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 }();
 
 var btfBlockerService = new btf_blocker_service_BtfBlockerService();
-// CONCATENATED MODULE: ./src/services/template-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/template-service.js
 
 
 
@@ -1380,7 +1380,7 @@ var template_service_TemplateService = function () {
 }();
 
 var templateService = new template_service_TemplateService();
-// CONCATENATED MODULE: ./src/services/custom-ad-loader.js
+// CONCATENATED MODULE: ./src/ad-engine/services/custom-ad-loader.js
 
 
 
@@ -1395,7 +1395,7 @@ function registerCustomAdLoader(methodName) {
 var stringify_ = __webpack_require__(4);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
 
-// CONCATENATED MODULE: ./src/services/local-cache.js
+// CONCATENATED MODULE: ./src/ad-engine/services/local-cache.js
 
 
 
@@ -1550,7 +1550,7 @@ var local_cache_LocalCache = function () {
 }();
 
 var localCache = new local_cache_LocalCache();
-// CONCATENATED MODULE: ./src/services/message-bus.js
+// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.js
 
 
 
@@ -1634,7 +1634,7 @@ var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get
 // EXTERNAL MODULE: external "core-decorators"
 var external_core_decorators_ = __webpack_require__(7);
 
-// CONCATENATED MODULE: ./src/providers/gpt-size-map.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
 
 
@@ -1720,7 +1720,7 @@ var gpt_size_map_GptSizeMap = function () {
 
 	return GptSizeMap;
 }();
-// CONCATENATED MODULE: ./src/providers/gpt-targeting.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.js
 
 
 
@@ -1747,7 +1747,7 @@ function setupGptTargeting() {
 		setTargetingValue(key, value);
 	});
 }
-// CONCATENATED MODULE: ./src/models/ad-slot.js
+// CONCATENATED MODULE: ./src/ad-engine/models/ad-slot.js
 
 
 
@@ -1932,9 +1932,9 @@ ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
 ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
-// CONCATENATED MODULE: ./src/models/index.js
+// CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
-// CONCATENATED MODULE: ./src/video/vast-parser.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
 
 
 
@@ -1998,7 +1998,7 @@ var vast_parser_VastParser = function () {
 }();
 
 var vastParser = new vast_parser_VastParser();
-// CONCATENATED MODULE: ./src/video/vast-debugger.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-debugger.js
 
 
 
@@ -2043,7 +2043,7 @@ var vast_debugger_VastDebugger = function () {
 }();
 
 var vastDebugger = new vast_debugger_VastDebugger();
-// CONCATENATED MODULE: ./src/video/vast-url-builder.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-url-builder.js
 
 
 
@@ -2094,7 +2094,7 @@ function buildVastUrl(aspectRatio, slotName) {
 
 	return baseUrl + params.join('&');
 }
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-setup.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-setup.js
 
 
 
@@ -2160,7 +2160,7 @@ var googleImaSetup = {
 	createRequest: createRequest,
 	getRenderingSettings: getRenderingSettings
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker-script.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
 // Fixes for MOAT script incompatibility
 var eventMapping = {},
     listeners = [],
@@ -2190,7 +2190,7 @@ function initMoatTracking(a, f, c) {
 	}k[d] = moatapi;g.type = "text/javascript";c && c.appendChild(g);g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
 };
 // MOAT CODE END
-// CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.js
 
 
 
@@ -2227,7 +2227,7 @@ var moat_video_tracker_MoatVideoTracker = function () {
 }();
 
 var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-player-factory.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-player-factory.js
 
 
 
@@ -2436,7 +2436,7 @@ var googleImaPlayerFactory = {
 		return player;
 	}
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima.js
 
 
 
@@ -2473,7 +2473,7 @@ var googleIma = {
 	load: load,
 	getPlayer: getPlayer
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/video-settings.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/video-settings.js
 
 
 
@@ -2540,7 +2540,7 @@ var video_settings_VideoSettings = function () {
 
 	return VideoSettings;
 }();
-// CONCATENATED MODULE: ./src/video/player/porvata/porvata.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/porvata.js
 
 
 
@@ -2951,17 +2951,17 @@ var porvata_Porvata = function () {
 
 	return Porvata;
 }();
-// CONCATENATED MODULE: ./src/video/player/porvata/index.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/index.js
 
 
 
 
-// CONCATENATED MODULE: ./src/video/index.js
+// CONCATENATED MODULE: ./src/ad-engine/video/index.js
 
 
 
 
-// CONCATENATED MODULE: ./src/listeners/porvata-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/porvata-listener.js
 
 
 
@@ -3086,7 +3086,7 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// CONCATENATED MODULE: ./src/listeners/scroll-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.js
 
 
 
@@ -3171,7 +3171,7 @@ var scroll_listener_ScrollListener = function () {
 }();
 
 var scrollListener = new scroll_listener_ScrollListener();
-// CONCATENATED MODULE: ./src/listeners/slot-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.js
 
 
 
@@ -3311,11 +3311,11 @@ var slot_listener_SlotListener = function () {
 }();
 
 var slotListener = new slot_listener_SlotListener();
-// CONCATENATED MODULE: ./src/listeners/index.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/index.js
 
 
 
-// CONCATENATED MODULE: ./src/providers/gpt-provider.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.js
 
 
 
@@ -3555,11 +3555,11 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 
 	return GptProvider;
 }(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flush', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'flush'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec5], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
-// CONCATENATED MODULE: ./src/providers/index.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/index.js
 
 
 
-// CONCATENATED MODULE: ./src/services/slot-tweaker.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.js
 
 
 
@@ -3724,7 +3724,7 @@ var slot_tweaker_SlotTweaker = function () {
 }();
 
 var slotTweaker = new slot_tweaker_SlotTweaker();
-// CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.js
 
 
 
@@ -3762,7 +3762,7 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// CONCATENATED MODULE: ./src/services/slot-injector.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-injector.js
 
 
 
@@ -3839,7 +3839,7 @@ var slot_injector_SlotInjector = function () {
 }();
 
 var slotInjector = new slot_injector_SlotInjector();
-// CONCATENATED MODULE: ./src/services/slot-repeater.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-repeater.js
 
 
 
@@ -3918,7 +3918,7 @@ var slot_repeater_SlotRepeater = function () {
 }();
 
 var slotRepeater = new slot_repeater_SlotRepeater();
-// CONCATENATED MODULE: ./src/services/tracking-opt-in.js
+// CONCATENATED MODULE: ./src/ad-engine/services/tracking-opt-in.js
 
 
 
@@ -3931,7 +3931,7 @@ function isOptedIn() {
 var trackingOptIn = {
 	isOptedIn: isOptedIn
 };
-// CONCATENATED MODULE: ./src/services/index.js
+// CONCATENATED MODULE: ./src/ad-engine/services/index.js
 
 
 
@@ -3945,7 +3945,7 @@ var trackingOptIn = {
 
 
 
-// CONCATENATED MODULE: ./src/utils/string-builder.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/string-builder.js
 
 
 
@@ -4000,7 +4000,7 @@ var string_builder_StringBuilder = function () {
 }();
 
 var stringBuilder = new string_builder_StringBuilder();
-// CONCATENATED MODULE: ./src/utils/try-property.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/try-property.js
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -4031,7 +4031,7 @@ function tryProperty(obj) {
 
 	return null;
 }
-// CONCATENATED MODULE: ./src/utils/viewport-observer.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/viewport-observer.js
 
 
 
@@ -4073,7 +4073,7 @@ var viewportObserver = {
 	addListener: viewport_observer_addListener,
 	removeListener: removeListener
 };
-// CONCATENATED MODULE: ./src/utils/index.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/index.js
 
 
 
@@ -4089,7 +4089,7 @@ var viewportObserver = {
 var map_ = __webpack_require__(18);
 var map_default = /*#__PURE__*/__webpack_require__.n(map_);
 
-// CONCATENATED MODULE: ./src/templates/floating-ad.js
+// CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
 
 
@@ -4161,9 +4161,9 @@ var floating_ad_FloatingAd = function () {
 
 	return FloatingAd;
 }();
-// CONCATENATED MODULE: ./src/templates/index.js
+// CONCATENATED MODULE: ./src/ad-engine/templates/index.js
 
-// CONCATENATED MODULE: ./src/ad-engine.js
+// CONCATENATED MODULE: ./src/ad-engine/ad-engine.js
 
 
 
@@ -4310,7 +4310,7 @@ var ad_engine_AdEngine = function () {
 
 	return AdEngine;
 }();
-// CONCATENATED MODULE: ./src/index.js
+// CONCATENATED MODULE: ./src/ad-engine/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdEngine", function() { return ad_engine_AdEngine; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "scrollListener", function() { return scrollListener; });

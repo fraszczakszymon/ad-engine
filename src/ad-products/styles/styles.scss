@@ -1,0 +1,32 @@
+@import '_mixin';
+@import '_porvata';
+@import '_stickiness';
+@import '_uap';
+
+.stop-scrolling {
+	overflow: hidden;
+}
+
+.gpt-ad {
+	&.slot-animation {
+		transition: max-height 0.8s ease;
+		overflow: hidden;
+	}
+
+	&.slot-responsive {
+		width: 100%;
+
+		> div {
+			position: relative;
+
+			iframe {
+				@include absolute-fill();
+			}
+		}
+	}
+
+	&.hide,
+	& .hide {
+		display: none !important;
+	}
+}
