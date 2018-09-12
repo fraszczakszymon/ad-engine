@@ -54,10 +54,16 @@ describe('It will test delay ad page', () => {
 			.true;
 		expect(browser.element(delayAd.topLeaderboard).getAttribute('data-slot-result'))
 			.to
-			.equal('success', 'Slot failed to do stuff');
+			.equal('success', 'Slot failed to load');
 		expect(browser.element(delayAd.topBoxad).getAttribute('data-slot-result'))
 			.to
-			.equal('success', 'Slot failed to do stuff');
+			.equal('success', 'Slot failed to load');
+		expect(browser.element(delayAd.topLeaderboard).getAttribute('data-slot-viewed'))
+			.to
+			.equal('true', 'Slot has not been counted as viewed');
+		expect(browser.element(delayAd.topBoxad).getAttribute('data-slot-viewed'))
+			.to
+			.equal('true', 'Slot has not been counted as viewed');
 	});
 	it('will test redirect after clicking on a top leaderboard ad', () => {
 		browser.click(delayAd.loadAdsButton);
