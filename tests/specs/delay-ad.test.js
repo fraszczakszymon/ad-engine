@@ -10,8 +10,8 @@ describe('It will test delay ad page', () => {
 	});
 
 
-	xit('will test visibility and dimensions of delayed top leaderboard', () => {
-		delayAd.waitToLoadAd();
+	xit('will test visibility and dimensions of delayed top leaderboard and top boxad', () => {
+		delayAd.waitToLoadAds();
 		browser.waitForVisible(delayAd.topLeaderboard, timeouts.standard);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
 
@@ -41,11 +41,11 @@ describe('It will test delay ad page', () => {
 			.true;
 	});
 
-	// TODO fix this test
-
-	it('will test if ads show up after clicking the button', () => {
+	xit('will test if ads show up after clicking the button', () => {
 		browser.waitForVisible(delayAd.loadAdsButton);
 		browser.click(delayAd.loadAdsButton);
+		browser.waitForVisible(delayAd.topLeaderboard);
+		browser.waitForVisible(delayAd.topBoxad);
 		expect(browser.isVisibleWithinViewport(delayAd.topLeaderboard))
 			.to
 			.be
@@ -58,6 +58,7 @@ describe('It will test delay ad page', () => {
 	xit('will test redirect after clicking on a top leaderboard ad', () => {
 		browser.element(delayAd.loadAdsButton)
 			.click();
+		browser.waitForVisible(delayAd.topLeaderboard);
 		browser.click(delayAd.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -69,10 +70,12 @@ describe('It will test delay ad page', () => {
 			.equal(helpers.newsAndStories);
 		helpers.closeNewTabs();
 	});
-	xit('will test redirect after clicking on a top leaderboard ad', () => {
+	it('will test redirect after clicking on a top leaderboard ad', () => {
 		browser.element(delayAd.loadAdsButton)
 			.click();
+		browser.waitForVisible(delayAd.topBoxad);
 		browser.click(delayAd.topBoxad);
+
 
 		const tabIds = browser.getTabIds();
 

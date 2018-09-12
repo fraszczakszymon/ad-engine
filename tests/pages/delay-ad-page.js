@@ -18,7 +18,7 @@ class DelayAd {
 	/**
 	 * Waits for the delay to pass so the ads load up
 	 */
-	waitToLoadAd() {
+	waitToLoadAds() {
 		browser.waitUntil(() => browser.element(this.loadAdsButton).getText() === 'Load ads (9s)', timeouts.standard, 'Button not loaded', helpers.interval);
 		browser.waitUntil(() => browser.element(this.loadAdsButton).getText() === 'Load ads', loadAdTime, 'Ads not loaded', helpers.interval);
 	}
