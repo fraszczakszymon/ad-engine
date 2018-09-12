@@ -1,4 +1,4 @@
-import { Prebid } from '../../../src/bidders/prebid/index';
+import { Prebid } from '../../../src/ad-bidders/prebid/index';
 
 const bidderConfig = {
 	lazyLoadingEnabled: false,

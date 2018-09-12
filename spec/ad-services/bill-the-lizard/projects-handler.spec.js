@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/index';
-import { ProjectsHandler } from '../../../src/services/bill-the-lizard/projects-handler';
+import { ProjectsHandler } from '../../../src/ad-services/bill-the-lizard/projects-handler';
 
 describe('Bill the Lizard projects handler', () => {
 	let projects;

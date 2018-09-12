@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { WikiaVideo } from '../../../../src/bidders/prebid/adapters/wikia-video';
+import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
 
 describe('WikiaVideo bidder adapter', () => {
 	it('can be enabled', () => {

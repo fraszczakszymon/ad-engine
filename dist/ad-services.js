@@ -136,7 +136,7 @@ var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 // EXTERNAL MODULE: external "@wikia/ad-engine"
 var ad_engine_ = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./src/services/bill-the-lizard/executor.js
+// CONCATENATED MODULE: ./src/ad-services/bill-the-lizard/executor.js
 
 
 
@@ -224,7 +224,7 @@ var executor_Executor = function () {
 
 	return Executor;
 }();
-// CONCATENATED MODULE: ./src/services/bill-the-lizard/projects-handler.js
+// CONCATENATED MODULE: ./src/ad-services/bill-the-lizard/projects-handler.js
 
 
 
@@ -304,7 +304,7 @@ var projects_handler_ProjectsHandler = function () {
 
 	return ProjectsHandler;
 }();
-// CONCATENATED MODULE: ./src/services/bill-the-lizard/index.js
+// CONCATENATED MODULE: ./src/ad-services/bill-the-lizard/index.js
 
 
 
@@ -563,7 +563,7 @@ var bill_the_lizard_BillTheLizard = function () {
 }();
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
-// CONCATENATED MODULE: ./src/services/index.js
+// CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
 
 

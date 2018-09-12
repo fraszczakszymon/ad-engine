@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { transformPriceFromCpm } from '../../../src/bidders/prebid/price-helper';
+import { transformPriceFromCpm } from '../../../src/ad-bidders/prebid/price-helper';
 
 describe('transformPriceFromCpm', () => {
 	it('should return bucket from price converted to string with two decimal places', () => {

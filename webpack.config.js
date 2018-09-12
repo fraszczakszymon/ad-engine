@@ -104,7 +104,9 @@ const development = {
 	resolve: {
 		alias: {
 			[pkg.name]: path.join(__dirname, 'src/ad-engine'),
-			'@wikia/ad-products': path.join(__dirname, 'src/ad-products')
+			'@wikia/ad-bidders': path.join(__dirname, 'src/ad-bidders'),
+			'@wikia/ad-products': path.join(__dirname, 'src/ad-products'),
+			'@wikia/ad-services': path.join(__dirname, 'src/ad-services')
 		}
 	}
 };
@@ -210,7 +212,7 @@ const adBidders = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-bidders': './src/bidders/index.js',
+			'ad-bidders': './src/ad-bidders/index.js',
 		},
 		devtool: 'source-map',
 		output: {
@@ -256,7 +258,7 @@ const adServices = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-services': './src/services/index.js',
+			'ad-services': './src/ad-services/index.js',
 		},
 		devtool: 'source-map',
 		output: {

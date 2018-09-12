@@ -24,7 +24,8 @@ describe('gpt-provider', () => {
 			addEventListener: spy(),
 			disableInitialLoad: spy(),
 			enableSingleRequest: spy(),
-			setRequestNonPersonalizedAds: spy()
+			setRequestNonPersonalizedAds: spy(),
+			setTargeting: spy()
 		};
 
 		window.googletag = {

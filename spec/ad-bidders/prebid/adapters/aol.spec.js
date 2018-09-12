@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Aol } from '../../../../src/bidders/prebid/adapters/aol';
+import { Aol } from '../../../../src/ad-bidders/prebid/adapters/aol';
 
 describe('Aol bidder adapter', () => {
 	it('can be enabled', () => {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { RubiconDisplay } from '../../../../src/bidders/prebid/adapters/rubicon-display';
+import { RubiconDisplay } from '../../../../src/ad-bidders/prebid/adapters/rubicon-display';
 
 describe('RubiconDisplay bidder adapter', () => {
 	it('can be enabled', () => {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Wikia } from '../../../../src/bidders/prebid/adapters/wikia';
+import { Wikia } from '../../../../src/ad-bidders/prebid/adapters/wikia';
 
 describe('Wikia bidder adapter', () => {
 	it('can be enabled', () => {

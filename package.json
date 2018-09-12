@@ -82,7 +82,7 @@
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
     "ci-check": "npm run test && npm run lint",
-    "lint": "eslint .",
+    "lint": "eslint . && ./maintenance/detect-incorrect-usages.sh",
     "preversion": "./maintenance/preversion.sh",
     "version": "./maintenance/version.sh",
     "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",

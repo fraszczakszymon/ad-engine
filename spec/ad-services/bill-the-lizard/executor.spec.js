@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/index';
-import { Executor } from '../../../src/services/bill-the-lizard/executor';
+import { Executor } from '../../../src/ad-services/bill-the-lizard/executor';
 
 describe('Bill the Lizard projects handler', () => {
 	let executor;

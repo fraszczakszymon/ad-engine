@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { IndexExchange } from '../../../../src/bidders/prebid/adapters/index-exchange';
+import { IndexExchange } from '../../../../src/ad-bidders/prebid/adapters/index-exchange';
 
 describe('IndexExchange bidder adapter', () => {
 	it('can be enabled', () => {

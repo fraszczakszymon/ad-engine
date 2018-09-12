@@ -1,5 +1,5 @@
 import { AdEngine, context, utils } from '@wikia/ad-engine';
-import { billTheLizard } from '@wikia/ad-products';
+import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
 
 const predictionsElement = document.getElementById('predictions');

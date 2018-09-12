@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { context } from '@wikia/ad-engine';
-import { Appnexus } from '../../../../src/bidders/prebid/adapters/appnexus';
+import { Appnexus } from '../../../../src/ad-bidders/prebid/adapters/appnexus';
 
 describe('Appnexus bidder adapter', () => {
 	it('can be enabled', () => {

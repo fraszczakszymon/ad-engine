@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { AppnexusWebads } from '../../../../src/bidders/prebid/adapters/appnexus-webads';
+import { AppnexusWebads } from '../../../../src/ad-bidders/prebid/adapters/appnexus-webads';
 
 describe('AppnexusWebAds bidder adapter', () => {
 	it('can be enabled', () => {

@@ -182,7 +182,7 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 var promise_ = __webpack_require__(10);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
-// CONCATENATED MODULE: ./src/bidders/base-bidder.js
+// CONCATENATED MODULE: ./src/ad-bidders/base-bidder.js
 
 
 
@@ -319,7 +319,7 @@ var base_bidder_BaseBidder = function () {
 
 	return BaseBidder;
 }();
-// CONCATENATED MODULE: ./src/bidders/a9/index.js
+// CONCATENATED MODULE: ./src/ad-bidders/a9/index.js
 
 
 
@@ -532,7 +532,7 @@ var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get
 // EXTERNAL MODULE: external "core-decorators"
 var external_core_decorators_ = __webpack_require__(8);
 
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/base-adapter.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/base-adapter.js
 
 
 
@@ -560,7 +560,7 @@ var base_adapter_BaseAdapter = function () {
 
 	return BaseAdapter;
 }();
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/aol.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/aol.js
 
 
 
@@ -611,7 +611,7 @@ var aol_Aol = function (_BaseAdapter) {
 
 	return Aol;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/appnexus.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/appnexus.js
 
 
 
@@ -670,7 +670,7 @@ var appnexus_Appnexus = function (_BaseAdapter) {
 
 	return Appnexus;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/appnexus-ast.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/appnexus-ast.js
 
 
 
@@ -725,7 +725,7 @@ var appnexus_ast_AppnexusAst = function (_BaseAdapter) {
 
 	return AppnexusAst;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/appnexus-webads.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/appnexus-webads.js
 
 
 
@@ -774,7 +774,7 @@ var appnexus_webads_AppnexusWebads = function (_BaseAdapter) {
 
 	return AppnexusWebads;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/audience-network.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/audience-network.js
 
 
 
@@ -822,7 +822,7 @@ var audience_network_AudienceNetwork = function (_BaseAdapter) {
 
 	return AudienceNetwork;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/beachfront.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/beachfront.js
 
 
 
@@ -871,7 +871,7 @@ var beachfront_Beachfront = function (_BaseAdapter) {
 
 	return Beachfront;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/index-exchange.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/index-exchange.js
 
 
 
@@ -924,7 +924,7 @@ var index_exchange_IndexExchange = function (_BaseAdapter) {
 
 	return IndexExchange;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/kargo.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/kargo.js
 
 
 
@@ -965,7 +965,7 @@ var kargo_Kargo = function (_BaseAdapter) {
 
 	return Kargo;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/onemobile.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/onemobile.js
 
 
 
@@ -1012,7 +1012,7 @@ var onemobile_Onemobile = function (_BaseAdapter) {
 
 	return Onemobile;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/openx.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/openx.js
 
 
 
@@ -1059,7 +1059,7 @@ var openx_Openx = function (_BaseAdapter) {
 
 	return Openx;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/pubmatic.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/pubmatic.js
 
 
 
@@ -1110,7 +1110,7 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 
 	return Pubmatic;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/prebid-helper.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-helper.js
 
 
 
@@ -1225,7 +1225,7 @@ function getWinningVideoBidBySlotName(slotName, allowedBidders) {
 function pushPrebid(callback) {
 	window.pbjs.que.push(callback);
 }
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/rubicon.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/rubicon.js
 
 
 
@@ -1293,7 +1293,7 @@ var rubicon_Rubicon = function (_BaseAdapter) {
 
 	return Rubicon;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/rubicon-display.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/rubicon-display.js
 
 
 
@@ -1363,7 +1363,7 @@ var rubicon_display_RubiconDisplay = function (_BaseAdapter) {
 var slicedToArray_ = __webpack_require__(7);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/wikia.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/wikia.js
 
 
 
@@ -1487,7 +1487,7 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 	return Wikia;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters/wikia-video.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/wikia-video.js
 
 
 
@@ -1582,7 +1582,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 	return WikiaVideo;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/bidders/prebid/adapters-registry.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters-registry.js
 
 
 
@@ -1682,7 +1682,7 @@ function getAdapters(config) {
 
 	return adapters_registry_adapters;
 }
-// CONCATENATED MODULE: ./src/bidders/prebid/price-helper.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/price-helper.js
 
 
 
@@ -1741,7 +1741,7 @@ function transformPriceFromCpm(cpm, maxCpm) {
 
 	return result;
 }
-// CONCATENATED MODULE: ./src/bidders/prebid/prebid-settings.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-settings.js
 
 
 
@@ -1787,7 +1787,7 @@ function getSettings() {
 		}
 	};
 }
-// CONCATENATED MODULE: ./src/bidders/prebid/index.js
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/index.js
 
 
 
@@ -2077,8 +2077,8 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 }(base_bidder_BaseBidder), (_applyDecoratedDescriptor(_class.prototype, 'applyConfig', [_dec], get_own_property_descriptor_default()(_class.prototype, 'applyConfig'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'applySettings', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'applySettings'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'requestBids', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'requestBids'), _class.prototype)), _class));
 prebid_Prebid.validResponseStatusCode = 1;
 prebid_Prebid.errorResponseStatusCode = 2;
-// CONCATENATED MODULE: ./src/bidders/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bidders", function() { return bidders_bidders; });
+// CONCATENATED MODULE: ./src/ad-bidders/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bidders", function() { return ad_bidders_bidders; });
 
 
 
@@ -2087,7 +2087,7 @@ prebid_Prebid.errorResponseStatusCode = 2;
 
 var biddersRegistry = {};
 var realSlotPrices = {};
-var bidders_logGroup = 'bidders';
+var ad_bidders_logGroup = 'bidders';
 
 function applyTargetingParams(slotName, targeting) {
 	keys_default()(targeting).forEach(function (key) {
@@ -2154,7 +2154,7 @@ function resetTargetingKeys(slotName) {
 		});
 	});
 
-	ad_engine_["utils"].logger(bidders_logGroup, 'resetTargetingKeys', slotName);
+	ad_engine_["utils"].logger(ad_bidders_logGroup, 'resetTargetingKeys', slotName);
 }
 
 function requestBids(_ref) {
@@ -2196,12 +2196,12 @@ function updateSlotTargeting(slotName) {
 	resetTargetingKeys(slotName);
 	applyTargetingParams(slotName, bidderTargeting);
 
-	ad_engine_["utils"].logger(bidders_logGroup, 'updateSlotTargeting', slotName, bidderTargeting);
+	ad_engine_["utils"].logger(ad_bidders_logGroup, 'updateSlotTargeting', slotName, bidderTargeting);
 
 	return bidderTargeting;
 }
 
-var bidders_bidders = {
+var ad_bidders_bidders = {
 	getCurrentSlotPrices: getCurrentSlotPrices,
 	getDfpSlotPrices: getDfpSlotPrices,
 	hasAllResponses: hasAllResponses,

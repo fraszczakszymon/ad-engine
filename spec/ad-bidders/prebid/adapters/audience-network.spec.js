@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { AudienceNetwork } from '../../../../src/bidders/prebid/adapters/audience-network';
+import { AudienceNetwork } from '../../../../src/ad-bidders/prebid/adapters/audience-network';
 
 describe('AudienceNetwork bidder adapter', () => {
 	it('can be enabled', () => {

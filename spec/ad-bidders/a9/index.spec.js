@@ -1,4 +1,4 @@
-import { A9 } from '../../../src/bidders/a9/index';
+import { A9 } from '../../../src/ad-bidders/a9/index';
 
 const bidderConfig = {
 	slots: {},

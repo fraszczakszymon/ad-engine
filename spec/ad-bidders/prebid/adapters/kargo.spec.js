@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Kargo } from '../../../../src/bidders/prebid/adapters/kargo';
+import { Kargo } from '../../../../src/ad-bidders/prebid/adapters/kargo';
 
 describe('Kargo bidder adapter', () => {
 	it('can be enabled', () => {

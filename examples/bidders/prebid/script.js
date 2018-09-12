@@ -1,5 +1,6 @@
 import { AdEngine, context, events } from '@wikia/ad-engine';
-import { bidders, utils } from '@wikia/ad-products';
+import { bidders } from '@wikia/ad-bidders';
+import { utils as adProductsUtils } from '@wikia/ad-products';
 
 import customContext from '../../context';
 import '../../styles.scss';
@@ -7,7 +8,7 @@ import '../../styles.scss';
 context.extend(customContext);
 context.set('slots.bottom_leaderboard.disabled', false);
 
-utils.setupNpaContext();
+adProductsUtils.setupNpaContext();
 
 let resolveBidders;
 
