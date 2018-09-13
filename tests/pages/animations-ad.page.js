@@ -9,6 +9,7 @@ class AnimationsAd {
 		this.topBoxadWidth = 300;
 		this.topBoxadHeight = 250;
 		this.style = 'style';
+		this.collapsedAdValue = 'max-height: 0px;';
 	}
 
 	/**

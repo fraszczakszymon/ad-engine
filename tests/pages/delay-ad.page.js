@@ -15,10 +15,12 @@ class DelayAd {
 		this.topLeaderboardHeight = 90;
 		this.topBoxadWidth = 300;
 		this.topBoxadHeight = 250;
+		this.adLoaded = 'success';
+		this.adViewed = 'true';
 	}
 
 	/**
-	 * Waits for the delay to pass so the ads load up
+	 * Waits for the delay to pass so the ads load up.
 	 */
 	waitToLoadAds() {
 		browser.waitUntil(() => browser.getText(this.loadAdsButton) === 'Load ads (9s)', timeouts.standard, 'Button not loaded', helpers.interval);

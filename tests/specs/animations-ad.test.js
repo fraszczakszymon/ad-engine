@@ -64,7 +64,7 @@ describe('It will test animations ad page', () => {
 	});
 
 	it('will test top leaderboard disappearing after some time', () => {
-		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === 'max-height: 0px;', timeouts.extended, 'Top leaderboard ad did not hide', helpers.interval);
+		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === animationsAd.collapsedAdValue, timeouts.extended, 'Top leaderboard ad did not collapse', helpers.interval);
 		animationsAd.waitToScroll();
 
 		const topLeaderboardSize = browser.getElementSize(animationsAd.topLeaderboard);
