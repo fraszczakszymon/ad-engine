@@ -1,1 +1,0 @@
-../dist/ad-products.js

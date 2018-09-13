@@ -1,1 +1,0 @@
-../dist/ad-bidders.js

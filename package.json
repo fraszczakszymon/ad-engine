@@ -67,7 +67,6 @@
   "files": [
     "dist/",
     "lib/",
-    "modules/",
     "src/",
     "jsconfig.json",
     "README.md"
