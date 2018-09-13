@@ -63,12 +63,12 @@ describe('It will test animations ad page', () => {
 		helpers.closeNewTabs();
 	});
 
-	// TODO finish this test (add assertion for max-height to equal 0px, rewrite the function)
+	// TODO rethink the logic of this test as it seems to look flaky, also, consider changing timeout if possible
 
 	it('will test top leaderboard disappearing after some time', () => {
-		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === 'max-height: 0px', timeouts.standard, 'Top leaderboard did not hide', helpers.interval);
-		expect()
+		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === 'max-height: 0px;', timeouts.extended, 'Top leaderboard did not hide', helpers.interval);
+		expect(browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style))
 			.to
-			.equal();
+			.equal('max-height: 0px;', 'Slot has not been hidden');
 	});
 });
