@@ -1,5 +1,5 @@
-import { context } from '../../../services/index';
-import { sampler } from '../../../utils/index';
+import { context } from '../../../services';
+import { sampler } from '../../../utils';
 
 function getMoatTrackingStatus(params) {
 	const sampling = context.get('options.video.moatTracking.sampling');

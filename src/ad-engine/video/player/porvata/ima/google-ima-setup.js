@@ -1,5 +1,5 @@
-import { context, slotService } from '../../../../services/index';
-import { logger, queryString } from '../../../../utils/index';
+import { context, slotService } from '../../../../services';
+import { logger, queryString } from '../../../../utils';
 import { buildVastUrl } from '../../../vast-url-builder';
 
 const logGroup = 'google-ima-setup';

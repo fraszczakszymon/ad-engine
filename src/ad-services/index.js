@@ -1,1 +1,1 @@
-export * from './bill-the-lizard/index';
+export * from './bill-the-lizard';

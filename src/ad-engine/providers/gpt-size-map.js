@@ -1,4 +1,4 @@
-import { logger } from '../utils/index';
+import { logger } from '../utils';
 
 const logGroup = 'gpt-size-map';
 

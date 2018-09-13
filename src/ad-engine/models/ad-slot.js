@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
-import { context, slotTweaker, templateService } from '../services/index';
-import { stringBuilder } from '../utils/index';
-import { slotListener } from '../listeners/index';
+import { context, slotTweaker, templateService } from '../services';
+import { stringBuilder } from '../utils';
+import { slotListener } from '../listeners';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';

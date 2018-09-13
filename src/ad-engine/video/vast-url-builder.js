@@ -1,4 +1,4 @@
-import { context, slotService, trackingOptIn } from '../services/index';
+import { context, slotService, trackingOptIn } from '../services';
 
 const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',

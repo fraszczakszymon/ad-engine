@@ -1,6 +1,6 @@
 import { context, events, utils } from '@wikia/ad-engine';
-import { A9 } from './a9/index';
-import { Prebid } from './prebid/index';
+import { A9 } from './a9';
+import { Prebid } from './prebid';
 import * as prebidHelper from './prebid/prebid-helper';
 
 const biddersRegistry = {};

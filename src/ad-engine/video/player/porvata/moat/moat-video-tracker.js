@@ -1,5 +1,5 @@
-import { logger } from '../../../../utils/index';
-import { context } from '../../../../services/index';
+import { logger } from '../../../../utils';
+import { context } from '../../../../services';
 import { initMoatTracking } from './moat-video-tracker-script';
 
 const logGroup = 'moat-video-tracker';

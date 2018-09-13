@@ -1,4 +1,4 @@
-import { context } from '../services/index';
+import { context } from '../services';
 
 export function setupGptTargeting() {
 	const tag = window.googletag.pubads(),

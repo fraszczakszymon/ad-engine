@@ -1,7 +1,7 @@
 import { googleIma } from './ima/google-ima';
-import { PorvataListener } from '../../../listeners/index';
+import { PorvataListener } from '../../../listeners';
 import { VideoSettings } from './video-settings';
-import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils/index';
+import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';

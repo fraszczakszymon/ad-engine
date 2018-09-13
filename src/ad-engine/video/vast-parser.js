@@ -1,4 +1,4 @@
-import { queryString } from '../utils/index';
+import { queryString } from '../utils';
 
 class VastParser {
 	getAdInfo(imaAd) {

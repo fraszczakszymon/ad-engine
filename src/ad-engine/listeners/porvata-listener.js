@@ -1,7 +1,7 @@
-import { client, logger } from '../utils/index';
-import { context, slotService } from '../services/index';
-import { AdSlot } from '../models/index';
-import { vastParser } from '../video/index';
+import { client, logger } from '../utils';
+import { context, slotService } from '../services';
+import { AdSlot } from '../models';
+import { vastParser } from '../video';
 
 function getListeners() {
 	return context.get('listeners.porvata');

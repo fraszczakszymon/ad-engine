@@ -1,4 +1,4 @@
-import { GptSizeMap } from '../providers/index';
+import { GptSizeMap } from '../providers';
 import { slotTweaker } from './slot-tweaker';
 import { context } from './context-service';
 
