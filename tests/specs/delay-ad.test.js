@@ -1,4 +1,4 @@
-import delayAd from '../pages/delay-ad-page';
+import delayAd from '../pages/delay-ad.page';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -82,7 +82,7 @@ describe('It will test delay ad page', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test redirect after clicking on a top leaderboard ad', () => {
+	it('will test redirect after clicking on a top boxad', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
 		browser.click(delayAd.topBoxad);

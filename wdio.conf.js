@@ -4,16 +4,16 @@ exports.config = {
 	],
 	suites: {
 		porvata: [
-			'./tests/specs/porvata-test.js',
+			'./tests/specs/porvata.test.js',
 		],
 		btfOnly: [
-			'./tests/specs/btf-only-ad-test.js',
+			'./tests/specs/btf-only-ad.test.js',
 		],
 		floatingAd: [
 			'./tests/specs/floating-ad.test.js',
 		],
 		repeatableSlots: [
-			'./tests/specs/repeatable-slots-test.js',
+			'./tests/specs/repeatable-slots.test.js',
 		],
 		topBoxad: [
 			'./tests/specs/top-boxad-ad.test.js',
@@ -23,6 +23,9 @@ exports.config = {
 		],
 		delayAd: [
 			'./tests/specs/delay-ad.test.js',
+		],
+		animationsAd: [
+			'./tests/specs/animations-ad.test.js',
 		],
 		otherFeature: [
 
