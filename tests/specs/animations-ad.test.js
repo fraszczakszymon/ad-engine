@@ -63,12 +63,14 @@ describe('It will test animations ad page', () => {
 		helpers.closeNewTabs();
 	});
 
-	// TODO rethink the logic of this test as it seems to look flaky, also, consider changing timeout if possible
-
 	it('will test top leaderboard disappearing after some time', () => {
-		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === 'max-height: 0px;', timeouts.extended, 'Top leaderboard did not hide', helpers.interval);
-		expect(browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style))
+		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.style) === 'max-height: 0px;', timeouts.extended, 'Top leaderboard ad did not hide', helpers.interval);
+		animationsAd.waitToScroll();
+
+		const topLeaderboardSize = browser.getElementSize(animationsAd.topLeaderboard);
+
+		expect(topLeaderboardSize.height)
 			.to
-			.equal('max-height: 0px;', 'Slot has not been hidden');
+			.equal(animationsAd.topLeaderboardHeightHidden);
 	});
 });

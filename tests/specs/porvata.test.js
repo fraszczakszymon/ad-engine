@@ -20,7 +20,7 @@ describe('It will test porvata player', () => {
 			.equal(porvata.playerWidth, 'Porvata width incorrect');
 		expect(size.height)
 			.to
-			.equal(size.height, 'Porvata height incorrect');
+			.equal(porvata.playerHeight, 'Porvata height incorrect');
 		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer))
 			.to
 			.be

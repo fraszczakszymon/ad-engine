@@ -5,9 +5,17 @@ class AnimationsAd {
 		this.topBoxad = '#top_boxad';
 		this.topLeaderboardWidth = 728;
 		this.topLeaderboardHeight = 90;
+		this.topLeaderboardHeightHidden = 0;
 		this.topBoxadWidth = 300;
 		this.topBoxadHeight = 250;
 		this.style = 'style';
+	}
+
+	/**
+	 * Pauses everything so animation can finish its action.
+	 */
+	waitToScroll() {
+		browser.pause(500);
 	}
 }
 
