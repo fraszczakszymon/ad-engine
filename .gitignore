@@ -12,4 +12,3 @@ allure-results/*
 !allure-results/environment.xml
 spec/build
 tests/config.json
-tests/.wdio
