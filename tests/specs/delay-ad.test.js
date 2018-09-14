@@ -55,16 +55,16 @@ describe('It will test delay ad page', () => {
 			.true;
 		expect(browser.element(delayAd.topLeaderboard).getAttribute(delayAd.resultAttribute))
 			.to
-			.equal(delayAd.adLoaded, 'Slot failed to load');
+			.equal(delayAd.adLoaded, 'Top leaderboard slot failed to load');
 		expect(browser.element(delayAd.topBoxad).getAttribute(delayAd.resultAttribute))
 			.to
-			.equal(delayAd.adLoaded, 'Slot failed to load');
+			.equal(delayAd.adLoaded, 'Top boxad slot failed to load');
 		expect(browser.element(delayAd.topLeaderboard).getAttribute(delayAd.viewedAttribute))
 			.to
-			.equal(delayAd.adViewed, 'Slot has not been counted as viewed');
+			.equal(delayAd.adViewed, 'Top leaderboard slot has not been counted as viewed');
 		expect(browser.element(delayAd.topBoxad).getAttribute(delayAd.viewedAttribute))
 			.to
-			.equal(delayAd.adViewed, 'Slot has not been counted as viewed');
+			.equal(delayAd.adViewed, 'Top boxad slot has not been counted as viewed');
 	});
 
 	it('will test redirect after clicking on a top leaderboard ad', () => {
