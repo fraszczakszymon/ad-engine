@@ -35,6 +35,7 @@ function setState(slotName, state, status = null) {
 	} else if (slot && !state) {
 		slot.disable(status);
 	}
+	logger(groupName, 'set state', slotName, state);
 }
 
 class SlotService {
