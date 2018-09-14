@@ -27,6 +27,12 @@ exports.config = {
 		animationsAd: [
 			'./tests/specs/animations-ad.test.js',
 		],
+		viewportConflictAd: [
+			'./tests/specs/viewport-conflict-ad.test.js',
+		],
+		blockbtfAd: [
+			'./tests/specs/block-btf-ad.test.js',
+		],
 		otherFeature: [
 
 		]
