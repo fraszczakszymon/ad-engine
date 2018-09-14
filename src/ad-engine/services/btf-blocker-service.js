@@ -5,14 +5,14 @@ import { events } from './events';
 
 const logGroup = 'btf-blocker';
 
-function disableBtf() {
+function disableBtf(unblockedSlots) {
 	const slots = context.get('slots');
 	logger(logGroup, 'BTF queue disabled');
 
 	Object.keys(slots).forEach((adSlotKey) => {
 		const slotConfig = slots[adSlotKey];
 
-		if (!slotConfig.aboveTheFold && this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
+		if (!slotConfig.aboveTheFold && unblockedSlots.indexOf(adSlotKey) === -1) {
 			slotService.disable(adSlotKey, 'blocked');
 		}
 	});
@@ -57,7 +57,7 @@ class BtfBlockerService {
 		logger(logGroup, 'ATF queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableBtf.call(this);
+			disableBtf.call(this, this.unblockedSlots);
 		}
 
 		this.slotsQueue.start();
