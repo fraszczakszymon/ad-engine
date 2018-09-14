@@ -10,7 +10,7 @@ context.set('services.krux.enabled', isKruxEnabled);
 krux.call().then(() => {
 	document.getElementById('user').innerText = krux.getUserId();
 	document.getElementById('segments').innerText = krux.getSegments().join('\n');
-})
+});
 
 setTimeout(() => {
 	new AdEngine().init();
