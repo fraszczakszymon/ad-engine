@@ -3,10 +3,70 @@
 ## Installation
 
 ```bash
-npm install github:Wikia/ad-engine#v10.0.0
+npm install github:Wikia/ad-engine#v14.0.0
 ```
 
-## Usage (ES6)
+## Available packages
+
+* `@wikia/ad-engine` - contains whole logic connected to integration with DFP
+* `@wikia/ad-engine/dist/ad-bidders` - **Prebid.js** and **A9** integrations (requires: `@wikia/ad-engine`)
+* `@wikia/ad-engine/dist/ad-products` - all FANDOM ad products like **Universal Ad Package** (requires: `@wikia/ad-engine`)
+* `@wikia/ad-engine/dist/ad-services` - integrations with external services, i.e. **Bill the Lizard** (requires: `@wikia/ad-engine`)
+
+## Context description
+
+| Key | Description | Type | Required |
+|-----|-------------|:----:|:--------:|
+|`adUnitId`|Ad unit id used for DFP requests|string|✔|
+|`bidders`|Bidders definitions|object|✘|
+|`bidders.a9.amazonId`|A9 ID|string|✔|
+|`bidders.a9.enabled`|Decides whether A9 will be enabled|boolean|✔|
+|`bidders.a9.slots`|List of slots with their sizes|object|✔|
+|`bidders.a9.slotsVideo`|List of video slots|true|✔|
+|`bidders.a9.videoEnabled`|Decides whether A9 video will be enabled|boolean|✔|
+|`bidders.prebid.enabled`|Decides whether Prebid.js will be enabled|boolean|✔|
+|`bidders.prebid.{bidder_name}`|Single bidder definitions|object|✔|
+|`bidders.prebid.{bidder_name}.enabled`|Decides whether given bidder will be requested on page|boolean|✔|
+|`bidders.prebid.{bidder_name}.slots`|Slots definitions (specific for each bidder)|object|✔|
+|`events`|Configuration for ad engine events|object|✘|
+|`events.pushOnScroll`|Creates defined slots on scroll|object|✘|
+|`events.pushOnScroll.ids`|List of ad slot names|array|✘|
+|`events.pushOnScroll.threshold`|Top margin (in px) when slot is going to be requested (once user reach given position)|integer|✘|
+|`events.pushAfterRendered`|Creates defined slots once another slot is rendered|object|✘|
+|`events.pushAfterRendered.{slot_name}`|List of ad slot names to create once {slot_name} is rendered|array|✘|
+|`listeners`|List of listeners registered in the ad-engine|object|✘|
+|`listeners.porvata`|Porvata listeners objects (available methods: `isEnabled`, `onEvent`)|array|✘|
+|`listeners.slot`|Porvata listeners objects (available methods: `isEnabled`, `onRenderEnded`, `onStatusChanged`)|array|✘|
+|`networkId`|DFP network ID that can be used in ad units|string|✘|
+|`options`|General configuration of ad-engine services|object|✔|
+|`options.customAdLoader.globalMethodName`|`top.{method_name}` will execute defined creative templates|string|✔|
+|`options.video.moatTracking.enabled`|Decides whether MOAT video tracking is enabled|boolean|✘|
+|`options.video.moatTracking.partnerCode`|MOAT identifier|string|✔|
+|`options.video.moatTracking.sampling`|Sampling for MOAT tracking|string|✔|
+|`options.video.porvata.audio.exposeToSlot`|Decides whether Porvata stores `audio` flag in slot object|boolean|✔|
+|`slots`|Ad slots definition|object|✔|
+|`slots.{slot_name}`|Single slot definition|object|✔|
+|`slots.{slot_name}.{anything}`|Ad slot definition may contain different properties and they will be available in `AdSlot.config` property|string|✘|
+|`slots.{slot_name}.avoidConflictWith`|CSS selector that is going to be checked to prevent loading ad slot in the same viewport|string|✘|
+|`slots.{slot_name}.bidderAlias`|Ad slot name alias for getting bids that are assigned for different ad slot|string|✘|
+|`slots.{slot_name}.insertBeforeSelector`|CSS selector where to put ad slot when it is going to be created once another slot is created (`events.pushAfterRendered` is required)|string|✘|
+|`slots.{slot_name}.repeat`|Configuration for repeating ad slot|object|✘|
+|`slots.{slot_name}.repeat.additionalClasses`|CSS classes list for newly created slots|string|✘|
+|`slots.{slot_name}.repeat.index`|Index of repeated slot (should be set to 1)|integer|✔|
+|`slots.{slot_name}.repeat.limit`|Decides how many times slot should be repeated (unlimited if it is not set)|integer|✘|
+|`slots.{slot_name}.repeat.slotNamePattern`|Pattern for creating another ad slot (e.g. `incontent_boxad_{slotConfig.repeat.index}`|string|✔|
+|`slots.{slot_name}.repeat.updateProperties`|Definition of ad slot properties to update once it is created|string|✘|
+|`slots.{slot_name}.repeat.updateProperties.{key}`|Value of slot property to update|any|✘|
+|`slots.{slot_name}.sizes`|Ad slots sizes definition for certain viewports|array|✘|
+|`slots.{slot_name}.sizes.0.sizes`|List of sizes for given viewport (e.g. `[[300, 50], [320, 50], [300, 250], [300, 600]]`)|array|✔|
+|`slots.{slot_name}.sizes.0.viewport`|Minimum viewport width and height for defined sizes (e.g. `[1280, 700]`)|array|✔|
+|`slots.{slot_name}.defaultSizes`|List of default sizes (if the smallest viewport is not matching)|array|✔|
+|`slots.{slot_name}.targeting`|List of DFP slot level key-values|object|✘|
+|`state.adStack`|Main queue where ad slots are pushed|array|✔|
+|`targeting`|List of DFP page level key-values|object|✔|
+|`vast.adUnitId`|Ad unit id for video ads|string|✔|
+
+## Usage
 
 ### Load GPT library
 
@@ -17,11 +77,7 @@ Follow [DoubleClick for Publishers instructions](https://support.google.com/dfp_
 Create context.js module with local config:
 
 ```javascript
-'use strict';
-
-import Context from 'wikia/ad-engine/src/services/context-service';
-
-Context.extend({
+export default customContext = {
 	adUnitId: '/5441/name/_{custom.namespace}/{slotName}',
 	events: {
 		pushOnScroll: {
@@ -122,10 +178,7 @@ Context.extend({
 			]
 		}
 	}
-});
-
-export default Context;
-
+};
 ```
 
 ### Run AdEngine module
@@ -133,24 +186,32 @@ export default Context;
 Setup custom page level targeting and initialize AdEngine.
 
 ```javascript
-import AdEngine from 'wikia/ad-engine/src/ad-engine';
-import Context from './context';
+import { AdEngine, context, templateService } from '@wikia/ad-engine';
+import { FloatingRail } from '@wikia/ad-engine/dist/ad-products';
+import customContext from './context';
+
+context.extend(customContext);
+
+templateService.register(FloatingRail, {
+	startOffset: -15
+});
+
 
 // ...
 
 window.adsQueue = window.adsQueue || [];
 
 // Setup adStack so slots can be pushed to window.* from DOM/other JS scripts
-Context.set('state.adStack', window.adsQueue);
+context.set('state.adStack', window.adsQueue);
 
 // Setup screen size
-Context.set('state.isMobile', true);
+context.set('state.isMobile', true);
 
 // Setup custom variables so they can be used in adUnitId configuration
-Context.set('custom.namespace', 'article');
+context.set('custom.namespace', 'article');
 
 // Setup gpt targeting
-Context.set('targeting.post_id', 123);
+context.set('targeting.post_id', 123);
 
 new AdEngine().init();
 ```
@@ -175,40 +236,125 @@ or prepare on scroll container (check above context configuration):
 <div id="bottom_leaderboard"></div>
 ```
 
-### Debug mode
+### Call template from DFP creative
 
-Add `adengine_debug=1` to see all logged events in console.
-In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<group_name_2>,...`.
-
-## Example pages
-
-* [Browser detect](examples/utils/browser-detect)
-* [AdBlock detect](examples/utils/block-detect)
-* [Floating ad template](examples/templates/floating-ad)
-* [Slot animations](examples/slots/animations)
-* [Block BTF](examples/slots/block-btf)
-* [BTF only (skip ATF slots)](examples/slots/btf-only)
-* [AdEngine start delay](examples/slots/delay)
-* [Ad empty response](examples/slots/empty-response)
-* [Repeatable slots](examples/slots/repeatable-slots)
-* [Viewport conflicts](examples/slots/viewport-conflicts)
-* [Porvata video player](examples/video/porvata)
-
-### Access examples
-
-Build bundle package
-
-```bash
-npm run build
+```html
+<script>
+top.loadCustomAd && top.loadCustomAd({
+	type: 'floatingRail',
+	// ...
+});
+</script>
 ```
 
-Build bundle package and start http server by running
+## Available templates
+
+### Big Fancy Ad Above
+
+Name: **bfaa**
+
+#### Default config:
+
+```json
+{
+	"desktopNavbarWrapperSelector": ".wds-global-navigation-wrapper",
+	"handleNavbar": false,
+	"mobileNavbarWrapperSelector": ".global-navigation-mobile-wrapper",
+	"slotSibling": ".topic-header",
+	"slotsToEnable": [
+		"bottom_leaderboard",
+		"incontent_boxad"
+	]
+}
+```
+
+Description:
+
+* desktopNavbarWrapperSelector - desktop navbar DOM selector
+* handleNavbar - decides whether template should adjust navbar
+* mobileNavbarWrapperSelector - mobile navbar DOM selector
+* slotSibling - DOM sibling element next to BFAA slot
+* slotsToEnable - decides which slots should be enabled on Fan Takeover load
+
+#### Template parameters:
+
+* player
+* slotName
+* src
+* uap
+* lineItemId
+* creativeId
+* backgroundColor
+* autoPlay
+* resolvedStateAutoplay
+* videoTriggers
+* videoPlaceholderElement
+* splitLayoutVideoPosition
+* image1
+* image2
+* aspectRatio
+* resolvedStateAspectRatio
+* videoAspectRatio
+* loadMedrecFromBTF
+* moatTracking
+
+### Big Fancy Ad Below
+
+Name: **bfab**
+
+#### Template parameters:
+
+Check Big Fancy Ad Above.
+
+### Floating rail
+
+Name: **floatingRail**
+
+#### Default config:
+
+```json
+{
+	"enabled": true,
+	"railSelector": "#rail",
+	"wrapperSelector": "#rail-wrapper",
+	"startOffset": 0
+}
+```
+
+Description:
+
+* enabled - decides whether template is usable
+* railSelector - element which is going to have `position: fixed`
+* wrapperSelector - rail wrapper
+* startOffset - decides when rail starts floating
+
+#### Template parameters:
+
+* offset - how long (in px) rail is going to be fixed
+
+#### Creative usage:
+
+```html
+<script>
+top.loadCustomAd && top.loadCustomAd({
+	type: 'floatingRail',
+	offset: 500
+});
+</script>
+```
+
+## Run example pages
 
 ```bash
 npm run serve
 ```
 
-Navigate to <http://localhost:8081/> (you may have different port)
+Navigate to <http://localhost:8080/> (you may have different port)
+
+### Debug mode
+
+Add `adengine_debug=1` to see all logged events in console.
+In order to get logs from specified groups use `?adengine_debug=<group_name_1>,<group_name_2>,...`.
 
 ## Run tests
 
@@ -222,34 +368,7 @@ npm run test
 npm run lint
 ```
 
-## Publish new version
-
-:warning: Make sure you're using latest version of node/npm (preferably node@9.x.x and npm@5.x.x)
-1. Use your regular workflow. Push changes to branch, test them and create pull request to dev.
-2. Switch to dev branch once you merge all changes and pull new changes from github
-3. Bump version (remember to follow Semantic Versioning)
-```
-npm version patch
-```
-This command runs preversion script which:
-
-* run all tests
-* lint all files
-* build dist directory with output files for "client's" repositories
-* adds built files to commited version
-4. Push changes to github
-```
-git push --follow-tags
-```
-
-
 ## WebdriverIO tests
-
-Install dependencies
-
-```bash
-npm install
-```
 
 For allure reports
 
