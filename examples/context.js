@@ -264,6 +264,10 @@ export default {
 				s2: 'article',
 			},
 			timeout: 2000
+		},
+		krux: {
+			enabled: true,
+			id: 'KPSUiAKl'
 		}
 	},
 	state: {

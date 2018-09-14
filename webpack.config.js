@@ -54,6 +54,7 @@ const development = {
 		'bidders/prebid': './examples/bidders/prebid/script.js',
 		'bidders/reusable-prebid': './examples/bidders/reusable-prebid/script.js',
 		'services/bill-the-lizard': './examples/services/bill-the-lizard/script.js',
+		'services/krux': './examples/services/krux/script.js',
 		'slots/animations': './examples/slots/animations/script.js',
 		'slots/block-btf': './examples/slots/block-btf/script.js',
 		'slots/btf-only': './examples/slots/btf-only/script.js',
