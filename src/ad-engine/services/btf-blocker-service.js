@@ -57,7 +57,7 @@ class BtfBlockerService {
 		logger(logGroup, 'ATF queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableBtf.call(this, this.unblockedSlots);
+			disableBtf(this.unblockedSlots);
 		}
 
 		this.slotsQueue.start();
