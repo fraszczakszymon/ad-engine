@@ -1,4 +1,5 @@
 import repeatableSlots from '../pages/repeatable-slots.page';
+import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -15,10 +16,10 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(size.width)
 			.to
-			.equal(repeatableSlots.boxadWidth, 'Boxad width incorrect');
+			.equal(adSlots.boxadWidth, 'Boxad width incorrect');
 		expect(size.height)
 			.to
-			.equal(repeatableSlots.boxadHeight, 'Boxad height incorrect');
+			.equal(adSlots.boxadHeight, 'Boxad height incorrect');
 		expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)))
 			.to
 			.be

@@ -1,4 +1,5 @@
 import viewportConflictAd from '../pages/viewport-conflict-ad.page';
+import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -7,38 +8,38 @@ const { expect } = require('chai');
 describe('It will test viewport conflicts ad page', () => {
 	beforeEach(() => {
 		browser.url(viewportConflictAd.pageLink);
-		browser.waitForVisible(viewportConflictAd.topLeaderboard, timeouts.standard);
-		browser.waitForVisible(viewportConflictAd.topBoxad, timeouts.standard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
 	it('will test visibility and dimensions of top leaderboard and top boxad', () => {
-		const topLeaderboardSize = browser.getElementSize(viewportConflictAd.topLeaderboard);
-		const topBoxadSize = browser.getElementSize(viewportConflictAd.topBoxad);
+		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 
 		expect(topLeaderboardSize.width)
 			.to
-			.equal(viewportConflictAd.topLeaderboardWidth, 'Top leaderboard ad width incorrect');
+			.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
 		expect(topLeaderboardSize.height)
 			.to
-			.equal(viewportConflictAd.topLeaderboardHeight, 'Top leaderboard ad height incorrect');
-		expect(browser.isVisibleWithinViewport(viewportConflictAd.topLeaderboard))
+			.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
+		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
 			.to
 			.be
 			.true;
 		expect(topBoxadSize.width)
 			.to
-			.equal(viewportConflictAd.topBoxadWidth, 'Top boxad ad width incorrect');
+			.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
 		expect(topBoxadSize.height)
 			.to
-			.equal(viewportConflictAd.topBoxadHeight, 'Top boxad ad height incorrect');
-		expect(browser.isVisibleWithinViewport(viewportConflictAd.topBoxad))
+			.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.true;
 	});
 
 	it('will test redirect after clicking on a top leaderboard ad', () => {
-		browser.click(viewportConflictAd.topLeaderboard);
+		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
 
@@ -51,7 +52,7 @@ describe('It will test viewport conflicts ad page', () => {
 	});
 
 	it('will test redirect after clicking on a top boxad', () => {
-		browser.click(viewportConflictAd.topBoxad);
+		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
 
@@ -66,12 +67,12 @@ describe('It will test viewport conflicts ad page', () => {
 	it('will test if top boxad is hidden after clicking the button', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
-		browser.waitUntil(() => browser.element(viewportConflictAd.topBoxad).getAttribute(viewportConflictAd.dataSlotResult) === 'collapse', timeouts.standard, 'Ad was not hidden', helpers.interval);
-		expect(browser.isExisting(`${viewportConflictAd.topBoxad}${helpers.classHidden}`))
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(viewportConflictAd.dataSlotResult) === 'collapse', timeouts.standard, 'Ad was not hidden', helpers.interval);
+		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`))
 			.to
 			.be
 			.true;
-		expect(browser.isVisibleWithinViewport(viewportConflictAd.topBoxad))
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.false;
@@ -83,8 +84,8 @@ describe('It will test viewport conflicts ad page', () => {
 		browser.click(viewportConflictAd.hideBoxadButton);
 		viewportConflictAd.addParagraphs(5);
 		browser.scroll(0, 2800);
-		browser.waitUntil(() => browser.element(viewportConflictAd.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
-		expect(browser.isVisibleWithinViewport(viewportConflictAd.bottomLeaderboard))
+		browser.waitUntil(() => browser.element(adSlots.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
+		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
 			.to
 			.be
 			.true;

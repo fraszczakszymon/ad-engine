@@ -1,4 +1,5 @@
 import floatingAd from '../pages/floating-ad.page';
+import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -11,26 +12,26 @@ describe('It will test floating ad page', () => {
 
 	it('will test visibility of floating ad', () => {
 		browser.scroll(0, 1000);
-		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		browser.scroll(0, 5000);
 
-		const size = browser.getElementSize(floatingAd.incontentBoxad);
+		const size = browser.getElementSize(adSlots.incontentBoxad);
 
 		expect(size.width)
 			.to
-			.equal(floatingAd.floatingAdWidth, 'Floating ad width incorrect');
+			.equal(adSlots.boxadWidth, 'Floating ad width incorrect');
 		expect(size.height)
 			.to
-			.equal(floatingAd.floatingAdHeight, 'Floating ad height incorrect');
-		expect(browser.isVisibleWithinViewport(floatingAd.incontentBoxadFloating))
+			.equal(adSlots.boxadHeight, 'Floating ad height incorrect');
+		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
 			.to
 			.be
 			.true;
 	});
 
 	it(' will test floating ad redirect on click', () => {
-		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
-		browser.click(floatingAd.incontentBoxad);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.click(adSlots.incontentBoxad);
 
 		const tabIds = browser.getTabIds();
 

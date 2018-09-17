@@ -1,13 +1,11 @@
 import helpers from '../common/helpers';
+import adSlots from '../common/adSlots';
 
 class RepeatableSlots {
 	constructor() {
 		this.pageLink = 'slots/repeatable-slots/';
 		this.limitSlots = 'limit=';
 		this.contentLength = 'content_length=';
-		this.boxadWidth = 300;
-		this.boxadHeight = 250;
-		this.repeatableBoxad = '#repeatable_boxad_';
 	}
 
 	/**
@@ -25,7 +23,7 @@ class RepeatableSlots {
 	 * @returns {string} parameter with number of slots
 	 */
 	getRepeatableSlot(slotNumber) {
-		return `${this.repeatableBoxad}${slotNumber}`;
+		return `${adSlots.repeatableBoxad}${slotNumber}`;
 	}
 
 	/**
