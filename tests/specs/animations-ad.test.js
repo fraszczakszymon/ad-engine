@@ -1,4 +1,5 @@
 import animationsAd from '../pages/animations-ad.page';
+import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -7,38 +8,38 @@ const { expect } = require('chai');
 describe('It will test animations ad page', () => {
 	beforeEach(() => {
 		browser.url(animationsAd.pageLink);
-		browser.waitForVisible(animationsAd.topLeaderboard, timeouts.standard);
-		browser.waitForVisible(animationsAd.topBoxad, timeouts.standard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
 	it('will test visibility and dimensions of top leaderboard and top boxad', () => {
-		const topLeaderboardSize = browser.getElementSize(animationsAd.topLeaderboard);
-		const topBoxadSize = browser.getElementSize(animationsAd.topBoxad);
+		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 
 		expect(topLeaderboardSize.width)
 			.to
-			.equal(animationsAd.topLeaderboardWidth, 'Top leaderboard ad width incorrect');
+			.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
 		expect(topLeaderboardSize.height)
 			.to
-			.equal(animationsAd.topLeaderboardHeight, 'Top leaderboard ad height incorrect');
-		expect(browser.isVisibleWithinViewport(animationsAd.topLeaderboard))
+			.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
+		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
 			.to
 			.be
 			.true;
 		expect(topBoxadSize.width)
 			.to
-			.equal(animationsAd.topBoxadWidth, 'Top boxad ad width incorrect');
+			.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
 		expect(topBoxadSize.height)
 			.to
-			.equal(animationsAd.topBoxadHeight, 'Top boxad ad height incorrect');
-		expect(browser.isVisibleWithinViewport(animationsAd.topBoxad))
+			.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.true;
 	});
 
 	it('will test redirect after clicking on a top leaderboard ad', () => {
-		browser.click(animationsAd.topLeaderboard);
+		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
 
@@ -51,7 +52,7 @@ describe('It will test animations ad page', () => {
 	});
 
 	it('will test redirect after clicking on a top boxad', () => {
-		browser.click(animationsAd.topBoxad);
+		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
 
@@ -64,10 +65,10 @@ describe('It will test animations ad page', () => {
 	});
 
 	it('will test top leaderboard disappearing after some time', () => {
-		browser.waitUntil(() => browser.element(animationsAd.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdValue, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdValue, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
 		animationsAd.waitToScroll();
 
-		const topLeaderboardSize = browser.getElementSize(animationsAd.topLeaderboard);
+		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 
 		expect(topLeaderboardSize.height)
 			.to
