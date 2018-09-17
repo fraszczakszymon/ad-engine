@@ -33,6 +33,9 @@ exports.config = {
 		blockbtfAd: [
 			'./tests/specs/block-btf-ad.test.js',
 		],
+		emptyResponse: [
+			'./tests/specs/empty-response.test.js',
+		],
 		otherFeature: [
 
 		]

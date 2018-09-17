@@ -67,6 +67,10 @@ describe('It will test viewport conflicts ad page', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
 		browser.waitUntil(() => browser.element(viewportConflictAd.topBoxad).getAttribute(viewportConflictAd.dataSlotResult) === 'collapse', timeouts.standard, 'Ad was not hidden', helpers.interval);
+		expect(browser.isExisting(`${viewportConflictAd.topBoxad}${helpers.isHidden}`))
+			.to
+			.be
+			.true;
 		expect(browser.isVisibleWithinViewport(viewportConflictAd.topBoxad))
 			.to
 			.be

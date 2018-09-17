@@ -4,7 +4,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test viewport conflicts ad page', () => {
+describe('It will test block btf ad page', () => {
 	beforeEach(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
 		browser.waitForVisible(blockBtfAd.topLeaderboard, timeouts.standard);
