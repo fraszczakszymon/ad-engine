@@ -281,7 +281,7 @@ export default {
 	},
 	vast: {
 		size: [640, 480],
-		adUnitId: '/{networkId}/5441/wka.life/_project43//{custom.namespace}/' +
+		adUnitId: '/{networkId}/wka.life/_project43//{custom.namespace}/' +
 		'{slotConfig.targeting.src}/{slotConfig.slotName}'
 	}
 };
