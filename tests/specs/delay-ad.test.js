@@ -9,6 +9,17 @@ describe('It will test delay ad page', () => {
 		browser.url(delayAd.pageLink);
 	});
 
+	it('will test if ads are not immediately visible', () => {
+		expect(browser.isExisting(delayAd.resultAttribute))
+			.to
+			.be
+			.false;
+		expect(browser.isExisting(delayAd.resultAttribute))
+			.to
+			.be
+			.false;
+	});
+
 	it('will test visibility and dimensions of delayed top leaderboard and top boxad', () => {
 		delayAd.waitToLoadAds();
 		browser.waitForVisible(delayAd.topLeaderboard, timeouts.standard);

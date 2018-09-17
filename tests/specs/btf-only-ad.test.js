@@ -7,14 +7,13 @@ const { expect } = require('chai');
 describe('It will test btf ads', () => {
 	beforeEach(() => {
 		browser.url(btfOnlyAd.pageLink);
-	});
-
-	it('will test the visibility of btf ad after manually finishing the queue', () => {
 		browser.waitForVisible(btfOnlyAd.finishQueueButton, timeouts.standard);
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);
 		browser.waitForVisible(btfOnlyAd.btfAd, timeouts.standard);
+	});
 
+	it('will test the visibility of btf ad after manually finishing the queue', () => {
 		const size = browser.getElementSize(btfOnlyAd.btfAd);
 
 		expect(size.width)
@@ -27,5 +26,18 @@ describe('It will test btf ads', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('will test redirect on click', () => {
+		browser.click(btfOnlyAd.btfAd);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.newsAndStories);
+		expect(browser.getUrl())
+			.to
+			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
 	});
 });

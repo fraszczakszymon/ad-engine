@@ -82,7 +82,7 @@ describe('It will test viewport conflicts ad page', () => {
 		browser.waitForVisible(viewportConflictAd.addParagraphButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
 		viewportConflictAd.addParagraphs(5);
-		browser.scroll(0, 2800); // TODO change this scroll, if possible and necessary
+		browser.scroll(0, 2800);
 		browser.waitUntil(() => browser.element(viewportConflictAd.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
 		expect(browser.isVisibleWithinViewport(viewportConflictAd.bottomLeaderboard))
 			.to
