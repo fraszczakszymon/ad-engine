@@ -13,7 +13,9 @@ describe('It will test floating ad page', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(floatingAd.incontentBoxad, timeouts.standard);
 		browser.scroll(0, 5000);
+
 		const size = browser.getElementSize(floatingAd.incontentBoxad);
+
 		expect(size.width)
 			.to
 			.equal(floatingAd.floatingAdWidth, 'Floating ad width incorrect');

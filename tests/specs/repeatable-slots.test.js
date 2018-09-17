@@ -61,14 +61,11 @@ describe('It will test repeatable slots ads ', () => {
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
-
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
 			expect(browser.isVisible(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
 		}
-
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(numberOfSlots));
-
 		expect(browser.isVisible(repeatableSlots.getRepeatableSlot(numberOfSlots + 1)))
 			.to
 			.be
