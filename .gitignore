@@ -6,5 +6,10 @@ coverage
 examples/**/dist/*
 node_modules
 npm-debug.log
+
+allure-results/*
+!allure-results/categories.json
+!allure-results/environment.xml
 spec/build
 tests/config.json
+tests/.wdio
