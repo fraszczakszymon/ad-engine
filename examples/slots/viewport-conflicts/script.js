@@ -25,4 +25,6 @@ adContext.listeners.slot.push({
 	}
 });
 
+adContext.slots.bottom_leaderboard.disabled = false;
+
 new AdEngine(adContext).init();

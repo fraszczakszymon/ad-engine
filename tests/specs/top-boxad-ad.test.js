@@ -5,7 +5,7 @@ const { expect } = require('chai');
 
 describe('It will test top boxad page', () => {
 	beforeEach(() => {
-		browser.url('templates/floating-ad/');
+		browser.url(topBoxad.pageLink);
 	});
 
 	it('will test visibility of top boxad', () => {
@@ -15,9 +15,9 @@ describe('It will test top boxad page', () => {
 
 		expect(size.width)
 			.to
-			.equal(300, 'Width incorrect');
+			.equal(topBoxad.topBoxadWidth, 'Top boxad width incorrect');
 		expect(size.height)
 			.to
-			.equal(1200, 'Height incorrect');
+			.equal(topBoxad.topBoxadHeight, 'Top boxad height incorrect');
 	});
 });

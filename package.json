@@ -1,6 +1,6 @@
 {
   "name": "@wikia/ad-engine",
-  "version": "13.1.4",
+  "version": "14.0.0",
   "description": "Wikia AdEngine",
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
     "core-decorators": "^0.20.0",
     "current-device": "0.7.8",
     "eventemitter3": "3.0.1",
+    "js-cookie": "^2.1.4",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "babel-preset-env": "1.7.0",
     "babel-register": "6.26.0",
     "chai": "^4.1.2",
+    "copy-webpack-plugin": "4.5.2",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
     "eslint-plugin-import": "2.11.0",
@@ -37,13 +39,16 @@
     "jsdom": "^11.3.0",
     "jsdom-global": "^3.0.2",
     "json-loader": "0.5.7",
+    "mini-css-extract-plugin": "0.4.0",
     "mocha": "4.1.0",
     "mocha-jsdom": "^1.1.0",
     "mocha-junit-reporter": "^1.15.0",
     "mocha-webpack": "2.0.0-beta.0",
+    "node-sass": "4.9.3",
     "nyc": "11.4.1",
     "phantomjs-polyfill-object-assign": "0.0.2",
     "phantomjs-prebuilt": "^2.1.7",
+    "sass-loader": "^6.0.6",
     "selenium-standalone": "6.15.2",
     "sinon": "4.1.4",
     "string-replace-webpack-plugin": "0.1.3",
@@ -61,6 +66,7 @@
   },
   "files": [
     "dist/",
+    "lib/",
     "src/",
     "jsconfig.json",
     "README.md"
@@ -73,9 +79,9 @@
     ]
   },
   "scripts": {
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules",
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
     "ci-check": "npm run test && npm run lint",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint . && ./maintenance/detect-incorrect-usages.sh",
     "preversion": "./maintenance/preversion.sh",
     "version": "./maintenance/version.sh",
     "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
@@ -83,6 +89,8 @@
     "test": "mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test",
     "test-coverage": "nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml",
     "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch",
-    "wdio": "BABEL_ENV=test ./node_modules/.bin/wdio  wdio.conf.js"
+    "wdio": "BABEL_ENV=test ./node_modules/.bin/wdio  wdio.conf.js",
+    "allure": "cp -R ./allure-report/history ./allure-results && allure generate --clean && allure open",
+    "allure-clear": "find ./allure-results/ -name *attachment.json -delete && find ./allure-results/ -name *testsuite.xml -delete && find ./allure-results/ -name *attachment.png -delete"
   }
 }
