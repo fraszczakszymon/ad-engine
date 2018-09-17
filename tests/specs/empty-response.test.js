@@ -6,12 +6,13 @@ const { expect } = require('chai');
 
 describe('It will test empty response page', () => {
 	beforeEach(() => {
-		browser.url(emptyResponse.pageLink, timeouts.standard);
+		browser.url(emptyResponse.pageLink);
+		browser.waitForVisible(emptyResponse.articleClass, timeouts.standard);
 	});
 
 	it('will test if top leaderboard ad is not visible', () => {
 		browser.isExisting(emptyResponse.topLeaderboardAd, timeouts.standard);
-		expect(browser.isExisting(`${emptyResponse.topLeaderboardAd}${helpers.isHidden}`))
+		expect(browser.isExisting(`${emptyResponse.topLeaderboardAd}${helpers.classHidden}`))
 			.to
 			.be
 			.true;
@@ -22,7 +23,7 @@ describe('It will test empty response page', () => {
 	});
 	it('will test if top boxad is not visible', () => {
 		browser.isExisting(emptyResponse.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${emptyResponse.topBoxad}${helpers.isHidden}`))
+		expect(browser.isExisting(`${emptyResponse.topBoxad}${helpers.classHidden}`))
 			.to
 			.be
 			.true;

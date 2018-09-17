@@ -6,7 +6,7 @@ class Helpers {
 	constructor() {
 		this.newsAndStories = 'http://www.wikia.com/fandom';
 		this.interval = 500;
-		this.isHidden = '.hide';
+		this.classHidden = '.hide';
 	}
 
 	/**

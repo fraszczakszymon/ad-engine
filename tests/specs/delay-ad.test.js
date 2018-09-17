@@ -7,6 +7,7 @@ const { expect } = require('chai');
 describe('It will test delay ad page', () => {
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
+		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 	});
 
 	it('will test if ads are not immediately visible', () => {
@@ -52,7 +53,6 @@ describe('It will test delay ad page', () => {
 	});
 
 	it('will test if ads show up after clicking the button and if they were viewed', () => {
-		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(delayAd.topBoxad, timeouts.standard);
 		browser.waitUntil(() => browser.element(delayAd.topLeaderboard).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
