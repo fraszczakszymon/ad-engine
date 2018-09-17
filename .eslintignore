@@ -1,5 +1,6 @@
 examples/**/dist/bundle.js
 dist/
+lib/
 node_modules/
 jspm_packages/
 

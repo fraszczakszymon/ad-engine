@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 23);
+/******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,37 +110,37 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 12 */
@@ -194,22 +194,28 @@ module.exports = require("babel-runtime/helpers/toConsumableArray");
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 23 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -223,6 +229,17 @@ __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() {
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
+__webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
+__webpack_require__.d(utils_namespaceObject, "getContinentCode", function() { return getContinentCode; });
+__webpack_require__.d(utils_namespaceObject, "getRegionCode", function() { return getRegionCode; });
+__webpack_require__.d(utils_namespaceObject, "isProperCountry", function() { return isProperCountry; });
+__webpack_require__.d(utils_namespaceObject, "isProperRegion", function() { return isProperRegion; });
+__webpack_require__.d(utils_namespaceObject, "isProperContinent", function() { return isProperContinent; });
+__webpack_require__.d(utils_namespaceObject, "resetSamplingCache", function() { return resetSamplingCache; });
+__webpack_require__.d(utils_namespaceObject, "getSamplingResults", function() { return getSamplingResults; });
+__webpack_require__.d(utils_namespaceObject, "isProperGeo", function() { return isProperGeo; });
+__webpack_require__.d(utils_namespaceObject, "mapSamplingResults", function() { return mapSamplingResults; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
@@ -234,11 +251,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(22);
+var set_ = __webpack_require__(23);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(21);
+var get_ = __webpack_require__(22);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -254,10 +271,10 @@ var external_current_device_ = __webpack_require__(17);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(20);
+var external_blockadblock_ = __webpack_require__(21);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
-// CONCATENATED MODULE: ./src/utils/client.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/client.js
 
 
 /* global BlockAdBlock */
@@ -398,7 +415,7 @@ var client_Client = function () {
 }();
 
 var client = new client_Client();
-// CONCATENATED MODULE: ./src/utils/dimensions.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/dimensions.js
 /**
  * Returns element's offset of given element from the top of the page
  * @param element DOM element
@@ -513,7 +530,7 @@ var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 var promise_ = __webpack_require__(3);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
-// CONCATENATED MODULE: ./src/utils/flow-control.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/flow-control.js
 
 
 
@@ -567,7 +584,274 @@ function flow_control_once(emitter, eventName) {
 		}
 	});
 }
-// CONCATENATED MODULE: ./src/utils/lazy-queue.js
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
+var keys_ = __webpack_require__(2);
+var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
+var slicedToArray_ = __webpack_require__(6);
+var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
+
+// EXTERNAL MODULE: external "js-cookie"
+var external_js_cookie_ = __webpack_require__(20);
+var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
+
+// CONCATENATED MODULE: ./src/ad-engine/utils/random.js
+// TODO remove this module
+// It is a workaround for issue with mocking Math.random in our environment
+// https://github.com/babel/babel/issues/5426#issuecomment-284839994
+
+function getRandom() {
+	return Math.random();
+}
+
+/* harmony default export */ var random = ({
+	getRandom: getRandom
+});
+// CONCATENATED MODULE: ./src/ad-engine/utils/geo.js
+
+
+
+
+
+var earth = 'XX',
+    negativePrefix = 'non-',
+    precision = Math.pow(10, 6),
+    // precision to 0.00000001 (or 0.000001%) of traffic
+samplingSeparator = '/';
+
+var geoData = null,
+    cache = {};
+
+function hasSampling(geo) {
+	return function (value) {
+		return value.indexOf(negativePrefix) !== 0 && value.indexOf(geo + samplingSeparator) > -1;
+	};
+}
+
+function getSamplingLimits(value) {
+	var _value$split = value.split(samplingSeparator),
+	    _value$split2 = slicedToArray_default()(_value$split, 2),
+	    samplingValue = _value$split2[1];
+
+	return Math.round(parseFloat(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
+}
+
+function addResultToCache(name, result, samplingLimits) {
+	var _samplingLimits = slicedToArray_default()(samplingLimits, 1),
+	    limitValue = _samplingLimits[0];
+
+	cache[name] = {
+		name: name,
+		group: result ? 'B' : 'A',
+		limit: (result ? limitValue : precision * 100 - limitValue) / precision,
+		result: result
+	};
+}
+
+function getResult(samplingLimits, name) {
+	var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0,
+	    // eslint-disable-line no-bitwise
+	result = samplingLimits.some(function (value) {
+		return randomValue < value;
+	});
+
+	if (name) {
+		addResultToCache(name, result, samplingLimits);
+	}
+
+	return result;
+}
+
+function isSampledForGeo(countryList, geo, name) {
+	var countryListWithSampling = countryList.filter(hasSampling(geo));
+
+	if (countryListWithSampling.length === 0) {
+		return false;
+	}
+
+	return getResult(countryListWithSampling.map(getSamplingLimits), name);
+}
+
+function containsEarth(countryList, name) {
+	return countryList.indexOf(earth) > -1 || isSampledForGeo(countryList, earth, name);
+}
+
+/**
+ * Return geo data from cookie
+ * @returns {Object}
+ */
+function getGeoData() {
+	if (geoData === null) {
+		var jsonData = decodeURIComponent(external_js_cookie_default.a.get('Geo'));
+
+		try {
+			geoData = JSON.parse(jsonData) || {};
+		} catch (e) {
+			geoData = {};
+		}
+	}
+
+	return geoData;
+}
+
+/**
+ * Set geo data
+ * @param {Object} data
+ * @returns {void}
+ */
+function setGeoData(data) {
+	geoData = data;
+}
+
+/**
+ * Return country code based on cookie
+ * @returns {string}
+ */
+function getCountryCode() {
+	return getGeoData().country;
+}
+
+/**
+ * Return continent code based on cookie
+ * @returns {string}
+ */
+function getContinentCode() {
+	return getGeoData().continent;
+}
+
+/**
+ * Return region code based on cookie
+ * @returns {*}
+ */
+function getRegionCode() {
+	return getGeoData().region;
+}
+
+/**
+ * Checks whether current country (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined}name
+ * @returns {boolean}
+ */
+function isProperCountry() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	return !!(countryList && countryList.indexOf && (countryList.indexOf(getCountryCode()) > -1 || isSampledForGeo(countryList, getCountryCode(), name)));
+}
+
+/**
+ * Checks whether current regions (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperRegion() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	var code = getCountryCode() + '-' + getRegionCode();
+	return !!(countryList && countryList.indexOf && (countryList.indexOf(code) > -1 || isSampledForGeo(countryList, code, name)));
+}
+
+function containsContinent() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	var geo = earth + '-' + getContinentCode();
+	return countryList.indexOf(geo) > -1 || isSampledForGeo(countryList, geo, name);
+}
+
+/**
+ * Checks whether current continent (from cookie) is listed in array
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperContinent() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments[1];
+
+	return !!(countryList && countryList.indexOf && (containsEarth(countryList, name) || containsContinent(countryList, name)));
+}
+
+/**
+ * Checks whether current geo is excluded in array (by using non- prefix)
+ * @param {string[]} countryList
+ * @returns {boolean}
+ */
+function isGeoExcluded() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+	return !!(countryList.indexOf('' + negativePrefix + getCountryCode()) > -1 || countryList.indexOf('' + negativePrefix + getCountryCode() + '-' + getRegionCode()) > -1 || countryList.indexOf('' + negativePrefix + earth + '-' + getContinentCode()) > -1);
+}
+
+function getResultLog(name) {
+	var entry = cache[name];
+
+	return entry.name + '_' + entry.group + '_' + entry.limit;
+}
+
+function resetSamplingCache() {
+	cache = {};
+}
+
+function getSamplingResults() {
+	return keys_default()(cache).map(getResultLog);
+}
+
+/**
+ * Checks whether current geo (from cookie) is listed in array and it's not excluded
+ *
+ * @param {string[]} countryList
+ * @param {string|undefined} name
+ * @returns {boolean}
+ */
+function isProperGeo() {
+	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+	if (name !== undefined && typeof cache[name] !== 'undefined') {
+		return cache[name].result;
+	}
+	return !!(countryList && countryList.indexOf && !isGeoExcluded(countryList) && (isProperContinent(countryList, name) || isProperCountry(countryList, name) || isProperRegion(countryList, name)));
+}
+
+/**
+ * Transform sampling results using supplied key-values map.
+ *
+ * @param {string[] | undefined} keyVals mapping
+ * @returns {string[]}
+ */
+function mapSamplingResults(keyVals) {
+	if (!keyVals || !keyVals.length) {
+		return [];
+	}
+
+	var labradorVariables = geo_module.getSamplingResults();
+
+	return keyVals.map(function (keyVal) {
+		return keyVal.split(':');
+	}).filter(function (keyVal) {
+		return labradorVariables.indexOf(keyVal[0]) !== -1;
+	}).map(function (keyVal) {
+		return keyVal[1];
+	});
+}
+
+var geo_module = {
+	getContinentCode: getContinentCode,
+	getCountryCode: getCountryCode,
+	getRegionCode: getRegionCode,
+	getSamplingResults: getSamplingResults,
+	isProperGeo: isProperGeo,
+	resetSamplingCache: resetSamplingCache,
+	mapSamplingResults: mapSamplingResults
+};
+
+/* harmony default export */ var geo = (geo_module);
+// CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -584,11 +868,7 @@ function makeLazyQueue(queue, callback) {
 		throw new Error('LazyQueue requires an array as the first parameter');
 	}
 }
-// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(11);
-var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
-
-// CONCATENATED MODULE: ./src/utils/query-string.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/query-string.js
 
 
 
@@ -637,7 +917,7 @@ var query_string_QueryString = function () {
 }();
 
 var query_string_queryString = new query_string_QueryString();
-// CONCATENATED MODULE: ./src/utils/logger.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/logger.js
 
 
 var debugGroup = query_string_queryString.get('adengine_debug') || '',
@@ -660,7 +940,7 @@ function logger(logGroup) {
 		window.console.info(logGroup, logValues);
 	}
 }
-// CONCATENATED MODULE: ./src/utils/sampler.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/sampler.js
 
 
 
@@ -693,7 +973,7 @@ var sampler_Sampler = function () {
 }();
 
 var sampler = new sampler_Sampler();
-// CONCATENATED MODULE: ./src/utils/script-loader.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/script-loader.js
 
 
 
@@ -743,11 +1023,7 @@ var script_loader_ScriptLoader = function () {
 }();
 
 var scriptLoader = new script_loader_ScriptLoader();
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
-var keys_ = __webpack_require__(2);
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
-
-// CONCATENATED MODULE: ./src/services/context-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
 
 
 
@@ -886,15 +1162,15 @@ var get_own_property_names_ = __webpack_require__(16);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(9);
+var symbol_ = __webpack_require__(10);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(6);
+var get_prototype_of_ = __webpack_require__(7);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(10);
+var possibleConstructorReturn_ = __webpack_require__(11);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -909,7 +1185,7 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 var external_eventemitter3_ = __webpack_require__(14);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
-// CONCATENATED MODULE: ./src/services/events.js
+// CONCATENATED MODULE: ./src/ad-engine/services/events.js
 
 
 
@@ -1059,7 +1335,7 @@ var events_EventService = function (_EventEmitter) {
 }(external_eventemitter3_default.a);
 
 var events = new events_EventService();
-// CONCATENATED MODULE: ./src/services/slot-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
 
 
 
@@ -1101,6 +1377,7 @@ function setState(slotName, state) {
 	} else if (slot && !state) {
 		slot.disable(status);
 	}
+	logger(slot_service_groupName, 'set state', slotName, state);
 }
 
 var slot_service_SlotService = function () {
@@ -1205,7 +1482,7 @@ var slot_service_SlotService = function () {
 }();
 
 var slotService = new slot_service_SlotService();
-// CONCATENATED MODULE: ./src/services/btf-blocker-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/btf-blocker-service.js
 
 
 
@@ -1216,16 +1493,15 @@ var slotService = new slot_service_SlotService();
 
 var logGroup = 'btf-blocker';
 
-function disableBtf() {
-	var _this = this;
-
+function disableBtf(unblockedSlots) {
 	var slots = context.get('slots');
+	logger(logGroup, 'BTF queue disabled');
 
 	keys_default()(slots).forEach(function (adSlotKey) {
 		var slotConfig = slots[adSlotKey];
 
-		if (!slotConfig.aboveTheFold && _this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
-			slotService.disable(slotConfig.slotName, 'blocked');
+		if (!slotConfig.aboveTheFold && unblockedSlots.indexOf(adSlotKey) === -1) {
+			slotService.disable(adSlotKey, 'blocked');
 		}
 	});
 }
@@ -1259,27 +1535,28 @@ var btf_blocker_service_BtfBlockerService = function () {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this2 = this;
+			var _this = this;
 
 			context.push('listeners.slot', {
 				onRenderEnded: function onRenderEnded(adSlot) {
 					logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
-					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
-						_this2.finishAboveTheFold();
+					if (!_this.atfEnded && adSlot.isAboveTheFold()) {
+						_this.finishAboveTheFold();
 					}
 				}
 			});
 			events.on(events.PAGE_CHANGE_EVENT, function () {
-				_this2.resetState();
+				_this.resetState();
 			});
 		}
 	}, {
 		key: 'finishAboveTheFold',
 		value: function finishAboveTheFold() {
 			this.atfEnded = true;
+			logger(logGroup, 'ATF queue finished');
 
 			if (window.ads.runtime.disableBtf) {
-				disableBtf.call(this);
+				disableBtf.call(this, this.unblockedSlots);
 			}
 
 			this.slotsQueue.start();
@@ -1323,7 +1600,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 }();
 
 var btfBlockerService = new btf_blocker_service_BtfBlockerService();
-// CONCATENATED MODULE: ./src/services/template-service.js
+// CONCATENATED MODULE: ./src/ad-engine/services/template-service.js
 
 
 
@@ -1380,7 +1657,7 @@ var template_service_TemplateService = function () {
 }();
 
 var templateService = new template_service_TemplateService();
-// CONCATENATED MODULE: ./src/services/custom-ad-loader.js
+// CONCATENATED MODULE: ./src/ad-engine/services/custom-ad-loader.js
 
 
 
@@ -1395,7 +1672,7 @@ function registerCustomAdLoader(methodName) {
 var stringify_ = __webpack_require__(4);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
 
-// CONCATENATED MODULE: ./src/services/local-cache.js
+// CONCATENATED MODULE: ./src/ad-engine/services/local-cache.js
 
 
 
@@ -1550,7 +1827,7 @@ var local_cache_LocalCache = function () {
 }();
 
 var localCache = new local_cache_LocalCache();
-// CONCATENATED MODULE: ./src/services/message-bus.js
+// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.js
 
 
 
@@ -1628,13 +1905,13 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(8);
+var get_own_property_descriptor_ = __webpack_require__(9);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(7);
+var external_core_decorators_ = __webpack_require__(8);
 
-// CONCATENATED MODULE: ./src/providers/gpt-size-map.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
 
 
@@ -1720,7 +1997,7 @@ var gpt_size_map_GptSizeMap = function () {
 
 	return GptSizeMap;
 }();
-// CONCATENATED MODULE: ./src/providers/gpt-targeting.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.js
 
 
 
@@ -1747,7 +2024,7 @@ function setupGptTargeting() {
 		setTargetingValue(key, value);
 	});
 }
-// CONCATENATED MODULE: ./src/models/ad-slot.js
+// CONCATENATED MODULE: ./src/ad-engine/models/ad-slot.js
 
 
 
@@ -1932,9 +2209,9 @@ ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
 ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
-// CONCATENATED MODULE: ./src/models/index.js
+// CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
-// CONCATENATED MODULE: ./src/video/vast-parser.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
 
 
 
@@ -1998,7 +2275,7 @@ var vast_parser_VastParser = function () {
 }();
 
 var vastParser = new vast_parser_VastParser();
-// CONCATENATED MODULE: ./src/video/vast-debugger.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-debugger.js
 
 
 
@@ -2043,7 +2320,7 @@ var vast_debugger_VastDebugger = function () {
 }();
 
 var vastDebugger = new vast_debugger_VastDebugger();
-// CONCATENATED MODULE: ./src/video/vast-url-builder.js
+// CONCATENATED MODULE: ./src/ad-engine/video/vast-url-builder.js
 
 
 
@@ -2094,7 +2371,7 @@ function buildVastUrl(aspectRatio, slotName) {
 
 	return baseUrl + params.join('&');
 }
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-setup.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-setup.js
 
 
 
@@ -2160,7 +2437,7 @@ var googleImaSetup = {
 	createRequest: createRequest,
 	getRenderingSettings: getRenderingSettings
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker-script.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
 // Fixes for MOAT script incompatibility
 var eventMapping = {},
     listeners = [],
@@ -2190,7 +2467,7 @@ function initMoatTracking(a, f, c) {
 	}k[d] = moatapi;g.type = "text/javascript";c && c.appendChild(g);g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
 };
 // MOAT CODE END
-// CONCATENATED MODULE: ./src/video/player/porvata/moat/moat-video-tracker.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.js
 
 
 
@@ -2227,7 +2504,7 @@ var moat_video_tracker_MoatVideoTracker = function () {
 }();
 
 var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima-player-factory.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-player-factory.js
 
 
 
@@ -2436,7 +2713,7 @@ var googleImaPlayerFactory = {
 		return player;
 	}
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/ima/google-ima.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima.js
 
 
 
@@ -2473,7 +2750,7 @@ var googleIma = {
 	load: load,
 	getPlayer: getPlayer
 };
-// CONCATENATED MODULE: ./src/video/player/porvata/video-settings.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/video-settings.js
 
 
 
@@ -2540,7 +2817,7 @@ var video_settings_VideoSettings = function () {
 
 	return VideoSettings;
 }();
-// CONCATENATED MODULE: ./src/video/player/porvata/porvata.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/porvata.js
 
 
 
@@ -2951,17 +3228,17 @@ var porvata_Porvata = function () {
 
 	return Porvata;
 }();
-// CONCATENATED MODULE: ./src/video/player/porvata/index.js
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/index.js
 
 
 
 
-// CONCATENATED MODULE: ./src/video/index.js
+// CONCATENATED MODULE: ./src/ad-engine/video/index.js
 
 
 
 
-// CONCATENATED MODULE: ./src/listeners/porvata-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/porvata-listener.js
 
 
 
@@ -3086,7 +3363,7 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// CONCATENATED MODULE: ./src/listeners/scroll-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.js
 
 
 
@@ -3171,7 +3448,7 @@ var scroll_listener_ScrollListener = function () {
 }();
 
 var scrollListener = new scroll_listener_ScrollListener();
-// CONCATENATED MODULE: ./src/listeners/slot-listener.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.js
 
 
 
@@ -3311,11 +3588,11 @@ var slot_listener_SlotListener = function () {
 }();
 
 var slotListener = new slot_listener_SlotListener();
-// CONCATENATED MODULE: ./src/listeners/index.js
+// CONCATENATED MODULE: ./src/ad-engine/listeners/index.js
 
 
 
-// CONCATENATED MODULE: ./src/providers/gpt-provider.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.js
 
 
 
@@ -3555,11 +3832,11 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 
 	return GptProvider;
 }(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flush', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'flush'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec5], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
-// CONCATENATED MODULE: ./src/providers/index.js
+// CONCATENATED MODULE: ./src/ad-engine/providers/index.js
 
 
 
-// CONCATENATED MODULE: ./src/services/slot-tweaker.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.js
 
 
 
@@ -3724,7 +4001,7 @@ var slot_tweaker_SlotTweaker = function () {
 }();
 
 var slotTweaker = new slot_tweaker_SlotTweaker();
-// CONCATENATED MODULE: ./src/services/slot-data-params-updater.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.js
 
 
 
@@ -3762,7 +4039,7 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// CONCATENATED MODULE: ./src/services/slot-injector.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-injector.js
 
 
 
@@ -3839,7 +4116,7 @@ var slot_injector_SlotInjector = function () {
 }();
 
 var slotInjector = new slot_injector_SlotInjector();
-// CONCATENATED MODULE: ./src/services/slot-repeater.js
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-repeater.js
 
 
 
@@ -3918,7 +4195,7 @@ var slot_repeater_SlotRepeater = function () {
 }();
 
 var slotRepeater = new slot_repeater_SlotRepeater();
-// CONCATENATED MODULE: ./src/services/tracking-opt-in.js
+// CONCATENATED MODULE: ./src/ad-engine/services/tracking-opt-in.js
 
 
 
@@ -3931,7 +4208,7 @@ function isOptedIn() {
 var trackingOptIn = {
 	isOptedIn: isOptedIn
 };
-// CONCATENATED MODULE: ./src/services/index.js
+// CONCATENATED MODULE: ./src/ad-engine/services/index.js
 
 
 
@@ -3945,7 +4222,7 @@ var trackingOptIn = {
 
 
 
-// CONCATENATED MODULE: ./src/utils/string-builder.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/string-builder.js
 
 
 
@@ -4000,7 +4277,7 @@ var string_builder_StringBuilder = function () {
 }();
 
 var stringBuilder = new string_builder_StringBuilder();
-// CONCATENATED MODULE: ./src/utils/try-property.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/try-property.js
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -4031,7 +4308,7 @@ function tryProperty(obj) {
 
 	return null;
 }
-// CONCATENATED MODULE: ./src/utils/viewport-observer.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/viewport-observer.js
 
 
 
@@ -4073,7 +4350,8 @@ var viewportObserver = {
 	addListener: viewport_observer_addListener,
 	removeListener: removeListener
 };
-// CONCATENATED MODULE: ./src/utils/index.js
+// CONCATENATED MODULE: ./src/ad-engine/utils/index.js
+
 
 
 
@@ -4089,7 +4367,7 @@ var viewportObserver = {
 var map_ = __webpack_require__(18);
 var map_default = /*#__PURE__*/__webpack_require__.n(map_);
 
-// CONCATENATED MODULE: ./src/templates/floating-ad.js
+// CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
 
 
@@ -4161,9 +4439,9 @@ var floating_ad_FloatingAd = function () {
 
 	return FloatingAd;
 }();
-// CONCATENATED MODULE: ./src/templates/index.js
+// CONCATENATED MODULE: ./src/ad-engine/templates/index.js
 
-// CONCATENATED MODULE: ./src/ad-engine.js
+// CONCATENATED MODULE: ./src/ad-engine/ad-engine.js
 
 
 
@@ -4310,7 +4588,7 @@ var ad_engine_AdEngine = function () {
 
 	return AdEngine;
 }();
-// CONCATENATED MODULE: ./src/index.js
+// CONCATENATED MODULE: ./src/ad-engine/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdEngine", function() { return ad_engine_AdEngine; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "scrollListener", function() { return scrollListener; });
@@ -4353,8 +4631,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.5');
-logger('ad-engine', 'v13.1.5');
+set_default()(window, versionField, 'v14.0.0');
+logger('ad-engine', 'v14.0.0');
 
 
 
