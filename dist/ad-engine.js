@@ -1377,6 +1377,7 @@ function setState(slotName, state) {
 	} else if (slot && !state) {
 		slot.disable(status);
 	}
+	logger(slot_service_groupName, 'set state', slotName, state);
 }
 
 var slot_service_SlotService = function () {
@@ -1492,16 +1493,15 @@ var slotService = new slot_service_SlotService();
 
 var logGroup = 'btf-blocker';
 
-function disableBtf() {
-	var _this = this;
-
+function disableBtf(unblockedSlots) {
 	var slots = context.get('slots');
+	logger(logGroup, 'BTF queue disabled');
 
 	keys_default()(slots).forEach(function (adSlotKey) {
 		var slotConfig = slots[adSlotKey];
 
-		if (!slotConfig.aboveTheFold && _this.unblockedSlots.indexOf(slotConfig.slotName) === -1) {
-			slotService.disable(slotConfig.slotName, 'blocked');
+		if (!slotConfig.aboveTheFold && unblockedSlots.indexOf(adSlotKey) === -1) {
+			slotService.disable(adSlotKey, 'blocked');
 		}
 	});
 }
@@ -1535,27 +1535,28 @@ var btf_blocker_service_BtfBlockerService = function () {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this2 = this;
+			var _this = this;
 
 			context.push('listeners.slot', {
 				onRenderEnded: function onRenderEnded(adSlot) {
 					logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
-					if (!_this2.atfEnded && adSlot.isAboveTheFold()) {
-						_this2.finishAboveTheFold();
+					if (!_this.atfEnded && adSlot.isAboveTheFold()) {
+						_this.finishAboveTheFold();
 					}
 				}
 			});
 			events.on(events.PAGE_CHANGE_EVENT, function () {
-				_this2.resetState();
+				_this.resetState();
 			});
 		}
 	}, {
 		key: 'finishAboveTheFold',
 		value: function finishAboveTheFold() {
 			this.atfEnded = true;
+			logger(logGroup, 'ATF queue finished');
 
 			if (window.ads.runtime.disableBtf) {
-				disableBtf.call(this);
+				disableBtf.call(this, this.unblockedSlots);
 			}
 
 			this.slotsQueue.start();
@@ -4630,8 +4631,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v13.1.5');
-logger('ad-engine', 'v13.1.5');
+set_default()(window, versionField, 'v14.0.0');
+logger('ad-engine', 'v14.0.0');
 
 
 
