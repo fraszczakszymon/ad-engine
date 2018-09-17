@@ -12,8 +12,12 @@ export class TwitchPlayer {
 		return this.identifier;
 	}
 
-	setVolume(volume) {
-		this.player.setVolume(volume);
+	getVideoSettings() {
+		return this.videoSettings;
+	}
+
+	addEventListener(eventName, callback) {
+		this.player.addEventListener(eventName, callback);
 	}
 }
 

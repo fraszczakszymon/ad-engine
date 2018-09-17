@@ -2972,12 +2972,17 @@ function twitch_embed_load() {
 	return scriptLoader.loadScript(twitchLibraryUrl);
 }
 
+function getLibrary() {
+	return window.Twitch;
+}
+
 function twitch_embed_getPlayer(identifier, videoSettings) {
 	return new window.Twitch.Player(identifier, videoSettings);
 }
 
 var twitchEmbed = {
 	load: twitch_embed_load,
+	getLibrary: getLibrary,
 	getPlayer: twitch_embed_getPlayer
 };
 // CONCATENATED MODULE: ./src/video/player/twitch/twitch.js
@@ -3001,9 +3006,14 @@ var twitch_TwitchPlayer = function () {
 			return this.identifier;
 		}
 	}, {
-		key: 'setVolume',
-		value: function setVolume(volume) {
-			this.player.setVolume(volume);
+		key: 'getVideoSettings',
+		value: function getVideoSettings() {
+			return this.videoSettings;
+		}
+	}, {
+		key: 'addEventListener',
+		value: function addEventListener(eventName, callback) {
+			this.player.addEventListener(eventName, callback);
 		}
 	}]);
 
