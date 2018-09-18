@@ -275,6 +275,7 @@ export default {
 		isMobile: false
 	},
 	targeting: {
+		ae3: '1',
 		outstream: 'none',
 		s1: '_project43',
 		uap: 'none'
