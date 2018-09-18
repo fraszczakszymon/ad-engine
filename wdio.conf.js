@@ -63,7 +63,7 @@ exports.config = {
 
 	reporterOptions: {
 		allure: {
-			outputDir: 'allure-results'
+			outputDir: './tests/allure-results'
 		}
 	},
 
