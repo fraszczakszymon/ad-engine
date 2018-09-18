@@ -4,9 +4,7 @@ const twitchLibraryUrl = '//player.twitch.tv/js/embed/v1.js';
 
 function load() {
 	if (window.Twitch) {
-		return new Promise((resolve) => {
-			resolve();
-		});
+		return Promise.resolve();
 	}
 
 	return scriptLoader.loadScript(twitchLibraryUrl);

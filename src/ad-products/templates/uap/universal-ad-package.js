@@ -56,12 +56,10 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 }
 
 async function loadTwitchPlayer(iframe, params) {
-	const { playerPosition } = params,
-		twitchContainer = iframe.contentWindow.document.getElementById(playerPosition),
+	const { adContainer } = params,
+		twitchContainer = iframe.contentWindow.document.getElementById('player'),
+		clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'),
 		twitchContainerHeight = twitchContainer.clientHeight,
-		adContainer = iframe.contentWindow.document.getElementById('adContainer'),
-		clickMacroContainer = playerPosition === 'left' ?
-			iframe.contentWindow.document.getElementById('right') : iframe.contentWindow.document.getElementById('left'),
 		options = {
 			height: '100%',
 			width: '100%',
@@ -70,7 +68,7 @@ async function loadTwitchPlayer(iframe, params) {
 
 	const player = new TwitchPlayer(twitchContainer, options);
 	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
-	clickMacroContainer.style.width = `${adContainer.clientWidth - twitchContainer.clientWidth}px`;
+	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
 	return player;
 }
 
