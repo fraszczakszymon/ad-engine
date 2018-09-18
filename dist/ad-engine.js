@@ -1556,7 +1556,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 			logger(logGroup, 'ATF queue finished');
 
 			if (window.ads.runtime.disableBtf) {
-				disableBtf.call(this, this.unblockedSlots);
+				disableBtf(this.unblockedSlots);
 			}
 
 			this.slotsQueue.start();
@@ -4631,8 +4631,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v14.0.0');
-logger('ad-engine', 'v14.0.0');
+set_default()(window, versionField, 'v14.0.1');
+logger('ad-engine', 'v14.0.1');
 
 
 
