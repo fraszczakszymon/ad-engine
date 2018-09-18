@@ -2,6 +2,7 @@ import { throttle } from 'lodash';
 import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
+import { twitchEmbed } from '@wikia/ad-engine/video/player/twitch/embed/twitch-embed';
 
 let uapId = constants.DEFAULT_UAP_ID;
 let uapType = constants.DEFAULT_UAP_TYPE;
@@ -56,17 +57,21 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 }
 
 async function loadTwitchPlayer(iframe, params) {
-	const area = Object.keys(params.creative)[0] === 'twitch' ? 'area1' : 'area2';
-	const twitchContainer = iframe.contentWindow.document.getElementById(area);
-	const containerHeight = twitchContainer.clientHeight;
+	const { playerPosition } = params,
+		twitchContainer = iframe.contentWindow.document.getElementById(playerPosition),
+		twitchContainerHeight = twitchContainer.clientHeight,
+		adContainer = iframe.contentWindow.document.getElementById('adContainer'),
+		clickMacroContainer = playerPosition === 'left' ?
+			iframe.contentWindow.document.getElementById('right') : iframe.contentWindow.document.getElementById('left'),
+		options = {
+			height: '100%',
+			width: '100%',
+			channel: params.channelName,
+		};
 
-	const options = {
-		height: '100%',
-		width: '100%',
-		channel: params.channelName,
-	};
 	const player = new TwitchPlayer(twitchContainer, options);
-	twitchContainer.style.width = `${containerHeight * params.twitchAspectRatio}px`;
+	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
+	clickMacroContainer.style.width = `${adContainer.clientWidth - twitchContainer.clientWidth}px`;
 	return player;
 }
 

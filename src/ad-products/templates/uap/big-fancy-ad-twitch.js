@@ -125,6 +125,6 @@ export class BigFancyAdTwitch {
 		}
 
 		this.theme.onAdReady(iframe);
-		const twitch = universalAdPackage.loadTwitchAd(iframe, this.params);
+		universalAdPackage.loadTwitchAd(iframe, this.params);
 	}
 }
