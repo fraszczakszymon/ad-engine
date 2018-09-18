@@ -1,8 +1,7 @@
-import { throttle } from 'lodash';
 import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
+import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
-import { twitchEmbed } from '@wikia/ad-engine/video/player/twitch/embed/twitch-embed';
 
 let uapId = constants.DEFAULT_UAP_ID;
 let uapType = constants.DEFAULT_UAP_TYPE;
