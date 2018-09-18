@@ -1,4 +1,4 @@
-import reporter from 'wdio-allure-reporter';
+
 import btfOnlyAd from '../pages/btf-only-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
@@ -16,20 +16,36 @@ describe('It will test btf ads', () => {
 	});
 
 	it('will test the visibility of btf ad after manually finishing the queue', () => {
-		reporter.severity('Critical');
-
 		const size = browser.getElementSize(adSlots.incontentBoxad);
+		const tableOfErrors = [];
 
-		expect(size.width)
-			.to
-			.equal(adSlots.boxadWidth, 'BTF ad width incorrect');
-		expect(size.height)
-			.to
-			.equal(adSlots.boxadHeight, 'BTF ad height incorrect');
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
+		try {
+			expect(size.width)
+				.to
+				.equal(adSlots.boxadWidth, 'BTF ad width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(size.height)
+				.to
+				.equal(adSlots.boxadHeight, 'BTF ad height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not visible in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
+			.empty;
 	});
 
 	it('will test redirect on click', () => {

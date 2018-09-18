@@ -13,24 +13,56 @@ describe('It will test empty response page', () => {
 
 	it('will test if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`))
+
+		const tableOfErrors = [];
+
+		try {
+			expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`), 'Element does not exist')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+				.to
+				.be
+				.false;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
-			.to
-			.be
-			.false;
+			.empty;
 	});
 	it('will test if top boxad is not visible', () => {
 		browser.isExisting(adSlots.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`))
+
+		const tableOfErrors = [];
+
+		try {
+			expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`), 'Top boxad exists in code')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
+				.to
+				.be
+				.false;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
-			.to
-			.be
-			.false;
+			.empty;
 	});
 });

@@ -1,3 +1,5 @@
+const scrollWaitTime = 500;
+
 class AnimationsAd {
 	constructor() {
 		this.pageLink = 'slots/animations/';
@@ -11,7 +13,7 @@ class AnimationsAd {
 	 * Pauses everything so animation can finish its action.
 	 */
 	waitToScroll() {
-		browser.pause(500);
+		browser.pause(scrollWaitTime);
 	}
 }
 

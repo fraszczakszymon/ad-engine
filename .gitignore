@@ -7,6 +7,7 @@ examples/**/dist/*
 node_modules
 npm-debug.log
 
+allure-report/*
 tests/allure-results/*
 !tests/allure-results/categories.json
 !tests/allure-results/environment.xml

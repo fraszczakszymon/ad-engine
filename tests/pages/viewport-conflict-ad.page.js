@@ -9,6 +9,7 @@ class ViewportConflictAd {
 
 	/**
 	 * Provides the parameter of paragraphs to add to the page.
+	 * If the value is bigger than 10, it will be changed to 10.
 	 * @param {number} paragraphs - number of paragraphs to load
 	 */
 	addParagraphs(paragraphs) {

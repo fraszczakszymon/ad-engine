@@ -12,30 +12,70 @@ describe('It will test viewport conflicts ad page', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('will test visibility and dimensions of top leaderboard and top boxad', () => {
+	it('will test visibility and dimensions of top leaderboard', () => {
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
-		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+		const tableOfErrors = [];
 
-		expect(topLeaderboardSize.width)
-			.to
-			.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
-		expect(topLeaderboardSize.height)
-			.to
-			.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
+		try {
+			expect(topLeaderboardSize.width)
+				.to
+				.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(topLeaderboardSize.height)
+				.to
+				.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
-		expect(topBoxadSize.width)
-			.to
-			.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
-		expect(topBoxadSize.height)
-			.to
-			.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
+			.empty;
+	});
+
+	it('will test visibility and dimensions of top boxad', () => {
+		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+		const tableOfErrors = [];
+
+		try {
+			expect(topBoxadSize.width)
+				.to
+				.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(topBoxadSize.height)
+				.to
+				.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
+			.empty;
 	});
 
 	it('will test redirect after clicking on a top leaderboard ad', () => {

@@ -12,12 +12,26 @@ describe('It will test top boxad page', () => {
 		browser.waitForVisible(topBoxad.topBoxadRail, timeouts.standard);
 
 		const size = browser.getElementSize(topBoxad.topBoxadRail);
+		const tableOfErrors = [];
 
-		expect(size.width)
+		try {
+			expect(size.width)
+				.to
+				.equal(topBoxad.topBoxadWidth, 'Top boxad width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(size.height)
+				.to
+				.equal(topBoxad.topBoxadHeight, 'Top boxad height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.equal(topBoxad.topBoxadWidth, 'Top boxad width incorrect');
-		expect(size.height)
-			.to
-			.equal(topBoxad.topBoxadHeight, 'Top boxad height incorrect');
+			.be
+			.empty;
 	});
 });

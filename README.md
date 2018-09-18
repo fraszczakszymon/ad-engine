@@ -393,3 +393,27 @@ npm run wdio
 ```bash
 npm run allure
 ```
+
+## Allure extensions
+
+### Severity and Categories
+
+#### Severity
+
+Add these lines to test files
+
+```js
+import reporter from 'wdio-allure-reporter';
+```
+
+```js
+reporter.severity('severity');
+```
+
+Note that adding `reporter.severity()`` to `beforeEach()`` sets a fixed value for all the cases in the file.
+If you want to set different severity for some cases, put it right under `it` instead.
+
+#### Categories
+
+By default Allure has no categories.
+

@@ -14,17 +14,35 @@ describe('It will test porvata player', () => {
 
 	it('will test porvata player visibility', () => {
 		const size = browser.getElementSize(porvata.porvataPlayer);
+		const tableOfErrors = [];
 
-		expect(size.width)
-			.to
-			.equal(porvata.playerWidth, 'Porvata width incorrect');
-		expect(size.height)
-			.to
-			.equal(porvata.playerHeight, 'Porvata height incorrect');
-		expect(browser.isVisibleWithinViewport(porvata.porvataPlayer))
+		try {
+			expect(size.width)
+				.to
+				.equal(porvata.playerWidth, 'Porvata width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(size.height)
+				.to
+				.equal(porvata.playerHeight, 'Porvata height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(porvata.porvataPlayer), 'Player not visible')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
+			.empty;
 	});
 
 	it('will test redirect on click in porvata player', () => {

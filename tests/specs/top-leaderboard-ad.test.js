@@ -13,13 +13,27 @@ describe('It will test top leaderboard ad page', () => {
 
 	it('will test visibility of top leaderboard', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
+		const tableOfErrors = [];
 
-		expect(size.width)
+		try {
+			expect(size.width)
+				.to
+				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(size.height)
+				.to
+				.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
-		expect(size.height)
-			.to
-			.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
+			.be
+			.empty;
 	});
 
 	it('will test top leaderboard redirect on click', () => {

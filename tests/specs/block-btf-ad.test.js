@@ -13,17 +13,37 @@ describe('It will test block btf ad page', () => {
 
 	it('will test top leaderboard visibility and dimensions', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
+		const tableOfErrors = [];
 
-		expect(size.width)
-			.to
-			.equal(adSlots.leaderboardWidth);
-		expect(size.height)
-			.to
-			.equal(adSlots.leaderboardHeight);
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
+		try {
+			expect(size.width)
+				.to
+				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		try {
+			expect(size.height)
+				.to
+				.equal(adSlots.leaderboardHeight);
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.true;
+			.empty;
 	});
 
 	it(' will test top leaderboard ad redirect on click', () => {
@@ -40,10 +60,22 @@ describe('It will test block btf ad page', () => {
 	});
 
 	it('will test if incontent boxad is hidden on the page', () => {
+		const tableOfErrors = [];
+
 		helpers.slowScroll(2000);
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
+
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
+				.to
+				.be
+				.false;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.be
-			.false;
+			.empty;
 	});
 });
