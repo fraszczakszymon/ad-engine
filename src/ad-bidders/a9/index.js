@@ -40,15 +40,20 @@ export class A9 extends BaseBidder {
 			this.insertScript();
 			this.configureApstag();
 
-			window.apstag.init({
+			const apsConfig = {
 				pubID: this.amazonId,
-				videoAdServer: 'DFP',
-				gdpr: this.isCMPEnabled ? {
+				videoAdServer: 'DFP'
+			};
+
+			if (this.isCMPEnabled && consentData && consentData.consentData) {
+				apsConfig.gdpr = {
 					enabled: consentData.gdprApplies,
 					consent: consentData.consentData,
 					cmpTimeout: 5000
-				} : undefined
-			});
+				};
+			}
+
+			window.apstag.init(apsConfig);
 
 			this.loaded = true;
 		}
