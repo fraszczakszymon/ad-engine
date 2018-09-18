@@ -44,6 +44,8 @@ npm install github:Wikia/ad-engine#v14.0.0
 |`options.video.moatTracking.partnerCode`|MOAT identifier|string|✔|
 |`options.video.moatTracking.sampling`|Sampling for MOAT tracking|string|✔|
 |`options.video.porvata.audio.exposeToSlot`|Decides whether Porvata stores `audio` flag in slot object|boolean|✔|
+|`services.krux.enabled`|Decides whether Krux is loaded (after calling `krux.call()`)|boolean|✘|
+|`services.krux.id`|Krux ID|string|✔|
 |`slots`|Ad slots definition|object|✔|
 |`slots.{slot_name}`|Single slot definition|object|✔|
 |`slots.{slot_name}.{anything}`|Ad slot definition may contain different properties and they will be available in `AdSlot.config` property|string|✘|
