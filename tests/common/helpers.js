@@ -5,6 +5,7 @@ const pauseBetweenScrolls = 250;
 class Helpers {
 	constructor() {
 		this.newsAndStories = 'http://www.wikia.com/fandom';
+		this.lukeSkywalkerLegacy = 'http://fandom.wikia.com/articles/legacy-luke-skywalker';
 		this.interval = 500;
 		this.classHidden = '.hide';
 	}

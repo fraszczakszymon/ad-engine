@@ -78,30 +78,88 @@ describe('It will test something', () => {
 		browser.waitForVisible(adSlots.topBoxad);
 
 		const size = browser.getElementSize(adSlots.topBoxad);
+		const tableOfErrors = [];
 
-		expect(size.width)
+		try {
+			expect(size.width)
+				.to
+				.equal(adSlots.boxadWidth);
+			expect(size.height)
+				.to
+				.equal(adSlots.boxadHeight);
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.equal(adSlots.boxadWidth);
-		expect(size.height)
-			.to
-			.equal(adSlots.boxadHeight);
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
-			.to
-			.be
-			.true;
+			.equal(0);
 	});
 
-	it('will test redirect on click on top boxad', () => {
+	xit('will test redirect on click on top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
+		helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.newsAndStories); // TODO ask if it should redirect to n&s or luke's story (like it does now)
+			.equal(helpers.lukeSkywalkerLegacy);
+		helpers.closeNewTabs();
+	});
+
+	it('will test incontent boxad dimensions and visibility', () => {
+		browser.scroll(0, 1000);
+		browser.waitForVisible(adSlots.incontentBoxad);
+
+		const size = browser.getElementSize(adSlots.incontentBoxad);
+		const tableOfErrors = [];
+
+		try {
+			expect(size.width)
+				.to
+				.equal(adSlots.boxadWidth);
+			expect(size.height)
+				.to
+				.equal(adSlots.boxadHeight);
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			.to
+			.equal(0);
+	});
+	it('will test redirect on click on incontent boxad', () => {
+		browser.scroll(0, 1000);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.click(adSlots.incontentBoxad);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
+		expect(browser.getUrl())
+			.to
+			.equal(helpers.lukeSkywalkerLegacy);
 		helpers.closeNewTabs();
 	});
 });
