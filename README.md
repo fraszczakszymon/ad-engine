@@ -419,6 +419,7 @@ Available severity levels:
 * trivial
 
 Note that adding `reporter.severity()` to `beforeEach()` sets a fixed value for all the cases in the file.
+This can't be overridden by putting different severity in cases, as the one in `beforeEach()`` is a parent value.
 If you want to set different severity for some cases, put it right under `it` instead.
 
 #### Categories
