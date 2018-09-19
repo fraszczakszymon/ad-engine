@@ -69,6 +69,10 @@ class BtfBlockerService {
 				slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
 			}
 
+			if (slotService.isCatlapsed(adSlot)) {
+				slotService.disable(adSlot.getSlotName(), 'catlapsed');
+			}
+
 			if (!adSlot.isEnabled()) {
 				logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
 				return;

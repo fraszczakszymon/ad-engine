@@ -249,19 +249,33 @@ export default {
 						dfp_targeting: true,
 						on_1: ['logResult']
 					}
+				],
+				cheshire_cat: [
+					{
+						name: 'cheshirecat:0.0.1',
+						countries: ['XX'],
+						is_lazy_called: true,
+						on_0: ['logResult'],
+						on_1: ['logResult']
+					}
 				]
 			},
 			parameters: {
-				device: 'tablet',
-				v1: 'Fgas3ooM',
-				geo: 'PL',
-				wiki_id: 245424,
-				vtags: 'Twin Peaks',
-				esrb: 'mature',
-				s0v: 'tv',
-				ref: 'direct',
-				top_1k: 0,
-				s2: 'article',
+				queen_of_hearts: {
+					device: 'tablet',
+					v1: 'Fgas3ooM',
+					geo: 'PL',
+					wiki_id: 245424,
+					vtags: 'Twin Peaks',
+					esrb: 'mature',
+					s0v: 'tv',
+					ref: 'direct',
+					top_1k: 0,
+					s2: 'article',
+				},
+				cheshire_cat: {
+					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(';'),
+				}
 			},
 			timeout: 2000
 		}

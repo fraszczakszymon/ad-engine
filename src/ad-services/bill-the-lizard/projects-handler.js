@@ -30,28 +30,39 @@ export class ProjectsHandler {
 
 	/**
 	 * Returns all geo-enabled models' definitions based on enabled projects
-	 * @returns {ModelDefinition[]}
+	 * @returns {{models: ModelDefinition[], parameters: Object}}
 	 */
-	getEnabledModels() {
+	getEnabledModels(projectName = null) {
 		const projects = context.get('services.billTheLizard.projects');
-		const enabledProjectNames = Object.keys(projects).filter(name => this.isEnabled(name));
+		const projectParameters = context.get('services.billTheLizard.parameters');
+		const enabledProjectNames = Object.keys(projects)
+			.filter(
+				name => (this.isEnabled(name) && (!projectName || name === projectName))
+			);
 		const models = [];
+		const parameters = {};
 
 		enabledProjectNames.forEach((name) => {
 			// Only first enabled model in project is executable
 			let isNextModelExecutable = true;
 
 			projects[name].forEach((model) => {
-				if (utils.isProperGeo(model.countries, model.name)) {
+				if (
+					utils.isProperGeo(model.countries, model.name) && ((!model.is_lazy_called || projectName))
+				) {
 					model.executable = isNextModelExecutable;
 					isNextModelExecutable = false;
 					models.push(model);
+					Object.assign(parameters, projectParameters[name]);
 				} else {
 					model.executable = false;
 				}
 			});
 		});
 
-		return models;
+		return {
+			models,
+			parameters
+		};
 	}
 }

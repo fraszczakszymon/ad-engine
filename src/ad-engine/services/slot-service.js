@@ -120,6 +120,10 @@ class SlotService {
 
 		return hasConflict;
 	}
+
+	isCatlapsed(adSlot) {
+		return context.get(`slots.${adSlot.getSlotName()}.catlapsed`);
+	}
 }
 
 export const slotService = new SlotService();

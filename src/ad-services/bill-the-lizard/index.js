@@ -114,7 +114,7 @@ class BillTheLizard {
 	 * Requests service, executes defined methods and parses response
 	 * @returns {Promise}
 	 */
-	call() {
+	call(lazyCallProject = null) {
 		if (!context.get('services.billTheLizard.enabled')) {
 			utils.logger(logGroup, 'disabled');
 			return new Promise((resolve, reject) => reject(new Error('Disabled')));
@@ -122,9 +122,8 @@ class BillTheLizard {
 
 		const host = context.get('services.billTheLizard.host');
 		const endpoint = context.get('services.billTheLizard.endpoint');
-		const parameters = context.get('services.billTheLizard.parameters');
 		const timeout = context.get('services.billTheLizard.timeout');
-		const models = this.projectsHandler.getEnabledModels();
+		const { models, parameters } = this.projectsHandler.getEnabledModels(lazyCallProject);
 
 		if (!models || models.length < 1) {
 			utils.logger(logGroup, 'no models to predict');
