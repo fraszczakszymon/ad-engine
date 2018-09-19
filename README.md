@@ -411,6 +411,13 @@ import reporter from 'wdio-allure-reporter';
 reporter.severity('severity');
 ```
 
+Available severity levels:
+* blocker
+* critical
+* normal (default)
+* minor
+* trivial
+
 Note that adding `reporter.severity()` to `beforeEach()` sets a fixed value for all the cases in the file.
 If you want to set different severity for some cases, put it right under `it` instead.
 
