@@ -98,13 +98,13 @@ module.exports = require("babel-runtime/helpers/classCallCheck");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 6 */
@@ -122,11 +122,11 @@ var createClass_ = __webpack_require__(2);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(5);
+var assign_ = __webpack_require__(4);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(4);
+var promise_ = __webpack_require__(5);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
@@ -230,6 +230,7 @@ var executor_Executor = function () {
 
 
 
+
 var projects_handler_logGroup = 'project-handler';
 
 /**
@@ -269,7 +270,7 @@ var projects_handler_ProjectsHandler = function () {
 
 		/**
    * Returns all geo-enabled models' definitions based on enabled projects
-   * @returns {ModelDefinition[]}
+   * @returns {{models: ModelDefinition[], parameters: Object}}
    */
 
 	}, {
@@ -277,28 +278,36 @@ var projects_handler_ProjectsHandler = function () {
 		value: function getEnabledModels() {
 			var _this = this;
 
+			var projectName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 			var projects = ad_engine_["context"].get('services.billTheLizard.projects');
+			var projectParameters = ad_engine_["context"].get('services.billTheLizard.parameters');
 			var enabledProjectNames = keys_default()(projects).filter(function (name) {
-				return _this.isEnabled(name);
+				return _this.isEnabled(name) && (!projectName || name === projectName);
 			});
 			var models = [];
+			var parameters = {};
 
 			enabledProjectNames.forEach(function (name) {
 				// Only first enabled model in project is executable
 				var isNextModelExecutable = true;
 
 				projects[name].forEach(function (model) {
-					if (ad_engine_["utils"].isProperGeo(model.countries, model.name)) {
+					if (ad_engine_["utils"].isProperGeo(model.countries, model.name) && (!model.is_lazy_called || projectName)) {
 						model.executable = isNextModelExecutable;
 						isNextModelExecutable = false;
 						models.push(model);
+						assign_default()(parameters, projectParameters[name]);
 					} else {
 						model.executable = false;
 					}
 				});
 			});
 
-			return models;
+			return {
+				models: models,
+				parameters: parameters
+			};
 		}
 	}]);
 
@@ -443,6 +452,8 @@ var bill_the_lizard_BillTheLizard = function () {
 		value: function call() {
 			var _this = this;
 
+			var lazyCallProject = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 			if (!ad_engine_["context"].get('services.billTheLizard.enabled')) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'disabled');
 				return new promise_default.a(function (resolve, reject) {
@@ -452,9 +463,11 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			var host = ad_engine_["context"].get('services.billTheLizard.host');
 			var endpoint = ad_engine_["context"].get('services.billTheLizard.endpoint');
-			var parameters = ad_engine_["context"].get('services.billTheLizard.parameters');
 			var timeout = ad_engine_["context"].get('services.billTheLizard.timeout');
-			var models = this.projectsHandler.getEnabledModels();
+
+			var _projectsHandler$getE = this.projectsHandler.getEnabledModels(lazyCallProject),
+			    models = _projectsHandler$getE.models,
+			    parameters = _projectsHandler$getE.parameters;
 
 			if (!models || models.length < 1) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'no models to predict');

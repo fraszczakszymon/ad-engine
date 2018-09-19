@@ -2052,7 +2052,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 							return adUnit.code === winningBid.adUnitCode && adUnit.bids && adUnit.bids[0] && adUnit.bids[0].bidder === winningBid.bidderCode;
 						});
 
-						_this4.requestBids(adUnitsToRefresh);
+						_this4.requestBids(adUnitsToRefresh, _this4.bidsRefreshing.bidsBackHandler);
 					}
 				});
 			});
