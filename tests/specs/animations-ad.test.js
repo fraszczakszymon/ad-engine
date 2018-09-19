@@ -103,7 +103,7 @@ describe('It will test animations ad page', () => {
 	});
 
 	it('will test top leaderboard disappearing after 6 seconds', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdValue, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdMaxHeight, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
 		animationsAd.waitToScroll();
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
