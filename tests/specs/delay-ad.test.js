@@ -12,37 +12,17 @@ describe('It will test delay ad page', () => {
 	});
 
 	it('will test if top leaderboard is not immediately visible', () => {
-		const tableOfErrors = [];
-
-		try {
-			expect(browser.isExisting(`${adSlots.topLeaderboard}${delayAd.resultAttribute}`), 'Top leaderboard visible')
-				.to
-				.be
-				.false;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(browser.isExisting(`${adSlots.topLeaderboard}${delayAd.resultAttribute}`), 'Top leaderboard visible')
 			.to
-			.equal(0);
+			.be
+			.false;
 	});
 
 	it('will test if top boxad is not immediately visible', () => {
-		const tableOfErrors = [];
-
-		try {
-			expect(browser.isExisting(`${adSlots.topBoxad}${delayAd.resultAttribute}`), 'Top boxad visible')
-				.to
-				.be
-				.false;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(browser.isExisting(`${adSlots.topBoxad}${delayAd.resultAttribute}`), 'Top boxad visible')
 			.to
-			.equal(0);
+			.be
+			.false;
 	});
 
 	it('will test visibility and dimensions of delayed top leaderboard', () => {

@@ -112,7 +112,7 @@ describe('It will test animations ad page', () => {
 		try {
 			expect(topLeaderboardSize.height)
 				.to
-				.equal(animationsAd.topLeaderboardHeightHidden, 'Top leaderboard was not hidden');
+				.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 

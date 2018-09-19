@@ -59,21 +59,10 @@ describe('It will test block btf ad page', () => {
 	});
 
 	it('will test if incontent boxad is hidden on the page', () => {
-		const tableOfErrors = [];
-
 		helpers.slowScroll(2000);
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
-				.to
-				.be
-				.false;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
 			.to
-			.equal(0);
+			.be
+			.false;
 	});
 });
