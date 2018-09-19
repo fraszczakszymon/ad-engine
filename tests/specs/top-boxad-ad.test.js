@@ -31,7 +31,6 @@ describe('It will test top boxad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 });

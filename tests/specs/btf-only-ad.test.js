@@ -44,8 +44,7 @@ describe('It will test btf ads', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test redirect on click', () => {

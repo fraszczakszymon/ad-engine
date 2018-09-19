@@ -35,8 +35,7 @@ describe('It will test empty response page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 	it('will test if top boxad is not visible', () => {
 		browser.isExisting(adSlots.topBoxad, timeouts.standard);
@@ -62,7 +61,6 @@ describe('It will test empty response page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 });

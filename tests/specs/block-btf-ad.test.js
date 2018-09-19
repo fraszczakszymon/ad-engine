@@ -42,8 +42,7 @@ describe('It will test block btf ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it(' will test top leaderboard ad redirect on click', () => {
@@ -75,7 +74,6 @@ describe('It will test block btf ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 });

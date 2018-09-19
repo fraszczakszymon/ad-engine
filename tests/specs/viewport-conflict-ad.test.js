@@ -41,8 +41,7 @@ describe('It will test viewport conflicts ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test visibility and dimensions of top boxad', () => {
@@ -74,8 +73,7 @@ describe('It will test viewport conflicts ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test redirect after clicking on a top leaderboard ad', () => {

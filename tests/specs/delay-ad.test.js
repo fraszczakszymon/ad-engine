@@ -25,8 +25,7 @@ describe('It will test delay ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test if top boxad is not immediately visible', () => {
@@ -43,8 +42,7 @@ describe('It will test delay ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test visibility and dimensions of delayed top leaderboard', () => {
@@ -80,8 +78,7 @@ describe('It will test delay ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test visibility and dimensions of delayed top boxad', () => {
@@ -116,8 +113,7 @@ describe('It will test delay ad page', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test if top leaderboard ad shows up after clicking the button and if it was viewed', () => {

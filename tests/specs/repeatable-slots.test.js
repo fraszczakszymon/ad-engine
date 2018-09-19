@@ -40,8 +40,7 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test redirect on click', () => {
@@ -81,8 +80,7 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 
 	it('will test 8 boxads', () => {
@@ -108,7 +106,6 @@ describe('It will test repeatable slots ads ', () => {
 
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
-			.be
-			.empty;
+			.equal(0);
 	});
 });
