@@ -19,18 +19,12 @@ describe('It will test block btf ad page', () => {
 			expect(size.width)
 				.to
 				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		try {
 			expect(size.height)
 				.to
 				.equal(adSlots.leaderboardHeight);
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
-
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to

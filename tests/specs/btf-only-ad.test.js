@@ -23,10 +23,6 @@ describe('It will test btf ads', () => {
 			expect(size.width)
 				.to
 				.equal(adSlots.boxadWidth, 'BTF ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(size.height)
 				.to
 				.equal(adSlots.boxadHeight, 'BTF ad height incorrect');

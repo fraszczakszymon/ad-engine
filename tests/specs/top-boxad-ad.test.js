@@ -8,7 +8,7 @@ describe('It will test top boxad page', () => {
 		browser.url(topBoxad.pageLink);
 	});
 
-	it('will test visibility of top boxad', () => {
+	it('will test visibility of top boxad rail module', () => {
 		browser.waitForVisible(topBoxad.topBoxadRail, timeouts.standard);
 
 		const size = browser.getElementSize(topBoxad.topBoxadRail);
@@ -17,14 +17,18 @@ describe('It will test top boxad page', () => {
 		try {
 			expect(size.width)
 				.to
-				.equal(topBoxad.topBoxadWidth, 'Top boxad width incorrect');
+				.equal(topBoxad.topBoxadWidth, 'Top boxad rail module width incorrect');
+			expect(size.height)
+				.to
+				.equal(topBoxad.topBoxadHeight, 'Top boxad rail module height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(size.height)
+			expect(browser.isVisibleWithinViewport(topBoxad.topBoxadRail), 'Top Boxad rail module not in viewport')
 				.to
-				.equal(topBoxad.topBoxadHeight, 'Top boxad height incorrect');
+				.be
+				.true;
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}

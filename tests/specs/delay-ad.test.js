@@ -37,10 +37,6 @@ describe('It will test delay ad page', () => {
 			expect(topLeaderboardSize.width)
 				.to
 				.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(topLeaderboardSize.height)
 				.to
 				.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
@@ -72,10 +68,6 @@ describe('It will test delay ad page', () => {
 			expect(topBoxadSize.width)
 				.to
 				.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(topBoxadSize.height)
 				.to
 				.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');

@@ -20,10 +20,6 @@ describe('It will test animations ad page', () => {
 			expect(topLeaderboardSize.width)
 				.to
 				.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(topLeaderboardSize.height)
 				.to
 				.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
@@ -52,10 +48,6 @@ describe('It will test animations ad page', () => {
 			expect(topBoxadSize.width)
 				.to
 				.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(topBoxadSize.height)
 				.to
 				.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
@@ -107,18 +99,9 @@ describe('It will test animations ad page', () => {
 		animationsAd.waitToScroll();
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
-		const tableOfErrors = [];
 
-		try {
-			expect(topLeaderboardSize.height)
-				.to
-				.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
-				.to
-				.equal(0);
-		}
+		expect(topLeaderboardSize.height)
+			.to
+			.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
 	});
 });

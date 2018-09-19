@@ -20,10 +20,6 @@ describe('It will test porvata player', () => {
 			expect(size.width)
 				.to
 				.equal(porvata.playerWidth, 'Porvata width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(size.height)
 				.to
 				.equal(porvata.playerHeight, 'Porvata height incorrect');

@@ -19,13 +19,17 @@ describe('It will test top leaderboard ad page', () => {
 			expect(size.width)
 				.to
 				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
+			expect(size.height)
+				.to
+				.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(size.height)
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
-				.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
+				.be
+				.true;
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}

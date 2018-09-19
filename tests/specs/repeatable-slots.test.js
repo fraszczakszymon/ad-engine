@@ -19,17 +19,9 @@ describe('It will test repeatable slots ads ', () => {
 			expect(size.width)
 				.to
 				.equal(adSlots.boxadWidth, 'Boxad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(size.height)
 				.to
 				.equal(adSlots.boxadHeight, 'Boxad height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)), 'Slot not visible in viewport')
 				.to
 				.be

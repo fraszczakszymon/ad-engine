@@ -8,6 +8,7 @@ const { expect } = require('chai');
 describe('It will test floating ad page', () => {
 	beforeEach(() => {
 		browser.url(floatingAd.pageLink);
+		browser.waitForVisible(floatingAd.pageBody);
 	});
 
 	it('will test visibility of floating ad', () => {
@@ -22,10 +23,6 @@ describe('It will test floating ad page', () => {
 			expect(size.width)
 				.to
 				.equal(adSlots.boxadWidth, 'Floating ad width incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
 			expect(size.height)
 				.to
 				.equal(adSlots.boxadHeight, 'Floating ad height incorrect');
