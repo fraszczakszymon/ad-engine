@@ -349,7 +349,8 @@ top.loadCustomAd && top.loadCustomAd({
 npm run serve
 ```
 
-Navigate to <http://localhost:8080/> (you may have different port)
+Navigate to <http://localhost:8080/> (you may have different port).
+Upon using the command, the page should automatically open in your default browser.
 
 ### Debug mode
 
@@ -378,7 +379,7 @@ npm install -g allure-commandline --save-dev
 
 ### Run tests
 
-In one session run ad-engine and in other run tests
+In one session run ad-engine and in other run tests.
 
 ```bash
 npm run serve
@@ -439,6 +440,10 @@ The structure of that file looks like that:
 ]
 ```
 
+Description:
+* name - the name we want for our category
+* matchedStatuses - statuses to get that name
+
 The reason why we switched "Broken tests" with "Failed tests" was to keep it consistent with Jenkins.
 Allure does not allow changing categories' colors, unless we fork our own release of it.
 
@@ -456,6 +461,10 @@ The structure of that file looks like that:
     </parameter>
 </environment>
 ```
+
+Description:
+* key - element of our environment
+* value - details about this element (version, filename, path  etc.)
 
 Do note, that instead of changing the information about the environment, you add more details.
 By default, Allure only provides information about the browser and spec files (with test cases).
