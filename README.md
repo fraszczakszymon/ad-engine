@@ -410,10 +410,52 @@ import reporter from 'wdio-allure-reporter';
 reporter.severity('severity');
 ```
 
-Note that adding `reporter.severity()`` to `beforeEach()`` sets a fixed value for all the cases in the file.
+Note that adding `reporter.severity()` to `beforeEach()` sets a fixed value for all the cases in the file.
 If you want to set different severity for some cases, put it right under `it` instead.
 
 #### Categories
 
-By default Allure has no categories.
+In order to add custom names for categories you need to create the 'categories.json' file in 'allure-results' folder.
+The structure of that file looks like that:
 
+```json
+[
+  {
+    "name": "Passed tests",
+    "matchedStatuses": ["passed"]
+  },
+  {
+    "name": "Skipped tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Broken tests",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Failed tests",
+    "matchedStatuses": ["broken"]
+  }
+]
+```
+
+The reason why we switched "Broken tests" with "Failed tests" was to keep it consistent with Jenkins.
+Allure does not allow changing categories' colors, unless we fork our own release of it.
+
+#### Environment
+
+Similar to categories, you can also add more information about the environment.
+To do that, simply add the 'environment.xml' file in allure-results folder.
+The structure of that file looks like that:
+
+```xml
+<environment>
+    <parameter>
+        <key>Ad Engine version</key>
+        <value>Ad Engine 3.0</value>
+    </parameter>
+</environment>
+```
+
+Do note, that instead of changing the information about the environment, you add more details.
+By default, Allure only provides information about the browser and spec files (with test cases).
