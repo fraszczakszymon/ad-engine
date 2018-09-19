@@ -48,13 +48,13 @@ describe('Bill the Lizard projects handler', () => {
 	});
 
 	it('enabled models list is empty by default', () => {
-		expect(projects.getEnabledModels().length).to.equal(0);
+		expect(projects.getEnabledModels().models.length).to.equal(0);
 	});
 
 	it('enabled models list contains enabled models by geo from enabled project and only one is executable', () => {
 		projects.enable('foo');
 
-		expect(projects.getEnabledModels().length).to.equal(1);
+		expect(projects.getEnabledModels().models.length).to.equal(1);
 
 		expect(context.get('services.billTheLizard.projects.foo.0.executable')).to.equal(false);
 		expect(context.get('services.billTheLizard.projects.foo.1.executable')).to.equal(true);
@@ -64,7 +64,7 @@ describe('Bill the Lizard projects handler', () => {
 		projects.enable('foo');
 		projects.enable('second');
 
-		expect(projects.getEnabledModels().length).to.equal(3);
+		expect(projects.getEnabledModels().models.length).to.equal(3);
 
 		expect(context.get('services.billTheLizard.projects.second.0.executable')).to.equal(true);
 		expect(context.get('services.billTheLizard.projects.second.1.executable')).to.equal(false);

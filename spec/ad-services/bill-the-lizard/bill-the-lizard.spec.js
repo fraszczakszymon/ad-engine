@@ -32,9 +32,11 @@ describe('Bill the Lizard service', () => {
 				]
 			},
 			parameters: {
-				foo: 1,
-				bar: 'test',
-				echo: ['one', 'two']
+				queen_of_hearts: {
+					foo: 1,
+					bar: 'test',
+					echo: ['one', 'two']
+				}
 			},
 			timeout: 2000
 		});
