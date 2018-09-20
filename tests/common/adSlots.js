@@ -13,6 +13,8 @@ class AdSlots {
 		this.uapBottomLeaderboardHeight = 102;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
+		this.lineItemParam = 'data-gpt-line-item-id';
+		this.creativeItemParam = 'data-gpt-creative-id';
 	}
 }
 

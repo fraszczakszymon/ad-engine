@@ -11,7 +11,11 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(uapHivi.pageBody);
 	});
 
-	// top leaderboard tests
+	afterEach(() => {
+		browser.scroll(0, 0);
+	});
+
+	// Top Leaderboard tests
 
 	it('will test visibility and dimensions of top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -41,6 +45,16 @@ describe('It will test uap hivi slots', () => {
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
+	});
+
+	it('will test line item id and creative id of top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(uapHivi.topLeaderboardlineItemId, 'Line item ID mismatch');
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.creativeItemParam))
+			.to
+			.equal(uapHivi.topLeaderboardcreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on top leaderboard', () => {
@@ -86,12 +100,9 @@ describe('It will test uap hivi slots', () => {
 			.false;
 	});
 
-	// top boxad tests
-
-	// TODO change the temporary fix
+	// Top Boxad tests
 
 	it('will test top boxad dimensions and visibility', () => {
-		browser.scroll(0, 0); // temporary fix for leaderboard covering the page
 		browser.waitForVisible(adSlots.topBoxad);
 
 		const size = browser.getElementSize(adSlots.topBoxad);
@@ -121,10 +132,17 @@ describe('It will test uap hivi slots', () => {
 			.equal(0);
 	});
 
-	// TODO change the temporary fix
+	it('will test line item id and creative id of top boxad', () => {
+		browser.waitForVisible(adSlots.topBoxad);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(uapHivi.topBoxadLineItemId, 'Line item ID mismatch');
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.creativeItemParam))
+			.to
+			.equal(uapHivi.topBoxadCreativeId, 'Creative ID mismatch');
+	});
 
 	it('will test redirect on click on top boxad', () => {
-		browser.scroll(0, 0); // temporary fix for leaderboard covering the page
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
@@ -138,7 +156,7 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	// incontent boxad tests
+	// Incontent Boxad tests
 
 	it('will test incontent boxad dimensions and visibility', () => {
 		browser.scroll(0, 1000);
@@ -170,6 +188,18 @@ describe('It will test uap hivi slots', () => {
 			.to
 			.equal(0);
 	});
+
+	it('will test line item id and creative id of top boxad', () => {
+		browser.scroll(0, 1000);
+		browser.waitForVisible(adSlots.incontentBoxad);
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(uapHivi.incontentBoxadLineItemId, 'Line item ID mismatch');
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.creativeItemParam))
+			.to
+			.equal(uapHivi.incontentBoxadCreativeId, 'Creative ID mismatch');
+	});
+
 	it('will test redirect on click on incontent boxad', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
@@ -185,7 +215,7 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	// bottom leaderboard tests
+	// Bottom Leaderboard tests
 
 	it('will test bottom leaderboard dimensions and visibility', () => {
 		helpers.slowScroll(6000);
@@ -215,6 +245,17 @@ describe('It will test uap hivi slots', () => {
 		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
+	});
+
+	it('will test line item id and creative id of bottom leaderboard', () => {
+		helpers.slowScroll(6000);
+		browser.waitForVisible(adSlots.bottomLeaderboard);
+		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(uapHivi.bottomLeaderboardLineItemId, 'Line item ID mismatch');
+		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.creativeItemParam))
+			.to
+			.equal(uapHivi.bottomLeaderboardCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on bottom leaderboard', () => {
