@@ -255,7 +255,7 @@ export default {
 						name: 'cheshirecat:0.0.1',
 						countries: ['XX'],
 						on_0: ['logResult'],
-						on_1: ['logResult']
+						on_1: ['catlapse', 'logResult']
 					}
 				]
 			},

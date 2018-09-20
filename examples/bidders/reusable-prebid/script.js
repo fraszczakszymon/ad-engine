@@ -47,14 +47,14 @@ if (enabledProjects) {
 
 	billTheLizard.executor.register('logResult', (model, prediction) => {
 		console.log(`🦎 %c${model.name}`, 'font-weight: bold', `predicted ${prediction}`);
+	});
 
-		if (prediction === 1) {
-			const slots = document.querySelectorAll('.repeatable-boxad');
+	billTheLizard.executor.register('catlapse', () => {
+		const slots = document.querySelectorAll('.repeatable-boxad');
 
-			if (slots.length > 0) {
-				const slot = slots[slots.length - 1];
-				slotService.disable(slot.id, 'catlapsed');
-			}
+		if (slots.length > 0) {
+			const slot = slots[slots.length - 1];
+			slotService.disable(slot.id, 'catlapsed');
 		}
 	});
 
