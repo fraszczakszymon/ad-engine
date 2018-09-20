@@ -1,3 +1,5 @@
+const unstickTime = 500;
+
 class UapHivi {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
@@ -8,6 +10,11 @@ class UapHivi {
 		this.slotResult = 'data-slot-result'; // TODO change variable name
 		this.slotVisible = 'success';
 		this.slotCollapsed = 'collapse';
+		this.uapClass = 'class';
+	}
+
+	waitToUnstick() {
+		browser.pause(unstickTime);
 	}
 }
 

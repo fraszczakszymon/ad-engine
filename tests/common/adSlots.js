@@ -7,8 +7,10 @@ class AdSlots {
 		this.repeatableBoxad = '#repeatable_boxad_';
 		this.leaderboardWidth = 728; // shared between leaderboards
 		this.leaderboardHeight = 90; // shared between leaderboards
-		this.uapLeaderboardWidth = 1200;
-		this.uapLeaderboardHeight = 300;
+		this.uapTopLeaderboardWidth = 1200;
+		this.uapTopLeaderboardHeight = 300;
+		this.uapBottomLeaderboardWidth = 1024;
+		this.uapBottomLeaderboardHeight = 256;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
 	}
