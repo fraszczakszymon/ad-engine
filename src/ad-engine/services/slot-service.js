@@ -122,7 +122,7 @@ class SlotService {
 	}
 
 	isCatlapsed(adSlot) {
-		return context.get(`slots.${adSlot.getSlotName()}.catlapsed`);
+		return this.getState(adSlot.getSlotName()) === 'catlapsed';
 	}
 }
 

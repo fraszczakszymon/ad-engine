@@ -37,5 +37,5 @@ setTimeout(() => {
 }, 1000);
 
 document.getElementById('lazyCallCat').addEventListener('click', () => {
-	makeCall('cheshire_cat');
+	makeCall('cheshirecat');
 });

@@ -1,4 +1,4 @@
-import { AdEngine, btfBlockerService, context, events, utils } from '@wikia/ad-engine';
+import { AdEngine, btfBlockerService, context, events, slotService, utils } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
@@ -53,13 +53,13 @@ if (enabledProjects) {
 
 			if (slots.length > 0) {
 				const slot = slots[slots.length - 1];
-				context.set(`slots.${slot.id}.catlapsed`, true);
+				slotService.disable(slot.id, 'catlapsed');
 			}
 		}
 	});
 
 	context.set('bidders.prebid.bidsRefreshing.bidsBackHandler', () => {
-		billTheLizard.call('cheshire_cat');
+		billTheLizard.call('cheshirecat');
 	});
 }
 

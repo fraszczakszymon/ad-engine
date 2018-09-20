@@ -250,7 +250,7 @@ export default {
 						on_1: ['logResult']
 					}
 				],
-				cheshire_cat: [
+				cheshirecat: [
 					{
 						name: 'cheshirecat:0.0.1',
 						countries: ['XX'],
@@ -273,7 +273,7 @@ export default {
 					top_1k: 0,
 					s2: 'article',
 				},
-				cheshire_cat: {
+				cheshirecat: {
 					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(';'),
 				}
 			},
