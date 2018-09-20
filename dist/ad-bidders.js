@@ -385,15 +385,20 @@ var a9_A9 = function (_BaseBidder) {
 				this.insertScript();
 				this.configureApstag();
 
-				window.apstag.init({
+				var apsConfig = {
 					pubID: this.amazonId,
-					videoAdServer: 'DFP',
-					gdpr: this.isCMPEnabled ? {
+					videoAdServer: 'DFP'
+				};
+
+				if (this.isCMPEnabled && consentData && consentData.consentData) {
+					apsConfig.gdpr = {
 						enabled: consentData.gdprApplies,
 						consent: consentData.consentData,
 						cmpTimeout: 5000
-					} : undefined
-				});
+					};
+				}
+
+				window.apstag.init(apsConfig);
 
 				this.loaded = true;
 			}

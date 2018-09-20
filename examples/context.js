@@ -264,6 +264,10 @@ export default {
 				s2: 'article',
 			},
 			timeout: 2000
+		},
+		krux: {
+			enabled: true,
+			id: 'KPSUiAKl'
 		}
 	},
 	state: {
@@ -271,6 +275,7 @@ export default {
 		isMobile: false
 	},
 	targeting: {
+		ae3: '1',
 		outstream: 'none',
 		s1: '_project43',
 		uap: 'none'

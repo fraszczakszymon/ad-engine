@@ -86,13 +86,13 @@ module.exports = require("babel-runtime/helpers/createClass");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 4 */
@@ -176,37 +176,37 @@ module.exports = {"CROSS":"<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/isFunction");
+module.exports = require("lodash/throttle");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/debounce");
+module.exports = require("lodash/isFunction");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/isUndefined");
+module.exports = require("lodash/debounce");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/toPlainObject");
+module.exports = require("lodash/isUndefined");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toArray");
+module.exports = require("lodash/toPlainObject");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/throttle");
+module.exports = require("babel-runtime/helpers/toArray");
 
 /***/ }),
 /* 23 */
@@ -296,7 +296,7 @@ function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 // CONCATENATED MODULE: ./src/ad-products/common/index.js
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(2);
+var classCallCheck_ = __webpack_require__(3);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
@@ -504,7 +504,7 @@ var skin_Skin = function () {
 	return Skin;
 }();
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(3);
+var regenerator_ = __webpack_require__(2);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
@@ -516,7 +516,7 @@ var extends_ = __webpack_require__(23);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
 
 // EXTERNAL MODULE: external "lodash/throttle"
-var throttle_ = __webpack_require__(22);
+var throttle_ = __webpack_require__(17);
 var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/video/close-button.js
@@ -1735,12 +1735,78 @@ var loadPorvata = function () {
 	};
 }();
 
-var loadVideoAd = function () {
-	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(videoSettings) {
-		var params, imageContainer, size, recalculateVideoSize, video;
+var loadTwitchPlayer = function () {
+	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(iframe, params) {
+		var adContainer, twitchContainer, clickMacroContainer, twitchContainerHeight, options, player;
 		return regenerator_default.a.wrap(function _callee2$(_context2) {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
+					case 0:
+						adContainer = params.adContainer, twitchContainer = iframe.contentWindow.document.getElementById('player'), clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'), twitchContainerHeight = twitchContainer.clientHeight, options = {
+							height: '100%',
+							width: '100%',
+							channel: params.channelName
+						};
+						player = new ad_engine_["TwitchPlayer"](twitchContainer, options);
+
+						twitchContainer.style.width = twitchContainerHeight * params.twitchAspectRatio + 'px';
+						clickMacroContainer.style.width = adContainer - twitchContainer.clientWidth + 'px';
+						return _context2.abrupt('return', player);
+
+					case 5:
+					case 'end':
+						return _context2.stop();
+				}
+			}
+		}, _callee2, this);
+	}));
+
+	return function loadTwitchPlayer(_x4, _x5) {
+		return _ref2.apply(this, arguments);
+	};
+}();
+
+var loadTwitchAd = function () {
+	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
+		var twitch, recalculateTwitchSize;
+		return regenerator_default.a.wrap(function _callee3$(_context3) {
+			while (1) {
+				switch (_context3.prev = _context3.next) {
+					case 0:
+						recalculateTwitchSize = function recalculateTwitchSize(twitchPlayer) {
+							return function () {
+								twitchPlayer.identifier.style.width = twitchPlayer.identifier.clientHeight * params.twitchAspectRatio + 'px';
+							};
+						};
+
+						this.params = params;
+						_context3.next = 4;
+						return loadTwitchPlayer(iframe, params);
+
+					case 4:
+						twitch = _context3.sent;
+
+						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(twitch), 250));
+
+					case 6:
+					case 'end':
+						return _context3.stop();
+				}
+			}
+		}, _callee3, this);
+	}));
+
+	return function loadTwitchAd(_x6, _x7) {
+		return _ref3.apply(this, arguments);
+	};
+}();
+
+var loadVideoAd = function () {
+	var _ref4 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee4(videoSettings) {
+		var params, imageContainer, size, recalculateVideoSize, video;
+		return regenerator_default.a.wrap(function _callee4$(_context4) {
+			while (1) {
+				switch (_context4.prev = _context4.next) {
 					case 0:
 						recalculateVideoSize = function recalculateVideoSize(video) {
 							return function () {
@@ -1761,11 +1827,11 @@ var loadVideoAd = function () {
 						params.height = size.height;
 						videoSettings.updateParams(params);
 
-						_context2.next = 10;
+						_context4.next = 10;
 						return loadPorvata(videoSettings, params.container, imageContainer);
 
 					case 10:
-						video = _context2.sent;
+						video = _context4.sent;
 
 						window.addEventListener('resize', throttle_default()(recalculateVideoSize(video), 250));
 
@@ -1781,20 +1847,21 @@ var loadVideoAd = function () {
 							});
 						}
 
-						return _context2.abrupt('return', video);
+						return _context4.abrupt('return', video);
 
 					case 14:
 					case 'end':
-						return _context2.stop();
+						return _context4.stop();
 				}
 			}
-		}, _callee2, this);
+		}, _callee4, this);
 	}));
 
-	return function loadVideoAd(_x4) {
-		return _ref2.apply(this, arguments);
+	return function loadVideoAd(_x8) {
+		return _ref4.apply(this, arguments);
 	};
 }();
+
 
 
 
@@ -1919,6 +1986,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 	},
 
 	loadVideoAd: loadVideoAd,
+	loadTwitchAd: loadTwitchAd,
 	reset: universal_ad_package_reset,
 	setType: setType,
 	setUapId: setUapId
@@ -1928,7 +1996,7 @@ var assign_ = __webpack_require__(10);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/toArray"
-var toArray_ = __webpack_require__(21);
+var toArray_ = __webpack_require__(22);
 var toArray_default = /*#__PURE__*/__webpack_require__.n(toArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -2307,11 +2375,11 @@ var symbol_ = __webpack_require__(13);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "lodash/toPlainObject"
-var toPlainObject_ = __webpack_require__(20);
+var toPlainObject_ = __webpack_require__(21);
 var toPlainObject_default = /*#__PURE__*/__webpack_require__.n(toPlainObject_);
 
 // EXTERNAL MODULE: external "lodash/isUndefined"
-var isUndefined_ = __webpack_require__(19);
+var isUndefined_ = __webpack_require__(20);
 var isUndefined_default = /*#__PURE__*/__webpack_require__.n(isUndefined_);
 
 // EXTERNAL MODULE: external "lodash/mapValues"
@@ -2319,7 +2387,7 @@ var mapValues_ = __webpack_require__(15);
 var mapValues_default = /*#__PURE__*/__webpack_require__.n(mapValues_);
 
 // EXTERNAL MODULE: external "lodash/debounce"
-var debounce_ = __webpack_require__(18);
+var debounce_ = __webpack_require__(19);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "eventemitter3"
@@ -2361,7 +2429,7 @@ var advertisement_label_AdvertisementLabel = function (_UiComponent) {
 
 
 // EXTERNAL MODULE: external "lodash/isFunction"
-var isFunction_ = __webpack_require__(17);
+var isFunction_ = __webpack_require__(18);
 var isFunction_default = /*#__PURE__*/__webpack_require__.n(isFunction_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/stickiness.js
@@ -3605,7 +3673,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								this.theme.onAdReady(iframe);
 
 								if (!universalAdPackage.isVideoEnabled(this.params)) {
-									_context.next = 12;
+									_context.next = 14;
 									break;
 								}
 
@@ -3617,8 +3685,15 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								// defers for proper rendering
 
 								this.theme.onVideoReady(video);
+								_context.next = 15;
+								break;
 
-							case 12:
+							case 14:
+								if (this.params.channelName) {
+									universalAdPackage.loadTwitchAd(iframe, this.params);
+								}
+
+							case 15:
 							case 'end':
 								return _context.stop();
 						}
