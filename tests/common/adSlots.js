@@ -10,7 +10,7 @@ class AdSlots {
 		this.uapTopLeaderboardWidth = 1200;
 		this.uapTopLeaderboardHeight = 300;
 		this.uapBottomLeaderboardWidth = 1024;
-		this.uapBottomLeaderboardHeight = 256;
+		this.uapBottomLeaderboardHeight = 102;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
 	}

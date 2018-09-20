@@ -13,7 +13,7 @@ describe('It will test uap hivi slots', () => {
 
 	// top leaderboard tests
 
-	xit('will test visibility and dimensions of top leaderboard', () => {
+	it('will test visibility and dimensions of top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
 		const size = browser.getElementSize(adSlots.topLeaderboard);
@@ -43,7 +43,7 @@ describe('It will test uap hivi slots', () => {
 			.equal(0);
 	});
 
-	xit('will test redirect on click on top leaderboard', () => {
+	it('will test redirect on click on top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -57,17 +57,17 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	// TODO fix this test
-
-	xit('will check if ui shows up after hover', () => {
+	it('will check if ui shows up after hover', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		uapHivi.waitToStartPlaying();
 		browser.moveToObject(uapHivi.videoPlayer);
-		expect(browser.element(uapHivi.videoPlayer))
+		uapHivi.waitForAction();
+		expect(browser.element(uapHivi.videoPlayer).getAttribute(uapHivi.classProperty))
 			.to
-			.equal(`${uapHivi.videoPlayer}${uapHivi.uiVisibleClass}`);
+			.include(uapHivi.uiVisibleClass);
 	});
 
-	xit('will test closing the top leaderboard', () => {
+	it('will test closing the top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(uapHivi.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(uapHivi.slotResult))
@@ -75,10 +75,10 @@ describe('It will test uap hivi slots', () => {
 			.equal(uapHivi.slotCollapsed, 'Slot has not collapsed');
 	});
 
-	xit('will test top leaderboard unsticking after scroll', () => {
+	it('will test top leaderboard unsticking after scroll', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.slowScroll(1000);
-		uapHivi.waitToUnstick();
+		uapHivi.waitForAction();
 		helpers.slowScroll(2000);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard in viewport')
 			.to
@@ -88,7 +88,10 @@ describe('It will test uap hivi slots', () => {
 
 	// top boxad tests
 
-	xit('will test top boxad dimensions and visibility', () => {
+	// TODO change the temporary fix
+
+	it('will test top boxad dimensions and visibility', () => {
+		browser.scroll(0, 0); // temporary fix for leaderboard covering the page
 		browser.waitForVisible(adSlots.topBoxad);
 
 		const size = browser.getElementSize(adSlots.topBoxad);
@@ -118,7 +121,10 @@ describe('It will test uap hivi slots', () => {
 			.equal(0);
 	});
 
-	xit('will test redirect on click on top boxad', () => {
+	// TODO change the temporary fix
+
+	it('will test redirect on click on top boxad', () => {
+		browser.scroll(0, 0); // temporary fix for leaderboard covering the page
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
@@ -134,7 +140,7 @@ describe('It will test uap hivi slots', () => {
 
 	// incontent boxad tests
 
-	xit('will test incontent boxad dimensions and visibility', () => {
+	it('will test incontent boxad dimensions and visibility', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad);
 
@@ -164,7 +170,7 @@ describe('It will test uap hivi slots', () => {
 			.to
 			.equal(0);
 	});
-	xit('will test redirect on click on incontent boxad', () => {
+	it('will test redirect on click on incontent boxad', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
@@ -181,7 +187,7 @@ describe('It will test uap hivi slots', () => {
 
 	// bottom leaderboard tests
 
-	xit('will test bottom leaderboard dimensions and visibility', () => {
+	it('will test bottom leaderboard dimensions and visibility', () => {
 		helpers.slowScroll(6000);
 
 		const size = browser.getElementSize(adSlots.bottomLeaderboard);
