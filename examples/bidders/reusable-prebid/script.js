@@ -59,7 +59,7 @@ if (enabledProjects) {
 	});
 
 	context.set('bidders.prebid.bidsRefreshing.bidsBackHandler', () => {
-		billTheLizard.call('cheshirecat');
+		billTheLizard.call(['cheshirecat']);
 	});
 }
 

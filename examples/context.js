@@ -254,7 +254,6 @@ export default {
 					{
 						name: 'cheshirecat:0.0.1',
 						countries: ['XX'],
-						is_lazy_called: true,
 						on_0: ['logResult'],
 						on_1: ['logResult']
 					}

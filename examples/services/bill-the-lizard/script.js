@@ -30,7 +30,7 @@ billTheLizard.executor.register('logResult', (model, prediction) => {
 	console.log(`🦎 %c${model.name}`, 'font-weight: bold', `predicted ${prediction}`);
 });
 
-makeCall();
+makeCall(['queen_of_hearts']);
 
 setTimeout(() => {
 	new AdEngine(context).init();
