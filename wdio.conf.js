@@ -4,22 +4,37 @@ exports.config = {
 	],
 	suites: {
 		porvata: [
-			'./tests/specs/porvata-test.js',
+			'./tests/specs/porvata.test.js',
 		],
 		btfOnly: [
-			'./tests/specs/btf-only-ad-test.js',
+			'./tests/specs/btf-only-ad.test.js',
 		],
 		floatingAd: [
 			'./tests/specs/floating-ad.test.js',
 		],
 		repeatableSlots: [
-			'./tests/specs/repeatable-slots-test.js',
+			'./tests/specs/repeatable-slots.test.js',
 		],
 		topBoxad: [
 			'./tests/specs/top-boxad-ad.test.js',
 		],
 		topLeaderboard: [
 			'./tests/specs/top-leaderboard-ad.test.js',
+		],
+		delayAd: [
+			'./tests/specs/delay-ad.test.js',
+		],
+		animationsAd: [
+			'./tests/specs/animations-ad.test.js',
+		],
+		viewportConflictAd: [
+			'./tests/specs/viewport-conflict-ad.test.js',
+		],
+		blockbtfAd: [
+			'./tests/specs/block-btf-ad.test.js',
+		],
+		emptyResponse: [
+			'./tests/specs/empty-response.test.js',
 		],
 		otherFeature: [
 
@@ -48,7 +63,7 @@ exports.config = {
 
 	reporterOptions: {
 		allure: {
-			outputDir: 'allure-results'
+			outputDir: 'tests/allure-results'
 		}
 	},
 

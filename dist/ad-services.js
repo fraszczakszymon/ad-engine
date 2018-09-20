@@ -576,8 +576,155 @@ var bill_the_lizard_BillTheLizard = function () {
 }();
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/krux/index.js
+
+
+
+
+
+
+var krux_logGroup = 'krux';
+
+/**
+ * Injects Krux script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var firstScript = document.getElementsByTagName('script')[0];
+	var kruxId = ad_engine_["context"].get('services.krux.id');
+	var kruxScript = document.createElement('script');
+
+	return new promise_default.a(function (resolve) {
+		kruxScript.type = 'text/javascript';
+		kruxScript.id = 'krux-control-tag';
+		kruxScript.async = true;
+		kruxScript.onload = resolve;
+		kruxScript.src = '//cdn.krxd.net/controltag?confid=' + kruxId;
+		firstScript.parentNode.insertBefore(kruxScript, firstScript);
+	});
+}
+
+/**
+ * Gets Krux data from localStorage
+ * @param {string} key
+ * @returns {string}
+ */
+function getKruxData(key) {
+	if (window.localStorage) {
+		return window.localStorage[key];
+	} else if (window.navigator.cookieEnabled) {
+		var match = document.cookie.match(key + '=([^;]*)');
+
+		return match && decodeURI(match[1]) || '';
+	}
+
+	return '';
+}
+
+window.Krux = window.Krux || function () {
+	for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+		args[_key] = arguments[_key];
+	}
+
+	window.Krux.q.push(args);
+};
+window.Krux.q = window.Krux.q || [];
+
+/**
+ * Krux service handler
+ */
+
+var krux_Krux = function () {
+	function Krux() {
+		classCallCheck_default()(this, Krux);
+	}
+
+	createClass_default()(Krux, [{
+		key: 'call',
+
+		/**
+   * Requests service, saves user id and segments in context and exports page level params
+   * @returns {Promise}
+   */
+		value: function call() {
+			var _this = this;
+
+			if (!ad_engine_["context"].get('services.krux.enabled')) {
+				ad_engine_["utils"].logger(krux_logGroup, 'disabled');
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(krux_logGroup, 'loading');
+			return loadScript().then(function () {
+				_this.exportPageParams();
+				_this.importUserData();
+			});
+		}
+
+		/**
+   * Export page level params to Krux
+   * @returns {void}
+   */
+
+	}, {
+		key: 'exportPageParams',
+		value: function exportPageParams() {
+			keys_default()(ad_engine_["context"].get('targeting')).forEach(function (key) {
+				var value = ad_engine_["context"].get('targeting.' + key);
+
+				if (value) {
+					window['kruxDartParam_' + key] = value;
+				}
+			});
+		}
+
+		/**
+   * Imports Krux data from localStorage
+   * @returns {void}
+   */
+
+	}, {
+		key: 'importUserData',
+		value: function importUserData() {
+			var user = getKruxData('kxuser');
+			var segments = getKruxData('kxsegs');
+
+			ad_engine_["context"].set('targeting.kuid', user || null);
+			ad_engine_["context"].set('targeting.ksg', segments ? segments.split(',') : []);
+			ad_engine_["utils"].logger(krux_logGroup, 'data set', user, segments);
+		}
+
+		/**
+   * Returns Krux user ID
+   * @returns {string}
+   */
+
+	}, {
+		key: 'getUserId',
+		value: function getUserId() {
+			return ad_engine_["context"].get('targeting.kuid') || null;
+		}
+
+		/**
+   * Returns Krux segments
+   * @returns {string[]}
+   */
+
+	}, {
+		key: 'getSegments',
+		value: function getSegments() {
+			return ad_engine_["context"].get('targeting.ksg') || [];
+		}
+	}]);
+
+	return Krux;
+}();
+
+var krux = new krux_Krux();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
+
 
 
 /***/ })

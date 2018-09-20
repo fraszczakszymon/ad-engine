@@ -44,6 +44,8 @@ npm install github:Wikia/ad-engine#v14.0.0
 |`options.video.moatTracking.partnerCode`|MOAT identifier|string|✔|
 |`options.video.moatTracking.sampling`|Sampling for MOAT tracking|string|✔|
 |`options.video.porvata.audio.exposeToSlot`|Decides whether Porvata stores `audio` flag in slot object|boolean|✔|
+|`services.krux.enabled`|Decides whether Krux is loaded (after calling `krux.call()`)|boolean|✘|
+|`services.krux.id`|Krux ID|string|✔|
 |`slots`|Ad slots definition|object|✔|
 |`slots.{slot_name}`|Single slot definition|object|✔|
 |`slots.{slot_name}.{anything}`|Ad slot definition may contain different properties and they will be available in `AdSlot.config` property|string|✘|
@@ -349,7 +351,8 @@ top.loadCustomAd && top.loadCustomAd({
 npm run serve
 ```
 
-Navigate to <http://localhost:8080/> (you may have different port)
+Navigate to <http://localhost:8080/> (you may have different port).
+Upon using the command, the page should automatically open in your default browser.
 
 ### Debug mode
 
@@ -378,7 +381,7 @@ npm install -g allure-commandline --save-dev
 
 ### Run tests
 
-In one session run ad-engine and in other run tests
+In one session run ad-engine and in other run tests.
 
 ```bash
 npm run serve
@@ -393,3 +396,85 @@ npm run wdio
 ```bash
 npm run allure
 ```
+
+## Allure extensions
+
+### Severity and Categories
+
+#### Severity
+
+Add these lines to test files
+
+```js
+import reporter from 'wdio-allure-reporter';
+```
+
+```js
+reporter.severity('severity');
+```
+
+Available severity levels:
+* blocker
+* critical
+* normal (default)
+* minor
+* trivial
+
+Note that adding `reporter.severity()` to `beforeEach()` sets a fixed value for all the test cases in the file.
+This can't be overridden by putting different severity in test cases, as the one in `beforeEach()` is a parent value.
+If you want to set different severity for some cases, put it right under `it` instead.
+
+#### Categories
+
+In order to add custom names for categories you need to create the 'categories.json' file in 'allure-results' folder.
+The structure of that file looks like that:
+
+```json
+[
+  {
+    "name": "Passed tests",
+    "matchedStatuses": ["passed"]
+  },
+  {
+    "name": "Skipped tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Broken tests",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Failed tests",
+    "matchedStatuses": ["broken"]
+  }
+]
+```
+
+Description:
+* name - the name we want for our category
+* matchedStatuses - statuses to get that name
+
+The reason why we switched "Broken tests" with "Failed tests" was to keep it consistent with Jenkins.
+Allure does not allow changing categories' colors, unless we fork our own release of it.
+
+#### Environment
+
+Similar to categories, you can also add more information about the environment.
+To do that, simply add the 'environment.xml' file in allure-results folder.
+The structure of that file looks like that:
+
+```xml
+<environment>
+    <parameter>
+        <key>Ad Engine version</key>
+        <value>Ad Engine 3.0</value>
+    </parameter>
+</environment>
+```
+
+Description:
+* key - element of our environment
+* value - details about this element (version, filename, path  etc.)
+
+Do note, that instead of changing the information about the environment, you add more details.
+By default, Allure only provides information about the browser and spec files (with test cases).
