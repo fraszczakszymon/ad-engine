@@ -98,13 +98,13 @@ module.exports = require("babel-runtime/helpers/classCallCheck");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 6 */
@@ -122,11 +122,11 @@ var createClass_ = __webpack_require__(2);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(4);
+var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(5);
+var promise_ = __webpack_require__(4);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
@@ -270,20 +270,19 @@ var projects_handler_ProjectsHandler = function () {
 
 		/**
    * Returns all geo-enabled models' definitions based on enabled projects
+   * @param {string[]} projectNames
    * @returns {{models: ModelDefinition[], parameters: Object}}
    */
 
 	}, {
-		key: 'getEnabledModels',
-		value: function getEnabledModels() {
+		key: 'getEnabledModelsWithParams',
+		value: function getEnabledModelsWithParams(projectNames) {
 			var _this = this;
-
-			var projectName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 			var projects = ad_engine_["context"].get('services.billTheLizard.projects');
 			var projectParameters = ad_engine_["context"].get('services.billTheLizard.parameters');
 			var enabledProjectNames = keys_default()(projects).filter(function (name) {
-				return _this.isEnabled(name) && (!projectName || name === projectName);
+				return _this.isEnabled(name) && projectNames.includes(name);
 			});
 			var models = [];
 			var parameters = {};
@@ -293,7 +292,7 @@ var projects_handler_ProjectsHandler = function () {
 				var isNextModelExecutable = true;
 
 				projects[name].forEach(function (model) {
-					if (ad_engine_["utils"].isProperGeo(model.countries, model.name) && (!model.is_lazy_called || projectName)) {
+					if (ad_engine_["utils"].isProperGeo(model.countries, model.name)) {
 						model.executable = isNextModelExecutable;
 						isNextModelExecutable = false;
 						models.push(model);
@@ -443,16 +442,15 @@ var bill_the_lizard_BillTheLizard = function () {
 
 	/**
   * Requests service, executes defined methods and parses response
+  * @param {string[]} projectNames
   * @returns {Promise}
   */
 
 
 	createClass_default()(BillTheLizard, [{
 		key: 'call',
-		value: function call() {
+		value: function call(projectNames) {
 			var _this = this;
-
-			var lazyCallProject = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 			if (!ad_engine_["context"].get('services.billTheLizard.enabled')) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'disabled');
@@ -465,7 +463,7 @@ var bill_the_lizard_BillTheLizard = function () {
 			var endpoint = ad_engine_["context"].get('services.billTheLizard.endpoint');
 			var timeout = ad_engine_["context"].get('services.billTheLizard.timeout');
 
-			var _projectsHandler$getE = this.projectsHandler.getEnabledModels(lazyCallProject),
+			var _projectsHandler$getE = this.projectsHandler.getEnabledModelsWithParams(projectNames),
 			    models = _projectsHandler$getE.models,
 			    parameters = _projectsHandler$getE.parameters;
 

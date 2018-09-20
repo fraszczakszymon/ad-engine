@@ -1479,7 +1479,7 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'isCatlapsed',
 		value: function isCatlapsed(adSlot) {
-			return context.get('slots.' + adSlot.getSlotName() + '.catlapsed');
+			return this.getState(adSlot.getSlotName()) === 'catlapsed';
 		}
 	}]);
 
