@@ -1476,11 +1476,6 @@ var slot_service_SlotService = function () {
 
 			return hasConflict;
 		}
-	}, {
-		key: 'isCatlapsed',
-		value: function isCatlapsed(adSlot) {
-			return this.getState(adSlot.getSlotName()) === 'catlapsed';
-		}
 	}]);
 
 	return SlotService;
@@ -1572,10 +1567,6 @@ var btf_blocker_service_BtfBlockerService = function () {
 			function wrappedFillInCallback() {
 				if (slotService.hasViewportConflict(adSlot)) {
 					slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
-				}
-
-				if (slotService.isCatlapsed(adSlot)) {
-					slotService.disable(adSlot.getSlotName(), 'catlapsed');
 				}
 
 				if (!adSlot.isEnabled()) {
