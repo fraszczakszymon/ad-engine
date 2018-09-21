@@ -230,6 +230,7 @@ var executor_Executor = function () {
 
 
 
+
 var projects_handler_logGroup = 'project-handler';
 
 /**
@@ -269,19 +270,22 @@ var projects_handler_ProjectsHandler = function () {
 
 		/**
    * Returns all geo-enabled models' definitions based on enabled projects
-   * @returns {ModelDefinition[]}
+   * @param {string[]} projectNames
+   * @returns {{models: ModelDefinition[], parameters: Object}}
    */
 
 	}, {
-		key: 'getEnabledModels',
-		value: function getEnabledModels() {
+		key: 'getEnabledModelsWithParams',
+		value: function getEnabledModelsWithParams(projectNames) {
 			var _this = this;
 
 			var projects = ad_engine_["context"].get('services.billTheLizard.projects');
+			var projectParameters = ad_engine_["context"].get('services.billTheLizard.parameters');
 			var enabledProjectNames = keys_default()(projects).filter(function (name) {
-				return _this.isEnabled(name);
+				return _this.isEnabled(name) && projectNames.includes(name);
 			});
 			var models = [];
+			var parameters = {};
 
 			enabledProjectNames.forEach(function (name) {
 				// Only first enabled model in project is executable
@@ -292,13 +296,17 @@ var projects_handler_ProjectsHandler = function () {
 						model.executable = isNextModelExecutable;
 						isNextModelExecutable = false;
 						models.push(model);
+						assign_default()(parameters, projectParameters[name]);
 					} else {
 						model.executable = false;
 					}
 				});
 			});
 
-			return models;
+			return {
+				models: models,
+				parameters: parameters
+			};
 		}
 	}]);
 
@@ -434,13 +442,14 @@ var bill_the_lizard_BillTheLizard = function () {
 
 	/**
   * Requests service, executes defined methods and parses response
+  * @param {string[]} projectNames
   * @returns {Promise}
   */
 
 
 	createClass_default()(BillTheLizard, [{
 		key: 'call',
-		value: function call() {
+		value: function call(projectNames) {
 			var _this = this;
 
 			if (!ad_engine_["context"].get('services.billTheLizard.enabled')) {
@@ -452,9 +461,11 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			var host = ad_engine_["context"].get('services.billTheLizard.host');
 			var endpoint = ad_engine_["context"].get('services.billTheLizard.endpoint');
-			var parameters = ad_engine_["context"].get('services.billTheLizard.parameters');
 			var timeout = ad_engine_["context"].get('services.billTheLizard.timeout');
-			var models = this.projectsHandler.getEnabledModels();
+
+			var _projectsHandler$getE = this.projectsHandler.getEnabledModelsWithParams(projectNames),
+			    models = _projectsHandler$getE.models,
+			    parameters = _projectsHandler$getE.parameters;
 
 			if (!models || models.length < 1) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'no models to predict');

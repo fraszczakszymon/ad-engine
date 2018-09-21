@@ -1,5 +1,6 @@
-import { AdEngine, btfBlockerService, context, events, utils } from '@wikia/ad-engine';
+import { AdEngine, btfBlockerService, context, events, slotService, utils } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
+import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
 
 const contentTemplate = document.querySelector('.content-template').innerHTML;
@@ -7,6 +8,7 @@ const mainContainer = document.getElementById('main-container');
 const limit = utils.queryString.get('limit') || null;
 const contentLength = utils.queryString.get('content_length') || 1;
 const randomPrice = utils.queryString.get('random_price') === '1';
+const enabledProjects = utils.queryString.get('enabled-project');
 
 function loadContent() {
 	const newContent = document.createElement('div');
@@ -39,6 +41,27 @@ context.push('listeners.slot', {
 		console.log(`⛳ ${slotName}: wikia adapter price is %c$${transformBidderPrice('wikia')}`, 'font-weight: bold');
 	}
 });
+
+if (enabledProjects) {
+	enabledProjects.split(',').forEach(name => billTheLizard.projectsHandler.enable(name));
+
+	billTheLizard.executor.register('logResult', (model, prediction) => {
+		console.log(`🦎 %c${model.name}`, 'font-weight: bold', `predicted ${prediction}`);
+	});
+
+	billTheLizard.executor.register('catlapse', () => {
+		const slots = document.querySelectorAll('.repeatable-boxad');
+
+		if (slots.length > 0) {
+			const slot = slots[slots.length - 1];
+			slotService.disable(slot.id, 'catlapsed');
+		}
+	});
+
+	context.set('bidders.prebid.bidsRefreshing.bidsBackHandler', () => {
+		billTheLizard.call(['cheshirecat']);
+	});
+}
 
 for (let i = 0; i < contentLength; i += 1) {
 	loadContent();

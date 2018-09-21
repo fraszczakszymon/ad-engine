@@ -201,7 +201,7 @@ export class Prebid extends BaseBidder {
 						)
 					);
 
-					this.requestBids(adUnitsToRefresh);
+					this.requestBids(adUnitsToRefresh, this.bidsRefreshing.bidsBackHandler);
 				}
 			});
 		});
