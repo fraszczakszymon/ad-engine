@@ -71,7 +71,7 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will check if ui shows up after hover', () => {
+	it('will check if ui shows up after hover in top leaderboard player', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		uapHivi.waitToStartPlaying();
 		browser.moveToObject(uapHivi.videoPlayer);
@@ -81,7 +81,7 @@ describe('It will test uap hivi slots', () => {
 			.include(uapHivi.uiVisibleClass);
 	});
 
-	it('will test opening full screen', () => {
+	it('will test opening full screen in top leaderboard player', () => {
 		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
 		uapHivi.waitToStartPlaying();
 		browser.moveToObject(uapHivi.videoPlayer);
@@ -92,7 +92,7 @@ describe('It will test uap hivi slots', () => {
 			.true;
 	});
 
-	it('will test pausing the video', () => {
+	it('will test pausing the video in top leaderboard player', () => {
 		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
 		uapHivi.waitToStartPlaying();
 		browser.moveToObject(uapHivi.videoPlayer);
@@ -103,7 +103,7 @@ describe('It will test uap hivi slots', () => {
 			.false;
 	});
 
-	it('will test unmuting the video', () => {
+	it('will test unmuting the video in top leaderboard player', () => {
 		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
 		uapHivi.waitToStartPlaying();
 		browser.moveToObject(uapHivi.videoPlayer);
@@ -306,7 +306,7 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will check if ui shows up after hover', () => {
+	it('will check if ui shows up after hover in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		uapHivi.waitToStartPlaying();
@@ -317,39 +317,37 @@ describe('It will test uap hivi slots', () => {
 			.include(uapHivi.uiVisibleClass);
 	});
 
-	it('will test opening full screen', () => {
+	it('will test opening full screen in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
-		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`, timeouts.standard);
 		uapHivi.waitToStartPlaying();
-		browser.moveToObject(uapHivi.videoPlayer);
-		browser.click(uapHivi.playerFullscreenButton);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${uapHivi.playerFullscreenButton}`);
 		expect(browser.isExisting(uapHivi.fullScreen))
 			.to
 			.be
 			.true;
 	});
 
-	// TODO fix broken assertion
-
-	it('will test pausing the video', () => {
+	it('will test pausing the video in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
-		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`, timeouts.standard);
 		uapHivi.waitToStartPlaying();
-		browser.moveToObject(uapHivi.videoPlayer);
-		browser.click(uapHivi.playPauseButton);
-		expect(browser.isExisting(`${uapHivi.playPauseButton}${uapHivi.buttonIsOnClass}`))
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${uapHivi.playPauseButton}`);
+		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer} ${uapHivi.playPauseButton}${uapHivi.buttonIsOnClass}`))
 			.to
 			.be
 			.false;
 	});
 
-	it('will test unmuting the video', () => {
+	it('will test unmuting the video in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
-		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`, timeouts.standard);
 		uapHivi.waitToStartPlaying();
-		browser.moveToObject(uapHivi.videoPlayer);
-		browser.click(uapHivi.volumeButton);
-		expect(browser.isExisting(`${uapHivi.volumeButton}${uapHivi.buttonIsOnClass}`))
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${uapHivi.volumeButton}`);
+		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${uapHivi.videoPlayer} ${uapHivi.volumeButton}${uapHivi.buttonIsOnClass}`))
 			.to
 			.be
 			.false;
