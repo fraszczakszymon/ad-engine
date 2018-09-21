@@ -8,6 +8,8 @@ class Helpers {
 		this.lukeSkywalkerLegacy = 'http://fandom.wikia.com/articles/legacy-luke-skywalker';
 		this.interval = 500;
 		this.classHidden = '.hide';
+		this.pageBody = 'body';
+		this.classProperty = 'class';
 	}
 
 	/**

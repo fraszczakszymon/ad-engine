@@ -1,12 +1,10 @@
 const timeForAction = 500;
 const timeToLoadMovie = 2000;
 
-class UapHivi {
+class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
-		this.pageBody = 'body';
 		this.videoPlayer = '.video-player.video-player-right';
-		this.classProperty = 'class';
 		this.uiVisibleClass = 'ui-visible';
 		this.playerFullscreenButton = '.toggle-fullscreen-button';
 		this.volumeButton = '.volume-button';
@@ -34,4 +32,4 @@ class UapHivi {
 	}
 }
 
-export default new UapHivi();
+export default new HiviUap();

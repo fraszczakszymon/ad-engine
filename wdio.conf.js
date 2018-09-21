@@ -36,8 +36,11 @@ exports.config = {
 		emptyResponse: [
 			'./tests/specs/empty-response.test.js',
 		],
-		uapHiviAd: [
-			'./tests/specs/uap-hivi-ad.test.js',
+		hiviUapAd: [
+			'./tests/specs/hivi-uap-ad.test.js',
+		],
+		hiviUapStaticAd: [
+			'./tests/specs/hivi-uap-static-ad.test.js',
 		],
 		otherFeature: [
 
