@@ -6,10 +6,15 @@ class UapHivi {
 		this.pageLink = 'templates/hivi-uap/';
 		this.pageBody = 'body';
 		this.videoPlayer = '.video-player.video-player-right';
-		this.classProperty = 'class'; // TODO change the name of the variable
+		this.classProperty = 'class';
 		this.uiVisibleClass = 'ui-visible';
+		this.playerFullscreenButton = '.toggle-fullscreen-button';
+		this.volumeButton = '.volume-button';
+		this.playPauseButton = '.play-pause-button';
+		this.buttonIsOnClass = '.is-on';
 		this.closeLeaderboardButton = 'button';
-		this.slotResult = 'data-slot-result'; // TODO change variable name
+		this.fullScreen = '.stop-scrolling';
+		this.slotResult = 'data-slot-result';
 		this.slotCollapsed = 'collapse';
 		this.topLeaderboardlineItemId = '4466763538';
 		this.topLeaderboardcreativeId = '138219890299';

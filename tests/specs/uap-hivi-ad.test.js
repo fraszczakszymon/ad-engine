@@ -48,7 +48,7 @@ describe('It will test uap hivi slots', () => {
 	});
 
 	it('will test line item id and creative id of top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(uapHivi.topLeaderboardlineItemId, 'Line item ID mismatch');
@@ -81,6 +81,39 @@ describe('It will test uap hivi slots', () => {
 			.include(uapHivi.uiVisibleClass);
 	});
 
+	it('will test opening full screen', () => {
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.playerFullscreenButton);
+		expect(browser.isExisting(uapHivi.fullScreen))
+			.to
+			.be
+			.true;
+	});
+
+	it('will test pausing the video', () => {
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.playPauseButton);
+		expect(browser.isExisting(`${uapHivi.playPauseButton}${uapHivi.buttonIsOnClass}`))
+			.to
+			.be
+			.false;
+	});
+
+	it('will test unmuting the video', () => {
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.volumeButton);
+		expect(browser.isExisting(`${uapHivi.volumeButton}${uapHivi.buttonIsOnClass}`))
+			.to
+			.be
+			.false;
+	});
+
 	it('will test closing the top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(uapHivi.closeLeaderboardButton);
@@ -103,7 +136,7 @@ describe('It will test uap hivi slots', () => {
 	// Top Boxad tests
 
 	it('will test top boxad dimensions and visibility', () => {
-		browser.waitForVisible(adSlots.topBoxad);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 
 		const size = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
@@ -133,7 +166,7 @@ describe('It will test uap hivi slots', () => {
 	});
 
 	it('will test line item id and creative id of top boxad', () => {
-		browser.waitForVisible(adSlots.topBoxad);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(uapHivi.topBoxadLineItemId, 'Line item ID mismatch');
@@ -160,7 +193,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test incontent boxad dimensions and visibility', () => {
 		browser.scroll(0, 1000);
-		browser.waitForVisible(adSlots.incontentBoxad);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 
 		const size = browser.getElementSize(adSlots.incontentBoxad);
 		const tableOfErrors = [];
@@ -191,7 +224,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test line item id and creative id of top boxad', () => {
 		browser.scroll(0, 1000);
-		browser.waitForVisible(adSlots.incontentBoxad);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(uapHivi.incontentBoxadLineItemId, 'Line item ID mismatch');
@@ -249,7 +282,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test line item id and creative id of bottom leaderboard', () => {
 		helpers.slowScroll(6000);
-		browser.waitForVisible(adSlots.bottomLeaderboard);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(uapHivi.bottomLeaderboardLineItemId, 'Line item ID mismatch');
@@ -260,6 +293,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test redirect on click on bottom leaderboard', () => {
 		helpers.slowScroll(6000);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.click(adSlots.bottomLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -270,5 +304,54 @@ describe('It will test uap hivi slots', () => {
 			.to
 			.equal(helpers.newsAndStories);
 		helpers.closeNewTabs();
+	});
+
+	it('will check if ui shows up after hover', () => {
+		helpers.slowScroll(6000);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		uapHivi.waitForAction();
+		expect(browser.element(uapHivi.videoPlayer).getAttribute(uapHivi.classProperty))
+			.to
+			.include(uapHivi.uiVisibleClass);
+	});
+
+	it('will test opening full screen', () => {
+		helpers.slowScroll(6000);
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.playerFullscreenButton);
+		expect(browser.isExisting(uapHivi.fullScreen))
+			.to
+			.be
+			.true;
+	});
+
+	// TODO fix broken assertion
+
+	it('will test pausing the video', () => {
+		helpers.slowScroll(6000);
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.playPauseButton);
+		expect(browser.isExisting(`${uapHivi.playPauseButton}${uapHivi.buttonIsOnClass}`))
+			.to
+			.be
+			.false;
+	});
+
+	it('will test unmuting the video', () => {
+		helpers.slowScroll(6000);
+		browser.waitForVisible(uapHivi.videoPlayer, timeouts.standard);
+		uapHivi.waitToStartPlaying();
+		browser.moveToObject(uapHivi.videoPlayer);
+		browser.click(uapHivi.volumeButton);
+		expect(browser.isExisting(`${uapHivi.volumeButton}${uapHivi.buttonIsOnClass}`))
+			.to
+			.be
+			.false;
 	});
 });
