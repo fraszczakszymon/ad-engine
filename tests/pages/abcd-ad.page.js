@@ -7,9 +7,7 @@ class AbcdAd {
 		this.unmuteButton = '.volume-button';
 		this.buttonIsOnClass = '.is-on';
 		this.topLeaderboardLineItemId = '4376117186';
-		this.topLeaderboardCreativeId = '138207566841';
 		this.topBoxadLineItemId = '271491732';
-		this.topBoxadCreativeId = '108391930812';
 	}
 
 	/**

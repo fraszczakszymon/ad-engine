@@ -14,13 +14,9 @@ class HiviUap {
 		this.slotResult = 'data-slot-result';
 		this.slotCollapsed = 'collapse';
 		this.topLeaderboardlineItemId = '4466763538';
-		this.topLeaderboardcreativeId = '138219890299';
 		this.topBoxadLineItemId = '4466763538';
-		this.topBoxadCreativeId = '138218899722';
 		this.incontentBoxadLineItemId = '4511050296';
-		this.incontentBoxadCreativeId = '138218899722';
 		this.bottomLeaderboardLineItemId = '4511050296';
-		this.bottomLeaderboardCreativeId = '138218898006';
 	}
 
 	/**

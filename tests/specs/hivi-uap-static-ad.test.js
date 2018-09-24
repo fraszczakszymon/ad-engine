@@ -47,14 +47,11 @@ describe('It will test uap hivi static slots', () => {
 			.equal(0);
 	});
 
-	it('will test line item id and creative id of top leaderboard', () => {
+	it('will test line item id of top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLeaderboardlineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(hiviUapStatic.topLeaderboardcreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on top leaderboard', () => {
@@ -120,14 +117,11 @@ describe('It will test uap hivi static slots', () => {
 			.equal(0);
 	});
 
-	it('will test line item id and creative id of top boxad', () => {
+	it('will test line item id of top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topBoxadLineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(hiviUapStatic.topBoxadCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on top boxad', () => {
@@ -177,15 +171,12 @@ describe('It will test uap hivi static slots', () => {
 			.equal(0);
 	});
 
-	it('will test line item id and creative id of top boxad', () => {
+	it('will test line item id of top boxad', () => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.incontentBoxadLineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(hiviUapStatic.incontentBoxadCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on incontent boxad', () => {
@@ -235,15 +226,12 @@ describe('It will test uap hivi static slots', () => {
 			.equal(0);
 	});
 
-	it('will test line item id and creative id of bottom leaderboard', () => {
+	it('will test line item id of bottom leaderboard', () => {
 		helpers.slowScroll(6000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLeaderboardLineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(hiviUapStatic.bottomLeaderboardCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click on bottom leaderboard', () => {

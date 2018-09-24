@@ -56,14 +56,11 @@ describe('It will test abcd ads', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test top leaderboard line item id and creative id', () => {
+	it('will test top leaderboard line item id', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(abcdAd.topLeaderboardCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test if video player is visible in top leaderboard', () => {
@@ -118,14 +115,11 @@ describe('It will test abcd ads', () => {
 			.equal(0);
 	});
 
-	it('will test top boxad line item id and creative id', () => {
+	it('will test top boxad line item id', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(abcdAd.topBoxadLineItemId, 'Line item ID mismatch');
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.creativeItemParam))
-			.to
-			.equal(abcdAd.topBoxadCreativeId, 'Creative ID mismatch');
 	});
 
 	it('will test redirect on click', () => {
