@@ -1,4 +1,4 @@
-const timeToLoadMovie = 2000;
+const timeToLoadMovie = 1000;
 
 class AbcdAd {
 	constructor() {

@@ -43,7 +43,14 @@ describe('It will test abcd ads', () => {
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it('will test top leaderboard line item id', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+	});
+
+	it('will test redirect on click on top leaderboard', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -54,13 +61,6 @@ describe('It will test abcd ads', () => {
 			.to
 			.equal(helpers.fandomWikia);
 		helpers.closeNewTabs();
-	});
-
-	it('will test top leaderboard line item id', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
-			.to
-			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test if video player is visible in top leaderboard', () => {
@@ -122,7 +122,7 @@ describe('It will test abcd ads', () => {
 			.equal(abcdAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
-	it('will test redirect on click', () => {
+	it('will test redirect on click on top boxad', () => {
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
