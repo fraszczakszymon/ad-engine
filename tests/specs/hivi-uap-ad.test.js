@@ -75,7 +75,6 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
-		hiviUap.waitForAction();
 		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty))
 			.to
 			.include(hiviUap.uiVisibleClass);
@@ -125,7 +124,6 @@ describe('It will test uap hivi slots', () => {
 	it('will test top leaderboard unsticking after scroll', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.slowScroll(1000);
-		hiviUap.waitForAction();
 		helpers.slowScroll(2000);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard in viewport')
 			.to
@@ -311,7 +309,6 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
-		hiviUap.waitForAction();
 		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty))
 			.to
 			.include(hiviUap.uiVisibleClass);

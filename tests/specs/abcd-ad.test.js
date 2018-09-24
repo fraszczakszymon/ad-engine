@@ -11,7 +11,9 @@ describe('It will test abcd ads', () => {
 		browser.waitForVisible(helpers.pageBody);
 	});
 
-	xit('will test the visibility and dimensions of top leaderboard', () => {
+	// Top Leaderboard tests
+
+	it('will test the visibility and dimensions of top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
 		const size = browser.getElementSize(adSlots.topLeaderboard);
@@ -41,7 +43,7 @@ describe('It will test abcd ads', () => {
 			.equal(0);
 	});
 
-	xit('will test redirect on click', () => {
+	it('will test redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -54,7 +56,7 @@ describe('It will test abcd ads', () => {
 		helpers.closeNewTabs();
 	});
 
-	xit('will test top leaderboard line item id and creative id', () => {
+	it('will test top leaderboard line item id and creative id', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
@@ -64,15 +66,27 @@ describe('It will test abcd ads', () => {
 			.equal(abcdAd.topLeaderboardCreativeId, 'Creative ID mismatch');
 	});
 
-	// TODO fix this test
+	it('will test if video player is visible in top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		abcdAd.waitToStartPlaying();
+		expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`))
+			.to
+			.be
+			.true;
+	});
 
-	// it('will test if video player is visible in top leaderboard', () => {
-	// 	browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-	// 	expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`))
-	// 		.to
-	// 		.be
-	// 		.true;
-	// });
+	it('will test if clicking the button unmutes the video', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		abcdAd.waitToStartPlaying();
+		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		browser.click(abcdAd.unmuteButton);
+		expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`))
+			.to
+			.be
+			.false;
+	});
+
+	// Top Boxad tests
 
 	it('will test top boxad visibility and dimensions', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);

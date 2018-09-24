@@ -1,4 +1,3 @@
-const timeForAction = 500;
 const timeToLoadMovie = 2000;
 
 class HiviUap {
@@ -24,9 +23,9 @@ class HiviUap {
 		this.bottomLeaderboardCreativeId = '138218898006';
 	}
 
-	waitForAction() {
-		browser.pause(timeForAction);
-	}
+	/**
+	 * Pauses actions so the movie can start playing before executing other actions.
+	 */
 	waitToStartPlaying() {
 		browser.pause(timeToLoadMovie);
 	}
