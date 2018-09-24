@@ -14,8 +14,6 @@ describe('It will test abcd ads', () => {
 	// Top Leaderboard tests
 
 	it('will test the visibility and dimensions of top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -51,6 +49,7 @@ describe('It will test abcd ads', () => {
 	});
 
 	it('will test redirect on click on top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -86,8 +85,6 @@ describe('It will test abcd ads', () => {
 	// Top Boxad tests
 
 	it('will test top boxad visibility and dimensions', () => {
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
 
@@ -123,6 +120,7 @@ describe('It will test abcd ads', () => {
 	});
 
 	it('will test redirect on click on top boxad', () => {
+		browser.waitForVisible(adSlots.topBoxad);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

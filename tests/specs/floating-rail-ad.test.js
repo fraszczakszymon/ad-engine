@@ -14,8 +14,6 @@ describe('It will test floating rail ads', () => {
 	// Top Leaderboard tests
 
 	it('will test the visibility and dimensions of top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -45,13 +43,13 @@ describe('It will test floating rail ads', () => {
 
 	it('will test top leaderboard line item id', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.element(adSlots.topLeaderboard)
-			.getAttribute(adSlots.lineItemParam))
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test redirect on click on top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -67,8 +65,6 @@ describe('It will test floating rail ads', () => {
 	// Top Boxad tests
 
 	it('will test the visibility and dimensions of top boxad', () => {
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
 
@@ -105,6 +101,7 @@ describe('It will test floating rail ads', () => {
 	});
 
 	it('will test redirect on click on top boxad', () => {
+		browser.waitForVisible(adSlots.topBoxad);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

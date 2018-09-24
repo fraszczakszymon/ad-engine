@@ -18,8 +18,6 @@ describe('It will test uap hivi slots', () => {
 	// Top Leaderboard tests
 
 	it('will test visibility and dimensions of top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -131,8 +129,6 @@ describe('It will test uap hivi slots', () => {
 	// Top Boxad tests
 
 	it('will test top boxad dimensions and visibility', () => {
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-
 		const size = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
 
@@ -185,7 +181,6 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test incontent boxad dimensions and visibility', () => {
 		browser.scroll(0, 1000);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 
 		const size = browser.getElementSize(adSlots.incontentBoxad);
 		const tableOfErrors = [];
