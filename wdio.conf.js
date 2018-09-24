@@ -42,6 +42,9 @@ exports.config = {
 		hiviUapStaticAd: [
 			'./tests/specs/hivi-uap-static-ad.test.js',
 		],
+		abcdAd: [
+			'./tests/specs/abcd-ad.test.js',
+		],
 		otherFeature: [
 
 		]
