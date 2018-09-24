@@ -30,7 +30,7 @@ describe('It will test abcd ads', () => {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
 				.be
 				.true;
@@ -67,7 +67,7 @@ describe('It will test abcd ads', () => {
 	it('will test if video player is visible in top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		abcdAd.waitToStartPlaying();
-		expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`))
+		expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
 			.to
 			.be
 			.true;
@@ -78,7 +78,7 @@ describe('It will test abcd ads', () => {
 		abcdAd.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		browser.click(abcdAd.unmuteButton);
-		expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`))
+		expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Video not unmuted')
 			.to
 			.be
 			.false;
@@ -103,7 +103,7 @@ describe('It will test abcd ads', () => {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
 				.to
 				.be
 				.true;

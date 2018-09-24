@@ -74,7 +74,7 @@ describe('It will test uap hivi slots', () => {
 		browser.moveToObject(hiviUap.videoPlayer);
 		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty))
 			.to
-			.include(hiviUap.uiVisibleClass);
+			.include(hiviUap.uiVisibleClass, 'UI not visible');
 	});
 
 	it('will test opening full screen in top leaderboard player', () => {
@@ -82,7 +82,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.playerFullscreenButton);
-		expect(browser.isExisting(hiviUap.fullScreen))
+		expect(browser.isExisting(hiviUap.fullScreen), 'Top leaderboard not on full screen')
 			.to
 			.be
 			.true;
@@ -93,7 +93,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.playPauseButton);
-		expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`))
+		expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 			.to
 			.be
 			.false;
@@ -104,7 +104,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.volumeButton);
-		expect(browser.isExisting(`${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`))
+		expect(browser.isExisting(`${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
 			.to
 			.be
 			.false;
@@ -201,7 +201,7 @@ describe('It will test uap hivi slots', () => {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
+			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 				.to
 				.be
 				.true;
@@ -298,7 +298,7 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
-		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty))
+		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty), 'UI not visible')
 			.to
 			.include(hiviUap.uiVisibleClass);
 	});
@@ -309,7 +309,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
-		expect(browser.isExisting(hiviUap.fullScreen))
+		expect(browser.isExisting(hiviUap.fullScreen), 'Video not on full screen')
 			.to
 			.be
 			.true;
@@ -321,7 +321,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
-		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`))
+		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 			.to
 			.be
 			.false;
@@ -333,7 +333,7 @@ describe('It will test uap hivi slots', () => {
 		hiviUap.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
-		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`))
+		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
 			.to
 			.be
 			.false;

@@ -123,6 +123,6 @@ describe('It will test floating rail ads', () => {
 		helpers.slowScroll(500);
 		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
 			.to
-			.equal(floatingRailAd.railScrollingClass);
+			.equal(floatingRailAd.railScrollingClass, 'Rail did not scroll');
 	});
 });
