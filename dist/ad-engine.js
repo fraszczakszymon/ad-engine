@@ -3378,6 +3378,7 @@ porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 
 
 
+
 var scroll_listener_callbacks = {};
 
 function getUniqueId() {
@@ -3441,8 +3442,14 @@ var scroll_listener_ScrollListener = function () {
 	}, {
 		key: 'addCallback',
 		value: function addCallback(callback) {
+			var _this2 = this;
+
 			var id = getUniqueId();
 			scroll_listener_callbacks[id] = callback;
+
+			events.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+				return _this2.removeCallback(id);
+			});
 
 			return id;
 		}
