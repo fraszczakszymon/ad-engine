@@ -66,7 +66,7 @@ async function loadTwitchPlayer(iframe, params) {
 			channel: params.channelName,
 		};
 
-	const player = await new TwitchPlayer(twitchContainer, options);
+	const player = new TwitchPlayer(twitchContainer, options);
 	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
 	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
 	return player;
