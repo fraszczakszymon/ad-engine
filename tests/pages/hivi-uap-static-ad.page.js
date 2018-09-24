@@ -1,5 +1,3 @@
-const timeForAction = 500;
-
 class HiviUapStatic {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap-static/';
@@ -14,10 +12,6 @@ class HiviUapStatic {
 		this.incontentBoxadCreativeId = '138223788340';
 		this.bottomLeaderboardLineItemId = '4562425893';
 		this.bottomLeaderboardCreativeId = '138223765886';
-	}
-
-	waitForAction() {
-		browser.pause(timeForAction);
 	}
 }
 

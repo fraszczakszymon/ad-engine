@@ -81,9 +81,7 @@ describe('It will test uap hivi static slots', () => {
 
 	it('will test top leaderboard unsticking after scroll', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.slowScroll(1000);
-		hiviUapStatic.waitForAction();
-		helpers.slowScroll(2000);
+		helpers.slowScroll(3000);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard in viewport')
 			.to
 			.be

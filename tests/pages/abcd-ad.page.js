@@ -9,9 +9,12 @@ class AbcdAd {
 		this.topLeaderboardLineItemId = '4376117186';
 		this.topLeaderboardCreativeId = '138207566841';
 		this.topBoxadLineItemId = '271491732';
-		this.topBoxadCreativeId = '108391930332';
+		this.topBoxadCreativeId = '108391930812';
 	}
 
+	/**
+	 * Pauses actions so the movie can start playing before executing other actions.
+	 */
 	waitToStartPlaying() {
 		browser.pause(timeToLoadMovie);
 	}

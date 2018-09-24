@@ -127,4 +127,17 @@ describe('It will test abcd ads', () => {
 			.to
 			.equal(abcdAd.topBoxadCreativeId, 'Creative ID mismatch');
 	});
+
+	it('will test redirect on click', () => {
+		browser.click(adSlots.topBoxad);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.newsAndStories);
+		expect(browser.getUrl())
+			.to
+			.equal(helpers.newsAndStories);
+		helpers.closeNewTabs();
+	});
 });
