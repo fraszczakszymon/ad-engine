@@ -69,7 +69,6 @@ async function loadTwitchPlayer(iframe, params) {
 	const player = new TwitchPlayer(twitchContainer, options);
 	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
 	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
-	debugger;
 	return player;
 }
 
@@ -83,7 +82,6 @@ async function loadTwitchAd(iframe, params) {
 		};
 	}
 	window.addEventListener('resize', throttle(recalculateTwitchSize(twitch), 250));
-	debugger;
 }
 
 async function loadVideoAd(videoSettings) {
