@@ -45,6 +45,9 @@ exports.config = {
 		abcdAd: [
 			'./tests/specs/abcd-ad.test.js',
 		],
+		floatingRailAd: [
+			'./tests/specs/floating-rail-ad.test.js',
+		],
 		otherFeature: [
 
 		]
