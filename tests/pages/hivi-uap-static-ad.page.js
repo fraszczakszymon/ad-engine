@@ -4,10 +4,8 @@ class HiviUapStatic {
 		this.closeLeaderboardButton = 'button';
 		this.slotResult = 'data-slot-result';
 		this.slotCollapsed = 'collapse';
-		this.topLeaderboardlineItemId = '4562423718';
-		this.topBoxadLineItemId = '4562423718';
-		this.incontentBoxadLineItemId = '4562425893';
-		this.bottomLeaderboardLineItemId = '4562425893';
+		this.topLineItemId = '4562423718'; // top leaderboard and top boxad share the same ID
+		this.bottomLineItemId = '4562425893'; // bottom leaderboard and incontent boxad share the same ID
 	}
 }
 

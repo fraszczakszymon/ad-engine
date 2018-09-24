@@ -22,7 +22,7 @@ describe('It will test abcd ads', () => {
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.abcdLeaderboardWidth, 'Top leaderboard width incorrect');
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
 			expect(size.height)
 				.to
 				.equal(adSlots.abcdLeaderboardHeight, 'Top leaderboard height incorrect');

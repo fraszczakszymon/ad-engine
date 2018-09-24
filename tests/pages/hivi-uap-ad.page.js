@@ -13,10 +13,8 @@ class HiviUap {
 		this.fullScreen = '.stop-scrolling';
 		this.slotResult = 'data-slot-result';
 		this.slotCollapsed = 'collapse';
-		this.topLeaderboardlineItemId = '4466763538';
-		this.topBoxadLineItemId = '4466763538';
-		this.incontentBoxadLineItemId = '4511050296';
-		this.bottomLeaderboardLineItemId = '4511050296';
+		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
+		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
 	}
 
 	/**

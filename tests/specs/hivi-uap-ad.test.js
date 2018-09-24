@@ -26,7 +26,7 @@ describe('It will test uap hivi slots', () => {
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.uapTopLeaderboardWidth, 'Top leaderboard width incorrect');
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
 			expect(size.height)
 				.to
 				.equal(adSlots.uapTopLeaderboardHeight, 'Top leaderboard height incorrect');
@@ -51,7 +51,7 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(hiviUap.topLeaderboardlineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test redirect on click on top leaderboard', () => {
@@ -164,7 +164,7 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(hiviUap.topBoxadLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test redirect on click on top boxad', () => {
@@ -219,7 +219,7 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(hiviUap.incontentBoxadLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test redirect on click on incontent boxad', () => {
@@ -274,7 +274,7 @@ describe('It will test uap hivi slots', () => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(hiviUap.bottomLeaderboardLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('will test redirect on click on bottom leaderboard', () => {
