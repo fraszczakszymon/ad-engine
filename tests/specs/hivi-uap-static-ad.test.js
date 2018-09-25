@@ -166,7 +166,7 @@ describe('It will test uap hivi static slots', () => {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
+			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 				.to
 				.be
 				.true;
