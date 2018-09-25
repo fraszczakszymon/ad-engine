@@ -122,19 +122,19 @@ module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 11 */
@@ -1174,7 +1174,7 @@ var get_own_property_names_ = __webpack_require__(17);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(10);
+var symbol_ = __webpack_require__(8);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
@@ -1226,14 +1226,23 @@ var events_EventService = function (_EventEmitter) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _temp), possibleConstructorReturn_default()(_this, _ret);
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _temp), possibleConstructorReturn_default()(_this, _ret);
 	}
 
 	createClass_default()(EventService, [{
-		key: 'pageChange',
-		value: function pageChange() {
+		key: 'beforePageChange',
+		value: function beforePageChange() {
 			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 				args[_key2] = arguments[_key2];
+			}
+
+			this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
+		}
+	}, {
+		key: 'pageChange',
+		value: function pageChange() {
+			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+				args[_key3] = arguments[_key3];
 			}
 
 			this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
@@ -1241,8 +1250,8 @@ var events_EventService = function (_EventEmitter) {
 	}, {
 		key: 'pageRender',
 		value: function pageRender() {
-			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-				args[_key3] = arguments[_key3];
+			for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+				args[_key4] = arguments[_key4];
 			}
 
 			this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
@@ -1265,8 +1274,8 @@ var events_EventService = function (_EventEmitter) {
 				throw new Error('Event "' + event + '" is not registered. Please register an event first.');
 			}
 
-			for (var _len4 = arguments.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-				args[_key4 - 1] = arguments[_key4];
+			for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+				args[_key5 - 1] = arguments[_key5];
 			}
 
 			(_get2 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'emit', this)).call.apply(_get2, [this, event].concat(args));
@@ -1281,8 +1290,8 @@ var events_EventService = function (_EventEmitter) {
 				throw new Error('You can\'t listen for an event which is not registered yet.');
 			}
 
-			for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-				args[_key5 - 1] = arguments[_key5];
+			for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+				args[_key6 - 1] = arguments[_key6];
 			}
 
 			(_get3 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'on', this)).call.apply(_get3, [this, event].concat(args));
@@ -1296,8 +1305,8 @@ var events_EventService = function (_EventEmitter) {
 				throw new Error('You can\'t listen for an event which is not registered yet.');
 			}
 
-			for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-				args[_key6 - 1] = arguments[_key6];
+			for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+				args[_key7 - 1] = arguments[_key7];
 			}
 
 			(_get4 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'addListener', this)).call.apply(_get4, [this, event].concat(args));
@@ -1311,8 +1320,8 @@ var events_EventService = function (_EventEmitter) {
 				throw new Error('You can\'t listen for an event which is not registered yet.');
 			}
 
-			for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-				args[_key7 - 1] = arguments[_key7];
+			for (var _len8 = arguments.length, args = Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
+				args[_key8 - 1] = arguments[_key8];
 			}
 
 			(_get5 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'once', this)).call.apply(_get5, [this, event].concat(args));
@@ -1917,11 +1926,11 @@ var message_bus_MessageBus = function () {
 
 var messageBus = new message_bus_MessageBus();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(9);
+var get_own_property_descriptor_ = __webpack_require__(10);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(8);
+var external_core_decorators_ = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
@@ -3501,6 +3510,7 @@ porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 
 
 
+
 var scroll_listener_callbacks = {};
 
 function getUniqueId() {
@@ -3564,8 +3574,14 @@ var scroll_listener_ScrollListener = function () {
 	}, {
 		key: 'addCallback',
 		value: function addCallback(callback) {
+			var _this2 = this;
+
 			var id = getUniqueId();
 			scroll_listener_callbacks[id] = callback;
+
+			events.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+				return _this2.removeCallback(id);
+			});
 
 			return id;
 		}
@@ -3843,12 +3859,8 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 			setupGptTargeting();
 			configure();
 			this.setupNonPersonalizedAds();
-			events.on(events.PAGE_CHANGE_EVENT, function () {
-				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-				if (!options.doNotDestroyGptSlots) {
-					_this2.destroySlots();
-				}
+			events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+				return _this2.destroySlots();
 			});
 			events.on(events.PAGE_RENDER_EVENT, function () {
 				return _this2.updateCorrelator();

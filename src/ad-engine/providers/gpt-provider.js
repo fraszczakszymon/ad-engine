@@ -60,11 +60,7 @@ export class GptProvider {
 		setupGptTargeting();
 		configure();
 		this.setupNonPersonalizedAds();
-		events.on(events.PAGE_CHANGE_EVENT, (options = {}) => {
-			if (!options.doNotDestroyGptSlots) {
-				this.destroySlots();
-			}
-		});
+		events.on(events.BEFORE_PAGE_CHANGE_EVENT, () => this.destroySlots());
 		events.on(events.PAGE_RENDER_EVENT, () => this.updateCorrelator());
 		initialized = true;
 	}
