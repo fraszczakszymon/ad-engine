@@ -1,6 +1,7 @@
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
+const timeToStartPlaying = 1000;
 
 class Helpers {
 	constructor() {
@@ -71,6 +72,13 @@ class Helpers {
 			});
 		}
 		return finalLink;
+	}
+
+	/**
+	 * Pauses actions so the movie can start playing before executing other actions.
+	 */
+	waitToStartPlaying() {
+		browser.pause(timeToStartPlaying);
 	}
 }
 

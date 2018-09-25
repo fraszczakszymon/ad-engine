@@ -1,5 +1,3 @@
-const timeToLoadMovie = 1000;
-
 class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
@@ -15,13 +13,6 @@ class HiviUap {
 		this.slotCollapsed = 'collapse';
 		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
 		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
-	}
-
-	/**
-	 * Pauses actions so the movie can start playing before executing other actions.
-	 */
-	waitToStartPlaying() {
-		browser.pause(timeToLoadMovie);
 	}
 }
 

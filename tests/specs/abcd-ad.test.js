@@ -74,7 +74,7 @@ describe('It will test abcd ads', () => {
 
 	it('will test if video player is visible in top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		abcdAd.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
 			.to
 			.be
@@ -83,7 +83,7 @@ describe('It will test abcd ads', () => {
 
 	it('will test if clicking the button unmutes the video', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		abcdAd.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		browser.click(abcdAd.unmuteButton);
 		expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Video not unmuted')

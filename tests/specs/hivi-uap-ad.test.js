@@ -76,18 +76,9 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will check if ui shows up after hover in top leaderboard player', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		hiviUap.waitToStartPlaying();
-		browser.moveToObject(hiviUap.videoPlayer);
-		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty))
-			.to
-			.include(hiviUap.uiVisibleClass, 'UI not visible');
-	});
-
 	it('will test opening full screen in top leaderboard player', () => {
 		browser.waitForVisible(hiviUap.videoPlayer, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.playerFullscreenButton);
 		expect(browser.isExisting(hiviUap.fullScreen), 'Top leaderboard not on full screen')
@@ -98,7 +89,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test pausing the video in top leaderboard player', () => {
 		browser.waitForVisible(hiviUap.videoPlayer, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.playPauseButton);
 		expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
@@ -109,7 +100,7 @@ describe('It will test uap hivi slots', () => {
 
 	it('will test unmuting the video in top leaderboard player', () => {
 		browser.waitForVisible(hiviUap.videoPlayer, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(hiviUap.videoPlayer);
 		browser.click(hiviUap.volumeButton);
 		expect(browser.isExisting(`${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
@@ -301,20 +292,10 @@ describe('It will test uap hivi slots', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will check if ui shows up after hover in bottom leaderboard player', () => {
-		helpers.slowScroll(6000);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		hiviUap.waitToStartPlaying();
-		browser.moveToObject(hiviUap.videoPlayer);
-		expect(browser.element(hiviUap.videoPlayer).getAttribute(helpers.classProperty), 'UI not visible')
-			.to
-			.include(hiviUap.uiVisibleClass);
-	});
-
 	it('will test opening full screen in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
 		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		expect(browser.isExisting(hiviUap.fullScreen), 'Video not on full screen')
@@ -326,7 +307,7 @@ describe('It will test uap hivi slots', () => {
 	it('will test pausing the video in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
 		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
 		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
@@ -338,7 +319,7 @@ describe('It will test uap hivi slots', () => {
 	it('will test unmuting the video in bottom leaderboard player', () => {
 		helpers.slowScroll(6000);
 		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
-		hiviUap.waitToStartPlaying();
+		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
 		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')

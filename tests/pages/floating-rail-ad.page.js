@@ -4,7 +4,7 @@ class FloatingRailAd {
 		this.topLeaderboardLineItemId = '271491732';
 		this.topBoxadLineItemId = '319702452';
 		this.rail = '#rail';
-		this.railScrollingClass = 'rail-fixed';
+		this.attributeRailScrolling = 'rail-fixed';
 	}
 }
 
