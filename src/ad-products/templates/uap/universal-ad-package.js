@@ -1,4 +1,4 @@
-import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
+import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils, BfaaTheme } from '@wikia/ad-engine';
 import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
@@ -54,36 +54,42 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 
 	return video;
 }
+function adjustTwitchContainer(iframe, params) {
+	const	twitchContainer = params.player,
+		clickMacroContainer = params.clickArea,
+		backgroundImage = params.background,
+		twitchContainerHeight = iframe.clientHeight;
+
+	twitchContainer.style.height = `${twitchContainerHeight}px`;
+	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
+	clickMacroContainer.style.height = `${twitchContainerHeight}px`;
+	clickMacroContainer.style.width = `${iframe.clientWidth - twitchContainer.clientWidth}px`;
+	backgroundImage.style.height = `${iframe.clientHeight}px`;
+	backgroundImage.style.width = `${iframe.clientWidth}px`;
+}
 
 async function loadTwitchPlayer(iframe, params) {
-	const { adContainer } = params,
-		twitchContainer = iframe.contentWindow.document.getElementById('player'),
-		clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'),
-		twitchContainerHeight = twitchContainer.clientHeight,
+	const	{ player } = params,
 		options = {
 			height: '100%',
 			width: '100%',
 			channel: params.channelName,
 		};
-
-	const player = new TwitchPlayer(twitchContainer, options);
-
-	await player.getPlayer();
-	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
-	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
-
-	return player;
+	const twitchPlayer = new TwitchPlayer(player, options);
+	await twitchPlayer.getPlayer();
+	return twitchPlayer;
 }
 
 async function loadTwitchAd(iframe, params) {
-	function recalculateTwitchSize(twitchPlayer) {
+	function recalculateTwitchSize() {
 		return () => {
-			twitchPlayer.identifier.style.width = `${twitchPlayer.identifier.clientHeight * params.twitchAspectRatio}px`;
+		 adjustTwitchContainer(iframe, params);
 		};
 	}
 
-	const twitch = await loadTwitchPlayer(iframe, params);
-	window.addEventListener('resize', throttle(recalculateTwitchSize(twitch), 250));
+	await loadTwitchPlayer(iframe, params);
+	adjustTwitchContainer(iframe, params);
+	window.addEventListener('resize', throttle(recalculateTwitchSize(), 250));
 }
 
 async function loadVideoAd(videoSettings) {
