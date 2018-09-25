@@ -32,9 +32,11 @@ describe('Bill the Lizard service', () => {
 				]
 			},
 			parameters: {
-				foo: 1,
-				bar: 'test',
-				echo: ['one', 'two']
+				queen_of_hearts: {
+					foo: 1,
+					bar: 'test',
+					echo: ['one', 'two']
+				}
 			},
 			timeout: 2000
 		});
@@ -107,7 +109,7 @@ describe('Bill the Lizard service', () => {
 	it('should not call service if it is disabled in context', () => {
 		context.set('services.billTheLizard.enabled', false);
 
-		billTheLizard.call().then(() => {}, () => {});
+		billTheLizard.call([]).then(() => {}, () => {});
 
 		expect(requests.length).to.equal(0);
 	});
@@ -115,14 +117,14 @@ describe('Bill the Lizard service', () => {
 	it('should not call service if there are no models in context', () => {
 		context.set('services.billTheLizard.models', []);
 
-		billTheLizard.call().then(() => {}, () => {});
+		billTheLizard.call([]).then(() => {}, () => {});
 
 		expect(requests.length).to.equal(0);
 	});
 
 	it('should call service with built url', () => {
 		billTheLizard.projectsHandler.enable('queen_of_hearts');
-		billTheLizard.call();
+		billTheLizard.call(['queen_of_hearts']);
 
 		const { url } = requests[0];
 
