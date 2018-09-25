@@ -1,4 +1,4 @@
-import { btfBlockerService, context, Porvata, slotService, Twitch, TwitchPlayer, utils } from '@wikia/ad-engine';
+import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
 import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
