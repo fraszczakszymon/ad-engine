@@ -1748,12 +1748,16 @@ var loadTwitchPlayer = function () {
 							channel: params.channelName
 						};
 						player = new ad_engine_["TwitchPlayer"](twitchContainer, options);
+						_context2.next = 4;
+						return player.getPlayer();
 
+					case 4:
 						twitchContainer.style.width = twitchContainerHeight * params.twitchAspectRatio + 'px';
 						clickMacroContainer.style.width = adContainer - twitchContainer.clientWidth + 'px';
+
 						return _context2.abrupt('return', player);
 
-					case 5:
+					case 7:
 					case 'end':
 						return _context2.stop();
 				}
@@ -1768,7 +1772,7 @@ var loadTwitchPlayer = function () {
 
 var loadTwitchAd = function () {
 	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
-		var twitch, recalculateTwitchSize;
+		var recalculateTwitchSize, twitch;
 		return regenerator_default.a.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
@@ -1779,16 +1783,15 @@ var loadTwitchAd = function () {
 							};
 						};
 
-						this.params = params;
-						_context3.next = 4;
+						_context3.next = 3;
 						return loadTwitchPlayer(iframe, params);
 
-					case 4:
+					case 3:
 						twitch = _context3.sent;
 
 						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(twitch), 250));
 
-					case 6:
+					case 5:
 					case 'end':
 						return _context3.stop();
 				}
@@ -3685,15 +3688,19 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								// defers for proper rendering
 
 								this.theme.onVideoReady(video);
-								_context.next = 15;
+								_context.next = 17;
 								break;
 
 							case 14:
-								if (this.params.channelName) {
-									universalAdPackage.loadTwitchAd(iframe, this.params);
+								if (!this.params.channelName) {
+									_context.next = 17;
+									break;
 								}
 
-							case 15:
+								_context.next = 17;
+								return ad_engine_["utils"].defer(universalAdPackage.loadTwitchAd, iframe, this.params);
+
+							case 17:
 							case 'end':
 								return _context.stop();
 						}
