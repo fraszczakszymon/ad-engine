@@ -54,6 +54,14 @@ describe('It will test uap hivi static slots', () => {
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 	});
 
+	it('will test if leaderboard does not obstruct the navbar', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
+			.to
+			.be
+			.true;
+	});
+
 	it('will test redirect on click on top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);

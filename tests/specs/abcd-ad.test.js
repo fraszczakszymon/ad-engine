@@ -50,6 +50,14 @@ describe('It will test abcd ads', () => {
 			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
+	it('will test if leaderboard does not obstruct the navbar', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
+			.to
+			.be
+			.true;
+	});
+
 	it('will test redirect on click on top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);

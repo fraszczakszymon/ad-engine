@@ -11,6 +11,7 @@ class Helpers {
 		this.classHidden = '.hide';
 		this.pageBody = 'body';
 		this.classProperty = 'class';
+		this.navbar = 'nav';
 	}
 
 	/**
