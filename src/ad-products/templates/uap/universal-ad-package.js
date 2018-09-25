@@ -1,4 +1,4 @@
-import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
+import { btfBlockerService, context, Porvata, slotService, Twitch, TwitchPlayer, utils } from '@wikia/ad-engine';
 import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
@@ -67,20 +67,22 @@ async function loadTwitchPlayer(iframe, params) {
 		};
 
 	const player = new TwitchPlayer(twitchContainer, options);
+
+	await player.getPlayer();
 	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
 	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
+
 	return player;
 }
 
 async function loadTwitchAd(iframe, params) {
-	this.params = params;
-	const twitch = await loadTwitchPlayer(iframe, params);
-
 	function recalculateTwitchSize(twitchPlayer) {
 		return () => {
 			twitchPlayer.identifier.style.width = `${twitchPlayer.identifier.clientHeight * params.twitchAspectRatio}px`;
 		};
 	}
+
+	const twitch = await loadTwitchPlayer(iframe, params);
 	window.addEventListener('resize', throttle(recalculateTwitchSize(twitch), 250));
 }
 
