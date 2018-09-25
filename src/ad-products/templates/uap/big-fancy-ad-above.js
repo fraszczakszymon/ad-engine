@@ -113,7 +113,9 @@ export class BigFancyAdAbove {
 	}
 
 	async onAdReady(iframe) {
+		debugger;
 		this.config.mainContainer.style.paddingTop = iframe.parentElement.style.paddingBottom;
+		debugger;
 		this.config.mainContainer.classList.add('has-bfaa');
 
 		if (this.config.handleNavbar) {

@@ -3656,7 +3656,9 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 					while (1) {
 						switch (_context.prev = _context.next) {
 							case 0:
+								debugger;
 								this.config.mainContainer.style.paddingTop = iframe.parentElement.style.paddingBottom;
+								debugger;
 								this.config.mainContainer.classList.add('has-bfaa');
 
 								if (this.config.handleNavbar) {
@@ -3664,43 +3666,43 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								}
 
 								if (!document.hidden) {
-									_context.next = 6;
+									_context.next = 8;
 									break;
 								}
 
-								_context.next = 6;
+								_context.next = 8;
 								return ad_engine_["utils"].once(window, 'visibilitychange');
 
-							case 6:
+							case 8:
 
 								this.theme.onAdReady(iframe);
 
 								if (!universalAdPackage.isVideoEnabled(this.params)) {
-									_context.next = 14;
+									_context.next = 16;
 									break;
 								}
 
-								_context.next = 10;
+								_context.next = 12;
 								return ad_engine_["utils"].defer(universalAdPackage.loadVideoAd, this.videoSettings);
 
-							case 10:
+							case 12:
 								video = _context.sent;
 								// defers for proper rendering
 
 								this.theme.onVideoReady(video);
-								_context.next = 17;
+								_context.next = 19;
 								break;
 
-							case 14:
+							case 16:
 								if (!this.params.channelName) {
-									_context.next = 17;
+									_context.next = 19;
 									break;
 								}
 
-								_context.next = 17;
+								_context.next = 19;
 								return ad_engine_["utils"].defer(universalAdPackage.loadTwitchAd, iframe, this.params);
 
-							case 17:
+							case 19:
 							case 'end':
 								return _context.stop();
 						}
