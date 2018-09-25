@@ -11,118 +11,115 @@ describe('It will test floating rail ads', () => {
 		browser.waitForVisible(helpers.pageBody);
 	});
 
-	// Top Leaderboard tests
+	describe('It will test top leaderboard', () => {
+		beforeEach(() => {
+			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		});
+		it('will test the visibility and dimensions of top leaderboard', () => {
+			const size = browser.getElementSize(adSlots.topLeaderboard);
+			const tableOfErrors = [];
 
-	it('will test the visibility and dimensions of top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			try {
+				expect(size.width)
+					.to
+					.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
+				expect(size.height)
+					.to
+					.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
+			} catch (error) {
+				tableOfErrors.push(error.message);
+			}
+			try {
+				expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+					.to
+					.be
+					.true;
+			} catch (error) {
+				tableOfErrors.push(error.message);
+			}
 
-		const size = browser.getElementSize(adSlots.topLeaderboard);
-		const tableOfErrors = [];
-
-		try {
-			expect(size.width)
+			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 				.to
-				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+				.equal(0);
+		});
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
-			.to
-			.equal(0);
+		it('will test top leaderboard line item id', () => {
+			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+				.to
+				.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+		});
+
+		it('will test redirect on click on top leaderboard', () => {
+			browser.click(adSlots.topLeaderboard);
+
+			const tabIds = browser.getTabIds();
+
+			browser.switchTab(tabIds[1]);
+			helpers.waitForUrl(helpers.newsAndStories);
+			expect(browser.getUrl())
+				.to
+				.equal(helpers.newsAndStories);
+			helpers.closeNewTabs();
+		});
 	});
 
-	it('will test top leaderboard line item id', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
-			.to
-			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
-	});
+	describe('It will test top boxad', () => {
+		beforeEach(() => {
+			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		});
+		it('will test the visibility and dimensions of top boxad', () => {
+			const size = browser.getElementSize(adSlots.topBoxad);
+			const tableOfErrors = [];
 
-	it('will test redirect on click on top leaderboard', () => {
-		browser.waitForVisible(adSlots.topLeaderboard);
-		browser.click(adSlots.topLeaderboard);
+			try {
+				expect(size.width)
+					.to
+					.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
+				expect(size.height)
+					.to
+					.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
+			} catch (error) {
+				tableOfErrors.push(error.message);
+			}
+			try {
+				expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+					.to
+					.be
+					.true;
+			} catch (error) {
+				tableOfErrors.push(error.message);
+			}
 
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
-		expect(browser.getUrl())
-			.to
-			.equal(helpers.newsAndStories);
-		helpers.closeNewTabs();
-	});
-
-	// Top Boxad tests
-
-	it('will test the visibility and dimensions of top boxad', () => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
-		const size = browser.getElementSize(adSlots.topBoxad);
-		const tableOfErrors = [];
-
-		try {
-			expect(size.width)
+			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 				.to
-				.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
-			expect(size.height)
+				.equal(0);
+		});
+
+		it('will test top boxad line item id', () => {
+			expect(browser.element(adSlots.topBoxad)
+				.getAttribute(adSlots.lineItemParam))
 				.to
-				.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+				.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
+		});
+
+		it('will test redirect on click on top boxad', () => {
+			browser.click(adSlots.topBoxad);
+
+			const tabIds = browser.getTabIds();
+
+			browser.switchTab(tabIds[1]);
+			helpers.waitForUrl(helpers.newsAndStories);
+			expect(browser.getUrl())
 				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+				.equal(helpers.newsAndStories);
+			helpers.closeNewTabs();
+		});
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
-			.to
-			.equal(0);
-	});
-
-	it('will test top boxad line item id', () => {
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		expect(browser.element(adSlots.topBoxad)
-			.getAttribute(adSlots.lineItemParam))
-			.to
-			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
-	});
-
-	it('will test redirect on click on top boxad', () => {
-		browser.waitForVisible(adSlots.topBoxad);
-		browser.click(adSlots.topBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
-		expect(browser.getUrl())
-			.to
-			.equal(helpers.newsAndStories);
-		helpers.closeNewTabs();
-	});
-
-	it('will test if rail scrolls with the content', () => {
-		browser.waitForVisible(adSlots.topBoxad);
-		helpers.slowScroll(500);
-		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
-			.to
-			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
+		it('will test if rail scrolls with the content', () => {
+			helpers.slowScroll(500);
+			expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
+				.to
+				.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
+		});
 	});
 });
