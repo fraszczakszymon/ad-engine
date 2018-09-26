@@ -1753,7 +1753,7 @@ var loadTwitchPlayer = function () {
 
 					case 4:
 						twitchContainer.style.width = twitchContainer.clientHeight * twitchAspectRatio + 'px';
-						clickMacroContainer.style.width = adContainer - twitchContainer.clientWidth + 'px';
+						clickMacroContainer.style.width = adContainer.clientWidth - twitchContainer.clientWidth + 'px';
 
 						return _context2.abrupt('return', twitchPlayer);
 
