@@ -80,6 +80,20 @@ class Helpers {
 	waitToStartPlaying() {
 		browser.pause(timeToStartPlaying);
 	}
+
+	/**
+	 *
+	 * @param arrayOfErrors
+	 * @returns {string}
+	 */
+	errorFormatter(arrayOfErrors) {
+		let finalString = 'Found errors: /n';
+
+		for (let i = 1; i <= arrayOfErrors + 1; i += 1) {
+			finalString += `#${i} ${arrayOfErrors[i - 1]} /n`;
+		}
+		return finalString;
+	}
 }
 
 export default new Helpers();

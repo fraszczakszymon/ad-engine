@@ -24,26 +24,29 @@ describe('It will test uap hivi slots', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
 
+			// TODO revert changes
+
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
+					.equal(666, 'Top leaderboard width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.uapTopLeaderboardHeight, 'Top leaderboard height incorrect');
+					.equal(666, 'Top leaderboard height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
 			try {
 				expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 					.to
+					.not
 					.be
 					.true;
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
