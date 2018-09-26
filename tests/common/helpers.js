@@ -87,10 +87,10 @@ class Helpers {
 	 * @returns {string}
 	 */
 	errorFormatter(arrayOfErrors) {
-		let finalString = 'Found errors: /n';
+		let finalString = 'Found errors: \n';
 
-		for (let i = 1; i <= arrayOfErrors + 1; i += 1) {
-			finalString += `#${i} ${arrayOfErrors[i - 1]} /n`;
+		for (let i = 1; i < arrayOfErrors.length + 1; i += 1) {
+			finalString += `#${i} ${arrayOfErrors[i - 1]} \n`;
 		}
 		return finalString;
 	}
