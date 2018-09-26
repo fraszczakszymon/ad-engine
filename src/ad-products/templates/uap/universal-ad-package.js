@@ -70,7 +70,7 @@ async function loadTwitchPlayer(iframe, params) {
 	await twitchPlayer.getPlayer();
 	twitchContainer.style.width = `${twitchContainer.clientHeight * twitchAspectRatio}px`;
 	clickMacroContainer.style.width = `${adContainer.clientWidth - twitchContainer.clientWidth}px`;
-	
+
 	return twitchPlayer;
 }
 
