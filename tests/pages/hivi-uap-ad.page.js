@@ -2,7 +2,6 @@ class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
 		this.videoPlayer = '.video-player.video-player-right';
-		this.uiVisibleClass = 'ui-visible';
 		this.playerFullscreenButton = '.toggle-fullscreen-button';
 		this.volumeButton = '.volume-button';
 		this.playPauseButton = '.play-pause-button';

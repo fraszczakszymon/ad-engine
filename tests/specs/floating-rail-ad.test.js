@@ -39,7 +39,7 @@ describe('It will test floating rail ads', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
@@ -92,7 +92,7 @@ describe('It will test floating rail ads', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});

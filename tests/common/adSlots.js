@@ -5,6 +5,7 @@ class AdSlots {
 		this.topBoxad = '#top_boxad';
 		this.incontentBoxad = '#incontent_boxad';
 		this.repeatableBoxad = '#repeatable_boxad_';
+		this.topBoxadRail = '.top-boxad.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards
 		this.leaderboardHeight = 90; // shared between leaderboards
 		this.adProductsTopLeaderboardWidth = 1200; // UAP and ABCD leaderboards have the same width
@@ -14,6 +15,8 @@ class AdSlots {
 		this.abcdLeaderboardHeight = 240;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
+		this.railModuleWidth = 300;
+		this.railModuleHeight = 1200;
 		this.lineItemParam = 'data-gpt-line-item-id';
 	}
 }

@@ -39,7 +39,7 @@ describe('It will test abcd ads', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
@@ -74,6 +74,7 @@ describe('It will test abcd ads', () => {
 			beforeEach(() => {
 				helpers.waitToStartPlaying();
 			});
+
 			it('will test if video player is visible in top leaderboard', () => {
 				expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
 					.to
@@ -120,7 +121,7 @@ describe('It will test abcd ads', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});

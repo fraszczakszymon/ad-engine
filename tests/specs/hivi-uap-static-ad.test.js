@@ -19,6 +19,7 @@ describe('It will test uap hivi static slots', () => {
 		beforeEach(() => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
+
 		it('will test visibility and dimensions of top leaderboard', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
@@ -42,7 +43,7 @@ describe('It will test uap hivi static slots', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
@@ -93,6 +94,7 @@ describe('It will test uap hivi static slots', () => {
 		beforeEach(() => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
+
 		it('will test top boxad dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
@@ -116,7 +118,7 @@ describe('It will test uap hivi static slots', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
@@ -146,6 +148,7 @@ describe('It will test uap hivi static slots', () => {
 			browser.scroll(0, 1000);
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
+
 		it('will test incontent boxad dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.incontentBoxad);
 			const tableOfErrors = [];
@@ -169,7 +172,7 @@ describe('It will test uap hivi static slots', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});
@@ -199,6 +202,7 @@ describe('It will test uap hivi static slots', () => {
 			helpers.slowScroll(6000);
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
+
 		it('will test bottom leaderboard dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.bottomLeaderboard);
 			const tableOfErrors = [];
@@ -222,7 +226,7 @@ describe('It will test uap hivi static slots', () => {
 				tableOfErrors.push(error.message);
 			}
 
-			expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 				.to
 				.equal(0);
 		});

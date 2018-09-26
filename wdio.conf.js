@@ -3,50 +3,36 @@ exports.config = {
 		'./tests/specs/**/*.js'
 	],
 	suites: {
-		porvata: [
-			'./tests/specs/porvata.test.js',
+		bidders: [
+
 		],
-		btfOnly: [
-			'./tests/specs/btf-only-ad.test.js',
-		],
-		floatingAd: [
+		templates: [
+			'./tests/specs/floating-rail-ad.test.js',
+			'./tests/specs/abcd.test.js',
+			'./tests/specs/hivi-uap-ad.test.js',
+			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 		],
-		repeatableSlots: [
-			'./tests/specs/repeatable-slots.test.js',
+		services: [
+
 		],
-		topBoxad: [
-			'./tests/specs/top-boxad-ad.test.js',
+		utils: [
+
 		],
-		topLeaderboard: [
-			'./tests/specs/top-leaderboard-ad.test.js',
-		],
-		delayAd: [
-			'./tests/specs/delay-ad.test.js',
-		],
-		animationsAd: [
+		slots: [
+			'./tests/specs/btf-only-ad.test.js',
+			'./tests/specs/repeatable-slots-ad.test.js',
 			'./tests/specs/animations-ad.test.js',
-		],
-		viewportConflictAd: [
+			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
-		],
-		blockbtfAd: [
 			'./tests/specs/block-btf-ad.test.js',
-		],
-		emptyResponse: [
 			'./tests/specs/empty-response.test.js',
 		],
-		hiviUapAd: [
-			'./tests/specs/hivi-uap-ad.test.js',
+		video: [
+			'./tests/specs/porvata.test.js',
 		],
-		hiviUapStaticAd: [
-			'./tests/specs/hivi-uap-static-ad.test.js',
-		],
-		abcdAd: [
-			'./tests/specs/abcd-ad.test.js',
-		],
-		floatingRailAd: [
-			'./tests/specs/floating-rail-ad.test.js',
+		currentTest: [
+			// spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
