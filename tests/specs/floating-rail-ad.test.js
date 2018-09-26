@@ -15,6 +15,7 @@ describe('It will test floating rail ads', () => {
 		beforeEach(() => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
+
 		it('will test the visibility and dimensions of top leaderboard', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
@@ -67,6 +68,7 @@ describe('It will test floating rail ads', () => {
 		beforeEach(() => {
 			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		});
+
 		it('will test the visibility and dimensions of top boxad', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
