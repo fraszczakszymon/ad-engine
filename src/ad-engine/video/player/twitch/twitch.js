@@ -4,8 +4,16 @@ export class TwitchPlayer {
 	constructor(identifier, videoSettings) {
 		this.identifier = identifier;
 		this.videoSettings = videoSettings;
+	}
 
-		this.player = Twitch.inject(identifier, videoSettings);
+	async getPlayer() {
+		this.player = await Twitch.inject(this.identifier, this.videoSettings);
+
+		return this.player;
+	}
+
+	addEventListener(eventName, callback) {
+		this.player.addEventListener(eventName, callback);
 	}
 
 	getIdentifier() {
@@ -14,10 +22,6 @@ export class TwitchPlayer {
 
 	getVideoSettings() {
 		return this.videoSettings;
-	}
-
-	addEventListener(eventName, callback) {
-		this.player.addEventListener(eventName, callback);
 	}
 }
 

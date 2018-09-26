@@ -134,7 +134,11 @@ export class BigFancyAdAbove {
 
 			this.theme.onVideoReady(video);
 		} else if (this.params.channelName) {
-			universalAdPackage.loadTwitchAd(iframe, this.params);
+			await utils.defer(
+				universalAdPackage.loadTwitchAd,
+				iframe,
+				this.params
+			); // defers for proper rendering
 		}
 	}
 }

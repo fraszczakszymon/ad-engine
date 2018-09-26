@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -170,52 +170,64 @@ module.exports = require("babel-runtime/helpers/inherits");
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/map");
+module.exports = require("current-device");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/core-js/map");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 24 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/set");
+
+/***/ }),
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -251,11 +263,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(23);
+var set_ = __webpack_require__(25);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(22);
+var get_ = __webpack_require__(24);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -267,11 +279,11 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(17);
+var external_current_device_ = __webpack_require__(18);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(21);
+var external_blockadblock_ = __webpack_require__(23);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.js
@@ -593,7 +605,7 @@ var slicedToArray_ = __webpack_require__(6);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(20);
+var external_js_cookie_ = __webpack_require__(22);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/random.js
@@ -1158,7 +1170,7 @@ var context_service_Context = function () {
 
 var context = new context_service_Context();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(16);
+var get_own_property_names_ = __webpack_require__(17);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -2739,7 +2751,7 @@ function load() {
 	return scriptLoader.loadScript(imaLibraryUrl);
 }
 
-function getPlayer(videoSettings) {
+function google_ima_getPlayer(videoSettings) {
 	var adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer()),
 	    iframe = videoSettings.getContainer().querySelector('div > iframe');
 
@@ -2757,7 +2769,7 @@ function getPlayer(videoSettings) {
 
 var googleIma = {
 	load: load,
-	getPlayer: getPlayer
+	getPlayer: google_ima_getPlayer
 };
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/video-settings.js
 
@@ -3242,6 +3254,14 @@ var porvata_Porvata = function () {
 
 
 
+// EXTERNAL MODULE: external "babel-runtime/regenerator"
+var regenerator_ = __webpack_require__(16);
+var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
+var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
+
 // CONCATENATED MODULE: ./src/ad-engine/video/player/twitch/embed/twitch-embed.js
 
 
@@ -3274,17 +3294,51 @@ var twitchEmbed = {
 
 
 
+
+
 var twitch_TwitchPlayer = function () {
 	function TwitchPlayer(identifier, videoSettings) {
 		classCallCheck_default()(this, TwitchPlayer);
 
 		this.identifier = identifier;
 		this.videoSettings = videoSettings;
-
-		this.player = twitch_Twitch.inject(identifier, videoSettings);
 	}
 
 	createClass_default()(TwitchPlayer, [{
+		key: 'getPlayer',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_context.next = 2;
+								return twitch_Twitch.inject(this.identifier, this.videoSettings);
+
+							case 2:
+								this.player = _context.sent;
+								return _context.abrupt('return', this.player);
+
+							case 4:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function getPlayer() {
+				return _ref.apply(this, arguments);
+			}
+
+			return getPlayer;
+		}()
+	}, {
+		key: 'addEventListener',
+		value: function addEventListener(eventName, callback) {
+			this.player.addEventListener(eventName, callback);
+		}
+	}, {
 		key: 'getIdentifier',
 		value: function getIdentifier() {
 			return this.identifier;
@@ -3293,11 +3347,6 @@ var twitch_TwitchPlayer = function () {
 		key: 'getVideoSettings',
 		value: function getVideoSettings() {
 			return this.videoSettings;
-		}
-	}, {
-		key: 'addEventListener',
-		value: function addEventListener(eventName, callback) {
-			this.player.addEventListener(eventName, callback);
 		}
 	}]);
 
@@ -4131,7 +4180,7 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(19);
+var toConsumableArray_ = __webpack_require__(20);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-injector.js
@@ -4459,7 +4508,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/map"
-var map_ = __webpack_require__(18);
+var map_ = __webpack_require__(19);
 var map_default = /*#__PURE__*/__webpack_require__.n(map_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
