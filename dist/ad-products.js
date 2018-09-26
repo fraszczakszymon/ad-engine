@@ -1737,25 +1737,25 @@ var loadPorvata = function () {
 
 var loadTwitchPlayer = function () {
 	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(iframe, params) {
-		var adContainer, twitchContainer, clickMacroContainer, twitchContainerHeight, options, player;
+		var adContainer, channelName, clickMacroContainer, twitchContainer, twitchAspectRatio, options, twitchPlayer;
 		return regenerator_default.a.wrap(function _callee2$(_context2) {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
 					case 0:
-						adContainer = params.adContainer, twitchContainer = iframe.contentWindow.document.getElementById('player'), clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'), twitchContainerHeight = twitchContainer.clientHeight, options = {
+						adContainer = params.adContainer, channelName = params.channelName, clickMacroContainer = params.clickArea, twitchContainer = params.player, twitchAspectRatio = params.twitchAspectRatio, options = {
 							height: '100%',
 							width: '100%',
-							channel: params.channelName
+							channel: channelName
 						};
-						player = new ad_engine_["TwitchPlayer"](twitchContainer, options);
+						twitchPlayer = new ad_engine_["TwitchPlayer"](twitchContainer, options);
 						_context2.next = 4;
-						return player.getPlayer();
+						return twitchPlayer.getPlayer();
 
 					case 4:
-						twitchContainer.style.width = twitchContainerHeight * params.twitchAspectRatio + 'px';
+						twitchContainer.style.width = twitchContainer.clientHeight * twitchAspectRatio + 'px';
 						clickMacroContainer.style.width = adContainer - twitchContainer.clientWidth + 'px';
 
-						return _context2.abrupt('return', player);
+						return _context2.abrupt('return', twitchPlayer);
 
 					case 7:
 					case 'end':

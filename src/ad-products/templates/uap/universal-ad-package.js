@@ -56,23 +56,22 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 }
 
 async function loadTwitchPlayer(iframe, params) {
-	const { adContainer } = params,
-		twitchContainer = iframe.contentWindow.document.getElementById('player'),
-		clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'),
-		twitchContainerHeight = twitchContainer.clientHeight,
+	const {
+			adContainer, channelName, clickArea: clickMacroContainer, player: twitchContainer, twitchAspectRatio
+		} = params,
 		options = {
 			height: '100%',
 			width: '100%',
-			channel: params.channelName,
+			channel: channelName,
 		};
 
-	const player = new TwitchPlayer(twitchContainer, options);
+	const twitchPlayer = new TwitchPlayer(twitchContainer, options);
 
-	await player.getPlayer();
-	twitchContainer.style.width = `${twitchContainerHeight * params.twitchAspectRatio}px`;
+	await twitchPlayer.getPlayer();
+	twitchContainer.style.width = `${twitchContainer.clientHeight * twitchAspectRatio}px`;
 	clickMacroContainer.style.width = `${adContainer - twitchContainer.clientWidth}px`;
 
-	return player;
+	return twitchPlayer;
 }
 
 async function loadTwitchAd(iframe, params) {
