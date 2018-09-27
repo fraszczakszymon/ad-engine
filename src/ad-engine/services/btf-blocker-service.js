@@ -5,14 +5,14 @@ import { events } from './events';
 
 const logGroup = 'btf-blocker';
 
-function disableBtf(unblockedSlots) {
+function disableSecondCall(unblockedSlots) {
 	const slots = context.get('slots');
-	logger(logGroup, 'BTF queue disabled');
+	logger(logGroup, 'second call queue disabled');
 
 	Object.keys(slots).forEach((adSlotKey) => {
 		const slotConfig = slots[adSlotKey];
 
-		if (!slotConfig.aboveTheFold && unblockedSlots.indexOf(adSlotKey) === -1) {
+		if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
 			slotService.disable(adSlotKey, 'blocked');
 		}
 	});
@@ -25,11 +25,12 @@ class BtfBlockerService {
 
 	resetState() {
 		this.slotsQueue = [];
-		this.atfEnded = false;
+		this.firstCallEnded = false;
+		/** @type {AdSlot[]}  */
 		this.unblockedSlots = [];
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
-			logger(logGroup, adSlot.getSlotName(), 'Filling delayed BTF slot');
+			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
 			fillInCallback(adSlot);
 		});
 
@@ -40,10 +41,10 @@ class BtfBlockerService {
 
 	init() {
 		context.push('listeners.slot', {
-			onRenderEnded: (adSlot) => {
+			onRenderEnded: (/** AdSlot */adSlot) => {
 				logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
-				if (!this.atfEnded && adSlot.isAboveTheFold()) {
-					this.finishAboveTheFold();
+				if (!this.firstCallEnded && adSlot.isFirstCall()) {
+					this.finishFirstCall();
 				}
 			}
 		});
@@ -52,12 +53,14 @@ class BtfBlockerService {
 		});
 	}
 
-	finishAboveTheFold() {
-		this.atfEnded = true;
-		logger(logGroup, 'ATF queue finished');
+	finishFirstCall() {
+		this.firstCallEnded = true;
+		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableBtf(this.unblockedSlots);
+			disableSecondCall(
+				this.unblockedSlots.filter(adSlot => !adSlot.isAboveTheFold()),
+			);
 		}
 
 		this.slotsQueue.start();
@@ -78,9 +81,9 @@ class BtfBlockerService {
 			fillInCallback(adSlot);
 		}
 
-		if (!this.atfEnded && !adSlot.isAboveTheFold()) {
+		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
 			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
-			logger(logGroup, adSlot.getSlotName(), 'BTF slot pushed to queue');
+			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
 			return;
 		}
 

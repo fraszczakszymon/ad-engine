@@ -100,6 +100,10 @@ export class AdSlot extends EventEmitter {
 		return !!this.config.aboveTheFold;
 	}
 
+	isFirstCall() {
+		return !!this.config.firstCall;
+	}
+
 	isEnabled() {
 		return this.enabled;
 	}
