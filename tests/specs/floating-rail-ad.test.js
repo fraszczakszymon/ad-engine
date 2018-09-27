@@ -59,7 +59,7 @@ describe('It will test floating rail ads', () => {
 			helpers.waitForUrl(helpers.newsAndStories);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.newsAndStories);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 	});
@@ -113,7 +113,7 @@ describe('It will test floating rail ads', () => {
 			helpers.waitForUrl(helpers.newsAndStories);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.newsAndStories);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 

@@ -13,6 +13,7 @@ class Helpers {
 		this.pageBody = 'body';
 		this.classProperty = 'class';
 		this.navbar = 'nav';
+		this.fandomWord = 'fandom';
 	}
 
 	/**
@@ -20,7 +21,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => browser.getUrl() === newUrl, newUrlTimeout, 'expected new page after 10 seconds', this.interval);
+		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', this.interval);
 	}
 
 	/**
@@ -82,16 +83,18 @@ class Helpers {
 	}
 
 	/**
-	 *
+	 * Reformats the errors from the array and prints them as a numbered list.
 	 * @param arrayOfErrors
 	 * @returns {string}
 	 */
 	errorFormatter(arrayOfErrors) {
 		let finalString = 'Errors found: \n';
+		let i = 1;
 
-		for (let i = 1; i < arrayOfErrors.length + 1; i += 1) {
-			finalString += `#${i}: ${arrayOfErrors[i - 1]} \n`;
-		}
+		arrayOfErrors.forEach((error) => {
+			finalString += `#${i}: ${error} \n`;
+			i += 1;
+		});
 		return finalString;
 	}
 }

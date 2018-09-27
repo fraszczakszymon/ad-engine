@@ -66,7 +66,7 @@ describe('It will test abcd ads', () => {
 			helpers.waitForUrl(helpers.fandomWikia);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.fandomWikia);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 
@@ -141,7 +141,7 @@ describe('It will test abcd ads', () => {
 			helpers.waitForUrl(helpers.newsAndStories);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.newsAndStories);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 	});

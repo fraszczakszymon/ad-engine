@@ -70,7 +70,7 @@ describe('It will test uap hivi static slots', () => {
 			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.lukeSkywalkerLegacy);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 
@@ -138,7 +138,7 @@ describe('It will test uap hivi static slots', () => {
 			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.lukeSkywalkerLegacy);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 	});
@@ -192,7 +192,7 @@ describe('It will test uap hivi static slots', () => {
 			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.lukeSkywalkerLegacy);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 	});
@@ -246,7 +246,7 @@ describe('It will test uap hivi static slots', () => {
 			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
 			expect(browser.getUrl())
 				.to
-				.equal(helpers.lukeSkywalkerLegacy);
+				.include(helpers.fandomWord);
 			helpers.closeNewTabs();
 		});
 	});
