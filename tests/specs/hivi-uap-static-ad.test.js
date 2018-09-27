@@ -20,17 +20,17 @@ describe('It will test uap hivi static slots', () => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
 
-		it('will test visibility and dimensions of top leaderboard', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
+					.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.uapTopLeaderboardHeight, 'Top leaderboard height incorrect');
+					.equal(adSlots.uapTopLeaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -48,7 +48,7 @@ describe('It will test uap hivi static slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of top leaderboard', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -61,7 +61,7 @@ describe('It will test uap hivi static slots', () => {
 				.true;
 		});
 
-		it('will test redirect on click on top leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topLeaderboard);
 
 			const tabIds = browser.getTabIds();
@@ -92,20 +92,20 @@ describe('It will test uap hivi static slots', () => {
 
 	describe('It will test top boxad', () => {
 		beforeEach(() => {
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		});
 
-		it('will test top boxad dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
+					.equal(adSlots.boxadWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
+					.equal(adSlots.boxadHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -123,13 +123,13 @@ describe('It will test uap hivi static slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of top boxad', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on top boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topBoxad);
 
 			const tabIds = browser.getTabIds();
@@ -146,20 +146,20 @@ describe('It will test uap hivi static slots', () => {
 	describe('It will test incontent boxad', () => {
 		beforeEach(() => {
 			browser.scroll(0, 1000);
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		});
 
-		it('will test incontent boxad dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.incontentBoxad);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.boxadWidth, 'Incontent boxad width incorrect');
+					.equal(adSlots.boxadWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.boxadHeight, 'Incontent boxad height incorrect');
+					.equal(adSlots.boxadHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -177,13 +177,13 @@ describe('It will test uap hivi static slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of top boxad', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on incontent boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.incontentBoxad);
 
 			const tabIds = browser.getTabIds();
@@ -199,21 +199,21 @@ describe('It will test uap hivi static slots', () => {
 
 	describe('It will test bottom leaderboard', () => {
 		beforeEach(() => {
-			helpers.slowScroll(6000);
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			helpers.slowScroll(7000);
+			browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		});
 
-		it('will test bottom leaderboard dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.bottomLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.uapBottomLeaderboardWidth, 'Bottom leaderboard width incorrect');
+					.equal(adSlots.uapBottomLeaderboardWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.uapBottomLeaderboardHeight, 'Bottom leaderboard height incorrect');
+					.equal(adSlots.uapBottomLeaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -231,13 +231,13 @@ describe('It will test uap hivi static slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of bottom leaderboard', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on bottom leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.bottomLeaderboard);
 
 			const tabIds = browser.getTabIds();

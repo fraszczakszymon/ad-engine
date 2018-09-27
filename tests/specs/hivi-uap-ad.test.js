@@ -20,17 +20,17 @@ describe('It will test uap hivi slots', () => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
 
-		it('will test visibility and dimensions of top leaderboard', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
+					.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.uapTopLeaderboardHeight, 'Top leaderboard height incorrect');
+					.equal(adSlots.uapTopLeaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -48,7 +48,7 @@ describe('It will test uap hivi slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of top leaderboard', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
@@ -61,7 +61,7 @@ describe('It will test uap hivi slots', () => {
 				.true;
 		});
 
-		it('will test redirect on click on top leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topLeaderboard);
 
 			const tabIds = browser.getTabIds();
@@ -95,7 +95,7 @@ describe('It will test uap hivi slots', () => {
 				browser.moveToObject(hiviUap.videoPlayer);
 			});
 
-			it('will test opening full screen in top leaderboard player', () => {
+			it('will test opening the full screen player', () => {
 				browser.click(hiviUap.playerFullscreenButton);
 				expect(browser.isExisting(hiviUap.fullScreen), 'Top leaderboard not on full screen')
 					.to
@@ -103,7 +103,7 @@ describe('It will test uap hivi slots', () => {
 					.true;
 			});
 
-			it('will test pausing the video in top leaderboard player', () => {
+			it('will test pausing the video', () => {
 				browser.click(hiviUap.playPauseButton);
 				expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 					.to
@@ -111,7 +111,7 @@ describe('It will test uap hivi slots', () => {
 					.false;
 			});
 
-			it('will test unmuting the video in top leaderboard player', () => {
+			it('will test unmuting the video', () => {
 				browser.click(hiviUap.volumeButton);
 				expect(browser.isExisting(`${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
 					.to
@@ -126,17 +126,17 @@ describe('It will test uap hivi slots', () => {
 			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		});
 
-		it('will test top boxad dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
+					.equal(adSlots.boxadWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
+					.equal(adSlots.boxadHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -154,13 +154,13 @@ describe('It will test uap hivi slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of top boxad', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on top boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topBoxad);
 
 			const tabIds = browser.getTabIds();
@@ -177,20 +177,20 @@ describe('It will test uap hivi slots', () => {
 	describe('It will test incontent boxad', () => {
 		beforeEach(() => {
 			browser.scroll(0, 1000);
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		});
 
-		it('will test incontent boxad dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.incontentBoxad);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.boxadWidth, 'Incontent boxad width incorrect');
+					.equal(adSlots.boxadWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.boxadHeight, 'Incontent boxad height incorrect');
+					.equal(adSlots.boxadHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -208,13 +208,13 @@ describe('It will test uap hivi slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id and of incontent boxad', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on incontent boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.incontentBoxad);
 
 			const tabIds = browser.getTabIds();
@@ -230,21 +230,21 @@ describe('It will test uap hivi slots', () => {
 
 	describe('It will test bottom leaderboard', () => {
 		beforeEach(() => {
-			helpers.slowScroll(6000);
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			helpers.slowScroll(7000);
+			browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		});
 
-		it('will test bottom leaderboard dimensions and visibility', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.bottomLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.uapBottomLeaderboardWidth, 'Bottom leaderboard width incorrect');
+					.equal(adSlots.uapBottomLeaderboardWidth, ' Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.uapBottomLeaderboardHeight, 'Bottom leaderboard height incorrect');
+					.equal(adSlots.uapBottomLeaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -262,13 +262,13 @@ describe('It will test uap hivi slots', () => {
 				.equal(0);
 		});
 
-		it('will test line item id of bottom leaderboard', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on bottom leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.bottomLeaderboard);
 
 			const tabIds = browser.getTabIds();
@@ -288,7 +288,7 @@ describe('It will test uap hivi slots', () => {
 				browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 			});
 
-			it('will test opening full screen in bottom leaderboard player', () => {
+			it('will test opening the fullscreen player', () => {
 				browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
 				expect(browser.isExisting(hiviUap.fullScreen), 'Video not on full screen')
 					.to
@@ -296,7 +296,7 @@ describe('It will test uap hivi slots', () => {
 					.true;
 			});
 
-			it('will test pausing the video in bottom leaderboard player', () => {
+			it('will test pausing the video', () => {
 				browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
 				expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 					.to
@@ -304,7 +304,7 @@ describe('It will test uap hivi slots', () => {
 					.false;
 			});
 
-			it('will test unmuting the video in bottom leaderboard player', () => {
+			it('will test unmuting the video', () => {
 				browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
 				expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
 					.to

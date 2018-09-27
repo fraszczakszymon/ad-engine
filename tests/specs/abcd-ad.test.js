@@ -16,17 +16,17 @@ describe('It will test abcd ads', () => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
 
-		it('will test the visibility and dimensions of top leaderboard', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.adProductsTopLeaderboardWidth, 'Top leaderboard width incorrect');
+					.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.abcdLeaderboardHeight, 'Top leaderboard height incorrect');
+					.equal(adSlots.abcdLeaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -44,7 +44,7 @@ describe('It will test abcd ads', () => {
 				.equal(0);
 		});
 
-		it('will test top leaderboard line item id', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
@@ -57,7 +57,7 @@ describe('It will test abcd ads', () => {
 				.true;
 		});
 
-		it('will test redirect on click on top leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topLeaderboard);
 
 			const tabIds = browser.getTabIds();
@@ -75,7 +75,7 @@ describe('It will test abcd ads', () => {
 				helpers.waitToStartPlaying();
 			});
 
-			it('will test if video player is visible in top leaderboard', () => {
+			it('will test if video player is visible', () => {
 				expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
 					.to
 					.be
@@ -95,10 +95,10 @@ describe('It will test abcd ads', () => {
 
 	describe('It will test top boxad', () => {
 		beforeEach(() => {
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		});
 
-		it('will test top boxad visibility and dimensions', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
 
@@ -126,13 +126,13 @@ describe('It will test abcd ads', () => {
 				.equal(0);
 		});
 
-		it('will test top boxad line item id', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(abcdAd.topBoxadLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on top boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topBoxad);
 
 			const tabIds = browser.getTabIds();

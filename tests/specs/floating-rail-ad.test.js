@@ -16,17 +16,17 @@ describe('It will test floating rail ads', () => {
 			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		});
 
-		it('will test the visibility and dimensions of top leaderboard', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topLeaderboard);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
+					.equal(adSlots.leaderboardWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.leaderboardHeight, 'Top leaderboard height incorrect');
+					.equal(adSlots.leaderboardHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -44,13 +44,13 @@ describe('It will test floating rail ads', () => {
 				.equal(0);
 		});
 
-		it('will test top leaderboard line item id', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on top leaderboard', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topLeaderboard);
 
 			const tabIds = browser.getTabIds();
@@ -69,17 +69,17 @@ describe('It will test floating rail ads', () => {
 			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		});
 
-		it('will test the visibility and dimensions of top boxad', () => {
+		it('will test dimensions and visibility', () => {
 			const size = browser.getElementSize(adSlots.topBoxad);
 			const tableOfErrors = [];
 
 			try {
 				expect(size.width)
 					.to
-					.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
+					.equal(adSlots.boxadWidth, 'Width incorrect');
 				expect(size.height)
 					.to
-					.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
+					.equal(adSlots.boxadHeight, 'Height incorrect');
 			} catch (error) {
 				tableOfErrors.push(error.message);
 			}
@@ -97,14 +97,14 @@ describe('It will test floating rail ads', () => {
 				.equal(0);
 		});
 
-		it('will test top boxad line item id', () => {
+		it('will test line item id', () => {
 			expect(browser.element(adSlots.topBoxad)
 				.getAttribute(adSlots.lineItemParam))
 				.to
 				.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
 		});
 
-		it('will test redirect on click on top boxad', () => {
+		it('will test redirect on click', () => {
 			browser.click(adSlots.topBoxad);
 
 			const tabIds = browser.getTabIds();
