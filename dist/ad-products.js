@@ -1737,23 +1737,27 @@ var loadPorvata = function () {
 
 var loadTwitchPlayer = function () {
 	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(iframe, params) {
-		var adContainer, twitchContainer, clickMacroContainer, twitchContainerHeight, options, player;
+		var adContainer, channelName, clickMacroContainer, twitchContainer, twitchAspectRatio, options, twitchPlayer;
 		return regenerator_default.a.wrap(function _callee2$(_context2) {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
 					case 0:
-						adContainer = params.adContainer, twitchContainer = iframe.contentWindow.document.getElementById('player'), clickMacroContainer = iframe.contentWindow.document.getElementById('clickArea'), twitchContainerHeight = twitchContainer.clientHeight, options = {
+						adContainer = params.adContainer, channelName = params.channelName, clickMacroContainer = params.clickArea, twitchContainer = params.player, twitchAspectRatio = params.twitchAspectRatio, options = {
 							height: '100%',
 							width: '100%',
-							channel: params.channelName
+							channel: channelName
 						};
-						player = new ad_engine_["TwitchPlayer"](twitchContainer, options);
+						twitchPlayer = new ad_engine_["TwitchPlayer"](twitchContainer, options);
+						_context2.next = 4;
+						return twitchPlayer.getPlayer();
 
-						twitchContainer.style.width = twitchContainerHeight * params.twitchAspectRatio + 'px';
-						clickMacroContainer.style.width = adContainer - twitchContainer.clientWidth + 'px';
-						return _context2.abrupt('return', player);
+					case 4:
+						twitchContainer.style.width = twitchContainer.clientHeight * twitchAspectRatio + 'px';
+						clickMacroContainer.style.width = adContainer.clientWidth - twitchContainer.clientWidth + 'px';
 
-					case 5:
+						return _context2.abrupt('return', twitchPlayer);
+
+					case 7:
 					case 'end':
 						return _context2.stop();
 				}
@@ -1768,7 +1772,7 @@ var loadTwitchPlayer = function () {
 
 var loadTwitchAd = function () {
 	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
-		var twitch, recalculateTwitchSize;
+		var recalculateTwitchSize, twitch;
 		return regenerator_default.a.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
@@ -1779,16 +1783,15 @@ var loadTwitchAd = function () {
 							};
 						};
 
-						this.params = params;
-						_context3.next = 4;
+						_context3.next = 3;
 						return loadTwitchPlayer(iframe, params);
 
-					case 4:
+					case 3:
 						twitch = _context3.sent;
 
 						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(twitch), 250));
 
-					case 6:
+					case 5:
 					case 'end':
 						return _context3.stop();
 				}
@@ -3685,15 +3688,19 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								// defers for proper rendering
 
 								this.theme.onVideoReady(video);
-								_context.next = 15;
+								_context.next = 17;
 								break;
 
 							case 14:
-								if (this.params.channelName) {
-									universalAdPackage.loadTwitchAd(iframe, this.params);
+								if (!this.params.channelName) {
+									_context.next = 17;
+									break;
 								}
 
-							case 15:
+								_context.next = 17;
+								return ad_engine_["utils"].defer(universalAdPackage.loadTwitchAd, iframe, this.params);
+
+							case 17:
 							case 'end':
 								return _context.stop();
 						}
