@@ -48,7 +48,7 @@ describe('It will test block btf ad page', () => {
 		helpers.waitForUrl(helpers.fandomWord);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.fandomWord);
+			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
 

@@ -44,7 +44,7 @@ describe('It will test repeatable slots ads ', () => {
 		helpers.waitForUrl(helpers.fandomWord);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.fandomWord);
+			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
 
