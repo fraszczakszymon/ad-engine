@@ -104,7 +104,7 @@ describe('It will test uap hivi slots', () => {
 			});
 
 			it('will test pausing the video', () => {
-				browser.click(hiviUap.playPauseButton);
+				browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 				expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 					.to
 					.be
@@ -297,7 +297,7 @@ describe('It will test uap hivi slots', () => {
 			});
 
 			it('will test pausing the video', () => {
-				browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
+				browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}`);
 				expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 					.to
 					.be

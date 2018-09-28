@@ -75,7 +75,7 @@ describe('It will test uap hivi static slots', () => {
 		});
 
 		it('will test closing the top leaderboard', () => {
-			browser.click(hiviUapStatic.closeLeaderboardButton);
+			browser.click(`${adSlots.topLeaderboard} ${hiviUapStatic.closeLeaderboardButton}`);
 			expect(browser.element(adSlots.topLeaderboard).getAttribute(hiviUapStatic.slotResult))
 				.to
 				.equal(hiviUapStatic.slotCollapsed, 'Slot has not collapsed');

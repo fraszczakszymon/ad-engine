@@ -8,7 +8,7 @@ exports.config = {
 		],
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
-			'./tests/specs/abcd.test.js',
+			'./tests/specs/abcd-ad.test.js',
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
