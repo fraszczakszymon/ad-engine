@@ -96,8 +96,8 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	isAboveTheFold() {
-		return !!this.config.aboveTheFold;
+	static isSlotAboveTheFold(config) {
+		return !!config.aboveTheFold;
 	}
 
 	isFirstCall() {

@@ -58,7 +58,7 @@ describe('ad-slot', () => {
 
 		it('should return false if "firstCall" is undefined', () => {
 			adSlot.config.firstCall = undefined;
-			expect(adSlot.isFirstCall()).to.equal(false);
+			expect(adSlot.isFirstCall({})).to.equal(false);
 		});
 
 		it('should return false if "firstCall" is false', () => {

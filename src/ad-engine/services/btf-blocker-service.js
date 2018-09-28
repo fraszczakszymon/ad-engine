@@ -2,6 +2,7 @@ import { logger, makeLazyQueue } from '../utils';
 import { context } from './context-service';
 import { slotService } from './slot-service';
 import { events } from './events';
+import { AdSlot } from '../models/ad-slot';
 
 const logGroup = 'btf-blocker';
 
@@ -26,8 +27,8 @@ class BtfBlockerService {
 	resetState() {
 		this.slotsQueue = [];
 		this.firstCallEnded = false;
-		/** @type {AdSlot[]}  */
-		this.unblockedSlots = [];
+		/** @type {string[]}  */
+		this.unblockedSlotNames = [];
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
@@ -58,8 +59,9 @@ class BtfBlockerService {
 		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
+			const slotConfigs = context.get('slots');
 			disableSecondCall(
-				this.unblockedSlots.filter(adSlot => !adSlot.isAboveTheFold()),
+				this.unblockedSlotNames.filter(adSlotName => AdSlot.isSlotAboveTheFold(slotConfigs[adSlotName])),
 			);
 		}
 
@@ -93,7 +95,7 @@ class BtfBlockerService {
 	unblock(slotName) {
 		logger(logGroup, slotName, 'Unblocking slot');
 
-		this.unblockedSlots.push(slotName);
+		this.unblockedSlotNames.push(slotName);
 		slotService.enable(slotName);
 	}
 }
