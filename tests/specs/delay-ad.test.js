@@ -128,10 +128,10 @@ describe('It will test delay ad page', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
+		helpers.waitForUrl(helpers.fandomWord);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.newsAndStories);
+			.equal(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
 
@@ -143,10 +143,10 @@ describe('It will test delay ad page', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
+		helpers.waitForUrl(helpers.fandomWord);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.newsAndStories);
+			.equal(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
 });

@@ -5,9 +5,6 @@ const timeToStartPlaying = 1000;
 
 class Helpers {
 	constructor() {
-		this.newsAndStories = 'http://www.wikia.com/fandom';
-		this.lukeSkywalkerLegacy = 'http://fandom.wikia.com/articles/legacy-luke-skywalker';
-		this.fandomWikia = 'http://fandom.wikia.com/';
 		this.interval = 500;
 		this.classHidden = '.hide';
 		this.pageBody = 'body';

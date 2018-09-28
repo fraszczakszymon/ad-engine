@@ -67,7 +67,7 @@ describe('It will test uap hivi static slots', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);
@@ -135,7 +135,7 @@ describe('It will test uap hivi static slots', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);
@@ -189,7 +189,7 @@ describe('It will test uap hivi static slots', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);
@@ -243,7 +243,7 @@ describe('It will test uap hivi static slots', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.lukeSkywalkerLegacy);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);

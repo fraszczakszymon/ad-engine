@@ -63,7 +63,7 @@ describe('It will test abcd ads', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.fandomWikia);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);
@@ -138,7 +138,7 @@ describe('It will test abcd ads', () => {
 			const tabIds = browser.getTabIds();
 
 			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.newsAndStories);
+			helpers.waitForUrl(helpers.fandomWord);
 			expect(browser.getUrl())
 				.to
 				.include(helpers.fandomWord);
