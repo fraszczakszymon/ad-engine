@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test top leaderboard default and resolved state after refresh on hivi uap static', () => {
+describe('It will test uap hivi static ad page top leaderboard default and resolved state after refresh on hivi uap static', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -69,7 +69,7 @@ describe('It will test top leaderboard default and resolved state after refresh 
 	});
 });
 
-describe('It will test top leaderboard default and resolved state after scroll on hivi uap static', () => {
+describe('It will test uap hivi static ad page top leaderboard default and resolved state after scroll on hivi uap static', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -131,7 +131,7 @@ describe('It will test top leaderboard default and resolved state after scroll o
 	});
 });
 
-describe('It will test top leaderboard on hivi uap static', () => {
+describe('It will test uap hivi static ad page top leaderboard on hivi uap static', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -183,7 +183,7 @@ describe('It will test top leaderboard on hivi uap static', () => {
 	});
 });
 
-describe('It will test top boxad on hivi uap static', () => {
+describe('It will test uap hivi static ad page top boxad on hivi uap static', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -241,7 +241,7 @@ describe('It will test top boxad on hivi uap static', () => {
 	});
 });
 
-describe('It will test incontent boxad on hivi uap static', () => {
+describe('It will test uap hivi static ad page incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.scroll(0, 1000);
@@ -300,7 +300,7 @@ describe('It will test incontent boxad on hivi uap static', () => {
 	});
 });
 
-describe('It will test bottom leaderboard on hivi uap static', () => {
+describe('It will test uap hivi static ad page bottom leaderboard', () => {
 	beforeEach(() => {
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);

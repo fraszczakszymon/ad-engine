@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test hivi uap top leaderboard', () => {
+describe('It will test hivi uap page top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -81,7 +81,7 @@ describe('It will test hivi uap top leaderboard', () => {
 	});
 });
 
-describe('It will test video player in top leaderboard', () => {
+describe('It will test uap hivi ad page video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.waitToStartPlaying();
@@ -90,7 +90,7 @@ describe('It will test video player in top leaderboard', () => {
 
 	it('will test opening the full screen player', () => {
 		browser.click(hiviUap.playerFullscreenButton);
-		expect(browser.isExisting(hiviUap.fullScreen), 'Top leaderboard not on full screen')
+		expect(browser.isExisting(hiviUap.fullScreen), 'Player not on full screen')
 			.to
 			.be
 			.true;
@@ -113,7 +113,7 @@ describe('It will test video player in top leaderboard', () => {
 	});
 });
 
-describe('It will test top boxad', () => {
+describe('It will test uap hivi ad page top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -167,7 +167,7 @@ describe('It will test top boxad', () => {
 	});
 });
 
-describe('It will test incontent boxad', () => {
+describe('It will test uap hivi ad page incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -222,7 +222,7 @@ describe('It will test incontent boxad', () => {
 	});
 });
 
-describe('It will test bottom leaderboard', () => {
+describe('It will test uap hivi ad page bottom leaderboard', () => {
 	browser.url(hiviUap.pageLink);
 	beforeEach(() => {
 		helpers.slowScroll(7000);
@@ -277,7 +277,7 @@ describe('It will test bottom leaderboard', () => {
 	});
 });
 
-describe('It will test video player in bottom leaderboard', () => {
+describe('It will test uap hivi ad page video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);

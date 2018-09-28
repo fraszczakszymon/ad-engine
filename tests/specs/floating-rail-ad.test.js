@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test floating rail ads top leaderboard', () => {
+describe('It will test floating rail ad page top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -59,7 +59,7 @@ describe('It will test floating rail ads top leaderboard', () => {
 	});
 });
 
-describe('It will test top boxad', () => {
+describe('It will test floating rail ad page top boxad', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);

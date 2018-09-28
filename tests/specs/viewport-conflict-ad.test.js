@@ -5,11 +5,10 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test viewport conflicts ad page', () => {
+describe('It will test viewport conflicts ad page top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(viewportConflictAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
 	it('will test visibility and dimensions of top leaderboard', () => {
@@ -35,40 +34,12 @@ describe('It will test viewport conflicts ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it('will test visibility and dimensions of top boxad', () => {
-		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
-		const tableOfErrors = [];
-
-		try {
-			expect(topBoxadSize.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
-			expect(topBoxadSize.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
-			.to
-			.equal(0);
-	});
-
-	it('will test redirect after clicking on a top leaderboard ad', () => {
+	it('will test redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -81,7 +52,55 @@ describe('It will test viewport conflicts ad page', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test redirect after clicking on a top boxad', () => {
+	it('will test if bottom leaderboard is visible', () => {
+		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
+		browser.waitForVisible(viewportConflictAd.addParagraphButton, timeouts.standard);
+		browser.click(viewportConflictAd.hideBoxadButton);
+		viewportConflictAd.addParagraphs(5);
+		browser.scroll(0, 2800);
+		browser.waitUntil(() => browser.element(adSlots.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
+		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
+			.to
+			.be
+			.true;
+	});
+});
+
+describe('It will test viewport conflict ad page top boxad', () => {
+	beforeEach(() => {
+		browser.url(viewportConflictAd.pageLink);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+	});
+
+	it('will test dimensions and visibility', () => {
+		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+		const tableOfErrors = [];
+
+		try {
+			expect(topBoxadSize.width)
+				.to
+				.equal(adSlots.boxadWidth, 'Width incorrect');
+			expect(topBoxadSize.height)
+				.to
+				.equal(adSlots.boxadHeight, 'Height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+			.to
+			.equal(0);
+	});
+
+	it('will test redirect on click', () => {
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
@@ -106,18 +125,5 @@ describe('It will test viewport conflicts ad page', () => {
 			.to
 			.be
 			.false;
-	});
-
-	it('will test if bottom leaderboard is visible', () => {
-		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
-		browser.waitForVisible(viewportConflictAd.addParagraphButton, timeouts.standard);
-		browser.click(viewportConflictAd.hideBoxadButton);
-		viewportConflictAd.addParagraphs(5);
-		browser.scroll(0, 2800);
-		browser.waitUntil(() => browser.element(adSlots.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
-		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
-			.to
-			.be
-			.true;
 	});
 });
