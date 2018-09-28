@@ -10,6 +10,7 @@ class AdSlots {
 		this.leaderboardHeight = 90; // shared between leaderboards
 		this.adProductsTopLeaderboardWidth = 1200; // UAP and ABCD leaderboards have the same width
 		this.uapTopLeaderboardHeight = 300;
+		this.uapTopLeaderboardHeightResolved = 120;
 		this.uapBottomLeaderboardWidth = 1024;
 		this.uapBottomLeaderboardHeight = 102;
 		this.abcdLeaderboardHeight = 240;
