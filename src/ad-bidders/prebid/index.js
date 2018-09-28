@@ -10,6 +10,8 @@ export const prebidLazyRun = method => (...args) => window.pbjs.que.push(() => m
 
 const logGroup = 'prebid';
 
+let loaded = false;
+
 window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
@@ -19,7 +21,6 @@ export class Prebid extends BaseBidder {
 
 		this.insertScript();
 
-		this.loaded = false;
 		this.lazyLoaded = false;
 		this.isLazyLoadingEnabled = this.bidderConfig.lazyLoadingEnabled;
 		this.isCMPEnabled = context.get('custom.isCMPEnabled');
@@ -81,8 +82,6 @@ export class Prebid extends BaseBidder {
 			this.requestBids(this.adUnits, bidsBackHandler, this.removeAdUnits);
 		}
 
-		this.loaded = true;
-
 		if (this.isLazyLoadingEnabled) {
 			events.on(events.PREBID_LAZY_CALL, () => {
 				this.lazyCall(bidsBackHandler);
@@ -91,6 +90,10 @@ export class Prebid extends BaseBidder {
 	}
 
 	insertScript() {
+		if (loaded) {
+			return;
+		}
+
 		const libraryUrl = context.get('bidders.prebid.libraryUrl');
 
 		if (!libraryUrl) {
@@ -107,6 +110,7 @@ export class Prebid extends BaseBidder {
 		const node = document.getElementsByTagName('script')[0];
 
 		node.parentNode.insertBefore(script, node);
+		loaded = true;
 	}
 
 	lazyCall(bidsBackHandler) {

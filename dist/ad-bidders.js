@@ -329,6 +329,8 @@ var base_bidder_BaseBidder = function () {
 
 
 
+var loaded = false;
+
 var a9_A9 = function (_BaseBidder) {
 	inherits_default()(A9, _BaseBidder);
 
@@ -339,13 +341,13 @@ var a9_A9 = function (_BaseBidder) {
 
 		var _this = possibleConstructorReturn_default()(this, (A9.__proto__ || get_prototype_of_default()(A9)).call(this, 'a9', bidderConfig, timeout));
 
-		_this.loaded = false;
 		_this.isCMPEnabled = ad_engine_["context"].get('custom.isCMPEnabled');
 		_this.amazonId = _this.bidderConfig.amazonId;
 		_this.slots = _this.bidderConfig.slots;
-		_this.slotsVideo = _this.bidderConfig.slotsVideo;
 		_this.bids = {};
 		_this.priceMap = {};
+		_this.slotNamesMap = {};
+		_this.targetingKeys = [];
 		_this.timeout = timeout;
 		return _this;
 	}
@@ -379,15 +381,14 @@ var a9_A9 = function (_BaseBidder) {
 
 			var consentData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-			var a9Slots = void 0;
-
-			if (!this.loaded) {
+			if (!loaded) {
 				this.insertScript();
 				this.configureApstag();
 
 				var apsConfig = {
 					pubID: this.amazonId,
-					videoAdServer: 'DFP'
+					videoAdServer: 'DFP',
+					deals: !!this.bidderConfig.dealsEnabled
 				};
 
 				if (this.isCMPEnabled && consentData && consentData.consentData) {
@@ -400,20 +401,16 @@ var a9_A9 = function (_BaseBidder) {
 
 				window.apstag.init(apsConfig);
 
-				this.loaded = true;
+				loaded = true;
 			}
 
 			this.bids = {};
 			this.priceMap = {};
 
-			a9Slots = keys_default()(this.slots).map(this.createSlotDefinition, this);
-
-			if (this.bidderConfig.videoEnabled) {
-				a9Slots = a9Slots.concat(this.slotsVideo.map(this.createVideoSlotDefinition));
-			}
-
-			a9Slots = a9Slots.filter(function (slot) {
-				return ad_engine_["slotService"].getState(slot.slotID);
+			var a9Slots = keys_default()(this.slots).map(function (key) {
+				return _this4.createSlotDefinition(key, _this4.slots[key]);
+			}).filter(function (slot) {
+				return slot !== null;
 			});
 
 			window.apstag.fetchBids({
@@ -421,7 +418,23 @@ var a9_A9 = function (_BaseBidder) {
 				timeout: this.timeout
 			}, function (currentBids) {
 				currentBids.forEach(function (bid) {
-					_this4.bids[bid.slotID] = bid;
+					var slotName = _this4.slotNamesMap[bid.slotID] || bid.slotID;
+
+					var bidTargeting = bid;
+					var keys = window.apstag.targetingKeys();
+
+					if (_this4.bidderConfig.dealsEnabled) {
+						keys = bid.helpers.targetingKeys;
+						bidTargeting = bid.targeting;
+					}
+
+					_this4.bids[slotName] = {};
+					keys.forEach(function (key) {
+						if (_this4.targetingKeys.indexOf(key) === -1) {
+							_this4.targetingKeys.push(key);
+						}
+						_this4.bids[slotName][key] = bidTargeting[key];
+					});
 				});
 
 				onResponse();
@@ -462,20 +475,28 @@ var a9_A9 = function (_BaseBidder) {
 		}
 	}, {
 		key: 'createSlotDefinition',
-		value: function createSlotDefinition(slotName) {
-			return {
-				sizes: this.slots[slotName],
-				slotID: slotName,
-				slotName: slotName
-			};
-		}
-	}, {
-		key: 'createVideoSlotDefinition',
-		value: function createVideoSlotDefinition(slotID) {
-			return {
+		value: function createSlotDefinition(slotName, config) {
+			if (!ad_engine_["slotService"].getState(slotName)) {
+				return null;
+			}
+
+			var slotID = config.slotId || slotName;
+			var definition = {
 				slotID: slotID,
-				mediaType: 'video'
+				slotName: slotID
 			};
+
+			this.slotNamesMap[slotID] = slotName;
+
+			if (!this.bidderConfig.videoEnabled && config.type === 'video') {
+				return null;
+			} else if (config.type === 'video') {
+				definition.mediaType = 'video';
+			} else {
+				definition.sizes = config.sizes;
+			}
+
+			return definition;
 		}
 	}, {
 		key: 'getBestPrice',
@@ -490,23 +511,12 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'getTargetingKeysToReset',
 		value: function getTargetingKeysToReset() {
-			return ['amznbid', 'amzniid', 'amznsz', 'amznp'];
+			return this.targetingKeys;
 		}
 	}, {
 		key: 'getTargetingParams',
 		value: function getTargetingParams(slotName) {
-			var bid = this.bids[slotName];
-
-			if (!bid) {
-				return {};
-			}
-
-			return {
-				amznbid: bid.amznbid,
-				amzniid: bid.amzniid,
-				amznsz: bid.amznsz,
-				amznp: bid.amznp
-			};
+			return this.bids[slotName] || {};
 		}
 	}, {
 		key: 'insertScript',
@@ -524,7 +534,7 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'isSupported',
 		value: function isSupported(slotName) {
-			return this.slots[slotName] || this.slotsVideo.indexOf(slotName) >= 0;
+			return !!this.slots[slotName];
 		}
 	}]);
 
@@ -1859,6 +1869,8 @@ var prebidLazyRun = function prebidLazyRun(method) {
 
 var logGroup = 'prebid';
 
+var prebid_loaded = false;
+
 window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
@@ -1874,7 +1886,6 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 
 		_this2.insertScript();
 
-		_this2.loaded = false;
 		_this2.lazyLoaded = false;
 		_this2.isLazyLoadingEnabled = _this2.bidderConfig.lazyLoadingEnabled;
 		_this2.isCMPEnabled = ad_engine_["context"].get('custom.isCMPEnabled');
@@ -1938,8 +1949,6 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 				this.requestBids(this.adUnits, bidsBackHandler, this.removeAdUnits);
 			}
 
-			this.loaded = true;
-
 			if (this.isLazyLoadingEnabled) {
 				ad_engine_["events"].on(ad_engine_["events"].PREBID_LAZY_CALL, function () {
 					_this3.lazyCall(bidsBackHandler);
@@ -1949,6 +1958,10 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 	}, {
 		key: 'insertScript',
 		value: function insertScript() {
+			if (prebid_loaded) {
+				return;
+			}
+
 			var libraryUrl = ad_engine_["context"].get('bidders.prebid.libraryUrl');
 
 			if (!libraryUrl) {
@@ -1965,6 +1978,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 			var node = document.getElementsByTagName('script')[0];
 
 			node.parentNode.insertBefore(script, node);
+			prebid_loaded = true;
 		}
 	}, {
 		key: 'lazyCall',
@@ -2155,7 +2169,7 @@ function hasAllResponses() {
 function resetTargetingKeys(slotName) {
 	forEachBidder(function (bidder) {
 		bidder.getTargetingKeysToReset().forEach(function (key) {
-			ad_engine_["context"].set('slots.' + slotName + '.targeting.' + key, null);
+			ad_engine_["context"].remove('slots.' + slotName + '.targeting.' + key);
 		});
 	});
 

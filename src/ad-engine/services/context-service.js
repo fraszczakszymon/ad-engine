@@ -53,7 +53,7 @@ function triggerOnChange(key, segments, newValue) {
 	});
 }
 
-function segment(key, newValue) {
+function segment(key, newValue, remove = false) {
 	const segments = key.split('.'),
 		segmentsCount = segments.length;
 	let seg = contextObject,
@@ -65,6 +65,11 @@ function segment(key, newValue) {
 			seg[lastKey] = seg[lastKey] || {};
 			seg = seg[lastKey];
 		}
+	}
+
+	if (remove) {
+		delete seg[lastKey];
+		return null;
 	}
 
 	if (newValue !== undefined) {
@@ -90,6 +95,10 @@ class Context {
 
 	get(key) {
 		return segment(key);
+	}
+
+	remove(key) {
+		segment(key, null, true);
 	}
 
 	push(key, value) {
