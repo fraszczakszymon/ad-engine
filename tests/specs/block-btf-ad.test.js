@@ -5,23 +5,23 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test block btf ad page top leaderboard', () => {
+describe('It will test block btf ad page', () => {
 	beforeEach(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('will test visibility and dimensions', () => {
+	it('will test top leaderboard visibility and dimensions', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
+				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
+				.equal(adSlots.leaderboardHeight);
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -34,12 +34,12 @@ describe('It will test block btf ad page top leaderboard', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it(' will test top leaderboard ad redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -50,13 +50,6 @@ describe('It will test block btf ad page top leaderboard', () => {
 			.to
 			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
-	});
-});
-
-describe('It will test block btf ad page incontent boxad', () => {
-	beforeEach(() => {
-		browser.url(blockBtfAd.pageLink);
-		browser.waitForVisible(helpers.pageBody, timeouts.standard);
 	});
 
 	it('will test if incontent boxad is hidden on the page', () => {

@@ -5,23 +5,24 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test animations ad page top leaderboard', () => {
+describe('It will test animations ad page', () => {
 	beforeEach(() => {
 		browser.url(animationsAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('will test visibility and dimensions', () => {
+	it('will test visibility and dimensions of top leaderboard', () => {
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
 		try {
 			expect(topLeaderboardSize.width)
 				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
+				.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
 			expect(topLeaderboardSize.height)
 				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
+				.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -34,42 +35,12 @@ describe('It will test animations ad page top leaderboard', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.fandomWord);
-		helpers.closeNewTabs();
-	});
-
-	it('will test top leaderboard disappearing after 6 seconds', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdMaxHeight, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
-		animationsAd.waitToScroll();
-
-		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
-
-		expect(topLeaderboardSize.height)
-			.to
-			.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
-	});
-});
-
-describe('It will test animations ad page top boxad', () => {
-	beforeEach(() => {
-		browser.url(animationsAd.pageLink);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-	});
-	it('will test visibility and dimensions', () => {
+	it('will test visibility and dimensions of top boxad', () => {
 		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
 
@@ -92,12 +63,25 @@ describe('It will test animations ad page top boxad', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it('will test redirect after clicking on a top leaderboard ad', () => {
+		browser.click(adSlots.topLeaderboard);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.fandomWord);
+		expect(browser.getUrl())
+			.to
+			.include(helpers.fandomWord);
+		helpers.closeNewTabs();
+	});
+
+	it('will test redirect after clicking on a top boxad', () => {
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
@@ -108,5 +92,16 @@ describe('It will test animations ad page top boxad', () => {
 			.to
 			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
+	});
+
+	it('will test top leaderboard disappearing after 6 seconds', () => {
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(animationsAd.topLeaderboardStyle) === animationsAd.collapsedAdMaxHeight, animationsAd.waitForAnimationsTime, 'Top leaderboard ad did not collapse', helpers.interval);
+		animationsAd.waitToScroll();
+
+		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+
+		expect(topLeaderboardSize.height)
+			.to
+			.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
 	});
 });

@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test repeatable slots ad page', () => {
+describe('It will test repeatable slots ads ', () => {
 	beforeEach(() => {
 		browser.url(repeatableSlots.pageLink);
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
@@ -18,10 +18,10 @@ describe('It will test repeatable slots ad page', () => {
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
+				.equal(adSlots.boxadWidth, 'Boxad width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
+				.equal(adSlots.boxadHeight, 'Boxad height incorrect');
 			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)), 'Slot not visible in viewport')
 				.to
 				.be
@@ -30,7 +30,7 @@ describe('It will test repeatable slots ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});

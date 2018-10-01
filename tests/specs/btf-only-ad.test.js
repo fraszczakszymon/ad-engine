@@ -6,7 +6,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test btf ad page incontent boxad', () => {
+describe('It will test btf ads', () => {
 	beforeEach(() => {
 		browser.url(btfOnlyAd.pageLink);
 		browser.waitForVisible(btfOnlyAd.finishQueueButton, timeouts.standard);
@@ -15,17 +15,17 @@ describe('It will test btf ad page incontent boxad', () => {
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
-	it('will test the dimensions and visibility after manually finishing the queue', () => {
+	it('will test the visibility of btf ad after manually finishing the queue', () => {
 		const size = browser.getElementSize(adSlots.incontentBoxad);
 		const tableOfErrors = [];
 
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
+				.equal(adSlots.boxadWidth, 'BTF ad width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
+				.equal(adSlots.boxadHeight, 'BTF ad height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -38,7 +38,7 @@ describe('It will test btf ad page incontent boxad', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});

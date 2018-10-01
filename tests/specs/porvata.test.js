@@ -4,7 +4,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test porvata page player', () => {
+describe('It will test porvata player', () => {
 	beforeEach(() => {
 		browser.url(porvata.pageLink);
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
@@ -12,7 +12,7 @@ describe('It will test porvata page player', () => {
 		porvata.waitForVideoOverlay();
 	});
 
-	it('will test player visibility', () => {
+	it('will test porvata player visibility', () => {
 		const size = browser.getElementSize(porvata.porvataPlayer);
 		const tableOfErrors = [];
 
@@ -35,12 +35,12 @@ describe('It will test porvata page player', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it('will test redirect on click in porvata player', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -53,7 +53,7 @@ describe('It will test porvata page player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test unmuting the video', () => {
+	it('will test if clicking unmute button unmutes the video', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
 		expect(browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`))
