@@ -2,7 +2,6 @@ import { logger, makeLazyQueue } from '../utils';
 import { context } from './context-service';
 import { slotService } from './slot-service';
 import { events } from './events';
-import { AdSlot } from '../models/ad-slot';
 
 const logGroup = 'btf-blocker';
 
