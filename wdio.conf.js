@@ -21,7 +21,7 @@ exports.config = {
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots-ad.test.js',
+			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
@@ -32,7 +32,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/hivi-uap-static-ad.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/viewport-conflict-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 

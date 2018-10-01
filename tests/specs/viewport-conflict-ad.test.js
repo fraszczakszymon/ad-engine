@@ -118,7 +118,6 @@ describe('Viewport conflict ads page: top boxad', () => {
 describe('Viewport conflict ads page: bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(viewportConflictAd.pageLink);
-		browser.waitForVisible(adSlots.bottomLeaderboard);
 	});
 
 	it('Check visibility', () => {
