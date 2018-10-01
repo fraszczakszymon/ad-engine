@@ -3,7 +3,13 @@ import { AdSlot } from '../../../src/ad-engine/models/ad-slot';
 import { context } from '../../../src/ad-engine/services/context-service';
 import ConfigMock from '../config-mock';
 
-function createAdSlot(/** string */ id) {
+/**
+ * Create empty slot with given id.
+ *
+ * @param {string} id Slot id
+ * @returns {AdSlot}
+ */
+function createAdSlot(id) {
 	return new AdSlot({ id });
 }
 
