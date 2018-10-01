@@ -1096,6 +1096,8 @@ function triggerOnChange(key, segments, newValue) {
 }
 
 function context_service_segment(key, newValue) {
+	var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
 	var segments = key.split('.'),
 	    segmentsCount = segments.length;
 	var seg = contextObject,
@@ -1107,6 +1109,11 @@ function context_service_segment(key, newValue) {
 			seg[lastKey] = seg[lastKey] || {};
 			seg = seg[lastKey];
 		}
+	}
+
+	if (remove) {
+		delete seg[lastKey];
+		return null;
 	}
 
 	if (newValue !== undefined) {
@@ -1138,6 +1145,11 @@ var context_service_Context = function () {
 		key: 'get',
 		value: function get(key) {
 			return context_service_segment(key);
+		}
+	}, {
+		key: 'remove',
+		value: function remove(key) {
+			context_service_segment(key, null, true);
 		}
 	}, {
 		key: 'push',
@@ -4777,8 +4789,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v16.1.0');
-logger('ad-engine', 'v16.1.0');
+set_default()(window, versionField, 'v17.0.0');
+logger('ad-engine', 'v17.0.0');
 
 
 

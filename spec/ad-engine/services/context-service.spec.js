@@ -112,4 +112,19 @@ describe('context-service', () => {
 		expect(callbacks.foo.called).not.to.be.ok;
 		expect(callbacks.fooBar.called).not.to.be.ok;
 	});
+
+	it('remove leaf', () => {
+		context.remove('foo.foo');
+
+		expect(typeof context.get('foo.foo')).to.equal('undefined');
+		expect(context.get('foo.bar')).to.equal(15);
+	});
+
+	it('remove parent', () => {
+		context.remove('foo');
+
+		expect(typeof context.get('foo')).to.equal('undefined');
+		expect(typeof context.get('foo.foo')).to.equal('undefined');
+		expect(typeof context.get('foo.bar')).to.equal('undefined');
+	});
 });

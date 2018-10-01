@@ -34,6 +34,7 @@ window.__cmp = function (cmd, param, cb) {
 context.extend(customContext);
 context.set('targeting.artid', '266');
 context.set('slots.incontent_boxad.disabled', false);
+context.set('bidders.a9.dealsEnabled', utils.queryString.get('deals') === '1');
 
 adProductsUtils.setupNpaContext();
 
