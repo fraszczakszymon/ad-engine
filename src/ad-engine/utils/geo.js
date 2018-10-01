@@ -1,19 +1,22 @@
 import Cookies from 'js-cookie';
 import Random from './random';
+import { context } from '../services/context-service';
 
-const cookieMarker = '-cached',
+const cacheMarker = '-cached',
+	cacheMaxAge = 30 * 60 * 1000,
 	earth = 'XX',
 	negativePrefix = 'non-',
 	precision = 10 ** 6, // precision to 0.00000001 (or 0.000001%) of traffic
-	samplingSeparator = '/';
+	samplingSeparator = '/',
+	sessionCookieDefault = 'wikia_session_id';
 
 let cache = {},
 	cookieLoaded = false,
 	geoData = null,
 	sessionId = '';
 
-function hasCookie(countryList) {
-	return countryList.some(country => country.indexOf(cookieMarker) !== -1);
+function hasCache(countryList) {
+	return countryList.some(country => country.indexOf(cacheMarker) !== -1);
 }
 
 function hasSampling(geo) {
@@ -23,7 +26,7 @@ function hasSampling(geo) {
 function getSamplingLimits(value) {
 	let [, samplingValue] = value.split(samplingSeparator);
 
-	samplingValue = samplingValue.replace(cookieMarker, '');
+	samplingValue = samplingValue.replace(cacheMarker, '');
 
 	return Math.round(parseFloat(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
 }
@@ -45,7 +48,22 @@ function addResultToCache(name, result, samplingLimits, withCookie) {
 }
 
 function readSession() {
-	sessionId = sessionId || Cookies.get('wikia_session_id') || 'ae3';
+	let sid = sessionId || context.get('options.session.id');
+
+	if (!sid) {
+		const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
+
+		sid = Cookies.get(sessionCookieName) || 'ae3';
+		context.set('options.session.cookieName', sid);
+	}
+
+	sessionId = sid;
+}
+
+function getCookieDomain() {
+	const domain = (window.location.hostname).split('.');
+
+	return domain.length > 1 ? `.${domain[domain.length - 2]}.${domain[domain.length - 1]}` : undefined;
 }
 
 function loadCookie() {
@@ -59,6 +77,8 @@ function loadCookie() {
 		Object.keys(cachedVariables).forEach((variable) => {
 			cache[variable] = cachedVariables[variable];
 		});
+
+		setCookie(cookie);
 	}
 
 	cookieLoaded = true;
@@ -66,7 +86,6 @@ function loadCookie() {
 
 function synchronizeCookie() {
 	const cachedVariables = {};
-	const domain = (window.location.hostname).split('.');
 
 	Object.keys(cache).forEach((variable) => {
 		if (cache[variable].withCookie) {
@@ -74,9 +93,15 @@ function synchronizeCookie() {
 		}
 	});
 
-	Cookies.set(`${sessionId}_basset`, JSON.stringify(cachedVariables), {
+	setCookie(JSON.stringify(cachedVariables));
+}
+
+function setCookie(value) {
+	Cookies.set(`${sessionId}_basset`, value, {
+		maxAge: cacheMaxAge,
+		expires: new Date(new Date().getTime() + cacheMaxAge),
 		path: '/',
-		domain: domain.length > 1 ? `.${domain[domain.length - 2]}.${domain[domain.length - 1]}` : undefined,
+		domain: getCookieDomain(),
 		overwrite: true
 	});
 }
@@ -94,7 +119,7 @@ function getResult(samplingLimits, name, withCookie) {
 
 function isSampledForGeo(countryList, geo, name) {
 	const countryListWithSampling = countryList.filter(hasSampling(geo)),
-		cachedWithCookie = hasCookie(countryList);
+		cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;
