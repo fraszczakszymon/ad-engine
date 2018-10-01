@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
+import Cookies from 'js-cookie';
 import * as geo from '../../../src/ad-engine/utils/geo';
 import Random from '../../../src/ad-engine/utils/random';
 
@@ -16,6 +17,7 @@ describe('Geo', () => {
 
 		sandbox = sinon.sandbox.create();
 		sandbox.stub(Random, 'getRandom');
+		sandbox.stub(Cookies, 'get');
 	});
 
 	afterEach(() => {
@@ -372,5 +374,24 @@ describe('Geo', () => {
 		];
 		sinon.stub(geo.default, 'getSamplingResults').returns(['FOO_A_1', 'BAR_B_99']);
 		assert.equal(geo.mapSamplingResults(wfKeyVals), 'foo_a,bar_b');
+	});
+
+	it('returns proper cached basset variables', () => {
+		Cookies.get.returns(JSON.stringify({
+			basset: {
+				name: 'basset',
+				group: 'B',
+				limit: 50,
+				result: true,
+				withCookie: true
+			}
+		}));
+
+		Random.getRandom.returns(1);
+		geo.setSessionId('test');
+		assert.ok(geo.isProperGeo(['PL/50-cached'], 'basset'));
+
+		Random.getRandom.returns(0);
+		assert.ok(geo.isProperGeo(['PL/50-cached'], 'basset'));
 	});
 });
