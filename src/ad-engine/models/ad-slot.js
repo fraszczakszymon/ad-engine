@@ -96,8 +96,14 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	isAboveTheFold() {
-		return !!this.config.aboveTheFold;
+	/**
+	 * Returns true if slot is ATF
+	 *
+	 * @param config slot config
+	 * @returns {boolean} true if slot is ATF
+	 */
+	static isAboveTheFold(config) {
+		return !!config.aboveTheFold;
 	}
 
 	isFirstCall() {

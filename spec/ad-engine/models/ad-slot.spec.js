@@ -88,17 +88,17 @@ describe('ad-slot', () => {
 
 		it('should return false if "aboveTheFold" is undefined', () => {
 			adSlot.config.aboveTheFold = undefined;
-			expect(adSlot.isAboveTheFold({})).to.equal(false);
+			expect(AdSlot.isAboveTheFold({})).to.equal(false);
 		});
 
 		it('should return false if "aboveTheFold" is false', () => {
 			adSlot.config.aboveTheFold = false;
-			expect(adSlot.isAboveTheFold()).to.equal(false);
+			expect(AdSlot.isAboveTheFold({ aboveTheFold: false })).to.equal(false);
 		});
 
 		it('should return true if "aboveTheFold" is true', () => {
 			adSlot.config.aboveTheFold = true;
-			expect(adSlot.isAboveTheFold()).to.equal(true);
+			expect(AdSlot.isAboveTheFold({ aboveTheFold: true })).to.equal(true);
 		});
 	});
 });

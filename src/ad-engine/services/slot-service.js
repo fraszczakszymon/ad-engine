@@ -1,5 +1,6 @@
 import { context } from './context-service';
 import { events } from './events';
+import { AdSlot } from '../models';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
@@ -123,12 +124,13 @@ class SlotService {
 	}
 
 	/**
-	 * Returns ATF slots.
-	 * @returns {AdSlot[]} ATF slots
+	 * Returns configuration of ATF slots.
+	 * @returns {Object[]} ATF slot configs
 	 */
-	getAboveTheFoldSlots() {
-		return Object.values(slots)
-			.filter(adSlot => adSlot.isAboveTheFold());
+	getAtfSlotConfigs() {
+		const slotConfigs = context.get('slots');
+		return Object.values(slotConfigs)
+			.filter(config => AdSlot.isAboveTheFold(config));
 	}
 }
 

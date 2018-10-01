@@ -58,12 +58,10 @@ class BtfBlockerService {
 		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableSecondCall(
-				Array.from(new Set([
-					...this.unblockedSlotNames,
-					...slotService.getAboveTheFoldSlots().map(slot => slot.getSlotName()),
-				])),
-			);
+			disableSecondCall([
+				...this.unblockedSlotNames,
+				...slotService.getAtfSlotConfigs().map(slot => slot.name),
+			]);
 		}
 
 		this.slotsQueue.start();
