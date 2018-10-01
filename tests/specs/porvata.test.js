@@ -4,7 +4,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test porvata player', () => {
+describe('Porvata player ads', () => {
 	beforeEach(() => {
 		browser.url(porvata.pageLink);
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
@@ -12,17 +12,17 @@ describe('It will test porvata player', () => {
 		porvata.waitForVideoOverlay();
 	});
 
-	it('will test porvata player visibility', () => {
+	it('Check player visibility', () => {
 		const size = browser.getElementSize(porvata.porvataPlayer);
 		const tableOfErrors = [];
 
 		try {
 			expect(size.width)
 				.to
-				.equal(porvata.playerWidth, 'Porvata width incorrect');
+				.equal(porvata.playerWidth, 'Width incorrect');
 			expect(size.height)
 				.to
-				.equal(porvata.playerHeight, 'Porvata height incorrect');
+				.equal(porvata.playerHeight, 'height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -35,12 +35,12 @@ describe('It will test porvata player', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click in porvata player', () => {
+	it('Check redirect on click', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -53,7 +53,7 @@ describe('It will test porvata player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test if clicking unmute button unmutes the video', () => {
+	it('Check unmuting the video', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
 		expect(browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`))
@@ -62,7 +62,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	it('will test opening full screen', () => {
+	it('Check opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 		expect(browser.isExisting(porvata.stopScrolling))
@@ -71,7 +71,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	it('will test closing the player', () => {
+	it('Check test closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 		expect(browser.isExisting(porvata.videoPlayerHidden))
@@ -80,7 +80,7 @@ describe('It will test porvata player', () => {
 			.true;
 	});
 
-	it('will test if autoplay is disabled upon entering the page', () => {
+	it('Check if autoplay is disabled upon entering the page', () => {
 		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
 		expect(browser.isExisting(porvata.videoPlayerHidden))
 			.to

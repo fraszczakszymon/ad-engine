@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test block btf ad page', () => {
+describe('Block BTF ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -34,7 +34,7 @@ describe('It will test block btf ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});

@@ -6,7 +6,7 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 
-describe('Hivi uap static ads: top leaderboard', () => {
+describe('Hivi uap static ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -61,6 +61,8 @@ describe('Hivi uap static ads: top leaderboard', () => {
 		const tableOfErrors = [];
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
+		browser.reload();
+		browser.windowHandleSize({ width: 1920, height: 1080 });
 		try {
 			expect(defaultSize.width)
 				.to
@@ -81,6 +83,7 @@ describe('Hivi uap static ads: top leaderboard', () => {
 		}
 
 		helpers.slowScroll(300);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard, timeouts.standard);
 
@@ -112,6 +115,8 @@ describe('Hivi uap static ads: top leaderboard', () => {
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
+		browser.reload();
+		browser.windowHandleSize({ width: 1920, height: 1080 });
 		try {
 			expect(defaultSize.width)
 				.to
@@ -161,7 +166,7 @@ describe('Hivi uap static ads: top leaderboard', () => {
 	});
 });
 
-describe('Hivi uap static ads: top boxad', () => {
+describe('Hivi uap static ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -219,7 +224,7 @@ describe('Hivi uap static ads: top boxad', () => {
 	});
 });
 
-describe('Hivi uap static ads: incontent boxad', () => {
+describe('Hivi uap static ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.scroll(0, 1000);
@@ -278,10 +283,9 @@ describe('Hivi uap static ads: incontent boxad', () => {
 	});
 });
 
-describe('Hivi uap static ads: bottom leaderboard', () => {
+describe('Hivi uap static ads page: bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
-		browser.reload();
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});

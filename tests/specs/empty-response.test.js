@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test empty response page', () => {
+describe('Empty response page:', () => {
 	beforeEach(() => {
 		browser.url(emptyResponse.pageLink);
 		browser.waitForVisible(emptyResponse.articleClass, timeouts.standard);

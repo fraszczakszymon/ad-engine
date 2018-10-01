@@ -8,7 +8,7 @@ class AdSlots {
 		this.topBoxadRail = '.top-boxad.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards
 		this.leaderboardHeight = 90; // shared between leaderboards
-		this.adProductsTopLeaderboardWidth = 1200; // UAP and ABCD leaderboards have the same width
+		this.adProductsTopLeaderboardWidth = 1920; // UAP and ABCD leaderboards have the same width
 		this.uapTopLeaderboardHeight = 300;
 		this.uapTopLeaderboardHeightResolved = 120;
 		this.uapBottomLeaderboardWidth = 1024;
