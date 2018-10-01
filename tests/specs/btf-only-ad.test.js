@@ -49,10 +49,10 @@ describe('It will test btf ads', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.newsAndStories);
+		helpers.waitForUrl(helpers.fandomWord);
 		expect(browser.getUrl())
 			.to
-			.equal(helpers.newsAndStories);
+			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
 });

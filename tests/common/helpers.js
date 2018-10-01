@@ -1,12 +1,16 @@
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
+const timeToStartPlaying = 1000;
 
 class Helpers {
 	constructor() {
-		this.newsAndStories = 'http://www.wikia.com/fandom';
 		this.interval = 500;
 		this.classHidden = '.hide';
+		this.pageBody = 'body';
+		this.classProperty = 'class';
+		this.navbar = 'nav';
+		this.fandomWord = 'fandom';
 	}
 
 	/**
@@ -14,7 +18,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => browser.getUrl() === newUrl, newUrlTimeout, 'expected new page after 10 seconds', this.interval);
+		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', this.interval);
 	}
 
 	/**
@@ -66,6 +70,29 @@ class Helpers {
 			});
 		}
 		return finalLink;
+	}
+
+	/**
+	 * Pauses actions so the movie can start playing before executing other actions.
+	 */
+	waitToStartPlaying() {
+		browser.pause(timeToStartPlaying);
+	}
+
+	/**
+	 * Reformats the errors from the array and prints them as a numbered list.
+	 * @param arrayOfErrors
+	 * @returns {string}
+	 */
+	errorFormatter(arrayOfErrors) {
+		let finalString = 'Errors found: \n';
+		let i = 1;
+
+		arrayOfErrors.forEach((error) => {
+			finalString += `#${i}: ${error} \n`;
+			i += 1;
+		});
+		return finalString;
 	}
 }
 
