@@ -13,7 +13,6 @@ describe('It will test top leaderboard default and resolved state after refresh 
 
 	afterEach(() => {
 		browser.scroll(0, 0);
-		browser.localStorage('DELETE');
 	});
 
 	it('will test default and resolved state after refresh', () => {
