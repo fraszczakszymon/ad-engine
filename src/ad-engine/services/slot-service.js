@@ -3,6 +3,7 @@ import { events } from './events';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
+/** @type {Object.<string, AdSlot>} */
 const slots = {};
 const slotStates = {};
 const slotStatuses = {};
@@ -119,6 +120,15 @@ class SlotService {
 		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 		return hasConflict;
+	}
+
+	/**
+	 * Returns ATF slots.
+	 * @returns {AdSlot[]} ATF slots
+	 */
+	getAboveTheFoldSlots() {
+		return Object.values(slots)
+			.filter(adSlot => adSlot.isAboveTheFold());
 	}
 }
 

@@ -59,14 +59,10 @@ class BtfBlockerService {
 		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			/** @type {Object.<string, Object>} */
-			const slotConfigs = context.get('slots');
 			disableSecondCall(
 				Array.from(new Set([
 					...this.unblockedSlotNames,
-					...Object.entries(slotConfigs)
-						.filter(adSlotNameConfigPair => AdSlot.isSlotAboveTheFold(adSlotNameConfigPair[1]))
-						.map(adSlotNameConfigPair => adSlotNameConfigPair[0]),
+					...slotService.getAboveTheFoldSlots().map(slot => slot.getSlotName()),
 				])),
 			);
 		}
