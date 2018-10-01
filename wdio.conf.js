@@ -40,9 +40,8 @@ exports.config = {
 	},
 	exclude: [
 	],
-	maxInstances: 10,
+	maxInstances: 5,
 	capabilities: [{
-		maxInstances: 5,
 		browserName: 'chrome'
 	}],
 	sync: true,
@@ -70,4 +69,8 @@ exports.config = {
 		compilers: ['js:babel-core/register'],
 		timeout: 20000
 	},
+	before() {
+		// eslint-disable-next-line no-undef
+		browser.windowHandleSize({ width: 1920, height: 1080 });
+	}
 };
