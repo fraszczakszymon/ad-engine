@@ -34,6 +34,7 @@ const clickDelay = {
 
 customContext.targeting.artid = '496';
 customContext.slots['incontent-boxad'] = {
+	aboveTheFold: true,
 	disable: false,
 	slotName: 'incontent_boxad',
 	sizes: [
