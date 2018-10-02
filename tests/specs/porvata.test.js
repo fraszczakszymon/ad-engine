@@ -9,7 +9,7 @@ describe('Porvata player ads', () => {
 		browser.url(porvata.pageLink);
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
 		browser.scroll(porvata.porvataPlayer);
-		porvata.waitForVideoOverlay();
+		helpers.waitToStartPlaying();
 	});
 
 	it('Check player visibility', () => {

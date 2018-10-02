@@ -3,7 +3,7 @@ import { timeouts } from '../common/timeouts';
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
-const timeToStartPlaying = 1000;
+const timeToStartPlaying = 3000;
 
 class Helpers {
 	constructor() {

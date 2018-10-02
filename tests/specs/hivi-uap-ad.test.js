@@ -187,7 +187,7 @@ describe('Hivi uap ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check pausing the video', () => {
-		browser.waitForEnabled(hiviUap.playPauseButton, timeouts.standard);
+		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		expect(browser.isExisting(`${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 			.to
@@ -240,7 +240,7 @@ describe('Hivi uap ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
@@ -249,6 +249,8 @@ describe('Hivi uap ads page: top boxad', () => {
 	it('will test redirect on click', () => {
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
+
+		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Nope', 500);
 
 		const tabIds = browser.getTabIds();
 
