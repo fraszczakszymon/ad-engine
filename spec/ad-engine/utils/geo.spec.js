@@ -387,8 +387,8 @@ describe('Geo', () => {
 			}
 		}));
 
-		Random.getRandom.returns(1);
 		geo.setSessionId('test');
+		Random.getRandom.returns(1);
 		assert.ok(geo.isProperGeo(['PL/50-cached'], 'basset'));
 
 		Random.getRandom.returns(0);

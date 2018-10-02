@@ -12,8 +12,7 @@ const cacheMarker = '-cached',
 
 let cache = {},
 	cookieLoaded = false,
-	geoData = null,
-	sessionId = '';
+	geoData = null;
 
 function hasCache(countryList) {
 	return countryList.some(country => country.indexOf(cacheMarker) !== -1);
@@ -48,16 +47,12 @@ function addResultToCache(name, result, samplingLimits, withCookie) {
 }
 
 function readSession() {
-	let sid = sessionId || context.get('options.session.id');
-
-	if (!sid) {
+	if (!context.get('options.session.id')) {
 		const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
+		const sid = Cookies.get(sessionCookieName) || 'ae3';
 
-		sid = Cookies.get(sessionCookieName) || 'ae3';
-		context.set('options.session.cookieName', sid);
+		context.set('options.session.id', sid);
 	}
-
-	sessionId = sid;
 }
 
 function getCookieDomain() {
@@ -69,7 +64,7 @@ function getCookieDomain() {
 function loadCookie() {
 	readSession();
 
-	const cookie = Cookies.get(`${sessionId}_basset`);
+	const cookie = Cookies.get(`${context.get('options.session.id')}_basset`);
 
 	if (cookie) {
 		const cachedVariables = JSON.parse(cookie);
@@ -97,7 +92,7 @@ function synchronizeCookie() {
 }
 
 function setCookie(value) {
-	Cookies.set(`${sessionId}_basset`, value, {
+	Cookies.set(`${context.get('options.session.id')}_basset`, value, {
 		maxAge: cacheMaxAge,
 		expires: new Date(new Date().getTime() + cacheMaxAge),
 		path: '/',
@@ -255,7 +250,7 @@ export function resetSamplingCache() {
 }
 
 export function setSessionId(sid) {
-	sessionId = sid;
+	context.set('options.session.id', sid);
 	cookieLoaded = false;
 }
 
