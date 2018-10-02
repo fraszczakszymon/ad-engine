@@ -102,11 +102,16 @@ class Helpers {
 	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
-	prepareToCheckState(adPage, adSlot) {
+	reloadPage(adPage, adSlot) {
 		browser.reload();
 		browser.windowHandleSize({ width: 1920, height: 1080 });
 		browser.url(adPage); // mandatory, because test page fails to load without it
 		browser.waitForVisible(adSlot, timeouts.standard);
+	}
+
+	refreshPage(timeout = timeouts.pageReload) {
+		browser.refresh();
+		browser.pause(timeout);
 	}
 }
 

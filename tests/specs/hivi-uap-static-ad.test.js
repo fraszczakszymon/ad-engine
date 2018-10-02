@@ -17,7 +17,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => adSlots.lineItemParam !== null, timeouts.standard, 'Line item param is null', 500);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -63,7 +63,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	it('Check default and resolved state after scroll', () => {
 		const tableOfErrors = [];
 
-		helpers.prepareToCheckState(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
@@ -120,7 +120,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	it('Check default and resolved state after refresh', () => {
 		const tableOfErrors = [];
 
-		helpers.prepareToCheckState(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
@@ -144,7 +144,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		browser.refresh();
+		helpers.refreshPage();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
 
@@ -214,7 +214,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => adSlots.lineItemParam != null, timeouts.standard, 'Line item param is null', 500);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -275,7 +275,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => adSlots.lineItemParam !== null, timeouts.standard, 'Line item param is null', 500);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
@@ -336,7 +336,7 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => adSlots.lineItemParam !== null, timeouts.standard, 'Line item param is null', 500);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
