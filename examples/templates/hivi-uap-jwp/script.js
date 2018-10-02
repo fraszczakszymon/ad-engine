@@ -34,7 +34,7 @@ const clickDelay = {
 	}, 1000);
 
 customContext.targeting.artid = '496';
-customContext.slots['incontent_boxad'] = {
+customContext.slots.incontent_boxad = {
 	aboveTheFold: true,
 	disable: false,
 	slotName: 'incontent_boxad',
@@ -49,7 +49,7 @@ customContext.slots['incontent_boxad'] = {
 		loc: 'hivi'
 	}
 };
-customContext.slots['bottom_leaderboard'] = {
+customContext.slots.bottom_leaderboard = {
 	disable: false,
 	slotName: 'bottom_leaderboard',
 	sizes: [
