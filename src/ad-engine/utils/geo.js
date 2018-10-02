@@ -46,15 +46,6 @@ function addResultToCache(name, result, samplingLimits, withCookie) {
 	}
 }
 
-function readSession() {
-	if (!context.get('options.session.id')) {
-		const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
-		const sid = Cookies.get(sessionCookieName) || 'ae3';
-
-		context.set('options.session.id', sid);
-	}
-}
-
 function getCookieDomain() {
 	const domain = (window.location.hostname).split('.');
 
@@ -62,7 +53,7 @@ function getCookieDomain() {
 }
 
 function loadCookie() {
-	readSession();
+	readSessionId();
 
 	const cookie = Cookies.get(`${context.get('options.session.id')}_basset`);
 
@@ -249,6 +240,13 @@ export function resetSamplingCache() {
 	cache = {};
 }
 
+export function readSessionId() {
+	const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
+	const sid = Cookies.get(sessionCookieName) || 'ae3';
+
+	setSessionId(sid);
+}
+
 export function setSessionId(sid) {
 	context.set('options.session.id', sid);
 	cookieLoaded = false;
@@ -307,6 +305,7 @@ const module = {
 	getSamplingResults,
 	isProperGeo,
 	resetSamplingCache,
+	readSessionId,
 	setSessionId,
 	mapSamplingResults,
 };
