@@ -1,3 +1,5 @@
+import { timeouts } from '../common/timeouts';
+
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
@@ -93,6 +95,18 @@ class Helpers {
 			i += 1;
 		});
 		return finalString;
+	}
+
+	/**
+	 * Provides parameters with the example page to load and ad slot to wait for
+	 * @param adPage example page with ads to load
+	 * @param adSlot ad slot to wait for visible
+	 */
+	prepareToCheckState(adPage, adSlot) {
+		browser.reload();
+		browser.windowHandleSize({ width: 1920, height: 1080 });
+		browser.url(adPage); // mandatory, because test page fails to load without it
+		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 }
 

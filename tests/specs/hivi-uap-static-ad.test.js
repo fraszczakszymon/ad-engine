@@ -59,10 +59,12 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 
 	it('Check default and resolved state after scroll', () => {
 		const tableOfErrors = [];
+
+		helpers.prepareToCheckState(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
-		browser.reload();
-		browser.windowHandleSize({ width: 1920, height: 1080 });
 		try {
 			expect(defaultSize.width)
 				.to
@@ -82,7 +84,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		helpers.slowScroll(300);
+		helpers.slowScroll(500);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard, timeouts.standard);
@@ -111,12 +113,15 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			.equal(0);
 	});
 
+
 	it('Check default and resolved state after refresh', () => {
-		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
-		browser.reload();
-		browser.windowHandleSize({ width: 1920, height: 1080 });
+		helpers.prepareToCheckState(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+
+		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+
 		try {
 			expect(defaultSize.width)
 				.to
@@ -138,6 +143,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 
 		browser.refresh();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
 
