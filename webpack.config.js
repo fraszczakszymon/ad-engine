@@ -64,6 +64,7 @@ const development = {
 		'slots/viewport-conflicts': './examples/slots/viewport-conflicts/script.js',
 		'templates/abcd': './examples/templates/abcd/script.js',
 		'templates/floating-ad': './examples/templates/floating-ad/script.js',
+		'templates/sticky-ad': './examples/templates/sticky-ad/script.js',
 		'templates/floating-rail': './examples/templates/floating-rail/script.js',
 		'templates/hivi-uap': './examples/templates/hivi-uap/script.js',
 		'templates/hivi-uap-ctp': './examples/templates/hivi-uap-ctp/script.js',
