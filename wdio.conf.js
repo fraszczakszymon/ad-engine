@@ -32,7 +32,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/hivi-uap-static-ad.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/hivi-uap-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
