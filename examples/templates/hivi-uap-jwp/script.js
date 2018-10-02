@@ -1,4 +1,4 @@
-import { AdEngine, context, templateService } from '@wikia/ad-engine';
+import { AdEngine, context, templateService, btfBlockerService } from '@wikia/ad-engine';
 import { BigFancyAdInPlayer } from '@wikia/ad-products';
 
 import customContext from '../../context';
@@ -11,6 +11,7 @@ const clickDelay = {
 		getName: () => 'click-to-load',
 		getPromise: () => new Promise((resolve) => {
 			document.getElementById('clickDelay').addEventListener('click', () => {
+				btfBlockerService.finishFirstCall();
 				window.loadCustomAd({
 					adProduct: 'jwp',
 					type: 'bfp',
