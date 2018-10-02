@@ -11,34 +11,6 @@ describe('Hivi uap ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
-		const tableOfErrors = [];
-
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
-	});
-
 	it('Check line item id', () => {
 		browser.waitUntil(() => adSlots.lineItemParam !== null, timeouts.standard, 'Line item param is null', 500);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
@@ -81,6 +53,120 @@ describe('Hivi uap ads page: top leaderboard', () => {
 			.to
 			.be
 			.false;
+	});
+
+	it('Check default and resolved state after scroll', () => {
+		const tableOfErrors = [];
+
+		helpers.prepareToCheckState(hiviUap.pageLink, adSlots.topLeaderboard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+
+		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+
+		try {
+			expect(defaultSize.width)
+				.to
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Default width incorrect');
+			expect(defaultSize.height)
+				.to
+				.equal(adSlots.uapTopLeaderboardHeight, 'Default height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		helpers.slowScroll(500);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+
+		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard, timeouts.standard);
+
+		try {
+			expect(resolvedSize.width)
+				.to
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Resolved width incorrect');
+			expect(resolvedSize.height)
+				.to
+				.equal(adSlots.uapTopLeaderboardHeightResolved, 'Resolved height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+			.to
+			.equal(0);
+	});
+
+
+	it('Check default and resolved state after refresh', () => {
+		const tableOfErrors = [];
+
+		helpers.prepareToCheckState(hiviUap.pageLink, adSlots.topLeaderboard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+
+		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+
+		try {
+			expect(defaultSize.width)
+				.to
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Default width incorrect');
+			expect(defaultSize.height)
+				.to
+				.equal(adSlots.uapTopLeaderboardHeight, 'Default height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		browser.refresh();
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+
+		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
+
+		try {
+			expect(resolvedSize.width)
+				.to
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Resolved width incorrect');
+			expect(resolvedSize.height)
+				.to
+				.equal(adSlots.uapTopLeaderboardHeightResolved, 'Resolved height incorrect');
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+		try {
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
+				.to
+				.be
+				.true;
+		} catch (error) {
+			tableOfErrors.push(error.message);
+		}
+
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+			.to
+			.equal(0);
 	});
 });
 
