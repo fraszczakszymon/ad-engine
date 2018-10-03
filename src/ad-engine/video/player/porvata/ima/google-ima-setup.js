@@ -25,14 +25,15 @@ function createRequest(params) {
 	}
 
 	// DEPRECATED: options.porvata.audio.segment
-	if (context.get('options.porvata.audio.segment')) {
-		const segment = context.get('options.porvata.audio.segment');
-
+	const segment = context.get('options.porvata.audio.segment');
+	if (segment) {
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
 	}
 
 	adSlot.setConfigProperty('autoplay', params.autoPlay);
 	adSlot.setConfigProperty('audio', !params.autoPlay);
+	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
+	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
