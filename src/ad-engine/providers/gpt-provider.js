@@ -87,7 +87,7 @@ export class GptProvider {
 		window.googletag.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);
 
-		if (!adSlot.isAboveTheFold()) {
+		if (!adSlot.isFirstCall()) {
 			this.flush();
 		}
 
