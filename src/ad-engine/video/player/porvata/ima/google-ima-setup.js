@@ -24,14 +24,8 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
-	if (context.get('options.porvata.audio.exposeToSlot')) {
-		const key = context.get('options.porvata.audio.key'),
-			segment = context.get('options.porvata.audio.segment');
-
-		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
-		adSlot.setConfigProperty('audio', !params.autoPlay);
-		adSlot.setConfigProperty(`targeting.${key}`, params.autoPlay ? 'no' : 'yes');
-	}
+	adSlot.setConfigProperty('autoplay', params.autoPlay);
+	adSlot.setConfigProperty('audio', !params.autoPlay);
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
