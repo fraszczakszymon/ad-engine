@@ -249,8 +249,7 @@ describe('Hivi uap ads page: top boxad', () => {
 	it('will test redirect on click', () => {
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
-
-		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Nope', 500);
+		helpers.waitForNewTab();
 
 		const tabIds = browser.getTabIds();
 

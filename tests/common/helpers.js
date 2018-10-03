@@ -109,9 +109,20 @@ class Helpers {
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
+	/**
+	 * Refreshes the page and pauses all the actions to let elements reload properly.
+	 * @param timeout duration of the pause
+	 */
 	refreshPage(timeout = timeouts.pageReload) {
 		browser.refresh();
 		browser.pause(timeout);
+	}
+
+	/**
+	 * Waits for the new tab to open
+	 */
+	waitForNewTab() {
+		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', 500);
 	}
 }
 

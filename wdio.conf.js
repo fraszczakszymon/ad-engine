@@ -11,6 +11,7 @@ exports.config = {
 			'./tests/specs/abcd-ad.test.js',
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
+			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 		],
 		services: [
@@ -32,7 +33,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/hivi-uap-ad.test.js', // spot for a test that is currently being worked on
+			// spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
@@ -42,7 +43,10 @@ exports.config = {
 	],
 	maxInstances: 5,
 	capabilities: [{
-		browserName: 'chrome'
+		browserName: 'chrome',
+		loggingPrefs: {
+			browser: 'ALL'
+		}
 	}],
 	sync: true,
 	logLevel: 'error',
