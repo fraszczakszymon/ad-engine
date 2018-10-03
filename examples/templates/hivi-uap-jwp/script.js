@@ -1,4 +1,4 @@
-import { AdEngine, context, templateService } from '@wikia/ad-engine';
+import { AdEngine, context, templateService, btfBlockerService } from '@wikia/ad-engine';
 import { BigFancyAdInPlayer } from '@wikia/ad-products';
 
 import customContext from '../../context';
@@ -11,6 +11,7 @@ const clickDelay = {
 		getName: () => 'click-to-load',
 		getPromise: () => new Promise((resolve) => {
 			document.getElementById('clickDelay').addEventListener('click', () => {
+				btfBlockerService.finishFirstCall();
 				window.loadCustomAd({
 					adProduct: 'jwp',
 					type: 'bfp',
@@ -33,7 +34,8 @@ const clickDelay = {
 	}, 1000);
 
 customContext.targeting.artid = '496';
-customContext.slots['incontent-boxad'] = {
+customContext.slots.incontent_boxad = {
+	aboveTheFold: true,
 	disable: false,
 	slotName: 'incontent_boxad',
 	sizes: [
@@ -47,7 +49,7 @@ customContext.slots['incontent-boxad'] = {
 		loc: 'hivi'
 	}
 };
-customContext.slots['bottom-leaderboard'] = {
+customContext.slots.bottom_leaderboard = {
 	disable: false,
 	slotName: 'bottom_leaderboard',
 	sizes: [

@@ -104,7 +104,7 @@ events.on(events.AD_SLOT_CREATED, (slot) => {
 
 new AdEngine().init();
 
-btfBlockerService.finishAboveTheFold();
+btfBlockerService.finishFirstCall();
 
 window.adsQueue.push({
 	id: 'repeatable_boxad_1'

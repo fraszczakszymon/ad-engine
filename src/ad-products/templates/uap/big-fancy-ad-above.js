@@ -23,7 +23,8 @@ export class BigFancyAdAbove {
 			slotSibling: '.topic-header',
 			slotsToEnable: [
 				'bottom_leaderboard',
-				'incontent_boxad'
+				'incontent_boxad',
+				'top_boxad',
 			],
 			onInit: () => {},
 			onBeforeStickBfaaCallback: () => {},
