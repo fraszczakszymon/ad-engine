@@ -17,7 +17,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -214,7 +214,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -275,7 +275,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
+		helpers.waitForLineItemParam(adSlots.incontentBoxad);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
@@ -336,7 +336,7 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
+		helpers.waitForLineItemParam(adSlots.bottomLeaderboard);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');

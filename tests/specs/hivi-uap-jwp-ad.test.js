@@ -148,7 +148,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute('data-gpt-line-item-id') !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 		helpers.waitForNewTab();

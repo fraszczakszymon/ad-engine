@@ -94,8 +94,8 @@ describe('Floating rail ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		expect(browser.element(adSlots.topBoxad)
-			.getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});

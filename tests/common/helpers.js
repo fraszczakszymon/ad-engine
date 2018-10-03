@@ -1,4 +1,5 @@
 import { timeouts } from '../common/timeouts';
+import adSlots from '../common/adSlots';
 
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
@@ -122,6 +123,14 @@ class Helpers {
 	 */
 	waitForNewTab() {
 		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', 500);
+	}
+
+	/**
+	 * Waits until the ad slot to receive its line item id parameter.
+	 * @param adSlot ad slot that should receive the parameter
+	 */
+	waitForLineItemParam(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
 	}
 }
 

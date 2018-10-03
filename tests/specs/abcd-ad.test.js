@@ -40,6 +40,7 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
@@ -125,6 +126,7 @@ describe('ABCD ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(abcdAd.topBoxadLineItemId, 'Line item ID mismatch');
