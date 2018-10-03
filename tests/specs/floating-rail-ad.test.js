@@ -5,6 +5,15 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
+let theUrlYouWantToGet;
+
+global.client.on('Network.responseReceived', (params) => {
+	const { url, status } = params.response;
+	if (url.includes('gampad/ads?gdfp')) {
+		theUrlYouWantToGet = url;
+	}
+});
+
 describe('Floating rail ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
@@ -37,6 +46,7 @@ describe('Floating rail ads page: top leaderboard', () => {
 		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
+		console.log(theUrlYouWantToGet);
 	});
 
 	it('will test line item id', () => {
