@@ -62,7 +62,27 @@ describe('slot-service', () => {
 	it('getter', () => {
 		slotService.add(adSlot);
 
-		expect(adSlot).to.equal(slotService.get('FAKE_AD'));
+		expect(slotService.get('FAKE_AD')).to.equal(adSlot);
+	});
+
+	it('getter for slot with multiple positions', () => {
+		slotService.add(adSlot);
+
+		expect(slotService.get('FAKE_AD,FOO')).to.equal(adSlot);
+	});
+
+	it('getter for with different single targeting.pos', () => {
+		adSlot.config.targeting.pos = 'bar3';
+		slotService.add(adSlot);
+
+		expect(slotService.get('bar3')).to.equal(adSlot);
+	});
+
+	it('getter for with different multiple targeting.pos', () => {
+		adSlot.config.targeting.pos = ['foo1', 'bar2'];
+		slotService.add(adSlot);
+
+		expect(slotService.get('foo1')).to.equal(adSlot);
 	});
 
 	it('foreach iterator', () => {
