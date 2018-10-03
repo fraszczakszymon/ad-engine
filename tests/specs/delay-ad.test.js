@@ -53,7 +53,7 @@ describe('Delay ads page: top leaderboard', () => {
 	it('Check if top leaderboard shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
 			.to
 			.be
@@ -129,7 +129,7 @@ describe('Delay ads page: top boxad', () => {
 	it('Check if top boxad shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be

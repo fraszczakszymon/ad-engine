@@ -130,7 +130,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	it('Check if top boxad shows up after clicking the button, if it was viewed and if it uap ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
@@ -148,7 +148,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute('data-gpt-line-item-id') !== null, timeouts.standard, 'No line item id attribute', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute('data-gpt-line-item-id') !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 		helpers.waitForNewTab();
@@ -223,7 +223,7 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.incontentBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.incontentBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 			.to
 			.be

@@ -17,7 +17,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -64,7 +64,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', helpers.interval);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -121,7 +121,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', helpers.interval);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -146,7 +146,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 
 		helpers.refreshPage();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', helpers.interval);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -214,7 +214,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
@@ -275,7 +275,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
@@ -336,7 +336,7 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'Line item param is null', timeouts.interval);
 		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');

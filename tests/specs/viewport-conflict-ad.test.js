@@ -103,7 +103,7 @@ describe('Viewport conflict ads page: top boxad', () => {
 	it('Check if top boxad is hidden after clicking the button', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(viewportConflictAd.dataSlotResult) === 'collapse', timeouts.standard, 'Ad was not hidden', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(viewportConflictAd.dataSlotResult) === 'collapse', timeouts.standard, 'Ad was not hidden', timeouts.interval);
 		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`))
 			.to
 			.be
@@ -126,7 +126,7 @@ describe('Viewport conflict ads page: bottom leaderboard', () => {
 		browser.click(viewportConflictAd.hideBoxadButton);
 		viewportConflictAd.addParagraphs(5);
 		browser.scroll(0, 2800);
-		browser.waitUntil(() => browser.element(adSlots.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', helpers.interval);
+		browser.waitUntil(() => browser.element(adSlots.bottomLeaderboard).getAttribute(viewportConflictAd.dataSlotResult) === 'success', timeouts.standard, 'Ad was not displayed', timeouts.interval);
 		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
 			.to
 			.be

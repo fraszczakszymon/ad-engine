@@ -7,7 +7,6 @@ const timeToStartPlaying = 3000;
 
 class Helpers {
 	constructor() {
-		this.interval = 500;
 		this.classHidden = '.hide';
 		this.pageBody = 'body';
 		this.classProperty = 'class';
@@ -20,7 +19,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', this.interval);
+		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', timeouts.interval);
 	}
 
 	/**
