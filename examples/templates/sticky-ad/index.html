@@ -12,8 +12,8 @@
 
 			(function() {
 				var gads = document.createElement('script'),
-						useSSL = 'https:' == document.location.protocol,
-						node = document.getElementsByTagName('script')[0];
+					useSSL = 'https:' == document.location.protocol,
+					node = document.getElementsByTagName('script')[0];
 
 				gads.async = true;
 				gads.type = 'text/javascript';
@@ -23,18 +23,19 @@
 		</script>
 	</head>
 	<body>
-		<script>
-			window.adsQueue = window.adsQueue || [];
-		</script>
-		<header class="header">
-			<div id="top_leaderboard" class="gpt-ad top-leaderboard"></div>
-			<script>
-				window.adsQueue.push({
-					id: 'top_leaderboard'
-				});
-			</script>
-		</header>
+		<nav class="navigation">navbar</nav>
 		<div class="wrapper">
+			<script>
+				window.adsQueue = window.adsQueue || [];
+			</script>
+			<header class="header">
+				<div id="top_leaderboard" class="top-leaderboard"></div>
+				<script>
+					window.adsQueue.push({
+						id: 'top_leaderboard'
+					});
+				</script>
+			</header>
 			<article class="main">
 				<p>Lorem ipsum dolor sit amet, vix esse repudiandae et, cu vis etiam falli. Illud exerci aliquip ei his. Quis iudicabit in quo, vis et minim noster deseruisse. Eius vidisse repudiare in duo, possim audiam eu has. Eum an iudico mandamus dissentiunt.</p>
 				<p>Te veniam conceptam qui, per no case feugait. Affert iriure nonumes no eos, est minimum recteque ea, ei mea nibh consetetur. Ubique salutatus adversarium at sed. Ex erroribus sententiae reprimique sed, qui no viderer inimicus pericula, ei eam delicata concludaturque. Pri te nemore constituam.</p>
@@ -70,7 +71,7 @@
 			<aside class="aside">
 				<div id="rail-wrapper">
 					<div id="rail">
-						<div id="top_boxad" class="gpt-ad top-boxad"></div>
+						<div id="top_boxad" class="top-boxad"></div>
 						<script>
 							window.adsQueue.push({
 								id: 'top_boxad'
@@ -81,9 +82,6 @@
 				</div>
 			</aside>
 		</div>
-		<footer>
-			<div id="bottom_leaderboard" class="gpt-ad bottom-leaderboard hide"></div>
-		</footer>
 		<script type="text/javascript" src="./dist/bundle.js"></script>
 	</body>
 </html>
