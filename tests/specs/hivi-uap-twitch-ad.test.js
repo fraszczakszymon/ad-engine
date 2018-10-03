@@ -5,13 +5,13 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Twitch ads page: top leaderboard', () => {
+xdescribe('Twitch ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	xit('Check dimensions and visibility', () => {
+	it('Check dimensions and visibility', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -39,24 +39,22 @@ describe('Twitch ads page: top leaderboard', () => {
 			.equal(0);
 	});
 
-	for (let i = 0; i < 25; i++) {
-		it('Check line item id', () => {
-			helpers.waitForLineItemParam(adSlots.topLeaderboard);
-			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
-				.to
-				.equal(twitchAd.topLeaderboardLineItemId, 'Line item ID mismatch');
-		});
-	}
+	it('Check line item id', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+			.to
+			.equal(twitchAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+	});
 
-
-	xit('Check if leaderboard does not obstruct the navbar', () => {
+	it('Check if leaderboard does not obstruct the navbar', () => {
 		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
 			.to
 			.be
 			.true;
 	});
 
-	xit('Check redirect on click', () => {
+	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -70,27 +68,30 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 });
 
-xdescribe('Twitch ads page: twitch player', () => {
+describe('Twitch ads page: twitch player', () => {
 	beforeEach(() => {
 		browser.url(twitchAd.pageLink);
+		browser.frame(twitchAd.playerFrame);
 		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check if video player is visible', () => {
-		expect(browser.isVisible(`${adSlots.topLeaderboard} ${twitchAd.twitchPlayer}`), 'Video player not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check unmuting the video', () => {
-		browser.moveToObject(`${adSlots.topLeaderboard} ${twitchAd.twitchPlayer}`);
+	it('Check unmuting the stream', () => {
+		browser.moveToObject(`${twitchAd.twitchPlayer}`);
 		browser.click(twitchAd.unmuteButton);
-		expect(browser.isExisting(`${twitchAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Video not unmuted')
+		expect(browser.isExisting(`${twitchAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Stream not unmuted')
 			.to
 			.be
 			.false;
+	});
+
+	xit('will test opening fullscreen player', () => {
+		browser.moveToObject(`${adSlots.topLeaderboard} ${twitchAd.twitchPlayer}`);
+		browser.click(twitchAd.fullscreenButton);
+	});
+
+	xit('will test playing the stream', () => {
+
 	});
 });
 
