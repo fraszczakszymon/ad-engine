@@ -71,14 +71,14 @@ describe('slot-service', () => {
 		expect(slotService.get('FAKE_AD,FOO')).to.equal(adSlot);
 	});
 
-	it('getter for with different single targeting.pos', () => {
+	it('getter for slot with different single targeting.pos', () => {
 		adSlot.config.targeting.pos = 'bar3';
 		slotService.add(adSlot);
 
 		expect(slotService.get('bar3')).to.equal(adSlot);
 	});
 
-	it('getter for with different multiple targeting.pos', () => {
+	it('getter for slot with different multiple targeting.pos', () => {
 		adSlot.config.targeting.pos = ['foo1', 'bar2'];
 		slotService.add(adSlot);
 
