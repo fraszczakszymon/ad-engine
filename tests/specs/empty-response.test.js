@@ -11,7 +11,7 @@ describe('Empty response page:', () => {
 		browser.waitForVisible(emptyResponse.articleClass, timeouts.standard);
 	});
 
-	it('will test if top leaderboard ad is not visible', () => {
+	it('Check if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`), 'Element does not exist')
 			.to
@@ -22,7 +22,7 @@ describe('Empty response page:', () => {
 			.be
 			.false;
 	});
-	it('will test if top boxad is not visible', () => {
+	it('Check if top boxad is not visible', () => {
 		browser.isExisting(adSlots.topBoxad, timeouts.standard);
 		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`), 'Top boxad exists in code')
 			.to

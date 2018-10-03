@@ -71,27 +71,30 @@ xdescribe('Twitch ads page: top leaderboard', () => {
 describe('Twitch ads page: twitch player', () => {
 	beforeEach(() => {
 		browser.url(twitchAd.pageLink);
-		browser.frame(twitchAd.playerFrame);
-		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
-		helpers.waitToStartPlaying();
+		// browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
+		// helpers.waitToStartPlaying();
 	});
 
 	it('Check unmuting the stream', () => {
-		browser.moveToObject(`${twitchAd.twitchPlayer}`);
-		browser.click(twitchAd.unmuteButton);
-		expect(browser.isExisting(`${twitchAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Stream not unmuted')
+		const myFrame = $('iframe[name="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]').value;
+		browser.frame(myFrame);
+
+		const myFrame2 = $('iframe[src*="http://player.twitch.tv/?allowfullscreen&channel=fandom_wikia&origin=http"]').value;
+		browser.frame(myFrame2);
+		console.log(browser.isExisting('.twitch-player'));
+		// browser.click(twitchAd.unmuteButton);
+		// expect(browser.element(twitchAd.twitchPlayer).getAttribute(twitchAd.buttonPressedParam))
+		// 	.to
+		// 	.equal(twitchAd.unmuteButton, 'Stream not unmuted');
+	});
+
+	xit('Check playing the stream', () => {
+		const myFrame = $('iframe[name="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]').value;
+		browser.frame(myFrame);
+		browser.click(twitchAd.playPauseButton);
+		expect(browser.element(twitchAd.twitchPlayer).getAttribute(twitchAd.buttonPressedParam))
 			.to
-			.be
-			.false;
-	});
-
-	xit('will test opening fullscreen player', () => {
-		browser.moveToObject(`${adSlots.topLeaderboard} ${twitchAd.twitchPlayer}`);
-		browser.click(twitchAd.fullscreenButton);
-	});
-
-	xit('will test playing the stream', () => {
-
+			.equal(twitchAd.playPauseButton, 'Stream not playing');
 	});
 });
 

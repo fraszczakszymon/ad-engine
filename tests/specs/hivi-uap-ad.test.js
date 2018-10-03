@@ -18,7 +18,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
-	it('will test if leaderboard does not obstruct the navbar', () => {
+	it('Check if leaderboard does not obstruct the navbar', () => {
 		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
 			.to
 			.be
@@ -59,7 +59,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUap.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -116,7 +116,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUap.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -141,7 +141,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 
 		helpers.refreshPage();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', 500);
+		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -246,7 +246,7 @@ describe('Hivi uap ads page: top boxad', () => {
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
-	it('will test redirect on click', () => {
+	it('Check redirect on click', () => {
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 		helpers.waitForNewTab();

@@ -43,7 +43,7 @@ describe('BTF Only ads page: incontent boxad', () => {
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it('Check redirect on click', () => {
 		browser.click(adSlots.incontentBoxad);
 
 		const tabIds = browser.getTabIds();

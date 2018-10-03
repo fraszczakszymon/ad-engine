@@ -11,7 +11,7 @@ describe('Block BTF ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('will test top leaderboard visibility and dimensions', () => {
+	it('Check top leaderboard visibility and dimensions', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -39,7 +39,7 @@ describe('Block BTF ads page: top leaderboard', () => {
 			.equal(0);
 	});
 
-	it(' will test top leaderboard ad redirect on click', () => {
+	it('Check top leaderboard ad redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -52,7 +52,7 @@ describe('Block BTF ads page: top leaderboard', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test if incontent boxad is hidden on the page', () => {
+	it('Check if incontent boxad is hidden on the page', () => {
 		helpers.slowScroll(2000);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
 			.to

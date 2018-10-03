@@ -24,6 +24,8 @@ describe('Floating rail ads page: top leaderboard', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
+		console.log(theUrlYouWantToGet);
+
 		try {
 			expect(size.width)
 				.to
@@ -46,16 +48,16 @@ describe('Floating rail ads page: top leaderboard', () => {
 		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
-		console.log(theUrlYouWantToGet);
 	});
 
-	it('will test line item id', () => {
+	it('Check line item id', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
-	it('will test redirect on click', () => {
+	it('Check redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();

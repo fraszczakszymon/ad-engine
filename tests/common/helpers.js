@@ -122,7 +122,7 @@ class Helpers {
 	 * Waits for the new tab to open
 	 */
 	waitForNewTab() {
-		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', 500);
+		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', timeouts.interval);
 	}
 
 	/**
