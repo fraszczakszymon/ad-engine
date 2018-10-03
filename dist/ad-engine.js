@@ -1573,6 +1573,13 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
+	// DEPRECATED: optionsporvata.audio.segment
+	if (context.get('options.porvata.audio.segment')) {
+		var segment = context.get('options.porvata.audio.segment');
+
+		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+	}
+
 	adSlot.setConfigProperty('autoplay', params.autoPlay);
 	adSlot.setConfigProperty('audio', !params.autoPlay);
 

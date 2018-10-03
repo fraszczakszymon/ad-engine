@@ -24,6 +24,13 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
+	// DEPRECATED: options.porvata.audio.segment
+	if (context.get('options.porvata.audio.segment')) {
+		const segment = context.get('options.porvata.audio.segment');
+
+		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+	}
+
 	adSlot.setConfigProperty('autoplay', params.autoPlay);
 	adSlot.setConfigProperty('audio', !params.autoPlay);
 
