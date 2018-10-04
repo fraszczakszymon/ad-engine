@@ -12,7 +12,7 @@ import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 
 export class StickyAd {
-	static DEFAULT_UNSTICK_DELAY = 3000;
+	static DEFAULT_UNSTICK_DELAY = 1000;
 
 	static getName() {
 		return 'stickyAd';

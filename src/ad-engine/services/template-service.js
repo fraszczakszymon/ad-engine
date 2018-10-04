@@ -33,6 +33,15 @@ class TemplateService {
 
 		return new templates[name](slot).init(params);
 	}
+
+	applyTemplates(adSlot) {
+		const stickyAdTemplateName = 'stickyAd';
+		const stickyLines = context.get(`templates.${stickyAdTemplateName}Lines`);
+
+		if (stickyLines && stickyLines.length && adSlot.lineItemId && stickyLines.indexOf(adSlot.lineItemId) !== -1) {
+			adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
+		}
+	}
 }
 
 export const templateService = new TemplateService();

@@ -17,8 +17,18 @@ export class Stickiness extends EventEmitter {
 		this.adSlot = adSlot;
 		this.customWhen = customWhen;
 		this.sticky = false;
+		this.isStickinessBlocked = false;
 		this.isRevertStickinessBlocked = false;
 		this.logger = (...args) => utils.logger(Stickiness.LOG_GROUP, ...args);
+
+		if (!isFunction(this.customWhen)) {
+			Promise.all([this.customWhen]).then(() => {
+				if (!this.sticky) {
+					this.logger('Blocking stickiness');
+					this.isStickinessBlocked = true;
+				}
+			});
+		}
 	}
 
 	async run() {
@@ -34,7 +44,9 @@ export class Stickiness extends EventEmitter {
 			this.sticky = false;
 		});
 
-		this.onAdReady();
+		if (!this.isStickinessBlocked) {
+			this.onAdReady();
+		}
 	}
 
 	isSticky() {
