@@ -27,6 +27,7 @@ class TemplateService {
 
 	init(name, slot = null, params = {}) {
 		logger(logGroup, 'Load template', name, slot, params);
+
 		if (!templates[name]) {
 			throw new Error(`Template ${name} does not exist.`);
 		}
@@ -38,7 +39,10 @@ class TemplateService {
 		const stickyAdTemplateName = 'stickyAd';
 		const stickyLines = context.get(`templates.${stickyAdTemplateName}Lines`);
 
-		if (stickyLines && stickyLines.length && adSlot.lineItemId && stickyLines.indexOf(adSlot.lineItemId) !== -1) {
+		if (
+			stickyLines && stickyLines.length && adSlot.lineItemId &&
+			(stickyLines.indexOf(adSlot.lineItemId.toString()) !== -1 || stickyLines.indexOf(adSlot.lineItemId) !== -1)
+		) {
 			adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
 		}
 	}
