@@ -1,0 +1,67 @@
+import { client, logger } from '../utils';
+import { context, slotService } from '../services';
+import { AdSlot } from '../models';
+
+function getListeners() {
+	return context.get('listeners.twitch');
+}
+
+export class TwitchListener {
+		static EVENTS = {
+			ready: 'ready',
+			play: 'play',
+			pause: 'pause',
+			ended: 'ended',
+			offline: 'offline',
+			online: 'online',
+			playing: 'playing',
+			playback_blocked: 'playback_blocked'
+		};
+		static LOG_GROUP = 'twitch-listener';
+		static PLAYER_NAME = 'twitch';
+
+		constructor(params) {
+			this.params = params;
+			this.listeners = getListeners().filter(listener => !listener.isEnabled || listener.isEnabled());
+			this.logger = (...args) => logger(TwitchListener.LOG_GROUP, ...args);
+		}
+
+		init() {
+			this.dispatch('init');
+		}
+
+		registerTwitchEvents(player) {
+			Object.keys(TwitchListener.EVENTS).forEach((eventKey) => {
+				player.addEventListener(eventKey, () => {
+					this.dispatch(TwitchListener.EVENTS[eventKey]);
+				});
+			});
+		}
+
+		dispatch(eventName) {
+			const data = this.getData(eventName);
+
+			this.logger(eventName, data);
+			this.listeners.forEach((listener) => {
+				listener.onEvent(eventName, this.params, data);
+			});
+
+			if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
+				const adSlot = slotService.get(this.params.position);
+				adSlot.emit(AdSlot.VIDEO_VIEWED_EVENT);
+			}
+		}
+
+		getData(eventName) {
+			return {
+				ad_product: this.params.adProduct,
+				browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
+				creative_id: this.params.creativeId || 0,
+				event_name: eventName,
+				line_item_id: this.params.lineItemId || 0,
+				player: TwitchListener.PLAYER_NAME,
+				position: this.params.slotName || '(none)',
+				timestamp: new Date().getTime(),
+			};
+		}
+}

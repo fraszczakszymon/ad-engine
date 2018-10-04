@@ -78,7 +78,7 @@ async function loadTwitchPlayer(iframe, params) {
 
 	iframe.parentNode.insertBefore(player, iframe);
 
-	const twitchPlayer = new TwitchPlayer(player, options);
+	const twitchPlayer = new TwitchPlayer(player, options, params);
 	await twitchPlayer.getPlayer();
 
 	recalculateTwitchSize(params)();
