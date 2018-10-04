@@ -3057,6 +3057,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'setConfigProperty',
 		value: function setConfigProperty(key, value) {
 			context.set('slots.' + this.config.slotName + '.' + key, value);
+			this.config[key] = value;
 		}
 	}, {
 		key: 'success',
@@ -3065,6 +3066,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			slotTweaker.show(this);
 			this.setStatus(status);
+
+			templateService.applyTemplates(this);
 
 			if (this.config.defaultTemplate) {
 				templateService.init(this.config.defaultTemplate, this);
@@ -3430,6 +3433,16 @@ var template_service_TemplateService = function () {
 			}
 
 			return new templates[name](slot).init(params);
+		}
+	}, {
+		key: 'applyTemplates',
+		value: function applyTemplates(adSlot) {
+			var stickyAdTemplateName = 'stickyAd';
+			var stickyLines = context.get('templates.' + stickyAdTemplateName + 'Lines');
+
+			if (stickyLines && stickyLines.length && adSlot.lineItemId && stickyLines.indexOf(adSlot.lineItemId) !== -1) {
+				adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
+			}
 		}
 	}]);
 
