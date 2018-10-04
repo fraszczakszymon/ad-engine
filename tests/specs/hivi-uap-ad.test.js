@@ -396,7 +396,7 @@ describe('Hivi uap ads page: video player in bottom leaderboard', () => {
 
 	it('Check pausing the video', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}`, timeouts.standard);
-		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
 		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`), 'Video not paused')
 			.to
 			.be
@@ -405,7 +405,7 @@ describe('Hivi uap ads page: video player in bottom leaderboard', () => {
 
 	it('Check unmuting the video', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}`, timeouts.standard);
-		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
 		expect(browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`), 'Video not unmuted')
 			.to
 			.be

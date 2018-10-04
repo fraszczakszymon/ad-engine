@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-xdescribe('Twitch ads page: top leaderboard', () => {
+describe('Twitch ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -66,39 +66,18 @@ xdescribe('Twitch ads page: top leaderboard', () => {
 			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
-});
 
-describe('Twitch ads page: twitch player', () => {
-	beforeEach(() => {
-		browser.url(twitchAd.pageLink);
-		// browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
-		// helpers.waitToStartPlaying();
-	});
-
-	it('Check unmuting the stream', () => {
-		const myFrame = $('iframe[name="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]').value;
+	it('Check Twitch player visibility', () => {
+		const myFrame = $(twitchAd.playerFrame).value;
 		browser.frame(myFrame);
-
-		const myFrame2 = $('iframe[src*="http://player.twitch.tv/?allowfullscreen&channel=fandom_wikia&origin=http"]').value;
-		browser.frame(myFrame2);
-		console.log(browser.isExisting('.twitch-player'));
-		// browser.click(twitchAd.unmuteButton);
-		// expect(browser.element(twitchAd.twitchPlayer).getAttribute(twitchAd.buttonPressedParam))
-		// 	.to
-		// 	.equal(twitchAd.unmuteButton, 'Stream not unmuted');
-	});
-
-	xit('Check playing the stream', () => {
-		const myFrame = $('iframe[name="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]').value;
-		browser.frame(myFrame);
-		browser.click(twitchAd.playPauseButton);
-		expect(browser.element(twitchAd.twitchPlayer).getAttribute(twitchAd.buttonPressedParam))
+		expect(browser.isVisible(twitchAd.twitchPlayer), 'Twitch player not visible')
 			.to
-			.equal(twitchAd.playPauseButton, 'Stream not playing');
+			.be
+			.true;
 	});
 });
 
-xdescribe('Twitch ads page: top boxad', () => {
+describe('Twitch ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);

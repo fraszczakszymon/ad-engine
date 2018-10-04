@@ -59,9 +59,9 @@ class EavesDropService {
 		}
 	}
 
-	async after() {
-		!!this.client && (await this.client.close());
-	}
+	// async after() {
+	// 	!!this.client && (await this.client.close());
+	// }
 }
 
 module.exports = new EavesDropService();

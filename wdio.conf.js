@@ -14,7 +14,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
-			'./tests/specs/hivi-uap-twitch-ad.test.js',
+			// './tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 		],
 		services: [
@@ -54,7 +54,7 @@ exports.config = {
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
-	deprecationWarnings: true,
+	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/.wdio/errorShots/',
 	baseUrl: 'http://localhost:8080',
@@ -74,7 +74,7 @@ exports.config = {
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
-		timeout: 20000
+		timeout: 200000
 	},
 	before() {
 		// eslint-disable-next-line no-undef
