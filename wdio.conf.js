@@ -21,6 +21,7 @@ exports.config = {
 
 		],
 		utils: [
+			'./tests/specs/basset.test.js',
 
 		],
 		slots: [
