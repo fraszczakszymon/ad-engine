@@ -130,6 +130,7 @@ export default {
 	slots: {
 		top_leaderboard: {
 			aboveTheFold: true,
+			firstCall: true,
 			sizes: [
 				{
 					viewportSize: [728, 0],

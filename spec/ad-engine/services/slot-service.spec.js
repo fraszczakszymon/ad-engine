@@ -2,11 +2,35 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { slotService } from '../../../src/ad-engine/services/slot-service';
+import { context } from '../../../src/ad-engine/services/context-service';
 
-let adSlot,
-	elementProperties = {};
+let adSlot;
+let elementProperties = {};
+let slotConfigs;
+let contextGetStub;
+
+function clearSlotServiceState() {
+	this.slots = {};
+	this.slotStates = {};
+	this.slotStatuses = {};
+}
 
 describe('slot-service', () => {
+	let oldContextGet;
+
+	before(() => {
+		oldContextGet = context.get;
+		contextGetStub = sinon.stub(context, 'get');
+		contextGetStub.callsFake((key) => {
+			if (key === 'slots') return slotConfigs;
+			return context.get(key);
+		});
+	});
+
+	after(() => {
+		context.get = oldContextGet;
+	});
+
 	afterEach(() => {
 		document.getElementById.restore();
 	});
@@ -18,6 +42,7 @@ describe('slot-service', () => {
 				offsetParent: null
 			}
 		};
+		slotConfigs = {};
 
 		sinon.stub(document, 'getElementById').withArgs('foo-container').returns({
 			classList: {
@@ -94,5 +119,24 @@ describe('slot-service', () => {
 		slotService.disable('foo');
 
 		expect(slotService.getState('foo')).to.equals(false);
+	});
+
+	describe('getAtfSlotConfigs', () => {
+		beforeEach(() => {
+			clearSlotServiceState.bind(slotService)();
+		});
+
+		it('should return only slots with aboveTheFold prop set to true', () => {
+			const expectedConfig = { name: 'ooz', aboveTheFold: true };
+			slotConfigs = {
+				slot_1: { name: 'foo' },
+				slot_2: { name: 'bar', aboveTheFold: false },
+				slot_3: expectedConfig,
+			};
+			const atfSlotConfigs = slotService.getAtfSlotConfigs();
+
+			expect(atfSlotConfigs.length).to.equals(1);
+			expect(atfSlotConfigs[0]).to.eql(expectedConfig);
+		});
 	});
 });
