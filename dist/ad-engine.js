@@ -3428,6 +3428,7 @@ var template_service_TemplateService = function () {
 			var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 			logger(template_service_logGroup, 'Load template', name, slot, params);
+
 			if (!templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
@@ -3440,7 +3441,7 @@ var template_service_TemplateService = function () {
 			var stickyAdTemplateName = 'stickyAd';
 			var stickyLines = context.get('templates.' + stickyAdTemplateName + 'Lines');
 
-			if (stickyLines && stickyLines.length && adSlot.lineItemId && stickyLines.indexOf(adSlot.lineItemId) !== -1) {
+			if (stickyLines && stickyLines.length && adSlot.lineItemId && (stickyLines.indexOf(adSlot.lineItemId.toString()) !== -1 || stickyLines.indexOf(adSlot.lineItemId) !== -1)) {
 				adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
 			}
 		}
