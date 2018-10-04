@@ -17,6 +17,7 @@ exports.config = {
 
 		],
 		utils: [
+			'./tests/specs/basset.test.js',
 
 		],
 		slots: [
@@ -32,7 +33,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			// spot for a test that is currently being worked on
+			'./tests/specs/labrador-basset.test.js',
 		],
 		otherFeature: [
 
