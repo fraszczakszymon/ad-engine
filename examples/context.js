@@ -12,18 +12,24 @@ export default {
 	bidders: {
 		timeout: 2000,
 		a9: {
+			dealsEnabled: false,
 			enabled: true,
 			videoEnabled: false,
 			amazonId: '3115',
 			slots: {
-				top_leaderboard: [
-					[728, 90]
-				],
-				top_boxad: [
-					[300, 250]
-				]
-			},
-			slotsVideo: []
+				top_leaderboard: {
+					sizes: [[728, 90]],
+					slotId: 'TOP_LEADERBOARD'
+				},
+				top_boxad: {
+					sizes: [[300, 250]],
+					slotId: 'TOP_BOXAD'
+				},
+				featured: {
+					type: 'video',
+					slotId: 'FEATURED'
+				}
+			}
 		},
 		prebid: {
 			enabled: true,
@@ -124,6 +130,7 @@ export default {
 	slots: {
 		top_leaderboard: {
 			aboveTheFold: true,
+			firstCall: true,
 			sizes: [
 				{
 					viewportSize: [728, 0],

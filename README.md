@@ -20,10 +20,12 @@ npm install github:Wikia/ad-engine#v14.0.0
 |`adUnitId`|Ad unit id used for DFP requests|string|✔|
 |`bidders`|Bidders definitions|object|✘|
 |`bidders.a9.amazonId`|A9 ID|string|✔|
+|`bidders.a9.dealsEnabled`|Decides whether A9 deals will be enabled|boolean|✘|
 |`bidders.a9.enabled`|Decides whether A9 will be enabled|boolean|✔|
-|`bidders.a9.slots`|List of slots with their sizes|object|✔|
-|`bidders.a9.slotsVideo`|List of video slots|true|✔|
-|`bidders.a9.videoEnabled`|Decides whether A9 video will be enabled|boolean|✔|
+|`bidders.a9.slots`|List of slots with their sizes/video type|object|✔|
+|`bidders.a9.slots.{slot_name}.sizes`|List of creative sizes to bid|array|✔|
+|`bidders.a9.slots.{slot_name}.type`|`video` type decides of "video" mediaType bid|string|✘|
+|`bidders.a9.videoEnabled`|Decides whether A9 video will be enabled|boolean|✘|
 |`bidders.prebid.enabled`|Decides whether Prebid.js will be enabled|boolean|✔|
 |`bidders.prebid.{bidder_name}`|Single bidder definitions|object|✔|
 |`bidders.prebid.{bidder_name}.enabled`|Decides whether given bidder will be requested on page|boolean|✔|
@@ -116,6 +118,7 @@ export default customContext = {
 	slots: {
 		top_leaderboard: {
 			aboveTheFold: true,
+			firstCall: true,
 			sizes: [
 				{
 					viewportSize: [970, 200],
