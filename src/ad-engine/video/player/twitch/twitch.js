@@ -28,10 +28,6 @@ export class TwitchPlayer {
 export class Twitch {
 	static inject(identifier, videoSettings) {
 		return twitchEmbed.load()
-			.then((player) => {
-				twitchEmbed.getPlayer(identifier, videoSettings);
-
-				return player;
-			});
+			.then(() => twitchEmbed.getPlayer(identifier, videoSettings));
 	}
 }
