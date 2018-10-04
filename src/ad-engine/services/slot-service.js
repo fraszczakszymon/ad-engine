@@ -1,8 +1,10 @@
 import { context } from './context-service';
 import { events } from './events';
+import { AdSlot } from '../models';
 import { getTopOffset, logger } from '../utils';
 
 const groupName = 'slot-service';
+/** @type {Object.<string, AdSlot>} */
 const slots = {};
 const slotStates = {};
 const slotStatuses = {};
@@ -119,6 +121,16 @@ class SlotService {
 		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 		return hasConflict;
+	}
+
+	/**
+	 * Returns configuration of ATF slots.
+	 * @returns {Object[]} ATF slot configs
+	 */
+	getAtfSlotConfigs() {
+		const slotConfigs = context.get('slots');
+		return Object.values(slotConfigs)
+			.filter(config => AdSlot.isAboveTheFold(config));
 	}
 }
 

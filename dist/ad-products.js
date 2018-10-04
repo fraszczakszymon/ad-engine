@@ -3545,7 +3545,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 				fullscreenAllowed: true,
 				stickinessAllowed: true,
 				slotSibling: '.topic-header',
-				slotsToEnable: ['bottom_leaderboard', 'incontent_boxad'],
+				slotsToEnable: ['bottom_leaderboard', 'incontent_boxad', 'top_boxad'],
 				onInit: function onInit() {},
 				onBeforeStickBfaaCallback: function onBeforeStickBfaaCallback() {},
 				onAfterStickBfaaCallback: function onAfterStickBfaaCallback() {},

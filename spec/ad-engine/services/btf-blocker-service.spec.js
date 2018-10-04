@@ -23,9 +23,9 @@ describe('btf-blocker-service', () => {
 		btfBlockerService.resetState();
 
 		atfSlot = Object.assign({}, adSlotFake);
-		atfSlot.isAboveTheFold = () => true;
+		atfSlot.isFirstCall = () => true;
 		btfSlot = Object.assign({}, adSlotFake);
-		btfSlot.isAboveTheFold = () => false;
+		btfSlot.isFirstCall = () => false;
 	});
 
 	afterEach(() => {
@@ -93,7 +93,7 @@ describe('btf-blocker-service', () => {
 		const fillInSpy = spy();
 
 		btfBlockerService.push(btfSlot, fillInSpy);
-		btfBlockerService.finishAboveTheFold();
+		btfBlockerService.finishFirstCall();
 
 		expect(fillInSpy.called).to.be.ok;
 	});

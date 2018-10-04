@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -138,6 +138,12 @@ module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/assign");
+
+/***/ }),
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1125,7 +1131,12 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 
 	return Pubmatic;
 }(base_adapter_BaseAdapter);
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
+var assign_ = __webpack_require__(11);
+var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
+
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-helper.js
+
 
 
 
@@ -1209,11 +1220,9 @@ function getPrebid() {
 }
 
 function getTargeting(slotName) {
-	var targeting = ad_engine_["context"].get('bidders.prebid.targeting') || {};
-
-	targeting.pos = [slotName];
-
-	return targeting;
+	return assign_default()({
+		pos: [slotName]
+	}, ad_engine_["context"].get('bidders.prebid.targeting') || {});
 }
 
 function getWinningVideoBidBySlotName(slotName, allowedBidders) {

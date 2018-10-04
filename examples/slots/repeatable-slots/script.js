@@ -30,7 +30,7 @@ for (let i = 0; i < contentLength; i += 1) {
 
 new AdEngine().init();
 
-btfBlockerService.finishAboveTheFold();
+btfBlockerService.finishFirstCall();
 
 window.adsQueue.push({
 	id: 'repeatable_boxad_1'
