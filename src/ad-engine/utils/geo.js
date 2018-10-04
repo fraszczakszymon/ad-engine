@@ -242,7 +242,7 @@ export function resetSamplingCache() {
 
 export function readSessionId() {
 	const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
-	const sid = Cookies.get(sessionCookieName) || 'ae3';
+	const sid = Cookies.get(sessionCookieName) || context.get('options.session.id') || 'ae3';
 
 	setSessionId(sid);
 }
