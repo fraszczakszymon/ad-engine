@@ -54,6 +54,8 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -75,19 +77,13 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 
 	it('Check if video player is visible', () => {
-		expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
-			.to
-			.be
-			.true;
+		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
 	});
 
 	it('Check unmuting the video', () => {
 		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		browser.click(abcdAd.unmuteButton);
-		expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Video not unmuted')
-			.to
-			.be
-			.false;
+		browser.waitForExist(`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`, timeouts.standard, true);
 	});
 });
 
@@ -133,6 +129,8 @@ describe('ABCD ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

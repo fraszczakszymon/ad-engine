@@ -8,7 +8,7 @@ const { expect } = require('chai');
 describe('Floating ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(floatingAd.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
 	it('Check dimensions and visibility', () => {
@@ -40,6 +40,8 @@ describe('Floating ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -125,6 +127,8 @@ describe('Floating ad page: incontent boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.incontentBoxad);
+		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
 
 		const tabIds = browser.getTabIds();

@@ -52,7 +52,7 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check redirect on click', () => {
 		hiviUapJwp.waitToLoadAds();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 

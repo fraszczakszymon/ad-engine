@@ -55,6 +55,7 @@ describe('Twitch ads page: top leaderboard', () => {
 
 	it('Check redirect on click', () => {
 		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -69,11 +70,9 @@ describe('Twitch ads page: top leaderboard', () => {
 
 	it('Check Twitch player visibility', () => {
 		const myFrame = $(twitchAd.playerFrame).value;
+
 		browser.frame(myFrame);
-		expect(browser.isVisible(twitchAd.twitchPlayer), 'Twitch player not visible')
-			.to
-			.be
-			.true;
+		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
 	});
 });
 
@@ -120,6 +119,7 @@ describe('Twitch ads page: top boxad', () => {
 
 	it('Check redirect on click', () => {
 		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

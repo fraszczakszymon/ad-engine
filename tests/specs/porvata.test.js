@@ -56,35 +56,23 @@ describe('Porvata player ads', () => {
 	it('Check unmuting the video', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
-		expect(browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`))
-			.to
-			.be
-			.true;
+		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
 	});
 
 	it('Check opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
-		expect(browser.isExisting(porvata.stopScrolling))
-			.to
-			.be
-			.true;
+		browser.waitForExist(porvata.stopScrolling, timeouts.standard);
 	});
 
 	it('Check test closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
-		expect(browser.isExisting(porvata.videoPlayerHidden))
-			.to
-			.be
-			.true;
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
 		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
-		expect(browser.isExisting(porvata.videoPlayerHidden))
-			.to
-			.be
-			.true;
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });

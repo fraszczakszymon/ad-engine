@@ -40,6 +40,8 @@ describe('Viewport conflicts ads: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -56,7 +58,7 @@ describe('Viewport conflicts ads: top leaderboard', () => {
 describe('Viewport conflict ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(viewportConflictAd.pageLink);
-		browser.waitForVisible(adSlots.topBoxad);
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
 	it('Check visibility and dimensions', () => {
@@ -88,6 +90,8 @@ describe('Viewport conflict ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

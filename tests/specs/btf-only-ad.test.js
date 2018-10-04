@@ -44,6 +44,8 @@ describe('BTF Only ads page: incontent boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.incontentBoxad);
+		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
 
 		const tabIds = browser.getTabIds();

@@ -13,21 +13,14 @@ describe('Empty response page:', () => {
 
 	it('Check if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`), 'Element does not exist')
-			.to
-			.be
-			.true;
+		browser.waitForExist(`${adSlots.topLeaderboard}${helpers.classHidden}`, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 			.to
 			.be
 			.false;
 	});
 	it('Check if top boxad is not visible', () => {
-		browser.isExisting(adSlots.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`), 'Top boxad exists in code')
-			.to
-			.be
-			.true;
+		browser.waitForExist(`${adSlots.topBoxad}${helpers.classHidden}`, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
 			.to
 			.be

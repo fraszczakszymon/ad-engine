@@ -14,7 +14,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
-			// './tests/specs/hivi-uap-twitch-ad.test.js',
+			'./tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 		],
 		services: [
@@ -36,7 +36,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/hivi-uap-twitch-ad.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/btf-only-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 

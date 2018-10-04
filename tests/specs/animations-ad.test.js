@@ -40,6 +40,8 @@ describe('Animations ad page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -100,6 +102,8 @@ describe('Animations ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

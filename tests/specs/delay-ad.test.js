@@ -12,17 +12,14 @@ describe('Delay ads page: top leaderboard', () => {
 	});
 
 	it('Check if top leaderboard is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${delayAd.resultAttribute}`), 'Top leaderboard visible')
-			.to
-			.be
-			.false;
+		browser.waitForExist(`${adSlots.topLeaderboard}[${delayAd.resultAttribute}]`, timeouts.standard, true);
 	});
 
 	it('Check visibility and dimensions', () => {
 		const tableOfErrors = [];
 
 		delayAd.waitToLoadAds();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitForVisible(`${adSlots.topLeaderboard}[${delayAd.resultAttribute}]`, timeouts.standard);
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -68,7 +65,8 @@ describe('Delay ads page: top leaderboard', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -85,19 +83,16 @@ describe('Delay ads page: top leaderboard', () => {
 describe('Delay ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
-		browser.waitForVisible(helpers.pageBody);
+		browser.waitForVisible(helpers.pageBody, timeouts.standard);
 	});
 
 	it('Check if top boxad is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topBoxad}${delayAd.resultAttribute}`), 'Top boxad visible')
-			.to
-			.be
-			.false;
+		browser.waitForExist(`${adSlots.topBoxad}[${delayAd.resultAttribute}]`, timeouts.standard, true);
 	});
 
 	it('Check visibility and dimensions', () => {
 		delayAd.waitToLoadAds();
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		browser.waitForVisible(`${adSlots.topBoxad}[${delayAd.resultAttribute}]`, timeouts.standard);
 
 		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
@@ -144,7 +139,8 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

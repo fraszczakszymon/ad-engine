@@ -31,6 +31,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -221,6 +222,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
@@ -282,6 +284,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.incontentBoxad);
 		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
 
@@ -343,6 +346,8 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(adSlots.bottomLeaderboard);
+		browser.waitForEnabled(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.click(adSlots.bottomLeaderboard);
 
 		const tabIds = browser.getTabIds();
