@@ -18,6 +18,8 @@ export function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 		product = 'ABCD';
 	} else if (loadedProduct === 'vuap') {
 		product = `UAP_${loadedTemplate.toUpperCase()}`;
+	} else if (loadedProduct === 'incontent_veles') {
+		product = 'OUTSTREAM';
 	}
 
 	return {

@@ -223,7 +223,8 @@ export default {
 			],
 			defaultSizes: [[300, 250], [2, 2]],
 			targeting: {
-				loc: 'footer'
+				loc: 'footer',
+				pos: ['bottom_leaderboard', 'mobile_prefooter']
 			},
 			viewportConflicts: [
 				'top_boxad'
