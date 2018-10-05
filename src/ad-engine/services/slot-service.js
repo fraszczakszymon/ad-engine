@@ -67,18 +67,21 @@ class SlotService {
 	}
 
 	get(id) {
-		if (slots[id]) {
-			return slots[id];
+		const [singleSlotName] = id.split(',');
+		if (slots[singleSlotName]) {
+			return slots[singleSlotName];
 		}
 
-		// Find by pos in case of FMR X (slot name is for example incontent_boxad_1 instead of incontent_boxad)
+		// Find slots by first targeting.pos
 		let slotByPos = null;
 
-		Object.keys(slots).forEach((slot) => {
-			slot = slots[slot];
+		this.forEach((slot) => {
+			if (slotByPos !== null) {
+				return;
+			}
 
-			if (!slotByPos && slot.config && slot.config.targeting && slot.config.targeting.pos &&
-				(slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
+			const position = slot.getConfigProperty('targeting.pos') || [];
+			if (position === singleSlotName || position[0] === singleSlotName) {
 				slotByPos = slot;
 			}
 		});
