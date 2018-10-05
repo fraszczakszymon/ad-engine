@@ -1,54 +1,117 @@
 import Cookies from 'js-cookie';
 import Random from './random';
+import { context } from '../services/context-service';
 
-const earth = 'XX',
+const cacheMarker = '-cached',
+	cacheMaxAge = 30 * 60 * 1000,
+	earth = 'XX',
 	negativePrefix = 'non-',
 	precision = 10 ** 6, // precision to 0.00000001 (or 0.000001%) of traffic
-	samplingSeparator = '/';
+	samplingSeparator = '/',
+	sessionCookieDefault = 'wikia_session_id';
 
-let geoData = null,
-	cache = {};
+let cache = {},
+	cookieLoaded = false,
+	geoData = null;
+
+function hasCache(countryList) {
+	return countryList.some(country => country.indexOf(cacheMarker) !== -1);
+}
 
 function hasSampling(geo) {
 	return value => value.indexOf(negativePrefix) !== 0 && value.indexOf(geo + samplingSeparator) > -1;
 }
 
 function getSamplingLimits(value) {
-	const [, samplingValue] = value.split(samplingSeparator);
+	let [, samplingValue] = value.split(samplingSeparator);
+
+	samplingValue = samplingValue.replace(cacheMarker, '');
 
 	return Math.round(parseFloat(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
 }
 
-function addResultToCache(name, result, samplingLimits) {
+function addResultToCache(name, result, samplingLimits, withCookie) {
 	const [limitValue] = samplingLimits;
 
 	cache[name] = {
 		name,
 		group: result ? 'B' : 'A',
 		limit: (result ? limitValue : (precision * 100) - limitValue) / precision,
-		result
+		result,
+		withCookie
 	};
+
+	if (withCookie) {
+		synchronizeCookie();
+	}
 }
 
-function getResult(samplingLimits, name) {
+function getCookieDomain() {
+	const domain = (window.location.hostname).split('.');
+
+	return domain.length > 1 ? `.${domain[domain.length - 2]}.${domain[domain.length - 1]}` : undefined;
+}
+
+function loadCookie() {
+	readSessionId();
+
+	const cookie = Cookies.get(`${context.get('options.session.id')}_basset`);
+
+	if (cookie) {
+		const cachedVariables = JSON.parse(cookie);
+
+		Object.keys(cachedVariables).forEach((variable) => {
+			cache[variable] = cachedVariables[variable];
+		});
+
+		setCookie(cookie);
+	}
+
+	cookieLoaded = true;
+}
+
+function synchronizeCookie() {
+	const cachedVariables = {};
+
+	Object.keys(cache).forEach((variable) => {
+		if (cache[variable].withCookie) {
+			cachedVariables[variable] = cache[variable];
+		}
+	});
+
+	setCookie(JSON.stringify(cachedVariables));
+}
+
+function setCookie(value) {
+	Cookies.set(`${context.get('options.session.id')}_basset`, value, {
+		maxAge: cacheMaxAge,
+		expires: new Date(new Date().getTime() + cacheMaxAge),
+		path: '/',
+		domain: getCookieDomain(),
+		overwrite: true
+	});
+}
+
+function getResult(samplingLimits, name, withCookie) {
 	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0, // eslint-disable-line no-bitwise
 		result = samplingLimits.some(value => randomValue < value);
 
 	if (name) {
-		addResultToCache(name, result, samplingLimits);
+		addResultToCache(name, result, samplingLimits, withCookie);
 	}
 
 	return result;
 }
 
 function isSampledForGeo(countryList, geo, name) {
-	const countryListWithSampling = countryList.filter(hasSampling(geo));
+	const countryListWithSampling = countryList.filter(hasSampling(geo)),
+		cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;
 	}
 
-	return getResult(countryListWithSampling.map(getSamplingLimits), name);
+	return getResult(countryListWithSampling.map(getSamplingLimits), name, cachedWithCookie);
 }
 
 function containsEarth(countryList, name) {
@@ -177,6 +240,18 @@ export function resetSamplingCache() {
 	cache = {};
 }
 
+export function readSessionId() {
+	const sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
+	const sid = Cookies.get(sessionCookieName) || context.get('options.session.id') || 'ae3';
+
+	setSessionId(sid);
+}
+
+export function setSessionId(sid) {
+	context.set('options.session.id', sid);
+	cookieLoaded = false;
+}
+
 export function getSamplingResults() {
 	return Object.keys(cache).map(getResultLog);
 }
@@ -189,6 +264,10 @@ export function getSamplingResults() {
  * @returns {boolean}
  */
 export function isProperGeo(countryList = [], name = undefined) {
+	if (!cookieLoaded) {
+		loadCookie();
+	}
+
 	if (name !== undefined && typeof cache[name] !== 'undefined') {
 		return cache[name].result;
 	}
@@ -226,6 +305,8 @@ const module = {
 	getSamplingResults,
 	isProperGeo,
 	resetSamplingCache,
+	readSessionId,
+	setSessionId,
 	mapSamplingResults,
 };
 
