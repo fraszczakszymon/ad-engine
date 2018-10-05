@@ -52,7 +52,7 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check redirect on click', () => {
 		hiviUapJwp.waitToLoadAds();
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -68,7 +68,7 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check if top leaderboard does not load after manually finishing the queue', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
-		expect(browser.isExisting(adSlots.lineItemParam), 'Top leaderboard has been loaded')
+		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded')
 			.to
 			.be
 			.false;
@@ -91,7 +91,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	it('Check visibility, dimensions and if the loaded ad is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 
 		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
@@ -116,7 +116,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 		}
 
 		try {
-			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 				.to
 				.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 		} catch (error) {
@@ -142,14 +142,14 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
 			.equal(adSlots.adViewed, 'Top boxad slot has not been counted as viewed');
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUapJwp.uapLineItemId);
 	});
 
 	it('Check redirect on click', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 		helpers.waitForNewTab();
@@ -208,7 +208,7 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
+			expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
 				.to
 				.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 		} catch (error) {
@@ -235,7 +235,7 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
 			.equal(adSlots.adViewed, 'Incontent boxad slot has not been counted as viewed');
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded');
 	});

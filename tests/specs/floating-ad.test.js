@@ -40,7 +40,7 @@ describe('Floating ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -127,7 +127,7 @@ describe('Floating ad page: incontent boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.incontentBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
 

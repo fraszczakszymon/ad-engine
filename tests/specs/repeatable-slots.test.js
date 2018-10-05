@@ -36,7 +36,7 @@ describe('Repeatable slots ads', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(repeatableSlots.getRepeatableSlot(1));
+		helpers.waitForLineItemIdAttribute(repeatableSlots.getRepeatableSlot(1));
 		browser.waitForEnabled(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		browser.click(repeatableSlots.getRepeatableSlot(1));
 

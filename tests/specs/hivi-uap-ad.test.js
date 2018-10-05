@@ -12,8 +12,8 @@ describe('Hivi uap ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
@@ -26,7 +26,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -59,7 +59,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 	it('Check default and resolved state after scroll', () => {
 		const tableOfErrors = [];
 
-		helpers.reloadPage(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
@@ -116,7 +116,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 	it('Check default and resolved state after refresh', () => {
 		const tableOfErrors = [];
 
-		helpers.reloadPage(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
@@ -232,14 +232,14 @@ describe('Hivi uap ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 		helpers.waitForNewTab();
@@ -291,14 +291,14 @@ describe('Hivi uap ads page: incontent boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.incontentBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		browser.click(adSlots.incontentBoxad);
 
@@ -349,14 +349,14 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.bottomLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		browser.waitForEnabled(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.click(adSlots.bottomLeaderboard);
 

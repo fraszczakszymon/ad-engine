@@ -51,14 +51,14 @@ describe('Floating rail ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -108,14 +108,14 @@ describe('Floating rail ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 

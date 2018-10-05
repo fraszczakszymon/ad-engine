@@ -40,7 +40,7 @@ describe('Viewport conflicts ads: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -90,7 +90,7 @@ describe('Viewport conflict ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 

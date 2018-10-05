@@ -102,7 +102,7 @@ class Helpers {
 	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
-	reloadPage(adPage, adSlot) {
+	reloadPageAndWaitForSlot(adPage, adSlot) {
 		browser.reload();
 		browser.windowHandleSize({ width: 1920, height: 1080 });
 		browser.url(adPage); // mandatory, because test page fails to load without it
@@ -129,8 +129,8 @@ class Helpers {
 	 * Waits until the ad slot to receive its line item id parameter.
 	 * @param adSlot ad slot that should receive the parameter
 	 */
-	waitForLineItemParam(adSlot) {
-		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
+	waitForLineItemIdAttribute(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
 	}
 
 	/**

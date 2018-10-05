@@ -40,8 +40,8 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(twitchAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
@@ -54,7 +54,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topLeaderboard);
 
@@ -111,14 +111,14 @@ describe('Twitch ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(twitchAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topBoxad);
 

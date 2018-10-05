@@ -65,7 +65,7 @@ describe('Delay ads page: top leaderboard', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(delayAd.loadAdsButton);
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
 		browser.click(adSlots.topLeaderboard);
 
@@ -139,7 +139,7 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check redirect on click', () => {
 		browser.click(delayAd.loadAdsButton);
-		helpers.waitForLineItemParam(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
