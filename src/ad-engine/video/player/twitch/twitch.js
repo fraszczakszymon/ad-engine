@@ -25,7 +25,6 @@ export class TwitchPlayer {
 	getVideoSettings() {
 		return this.videoSettings;
 	}
-
 }
 
 export class Twitch {
