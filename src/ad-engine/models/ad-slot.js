@@ -135,6 +135,10 @@ export class AdSlot extends EventEmitter {
 		this.setStatus(status);
 	}
 
+	getConfigProperty(key) {
+		return context.get(`slots.${this.config.slotName}.${key}`);
+	}
+
 	setConfigProperty(key, value) {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
 		this.config[key] = value;

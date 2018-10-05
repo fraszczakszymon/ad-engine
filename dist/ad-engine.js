@@ -104,13 +104,13 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 7 */
@@ -164,55 +164,55 @@ module.exports = require("babel-runtime/helpers/get");
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/map");
+module.exports = require("current-device");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("babel-runtime/core-js/map");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/values");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("babel-runtime/core-js/object/values");
 
 /***/ }),
 /* 24 */
@@ -255,6 +255,8 @@ __webpack_require__.d(utils_namespaceObject, "isProperCountry", function() { ret
 __webpack_require__.d(utils_namespaceObject, "isProperRegion", function() { return isProperRegion; });
 __webpack_require__.d(utils_namespaceObject, "isProperContinent", function() { return isProperContinent; });
 __webpack_require__.d(utils_namespaceObject, "resetSamplingCache", function() { return resetSamplingCache; });
+__webpack_require__.d(utils_namespaceObject, "readSessionId", function() { return readSessionId; });
+__webpack_require__.d(utils_namespaceObject, "setSessionId", function() { return setSessionId; });
 __webpack_require__.d(utils_namespaceObject, "getSamplingResults", function() { return getSamplingResults; });
 __webpack_require__.d(utils_namespaceObject, "isProperGeo", function() { return isProperGeo; });
 __webpack_require__.d(utils_namespaceObject, "mapSamplingResults", function() { return mapSamplingResults; });
@@ -285,7 +287,7 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(19);
+var external_current_device_ = __webpack_require__(20);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
@@ -540,7 +542,7 @@ function isInTheSameViewport(element) {
 	return conflicts.length > 0;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(5);
+var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -605,16 +607,20 @@ function flow_control_once(emitter, eventName) {
 		}
 	});
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
+var stringify_ = __webpack_require__(4);
+var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
+
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
 var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(6);
+var slicedToArray_ = __webpack_require__(5);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(23);
+var external_js_cookie_ = __webpack_require__(15);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/random.js
@@ -629,20 +635,178 @@ function getRandom() {
 /* harmony default export */ var random = ({
 	getRandom: getRandom
 });
+// CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
+
+
+
+
+var contextObject = {
+	adUnitId: '',
+	events: {},
+	delayModules: [],
+	listeners: {
+		porvata: [],
+		slot: []
+	},
+	options: {
+		customAdLoader: {
+			globalMethodName: 'loadCustomAd'
+		},
+		maxDelayTimeout: 2000,
+		video: {
+			moatTracking: {
+				enabled: true,
+				partnerCode: 'wikiaimajsint377461931603',
+				sampling: 1
+			}
+		},
+		slotRepeater: false,
+		trackingOptIn: false
+	},
+	slots: {},
+	src: 'gpt',
+	state: {
+		adStack: [],
+		isMobile: false
+	},
+	targeting: {},
+	vast: {
+		size: [640, 480],
+		adUnitId: ''
+	}
+},
+    onChangeCallbacks = {};
+
+function runCallbacks(trigger, key, newValue) {
+	if (!onChangeCallbacks[trigger]) {
+		return;
+	}
+
+	onChangeCallbacks[trigger].forEach(function (callback) {
+		callback(key, newValue);
+	});
+}
+
+function triggerOnChange(key, segments, newValue) {
+	var trigger = '';
+	segments.forEach(function (seg) {
+		trigger += (trigger === '' ? '' : '.') + seg;
+		runCallbacks(trigger, key, newValue);
+	});
+}
+
+function context_service_segment(key, newValue) {
+	var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+	var segments = key.split('.'),
+	    segmentsCount = segments.length;
+	var seg = contextObject,
+	    lastKey = null;
+
+	for (var i = 0; i < segmentsCount; i += 1) {
+		lastKey = segments[i];
+		if (i < segmentsCount - 1) {
+			seg[lastKey] = seg[lastKey] || {};
+			seg = seg[lastKey];
+		}
+	}
+
+	if (remove) {
+		delete seg[lastKey];
+		return null;
+	}
+
+	if (newValue !== undefined) {
+		seg[lastKey] = newValue;
+		triggerOnChange(key, segments, newValue);
+	}
+
+	return seg[lastKey];
+}
+
+var context_service_Context = function () {
+	function Context() {
+		classCallCheck_default()(this, Context);
+
+		this.__useDefault = true;
+	}
+
+	createClass_default()(Context, [{
+		key: 'extend',
+		value: function extend(newContext) {
+			assign_default()(contextObject, newContext);
+		}
+	}, {
+		key: 'set',
+		value: function set(key, value) {
+			context_service_segment(key, value);
+		}
+	}, {
+		key: 'get',
+		value: function get(key) {
+			return context_service_segment(key);
+		}
+	}, {
+		key: 'remove',
+		value: function remove(key) {
+			context_service_segment(key, null, true);
+		}
+	}, {
+		key: 'push',
+		value: function push(key, value) {
+			var array = context_service_segment(key);
+
+			if (array) {
+				array.push(value);
+			}
+		}
+	}, {
+		key: 'onChange',
+		value: function onChange(key, callback) {
+			onChangeCallbacks[key] = onChangeCallbacks[key] || [];
+			onChangeCallbacks[key].push(callback);
+		}
+	}, {
+		key: 'removeListeners',
+		value: function removeListeners(key) {
+			keys_default()(onChangeCallbacks).forEach(function (contextKey) {
+				if (contextKey === key || contextKey.indexOf(key + '.') === 0) {
+					delete onChangeCallbacks[contextKey];
+				}
+			});
+		}
+	}]);
+
+	return Context;
+}();
+
+var context = new context_service_Context();
 // CONCATENATED MODULE: ./src/ad-engine/utils/geo.js
 
 
 
 
 
-var earth = 'XX',
+
+
+var cacheMarker = '-cached',
+    cacheMaxAge = 30 * 60 * 1000,
+    earth = 'XX',
     negativePrefix = 'non-',
     precision = Math.pow(10, 6),
     // precision to 0.00000001 (or 0.000001%) of traffic
-samplingSeparator = '/';
+samplingSeparator = '/',
+    sessionCookieDefault = 'wikia_session_id';
 
-var geoData = null,
-    cache = {};
+var cache = {},
+    cookieLoaded = false,
+    geoData = null;
+
+function hasCache(countryList) {
+	return countryList.some(function (country) {
+		return country.indexOf(cacheMarker) !== -1;
+	});
+}
 
 function hasSampling(geo) {
 	return function (value) {
@@ -655,10 +819,12 @@ function getSamplingLimits(value) {
 	    _value$split2 = slicedToArray_default()(_value$split, 2),
 	    samplingValue = _value$split2[1];
 
+	samplingValue = samplingValue.replace(cacheMarker, '');
+
 	return Math.round(parseFloat(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
 }
 
-function addResultToCache(name, result, samplingLimits) {
+function addResultToCache(name, result, samplingLimits, withCookie) {
 	var _samplingLimits = slicedToArray_default()(samplingLimits, 1),
 	    limitValue = _samplingLimits[0];
 
@@ -666,11 +832,62 @@ function addResultToCache(name, result, samplingLimits) {
 		name: name,
 		group: result ? 'B' : 'A',
 		limit: (result ? limitValue : precision * 100 - limitValue) / precision,
-		result: result
+		result: result,
+		withCookie: withCookie
 	};
+
+	if (withCookie) {
+		synchronizeCookie();
+	}
 }
 
-function getResult(samplingLimits, name) {
+function getCookieDomain() {
+	var domain = window.location.hostname.split('.');
+
+	return domain.length > 1 ? '.' + domain[domain.length - 2] + '.' + domain[domain.length - 1] : undefined;
+}
+
+function loadCookie() {
+	readSessionId();
+
+	var cookie = external_js_cookie_default.a.get(context.get('options.session.id') + '_basset');
+
+	if (cookie) {
+		var cachedVariables = JSON.parse(cookie);
+
+		keys_default()(cachedVariables).forEach(function (variable) {
+			cache[variable] = cachedVariables[variable];
+		});
+
+		setCookie(cookie);
+	}
+
+	cookieLoaded = true;
+}
+
+function synchronizeCookie() {
+	var cachedVariables = {};
+
+	keys_default()(cache).forEach(function (variable) {
+		if (cache[variable].withCookie) {
+			cachedVariables[variable] = cache[variable];
+		}
+	});
+
+	setCookie(stringify_default()(cachedVariables));
+}
+
+function setCookie(value) {
+	external_js_cookie_default.a.set(context.get('options.session.id') + '_basset', value, {
+		maxAge: cacheMaxAge,
+		expires: new Date(new Date().getTime() + cacheMaxAge),
+		path: '/',
+		domain: getCookieDomain(),
+		overwrite: true
+	});
+}
+
+function getResult(samplingLimits, name, withCookie) {
 	var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0,
 	    // eslint-disable-line no-bitwise
 	result = samplingLimits.some(function (value) {
@@ -678,20 +895,21 @@ function getResult(samplingLimits, name) {
 	});
 
 	if (name) {
-		addResultToCache(name, result, samplingLimits);
+		addResultToCache(name, result, samplingLimits, withCookie);
 	}
 
 	return result;
 }
 
 function isSampledForGeo(countryList, geo, name) {
-	var countryListWithSampling = countryList.filter(hasSampling(geo));
+	var countryListWithSampling = countryList.filter(hasSampling(geo)),
+	    cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;
 	}
 
-	return getResult(countryListWithSampling.map(getSamplingLimits), name);
+	return getResult(countryListWithSampling.map(getSamplingLimits), name, cachedWithCookie);
 }
 
 function containsEarth(countryList, name) {
@@ -818,6 +1036,18 @@ function resetSamplingCache() {
 	cache = {};
 }
 
+function readSessionId() {
+	var sessionCookieName = context.get('options.session.cookieName') || sessionCookieDefault;
+	var sid = external_js_cookie_default.a.get(sessionCookieName) || context.get('options.session.id') || 'ae3';
+
+	setSessionId(sid);
+}
+
+function setSessionId(sid) {
+	context.set('options.session.id', sid);
+	cookieLoaded = false;
+}
+
 function getSamplingResults() {
 	return keys_default()(cache).map(getResultLog);
 }
@@ -832,6 +1062,10 @@ function getSamplingResults() {
 function isProperGeo() {
 	var countryList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+	if (!cookieLoaded) {
+		loadCookie();
+	}
 
 	if (name !== undefined && typeof cache[name] !== 'undefined') {
 		return cache[name].result;
@@ -868,6 +1102,8 @@ var geo_module = {
 	getSamplingResults: getSamplingResults,
 	isProperGeo: isProperGeo,
 	resetSamplingCache: resetSamplingCache,
+	readSessionId: readSessionId,
+	setSessionId: setSessionId,
 	mapSamplingResults: mapSamplingResults
 };
 
@@ -1048,158 +1284,12 @@ var scriptLoader = new script_loader_ScriptLoader();
 var toConsumableArray_ = __webpack_require__(12);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
-
-
-
-
-var contextObject = {
-	adUnitId: '',
-	events: {},
-	delayModules: [],
-	listeners: {
-		porvata: [],
-		slot: []
-	},
-	options: {
-		customAdLoader: {
-			globalMethodName: 'loadCustomAd'
-		},
-		maxDelayTimeout: 2000,
-		video: {
-			moatTracking: {
-				enabled: true,
-				partnerCode: 'wikiaimajsint377461931603',
-				sampling: 1
-			}
-		},
-		slotRepeater: false,
-		trackingOptIn: false
-	},
-	slots: {},
-	src: 'gpt',
-	state: {
-		adStack: [],
-		isMobile: false
-	},
-	targeting: {},
-	vast: {
-		size: [640, 480],
-		adUnitId: ''
-	}
-},
-    onChangeCallbacks = {};
-
-function runCallbacks(trigger, key, newValue) {
-	if (!onChangeCallbacks[trigger]) {
-		return;
-	}
-
-	onChangeCallbacks[trigger].forEach(function (callback) {
-		callback(key, newValue);
-	});
-}
-
-function triggerOnChange(key, segments, newValue) {
-	var trigger = '';
-	segments.forEach(function (seg) {
-		trigger += (trigger === '' ? '' : '.') + seg;
-		runCallbacks(trigger, key, newValue);
-	});
-}
-
-function context_service_segment(key, newValue) {
-	var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-	var segments = key.split('.'),
-	    segmentsCount = segments.length;
-	var seg = contextObject,
-	    lastKey = null;
-
-	for (var i = 0; i < segmentsCount; i += 1) {
-		lastKey = segments[i];
-		if (i < segmentsCount - 1) {
-			seg[lastKey] = seg[lastKey] || {};
-			seg = seg[lastKey];
-		}
-	}
-
-	if (remove) {
-		delete seg[lastKey];
-		return null;
-	}
-
-	if (newValue !== undefined) {
-		seg[lastKey] = newValue;
-		triggerOnChange(key, segments, newValue);
-	}
-
-	return seg[lastKey];
-}
-
-var context_service_Context = function () {
-	function Context() {
-		classCallCheck_default()(this, Context);
-
-		this.__useDefault = true;
-	}
-
-	createClass_default()(Context, [{
-		key: 'extend',
-		value: function extend(newContext) {
-			assign_default()(contextObject, newContext);
-		}
-	}, {
-		key: 'set',
-		value: function set(key, value) {
-			context_service_segment(key, value);
-		}
-	}, {
-		key: 'get',
-		value: function get(key) {
-			return context_service_segment(key);
-		}
-	}, {
-		key: 'remove',
-		value: function remove(key) {
-			context_service_segment(key, null, true);
-		}
-	}, {
-		key: 'push',
-		value: function push(key, value) {
-			var array = context_service_segment(key);
-
-			if (array) {
-				array.push(value);
-			}
-		}
-	}, {
-		key: 'onChange',
-		value: function onChange(key, callback) {
-			onChangeCallbacks[key] = onChangeCallbacks[key] || [];
-			onChangeCallbacks[key].push(callback);
-		}
-	}, {
-		key: 'removeListeners',
-		value: function removeListeners(key) {
-			keys_default()(onChangeCallbacks).forEach(function (contextKey) {
-				if (contextKey === key || contextKey.indexOf(key + '.') === 0) {
-					delete onChangeCallbacks[contextKey];
-				}
-			});
-		}
-	}]);
-
-	return Context;
-}();
-
-var context = new context_service_Context();
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
-var values_ = __webpack_require__(22);
+var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(18);
+var get_own_property_names_ = __webpack_require__(19);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -1219,11 +1309,11 @@ var helpers_get_ = __webpack_require__(14);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(16);
+var inherits_ = __webpack_require__(17);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(15);
+var external_eventemitter3_ = __webpack_require__(16);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -1385,10 +1475,6 @@ var events_EventService = function (_EventEmitter) {
 }(external_eventemitter3_default.a);
 
 var events = new events_EventService();
-// EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
-var stringify_ = __webpack_require__(4);
-var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
-
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
 
 
@@ -1576,14 +1662,16 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
-	if (context.get('options.porvata.audio.exposeToSlot')) {
-		var key = context.get('options.porvata.audio.key'),
-		    segment = context.get('options.porvata.audio.segment');
-
+	// DEPRECATED: options.porvata.audio.segment
+	var segment = context.get('options.porvata.audio.segment');
+	if (segment) {
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
-		adSlot.setConfigProperty('audio', !params.autoPlay);
-		adSlot.setConfigProperty('targeting.' + key, params.autoPlay ? 'no' : 'yes');
 	}
+
+	adSlot.setConfigProperty('autoplay', params.autoPlay);
+	adSlot.setConfigProperty('audio', !params.autoPlay);
+	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
+	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
@@ -2412,11 +2500,11 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(17);
+var regenerator_ = __webpack_require__(18);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_ = __webpack_require__(22);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/video/player/twitch/embed/twitch-embed.js
@@ -3057,6 +3145,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			this.setStatus(status);
 		}
 	}, {
+		key: 'getConfigProperty',
+		value: function getConfigProperty(key) {
+			return context.get('slots.' + this.config.slotName + '.' + key);
+		}
+	}, {
 		key: 'setConfigProperty',
 		value: function setConfigProperty(key, value) {
 			context.set('slots.' + this.config.slotName + '.' + key, value);
@@ -3101,6 +3194,7 @@ ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
+
 
 
 
@@ -3183,17 +3277,24 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'get',
 		value: function get(id) {
-			if (slot_service_slots[id]) {
-				return slot_service_slots[id];
+			var _id$split = id.split(','),
+			    _id$split2 = slicedToArray_default()(_id$split, 1),
+			    singleSlotName = _id$split2[0];
+
+			if (slot_service_slots[singleSlotName]) {
+				return slot_service_slots[singleSlotName];
 			}
 
-			// Find by pos in case of FMR X (slot name is for example incontent_boxad_1 instead of incontent_boxad)
+			// Find slots by first targeting.pos
 			var slotByPos = null;
 
-			keys_default()(slot_service_slots).forEach(function (slot) {
-				slot = slot_service_slots[slot];
+			this.forEach(function (slot) {
+				if (slotByPos !== null) {
+					return;
+				}
 
-				if (!slotByPos && slot.config && slot.config.targeting && slot.config.targeting.pos && (slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
+				var position = slot.getConfigProperty('targeting.pos') || [];
+				if (position === singleSlotName || position[0] === singleSlotName) {
 					slotByPos = slot;
 				}
 			});
@@ -3460,7 +3561,7 @@ var templateService = new template_service_TemplateService();
 
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
-		var slot = slotService.get(params.slotName);
+		var slot = params.slotName ? slotService.get(params.slotName) : null;
 
 		templateService.init(params.type, slot, params);
 	};
@@ -4581,7 +4682,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/map"
-var map_ = __webpack_require__(20);
+var map_ = __webpack_require__(21);
 var map_default = /*#__PURE__*/__webpack_require__.n(map_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
@@ -4850,8 +4951,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v18.0.1');
-logger('ad-engine', 'v18.0.1');
+set_default()(window, versionField, 'v18.1.1');
+logger('ad-engine', 'v18.1.1');
 
 
 
