@@ -13,6 +13,7 @@ describe('BTF Only ads page: incontent boxad', () => {
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		helpers.waitForExpanded(adSlots.incontentBoxad);
 	});
 
 	it('Check visibility after manually finishing the queue', () => {

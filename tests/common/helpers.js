@@ -132,6 +132,14 @@ class Helpers {
 	waitForLineItemParam(adSlot) {
 		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
 	}
+
+	/**
+	 * Waits until the element is visible and its height is greater than 0.
+	 * @param adSlot ad slot we are waiting for
+	 */
+	waitForExpanded(adSlot) {
+		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+	}
 }
 
 export default new Helpers();

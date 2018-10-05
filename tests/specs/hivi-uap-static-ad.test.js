@@ -65,7 +65,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -122,7 +122,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		const tableOfErrors = [];
 
 		helpers.reloadPage(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
 
@@ -146,8 +146,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		}
 
 		helpers.refreshPage();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.waitUntil(() => browser.getElementSize(adSlots.topLeaderboard, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
 
