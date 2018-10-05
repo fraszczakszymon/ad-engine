@@ -29,6 +29,14 @@ export default {
 		return null;
 	},
 
+	getConfigProperty(key) {
+		if (key === 'targeting.pos') {
+			return this.config.targeting.pos;
+		}
+
+		return null;
+	},
+
 	getElement() {
 		return {
 			classList: {

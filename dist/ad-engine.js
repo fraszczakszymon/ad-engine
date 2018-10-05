@@ -104,13 +104,13 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 7 */
@@ -539,7 +539,7 @@ function isInTheSameViewport(element) {
 	return conflicts.length > 0;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(5);
+var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -613,7 +613,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(6);
+var slicedToArray_ = __webpack_require__(5);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
@@ -1659,14 +1659,16 @@ function createRequest(params) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
 	}
 
-	if (context.get('options.porvata.audio.exposeToSlot')) {
-		var key = context.get('options.porvata.audio.key'),
-		    segment = context.get('options.porvata.audio.segment');
-
+	// DEPRECATED: options.porvata.audio.segment
+	var segment = context.get('options.porvata.audio.segment');
+	if (segment) {
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
-		adSlot.setConfigProperty('audio', !params.autoPlay);
-		adSlot.setConfigProperty('targeting.' + key, params.autoPlay ? 'no' : 'yes');
 	}
+
+	adSlot.setConfigProperty('autoplay', params.autoPlay);
+	adSlot.setConfigProperty('audio', !params.autoPlay);
+	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
+	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
 	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
@@ -3140,6 +3142,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			this.setStatus(status);
 		}
 	}, {
+		key: 'getConfigProperty',
+		value: function getConfigProperty(key) {
+			return context.get('slots.' + this.config.slotName + '.' + key);
+		}
+	}, {
 		key: 'setConfigProperty',
 		value: function setConfigProperty(key, value) {
 			context.set('slots.' + this.config.slotName + '.' + key, value);
@@ -3181,6 +3188,7 @@ ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
+
 
 
 
@@ -3263,17 +3271,24 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'get',
 		value: function get(id) {
-			if (slot_service_slots[id]) {
-				return slot_service_slots[id];
+			var _id$split = id.split(','),
+			    _id$split2 = slicedToArray_default()(_id$split, 1),
+			    singleSlotName = _id$split2[0];
+
+			if (slot_service_slots[singleSlotName]) {
+				return slot_service_slots[singleSlotName];
 			}
 
-			// Find by pos in case of FMR X (slot name is for example incontent_boxad_1 instead of incontent_boxad)
+			// Find slots by first targeting.pos
 			var slotByPos = null;
 
-			keys_default()(slot_service_slots).forEach(function (slot) {
-				slot = slot_service_slots[slot];
+			this.forEach(function (slot) {
+				if (slotByPos !== null) {
+					return;
+				}
 
-				if (!slotByPos && slot.config && slot.config.targeting && slot.config.targeting.pos && (slot.config.targeting.pos === id || slot.config.targeting.pos[0] === id)) {
+				var position = slot.getConfigProperty('targeting.pos') || [];
+				if (position === singleSlotName || position[0] === singleSlotName) {
 					slotByPos = slot;
 				}
 			});
@@ -3529,7 +3544,7 @@ var templateService = new template_service_TemplateService();
 
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
-		var slot = slotService.get(params.slotName);
+		var slot = params.slotName ? slotService.get(params.slotName) : null;
 
 		templateService.init(params.type, slot, params);
 	};
