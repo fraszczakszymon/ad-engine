@@ -91,6 +91,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	it('Check visibility, dimensions and if the loaded ad is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 
 		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
@@ -127,7 +128,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 			.equal(0);
 	});
 
-	it('Check if top boxad shows up after clicking the button, if it was viewed and if it uap ad', () => {
+	it('Check if top boxad shows up after clicking the button, if it was viewed and if it is uap ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForViewed(adSlots.topBoxad);
