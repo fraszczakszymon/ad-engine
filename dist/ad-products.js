@@ -297,6 +297,214 @@ function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 }
 // CONCATENATED MODULE: ./src/ad-products/common/index.js
 
+// EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
+var classCallCheck_ = __webpack_require__(3);
+var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
+var createClass_ = __webpack_require__(1);
+var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/floating-rail.js
+
+
+
+
+var adsInRail = 2;
+var biggestAdSize = 600;
+
+var availableSpace = null;
+
+var floating_rail_FloatingRail = function () {
+	createClass_default()(FloatingRail, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'floatingRail';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				enabled: true,
+				railSelector: '#rail',
+				wrapperSelector: '#rail-wrapper',
+				startOffset: 0
+			};
+		}
+	}]);
+
+	function FloatingRail() {
+		classCallCheck_default()(this, FloatingRail);
+
+		this.config = ad_engine_["context"].get('templates.floatingRail');
+		this.rail = document.querySelector(this.config.railSelector);
+		this.railWrapper = document.querySelector(this.config.wrapperSelector);
+	}
+
+	createClass_default()(FloatingRail, [{
+		key: 'init',
+		value: function init(params) {
+			var _this = this;
+
+			this.params = params;
+
+			var offset = this.params.offset || 0;
+
+			if (!this.railWrapper || !FloatingRail.isEnabled() || this.getAvailableSpace() === 0) {
+				return;
+			}
+
+			var floatingSpace = Math.min(offset, this.getAvailableSpace());
+
+			ad_engine_["scrollListener"].addCallback(function () {
+				var start = _this.config.startOffset + ad_engine_["utils"].getTopOffset(_this.railWrapper),
+				    end = start + floatingSpace,
+				    scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+				if (scrollPosition <= start) {
+					_this.rail.style.paddingTop = '';
+					_this.rail.classList.add('rail-static');
+					_this.rail.classList.remove('rail-fixed');
+				} else if (scrollPosition >= end) {
+					_this.rail.style.paddingTop = floatingSpace + 'px';
+					_this.rail.classList.remove('rail-static');
+					_this.rail.classList.remove('rail-fixed');
+				} else {
+					_this.rail.style.paddingTop = '';
+					_this.rail.classList.remove('rail-static');
+					_this.rail.classList.add('rail-fixed');
+				}
+			});
+		}
+	}, {
+		key: 'getAvailableSpace',
+		value: function getAvailableSpace() {
+			if (availableSpace === null) {
+				var children = this.railWrapper.lastElementChild,
+				    childrenHeight = children.offsetTop + children.offsetHeight,
+				    space = this.railWrapper.offsetHeight;
+
+				availableSpace = Math.max(0, space - childrenHeight - adsInRail * biggestAdSize);
+			}
+
+			return availableSpace;
+		}
+	}], [{
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
+		}
+	}]);
+
+	return FloatingRail;
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/skin.js
+
+
+
+
+var skin_Skin = function () {
+	createClass_default()(Skin, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'skin';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				bodyAdClass: 'has-background-ad',
+				onInit: function onInit() {},
+				wrapperSelector: '#ad-skin',
+				zIndex: 1
+			};
+		}
+	}]);
+
+	function Skin() {
+		classCallCheck_default()(this, Skin);
+
+		this.config = ad_engine_["context"].get('templates.skin');
+		this.adSkin = document.querySelector(this.config.wrapperSelector);
+	}
+
+	/**
+  * Initializes the Skin unit
+  *
+  * @param {Object} params
+  * @param {string} params.destUrl - URL to go when the background is clicked
+  * @param {string} params.skinImage - URL of the 1700x800 image to show in the background
+  * @param {string} params.backgroundColor - background color to use (rrggbb, without leading #)
+  * @param {string} [params.middleColor] - color to use in the middle (rrggbb, without leading #)
+  * @param {Array} params.pixels - URLs of tracking pixels to append when showing the skin
+  */
+
+
+	createClass_default()(Skin, [{
+		key: 'init',
+		value: function init(params) {
+			this.params = params;
+			this.params.adProduct = 'skin';
+
+			document.body.classList.add(this.config.bodyAdClass);
+			this.setAdSkinStyle(params.skinImage, params.backgroundColor);
+
+			this.adSkin.onclick = function () {
+				window.open(params.destUrl);
+			};
+
+			if (params.pixels) {
+				this.setTrackingPixels(params.pixels);
+			}
+
+			this.adSkin.classList.remove('hide');
+
+			this.config.onInit(this.params);
+		}
+
+		/**
+   * Sets styles for ad skin wrapper
+   *
+   * @param params
+   */
+
+	}, {
+		key: 'setAdSkinStyle',
+		value: function setAdSkinStyle(image, color) {
+			this.adSkin.style.position = 'fixed';
+			this.adSkin.style.height = '100%';
+			this.adSkin.style.width = '100%';
+			this.adSkin.style.left = 0;
+			this.adSkin.style.top = 0;
+			this.adSkin.style.zIndex = this.config.zIndex;
+			this.adSkin.style.cursor = 'pointer';
+			this.adSkin.style.background = 'url("' + image + '") no-repeat top center #' + color;
+		}
+
+		/**
+   * Goes through pixels array and adds 1x1 pixel images
+   *
+   * @param pixels
+   */
+
+	}, {
+		key: 'setTrackingPixels',
+		value: function setTrackingPixels(pixels) {
+			for (var i = 0, len = pixels.length; i < len; i += 1) {
+				var pixelUrl = pixels[i];
+				if (pixelUrl) {
+					var pixelElement = document.createElement('img');
+					pixelElement.src = pixelUrl;
+					pixelElement.width = 1;
+					pixelElement.height = 1;
+					this.adSkin.appendChild(pixelElement);
+				}
+			}
+		}
+	}]);
+
+	return Skin;
+}();
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
 var regenerator_ = __webpack_require__(2);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
@@ -308,14 +516,6 @@ var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
 var asyncToGenerator_ = __webpack_require__(4);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(3);
-var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(1);
-var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
 var symbol_ = __webpack_require__(13);
@@ -808,7 +1008,7 @@ var sticky_ad_StickyAd = function () {
 				stickyUntilSlotViewed: true,
 				handleNavbar: true,
 				navbarWrapperSelector: 'body > nav.navigation',
-				topOffset: 0
+				slotsIgnoringNavbar: []
 			};
 		}
 	}]);
@@ -820,6 +1020,7 @@ var sticky_ad_StickyAd = function () {
 		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
 		this.stickiness = null;
 		this.scrollListener = null;
+		this.topOffset = 0;
 	}
 
 	createClass_default()(StickyAd, [{
@@ -838,13 +1039,13 @@ var sticky_ad_StickyAd = function () {
 			this.addUnstickLogic();
 			this.addUnstickEvents();
 
-			if (this.config.handleNavbar) {
+			if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
 				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
 
-				this.config.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
+				this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
 			}
 
-			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement()) - this.config.topOffset;
+			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
 
 			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
 				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
@@ -931,7 +1132,7 @@ var sticky_ad_StickyAd = function () {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 9;
+									_context2.next = 10;
 									break;
 								}
 
@@ -940,20 +1141,22 @@ var sticky_ad_StickyAd = function () {
 
 							case 3:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+								this.adSlot.getElement().style.height = null;
 								this.adSlot.getElement().firstChild.style.top = 0;
 								animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 12;
+								_context2.next = 14;
 								break;
 
-							case 9:
+							case 10:
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-								this.adSlot.getElement().firstChild.style.top = this.config.topOffset + 'px';
+								this.adSlot.getElement().style.height = this.adSlot.getElement().firstChild.offsetHeight + 'px';
+								this.adSlot.getElement().firstChild.style.top = this.topOffset + 'px';
 
 								this.addUnstickButton();
 
-							case 12:
+							case 14:
 							case 'end':
 								return _context2.stop();
 						}
@@ -972,6 +1175,8 @@ var sticky_ad_StickyAd = function () {
 		value: function unstickImmediately() {
 			if (this.stickiness) {
 				this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+				this.adSlot.getElement().style.height = null;
+				this.adSlot.getElement().firstChild.style.top = 0;
 				this.stickiness.sticky = false;
 
 				this.removeUnstickButton();
@@ -986,207 +1191,7 @@ var sticky_ad_StickyAd = function () {
 
 	return StickyAd;
 }();
-sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 1000;
-// CONCATENATED MODULE: ./src/ad-products/templates/floating-rail.js
-
-
-
-
-var adsInRail = 2;
-var biggestAdSize = 600;
-
-var availableSpace = null;
-
-var floating_rail_FloatingRail = function () {
-	createClass_default()(FloatingRail, null, [{
-		key: 'getName',
-		value: function getName() {
-			return 'floatingRail';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				enabled: true,
-				railSelector: '#rail',
-				wrapperSelector: '#rail-wrapper',
-				startOffset: 0
-			};
-		}
-	}]);
-
-	function FloatingRail() {
-		classCallCheck_default()(this, FloatingRail);
-
-		this.config = ad_engine_["context"].get('templates.floatingRail');
-		this.rail = document.querySelector(this.config.railSelector);
-		this.railWrapper = document.querySelector(this.config.wrapperSelector);
-	}
-
-	createClass_default()(FloatingRail, [{
-		key: 'init',
-		value: function init(params) {
-			var _this = this;
-
-			this.params = params;
-
-			var offset = this.params.offset || 0;
-
-			if (!this.railWrapper || !FloatingRail.isEnabled() || this.getAvailableSpace() === 0) {
-				return;
-			}
-
-			var floatingSpace = Math.min(offset, this.getAvailableSpace());
-
-			ad_engine_["scrollListener"].addCallback(function () {
-				var start = _this.config.startOffset + ad_engine_["utils"].getTopOffset(_this.railWrapper),
-				    end = start + floatingSpace,
-				    scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-
-				if (scrollPosition <= start) {
-					_this.rail.style.paddingTop = '';
-					_this.rail.classList.add('rail-static');
-					_this.rail.classList.remove('rail-fixed');
-				} else if (scrollPosition >= end) {
-					_this.rail.style.paddingTop = floatingSpace + 'px';
-					_this.rail.classList.remove('rail-static');
-					_this.rail.classList.remove('rail-fixed');
-				} else {
-					_this.rail.style.paddingTop = '';
-					_this.rail.classList.remove('rail-static');
-					_this.rail.classList.add('rail-fixed');
-				}
-			});
-		}
-	}, {
-		key: 'getAvailableSpace',
-		value: function getAvailableSpace() {
-			if (availableSpace === null) {
-				var children = this.railWrapper.lastElementChild,
-				    childrenHeight = children.offsetTop + children.offsetHeight,
-				    space = this.railWrapper.offsetHeight;
-
-				availableSpace = Math.max(0, space - childrenHeight - adsInRail * biggestAdSize);
-			}
-
-			return availableSpace;
-		}
-	}], [{
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
-		}
-	}]);
-
-	return FloatingRail;
-}();
-// CONCATENATED MODULE: ./src/ad-products/templates/skin.js
-
-
-
-
-var skin_Skin = function () {
-	createClass_default()(Skin, null, [{
-		key: 'getName',
-		value: function getName() {
-			return 'skin';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				bodyAdClass: 'has-background-ad',
-				onInit: function onInit() {},
-				wrapperSelector: '#ad-skin',
-				zIndex: 1
-			};
-		}
-	}]);
-
-	function Skin() {
-		classCallCheck_default()(this, Skin);
-
-		this.config = ad_engine_["context"].get('templates.skin');
-		this.adSkin = document.querySelector(this.config.wrapperSelector);
-	}
-
-	/**
-  * Initializes the Skin unit
-  *
-  * @param {Object} params
-  * @param {string} params.destUrl - URL to go when the background is clicked
-  * @param {string} params.skinImage - URL of the 1700x800 image to show in the background
-  * @param {string} params.backgroundColor - background color to use (rrggbb, without leading #)
-  * @param {string} [params.middleColor] - color to use in the middle (rrggbb, without leading #)
-  * @param {Array} params.pixels - URLs of tracking pixels to append when showing the skin
-  */
-
-
-	createClass_default()(Skin, [{
-		key: 'init',
-		value: function init(params) {
-			this.params = params;
-			this.params.adProduct = 'skin';
-
-			document.body.classList.add(this.config.bodyAdClass);
-			this.setAdSkinStyle(params.skinImage, params.backgroundColor);
-
-			this.adSkin.onclick = function () {
-				window.open(params.destUrl);
-			};
-
-			if (params.pixels) {
-				this.setTrackingPixels(params.pixels);
-			}
-
-			this.adSkin.classList.remove('hide');
-
-			this.config.onInit(this.params);
-		}
-
-		/**
-   * Sets styles for ad skin wrapper
-   *
-   * @param params
-   */
-
-	}, {
-		key: 'setAdSkinStyle',
-		value: function setAdSkinStyle(image, color) {
-			this.adSkin.style.position = 'fixed';
-			this.adSkin.style.height = '100%';
-			this.adSkin.style.width = '100%';
-			this.adSkin.style.left = 0;
-			this.adSkin.style.top = 0;
-			this.adSkin.style.zIndex = this.config.zIndex;
-			this.adSkin.style.cursor = 'pointer';
-			this.adSkin.style.background = 'url("' + image + '") no-repeat top center #' + color;
-		}
-
-		/**
-   * Goes through pixels array and adds 1x1 pixel images
-   *
-   * @param pixels
-   */
-
-	}, {
-		key: 'setTrackingPixels',
-		value: function setTrackingPixels(pixels) {
-			for (var i = 0, len = pixels.length; i < len; i += 1) {
-				var pixelUrl = pixels[i];
-				if (pixelUrl) {
-					var pixelElement = document.createElement('img');
-					pixelElement.src = pixelUrl;
-					pixelElement.width = 1;
-					pixelElement.height = 1;
-					this.adSkin.appendChild(pixelElement);
-				}
-			}
-		}
-	}]);
-
-	return Skin;
-}();
+sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
 // EXTERNAL MODULE: external "babel-runtime/helpers/extends"
 var extends_ = __webpack_require__(23);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
@@ -4187,11 +4192,6 @@ var roadblock_Roadblock = function () {
 // CONCATENATED MODULE: ./src/ad-products/templates/outstream/index.js
 
 // CONCATENATED MODULE: ./src/ad-products/templates/index.js
-
-
-
-ad_engine_["templateService"].register(sticky_ad_StickyAd);
-
 
 
 
