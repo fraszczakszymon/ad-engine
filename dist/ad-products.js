@@ -1008,6 +1008,7 @@ var sticky_ad_StickyAd = function () {
 				stickyUntilSlotViewed: true,
 				handleNavbar: true,
 				navbarWrapperSelector: 'body > nav.navigation',
+				smartBannerSelector: null,
 				slotsIgnoringNavbar: []
 			};
 		}
@@ -1021,6 +1022,7 @@ var sticky_ad_StickyAd = function () {
 		this.stickiness = null;
 		this.scrollListener = null;
 		this.topOffset = 0;
+		this.leftOffset = 0;
 	}
 
 	createClass_default()(StickyAd, [{
@@ -1043,7 +1045,15 @@ var sticky_ad_StickyAd = function () {
 				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
 
 				this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
+
+				if (this.config.smartBannerSelector) {
+					var smartBannerElement = document.querySelector(this.config.smartBannerSelector);
+
+					this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
+				}
 			}
+
+			this.leftOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild.firstChild, true);
 
 			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
 
@@ -1113,6 +1123,14 @@ var sticky_ad_StickyAd = function () {
 			this.closeButton.remove();
 		}
 	}, {
+		key: 'removeStickyParameters',
+		value: function removeStickyParameters() {
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+			this.adSlot.getElement().style.height = null;
+			this.adSlot.getElement().firstChild.style.top = null;
+			this.adSlot.getElement().firstChild.style.left = null;
+		}
+	}, {
 		key: 'addUnstickEvents',
 		value: function addUnstickEvents() {
 			var _this4 = this;
@@ -1132,7 +1150,7 @@ var sticky_ad_StickyAd = function () {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 10;
+									_context2.next = 8;
 									break;
 								}
 
@@ -1140,23 +1158,22 @@ var sticky_ad_StickyAd = function () {
 								return animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 3:
-								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-								this.adSlot.getElement().style.height = null;
-								this.adSlot.getElement().firstChild.style.top = 0;
+								this.removeStickyParameters();
 								animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 14;
+								_context2.next = 13;
 								break;
 
-							case 10:
+							case 8:
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 								this.adSlot.getElement().style.height = this.adSlot.getElement().firstChild.offsetHeight + 'px';
 								this.adSlot.getElement().firstChild.style.top = this.topOffset + 'px';
+								this.adSlot.getElement().firstChild.style.left = this.leftOffset + 'px';
 
 								this.addUnstickButton();
 
-							case 14:
+							case 13:
 							case 'end':
 								return _context2.stop();
 						}
@@ -1174,11 +1191,8 @@ var sticky_ad_StickyAd = function () {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
-				this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-				this.adSlot.getElement().style.height = null;
-				this.adSlot.getElement().firstChild.style.top = 0;
+				this.removeStickyParameters();
 				this.stickiness.sticky = false;
-
 				this.removeUnstickButton();
 			}
 		}

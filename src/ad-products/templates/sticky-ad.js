@@ -25,6 +25,7 @@ export class StickyAd {
 			stickyUntilSlotViewed: true,
 			handleNavbar: true,
 			navbarWrapperSelector: 'body > nav.navigation',
+			smartBannerSelector: null,
 			slotsIgnoringNavbar: []
 		};
 	}
@@ -35,6 +36,7 @@ export class StickyAd {
 		this.stickiness = null;
 		this.scrollListener = null;
 		this.topOffset = 0;
+		this.leftOffset = 0;
 	}
 
 	static isEnabled() {
@@ -57,7 +59,15 @@ export class StickyAd {
 			const navbarElement = document.querySelector(this.config.navbarWrapperSelector);
 
 			this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
+
+			if (this.config.smartBannerSelector) {
+				const smartBannerElement = document.querySelector(this.config.smartBannerSelector);
+
+				this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
+			}
 		}
+
+		this.leftOffset = utils.getTopOffset(this.adSlot.getElement().firstChild.firstChild, true);
 
 		const startOffset = utils.getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
 
@@ -100,6 +110,13 @@ export class StickyAd {
 		this.closeButton.remove();
 	}
 
+	removeStickyParameters() {
+		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+		this.adSlot.getElement().style.height = null;
+		this.adSlot.getElement().firstChild.style.top = null;
+		this.adSlot.getElement().firstChild.style.left = null;
+	}
+
 	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
@@ -109,9 +126,7 @@ export class StickyAd {
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
 			await animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = null;
-			this.adSlot.getElement().firstChild.style.top = 0;
+			this.removeStickyParameters();
 			animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
@@ -119,6 +134,7 @@ export class StickyAd {
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = `${this.adSlot.getElement().firstChild.offsetHeight}px`;
 			this.adSlot.getElement().firstChild.style.top = `${this.topOffset}px`;
+			this.adSlot.getElement().firstChild.style.left = `${this.leftOffset}px`;
 
 			this.addUnstickButton();
 		}
@@ -126,11 +142,8 @@ export class StickyAd {
 
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = null;
-			this.adSlot.getElement().firstChild.style.top = 0;
+			this.removeStickyParameters();
 			this.stickiness.sticky = false;
-
 			this.removeUnstickButton();
 		}
 	}

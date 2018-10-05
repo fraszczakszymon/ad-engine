@@ -437,9 +437,12 @@ var client = new client_Client();
 /**
  * Returns element's offset of given element from the top of the page
  * @param element DOM element
+ * @param horizontal check offset from the left side of viewport instead
  * @returns {number}
  */
 function getTopOffset(element) {
+	var horizontal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
 	var elementWindow = element.ownerDocument.defaultView;
 
 	var currentElement = element,
@@ -452,7 +455,7 @@ function getTopOffset(element) {
 	}
 
 	do {
-		topPos += currentElement.offsetTop;
+		topPos += horizontal ? currentElement.offsetLeft : currentElement.offsetTop;
 		currentElement = currentElement.offsetParent;
 	} while (currentElement !== null);
 
@@ -461,7 +464,7 @@ function getTopOffset(element) {
 	}
 
 	if (elementWindow && elementWindow.frameElement) {
-		topPos += getTopOffset(elementWindow.frameElement);
+		topPos += getTopOffset(elementWindow.frameElement, horizontal);
 	}
 
 	return topPos;
