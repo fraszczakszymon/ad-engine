@@ -58,7 +58,7 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 function recalculateTwitchSize(params) {
 	return () => {
 		const {
-			clickArea, player, adContainer, twitchAspectRatio
+			adContainer, clickArea, player, twitchAspectRatio
 		} = params;
 		player.style.height = `${adContainer.clientHeight}px`;
 		player.style.width = `${player.clientHeight * twitchAspectRatio}px`;
