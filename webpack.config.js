@@ -78,6 +78,7 @@ const development = {
 		'utils/block-detect': './examples/utils/block-detect/script.js',
 		'utils/browser-detect': './examples/utils/browser-detect/script.js',
 		'utils/device-detect': './examples/utils/device-detect/script.js',
+		'utils/labrador-basset': './examples/utils/labrador-basset/script.js',
 		'video/porvata': './examples/video/porvata/script.js'
 	},
 	devtool: 'cheap-module-eval-source-map',
