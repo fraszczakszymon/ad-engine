@@ -54,6 +54,21 @@ describe('ad-slot', () => {
 		expect(adSlot.getAdUnit()).to.equal('/5441/something/_other/INVISIBLE_SKIN');
 	});
 
+	it('config property getter and setter', () => {
+		const adSlot = createAdSlot('top_boxad');
+
+		expect(typeof context.get('slots.top_boxad.foo.bar')).to.equal('undefined');
+		expect(typeof adSlot.getConfigProperty('foo.bar')).to.equal('undefined');
+
+		adSlot.setConfigProperty('foo.bar', 'test');
+
+		expect(context.get('slots.top_boxad.foo.bar')).to.equal('test');
+		expect(adSlot.getConfigProperty('foo.bar')).to.equal('test');
+		expect(adSlot.getConfigProperty('foo')).to.deep.equal({
+			bar: 'test'
+		});
+	});
+
 	describe('isFirstCall', () => {
 		/** @type {AdSlot} */
 		let adSlot;
