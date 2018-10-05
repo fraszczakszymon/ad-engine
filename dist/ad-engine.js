@@ -3544,7 +3544,7 @@ var templateService = new template_service_TemplateService();
 
 function registerCustomAdLoader(methodName) {
 	window[methodName] = function (params) {
-		var slot = slotService.get(params.slotName);
+		var slot = params.slotName ? slotService.get(params.slotName) : null;
 
 		templateService.init(params.type, slot, params);
 	};
