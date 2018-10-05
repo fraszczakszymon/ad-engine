@@ -20,6 +20,10 @@ class AdSlots {
 		this.railModuleWidth = 300;
 		this.railModuleHeight = 1200;
 		this.lineItemParam = 'data-gpt-line-item-id';
+		this.resultAttribute = 'data-slot-result';
+		this.viewedAttribute = 'data-slot-viewed';
+		this.adLoaded = 'success';
+		this.adViewed = 'true';
 	}
 }
 

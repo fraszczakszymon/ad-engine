@@ -12,7 +12,7 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 	});
 
 	it('Check if top leaderboard is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${hiviUapJwp.resultAttribute}`), 'Top leaderboard visible')
+		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`), 'Top leaderboard visible')
 			.to
 			.be
 			.false;
@@ -82,7 +82,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	});
 
 	it('Check if top boxad is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topBoxad}${hiviUapJwp.resultAttribute}`), 'Top boxad visible')
+		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Top boxad visible')
 			.to
 			.be
 			.false;
@@ -130,17 +130,17 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	it('Check if top boxad shows up after clicking the button, if it was viewed and if it uap ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
+		helpers.waitForViewed(adSlots.topBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.true;
-		expect(browser.element(adSlots.topBoxad).getAttribute(hiviUapJwp.resultAttribute))
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(hiviUapJwp.adLoaded, 'Top boxad slot failed to load');
-		expect(browser.element(adSlots.topBoxad).getAttribute(hiviUapJwp.viewedAttribute))
+			.equal(adSlots.adLoaded, 'Top boxad slot failed to load');
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
-			.equal(hiviUapJwp.adViewed, 'Top boxad slot has not been counted as viewed');
+			.equal(adSlots.adViewed, 'Top boxad slot has not been counted as viewed');
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapJwp.uapLineItemId);
@@ -174,7 +174,7 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 	});
 
 	it('Check if incontent boxad is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.incontentBoxad}${hiviUapJwp.resultAttribute}`), 'Incontent boxad visible')
+		expect(browser.isExisting(`${adSlots.incontentBoxad}${adSlots.resultAttribute}`), 'Incontent boxad visible')
 			.to
 			.be
 			.false;
@@ -223,17 +223,17 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.incontentBoxad).getAttribute(hiviUapJwp.viewedAttribute) === hiviUapJwp.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
+		helpers.waitForViewed(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 			.to
 			.be
 			.true;
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(hiviUapJwp.resultAttribute))
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(hiviUapJwp.adLoaded, 'Incontent boxad slot failed to load');
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(hiviUapJwp.viewedAttribute))
+			.equal(adSlots.adLoaded, 'Incontent boxad slot failed to load');
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
-			.equal(hiviUapJwp.adViewed, 'Incontent boxad slot has not been counted as viewed');
+			.equal(adSlots.adViewed, 'Incontent boxad slot has not been counted as viewed');
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemParam))
 			.to
 			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded');

@@ -6,10 +6,6 @@ class HiviUapJwp {
 	constructor() {
 		this.pageLink = '/templates/hivi-uap-jwp/';
 		this.loadAdsButton = '#clickDelay';
-		this.resultAttribute = 'data-slot-result';
-		this.viewedAttribute = 'data-slot-viewed';
-		this.adLoaded = 'success';
-		this.adViewed = 'true';
 		this.inHouseLineItemId = '271491732';
 		this.uapLineItemId = '4517824948';
 	}

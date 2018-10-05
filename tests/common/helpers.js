@@ -140,6 +140,14 @@ class Helpers {
 	waitForExpanded(adSlot) {
 		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
 	}
+
+	/**
+	 * Waits for the adslot\'s attribute "Viewed" to equal "true".
+	 * @param adSlot ad slot waiting for bool value
+	 */
+	waitForViewed(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.viewedAttribute) === adSlots.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
+	}
 }
 
 export default new Helpers();
