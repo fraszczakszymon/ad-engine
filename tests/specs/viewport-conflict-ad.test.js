@@ -47,10 +47,10 @@ describe('Viewport conflicts ads: top leaderboard', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 });
@@ -97,10 +97,10 @@ describe('Viewport conflict ads page: top boxad', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 

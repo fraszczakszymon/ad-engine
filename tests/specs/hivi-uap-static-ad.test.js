@@ -38,10 +38,10 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 
@@ -228,10 +228,10 @@ describe('Hivi uap static ads page: top boxad', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 });
@@ -290,10 +290,10 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 });
@@ -352,10 +352,10 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain);
 		helpers.closeNewTabs();
 	});
 });
