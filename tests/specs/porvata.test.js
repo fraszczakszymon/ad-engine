@@ -74,10 +74,7 @@ describe('Porvata player ads', () => {
 	it('Check if replaying the video works', () => {
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.extended);
 		browser.click(porvata.porvataPlayer);
-		expect(browser.isExisting(porvata.videoPlayerHidden))
-			.to
-			.be
-			.false;
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
