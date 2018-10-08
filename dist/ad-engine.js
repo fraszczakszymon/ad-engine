@@ -3160,6 +3160,12 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		value: function getSizes() {
 			return this.config.sizes;
 		}
+
+		/**
+   * Convenient property to get targeting.
+   * @returns {Object}
+   */
+
 	}, {
 		key: 'getTargeting',
 		value: function getTargeting() {
@@ -3270,6 +3276,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			slotTweaker.hide(this);
 			this.setStatus(status);
+		}
+	}, {
+		key: 'targeting',
+		get: function get() {
+			return this.config.targeting;
 		}
 	}], [{
 		key: 'isAboveTheFold',
@@ -5035,8 +5046,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v18.1.1');
-logger('ad-engine', 'v18.1.1');
+set_default()(window, versionField, 'v18.1.2');
+logger('ad-engine', 'v18.1.2');
 
 
 
