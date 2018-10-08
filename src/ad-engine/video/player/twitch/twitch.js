@@ -1,4 +1,4 @@
-import { TwitchListener } from '@wikia/ad-engine';
+import { TwitchListener } from './../../../listeners/twitch-listener';
 import { twitchEmbed } from './embed/twitch-embed';
 
 export class TwitchPlayer {
