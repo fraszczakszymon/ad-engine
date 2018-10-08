@@ -286,6 +286,8 @@ function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 		product = 'ABCD';
 	} else if (loadedProduct === 'vuap') {
 		product = 'UAP_' + loadedTemplate.toUpperCase();
+	} else if (loadedProduct === 'incontent_veles') {
+		product = 'OUTSTREAM';
 	}
 
 	return {
@@ -725,7 +727,8 @@ var porvata_template_PorvataTemplate = function () {
 			return {
 				isFloatingEnabled: true,
 				inViewportOffsetTop: 0,
-				inViewportOffsetBottom: 0
+				inViewportOffsetBottom: 0,
+				onInit: function onInit() {}
 			};
 		}
 	}]);
@@ -763,6 +766,8 @@ var porvata_template_PorvataTemplate = function () {
 			}
 
 			ad_engine_["slotTweaker"].collapse(this.adSlot);
+
+			this.config.onInit(this.adSlot, params, this.config);
 
 			return ad_engine_["slotTweaker"].makeResponsive(this.adSlot, DEFAULT_VIDEO_ASPECT_RATIO).then(function () {
 				return ad_engine_["Porvata"].inject(params).then(function (video) {
