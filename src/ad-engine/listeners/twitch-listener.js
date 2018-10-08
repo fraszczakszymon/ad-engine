@@ -8,13 +8,13 @@ function getListeners() {
 
 export class TwitchListener {
 		static EVENTS = {
-			ended: 'ended',
+			ended: 'closed',
 			offline: 'offline',
 			online: 'online',
 			pause: 'pause',
-			play: 'play',
+			play: 'play_triggered',
 			playback_blocked: 'playback_blocked',
-			playing: 'playing',
+			playing: 'started',
 			ready: 'ready'
 		};
 		static LOG_GROUP = 'twitch-listener';
