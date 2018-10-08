@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Hivi uap ads page: top leaderboard', () => {
+xdescribe('Hivi uap ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -178,26 +178,32 @@ describe('Hivi uap ads page: video player in top leaderboard', () => {
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	it('Check opening the full screen player', () => {
+	xit('Check opening the full screen player', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
-	it('Check pausing the video', () => {
+	xit('Check pausing the video', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
 
-	it('Check unmuting the video', () => {
+	xit('Check unmuting the video', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
+
+	it('Check replaying the video', () => {
+		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.extended);
+		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
+	});
 });
 
-describe('Hivi uap ads page: top boxad', () => {
+xdescribe('Hivi uap ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -255,7 +261,7 @@ describe('Hivi uap ads page: top boxad', () => {
 	});
 });
 
-describe('Hivi uap ads page: incontent boxad', () => {
+xdescribe('Hivi uap ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -313,7 +319,7 @@ describe('Hivi uap ads page: incontent boxad', () => {
 	});
 });
 
-describe('Hivi uap ads page: bottom leaderboard', () => {
+xdescribe('Hivi uap ads page: bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
@@ -371,7 +377,7 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 });
 
-describe('Hivi uap ads page: video player in bottom leaderboard', () => {
+xdescribe('Hivi uap ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
