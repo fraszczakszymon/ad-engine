@@ -69,6 +69,14 @@ export class AdSlot extends EventEmitter {
 		return this.config.sizes;
 	}
 
+	/**
+	 * Convenient property to get targeting.
+	 * @returns {Object}
+	 */
+	get targeting() {
+		return this.config.targeting;
+	}
+
 	getTargeting() {
 		return this.config.targeting;
 	}
