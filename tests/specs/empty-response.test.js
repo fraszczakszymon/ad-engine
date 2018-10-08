@@ -13,7 +13,7 @@ describe('Empty response page:', () => {
 
 	it('Check if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		helpers.waitForCollapsed(adSlots.topLeaderboard);
+		helpers.waitForResult(adSlots.topLeaderboard, adSlots.adCollapsed);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 			.to
 			.be
@@ -21,7 +21,7 @@ describe('Empty response page:', () => {
 	});
 	it('Check if top boxad is not visible', () => {
 		browser.isExisting(adSlots.topBoxad,timeouts.standard);
-		helpers.waitForCollapsed(adSlots.topBoxad);
+		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
 			.to
 			.be

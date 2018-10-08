@@ -150,11 +150,12 @@ class Helpers {
 	}
 
 	/**
-	 * Waits for the adslot\'s attribute "Result" to equal "collapsed"
-	 * @param adSlot
+	 * Waits for the adslot\'s "data-slot-result" attribute to receive desired parameter.
+	 * @param adSlot slot to receive the parameter
+	 * @param result parameter that result should equal to
 	 */
-	waitForCollapsed(adSlot) {
-		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === adSlots.adCollapsed, timeouts.standard, 'Ad was not hidden', timeouts.interval);
+	waitForResult(adSlot, result) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === result, timeouts.standard, `Result mismatch: expected ${result}`, timeouts.interval);
 	}
 }
 
