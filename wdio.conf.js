@@ -18,7 +18,6 @@ exports.config = {
 		],
 		utils: [
 			'./tests/specs/basset.test.js',
-
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
@@ -33,7 +32,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/labrador-basset.test.js',
+			'./tests/specs/sticky-ad.test.js',
 		],
 		otherFeature: [
 
