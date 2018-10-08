@@ -65,7 +65,7 @@ describe('Porvata player ads', () => {
 		browser.waitForExist(porvata.stopScrolling, timeouts.standard);
 	});
 
-	it('Check test closing the player', () => {
+	it('Check closing the player', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);

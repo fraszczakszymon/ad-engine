@@ -24,6 +24,7 @@ class AdSlots {
 		this.viewedAttribute = 'data-slot-viewed';
 		this.adLoaded = 'success';
 		this.adViewed = 'true';
+		this.adCollapsed = 'collapse';
 	}
 }
 

@@ -148,6 +148,14 @@ class Helpers {
 	waitForViewed(adSlot) {
 		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.viewedAttribute) === adSlots.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 	}
+
+	/**
+	 * Waits for the adslot\'s attribute "Result" to equal "collapsed"
+	 * @param adSlot
+	 */
+	waitForCollapsed(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === adSlots.adCollapsed, timeouts.standard, 'Ad was not hidden', timeouts.interval);
+	}
 }
 
 export default new Helpers();

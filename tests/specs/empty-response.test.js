@@ -13,14 +13,15 @@ describe('Empty response page:', () => {
 
 	it('Check if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		browser.waitForExist(`${adSlots.topLeaderboard}${helpers.classHidden}`, timeouts.standard);
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 			.to
 			.be
 			.false;
 	});
 	it('Check if top boxad is not visible', () => {
-		browser.waitForExist(`${adSlots.topBoxad}${helpers.classHidden}`, timeouts.standard);
+		browser.isExisting(adSlots.topBoxad,timeouts.standard);
+		helpers.waitForCollapsed(adSlots.topBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
 			.to
 			.be
