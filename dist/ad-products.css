@@ -527,6 +527,18 @@ body.ctp-vuap-loaded {
   100% {
     width: 100%; } }
 
+.twitch-player-right {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0; }
+
+.twitch-player-left {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0; }
+
 .stop-scrolling {
   overflow: hidden; }
 
