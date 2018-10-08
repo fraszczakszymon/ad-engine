@@ -16,7 +16,7 @@ class Helpers {
 	}
 
 	/**
-	 * Waits for the URL provided as the parameter
+	 * Waits for the URL provided as the parameter.
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
@@ -57,7 +57,7 @@ class Helpers {
 	}
 
 	/**
-	 * Adds additional parameters to URL
+	 * Adds additional parameters to URL.
 	 * @param {string} url - base URL
 	 * @param {array} parameters - array of parameters to add
 	 * @returns {string} given URL with added parameters
@@ -98,7 +98,7 @@ class Helpers {
 	}
 
 	/**
-	 * Provides parameters with the example page to load and ad slot to wait for
+	 * Provides parameters with the example page to load and ad slot to wait for.
 	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
@@ -119,7 +119,7 @@ class Helpers {
 	}
 
 	/**
-	 * Waits for the new tab to open
+	 * Waits for the new tab to open.
 	 */
 	waitForNewTab() {
 		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', timeouts.interval);
@@ -131,6 +131,15 @@ class Helpers {
 	 */
 	waitForLineItemIdAttribute(adSlot) {
 		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
+	}
+
+	/**
+	 * Returns line item ID of the given slot.
+	 * @param adSlot slot to get line item ID from
+	 * @returns {String|String[]|*|(WebdriverIO.Client<string> & WebdriverIO.Client<null> & string & null)|(WebdriverIO.Client<string[]> & WebdriverIO.Client<null[]> & string[] & null[])|WebdriverIO.Client<any>|string}
+	 */
+	getLineItemId(adSlot) {
+		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
 	}
 
 	/**
@@ -156,6 +165,61 @@ class Helpers {
 	 */
 	waitForResult(adSlot, result) {
 		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === result, timeouts.standard, `Result mismatch: expected ${result}`, timeouts.interval);
+	}
+
+	/**
+	 * Checks the slot\'s dimensions. Returns result and (if present) error messages.
+	 * @param adSlot slot dimensions are taken from
+	 * @param width slot\'s width
+	 * @param height slot\'s height
+	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
+	 */
+	checkSlotSize(adSlot, width, height) {
+		let result = true;
+		let errorMessages = '';
+		const slotSize = browser.getElementSize(adSlot);
+
+		if (slotSize.width !== width) {
+			result = false;
+			errorMessages += `Width incorrect: expected ${width} to equal ${slotSize.width}\n`;
+		}
+		if (slotSize.height !== height) {
+			result = false;
+			errorMessages += `Height incorrect: expected ${height} to equal ${slotSize.height}\n`;
+		}
+		return {
+			status: result,
+			capturedErrors: errorMessages,
+		};
+	}
+
+	/**
+	 * It checks redirect on click and returns result and (if present) error message.
+	 * @param adSlot slot to click
+	 * @param url expected url
+	 * @returns {{status: boolean, capturedErrors: string}}
+	 */
+	adRedirect(adSlot, url = this.clickThroughUrlDomain) {
+		let result = true;
+		let errorMessages = '';
+
+		browser.waitForEnabled(adSlot, timeouts.standard);
+		browser.click(adSlot);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		this.waitForUrl(url);
+
+		if (browser.getUrl() !== url) {
+			result = false;
+			errorMessages += `Expected new page after ${timeouts.standard} seconds\n`;
+		}
+		this.closeNewTabs();
+		return {
+			status: result,
+			capturedErrors: errorMessages,
+		};
 	}
 }
 
