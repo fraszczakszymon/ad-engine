@@ -44,7 +44,7 @@ describe('sticky-ad template', () => {
 		browser.pause(stickyAd.unstickTime);
 		browser.scroll(0, 500);
 
-		expect(browser.isExisting(), 'Element should not stick')
+		expect(browser.isExisting(stickedSlot), 'Element should not stick')
 			.to
 			.be
 			.false;
