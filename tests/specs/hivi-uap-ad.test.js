@@ -26,18 +26,10 @@ describe('Hivi uap ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check closing the top leaderboard', () => {
@@ -109,18 +101,13 @@ describe('Hivi uap ads page: top leaderboard', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+		const defaultDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Default:');
 
-		try {
-			expect(defaultSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Default width incorrect');
-			expect(defaultSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeight, 'Default height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -134,18 +121,13 @@ describe('Hivi uap ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
+		const resolvedDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeightResolved, 'Resolved:');
 
-		try {
-			expect(resolvedSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Resolved width incorrect');
-			expect(resolvedSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeightResolved, 'Resolved height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(resolvedDimensions.status, resolvedDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -224,25 +206,16 @@ describe('Hivi uap ads page: top boxad', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
-		browser.click(adSlots.topBoxad);
-		helpers.waitForNewTab();
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });
 
@@ -277,25 +250,17 @@ describe('Hivi uap ads page: incontent boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
+		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
-		browser.click(adSlots.incontentBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });
 
@@ -330,25 +295,17 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
+		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
-		browser.waitForEnabled(adSlots.bottomLeaderboard, timeouts.standard);
-		browser.click(adSlots.bottomLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });
 

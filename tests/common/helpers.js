@@ -203,6 +203,7 @@ class Helpers {
 	adRedirect(adSlot, url = this.clickThroughUrlDomain) {
 		let result = false;
 
+		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
 

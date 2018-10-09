@@ -35,18 +35,10 @@ describe('Animations ad page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check top leaderboard disappearing after 6 seconds', () => {
@@ -91,18 +83,10 @@ describe('Animations ads page: top boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
-		browser.click(adSlots.topBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });
 

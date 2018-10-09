@@ -36,16 +36,10 @@ describe('Porvata player ads', () => {
 	});
 
 	it('Check redirect on click', () => {
-		browser.click(porvata.porvataPlayer);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(porvata.porvataPlayer), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check unmuting the video', () => {

@@ -40,17 +40,9 @@ describe('BTF Only ads page: incontent boxad', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
-		browser.click(adSlots.incontentBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });

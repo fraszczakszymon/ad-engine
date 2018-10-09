@@ -42,18 +42,10 @@ describe('Floating rail ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });
 
@@ -87,25 +79,17 @@ describe('Floating rail ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
+		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
-		browser.click(adSlots.topBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check if rail scrolls with the content', () => {

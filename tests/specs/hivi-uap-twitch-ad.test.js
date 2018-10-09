@@ -49,18 +49,10 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad);
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check Twitch player visibility', () => {
@@ -102,23 +94,15 @@ describe('Twitch ads page: top boxad', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(twitchAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad);
-		browser.click(adSlots.topBoxad);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 });

@@ -35,7 +35,10 @@ describe('Block BTF ads page: top leaderboard', () => {
 	});
 
 	it('Check top leaderboard ad redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard, helpers.clickThroughUrlDomain), 'Wrong link after redirect').to.be.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check if incontent boxad is hidden on the page', () => {
