@@ -55,9 +55,20 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 	return video;
 }
 
+function recalculateTwitchSize(params) {
+	return () => {
+		const {
+			adContainer, clickArea, player, twitchAspectRatio
+		} = params;
+		player.style.height = `${adContainer.clientHeight}px`;
+		player.style.width = `${player.clientHeight * twitchAspectRatio}px`;
+		clickArea.style.width = `${params.adContainer.clientWidth - player.clientWidth}px`;
+	};
+}
+
 async function loadTwitchPlayer(iframe, params) {
 	const {
-			adContainer, channelName, clickArea: clickMacroContainer, player: twitchContainer, twitchAspectRatio
+			channelName, player
 		} = params,
 		options = {
 			height: '100%',
@@ -65,24 +76,19 @@ async function loadTwitchPlayer(iframe, params) {
 			channel: channelName,
 		};
 
-	const twitchPlayer = new TwitchPlayer(twitchContainer, options);
+	iframe.parentNode.insertBefore(player, iframe);
 
+	const twitchPlayer = new TwitchPlayer(player, options, params);
 	await twitchPlayer.getPlayer();
-	twitchContainer.style.width = `${twitchContainer.clientHeight * twitchAspectRatio}px`;
-	clickMacroContainer.style.width = `${adContainer.clientWidth - twitchContainer.clientWidth}px`;
+
+	recalculateTwitchSize(params)();
 
 	return twitchPlayer;
 }
 
 async function loadTwitchAd(iframe, params) {
-	function recalculateTwitchSize(twitchPlayer) {
-		return () => {
-			twitchPlayer.identifier.style.width = `${twitchPlayer.identifier.clientHeight * params.twitchAspectRatio}px`;
-		};
-	}
-
-	const twitch = await loadTwitchPlayer(iframe, params);
-	window.addEventListener('resize', throttle(recalculateTwitchSize(twitch), 250));
+	await loadTwitchPlayer(iframe, params);
+	window.addEventListener('resize', throttle(recalculateTwitchSize(params), 250));
 }
 
 async function loadVideoAd(videoSettings) {

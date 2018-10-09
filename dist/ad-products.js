@@ -1742,23 +1742,27 @@ var loadPorvata = function () {
 
 var loadTwitchPlayer = function () {
 	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(iframe, params) {
-		var adContainer, channelName, clickMacroContainer, twitchContainer, twitchAspectRatio, options, twitchPlayer;
+		var channelName, player, options, twitchPlayer;
 		return regenerator_default.a.wrap(function _callee2$(_context2) {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
 					case 0:
-						adContainer = params.adContainer, channelName = params.channelName, clickMacroContainer = params.clickArea, twitchContainer = params.player, twitchAspectRatio = params.twitchAspectRatio, options = {
+						channelName = params.channelName, player = params.player, options = {
 							height: '100%',
 							width: '100%',
 							channel: channelName
 						};
-						twitchPlayer = new ad_engine_["TwitchPlayer"](twitchContainer, options);
-						_context2.next = 4;
+
+
+						iframe.parentNode.insertBefore(player, iframe);
+
+						twitchPlayer = new ad_engine_["TwitchPlayer"](player, options, params);
+						_context2.next = 5;
 						return twitchPlayer.getPlayer();
 
-					case 4:
-						twitchContainer.style.width = twitchContainer.clientHeight * twitchAspectRatio + 'px';
-						clickMacroContainer.style.width = adContainer.clientWidth - twitchContainer.clientWidth + 'px';
+					case 5:
+
+						recalculateTwitchSize(params)();
 
 						return _context2.abrupt('return', twitchPlayer);
 
@@ -1777,26 +1781,17 @@ var loadTwitchPlayer = function () {
 
 var loadTwitchAd = function () {
 	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
-		var recalculateTwitchSize, twitch;
 		return regenerator_default.a.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
 					case 0:
-						recalculateTwitchSize = function recalculateTwitchSize(twitchPlayer) {
-							return function () {
-								twitchPlayer.identifier.style.width = twitchPlayer.identifier.clientHeight * params.twitchAspectRatio + 'px';
-							};
-						};
-
-						_context3.next = 3;
+						_context3.next = 2;
 						return loadTwitchPlayer(iframe, params);
 
+					case 2:
+						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(params), 250));
+
 					case 3:
-						twitch = _context3.sent;
-
-						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(twitch), 250));
-
-					case 5:
 					case 'end':
 						return _context3.stop();
 				}
@@ -1894,6 +1889,19 @@ function adjustVideoAdContainer(params) {
 
 		videoAdContainer.classList.add('video-player-' + params.splitLayoutVideoPosition);
 	}
+}
+
+function recalculateTwitchSize(params) {
+	return function () {
+		var adContainer = params.adContainer,
+		    clickArea = params.clickArea,
+		    player = params.player,
+		    twitchAspectRatio = params.twitchAspectRatio;
+
+		player.style.height = adContainer.clientHeight + 'px';
+		player.style.width = player.clientHeight * twitchAspectRatio + 'px';
+		clickArea.style.width = params.adContainer.clientWidth - player.clientWidth + 'px';
+	};
 }
 
 function getUapId() {
