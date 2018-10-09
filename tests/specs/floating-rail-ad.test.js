@@ -36,7 +36,7 @@ describe('Floating rail ads page: top leaderboard', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
@@ -88,7 +88,7 @@ describe('Floating rail ads page: top boxad', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});

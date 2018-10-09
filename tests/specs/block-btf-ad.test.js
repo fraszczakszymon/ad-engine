@@ -34,8 +34,6 @@ describe('Block BTF ads page: top leaderboard', () => {
 			.equal(0);
 	});
 
-	// TODO fix this method in helpers
-
 	it('Check top leaderboard ad redirect on click', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard, helpers.clickThroughUrlDomain), 'Wrong link after redirect').to.be.true;
 	});

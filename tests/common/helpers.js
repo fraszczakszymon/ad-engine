@@ -172,20 +172,21 @@ class Helpers {
 	 * @param adSlot slot dimensions are taken from
 	 * @param width slot\'s width
 	 * @param height slot\'s height
+	 * @param customPrefix additional information to add before the error message (e.g. if the size applies to default or resolved state of the slot)
 	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
 	 */
-	checkSlotSize(adSlot, width, height) {
+	checkSlotSize(adSlot, width, height, customPrefix = '') {
 		let result = true;
 		let errorMessages = '';
 		const slotSize = browser.getElementSize(adSlot);
 
 		if (slotSize.width !== width) {
 			result = false;
-			errorMessages += `Width incorrect: expected ${slotSize.width} to equal ${width}\n`;
+			errorMessages += `${customPrefix} Width incorrect: expected ${slotSize.width} to equal ${width}\n`;
 		}
 		if (slotSize.height !== height) {
 			result = false;
-			errorMessages += `Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
+			errorMessages += `${customPrefix} Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
 		return {
 			status: result,
@@ -193,16 +194,14 @@ class Helpers {
 		};
 	}
 
-	// TODO fix this method (it checks if the word completely equals the url instead of checking if it includes the word)
-
 	/**
 	 * It checks redirect on click and returns result.
 	 * @param adSlot slot to click
 	 * @param url expected url
-	 * @returns {{status: boolean}} returns true if there were no errors, else it returns false
+	 * @returns {boolean} returns false if there were no errors, else it returns true
 	 */
 	adRedirect(adSlot, url = this.clickThroughUrlDomain) {
-		let result = true;
+		let result = false;
 
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
@@ -212,13 +211,11 @@ class Helpers {
 		browser.switchTab(tabIds[1]);
 		this.waitForUrl(url);
 
-		if (browser.getUrl() !== url) {
-			result = false;
+		if (browser.getUrl().includes(url)) {
+			result = true;
 		}
 		this.closeNewTabs();
-		return {
-			status: result
-		};
+		return result;
 	}
 }
 

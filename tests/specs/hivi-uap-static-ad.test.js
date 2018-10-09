@@ -18,7 +18,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 	});
@@ -67,18 +67,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+		const defaultDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Default:');
 
-		try {
-			expect(defaultSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Default width incorrect');
-			expect(defaultSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeight, 'Default height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -91,18 +86,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		helpers.slowScroll(500);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
-		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard, timeouts.standard);
+		const resolvedDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeightResolved, 'Resolved:');
 
-		try {
-			expect(resolvedSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Resolved width incorrect');
-			expect(resolvedSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeightResolved, 'Resolved height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(resolvedDimensions.status, resolvedDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -124,18 +114,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		const defaultSize = browser.getElementSize(adSlots.topLeaderboard);
+		const defaultDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Default:');
 
-		try {
-			expect(defaultSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Default width incorrect');
-			expect(defaultSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeight, 'Default height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -148,18 +133,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		helpers.refreshPage();
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		const resolvedSize = browser.getElementSize(adSlots.topLeaderboard);
+		const resolvedDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeightResolved);
 
-		try {
-			expect(resolvedSize.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Resolved width incorrect');
-			expect(resolvedSize.height)
-				.to
-				.equal(adSlots.uapTopLeaderboardHeightResolved, 'Resolved height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(resolvedDimensions.status, resolvedDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -215,7 +195,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 	});
@@ -277,7 +257,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
 	});
@@ -339,7 +319,7 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
-		expect(browser.element(adSlots.bottomLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
 	});

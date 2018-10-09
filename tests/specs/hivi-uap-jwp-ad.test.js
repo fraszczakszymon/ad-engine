@@ -18,24 +18,19 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 			.false;
 	});
 
-	it('Check visibility and dimensions', () => {
+	it('Check dimensions and visibility', () => {
 		const tableOfErrors = [];
 
 		hiviUapJwp.waitToLoadAds();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
-		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
-		try {
-			expect(topLeaderboardSize.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
-			expect(topLeaderboardSize.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
 				.to
@@ -93,19 +88,14 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 
-		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(topBoxadSize.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(topBoxadSize.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
 				.to
@@ -186,19 +176,14 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 
-		const incontentBoxadSize = browser.getElementSize(adSlots.incontentBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(incontentBoxadSize.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(incontentBoxadSize.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not visible in viewport')
 				.to
