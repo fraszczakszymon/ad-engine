@@ -1,7 +1,6 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
-import { buildVastUrl } from '@wikia/ad-engine';
 
 function getMocks() {
 	const mocks = {
