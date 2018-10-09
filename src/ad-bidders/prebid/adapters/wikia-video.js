@@ -68,6 +68,7 @@ export class WikiaVideo extends BaseAdapter {
 			bidResponse.width = width;
 			bidResponse.height = height;
 			bidResponse.vastUrl = this.getVastUrl(width, height);
+			bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 			addBidResponse(bid.adUnitCode, bidResponse);
 		});

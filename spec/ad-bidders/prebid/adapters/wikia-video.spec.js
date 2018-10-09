@@ -89,7 +89,8 @@ describe('WikiaVideo bidder adapter', () => {
 				mediaType: 'video',
 				width: 640,
 				height: 480,
-				vastUrl: 'https://fake-vast-url'
+				vastUrl: 'https://fake-vast-url',
+				videoCacheKey: '123foo_wikiaVideoCacheKey',
 			}
 		]);
 	});
