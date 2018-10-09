@@ -3,6 +3,7 @@ const contextObject = {
 		events: {},
 		delayModules: [],
 		listeners: {
+			twitch: [],
 			porvata: [],
 			slot: []
 		},

@@ -642,6 +642,7 @@ var contextObject = {
 	events: {},
 	delayModules: [],
 	listeners: {
+		twitch: [],
 		porvata: [],
 		slot: []
 	},
@@ -2504,6 +2505,98 @@ var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 var asyncToGenerator_ = __webpack_require__(22);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
+// CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.js
+
+
+
+
+
+
+
+function getListeners() {
+	return context.get('listeners.twitch');
+}
+
+var twitch_listener_TwitchListener = function () {
+	function TwitchListener(params) {
+		classCallCheck_default()(this, TwitchListener);
+
+		this.params = params;
+		this.listeners = getListeners().filter(function (listener) {
+			return !listener.isEnabled || listener.isEnabled();
+		});
+		this.logger = function () {
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return logger.apply(undefined, [TwitchListener.LOG_GROUP].concat(args));
+		};
+	}
+
+	createClass_default()(TwitchListener, [{
+		key: 'init',
+		value: function init() {
+			this.dispatch('init');
+		}
+	}, {
+		key: 'registerTwitchEvents',
+		value: function registerTwitchEvents(player) {
+			var _this = this;
+
+			keys_default()(TwitchListener.EVENTS).forEach(function (eventKey) {
+				player.addEventListener(eventKey, function () {
+					_this.dispatch(TwitchListener.EVENTS[eventKey]);
+				});
+			});
+		}
+	}, {
+		key: 'dispatch',
+		value: function dispatch(eventName) {
+			var _this2 = this;
+
+			var data = this.getData(eventName);
+
+			this.logger(eventName, data);
+			this.listeners.forEach(function (listener) {
+				listener.onEvent(eventName, _this2.params, data);
+			});
+
+			if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
+				var adSlot = slotService.get(this.params.position);
+				adSlot.emit(ad_slot_AdSlot.VIDEO_VIEWED_EVENT);
+			}
+		}
+	}, {
+		key: 'getData',
+		value: function getData(eventName) {
+			return {
+				ad_product: this.params.adProduct,
+				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
+				creative_id: this.params.creativeId || 0,
+				event_name: eventName,
+				line_item_id: this.params.lineItemId || 0,
+				player: TwitchListener.PLAYER_NAME,
+				position: this.params.slotName || '(none)',
+				timestamp: new Date().getTime()
+			};
+		}
+	}]);
+
+	return TwitchListener;
+}();
+twitch_listener_TwitchListener.EVENTS = {
+	ended: 'closed',
+	offline: 'offline',
+	online: 'online',
+	pause: 'pause',
+	play: 'play_triggered',
+	playback_blocked: 'playback_blocked',
+	playing: 'started',
+	ready: 'ready'
+};
+twitch_listener_TwitchListener.LOG_GROUP = 'twitch-listener';
+twitch_listener_TwitchListener.PLAYER_NAME = 'twitch';
 // CONCATENATED MODULE: ./src/ad-engine/video/player/twitch/embed/twitch-embed.js
 
 
@@ -2538,12 +2631,14 @@ var twitchEmbed = {
 
 
 
+
 var twitch_TwitchPlayer = function () {
-	function TwitchPlayer(identifier, videoSettings) {
+	function TwitchPlayer(identifier, videoSettings, params) {
 		classCallCheck_default()(this, TwitchPlayer);
 
 		this.identifier = identifier;
 		this.videoSettings = videoSettings;
+		this.params = params;
 	}
 
 	createClass_default()(TwitchPlayer, [{
@@ -2555,7 +2650,7 @@ var twitch_TwitchPlayer = function () {
 						switch (_context.prev = _context.next) {
 							case 0:
 								_context.next = 2;
-								return twitch_Twitch.inject(this.identifier, this.videoSettings);
+								return twitch_Twitch.inject(this.identifier, this.videoSettings, this.params);
 
 							case 2:
 								this.player = _context.sent;
@@ -2602,9 +2697,13 @@ var twitch_Twitch = function () {
 
 	createClass_default()(Twitch, null, [{
 		key: 'inject',
-		value: function inject(identifier, videoSettings) {
-			return twitchEmbed.load().then(function (player) {
-				twitchEmbed.getPlayer(identifier, videoSettings);
+		value: function inject(identifier, videoSettings, params) {
+			var twitchListener = new twitch_listener_TwitchListener(params);
+			twitchListener.init();
+			return twitchEmbed.load().then(function () {
+				return twitchEmbed.getPlayer(identifier, videoSettings);
+			}).then(function (player) {
+				twitchListener.registerTwitchEvents(player);
 
 				return player;
 			});
@@ -2630,7 +2729,7 @@ var twitch_Twitch = function () {
 
 
 
-function getListeners() {
+function porvata_listener_getListeners() {
 	return context.get('listeners.porvata');
 }
 
@@ -2639,7 +2738,7 @@ var porvata_listener_PorvataListener = function () {
 		classCallCheck_default()(this, PorvataListener);
 
 		this.params = params;
-		this.listeners = getListeners().filter(function (listener) {
+		this.listeners = porvata_listener_getListeners().filter(function (listener) {
 			return !listener.isEnabled || listener.isEnabled();
 		});
 		this.logger = function () {
@@ -2979,6 +3078,7 @@ var slot_listener_SlotListener = function () {
 
 var slotListener = new slot_listener_SlotListener();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/index.js
+
 
 
 
@@ -4905,6 +5005,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "scrollListener", function() { return scrollListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotListener", function() { return slotListener; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchListener", function() { return twitch_listener_TwitchListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "gptLazyMethod", function() { return gptLazyMethod; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
