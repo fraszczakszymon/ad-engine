@@ -32,7 +32,9 @@ export class StickyAd {
 
 	constructor(adSlot) {
 		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
 		this.config = context.get(`templates.${StickyAd.getName()}`);
+		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
 		this.stickiness = null;
 		this.scrollListener = null;
 		this.topOffset = 0;
@@ -46,14 +48,16 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!StickyAd.isEnabled()) {
+		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
+			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
+		) {
 			return;
 		}
 
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 		this.addUnstickLogic();
-		this.addUnstickEvents();
+		this.addUnstickEventsListeners();
 
 		if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
 			const navbarElement = document.querySelector(this.config.navbarWrapperSelector);
@@ -67,7 +71,7 @@ export class StickyAd {
 			}
 		}
 
-		this.leftOffset = utils.getTopOffset(this.adSlot.getElement().firstChild.firstChild, true);
+		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
 
 		const startOffset = utils.getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
 
@@ -84,11 +88,9 @@ export class StickyAd {
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
 		const whenSlotViewedOrTimeout = async () => {
-			await Promise.all([
-				stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-					utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-					Promise.resolve()
-			]);
+			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
+				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
+				Promise.resolve());
 			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
@@ -98,9 +100,7 @@ export class StickyAd {
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => {
-				(this.stickiness || this.stickiness).close();
-			}
+			onClick: () => this.stickiness.close()
 		}).render();
 
 		this.adSlot.getElement().firstChild.appendChild(this.closeButton);
@@ -117,7 +117,7 @@ export class StickyAd {
 		this.adSlot.getElement().firstChild.style.left = null;
 	}
 
-	addUnstickEvents() {
+	addUnstickEventsListeners() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));

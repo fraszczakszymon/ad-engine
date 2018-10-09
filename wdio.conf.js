@@ -12,6 +12,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
+			'./tests/specs/sticky-ad.test.js',
 		],
 		services: [
 
@@ -32,7 +33,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/sticky-ad.test.js',
+
 		],
 		otherFeature: [
 

@@ -141,17 +141,18 @@ export class AdSlot extends EventEmitter {
 
 	setConfigProperty(key, value) {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
-		this.config[key] = value;
 	}
 
 	success(status = 'success') {
 		slotTweaker.show(this);
 		this.setStatus(status);
 
-		templateService.applyTemplates(this);
+		const template = this.getConfigProperty('defaultTemplate');
 
-		if (this.config.defaultTemplate) {
-			templateService.init(this.config.defaultTemplate, this);
+		if (template) {
+			templateService.init(template, this);
+		} else {
+			templateService.init('stickyAd', this);
 		}
 	}
 

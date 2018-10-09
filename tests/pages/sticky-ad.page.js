@@ -3,7 +3,7 @@ class StickyAd {
 		this.pageLink = 'templates/sticky-ad/';
 		this.classStickyTemplate = '.sticky-template';
 		this.classStickySlot = '.sticky-slot';
-		this.classUnstickButton = 'button.button-unstick';
+		this.classUnstickButton = '.button-unstick';
 		this.unstickTime = 3500;
 		this.unstickAnimationTime = 600;
 	}

@@ -1,10 +1,10 @@
 /**
- * Returns element's offset of given element from the top of the page
+ * Returns element's offset of given element depending on offset parameter name
  * @param element DOM element
- * @param horizontal check offset from the left side of viewport instead
+ * @param offsetParameter node element parameter to count overall offset
  * @returns {number}
  */
-export function getTopOffset(element, horizontal = false) {
+function getElementOffset(element, offsetParameter) {
 	const elementWindow = element.ownerDocument.defaultView;
 
 	let currentElement = element,
@@ -17,7 +17,7 @@ export function getTopOffset(element, horizontal = false) {
 	}
 
 	do {
-		topPos += (horizontal ? currentElement.offsetLeft : currentElement.offsetTop);
+		topPos += currentElement[offsetParameter];
 		currentElement = currentElement.offsetParent;
 	} while (currentElement !== null);
 
@@ -26,10 +26,28 @@ export function getTopOffset(element, horizontal = false) {
 	}
 
 	if (elementWindow && elementWindow.frameElement) {
-		topPos += getTopOffset(elementWindow.frameElement, horizontal);
+		topPos += getElementOffset(elementWindow.frameElement, offsetParameter);
 	}
 
 	return topPos;
+}
+
+/**
+ * Returns element's offset of given element from the top of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+export function getTopOffset(element) {
+	return getElementOffset(element, 'offsetTop');
+}
+
+/**
+ * Returns element's offset of given element from the left of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+export function getLeftOffset(element) {
+	return getElementOffset(element, 'offsetLeft');
 }
 
 /**

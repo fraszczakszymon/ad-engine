@@ -11,10 +11,10 @@ class TemplateService {
 		}
 		const name = template.getName();
 
-		let config = {};
+		let config = context.get(`templates.${name}`) || {};
 
 		if (typeof template.getDefaultConfig === 'function') {
-			config = template.getDefaultConfig();
+			config = Object.assign(template.getDefaultConfig(), config);
 		}
 
 		if (customConfig) {
@@ -33,18 +33,6 @@ class TemplateService {
 		}
 
 		return new templates[name](slot).init(params);
-	}
-
-	applyTemplates(adSlot) {
-		const stickyAdTemplateName = 'stickyAd';
-		const stickyLines = context.get(`templates.${stickyAdTemplateName}Lines`);
-
-		if (
-			stickyLines && stickyLines.length && adSlot.lineItemId &&
-			(stickyLines.indexOf(adSlot.lineItemId.toString()) !== -1 || stickyLines.indexOf(adSlot.lineItemId) !== -1)
-		) {
-			adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
-		}
 	}
 }
 
