@@ -1,6 +1,7 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
+import { buildVastUrl } from '@wikia/ad-engine';
 
 function getMocks() {
 	const mocks = {
@@ -15,6 +16,7 @@ function getMocks() {
 				}
 			]
 		},
+		fakeVastUrl: 'https://fake-vast-url',
 		done: function () {},
 		window: {
 			pbjs: {
@@ -73,6 +75,7 @@ describe('WikiaVideo bidder adapter', () => {
 		const mocks = getMocks();
 
 		global.window.pbjs = mocks.window.pbjs;
+		sinon.stub(wikiaVideo, 'getVastUrl').returns(mocks.fakeVastUrl);
 
 		wikiaVideo.addBids(mocks.bidsRequestMock, mocks.addBidResponseMock, mocks.done);
 		assert.ok(mocks.addBidResponseMock.called);
