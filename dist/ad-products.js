@@ -782,25 +782,21 @@ var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
 
 
 var animate = function () {
-	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(adSlot, className, duration) {
-		var container;
+	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
 		return regenerator_default.a.wrap(function _callee$(_context) {
 			while (1) {
 				switch (_context.prev = _context.next) {
 					case 0:
-						container = adSlot.getElement ? adSlot.getElement() : adSlot;
-
-
 						container.style.animationDuration = duration + 'ms';
 						container.classList.add(className);
-						_context.next = 5;
+						_context.next = 4;
 						return ad_engine_["utils"].wait(duration);
 
-					case 5:
+					case 4:
 						container.classList.remove(className);
 						container.style.animationDuration = '';
 
-					case 7:
+					case 6:
 					case 'end':
 						return _context.stop();
 				}
@@ -1020,7 +1016,9 @@ var sticky_ad_StickyAd = function () {
 		classCallCheck_default()(this, StickyAd);
 
 		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
 		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
+		this.lines = ad_engine_["context"].get('templates.' + StickyAd.getName() + '.lineItemIds');
 		this.stickiness = null;
 		this.scrollListener = null;
 		this.topOffset = 0;
@@ -1034,14 +1032,14 @@ var sticky_ad_StickyAd = function () {
 
 			this.params = params;
 
-			if (!StickyAd.isEnabled()) {
+			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
 				return;
 			}
 
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 			this.addUnstickLogic();
-			this.addUnstickEvents();
+			this.addUnstickEventsListeners();
 
 			if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
 				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
@@ -1055,7 +1053,7 @@ var sticky_ad_StickyAd = function () {
 				}
 			}
 
-			this.leftOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild.firstChild, true);
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
 
 			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
 
@@ -1084,7 +1082,7 @@ var sticky_ad_StickyAd = function () {
 							switch (_context.prev = _context.next) {
 								case 0:
 									_context.next = 2;
-									return promise_default.a.all([stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve()]);
+									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
 
 								case 2:
 									_context.next = 4;
@@ -1113,7 +1111,7 @@ var sticky_ad_StickyAd = function () {
 			this.closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					(_this3.stickiness || _this3.stickiness).close();
+					return _this3.stickiness.close();
 				}
 			}).render();
 
@@ -1133,8 +1131,8 @@ var sticky_ad_StickyAd = function () {
 			this.adSlot.getElement().firstChild.style.left = null;
 		}
 	}, {
-		key: 'addUnstickEvents',
-		value: function addUnstickEvents() {
+		key: 'addUnstickEventsListeners',
+		value: function addUnstickEventsListeners() {
 			var _this4 = this;
 
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
@@ -2966,7 +2964,7 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 			var closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					(_this2.stickiness || _this2.stickiness).close();
+					return _this2.stickiness.close();
 				}
 			});
 
@@ -3159,11 +3157,11 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
 								_context2.next = 7;
-								return animate(this.adSlot, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 7:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-								animate(this.adSlot, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 								_context2.next = 12;
 								break;
 
@@ -3688,14 +3686,14 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								}
 
 								_context4.next = 5;
-								return animate(this.adSlot, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 5:
 								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 								element.style.top = null;
 								element.parentNode.style.height = null;
 								element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
-								animate(this.adSlot, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 								_context4.next = 16;
 								break;
 

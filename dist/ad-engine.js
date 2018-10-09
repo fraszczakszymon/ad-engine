@@ -241,6 +241,7 @@ __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
+__webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { return getLeftOffset; });
 __webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() { return isInTheSameViewport; });
@@ -437,14 +438,12 @@ var client_Client = function () {
 var client = new client_Client();
 // CONCATENATED MODULE: ./src/ad-engine/utils/dimensions.js
 /**
- * Returns element's offset of given element from the top of the page
+ * Returns element's offset of given element depending on offset parameter name
  * @param element DOM element
- * @param horizontal check offset from the left side of viewport instead
+ * @param offsetParameter node element parameter to count overall offset
  * @returns {number}
  */
-function getTopOffset(element) {
-	var horizontal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
+function getElementOffset(element, offsetParameter) {
 	var elementWindow = element.ownerDocument.defaultView;
 
 	var currentElement = element,
@@ -457,7 +456,7 @@ function getTopOffset(element) {
 	}
 
 	do {
-		topPos += horizontal ? currentElement.offsetLeft : currentElement.offsetTop;
+		topPos += currentElement[offsetParameter];
 		currentElement = currentElement.offsetParent;
 	} while (currentElement !== null);
 
@@ -466,10 +465,28 @@ function getTopOffset(element) {
 	}
 
 	if (elementWindow && elementWindow.frameElement) {
-		topPos += getTopOffset(elementWindow.frameElement, horizontal);
+		topPos += getElementOffset(elementWindow.frameElement, offsetParameter);
 	}
 
 	return topPos;
+}
+
+/**
+ * Returns element's offset of given element from the top of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+function getTopOffset(element) {
+	return getElementOffset(element, 'offsetTop');
+}
+
+/**
+ * Returns element's offset of given element from the left of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+function getLeftOffset(element) {
+	return getElementOffset(element, 'offsetLeft');
 }
 
 /**
@@ -3153,7 +3170,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'setConfigProperty',
 		value: function setConfigProperty(key, value) {
 			context.set('slots.' + this.config.slotName + '.' + key, value);
-			this.config[key] = value;
 		}
 	}, {
 		key: 'success',
@@ -3163,10 +3179,12 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			slotTweaker.show(this);
 			this.setStatus(status);
 
-			templateService.applyTemplates(this);
+			var template = this.getConfigProperty('defaultTemplate');
 
-			if (this.config.defaultTemplate) {
-				templateService.init(this.config.defaultTemplate, this);
+			if (template) {
+				templateService.init(template, this);
+			} else {
+				templateService.init('stickyAd', this);
 			}
 		}
 	}, {
@@ -3512,10 +3530,10 @@ var template_service_TemplateService = function () {
 			}
 			var name = template.getName();
 
-			var config = {};
+			var config = context.get('templates.' + name) || {};
 
 			if (typeof template.getDefaultConfig === 'function') {
-				config = template.getDefaultConfig();
+				config = assign_default()(template.getDefaultConfig(), config);
 			}
 
 			if (customConfig) {
@@ -3538,16 +3556,6 @@ var template_service_TemplateService = function () {
 			}
 
 			return new templates[name](slot).init(params);
-		}
-	}, {
-		key: 'applyTemplates',
-		value: function applyTemplates(adSlot) {
-			var stickyAdTemplateName = 'stickyAd';
-			var stickyLines = context.get('templates.' + stickyAdTemplateName + 'Lines');
-
-			if (stickyLines && stickyLines.length && adSlot.lineItemId && (stickyLines.indexOf(adSlot.lineItemId.toString()) !== -1 || stickyLines.indexOf(adSlot.lineItemId) !== -1)) {
-				adSlot.setConfigProperty('defaultTemplate', stickyAdTemplateName);
-			}
 		}
 	}]);
 
