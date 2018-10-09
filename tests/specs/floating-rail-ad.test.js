@@ -5,15 +5,6 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-let theUrlYouWantToGet;
-
-global.client.on('Network.responseReceived', (params) => {
-	const { url, status } = params.response;
-	if (url.includes('gampad/ads?gdfp')) {
-		theUrlYouWantToGet = url;
-	}
-});
-
 describe('Floating rail ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
@@ -21,21 +12,14 @@ describe('Floating rail ads page: top leaderboard', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 		const tableOfErrors = [];
 
-		console.log(theUrlYouWantToGet);
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 				.to
@@ -80,19 +64,14 @@ describe('Floating rail ads page: top boxad', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
 				.to

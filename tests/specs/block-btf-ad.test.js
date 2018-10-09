@@ -11,20 +11,15 @@ describe('Block BTF ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check top leaderboard visibility and dimensions', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
+	it('Check top leaderboard dimensions and visibility', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.leaderboardHeight);
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -39,17 +34,10 @@ describe('Block BTF ads page: top leaderboard', () => {
 			.equal(0);
 	});
 
+	// TODO fix this method in helpers
+
 	it('Check top leaderboard ad redirect on click', () => {
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+		expect(helpers.adRedirect(adSlots.topLeaderboard, helpers.clickThroughUrlDomain), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check if incontent boxad is hidden on the page', () => {

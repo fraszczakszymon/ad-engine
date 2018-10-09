@@ -12,19 +12,14 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.twitchLeaderboardHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.twitchLeaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -83,19 +78,14 @@ describe('Twitch ads page: top boxad', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
 				.to

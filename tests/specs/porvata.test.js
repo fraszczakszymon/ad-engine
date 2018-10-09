@@ -12,20 +12,15 @@ describe('Porvata player ads', () => {
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check player visibility', () => {
-		const size = browser.getElementSize(porvata.porvataPlayer);
+	it('Check player dimensions and visibility', () => {
+		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(porvata.playerWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(porvata.playerHeight, 'height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(porvata.porvataPlayer), 'Player not visible')
 				.to

@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-xdescribe('Hivi uap ads page: top leaderboard', () => {
+describe('Hivi uap ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -13,7 +13,7 @@ xdescribe('Hivi uap ads page: top leaderboard', () => {
 
 	it('Check line item id', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemIdAttribute))
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
@@ -178,19 +178,19 @@ describe('Hivi uap ads page: video player in top leaderboard', () => {
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	xit('Check opening the full screen player', () => {
+	it('Check opening the full screen player', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
-	xit('Check pausing the video', () => {
+	it('Check pausing the video', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
 
-	xit('Check unmuting the video', () => {
+	it('Check unmuting the video', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
@@ -203,26 +203,21 @@ describe('Hivi uap ads page: video player in top leaderboard', () => {
 	});
 });
 
-xdescribe('Hivi uap ads page: top boxad', () => {
+describe('Hivi uap ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
 				.to
@@ -261,7 +256,7 @@ xdescribe('Hivi uap ads page: top boxad', () => {
 	});
 });
 
-xdescribe('Hivi uap ads page: incontent boxad', () => {
+describe('Hivi uap ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -269,19 +264,14 @@ xdescribe('Hivi uap ads page: incontent boxad', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.incontentBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 				.to
@@ -319,7 +309,7 @@ xdescribe('Hivi uap ads page: incontent boxad', () => {
 	});
 });
 
-xdescribe('Hivi uap ads page: bottom leaderboard', () => {
+describe('Hivi uap ads page: bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
@@ -327,19 +317,14 @@ xdescribe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.bottomLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.uapBottomLeaderboardWidth, adSlots.uapTopLeaderboardHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.uapBottomLeaderboardWidth, ' Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.uapBottomLeaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard), 'Bottom leaderboard not in viewport')
 				.to
@@ -377,7 +362,7 @@ xdescribe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 });
 
-xdescribe('Hivi uap ads page: video player in bottom leaderboard', () => {
+describe('Hivi uap ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);

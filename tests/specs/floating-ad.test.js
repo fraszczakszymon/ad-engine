@@ -12,19 +12,14 @@ describe('Floating ads page: top leaderboard', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
@@ -62,19 +57,14 @@ describe('Floating ads page: rail module', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topBoxadRail);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxadRail, adSlots.railModuleWidth, adSlots.railModuleHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.railModuleWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.railModuleHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxadRail), 'Top Boxad rail module not in viewport')
 				.to
@@ -99,19 +89,14 @@ describe('Floating ad page: incontent boxad', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.incontentBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent Boxad not in viewport')
 				.to

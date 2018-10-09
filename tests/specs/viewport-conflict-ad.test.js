@@ -11,20 +11,15 @@ describe('Viewport conflicts ads: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check visibility and dimensions', () => {
-		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+	it('Check dimensions and visibility', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(topLeaderboardSize.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
-			expect(topLeaderboardSize.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 				.to
@@ -61,20 +56,15 @@ describe('Viewport conflict ads page: top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check visibility and dimensions', () => {
-		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+	it('Check dimensions and visibility', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(topBoxadSize.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(topBoxadSize.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
 				.to

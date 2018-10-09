@@ -15,24 +15,19 @@ describe('Delay ads page: top leaderboard', () => {
 		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check visibility and dimensions', () => {
+	it('Check dimensions and visibility', () => {
 		const tableOfErrors = [];
 
 		delayAd.waitToLoadAds();
 		browser.waitForVisible(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard);
 
-		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
+		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
-		try {
-			expect(topLeaderboardSize.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
-			expect(topLeaderboardSize.height)
-				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
 				.to
@@ -90,23 +85,18 @@ describe('Delay ads page: top boxad', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check visibility and dimensions', () => {
+	it('Check dimensions and visibility', () => {
 		delayAd.waitToLoadAds();
 		browser.waitForVisible(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard);
 
-		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(topBoxadSize.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(topBoxadSize.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
 				.to

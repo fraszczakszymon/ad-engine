@@ -16,20 +16,15 @@ describe('BTF Only ads page: incontent boxad', () => {
 		helpers.waitForExpanded(adSlots.incontentBoxad);
 	});
 
-	it('Check visibility after manually finishing the queue', () => {
-		const size = browser.getElementSize(adSlots.incontentBoxad);
+	it('Check dimensions and visibility after manually finishing the queue', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 		const tableOfErrors = [];
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+
 		try {
 			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not visible in viewport')
 				.to

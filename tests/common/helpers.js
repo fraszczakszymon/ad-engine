@@ -181,11 +181,11 @@ class Helpers {
 
 		if (slotSize.width !== width) {
 			result = false;
-			errorMessages += `Width incorrect: expected ${width} to equal ${slotSize.width}\n`;
+			errorMessages += `Width incorrect: expected ${slotSize.width} to equal ${width}\n`;
 		}
 		if (slotSize.height !== height) {
 			result = false;
-			errorMessages += `Height incorrect: expected ${height} to equal ${slotSize.height}\n`;
+			errorMessages += `Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
 		return {
 			status: result,
@@ -193,15 +193,16 @@ class Helpers {
 		};
 	}
 
+	// TODO fix this method (it checks if the word completely equals the url instead of checking if it includes the word)
+
 	/**
-	 * It checks redirect on click and returns result and (if present) error message.
+	 * It checks redirect on click and returns result.
 	 * @param adSlot slot to click
 	 * @param url expected url
-	 * @returns {{status: boolean, capturedErrors: string}}
+	 * @returns {{status: boolean}} returns true if there were no errors, else it returns false
 	 */
 	adRedirect(adSlot, url = this.clickThroughUrlDomain) {
 		let result = true;
-		let errorMessages = '';
 
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
@@ -213,12 +214,10 @@ class Helpers {
 
 		if (browser.getUrl() !== url) {
 			result = false;
-			errorMessages += `Expected new page after ${timeouts.standard} seconds\n`;
 		}
 		this.closeNewTabs();
 		return {
-			status: result,
-			capturedErrors: errorMessages,
+			status: result
 		};
 	}
 }
