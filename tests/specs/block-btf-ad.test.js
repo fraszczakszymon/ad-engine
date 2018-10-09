@@ -5,13 +5,13 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test block btf ad page', () => {
+describe('Block BTF ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('will test top leaderboard visibility and dimensions', () => {
+	it('Check top leaderboard visibility and dimensions', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
@@ -34,12 +34,12 @@ describe('It will test block btf ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it(' will test top leaderboard ad redirect on click', () => {
+	it('Check top leaderboard ad redirect on click', () => {
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -52,7 +52,7 @@ describe('It will test block btf ad page', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test if incontent boxad is hidden on the page', () => {
+	it('Check if incontent boxad is hidden on the page', () => {
 		helpers.slowScroll(2000);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
 			.to

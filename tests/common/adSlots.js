@@ -8,16 +8,22 @@ class AdSlots {
 		this.topBoxadRail = '.top-boxad.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards
 		this.leaderboardHeight = 90; // shared between leaderboards
-		this.adProductsTopLeaderboardWidth = 1200; // UAP and ABCD leaderboards have the same width
-		this.uapTopLeaderboardHeight = 300;
+		this.adProductsTopLeaderboardWidth = 1920; // UAP and ABCD leaderboards have the same width
+		this.uapTopLeaderboardHeight = 480;
+		this.uapTopLeaderboardHeightResolved = 192;
 		this.uapBottomLeaderboardWidth = 1024;
 		this.uapBottomLeaderboardHeight = 102;
-		this.abcdLeaderboardHeight = 240;
+		this.abcdLeaderboardHeight = 384;
+		this.twitchLeaderboardHeight = 495;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
 		this.railModuleWidth = 300;
 		this.railModuleHeight = 1200;
 		this.lineItemParam = 'data-gpt-line-item-id';
+		this.resultAttribute = 'data-slot-result';
+		this.viewedAttribute = 'data-slot-viewed';
+		this.adLoaded = 'success';
+		this.adViewed = 'true';
 	}
 }
 

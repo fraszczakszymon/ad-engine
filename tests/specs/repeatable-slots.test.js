@@ -5,23 +5,23 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test repeatable slots ads ', () => {
+describe('Repeatable slots ads', () => {
 	beforeEach(() => {
 		browser.url(repeatableSlots.pageLink);
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 	});
 
-	it('will test first boxad visibility and dimensions', () => {
+	it('Check first boxad visibility and dimensions', () => {
 		const size = browser.getElementSize(repeatableSlots.getRepeatableSlot(1));
 		const tableOfErrors = [];
 
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.boxadWidth, 'Boxad width incorrect');
+				.equal(adSlots.boxadWidth, 'Width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.boxadHeight, 'Boxad height incorrect');
+				.equal(adSlots.boxadHeight, 'Height incorrect');
 			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)), 'Slot not visible in viewport')
 				.to
 				.be
@@ -30,12 +30,14 @@ describe('It will test repeatable slots ads ', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it('will test redirect on click', () => {
+	it('Check redirect on click', () => {
+		helpers.waitForLineItemParam(repeatableSlots.getRepeatableSlot(1));
+		browser.waitForEnabled(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		browser.click(repeatableSlots.getRepeatableSlot(1));
 
 		const tabIds = browser.getTabIds();
@@ -48,7 +50,7 @@ describe('It will test repeatable slots ads ', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('will test last slot visibility with a limit to 3', () => {
+	it('Check last slot visibility with a limit to 3', () => {
 		const numberOfSlots = 3;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLimitOfSlots(3), repeatableSlots.setLengthOfContent(5)]));
@@ -65,7 +67,7 @@ describe('It will test repeatable slots ads ', () => {
 			.false;
 	});
 
-	it('will test 8 boxads', () => {
+	it('Check 8 boxad visibility', () => {
 		const numberOfSlots = 8;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));

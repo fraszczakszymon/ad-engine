@@ -1,22 +1,13 @@
-import floatingRailAd from '../pages/floating-rail-ad.page';
+import twitchAd from '../pages/hivi-uap-twitch-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-let theUrlYouWantToGet;
-
-global.client.on('Network.responseReceived', (params) => {
-	const { url, status } = params.response;
-	if (url.includes('gampad/ads?gdfp')) {
-		theUrlYouWantToGet = url;
-	}
-});
-
-describe('Floating rail ads page: top leaderboard', () => {
+describe('Twitch ads page: top leaderboard', () => {
 	beforeEach(() => {
-		browser.url(floatingRailAd.pageLink);
+		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
@@ -24,20 +15,18 @@ describe('Floating rail ads page: top leaderboard', () => {
 		const size = browser.getElementSize(adSlots.topLeaderboard);
 		const tableOfErrors = [];
 
-		console.log(theUrlYouWantToGet);
-
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.leaderboardWidth, 'Width incorrect');
+				.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.leaderboardHeight, 'Height incorrect');
+				.equal(adSlots.twitchLeaderboardHeight, 'Height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
 				.to
 				.be
 				.true;
@@ -54,12 +43,19 @@ describe('Floating rail ads page: top leaderboard', () => {
 		helpers.waitForLineItemParam(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(floatingRailAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+			.equal(twitchAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+	});
+
+	it('Check if leaderboard does not obstruct the navbar', () => {
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
-		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topLeaderboard);
 
 		const tabIds = browser.getTabIds();
@@ -71,11 +67,18 @@ describe('Floating rail ads page: top leaderboard', () => {
 			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
 	});
+
+	it('Check Twitch player visibility', () => {
+		const myFrame = $(twitchAd.playerFrame).value;
+
+		browser.frame(myFrame);
+		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
+	});
 });
 
-describe('Floating rail ads page: top boxad', () => {
+describe('Twitch ads page: top boxad', () => {
 	beforeEach(() => {
-		browser.url(floatingRailAd.pageLink);
+		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
@@ -86,15 +89,15 @@ describe('Floating rail ads page: top boxad', () => {
 		try {
 			expect(size.width)
 				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
+				.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
 			expect(size.height)
 				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
+				.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
 		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
+			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
 				.to
 				.be
 				.true;
@@ -108,15 +111,15 @@ describe('Floating rail ads page: top boxad', () => {
 	});
 
 	it('Check line item id', () => {
-		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
 			.to
-			.equal(floatingRailAd.topBoxadLineItemId, 'Line item ID mismatch');
+			.equal(twitchAd.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check redirect on click', () => {
 		helpers.waitForLineItemParam(adSlots.topBoxad);
-		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
+		browser.waitForEnabled(adSlots.topBoxad);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();
@@ -127,12 +130,5 @@ describe('Floating rail ads page: top boxad', () => {
 			.to
 			.include(helpers.fandomWord);
 		helpers.closeNewTabs();
-	});
-
-	it('Check if rail scrolls with the content', () => {
-		helpers.slowScroll(500);
-		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
-			.to
-			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
 	});
 });

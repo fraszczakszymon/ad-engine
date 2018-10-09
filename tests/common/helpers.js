@@ -1,11 +1,13 @@
+import { timeouts } from '../common/timeouts';
+import adSlots from '../common/adSlots';
+
 const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
-const timeToStartPlaying = 1000;
+const timeToStartPlaying = 3000;
 
 class Helpers {
 	constructor() {
-		this.interval = 500;
 		this.classHidden = '.hide';
 		this.pageBody = 'body';
 		this.classProperty = 'class';
@@ -18,7 +20,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', this.interval);
+		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', timeouts.interval);
 	}
 
 	/**
@@ -93,6 +95,58 @@ class Helpers {
 			i += 1;
 		});
 		return finalString;
+	}
+
+	/**
+	 * Provides parameters with the example page to load and ad slot to wait for
+	 * @param adPage example page with ads to load
+	 * @param adSlot ad slot to wait for visible
+	 */
+	reloadPage(adPage, adSlot) {
+		browser.reload();
+		browser.windowHandleSize({ width: 1920, height: 1080 });
+		browser.url(adPage); // mandatory, because test page fails to load without it
+		browser.waitForVisible(adSlot, timeouts.standard);
+	}
+
+	/**
+	 * Refreshes the page and pauses all the actions to let elements reload properly.
+	 * @param timeout duration of the pause
+	 */
+	refreshPage(timeout = timeouts.pageReload) {
+		browser.refresh();
+		browser.pause(timeout);
+	}
+
+	/**
+	 * Waits for the new tab to open
+	 */
+	waitForNewTab() {
+		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', timeouts.interval);
+	}
+
+	/**
+	 * Waits until the ad slot to receive its line item id parameter.
+	 * @param adSlot ad slot that should receive the parameter
+	 */
+	waitForLineItemParam(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemParam) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
+	}
+
+	/**
+	 * Waits until the element is visible and its height is greater than 0.
+	 * @param adSlot ad slot we are waiting for
+	 */
+	waitForExpanded(adSlot) {
+		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+	}
+
+	/**
+	 * Waits for the adslot\'s attribute "Viewed" to equal "true".
+	 * @param adSlot ad slot waiting for bool value
+	 */
+	waitForViewed(adSlot) {
+		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.viewedAttribute) === adSlots.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
 	}
 }
 

@@ -5,29 +5,22 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test empty response page', () => {
+describe('Empty response page:', () => {
 	beforeEach(() => {
 		browser.url(emptyResponse.pageLink);
 		browser.waitForVisible(emptyResponse.articleClass, timeouts.standard);
 	});
 
-	it('will test if top leaderboard ad is not visible', () => {
+	it('Check if top leaderboard ad is not visible', () => {
 		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`), 'Element does not exist')
-			.to
-			.be
-			.true;
+		browser.waitForExist(`${adSlots.topLeaderboard}${helpers.classHidden}`, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
 			.to
 			.be
 			.false;
 	});
-	it('will test if top boxad is not visible', () => {
-		browser.isExisting(adSlots.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`), 'Top boxad exists in code')
-			.to
-			.be
-			.true;
+	it('Check if top boxad is not visible', () => {
+		browser.waitForExist(`${adSlots.topBoxad}${helpers.classHidden}`, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
 			.to
 			.be

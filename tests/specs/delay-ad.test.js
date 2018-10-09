@@ -5,41 +5,31 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test delay ad page', () => {
+describe('Delay ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 	});
 
-	it('will test if top leaderboard is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${delayAd.resultAttribute}`), 'Top leaderboard visible')
-			.to
-			.be
-			.false;
+	it('Check if top leaderboard is not immediately visible', () => {
+		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('will test if top boxad is not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topBoxad}${delayAd.resultAttribute}`), 'Top boxad visible')
-			.to
-			.be
-			.false;
-	});
-
-	it('will test visibility and dimensions of delayed top leaderboard', () => {
+	it('Check visibility and dimensions', () => {
 		const tableOfErrors = [];
 
 		delayAd.waitToLoadAds();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.waitForVisible(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard);
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 
 		try {
 			expect(topLeaderboardSize.width)
 				.to
-				.equal(adSlots.leaderboardWidth, 'Top leaderboard ad width incorrect');
+				.equal(adSlots.leaderboardWidth, 'Width incorrect');
 			expect(topLeaderboardSize.height)
 				.to
-				.equal(adSlots.leaderboardHeight, 'Top leaderboard ad height incorrect');
+				.equal(adSlots.leaderboardHeight, 'Height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -52,14 +42,57 @@ describe('It will test delay ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it('will test visibility and dimensions of delayed top boxad', () => {
-		delayAd.waitToLoadAds();
+	it('Check if top leaderboard shows up after clicking the button and if it was viewed', () => {
+		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		helpers.waitForViewed(adSlots.topLeaderboard);
+		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
+			.to
+			.be
+			.true;
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
+			.to
+			.equal(adSlots.adLoaded, 'Top leaderboard slot failed to load');
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.viewedAttribute))
+			.to
+			.equal(adSlots.adViewed, 'Top leaderboard slot has not been counted as viewed');
+	});
+
+	it('Check redirect on click', () => {
+		browser.click(delayAd.loadAdsButton);
+		helpers.waitForLineItemParam(adSlots.topLeaderboard);
+		browser.waitForEnabled(adSlots.topLeaderboard, timeouts.standard);
+		browser.click(adSlots.topLeaderboard);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.fandomWord);
+		expect(browser.getUrl())
+			.to
+			.include(helpers.fandomWord);
+		helpers.closeNewTabs();
+	});
+});
+
+describe('Delay ads page: top boxad', () => {
+	beforeEach(() => {
+		browser.url(delayAd.pageLink);
+		browser.waitForVisible(helpers.pageBody, timeouts.standard);
+	});
+
+	it('Check if top boxad is not immediately visible', () => {
+		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
+	});
+
+	it('Check visibility and dimensions', () => {
+		delayAd.waitToLoadAds();
+		browser.waitForVisible(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard);
 
 		const topBoxadSize = browser.getElementSize(adSlots.topBoxad);
 		const tableOfErrors = [];
@@ -67,10 +100,10 @@ describe('It will test delay ad page', () => {
 		try {
 			expect(topBoxadSize.width)
 				.to
-				.equal(adSlots.boxadWidth, 'Top boxad ad width incorrect');
+				.equal(adSlots.boxadWidth, 'Width incorrect');
 			expect(topBoxadSize.height)
 				.to
-				.equal(adSlots.boxadHeight, 'Top boxad ad height incorrect');
+				.equal(adSlots.boxadHeight, 'Height incorrect');
 		} catch (error) {
 			tableOfErrors.push(error.message);
 		}
@@ -83,61 +116,31 @@ describe('It will test delay ad page', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
 			.to
 			.equal(0);
 	});
 
-	it('will test if top leaderboard ad shows up after clicking the button and if it was viewed', () => {
+	it('Check if top boxad shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topLeaderboard).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
-			.to
-			.be
-			.true;
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(delayAd.resultAttribute))
-			.to
-			.equal(delayAd.adLoaded, 'Top leaderboard slot failed to load');
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(delayAd.viewedAttribute))
-			.to
-			.equal(delayAd.adViewed, 'Top leaderboard slot has not been counted as viewed');
-	});
-
-	it('will test if top boxad shows up after clicking the button and if it was viewed', () => {
-		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		browser.waitUntil(() => browser.element(adSlots.topBoxad).getAttribute(delayAd.viewedAttribute) === delayAd.adViewed, timeouts.standard, 'Slot has not been viewed', helpers.interval);
+		helpers.waitForViewed(adSlots.topBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.true;
-		expect(browser.element(adSlots.topBoxad).getAttribute(delayAd.resultAttribute))
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(delayAd.adLoaded, 'Top boxad slot failed to load');
-		expect(browser.element(adSlots.topBoxad).getAttribute(delayAd.viewedAttribute))
+			.equal(adSlots.adLoaded, 'Top boxad slot failed to load');
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
-			.equal(delayAd.adViewed, 'Top boxad slot has not been counted as viewed');
+			.equal(adSlots.adViewed, 'Top boxad slot has not been counted as viewed');
 	});
 
-	it('will test redirect after clicking on a top leaderboard ad', () => {
+	it('Check redirect on click', () => {
 		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.fandomWord);
-		helpers.closeNewTabs();
-	});
-
-	it('will test redirect after clicking on a top boxad', () => {
-		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		helpers.waitForLineItemParam(adSlots.topBoxad);
+		browser.waitForEnabled(adSlots.topBoxad, timeouts.standard);
 		browser.click(adSlots.topBoxad);
 
 		const tabIds = browser.getTabIds();

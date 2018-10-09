@@ -1,3 +1,5 @@
+const networkCapture = require('./tests/common/networkCapture');
+
 exports.config = {
 	specs: [
 		'./tests/specs/**/*.js'
@@ -11,6 +13,8 @@ exports.config = {
 			'./tests/specs/abcd-ad.test.js',
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
+			'./tests/specs/hivi-uap-jwp-ad.test.js',
+			'./tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 		],
 		services: [
@@ -22,7 +26,7 @@ exports.config = {
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots-ad.test.js',
+			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
@@ -33,7 +37,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/labrador-basset.test.js',
+			// spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
@@ -41,22 +45,24 @@ exports.config = {
 	},
 	exclude: [
 	],
-	maxInstances: 10,
+	maxInstances: 5,
 	capabilities: [{
-		maxInstances: 5,
-		browserName: 'chrome'
+		browserName: 'chrome',
+		loggingPrefs: {
+			browser: 'ALL'
+		}
 	}],
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
-	deprecationWarnings: true,
+	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/.wdio/errorShots/',
 	baseUrl: 'http://localhost:8080',
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone'],
+	services: ['selenium-standalone', networkCapture],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 
@@ -69,6 +75,10 @@ exports.config = {
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
-		timeout: 20000
+		timeout: 200000
 	},
+	before() {
+		// eslint-disable-next-line no-undef
+		browser.windowHandleSize({ width: 1920, height: 1080 });
+	}
 };
