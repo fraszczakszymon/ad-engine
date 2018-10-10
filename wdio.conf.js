@@ -12,13 +12,13 @@ exports.config = {
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
+			'./tests/specs/sticky-ad.test.js',
 		],
 		services: [
 
 		],
 		utils: [
 			'./tests/specs/basset.test.js',
-
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
@@ -33,7 +33,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/labrador-basset.test.js',
+
 		],
 		otherFeature: [
 

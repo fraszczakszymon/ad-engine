@@ -73,6 +73,7 @@ const development = {
 		'templates/hivi-uap-sticky-bfab': './examples/templates/hivi-uap-sticky-bfab/script.js',
 		'templates/hivi-uap-twitch': './examples/templates/hivi-uap-twitch/script.js',
 		'templates/outstream': './examples/templates/outstream/script.js',
+		'templates/sticky-ad': './examples/templates/sticky-ad/script.js',
 		'templates/uap-roadblock': './examples/templates/uap-roadblock/script.js',
 		'templates/vuap': './examples/templates/vuap/script.js',
 		'utils/block-detect': './examples/utils/block-detect/script.js',
