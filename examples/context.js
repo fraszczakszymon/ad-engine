@@ -145,6 +145,7 @@ export default {
 				}
 			],
 			defaultSizes: [[300, 250], [2, 2]],
+			defaultTemplates: ['stickyAd'],
 			targeting: {
 				loc: 'top'
 			}
@@ -172,7 +173,7 @@ export default {
 				}
 			],
 			defaultSizes: [[300, 250]],
-			defaultTemplate: 'floating-ad',
+			defaultTemplates: ['floating-ad'],
 			targeting: {
 				loc: 'hivi'
 			}

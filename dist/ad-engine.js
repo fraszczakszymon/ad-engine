@@ -3280,17 +3280,19 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'success',
 		value: function success() {
+			var _this2 = this;
+
 			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
 
 			slotTweaker.show(this);
 			this.setStatus(status);
 
-			var template = this.getConfigProperty('defaultTemplate');
+			var templates = this.getConfigProperty('defaultTemplates');
 
-			if (template) {
-				templateService.init(template, this);
-			} else {
-				templateService.init('stickyAd', this);
+			if (templates && templates.length) {
+				templates.forEach(function (template) {
+					return templateService.init(template, _this2);
+				});
 			}
 		}
 	}, {
@@ -3624,7 +3626,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 var template_service_logGroup = 'template-service',
-    templates = {};
+    template_service_templates = {};
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -3652,7 +3654,7 @@ var template_service_TemplateService = function () {
 			}
 
 			context.set('templates.' + name, config);
-			templates[name] = template;
+			template_service_templates[name] = template;
 		}
 	}, {
 		key: 'init',
@@ -3662,11 +3664,11 @@ var template_service_TemplateService = function () {
 
 			logger(template_service_logGroup, 'Load template', name, slot, params);
 
-			if (!templates[name]) {
+			if (!template_service_templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
 
-			return new templates[name](slot).init(params);
+			return new template_service_templates[name](slot).init(params);
 		}
 	}]);
 
