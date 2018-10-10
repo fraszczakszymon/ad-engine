@@ -42,8 +42,7 @@ export class WikiaVideo extends BaseAdapter {
 	}
 
 	getVastUrl(width, height) {
-		return buildVastUrl(width / height, 'featured', {
-			src: 'test',
+		return buildVastUrl(width / height, 'outstream', {
 			pos: 'outstream',
 			passback: 'wikiaVideo'
 		});

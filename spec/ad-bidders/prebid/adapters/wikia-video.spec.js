@@ -1,5 +1,6 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
+import { context } from '@wikia/ad-engine';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
 
 function getMocks() {
@@ -16,6 +17,7 @@ function getMocks() {
 			]
 		},
 		fakeVastUrl: 'https://fake-vast-url',
+		fakePrice: 2000,
 		done: function () {},
 		window: {
 			pbjs: {
@@ -72,9 +74,9 @@ describe('WikiaVideo bidder adapter', () => {
 			}
 		});
 		const mocks = getMocks();
-
 		global.window.pbjs = mocks.window.pbjs;
 		sinon.stub(wikiaVideo, 'getVastUrl').returns(mocks.fakeVastUrl);
+		context.set('bidders.prebid.wikiaVideo.price', mocks.fakePrice);
 
 		wikiaVideo.addBids(mocks.bidsRequestMock, mocks.addBidResponseMock, mocks.done);
 		assert.ok(mocks.addBidResponseMock.called);
@@ -82,7 +84,7 @@ describe('WikiaVideo bidder adapter', () => {
 			'fake-ad-unit',
 			{
 				bidderCode: 'fake-wikia-video-bidder',
-				cpm: NaN,
+				cpm: 20,
 				creativeId: 'foo123_wikiaVideoCreativeId',
 				ttl: 300,
 				mediaType: 'video',
