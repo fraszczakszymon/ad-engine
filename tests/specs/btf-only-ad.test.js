@@ -1,4 +1,3 @@
-
 import btfOnlyAd from '../pages/btf-only-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
@@ -11,15 +10,11 @@ describe('BTF Only ads page: incontent boxad', () => {
 
 	before(() => {
 		browser.url(btfOnlyAd.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(btfOnlyAd.finishQueueButton, timeouts.standard);
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		helpers.waitForExpanded(adSlots.incontentBoxad);
+		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
 	});
 
 	it('Check dimensions', () => {
@@ -45,3 +40,4 @@ describe('BTF Only ads page: incontent boxad', () => {
 			.true;
 	});
 });
+

@@ -75,13 +75,8 @@ describe('Floating ad page: incontent boxad', () => {
 
 	before(() => {
 		browser.url(floatingAd.pageLink);
+		helpers.slowScroll(2500);
 		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
-	});
-
-	beforeEach(() => {
-		browser.scroll(0, 1000);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.scroll(0, 5000);
 	});
 
 	it('Check dimensions', () => {

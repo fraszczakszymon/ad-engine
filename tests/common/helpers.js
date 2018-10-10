@@ -110,12 +110,14 @@ class Helpers {
 	}
 
 	/**
-	 * Refreshes the page and pauses all the actions to let elements reload properly.
+	 * Refreshes the page pauses all the actions to let elements reload properly.
+	 * @param adSlot slot to wait for
 	 * @param timeout duration of the pause
 	 */
-	refreshPage(timeout = timeouts.pageReload) {
+	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.pageReload) {
 		browser.refresh();
 		browser.pause(timeout);
+		browser.waitForVisible(adSlot);
 	}
 
 	/**
@@ -181,6 +183,29 @@ class Helpers {
 			result = false;
 			errorMessages += `${customPrefix} Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
+		return {
+			status: result,
+			capturedErrors: errorMessages,
+		};
+	}
+
+	checkSlotRatio(adSlot, heightRatio, customPrefix = '') {
+		const browserWidth = browser.getViewportSize('width');
+		let result = true;
+		let errorMessages = '';
+
+		const slotSize = browser.getElementSize(adSlot);
+
+		if (slotSize.width !== browserWidth) {
+			result = false;
+			errorMessages += `${customPrefix} Slot ratio incorrect - expected ${browserWidth} - actual ${slotSize.width}\n`;
+		}
+
+		if (slotSize.height !== browserWidth / heightRatio) {
+			result = false;
+			errorMessages += `${customPrefix} Slot ratio incorrect - expected ${browserWidth / heightRatio} - actual ${slotSize.height}\n`;
+		}
+
 		return {
 			status: result,
 			capturedErrors: errorMessages,

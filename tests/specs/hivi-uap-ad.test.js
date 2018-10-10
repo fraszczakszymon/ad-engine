@@ -117,7 +117,7 @@ describe('Hivi uap ads page: top leaderboard', () => {
 			tableOfErrors.push(error.message);
 		}
 
-		helpers.refreshPage();
+		helpers.refreshPageAndWaitForSlot();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
