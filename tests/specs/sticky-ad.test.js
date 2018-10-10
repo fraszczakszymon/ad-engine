@@ -1,16 +1,14 @@
 import stickyAd from '../pages/sticky-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
 describe('sticky-ad template', () => {
-	const stickedSlot = `${adSlots.topLeaderboard}${stickyAd.classStickyTemplate}${stickyAd.classStickySlot}`;
-
 	beforeEach(() => {
 		browser.url(stickyAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.pause(250);
 	});
 
 	afterEach(() => {
@@ -18,23 +16,22 @@ describe('sticky-ad template', () => {
 	});
 
 	it('should stick and unstick', () => {
-		expect(browser.isExisting(stickedSlot), 'Element is sticked too soon')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is sticked too soon')
 			.to
 			.be
 			.false;
 
-		browser.scroll(0, 500);
+		helpers.slowScroll(500);
 
-		expect(browser.isExisting(stickedSlot), 'Element is not sticked')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked')
 			.to
 			.be
 			.true;
 
 		browser.pause(stickyAd.unstickTime);
-		browser.scroll(0, 1000);
-		browser.pause(stickyAd.unstickAnimationTime);
+		helpers.slowScroll(1000);
 
-		expect(browser.isExisting(stickedSlot), 'Element is not unsticked properly')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not unsticked properly')
 			.to
 			.be
 			.false;
@@ -42,27 +39,28 @@ describe('sticky-ad template', () => {
 
 	it('should not stick if viewability is counted', () => {
 		browser.pause(stickyAd.unstickTime);
-		browser.scroll(0, 500);
+		helpers.slowScroll(500);
 
-		expect(browser.isExisting(stickedSlot), 'Element should not stick')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard should not stick')
 			.to
 			.be
 			.false;
 	});
 
 	it('should unstick if close button is clicked', () => {
-		browser.scroll(0, 100);
+		helpers.slowScroll(100);
 
-		expect(browser.isExisting(stickedSlot), 'Element is not sticked')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked')
 			.to
 			.be
 			.true;
 
-		browser.click(`${stickedSlot} ${stickyAd.classUnstickButton}`);
+		browser.click(`${stickyAd.stickedSlot} ${stickyAd.classUnstickButton}`);
 
-		expect(browser.isExisting(stickedSlot), 'Element is not sticked')
+		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked')
 			.to
 			.be
 			.false;
 	});
 });
+
