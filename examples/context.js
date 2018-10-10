@@ -145,7 +145,6 @@ export default {
 				}
 			],
 			defaultSizes: [[300, 250], [2, 2]],
-			defaultTemplates: ['stickyAd'],
 			targeting: {
 				loc: 'top'
 			}
