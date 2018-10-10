@@ -155,8 +155,10 @@ export class AdSlot extends EventEmitter {
 		slotTweaker.show(this);
 		this.setStatus(status);
 
-		if (this.config.defaultTemplate) {
-			templateService.init(this.config.defaultTemplate, this);
+		const templates = this.getConfigProperty('defaultTemplates');
+
+		if (templates && templates.length) {
+			templates.forEach(template => templateService.init(template, this));
 		}
 	}
 

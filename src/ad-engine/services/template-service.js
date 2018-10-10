@@ -11,10 +11,10 @@ class TemplateService {
 		}
 		const name = template.getName();
 
-		let config = {};
+		let config = context.get(`templates.${name}`) || {};
 
 		if (typeof template.getDefaultConfig === 'function') {
-			config = template.getDefaultConfig();
+			config = Object.assign(template.getDefaultConfig(), config);
 		}
 
 		if (customConfig) {
@@ -27,6 +27,7 @@ class TemplateService {
 
 	init(name, slot = null, params = {}) {
 		logger(logGroup, 'Load template', name, slot, params);
+
 		if (!templates[name]) {
 			throw new Error(`Template ${name} does not exist.`);
 		}
