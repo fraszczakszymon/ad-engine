@@ -15,7 +15,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.test.js',
-			'./tests/specs/floating-ad.test.js',
+			'./tests/specs/floating-ad.test.js', // TODO fix test for visibility in viewport (incontent boxad)
 		],
 		services: [
 
@@ -25,19 +25,19 @@ exports.config = {
 
 		],
 		slots: [
-			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots.test.js',
+			'./tests/specs/btf-only-ad.test.js', // TODO fix test for visibility in viewport
+			'./tests/specs/repeatable-slots.test.js', // TODO fix test for visibility in viewport (top leaderboard; some weird problems with button)
 			'./tests/specs/animations-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
 			'./tests/specs/block-btf-ad.test.js',
-			'./tests/specs/empty-response.test.js',
+			'./tests/specs/empty-response.test.js', // TODO fix test for visibility in viewport (top boxad; test is flaky)
 		],
 		video: [
-			'./tests/specs/porvata.test.js',
+			'./tests/specs/porvata.test.js', // TODO fix multiple broken things in this test (rerun first; work on it last)
 		],
 		currentTest: [
-			'./tests/specs/porvata.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/viewport-conflict-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 

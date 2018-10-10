@@ -6,32 +6,31 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('ABCD ads page: top leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(abcdAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.abcdLeaderboardHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check line item id', () => {
@@ -57,14 +56,23 @@ describe('ABCD ads page: top leaderboard', () => {
 });
 
 describe('ABCD ads page: video player in leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(abcdAd.pageLink);
+		adStatus = helpers.checkSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(abcdAd.videoPlayer, timeouts.standard);
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check if video player is visible', () => {
-		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check unmuting the video', () => {
@@ -75,32 +83,31 @@ describe('ABCD ads page: video player in leaderboard', () => {
 });
 
 describe('ABCD ads page: top boxad', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(abcdAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check line item id', () => {

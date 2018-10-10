@@ -6,32 +6,31 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Animations ad page: top leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(animationsAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {
@@ -54,32 +53,31 @@ describe('Animations ad page: top leaderboard', () => {
 });
 
 describe('Animations ads page: top boxad', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(animationsAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {

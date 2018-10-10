@@ -6,20 +6,23 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Delay ads page: top leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(delayAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 	});
 
-	it('Check if top leaderboard is not immediately visible', () => {
+	it('Check if slot is not immediately visible', () => {
 		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const tableOfErrors = [];
-
+	it('Check dimensions', () => {
 		delayAd.waitToLoadAds();
-		browser.waitForVisible(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard);
 
 		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
@@ -27,26 +30,21 @@ describe('Delay ads page: top leaderboard', () => {
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
-	it('Check if top leaderboard shows up after clicking the button and if it was viewed', () => {
+	it('Check visibility after delay', () => {
+		delayAd.waitToLoadAds();
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if slot shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForViewed(adSlots.topLeaderboard);
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
@@ -68,46 +66,46 @@ describe('Delay ads page: top leaderboard', () => {
 });
 
 describe('Delay ads page: top boxad', () => {
+	let adStatus;
+
+	before(() => {
+		browser.url();
+		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
+	});
+
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
 		browser.waitForVisible(helpers.pageBody, timeouts.standard);
 	});
 
-	it('Check if top boxad is not immediately visible', () => {
+	it('Check if slot is not immediately visible', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		delayAd.waitToLoadAds();
-		browser.waitForVisible(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard);
 
 		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
-	it('Check if top boxad shows up after clicking the button and if it was viewed', () => {
+	it('Check visibility', () => {
+		delayAd.waitToLoadAds();
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if slot shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForViewed(adSlots.topBoxad);
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;

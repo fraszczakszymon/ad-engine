@@ -5,34 +5,33 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Porvata player ads', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(porvata.pageLink);
+		adStatus = helpers.checkSlotStatus(porvata.porvataPlayer);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
 		browser.scroll(porvata.porvataPlayer);
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check player dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(porvata.porvataPlayer), 'Player not visible')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {

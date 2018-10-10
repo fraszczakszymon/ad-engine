@@ -119,13 +119,6 @@ class Helpers {
 	}
 
 	/**
-	 * Waits for the new tab to open.
-	 */
-	waitForNewTab() {
-		browser.waitUntil(() => browser.getTabIds().length > 1, timeouts.standard, 'Tab has not been opened', timeouts.interval);
-	}
-
-	/**
 	 * Waits until the ad slot to receive its line item id parameter.
 	 * @param adSlot ad slot that should receive the parameter
 	 */
@@ -217,6 +210,15 @@ class Helpers {
 		}
 		this.closeNewTabs();
 		return result;
+	}
+
+	checkSlotStatus(adSlot) {
+		browser.waitForExist(adSlot, timeouts.standard);
+		return {
+			visible: browser.isVisible(adSlot),
+			inViewport: browser.isVisibleWithinViewport(adSlot),
+			enabled: browser.isEnabled(adSlot)
+		};
 	}
 }
 

@@ -148,8 +148,14 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 });
 
 describe('Hivi uap static ads page: top boxad', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(hiviUapStatic.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
@@ -157,32 +163,20 @@ describe('Hivi uap static ads page: top boxad', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.topBoxad);
-		const tableOfErrors = [];
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(dimensions.status, dimensions.capturedErrors)
 			.to
-			.equal(0);
+			.be
+			.true;
+	});
+
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check line item id', () => {
@@ -201,8 +195,14 @@ describe('Hivi uap static ads page: top boxad', () => {
 });
 
 describe('Hivi uap static ads page: incontent boxad', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(hiviUapStatic.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
+	});
+
+	beforeEach(() => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
@@ -211,32 +211,20 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.incontentBoxad);
-		const tableOfErrors = [];
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(dimensions.status, dimensions.capturedErrors)
 			.to
-			.equal(0);
+			.be
+			.true;
+	});
+
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check line item id', () => {
@@ -255,8 +243,14 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 });
 
 describe('Hivi uap static ads page: bottom leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(hiviUapStatic.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
+	});
+
+	beforeEach(() => {
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});
@@ -265,32 +259,20 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const size = browser.getElementSize(adSlots.bottomLeaderboard);
-		const tableOfErrors = [];
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.uapBottomLeaderboardWidth, adSlots.uapBottomLeaderboardHeight);
 
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.uapBottomLeaderboardWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.uapBottomLeaderboardHeight, 'Height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard), 'Bottom leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(dimensions.status, dimensions.capturedErrors)
 			.to
-			.equal(0);
+			.be
+			.true;
+	});
+
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
 	});
 
 	it('Check line item id', () => {

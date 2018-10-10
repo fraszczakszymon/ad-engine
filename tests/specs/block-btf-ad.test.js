@@ -6,44 +6,55 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Block BTF ads page: top leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check top leaderboard dimensions and visibility', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
-	it('Check top leaderboard ad redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check if incontent boxad is hidden on the page', () => {
+	it('Check redirect on click', () => {
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
+			.to
+			.be
+			.true;
+	});
+});
+
+describe('Block BTF ads page: incontent boxad', () => {
+	let adStatus;
+
+	before(() => {
+		browser.url(blockBtfAd.pageLink, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
+	});
+
+	beforeEach(() => {
 		helpers.slowScroll(2000);
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
+	});
+
+	it('Check if slot is hidden on the page', () => {
+		expect(adStatus.inViewport, 'Visible in viewport')
 			.to
 			.be
 			.false;

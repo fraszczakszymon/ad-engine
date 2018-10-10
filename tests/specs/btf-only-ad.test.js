@@ -7,8 +7,14 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('BTF Only ads page: incontent boxad', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(btfOnlyAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(btfOnlyAd.finishQueueButton, timeouts.standard);
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);
@@ -16,27 +22,20 @@ describe('BTF Only ads page: incontent boxad', () => {
 		helpers.waitForExpanded(adSlots.incontentBoxad);
 	});
 
-	it('Check dimensions and visibility after manually finishing the queue', () => {
+	it('Check dimensions', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {
