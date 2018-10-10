@@ -253,7 +253,7 @@
   .gpt-ad.bfaa-template.mobile-porvata .video-player > iframe,
   .gpt-ad.bfab-template.porvata .video-player > iframe,
   .gpt-ad.bfab-template.mobile-porvata .video-player > iframe {
-    z-index: -1; }
+    display: none; }
   .gpt-ad.bfaa-template .porvata-video,
   .gpt-ad.bfab-template .porvata-video {
     background-color: transparent !important; }
@@ -493,6 +493,9 @@
     top: 0;
     left: 0;
     z-index: 2147483646; }
+    .gpt-ad.bfaa-template.theme-hivi.is-mobile-device.theme-video-fullscreen .learn-more,
+    .gpt-ad.bfab-template.theme-hivi.is-mobile-device.theme-video-fullscreen .learn-more {
+      display: block; }
   .gpt-ad.bfaa-template.theme-hivi .video-player, .gpt-ad.bfaa-template.theme-hivi .replay-overlay,
   .gpt-ad.bfab-template.theme-hivi .video-player,
   .gpt-ad.bfab-template.theme-hivi .replay-overlay {

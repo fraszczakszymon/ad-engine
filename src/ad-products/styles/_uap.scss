@@ -122,7 +122,7 @@ $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
 	&.porvata .video-player > iframe,
 	&.mobile-porvata .video-player > iframe {
-		z-index: -1;
+		display: none;
 	}
 
 	& .porvata-video {
@@ -395,6 +395,10 @@ $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 			top: 0;
 			left: 0;
 			z-index: $uap-video-fullscreen-z-index - 1;
+
+			.learn-more {
+				display: block;
+			}
 		}
 
 		.video-player, .replay-overlay {
