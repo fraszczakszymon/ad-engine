@@ -3290,7 +3290,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			if (template) {
 				templateService.init(template, this);
 			} else {
-				templateService.init('stickyAd', this);
+				templateService.initGlobal(this);
 			}
 		}
 	}, {
@@ -3624,7 +3624,8 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 var template_service_logGroup = 'template-service',
-    templates = {};
+    templates = {},
+    templatesGlobal = [];
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -3652,7 +3653,12 @@ var template_service_TemplateService = function () {
 			}
 
 			context.set('templates.' + name, config);
-			templates[name] = template;
+
+			if (config.isGlobalTemplate) {
+				templatesGlobal.push(template);
+			} else {
+				templates[name] = template;
+			}
 		}
 	}, {
 		key: 'init',
@@ -3667,6 +3673,17 @@ var template_service_TemplateService = function () {
 			}
 
 			return new templates[name](slot).init(params);
+		}
+	}, {
+		key: 'initGlobal',
+		value: function initGlobal() {
+			var slot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+			logger(template_service_logGroup, 'Load global templates', slot);
+
+			for (var i = 0; i < templatesGlobal.length; i += 1) {
+				new templatesGlobal[i](slot).init({});
+			}
 		}
 	}]);
 
