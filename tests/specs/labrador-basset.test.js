@@ -6,7 +6,7 @@ const { expect } = require('chai');
 
 describe('It will test labrador-basset page', () => {
 	it('will test if cached value is stored', () => {
-		const link = helpers.addParametersToUrl(basset.pageLink, [basset.ig + basset.returnIGParameters('XX', 50, basset.instantGlobalCached), basset.sessionIdParam(50)]);
+		const link = helpers.addParametersToUrl(basset.pageLink, [basset.ig + basset.returnIGParameters('XX', 50, basset.instantGlobalCached), basset.sessionIdParam('cachedSession')]);
 
 		browser.url(link);
 		browser.waitForVisible(basset.wgVariablesStatuses, timeouts.standard);

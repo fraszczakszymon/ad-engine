@@ -58,6 +58,7 @@ const development = {
 		'slots/animations': './examples/slots/animations/script.js',
 		'slots/block-btf': './examples/slots/block-btf/script.js',
 		'slots/btf-only': './examples/slots/btf-only/script.js',
+		'slots/common-slots': './examples/slots/common-slots/script.js',
 		'slots/delay': './examples/slots/delay/script.js',
 		'slots/empty-response': './examples/slots/empty-response/script.js',
 		'slots/repeatable-slots': './examples/slots/repeatable-slots/script.js',
