@@ -2,8 +2,7 @@ import { logger } from '../utils/logger';
 import { context } from './context-service';
 
 const logGroup = 'template-service',
-	templates = {},
-	templatesGlobal = [];
+	templates = {};
 
 class TemplateService {
 	register(template, customConfig = null) {
@@ -23,12 +22,7 @@ class TemplateService {
 		}
 
 		context.set(`templates.${name}`, config);
-
-		if (config.isGlobalTemplate) {
-			templatesGlobal.push(template);
-		} else {
-			templates[name] = template;
-		}
+		templates[name] = template;
 	}
 
 	init(name, slot = null, params = {}) {
@@ -39,14 +33,6 @@ class TemplateService {
 		}
 
 		return new templates[name](slot).init(params);
-	}
-
-	initGlobal(slot = null) {
-		logger(logGroup, 'Load global templates', slot);
-
-		for (let i = 0; i < templatesGlobal.length; i += 1) {
-			new templatesGlobal[i](slot).init({});
-		}
 	}
 }
 

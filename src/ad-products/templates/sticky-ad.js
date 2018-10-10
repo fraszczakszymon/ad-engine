@@ -21,7 +21,6 @@ export class StickyAd {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
-			isGlobalTemplate: true,
 			stickyAdditionalTime: 0,
 			stickyUntilSlotViewed: true,
 			handleNavbar: true,

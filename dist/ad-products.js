@@ -1002,7 +1002,6 @@ var sticky_ad_StickyAd = function () {
 		value: function getDefaultConfig() {
 			return {
 				enabled: true,
-				isGlobalTemplate: true,
 				stickyAdditionalTime: 0,
 				stickyUntilSlotViewed: true,
 				handleNavbar: true,

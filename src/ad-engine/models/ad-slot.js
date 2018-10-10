@@ -160,7 +160,7 @@ export class AdSlot extends EventEmitter {
 		if (template) {
 			templateService.init(template, this);
 		} else {
-			templateService.initGlobal(this);
+			templateService.init('stickyAd', this);
 		}
 	}
 
