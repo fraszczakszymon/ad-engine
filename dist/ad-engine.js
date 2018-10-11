@@ -2866,11 +2866,11 @@ porvata_listener_PorvataListener.EVENTS = {
 	viewable_impression: 'viewable_impression',
 	adError: 'error',
 	wikiaAdPlayTriggered: 'play_triggered',
-	wikiaInViewportWithOffer: 'in_viewport_with_offer',
-	wikiaInViewportWithoutOffer: 'in_viewport_without_offer',
 	wikiaAdStop: 'closed',
 	wikiaAdMute: 'mute',
-	wikiaAdUnmute: 'unmute'
+	wikiaAdUnmute: 'unmute',
+	wikiaInViewportWithOffer: 'in_viewport_with_offer',
+	wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';

@@ -94,17 +94,26 @@ export class PorvataTemplate {
 	}
 
 	handleSlotStatus(video) {
+		let resolveStatus = null;
+		const statusPromise = new Promise((resolve) => {
+			resolveStatus = resolve;
+		});
+
 		video.addEventListener('wikiaAdsManagerLoaded', () => {
 			this.adSlot.success();
+			resolveStatus();
 		});
 
 		video.addEventListener('wikiaFirstTimeInViewport', () => {
-			const eventSuffix = this.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
-			video.ima.dispatchEvent(`wikiaInViewport${eventSuffix}`);
+			statusPromise.then(() => {
+				const eventSuffix = this.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+				video.ima.dispatchEvent(`wikiaInViewport${eventSuffix}`);
+			});
 		});
 
 		video.addEventListener('wikiaEmptyAd', () => {
 			this.adSlot.collapse();
+			resolveStatus();
 		});
 	}
 
