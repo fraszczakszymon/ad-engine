@@ -115,9 +115,9 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 
 		if (!isSticky) {
 			this.config.moveNavbar(0, SLIDE_OUT_TIME);
-			await animate(this.adSlot, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-			animate(this.adSlot, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}

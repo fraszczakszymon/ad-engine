@@ -4,6 +4,7 @@ class Timeouts {
 		this.pageReload = 2500;
 		this.interval = 500;
 		this.extended = 45000;
+		this.viewabillity = 1500;
 	}
 }
 

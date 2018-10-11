@@ -98,31 +98,31 @@ module.exports = require("babel-runtime/helpers/classCallCheck");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 9 */
@@ -158,13 +158,13 @@ module.exports = require("babel-runtime/core-js/symbol");
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("lodash/mapValues");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/mapValues");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 16 */
@@ -227,6 +227,8 @@ __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_FADE_IN_ANIMATIO
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_SLIDE_OUT_ANIMATION", function() { return CSS_CLASSNAME_SLIDE_OUT_ANIMATION; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAA", function() { return CSS_CLASSNAME_STICKY_BFAA; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAB", function() { return CSS_CLASSNAME_STICKY_BFAB; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_SLOT", function() { return CSS_CLASSNAME_STICKY_SLOT; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_TEMPLATE", function() { return CSS_CLASSNAME_STICKY_TEMPLATE; });
 __webpack_require__.d(constants_namespaceObject, "CSS_TIMING_EASE_IN_CUBIC", function() { return CSS_TIMING_EASE_IN_CUBIC; });
 __webpack_require__.d(constants_namespaceObject, "SLIDE_OUT_TIME", function() { return SLIDE_OUT_TIME; });
 __webpack_require__.d(constants_namespaceObject, "FADE_IN_TIME", function() { return FADE_IN_TIME; });
@@ -509,10 +511,701 @@ var skin_Skin = function () {
 var regenerator_ = __webpack_require__(2);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
+// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
+var promise_ = __webpack_require__(6);
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
+
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(5);
+var asyncToGenerator_ = __webpack_require__(4);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
+// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
+var symbol_ = __webpack_require__(13);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
+var get_prototype_of_ = __webpack_require__(5);
+var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(8);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
+var inherits_ = __webpack_require__(7);
+var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
+// EXTERNAL MODULE: external "lodash/isFunction"
+var isFunction_ = __webpack_require__(18);
+var isFunction_default = /*#__PURE__*/__webpack_require__.n(isFunction_);
+
+// EXTERNAL MODULE: external "eventemitter3"
+var external_eventemitter3_ = __webpack_require__(15);
+var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/stickiness.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var stickiness_Stickiness = function (_EventEmitter) {
+	inherits_default()(Stickiness, _EventEmitter);
+
+	function Stickiness(adSlot) {
+		var customWhen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : promise_default.a.resolve();
+
+		classCallCheck_default()(this, Stickiness);
+
+		var _this = possibleConstructorReturn_default()(this, (Stickiness.__proto__ || get_prototype_of_default()(Stickiness)).call(this));
+
+		_this.adSlot = adSlot;
+		_this.customWhen = customWhen;
+		_this.sticky = false;
+		_this.isStickinessBlocked = false;
+		_this.isRevertStickinessBlocked = false;
+		_this.logger = function () {
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return ad_engine_["utils"].logger.apply(ad_engine_["utils"], [Stickiness.LOG_GROUP].concat(args));
+		};
+
+		if (!isFunction_default()(_this.customWhen)) {
+			promise_default.a.all([_this.customWhen]).then(function () {
+				if (!_this.sticky) {
+					_this.logger('Blocking stickiness');
+					_this.isStickinessBlocked = true;
+				}
+			});
+		}
+		return _this;
+	}
+
+	createClass_default()(Stickiness, [{
+		key: 'run',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				var _this2 = this;
+
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_context.next = 2;
+								return ad_engine_["slotTweaker"].onReady(this.adSlot);
+
+							case 2:
+								if (!document.hidden) {
+									_context.next = 5;
+									break;
+								}
+
+								_context.next = 5;
+								return ad_engine_["utils"].once(window, 'visibilitychange');
+
+							case 5:
+
+								this.adSlot.once('unstickImmediately', function () {
+									_this2.logger('Unsticking');
+									_this2.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
+									_this2.sticky = false;
+								});
+
+								if (!this.isStickinessBlocked) {
+									this.onAdReady();
+								}
+
+							case 7:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function run() {
+				return _ref.apply(this, arguments);
+			}
+
+			return run;
+		}()
+	}, {
+		key: 'isSticky',
+		value: function isSticky() {
+			return this.sticky;
+		}
+	}, {
+		key: 'applyStickiness',
+		value: function applyStickiness() {
+			if (!this.sticky) {
+				this.logger('Applying stickiness');
+				this.sticky = true;
+				this.emit(Stickiness.STICKINESS_CHANGE_EVENT, this.sticky);
+			} else {
+				this.logger('Stickiness is already applied');
+			}
+		}
+	}, {
+		key: 'revertStickiness',
+		value: function revertStickiness() {
+			if (this.sticky) {
+				this.logger('Reverting stickiness');
+				this.sticky = false;
+				this.emit(Stickiness.STICKINESS_CHANGE_EVENT, this.sticky);
+			} else {
+				this.logger('Stickiness is already reverted');
+			}
+		}
+	}, {
+		key: 'close',
+		value: function close() {
+			this.logger('Closing and removing stickiness');
+			this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
+			this.sticky = false;
+		}
+	}, {
+		key: 'registerRevertStickiness',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								this.logger('waiting for user interaction');
+								_context2.next = 3;
+								return ad_engine_["utils"].once(window, 'scroll');
+
+							case 3:
+								_context2.next = 5;
+								return ad_engine_["utils"].wait();
+
+							case 5:
+								if (!this.isRevertStickinessBlocked) {
+									this.revertStickiness();
+								} else {
+									this.registerRevertStickiness();
+								}
+
+							case 6:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function registerRevertStickiness() {
+				return _ref2.apply(this, arguments);
+			}
+
+			return registerRevertStickiness;
+		}()
+	}, {
+		key: 'blockRevertStickiness',
+		value: function blockRevertStickiness() {
+			this.isRevertStickinessBlocked = true;
+		}
+	}, {
+		key: 'unblockRevertStickiness',
+		value: function unblockRevertStickiness() {
+			this.isRevertStickinessBlocked = false;
+		}
+	}, {
+		key: 'onAdReady',
+		value: function () {
+			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
+				return regenerator_default.a.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								this.applyStickiness();
+								this.logger('waiting for viewability and custom condition');
+
+								_context3.next = 4;
+								return promise_default.a.all([!this.adSlot.isViewed() ? ad_engine_["utils"].once(this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve(), isFunction_default()(this.customWhen) ? this.customWhen() : this.customWhen]);
+
+							case 4:
+
+								this.registerRevertStickiness();
+
+							case 5:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function onAdReady() {
+				return _ref3.apply(this, arguments);
+			}
+
+			return onAdReady;
+		}()
+	}]);
+
+	return Stickiness;
+}(external_eventemitter3_default.a);
+stickiness_Stickiness.LOG_GROUP = 'stickiness';
+stickiness_Stickiness.STICKINESS_CHANGE_EVENT = symbol_default()('stickinessChange');
+stickiness_Stickiness.CLOSE_CLICKED_EVENT = symbol_default()('closeClicked');
+stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT = symbol_default()('unstickImmediately');
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
+var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
+var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
+var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
+var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
+var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
+var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
+var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+// Animation time is defined also in CSS, remember to change it in both places
+var SLIDE_OUT_TIME = 600;
+var FADE_IN_TIME = 400;
+
+var DEFAULT_UAP_ID = 'none';
+var DEFAULT_UAP_TYPE = 'none';
+var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
+
+
+
+
+var animate = function () {
+	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
+		return regenerator_default.a.wrap(function _callee$(_context) {
+			while (1) {
+				switch (_context.prev = _context.next) {
+					case 0:
+						container.style.animationDuration = duration + 'ms';
+						container.classList.add(className);
+						_context.next = 4;
+						return ad_engine_["utils"].wait(duration);
+
+					case 4:
+						container.classList.remove(className);
+						container.style.animationDuration = '';
+
+					case 6:
+					case 'end':
+						return _context.stop();
+				}
+			}
+		}, _callee, this);
+	}));
+
+	return function animate(_x, _x2, _x3) {
+		return _ref.apply(this, arguments);
+	};
+}();
+// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
+var toConsumableArray_ = __webpack_require__(11);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/get"
+var get_ = __webpack_require__(9);
+var get_default = /*#__PURE__*/__webpack_require__.n(get_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/ui-component.js
+
+
+
+var ui_component_UiComponent = function () {
+	createClass_default()(UiComponent, [{
+		key: "classNames",
+		get: function get() {
+			return this.props.classNames || [];
+		}
+	}]);
+
+	function UiComponent() {
+		var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+		classCallCheck_default()(this, UiComponent);
+
+		this.props = props;
+	}
+
+	createClass_default()(UiComponent, [{
+		key: "render",
+		value: function render() {
+			return document.createDocumentFragment();
+		}
+	}]);
+
+	return UiComponent;
+}();
+
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/button.js
+
+
+
+
+
+
+
+
+
+var button_Button = function (_UiComponent) {
+	inherits_default()(Button, _UiComponent);
+
+	function Button() {
+		classCallCheck_default()(this, Button);
+
+		return possibleConstructorReturn_default()(this, (Button.__proto__ || get_prototype_of_default()(Button)).apply(this, arguments));
+	}
+
+	createClass_default()(Button, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var buttonElement = document.createElement('button');
+
+			this.classNames.forEach(function (className) {
+				return buttonElement.classList.add(className);
+			});
+			buttonElement.addEventListener('click', function (event) {
+				return _this2.onClick(event);
+			});
+
+			return buttonElement;
+		}
+	}, {
+		key: 'onClick',
+		value: function onClick(event) {
+			var onClick = this.props.onClick;
+
+
+			if (typeof onClick === 'function') {
+				return onClick(event);
+			}
+
+			return undefined;
+		}
+	}, {
+		key: 'classNames',
+		get: function get() {
+			return ['button-control'].concat(toConsumableArray_default()(get_default()(Button.prototype.__proto__ || get_prototype_of_default()(Button.prototype), 'classNames', this)));
+		}
+	}]);
+
+	return Button;
+}(ui_component_UiComponent);
+
+
+// EXTERNAL MODULE: ./src/ad-products/templates/interface/icons.json
+var icons = __webpack_require__(16);
+var icons_default = /*#__PURE__*/__webpack_require__.n(icons);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/icons.js
+
+
+
+var parser = new window.DOMParser();
+
+function createIcon(iconName) {
+	var classNames = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	if (icons_default.a[iconName]) {
+		var element = parser.parseFromString(icons_default.a[iconName], 'image/svg+xml').documentElement;
+
+		// IE 11 doesn't support classList nor className on SVG elements
+		element.setAttribute('class', classNames.join(' '));
+
+		return element;
+	}
+
+	return null;
+}
+
+var icons_icons = keys_default()(icons_default.a).reduce(function (map, name) {
+	map[name] = name;
+	return map;
+}, {});
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/close-button.js
+
+
+
+
+
+
+
+
+
+
+
+var close_button_CloseButton = function (_UiComponent) {
+	inherits_default()(CloseButton, _UiComponent);
+
+	function CloseButton() {
+		classCallCheck_default()(this, CloseButton);
+
+		return possibleConstructorReturn_default()(this, (CloseButton.__proto__ || get_prototype_of_default()(CloseButton)).apply(this, arguments));
+	}
+
+	createClass_default()(CloseButton, [{
+		key: 'render',
+		value: function render() {
+			var onClick = this.props.onClick;
+			var classNames = this.classNames;
+
+			var button = new button_Button({ onClick: onClick, classNames: classNames }).render();
+			var closeIcon = createIcon(icons_icons.CROSS, ['icon']);
+
+			button.appendChild(closeIcon);
+
+			return button;
+		}
+	}, {
+		key: 'classNames',
+		get: function get() {
+			return ['button-close'].concat(toConsumableArray_default()(get_default()(CloseButton.prototype.__proto__ || get_prototype_of_default()(CloseButton.prototype), 'classNames', this)));
+		}
+	}]);
+
+	return CloseButton;
+}(ui_component_UiComponent);
+
+
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-ad.js
+
+
+
+
+
+
+
+
+
+
+
+var sticky_ad_StickyAd = function () {
+	createClass_default()(StickyAd, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'stickyAd';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				enabled: true,
+				stickyAdditionalTime: 0,
+				stickyUntilSlotViewed: true,
+				handleNavbar: true,
+				navbarWrapperSelector: 'body > nav.navigation',
+				smartBannerSelector: null,
+				slotsIgnoringNavbar: []
+			};
+		}
+	}]);
+
+	function StickyAd(adSlot) {
+		classCallCheck_default()(this, StickyAd);
+
+		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
+		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
+		this.lines = ad_engine_["context"].get('templates.' + StickyAd.getName() + '.lineItemIds');
+		this.stickiness = null;
+		this.scrollListener = null;
+		this.topOffset = 0;
+		this.leftOffset = 0;
+	}
+
+	createClass_default()(StickyAd, [{
+		key: 'init',
+		value: function init(params) {
+			var _this = this;
+
+			this.params = params;
+
+			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+				return;
+			}
+
+			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+
+			this.addUnstickLogic();
+			this.addUnstickEventsListeners();
+
+			if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
+				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
+
+				this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
+
+				if (this.config.smartBannerSelector) {
+					var smartBannerElement = document.querySelector(this.config.smartBannerSelector);
+
+					this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
+				}
+			}
+
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
+
+			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
+
+			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
+				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+				if (scrollPosition >= startOffset) {
+					_this.stickiness.run();
+					ad_engine_["scrollListener"].removeCallback(_this.scrollListener);
+				}
+			});
+		}
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var _this2 = this;
+
+			var _config = this.config,
+			    stickyAdditionalTime = _config.stickyAdditionalTime,
+			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
+
+			var whenSlotViewedOrTimeout = function () {
+				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+					return regenerator_default.a.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									_context.next = 2;
+									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+
+								case 2:
+									_context.next = 4;
+									return ad_engine_["utils"].wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+
+								case 4:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this2);
+				}));
+
+				return function whenSlotViewedOrTimeout() {
+					return _ref.apply(this, arguments);
+				};
+			}();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout());
+		}
+	}, {
+		key: 'addUnstickButton',
+		value: function addUnstickButton() {
+			var _this3 = this;
+
+			this.closeButton = new close_button_CloseButton({
+				classNames: ['button-unstick'],
+				onClick: function onClick() {
+					return _this3.stickiness.close();
+				}
+			}).render();
+
+			this.adSlot.getElement().firstChild.appendChild(this.closeButton);
+		}
+	}, {
+		key: 'removeUnstickButton',
+		value: function removeUnstickButton() {
+			this.closeButton.remove();
+		}
+	}, {
+		key: 'removeStickyParameters',
+		value: function removeStickyParameters() {
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+			this.adSlot.getElement().style.height = null;
+			this.adSlot.getElement().firstChild.style.top = null;
+			this.adSlot.getElement().firstChild.style.left = null;
+		}
+	}, {
+		key: 'addUnstickEventsListeners',
+		value: function addUnstickEventsListeners() {
+			var _this4 = this;
+
+			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
+				return _this4.onStickinessChange(isSticky);
+			});
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+		}
+	}, {
+		key: 'onStickinessChange',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								if (isSticky) {
+									_context2.next = 8;
+									break;
+								}
+
+								_context2.next = 3;
+								return animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+
+							case 3:
+								this.removeStickyParameters();
+								animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+
+								this.removeUnstickButton();
+								_context2.next = 13;
+								break;
+
+							case 8:
+								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
+								this.adSlot.getElement().style.height = this.adSlot.getElement().firstChild.offsetHeight + 'px';
+								this.adSlot.getElement().firstChild.style.top = this.topOffset + 'px';
+								this.adSlot.getElement().firstChild.style.left = this.leftOffset + 'px';
+
+								this.addUnstickButton();
+
+							case 13:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function onStickinessChange(_x) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return onStickinessChange;
+		}()
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately() {
+			if (this.stickiness) {
+				this.removeStickyParameters();
+				this.stickiness.sticky = false;
+				this.removeUnstickButton();
+			}
+		}
+	}], [{
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
+		}
+	}]);
+
+	return StickyAd;
+}();
+sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
 // EXTERNAL MODULE: external "babel-runtime/helpers/extends"
 var extends_ = __webpack_require__(23);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
@@ -906,189 +1599,6 @@ function dynamic_reveal_add(video, container, params) {
 /* harmony default export */ var dynamic_reveal = ({
 	add: dynamic_reveal_add
 });
-// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(11);
-var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(4);
-var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(7);
-var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var get_ = __webpack_require__(9);
-var get_default = /*#__PURE__*/__webpack_require__.n(get_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(6);
-var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/ui-component.js
-
-
-
-var ui_component_UiComponent = function () {
-	createClass_default()(UiComponent, [{
-		key: "classNames",
-		get: function get() {
-			return this.props.classNames || [];
-		}
-	}]);
-
-	function UiComponent() {
-		var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-		classCallCheck_default()(this, UiComponent);
-
-		this.props = props;
-	}
-
-	createClass_default()(UiComponent, [{
-		key: "render",
-		value: function render() {
-			return document.createDocumentFragment();
-		}
-	}]);
-
-	return UiComponent;
-}();
-
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/button.js
-
-
-
-
-
-
-
-
-
-var button_Button = function (_UiComponent) {
-	inherits_default()(Button, _UiComponent);
-
-	function Button() {
-		classCallCheck_default()(this, Button);
-
-		return possibleConstructorReturn_default()(this, (Button.__proto__ || get_prototype_of_default()(Button)).apply(this, arguments));
-	}
-
-	createClass_default()(Button, [{
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			var buttonElement = document.createElement('button');
-
-			this.classNames.forEach(function (className) {
-				return buttonElement.classList.add(className);
-			});
-			buttonElement.addEventListener('click', function (event) {
-				return _this2.onClick(event);
-			});
-
-			return buttonElement;
-		}
-	}, {
-		key: 'onClick',
-		value: function onClick(event) {
-			var onClick = this.props.onClick;
-
-
-			if (typeof onClick === 'function') {
-				return onClick(event);
-			}
-
-			return undefined;
-		}
-	}, {
-		key: 'classNames',
-		get: function get() {
-			return ['button-control'].concat(toConsumableArray_default()(get_default()(Button.prototype.__proto__ || get_prototype_of_default()(Button.prototype), 'classNames', this)));
-		}
-	}]);
-
-	return Button;
-}(ui_component_UiComponent);
-
-
-// EXTERNAL MODULE: ./src/ad-products/templates/interface/icons.json
-var icons = __webpack_require__(16);
-var icons_default = /*#__PURE__*/__webpack_require__.n(icons);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/icons.js
-
-
-
-var parser = new window.DOMParser();
-
-function createIcon(iconName) {
-	var classNames = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-	if (icons_default.a[iconName]) {
-		var element = parser.parseFromString(icons_default.a[iconName], 'image/svg+xml').documentElement;
-
-		// IE 11 doesn't support classList nor className on SVG elements
-		element.setAttribute('class', classNames.join(' '));
-
-		return element;
-	}
-
-	return null;
-}
-
-var icons_icons = keys_default()(icons_default.a).reduce(function (map, name) {
-	map[name] = name;
-	return map;
-}, {});
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/close-button.js
-
-
-
-
-
-
-
-
-
-
-
-var close_button_CloseButton = function (_UiComponent) {
-	inherits_default()(CloseButton, _UiComponent);
-
-	function CloseButton() {
-		classCallCheck_default()(this, CloseButton);
-
-		return possibleConstructorReturn_default()(this, (CloseButton.__proto__ || get_prototype_of_default()(CloseButton)).apply(this, arguments));
-	}
-
-	createClass_default()(CloseButton, [{
-		key: 'render',
-		value: function render() {
-			var onClick = this.props.onClick;
-			var classNames = this.classNames;
-
-			var button = new button_Button({ onClick: onClick, classNames: classNames }).render();
-			var closeIcon = createIcon(icons_icons.CROSS, ['icon']);
-
-			button.appendChild(closeIcon);
-
-			return button;
-		}
-	}, {
-		key: 'classNames',
-		get: function get() {
-			return ['button-close'].concat(toConsumableArray_default()(get_default()(CloseButton.prototype.__proto__ || get_prototype_of_default()(CloseButton.prototype), 'classNames', this)));
-		}
-	}]);
-
-	return CloseButton;
-}(ui_component_UiComponent);
-
-
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/video/floating.js
 
 
@@ -1665,19 +2175,6 @@ function setup(video, uiElements, params) {
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/video/index.js
 
 
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
-var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
-var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
-var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
-var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
-var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
-// Animation time is defined also in CSS, remember to change it in both places
-var SLIDE_OUT_TIME = 600;
-var FADE_IN_TIME = 400;
-
-var DEFAULT_UAP_ID = 'none';
-var DEFAULT_UAP_TYPE = 'none';
-var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/universal-ad-package.js
 
 
@@ -2014,10 +2511,6 @@ var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 // EXTERNAL MODULE: external "babel-runtime/helpers/toArray"
 var toArray_ = __webpack_require__(22);
 var toArray_default = /*#__PURE__*/__webpack_require__.n(toArray_);
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(8);
-var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/resolved-state-switch.js
 
@@ -2386,10 +2879,6 @@ var adIsReady = function () {
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/index.js
 
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(13);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
-
 // EXTERNAL MODULE: external "lodash/toPlainObject"
 var toPlainObject_ = __webpack_require__(21);
 var toPlainObject_default = /*#__PURE__*/__webpack_require__.n(toPlainObject_);
@@ -2399,16 +2888,12 @@ var isUndefined_ = __webpack_require__(20);
 var isUndefined_default = /*#__PURE__*/__webpack_require__.n(isUndefined_);
 
 // EXTERNAL MODULE: external "lodash/mapValues"
-var mapValues_ = __webpack_require__(15);
+var mapValues_ = __webpack_require__(14);
 var mapValues_default = /*#__PURE__*/__webpack_require__.n(mapValues_);
 
 // EXTERNAL MODULE: external "lodash/debounce"
 var debounce_ = __webpack_require__(19);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
-
-// EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(14);
-var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/advertisement-label.js
 
@@ -2444,216 +2929,6 @@ var advertisement_label_AdvertisementLabel = function (_UiComponent) {
 }(ui_component_UiComponent);
 
 
-// EXTERNAL MODULE: external "lodash/isFunction"
-var isFunction_ = __webpack_require__(18);
-var isFunction_default = /*#__PURE__*/__webpack_require__.n(isFunction_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/stickiness.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var stickiness_Stickiness = function (_EventEmitter) {
-	inherits_default()(Stickiness, _EventEmitter);
-
-	function Stickiness(adSlot) {
-		var customWhen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : promise_default.a.resolve();
-
-		classCallCheck_default()(this, Stickiness);
-
-		var _this = possibleConstructorReturn_default()(this, (Stickiness.__proto__ || get_prototype_of_default()(Stickiness)).call(this));
-
-		_this.adSlot = adSlot;
-		_this.customWhen = customWhen;
-		_this.sticky = false;
-		_this.isRevertStickinessBlocked = false;
-		_this.logger = function () {
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
-			}
-
-			return ad_engine_["utils"].logger.apply(ad_engine_["utils"], [Stickiness.LOG_GROUP].concat(args));
-		};
-		return _this;
-	}
-
-	createClass_default()(Stickiness, [{
-		key: 'run',
-		value: function () {
-			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-				var _this2 = this;
-
-				return regenerator_default.a.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								_context.next = 2;
-								return ad_engine_["slotTweaker"].onReady(this.adSlot);
-
-							case 2:
-								if (!document.hidden) {
-									_context.next = 5;
-									break;
-								}
-
-								_context.next = 5;
-								return ad_engine_["utils"].once(window, 'visibilitychange');
-
-							case 5:
-
-								this.adSlot.once('unstickImmediately', function () {
-									_this2.logger('Unsticking');
-									_this2.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
-									_this2.sticky = false;
-								});
-
-								this.onAdReady();
-
-							case 7:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
-
-			function run() {
-				return _ref.apply(this, arguments);
-			}
-
-			return run;
-		}()
-	}, {
-		key: 'isSticky',
-		value: function isSticky() {
-			return this.sticky;
-		}
-	}, {
-		key: 'applyStickiness',
-		value: function applyStickiness() {
-			if (!this.sticky) {
-				this.logger('Applying stickiness');
-				this.sticky = true;
-				this.emit(Stickiness.STICKINESS_CHANGE_EVENT, this.sticky);
-			} else {
-				this.logger('Stickiness is already applied');
-			}
-		}
-	}, {
-		key: 'revertStickiness',
-		value: function revertStickiness() {
-			if (this.sticky) {
-				this.logger('Reverting stickiness');
-				this.sticky = false;
-				this.emit(Stickiness.STICKINESS_CHANGE_EVENT, this.sticky);
-			} else {
-				this.logger('Stickiness is already reverted');
-			}
-		}
-	}, {
-		key: 'close',
-		value: function close() {
-			this.logger('Closing and removing stickiness');
-			this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
-			this.sticky = false;
-		}
-	}, {
-		key: 'registerRevertStickiness',
-		value: function () {
-			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
-				return regenerator_default.a.wrap(function _callee2$(_context2) {
-					while (1) {
-						switch (_context2.prev = _context2.next) {
-							case 0:
-								this.logger('waiting for user interaction');
-								_context2.next = 3;
-								return ad_engine_["utils"].once(window, 'scroll');
-
-							case 3:
-								_context2.next = 5;
-								return ad_engine_["utils"].wait();
-
-							case 5:
-								if (!this.isRevertStickinessBlocked) {
-									this.revertStickiness();
-								} else {
-									this.registerRevertStickiness();
-								}
-
-							case 6:
-							case 'end':
-								return _context2.stop();
-						}
-					}
-				}, _callee2, this);
-			}));
-
-			function registerRevertStickiness() {
-				return _ref2.apply(this, arguments);
-			}
-
-			return registerRevertStickiness;
-		}()
-	}, {
-		key: 'blockRevertStickiness',
-		value: function blockRevertStickiness() {
-			this.isRevertStickinessBlocked = true;
-		}
-	}, {
-		key: 'unblockRevertStickiness',
-		value: function unblockRevertStickiness() {
-			this.isRevertStickinessBlocked = false;
-		}
-	}, {
-		key: 'onAdReady',
-		value: function () {
-			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
-				return regenerator_default.a.wrap(function _callee3$(_context3) {
-					while (1) {
-						switch (_context3.prev = _context3.next) {
-							case 0:
-								this.applyStickiness();
-								this.logger('waiting for viewability and custom condition');
-
-								_context3.next = 4;
-								return promise_default.a.all([ad_engine_["utils"].once(this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT), isFunction_default()(this.customWhen) ? this.customWhen() : this.customWhen]);
-
-							case 4:
-
-								this.registerRevertStickiness();
-
-							case 5:
-							case 'end':
-								return _context3.stop();
-						}
-					}
-				}, _callee3, this);
-			}));
-
-			function onAdReady() {
-				return _ref3.apply(this, arguments);
-			}
-
-			return onAdReady;
-		}()
-	}]);
-
-	return Stickiness;
-}(external_eventemitter3_default.a);
-stickiness_Stickiness.LOG_GROUP = 'stickiness';
-stickiness_Stickiness.STICKINESS_CHANGE_EVENT = symbol_default()('stickinessChange');
-stickiness_Stickiness.CLOSE_CLICKED_EVENT = symbol_default()('closeClicked');
-stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT = symbol_default()('unstickImmediately');
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-theme.js
 
 
@@ -2697,7 +2972,7 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 			var closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					(_this2.stickiness || _this2.stickiness).close();
+					return _this2.stickiness.close();
 				}
 			});
 
@@ -2719,42 +2994,6 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	return BigFancyAdHiviTheme;
 }(theme_BigFancyAdTheme);
 hivi_theme_BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY = 3000;
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
-
-
-
-
-var animate = function () {
-	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(adSlot, className, duration) {
-		var container;
-		return regenerator_default.a.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						container = adSlot.getElement();
-
-
-						container.style.animationDuration = duration + 'ms';
-						container.classList.add(className);
-						_context.next = 5;
-						return ad_engine_["utils"].wait(duration);
-
-					case 5:
-						container.classList.remove(className);
-						container.style.animationDuration = '';
-
-					case 7:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, this);
-	}));
-
-	return function animate(_x, _x2, _x3) {
-		return _ref.apply(this, arguments);
-	};
-}();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-bfaa.js
 
 
@@ -2926,11 +3165,11 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
 								_context2.next = 7;
-								return animate(this.adSlot, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 7:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-								animate(this.adSlot, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 								_context2.next = 12;
 								break;
 
@@ -3455,14 +3694,14 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								}
 
 								_context4.next = 5;
-								return animate(this.adSlot, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 5:
 								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 								element.style.top = null;
 								element.parentNode.style.height = null;
 								element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
-								animate(this.adSlot, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 								_context4.next = 16;
 								break;
 
@@ -3982,10 +4221,12 @@ var roadblock_Roadblock = function () {
 
 
 
+
 // CONCATENATED MODULE: ./src/ad-products/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "getAdProductInfo", function() { return getAdProductInfo; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "resolvedState", function() { return resolvedState; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdAbove", function() { return big_fancy_ad_above_BigFancyAdAbove; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdBelow", function() { return big_fancy_ad_below_BigFancyAdBelow; });

@@ -241,6 +241,7 @@ __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
+__webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { return getLeftOffset; });
 __webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() { return isInTheSameViewport; });
@@ -437,11 +438,12 @@ var client_Client = function () {
 var client = new client_Client();
 // CONCATENATED MODULE: ./src/ad-engine/utils/dimensions.js
 /**
- * Returns element's offset of given element from the top of the page
+ * Returns element's offset of given element depending on offset parameter name
  * @param element DOM element
+ * @param offsetParameter node element parameter to count overall offset
  * @returns {number}
  */
-function getTopOffset(element) {
+function getElementOffset(element, offsetParameter) {
 	var elementWindow = element.ownerDocument.defaultView;
 
 	var currentElement = element,
@@ -454,7 +456,7 @@ function getTopOffset(element) {
 	}
 
 	do {
-		topPos += currentElement.offsetTop;
+		topPos += currentElement[offsetParameter];
 		currentElement = currentElement.offsetParent;
 	} while (currentElement !== null);
 
@@ -463,10 +465,28 @@ function getTopOffset(element) {
 	}
 
 	if (elementWindow && elementWindow.frameElement) {
-		topPos += getTopOffset(elementWindow.frameElement);
+		topPos += getElementOffset(elementWindow.frameElement, offsetParameter);
 	}
 
 	return topPos;
+}
+
+/**
+ * Returns element's offset of given element from the top of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+function getTopOffset(element) {
+	return getElementOffset(element, 'offsetTop');
+}
+
+/**
+ * Returns element's offset of given element from the left of the page
+ * @param element DOM element
+ * @returns {number}
+ */
+function getLeftOffset(element) {
+	return getElementOffset(element, 'offsetLeft');
 }
 
 /**
@@ -3260,13 +3280,19 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'success',
 		value: function success() {
+			var _this2 = this;
+
 			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
 
 			slotTweaker.show(this);
 			this.setStatus(status);
 
-			if (this.config.defaultTemplate) {
-				templateService.init(this.config.defaultTemplate, this);
+			var templates = this.getConfigProperty('defaultTemplates');
+
+			if (templates && templates.length) {
+				templates.forEach(function (template) {
+					return templateService.init(template, _this2);
+				});
 			}
 		}
 	}, {
@@ -3600,7 +3626,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 var template_service_logGroup = 'template-service',
-    templates = {};
+    template_service_templates = {};
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -3617,10 +3643,10 @@ var template_service_TemplateService = function () {
 			}
 			var name = template.getName();
 
-			var config = {};
+			var config = context.get('templates.' + name) || {};
 
 			if (typeof template.getDefaultConfig === 'function') {
-				config = template.getDefaultConfig();
+				config = assign_default()(template.getDefaultConfig(), config);
 			}
 
 			if (customConfig) {
@@ -3628,7 +3654,7 @@ var template_service_TemplateService = function () {
 			}
 
 			context.set('templates.' + name, config);
-			templates[name] = template;
+			template_service_templates[name] = template;
 		}
 	}, {
 		key: 'init',
@@ -3637,11 +3663,12 @@ var template_service_TemplateService = function () {
 			var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 			logger(template_service_logGroup, 'Load template', name, slot, params);
-			if (!templates[name]) {
+
+			if (!template_service_templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
 
-			return new templates[name](slot).init(params);
+			return new template_service_templates[name](slot).init(params);
 		}
 	}]);
 
@@ -5046,8 +5073,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v18.2.0');
-logger('ad-engine', 'v18.2.0');
+set_default()(window, versionField, 'v19.0.2');
+logger('ad-engine', 'v19.0.2');
 
 
 

@@ -16,13 +16,13 @@ exports.config = {
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
+			'./tests/specs/sticky-ad.test.js',
 		],
 		services: [
 
 		],
 		utils: [
 			'./tests/specs/basset.test.js',
-
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
