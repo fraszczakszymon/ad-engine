@@ -1453,6 +1453,7 @@ var porvata_template_PorvataTemplate = function () {
 				return this.adSlot.collapse();
 			}
 
+			params.viewportHookElement = this.adSlot.getElement();
 			if (this.isInsecureMode) {
 				params.originalContainer = params.container;
 				params.container = this.createVideoContainer(slotName);
@@ -1515,6 +1516,11 @@ var porvata_template_PorvataTemplate = function () {
 
 			video.addEventListener('wikiaAdsManagerLoaded', function () {
 				_this2.adSlot.success();
+			});
+
+			video.addEventListener('wikiaFirstTimeInViewport', function () {
+				var eventSuffix = _this2.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+				video.ima.dispatchEvent('wikiaInViewport' + eventSuffix);
 			});
 
 			video.addEventListener('wikiaEmptyAd', function () {

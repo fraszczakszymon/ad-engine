@@ -2376,7 +2376,7 @@ var porvata_Porvata = function () {
    * @returns listener id
    */
 		value: function addOnViewportChangeListener(params, listener) {
-			return viewportObserver.addListener(params.container, listener, {
+			return viewportObserver.addListener(params.viewportHookElement || params.container, listener, {
 				offsetTop: params.viewportOffsetTop || 0,
 				offsetBottom: params.viewportOffsetBottom || 0
 			});
@@ -2420,6 +2420,7 @@ var porvata_Porvata = function () {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
 					if (isVisible && !autoPlayed && params.autoPlay) {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
 						video.play();
 						autoPlayed = true;
 						// Don't resume when video was paused manually
@@ -2489,6 +2490,12 @@ var porvata_Porvata = function () {
 
 				video.addEventListener('wikiaAdsManagerLoaded', function () {
 					setupAutoPlayMethod();
+				});
+				video.addEventListener('wikiaEmptyAd', function () {
+					viewportListenerId = Porvata.addOnViewportChangeListener(params, function () {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
+						viewportObserver.removeListener(viewportListenerId);
+					});
 				});
 
 				return video;
@@ -2859,6 +2866,8 @@ porvata_listener_PorvataListener.EVENTS = {
 	viewable_impression: 'viewable_impression',
 	adError: 'error',
 	wikiaAdPlayTriggered: 'play_triggered',
+	wikiaInViewportWithOffer: 'in_viewport_with_offer',
+	wikiaInViewportWithoutOffer: 'in_viewport_without_offer',
 	wikiaAdStop: 'closed',
 	wikiaAdMute: 'mute',
 	wikiaAdUnmute: 'unmute'
@@ -3063,6 +3072,7 @@ var slot_listener_SlotListener = function () {
 					adSlot.collapse();
 					break;
 				case 'manual':
+					adSlot.setStatus(adType);
 					break;
 				default:
 					adSlot.success();
