@@ -23,11 +23,11 @@ export class PorvataListener {
 		viewable_impression: 'viewable_impression',
 		adError: 'error',
 		wikiaAdPlayTriggered: 'play_triggered',
-		wikiaInViewportWithOffer: 'in_viewport_with_offer',
-		wikiaInViewportWithoutOffer: 'in_viewport_without_offer',
 		wikiaAdStop: 'closed',
 		wikiaAdMute: 'mute',
-		wikiaAdUnmute: 'unmute'
+		wikiaAdUnmute: 'unmute',
+		wikiaInViewportWithOffer: 'in_viewport_with_offer',
+		wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
 	};
 	static LOG_GROUP = 'porvata-listener';
 	static PLAYER_NAME = 'porvata';
