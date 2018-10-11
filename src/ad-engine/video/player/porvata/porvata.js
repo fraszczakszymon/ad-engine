@@ -230,7 +230,7 @@ export class Porvata {
 	 * @returns listener id
 	 */
 	static addOnViewportChangeListener(params, listener) {
-		return viewportObserver.addListener(params.elementForViewportObserver || params.container, listener, {
+		return viewportObserver.addListener(params.viewportHookElement || params.container, listener, {
 			offsetTop: params.viewportOffsetTop || 0,
 			offsetBottom: params.viewportOffsetBottom || 0
 		});

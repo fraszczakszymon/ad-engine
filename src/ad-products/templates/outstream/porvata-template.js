@@ -40,7 +40,7 @@ export class PorvataTemplate {
 			return this.adSlot.collapse();
 		}
 
-		params.elementForViewportObserver = this.adSlot.getElement();
+		params.viewportHookElement = this.adSlot.getElement();
 		if (this.isInsecureMode) {
 			params.originalContainer = params.container;
 			params.container = this.createVideoContainer(slotName);
