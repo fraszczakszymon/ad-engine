@@ -8,13 +8,10 @@ const { expect } = require('chai');
 describe('Delay ads page: top leaderboard', () => {
 	let adStatus;
 
-	before(() => {
-		browser.url(delayAd.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
-	});
-
 	beforeEach(() => {
+		browser.url(delayAd.pageLink);
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is not immediately visible', () => {

@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-xdescribe('Empty response page: top leaderboard', () => {
+describe('Empty response page: top leaderboard', () => {
 	let adStatus;
 
 	before(() => {
@@ -14,7 +14,7 @@ xdescribe('Empty response page: top leaderboard', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(emptyResponse.asideClass, timeouts.standard);
+		browser.waitForVisible(emptyResponse.article, timeouts.standard);
 	});
 
 	it('Check if slot is not visible', () => {
@@ -31,12 +31,12 @@ describe('Empty response page: top boxad', () => {
 
 	before(() => {
 		browser.url(emptyResponse.pageLink);
-		browser.waitForVisible(emptyResponse.asideClass, timeouts.standard);
+		browser.waitForVisible(emptyResponse.article, timeouts.standard);
+		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
 		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
 	});
 
 	it('Check if slot is not visible', () => {
-		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
 		expect(adStatus.inViewport, 'Slot in viewport')
 			.to
 			.be

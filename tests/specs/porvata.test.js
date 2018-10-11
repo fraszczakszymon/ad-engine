@@ -9,12 +9,12 @@ describe('Porvata player ads', () => {
 
 	before(() => {
 		browser.url(porvata.pageLink);
+		browser.scroll(porvata.porvataPlayer);
 		adStatus = helpers.checkSlotStatus(porvata.porvataPlayer);
 	});
 
 	beforeEach(() => {
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
-		browser.scroll(porvata.porvataPlayer);
 		helpers.waitToStartPlaying();
 	});
 
@@ -35,10 +35,16 @@ describe('Porvata player ads', () => {
 	});
 
 	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(porvata.porvataPlayer), 'Wrong link after redirect')
+		browser.click(porvata.porvataPlayer);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
+		expect(browser.getUrl())
 			.to
-			.be
-			.true;
+			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		helpers.closeNewTabs();
 	});
 
 	it('Check unmuting the video', () => {
@@ -50,19 +56,20 @@ describe('Porvata player ads', () => {
 	it('Check opening full screen', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
-		browser.waitForExist(porvata.stopScrolling, timeouts.standard);
-	});
-
-	it('Check closing the player', () => {
-		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
-		browser.click(porvata.closePlayerButton);
-		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
+		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
+		browser.keys(['Escape', 'Escape']); // TODO fix buttons not working
 	});
 
 	it('Check if replaying the video works', () => {
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.extended);
 		browser.click(porvata.porvataPlayer);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
+	});
+
+	it('Check closing the player', () => {
+		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
+		browser.click(porvata.closePlayerButton);
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {

@@ -6,48 +6,38 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Repeatable slots ads', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(repeatableSlots.pageLink);
+		adStatus = helpers.checkSlotStatus(repeatableSlots.getRepeatableSlot(1));
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 	});
 
-	it('Check first boxad visibility and dimensions', () => {
-		const size = browser.getElementSize(repeatableSlots.getRepeatableSlot(1));
-		const tableOfErrors = [];
-
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.boxadWidth, 'Width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.boxadHeight, 'Height incorrect');
-			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(1)), 'Slot not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check first boxad visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
+	});
+
+	it('Check first boxad dimensions', () => {
+		const dimensions = helpers.checkSlotSize(repeatableSlots.getRepeatableSlot(1), adSlots.boxadWidth, adSlots.boxadHeight);
+
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
 	});
 
 	it('Check redirect on click', () => {
-		helpers.waitForLineItemIdAttribute(repeatableSlots.getRepeatableSlot(1));
-		browser.waitForEnabled(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
-		browser.click(repeatableSlots.getRepeatableSlot(1));
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
+		expect(helpers.adRedirect(repeatableSlots.getRepeatableSlot(1)), 'Wrong link after redirect')
 			.to
-			.include(helpers.clickThroughUrlDomain);
-		helpers.closeNewTabs();
+			.be
+			.true;
 	});
 
 	it('Check last slot visibility with a limit to 3', () => {
@@ -67,7 +57,7 @@ describe('Repeatable slots ads', () => {
 			.false;
 	});
 
-	it('Check 8 boxad visibility', () => {
+	it('Check 8th boxad visibility', () => {
 		const numberOfSlots = 8;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));

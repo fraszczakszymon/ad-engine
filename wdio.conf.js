@@ -26,18 +26,18 @@ exports.config = {
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots.test.js', // TODO fix test for visibility in viewport (top leaderboard; some weird problems with button)
+			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
 			'./tests/specs/block-btf-ad.test.js',
-			'./tests/specs/empty-response.test.js', // TODO fix test for visibility in viewport (top boxad; test is flaky)
+			'./tests/specs/empty-response.test.js',
 		],
 		video: [
-			'./tests/specs/porvata.test.js', // TODO fix multiple broken things in this test (rerun first; work on it last)
+			'./tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
 		],
 		currentTest: [
-			'./tests/specs/empty-response.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/porvata.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
