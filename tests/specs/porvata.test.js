@@ -4,7 +4,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Porvata player ads', () => {
+describe('Porvata player', () => {
 	let adStatus;
 
 	before(() => {

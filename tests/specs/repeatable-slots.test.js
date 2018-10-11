@@ -1,5 +1,4 @@
 import repeatableSlots from '../pages/repeatable-slots.page';
-import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
 
@@ -19,22 +18,6 @@ describe('Repeatable slots ads', () => {
 
 	it('Check first boxad visibility', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check first boxad dimensions', () => {
-		const dimensions = helpers.checkSlotSize(repeatableSlots.getRepeatableSlot(1), adSlots.boxadWidth, adSlots.boxadHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(repeatableSlots.getRepeatableSlot(1)), 'Wrong link after redirect')
 			.to
 			.be
 			.true;

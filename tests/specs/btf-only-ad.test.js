@@ -17,24 +17,8 @@ describe('BTF Only ads page: incontent boxad', () => {
 		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
 	});
 
-	it('Check dimensions', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check visibility', () => {
+	it('Check if boxad is visible after clicking on the button', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
 			.to
 			.be
 			.true;

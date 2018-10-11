@@ -64,6 +64,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			.be
 			.true;
 	});
+
+	it('Check closing top leaderboard', () => {
+		browser.click(hiviUapStatic.closeLeaderboardButton);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
+			.to
+			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
+	});
 });
 
 describe('Hivi uap static ads page: top boxad', () => {
@@ -72,9 +79,6 @@ describe('Hivi uap static ads page: top boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
 		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
@@ -82,82 +86,26 @@ describe('Hivi uap static ads page: top boxad', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check dimensions', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check visibility', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
-	});
 });
 
 describe('Hivi uap static ads page: incontent boxad', () => {
-	let adStatus;
-
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
-	});
-
-	beforeEach(() => {
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
-	afterEach(() => {
-		browser.scroll(0, 0);
-	});
-
-	it('Check dimensions', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check visibility', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
-	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
 	});
 });
 

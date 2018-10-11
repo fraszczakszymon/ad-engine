@@ -18,41 +18,6 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 			.false;
 	});
 
-	it('Check dimensions and visibility', () => {
-		const tableOfErrors = [];
-
-		hiviUapJwp.waitToLoadAds();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
-		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard))
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
-	});
-
-	it('Check redirect on click', () => {
-		hiviUapJwp.waitToLoadAds();
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
-	});
-
 	it('Check if top leaderboard does not load after manually finishing the queue', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded')
@@ -75,39 +40,17 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 			.false;
 	});
 
-	it('Check visibility, dimensions and if the loaded ad is the inhouse one', () => {
+	it('Check if the ad loaded after delay is visible and if it is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-
-		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
-
-		expect(dimensions.status, dimensions.capturedErrors)
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		try {
-			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
-				.to
-				.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
-			.equal(0);
+			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
 
 	it('Check if top boxad shows up after clicking the button, if it was viewed and if it is uap ad', () => {
@@ -128,14 +71,6 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 			.to
 			.equal(hiviUapJwp.uapLineItemId);
 	});
-
-	it('Check redirect on click', () => {
-		browser.click(hiviUapJwp.loadAdsButton);
-		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
-	});
 });
 
 describe('Hivi UAP JWP ads page: incontent boxad', () => {
@@ -154,41 +89,21 @@ describe('Hivi UAP JWP ads page: incontent boxad', () => {
 			.false;
 	});
 
-	it('Check visibility, dimensions and if the loaded ad is the inhouse one', () => {
+	it('Check if the ad loaded after delay is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-
-		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
-
-		expect(dimensions.status, dimensions.capturedErrors)
+		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
+		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not visible in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
-				.to
-				.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
-			.equal(0);
+			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
 
-	it('Check if incontent boxad shows up after clicking the button and if it was viewed', () => {
+	it('Check if incontent boxad shows up after clicking the button, if it was viewed and if it is uap ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);

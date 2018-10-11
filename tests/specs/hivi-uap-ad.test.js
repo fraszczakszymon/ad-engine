@@ -181,41 +181,11 @@ describe('Hivi uap ads page: top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
-	});
-
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
-	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
 	});
 });
 
@@ -226,41 +196,11 @@ describe('Hivi uap ads page: incontent boxad', () => {
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-		const tableOfErrors = [];
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
-	});
-
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
-	});
-
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
 	});
 });
 

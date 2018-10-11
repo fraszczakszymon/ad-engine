@@ -18,17 +18,6 @@ describe('Delay ads page: top leaderboard', () => {
 		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check dimensions', () => {
-		delayAd.waitToLoadAds();
-
-		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
 	it('Check visibility after delay', () => {
 		delayAd.waitToLoadAds();
 		expect(adStatus.inViewport, 'Not in viewport')
@@ -79,18 +68,7 @@ describe('Delay ads page: top boxad', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check dimensions', () => {
-		delayAd.waitToLoadAds();
-
-		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check visibility', () => {
+	it('Check visibility after delay', () => {
 		delayAd.waitToLoadAds();
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
@@ -112,13 +90,5 @@ describe('Delay ads page: top boxad', () => {
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.viewedAttribute))
 			.to
 			.equal(adSlots.adViewed, 'Top boxad slot has not been counted as viewed');
-	});
-
-	it('Check redirect on click', () => {
-		browser.click(delayAd.loadAdsButton);
-		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
 	});
 });

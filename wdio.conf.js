@@ -10,11 +10,11 @@ exports.config = {
 		],
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
-			'./tests/specs/abcd-ad.test.js',
-			'./tests/specs/hivi-uap-ad.test.js',
-			'./tests/specs/hivi-uap-static-ad.test.js',
+			'./tests/specs/abcd-ad.test.js', // TODO check video player visibility
+			'./tests/specs/hivi-uap-ad.test.js', // TODO retest and fix
+			'./tests/specs/hivi-uap-static-ad.test.js', // TODO fix not in viewport bugged tests
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
-			'./tests/specs/hivi-uap-twitch-ad.test.js',
+			'./tests/specs/hivi-uap-twitch-ad.test.js', // TODO fix problems with player not visible
 			'./tests/specs/floating-ad.test.js',
 			'./tests/specs/sticky-ad.test.js',
 		],
@@ -28,6 +28,7 @@ exports.config = {
 			'./tests/specs/btf-only-ad.test.js',
 			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
+			'./tests/specs/common-slots-ad.test.js', // TODO check incontent boxad visibility
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
 			'./tests/specs/block-btf-ad.test.js',
@@ -37,7 +38,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
 		],
 		currentTest: [
-			'./tests/specs/porvata.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/common-slots-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 
