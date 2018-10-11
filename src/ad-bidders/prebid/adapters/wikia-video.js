@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { context, utils, buildVastUrl } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class WikiaVideo extends BaseAdapter {
@@ -41,6 +41,13 @@ export class WikiaVideo extends BaseAdapter {
 		return parseInt(price, 10) / 100;
 	}
 
+	getVastUrl(width, height) {
+		return buildVastUrl(width / height, 'outstream', {
+			pos: 'outstream',
+			passback: 'wikiaVideo'
+		});
+	}
+
 	callBids(bidRequest, addBidResponse, done) {
 		window.pbjs.que.push(() => {
 			this.addBids(bidRequest, addBidResponse, done);
@@ -59,6 +66,8 @@ export class WikiaVideo extends BaseAdapter {
 			bidResponse.mediaType = 'video';
 			bidResponse.width = width;
 			bidResponse.height = height;
+			bidResponse.vastUrl = this.getVastUrl(width, height);
+			bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 			addBidResponse(bid.adUnitCode, bidResponse);
 		});
