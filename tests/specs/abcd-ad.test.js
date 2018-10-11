@@ -18,7 +18,7 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check dimensions', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.abcdLeaderboardHeight);
+		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 5);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
