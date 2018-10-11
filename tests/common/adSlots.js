@@ -13,7 +13,6 @@ class AdSlots {
 		this.uapTopLeaderboardHeightResolved = 192;
 		this.uapBottomLeaderboardWidth = 1024;
 		this.uapBottomLeaderboardHeight = 102;
-		this.abcdLeaderboardHeight = 384;
 		this.twitchLeaderboardHeight = 495;
 		this.boxadWidth = 300; // shared between boxads
 		this.boxadHeight = 250; // shared between boxads
