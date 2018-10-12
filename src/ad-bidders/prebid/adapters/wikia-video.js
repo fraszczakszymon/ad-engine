@@ -1,4 +1,4 @@
-import { AdSlot, buildVastUrl, context, utils, slotService } from '@wikia/ad-engine';
+import { buildVastUrl, context, utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class WikiaVideo extends BaseAdapter {
@@ -58,14 +58,6 @@ export class WikiaVideo extends BaseAdapter {
 		bidRequest.bids.forEach((bid) => {
 			const bidResponse = window.pbjs.createBid(1),
 				[width, height] = bid.sizes[0];
-			let slot;
-
-			if (!slotService.get(bid.adUnitCode)) {
-				slot = new AdSlot({ id: bid.adUnitCode });
-				slotService.add(slot);
-			} else {
-				slot = slotService.get(bid.adUnitCode);
-			}
 
 			bidResponse.bidderCode = bidRequest.bidderCode;
 			bidResponse.cpm = this.getPrice();
@@ -74,7 +66,7 @@ export class WikiaVideo extends BaseAdapter {
 			bidResponse.mediaType = 'video';
 			bidResponse.width = width;
 			bidResponse.height = height;
-			bidResponse.vastUrl = this.getVastUrl(width, height, slot.getSlotName());
+			bidResponse.vastUrl = this.getVastUrl(width, height, bid.adUnitCode);
 			bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 			addBidResponse(bid.adUnitCode, bidResponse);
