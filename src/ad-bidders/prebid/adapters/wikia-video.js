@@ -57,8 +57,15 @@ export class WikiaVideo extends BaseAdapter {
 	addBids(bidRequest, addBidResponse, done) {
 		bidRequest.bids.forEach((bid) => {
 			const bidResponse = window.pbjs.createBid(1),
-				[width, height] = bid.sizes[0],
-				slot = slotService.get(bid.adUnitCode) || new AdSlot({ id: bid.adUnitCode });
+				[width, height] = bid.sizes[0];
+			let slot;
+
+			if (!slotService.get(bid.adUnitCode)) {
+				slot = new AdSlot({ id: bid.adUnitCode });
+				slotService.add(slot);
+			} else {
+				slot = slotService.get(bid.adUnitCode);
+			}
 
 			bidResponse.bidderCode = bidRequest.bidderCode;
 			bidResponse.cpm = this.getPrice();
