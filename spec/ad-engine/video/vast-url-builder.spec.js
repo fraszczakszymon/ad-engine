@@ -13,7 +13,6 @@ describe('vast-url-builder', () => {
 			},
 			slots: {
 				top_leaderboard: {
-					src: 'test',
 					pos: 'top_leaderboard'
 				}
 			},

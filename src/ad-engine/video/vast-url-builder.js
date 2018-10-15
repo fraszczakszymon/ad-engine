@@ -28,11 +28,10 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 		'sz=640x480',
 		`url=${encodeURIComponent(window.location.href)}`,
 		`description_url=${encodeURIComponent(window.location.href)}`,
-		`correlator=${correlator}`
+		`correlator=${correlator}`,
+		`iu=${getVideoAdUnit(slotName)}`,
+		`cust_params=${getCustomParameters(slotName, options.targeting)}`
 	];
-
-	params.push(`iu=${getVideoAdUnit(slotName)}`);
-	params.push(`cust_params=${getCustomParameters(slotName, options.targeting)}`);
 
 	if (options.contentSourceId && options.videoId) {
 		params.push(`cmsid=${options.contentSourceId}`);
