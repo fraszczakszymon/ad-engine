@@ -54,6 +54,16 @@ describe('Twitch ads page: top leaderboard', () => {
 			.be
 			.true;
 	});
+});
+
+describe('Twitch ads page: player', () => {
+	before(() => {
+		browser.url(twitchAd.pageLink);
+	});
+
+	beforeEach(() => {
+		browser.waitForExist(twitchAd.playerFrame);
+	});
 
 	it('Check Twitch player visibility', () => {
 		const myFrame = $(twitchAd.playerFrame).value;
