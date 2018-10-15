@@ -230,7 +230,7 @@ export class Porvata {
 	 * @returns listener id
 	 */
 	static addOnViewportChangeListener(params, listener) {
-		return viewportObserver.addListener(params.container, listener, {
+		return viewportObserver.addListener(params.viewportHookElement || params.container, listener, {
 			offsetTop: params.viewportOffsetTop || 0,
 			offsetBottom: params.viewportOffsetBottom || 0
 		});
@@ -272,6 +272,7 @@ export class Porvata {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
 					if (isVisible && !autoPlayed && params.autoPlay) {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
 						video.play();
 						autoPlayed = true;
 					// Don't resume when video was paused manually
@@ -341,6 +342,12 @@ export class Porvata {
 
 				video.addEventListener('wikiaAdsManagerLoaded', () => {
 					setupAutoPlayMethod();
+				});
+				video.addEventListener('wikiaEmptyAd', () => {
+					viewportListenerId = Porvata.addOnViewportChangeListener(params, () => {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
+						viewportObserver.removeListener(viewportListenerId);
+					});
 				});
 
 				return video;
