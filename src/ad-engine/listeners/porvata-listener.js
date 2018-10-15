@@ -25,7 +25,9 @@ export class PorvataListener {
 		wikiaAdPlayTriggered: 'play_triggered',
 		wikiaAdStop: 'closed',
 		wikiaAdMute: 'mute',
-		wikiaAdUnmute: 'unmute'
+		wikiaAdUnmute: 'unmute',
+		wikiaInViewportWithOffer: 'in_viewport_with_offer',
+		wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
 	};
 	static LOG_GROUP = 'porvata-listener';
 	static PLAYER_NAME = 'porvata';

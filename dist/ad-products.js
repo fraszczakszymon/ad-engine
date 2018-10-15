@@ -1405,6 +1405,7 @@ function getTranslation(category, key) {
 
 
 
+
 var DEFAULT_VIDEO_ASPECT_RATIO = 640 / 360;
 var IMA_VPAID_INSECURE_MODE = 2;
 
@@ -1453,6 +1454,7 @@ var porvata_template_PorvataTemplate = function () {
 				return this.adSlot.collapse();
 			}
 
+			params.viewportHookElement = this.adSlot.getElement();
 			if (this.isInsecureMode) {
 				params.originalContainer = params.container;
 				params.container = this.createVideoContainer(slotName);
@@ -1513,12 +1515,26 @@ var porvata_template_PorvataTemplate = function () {
 		value: function handleSlotStatus(video) {
 			var _this2 = this;
 
+			var resolveStatus = null;
+			var statusPromise = new promise_default.a(function (resolve) {
+				resolveStatus = resolve;
+			});
+
 			video.addEventListener('wikiaAdsManagerLoaded', function () {
 				_this2.adSlot.success();
+				resolveStatus();
+			});
+
+			video.addEventListener('wikiaFirstTimeInViewport', function () {
+				statusPromise.then(function () {
+					var eventSuffix = _this2.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+					video.ima.dispatchEvent('wikiaInViewport' + eventSuffix);
+				});
 			});
 
 			video.addEventListener('wikiaEmptyAd', function () {
 				_this2.adSlot.collapse();
+				resolveStatus();
 			});
 		}
 	}, {

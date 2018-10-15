@@ -40,6 +40,7 @@ export class PorvataTemplate {
 			return this.adSlot.collapse();
 		}
 
+		params.viewportHookElement = this.adSlot.getElement();
 		if (this.isInsecureMode) {
 			params.originalContainer = params.container;
 			params.container = this.createVideoContainer(slotName);
@@ -93,12 +94,26 @@ export class PorvataTemplate {
 	}
 
 	handleSlotStatus(video) {
+		let resolveStatus = null;
+		const statusPromise = new Promise((resolve) => {
+			resolveStatus = resolve;
+		});
+
 		video.addEventListener('wikiaAdsManagerLoaded', () => {
 			this.adSlot.success();
+			resolveStatus();
+		});
+
+		video.addEventListener('wikiaFirstTimeInViewport', () => {
+			statusPromise.then(() => {
+				const eventSuffix = this.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+				video.ima.dispatchEvent(`wikiaInViewport${eventSuffix}`);
+			});
 		});
 
 		video.addEventListener('wikiaEmptyAd', () => {
 			this.adSlot.collapse();
+			resolveStatus();
 		});
 	}
 

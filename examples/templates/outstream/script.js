@@ -18,6 +18,9 @@ context.push('listeners.slot', {
 context.push('listeners.porvata', {
 	onEvent: (eventName) => {
 		console.log(`🎬 Porvata: %c${eventName}`, 'font-weight: bold');
+		if (utils.queryString.get('force-empty-response') === '1') {
+			context.remove('targeting.artid');
+		}
 	}
 });
 

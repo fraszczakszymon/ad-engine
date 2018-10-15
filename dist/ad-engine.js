@@ -2376,7 +2376,7 @@ var porvata_Porvata = function () {
    * @returns listener id
    */
 		value: function addOnViewportChangeListener(params, listener) {
-			return viewportObserver.addListener(params.container, listener, {
+			return viewportObserver.addListener(params.viewportHookElement || params.container, listener, {
 				offsetTop: params.viewportOffsetTop || 0,
 				offsetBottom: params.viewportOffsetBottom || 0
 			});
@@ -2420,6 +2420,7 @@ var porvata_Porvata = function () {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
 					if (isVisible && !autoPlayed && params.autoPlay) {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
 						video.play();
 						autoPlayed = true;
 						// Don't resume when video was paused manually
@@ -2489,6 +2490,12 @@ var porvata_Porvata = function () {
 
 				video.addEventListener('wikiaAdsManagerLoaded', function () {
 					setupAutoPlayMethod();
+				});
+				video.addEventListener('wikiaEmptyAd', function () {
+					viewportListenerId = Porvata.addOnViewportChangeListener(params, function () {
+						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
+						viewportObserver.removeListener(viewportListenerId);
+					});
 				});
 
 				return video;
@@ -2861,7 +2868,9 @@ porvata_listener_PorvataListener.EVENTS = {
 	wikiaAdPlayTriggered: 'play_triggered',
 	wikiaAdStop: 'closed',
 	wikiaAdMute: 'mute',
-	wikiaAdUnmute: 'unmute'
+	wikiaAdUnmute: 'unmute',
+	wikiaInViewportWithOffer: 'in_viewport_with_offer',
+	wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
@@ -3063,6 +3072,7 @@ var slot_listener_SlotListener = function () {
 					adSlot.collapse();
 					break;
 				case 'manual':
+					adSlot.setStatus(adType);
 					break;
 				default:
 					adSlot.success();
@@ -5073,8 +5083,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.0.2');
-logger('ad-engine', 'v19.0.2');
+set_default()(window, versionField, 'v19.0.3');
+logger('ad-engine', 'v19.0.3');
 
 
 
