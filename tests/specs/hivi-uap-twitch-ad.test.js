@@ -6,32 +6,31 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 describe('Twitch ads page: top leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(twitchAd.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 3.88, 'Top leaderboard');
-		const tableOfErrors = [];
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 3.88);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
 	it('Check line item id', () => {
@@ -62,7 +61,7 @@ describe('Twitch ads page: player', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForExist(twitchAd.playerFrame);
+		browser.waitForVisible(adSlots.topLeaderboard);
 	});
 
 	it('Check Twitch player visibility', () => {

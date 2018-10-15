@@ -8,9 +8,6 @@ class AdSlots {
 		this.railModule = '.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards; fixed value
 		this.leaderboardHeight = 90; // shared between leaderboards; fixed value
-		this.adProductsTopLeaderboardWidth = 1920; // UAP and ABCD leaderboards have the same width; scalable, will be removed
-		this.uapTopLeaderboardHeight = 480;
-		this.uapTopLeaderboardHeightResolved = 192;
 		this.uapBottomLeaderboardWidth = 1024;
 		this.uapBottomLeaderboardHeight = 102;
 		this.boxadWidth = 300; // shared between boxads; fixed value

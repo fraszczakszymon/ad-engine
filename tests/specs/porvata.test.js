@@ -18,17 +18,17 @@ describe('Porvata player', () => {
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check dimensions', () => {
-		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check visibility', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
+
+		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;

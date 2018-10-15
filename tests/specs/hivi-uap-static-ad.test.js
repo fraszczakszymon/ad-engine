@@ -37,6 +37,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
 	it('Check default dimensions', () => {
 		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
 			.to
@@ -58,13 +65,6 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
 	it('Check closing top leaderboard', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
@@ -74,11 +74,8 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 });
 
 describe('Hivi uap static ads page: top boxad', () => {
-	let adStatus;
-
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 

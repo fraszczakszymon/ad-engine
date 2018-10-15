@@ -2,144 +2,74 @@ import hiviUap from '../pages/hivi-uap-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
+import hiviUapStatic from '../pages/hivi-uap-static-ad.page';
 
 const { expect } = require('chai');
 
-describe('Hivi uap ads page: top leaderboard', () => {
+describe('Hivi uap static ads page: top leaderboard', () => {
+	let adStatus;
+	let defaultDimensions;
+	let scrollDimensions;
+	let refreshDimensions;
+
+	before(() => {
+		browser.url(hiviUap.pageLink);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+
+		defaultDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 4, 'Default');
+
+		helpers.slowScroll(500);
+
+		scrollDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+
+		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+
+		refreshDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+	});
+
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check line item id', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
+	afterEach(() => {
+		browser.scroll(0, 0);
 	});
 
-	it('Check if leaderboard does not obstruct the navbar', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check redirect on click', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check closing the top leaderboard', () => {
-		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
-		browser.click(hiviUap.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(hiviUap.slotResult))
-			.to
-			.equal(hiviUap.slotCollapsed, 'Slot has not collapsed');
-	});
-
-	it('Check top leaderboard unsticking after scroll', () => {
-		helpers.slowScroll(3000);
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard in viewport')
-			.to
-			.be
-			.false;
-	});
-
-	it('Check default and resolved state after scroll', () => {
-		const tableOfErrors = [];
-
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
-
-		const defaultDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Default:');
-
+	it('Check default dimensions', () => {
 		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		helpers.slowScroll(500);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
-		const resolvedDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Resolved:');
-
-		expect(resolvedDimensions.status, resolvedDimensions.capturedErrors)
-			.to
-			.be
-			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
-
-	it('Check default and resolved state after refresh', () => {
-		const tableOfErrors = [];
-
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
-
-		const defaultDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeight, 'Default:');
-
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+	it('Check resolved dimensions after scroll', () => {
+		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		helpers.refreshPageAndWaitForSlot();
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
-
-		const resolvedDimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.uapTopLeaderboardHeightResolved, 'Resolved:');
-
-		expect(resolvedDimensions.status, resolvedDimensions.capturedErrors)
+	it('Check resolved dimensions after refresh', () => {
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
 			.to
 			.be
 			.true;
+	});
 
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
+	it('Check closing top leaderboard', () => {
+		browser.click(hiviUapStatic.closeLeaderboardButton);
+		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(0);
+			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
 	});
 });
 
@@ -205,33 +135,33 @@ describe('Hivi uap ads page: incontent boxad', () => {
 });
 
 describe('Hivi uap ads page: bottom leaderboard', () => {
-	beforeEach(() => {
+	let adStatus;
+
+	before(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
+		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard, timeouts.standard);
+	});
+
+	beforeEach(() => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions and visibility', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.uapBottomLeaderboardWidth, adSlots.uapTopLeaderboardHeight);
-		const tableOfErrors = [];
+	it('Check visibility', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	// TODO fix; this leaderboard is not as wide as window, but as </body>
+	it('Check dimensions', () => {
+		const dimensions = helpers.checkSlotRatio(adSlots.bottomLeaderboard, 10);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be
 			.true;
-
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard), 'Bottom leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-			.to
-			.equal(0);
 	});
 
 	it('Check line item id', () => {
