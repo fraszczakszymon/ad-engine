@@ -17,7 +17,14 @@ describe('ABCD ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if slot is visible in viewport', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 5);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -26,14 +33,7 @@ describe('ABCD ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check line item id', () => {
+	it('Check if line item id is from the proper campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
@@ -47,7 +47,7 @@ describe('ABCD ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -64,18 +64,18 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(abcdAd.videoPlayer, timeouts.standard);
+		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check visibility', () => {
+	it('Check if player is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check unmuting the video', () => {
+	it('Check if unmuting the video works properly', () => {
 		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		browser.click(abcdAd.unmuteButton);
 		browser.waitForExist(`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`, timeouts.standard, true);

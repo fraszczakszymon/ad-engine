@@ -16,14 +16,14 @@ describe('Repeatable slots ads', () => {
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 	});
 
-	it('Check first boxad visibility', () => {
+	it('Check if first boxad is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check last slot visibility with a limit to 3', () => {
+	it('Check if last slot is visible with a limit to 3', () => {
 		const numberOfSlots = 3;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLimitOfSlots(3), repeatableSlots.setLengthOfContent(5)]));
@@ -40,7 +40,7 @@ describe('Repeatable slots ads', () => {
 			.false;
 	});
 
-	it('Check 8th boxad visibility', () => {
+	it('Check if 8th boxad is visible', () => {
 		const numberOfSlots = 8;
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));

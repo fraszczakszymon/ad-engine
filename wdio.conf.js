@@ -10,7 +10,7 @@ exports.config = {
 		],
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
-			'./tests/specs/abcd-ad.test.js', // TODO check video player visibility
+			'./tests/specs/abcd-ad.test.js', // TODO check video player and top leaderboard visibility
 			'./tests/specs/hivi-uap-ad.test.js', // TODO retest and fix
 			'./tests/specs/hivi-uap-static-ad.test.js', // TODO fix flaky tests that show up after first run
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
@@ -38,8 +38,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
 		],
 		currentTest: [
-			// './tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
-			'./tests/specs/hivi-uap-twitch-ad.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/abcd-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 

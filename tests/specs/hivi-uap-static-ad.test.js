@@ -6,7 +6,7 @@ import helpers from '../common/helpers';
 const { expect } = require('chai');
 
 
-describe('Hivi uap static ads page: top leaderboard', () => {
+describe('HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -65,6 +65,13 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 			.true;
 	});
 
+	it('Check if line item id is from the same campaign', () => {
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+			.to
+			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
+	});
+
 	it('Check closing top leaderboard', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
@@ -73,7 +80,7 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 });
 
-describe('Hivi uap static ads page: top boxad', () => {
+describe('HiVi UAP static ads page: top boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -91,7 +98,7 @@ describe('Hivi uap static ads page: top boxad', () => {
 	});
 });
 
-describe('Hivi uap static ads page: incontent boxad', () => {
+describe('HiVi UAP static ads page: incontent boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.scroll(0, 1000);
@@ -106,7 +113,7 @@ describe('Hivi uap static ads page: incontent boxad', () => {
 	});
 });
 
-describe('Hivi uap static ads page: bottom leaderboard', () => {
+describe('HiVi UAP static ads page: bottom leaderboard', () => {
 	let adStatus;
 
 	before(() => {
@@ -123,7 +130,7 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.uapBottomLeaderboardWidth, adSlots.uapBottomLeaderboardHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -132,21 +139,21 @@ describe('Hivi uap static ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
 			.to
 			.be

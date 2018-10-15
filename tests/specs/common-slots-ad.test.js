@@ -17,7 +17,7 @@ describe('Common slots: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -26,21 +26,21 @@ describe('Common slots: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the inhouse campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
 			.equal(adSlots.inhouseLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -60,7 +60,7 @@ describe('Common slots: top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -69,21 +69,21 @@ describe('Common slots: top boxad', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the inhouse campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(adSlots.inhouseLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works', () => {
 		expect(helpers.adRedirect(adSlots.topBoxad), 'Wrong link after redirect')
 			.to
 			.be
@@ -104,7 +104,7 @@ describe('Common slots: rail module', () => {
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.railModule, adSlots.railModuleWidth, adSlots.railModuleHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -113,7 +113,7 @@ describe('Common slots: rail module', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if module is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -134,7 +134,7 @@ describe('Common slots: incontent boxad', () => {
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -143,21 +143,21 @@ describe('Common slots: incontent boxad', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the inhouse campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
 			.equal(adSlots.inhouseLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.incontentBoxad), 'Wrong link after redirect')
 			.to
 			.be
@@ -178,7 +178,7 @@ describe('Common slots: bottom leaderboard', () => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -187,21 +187,21 @@ describe('Common slots: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the inhouse campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
 			.equal(adSlots.inhouseLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
 			.to
 			.be

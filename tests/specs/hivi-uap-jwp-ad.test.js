@@ -5,7 +5,7 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Hivi UAP JWP ads page: top leaderboard', () => {
+describe('HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -27,7 +27,7 @@ describe('Hivi UAP JWP ads page: top leaderboard', () => {
 	});
 });
 
-describe('Hivi UAP JWP ads page: top boxad', () => {
+describe('HiVi UAP JWP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -73,7 +73,7 @@ describe('Hivi UAP JWP ads page: top boxad', () => {
 	});
 });
 
-describe('Hivi UAP JWP ads page: incontent boxad', () => {
+describe('HiVi UAP JWP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);

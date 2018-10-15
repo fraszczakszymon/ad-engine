@@ -18,7 +18,7 @@ describe('Delay ads page: top leaderboard', () => {
 		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check visibility after delay', () => {
+	it('Check if slot is visible after delay', () => {
 		delayAd.waitToLoadAds();
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
@@ -42,7 +42,7 @@ describe('Delay ads page: top leaderboard', () => {
 			.equal(adSlots.adViewed, 'Top leaderboard slot has not been counted as viewed');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		browser.click(delayAd.loadAdsButton);
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
@@ -68,7 +68,7 @@ describe('Delay ads page: top boxad', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check visibility after delay', () => {
+	it('Check if slot is visible after delay', () => {
 		delayAd.waitToLoadAds();
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to

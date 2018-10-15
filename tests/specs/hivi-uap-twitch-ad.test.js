@@ -17,14 +17,14 @@ describe('Twitch ads page: top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 3.88);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -33,7 +33,7 @@ describe('Twitch ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the correct campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
@@ -47,7 +47,7 @@ describe('Twitch ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -64,8 +64,8 @@ describe('Twitch ads page: player', () => {
 		browser.waitForVisible(adSlots.topLeaderboard);
 	});
 
-	it('Check Twitch player visibility', () => {
-		const myFrame = $(twitchAd.playerFrame).value;
+	it('Check if Twitch player is visible', () => {
+		const myFrame = browser.element(twitchAd.playerFrame).value;
 
 		browser.frame(myFrame);
 		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);

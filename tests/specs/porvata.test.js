@@ -18,14 +18,14 @@ describe('Porvata player', () => {
 		helpers.waitToStartPlaying();
 	});
 
-	it('Check visibility', () => {
+	it('Check if player is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -34,7 +34,7 @@ describe('Porvata player', () => {
 			.true;
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -47,13 +47,13 @@ describe('Porvata player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('Check unmuting the video', () => {
+	it('Check if unmuting the video works properly', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
 		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
 	});
 
-	it('Check opening full screen', () => {
+	it('Check if opening full screen works properly', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
@@ -61,13 +61,13 @@ describe('Porvata player', () => {
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard, true);
 	});
 
-	it('Check if replaying the video works', () => {
+	it('Check if replaying the video works properly', () => {
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.extended);
 		browser.click(porvata.porvataPlayer);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
 	});
 
-	it('Check closing the player', () => {
+	it('Check if closing the player works properly', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);

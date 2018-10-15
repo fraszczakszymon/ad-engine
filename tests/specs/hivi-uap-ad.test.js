@@ -6,7 +6,7 @@ import hiviUapStatic from '../pages/hivi-uap-static-ad.page';
 
 const { expect } = require('chai');
 
-describe('Hivi uap static ads page: top leaderboard', () => {
+describe('HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -37,35 +37,35 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check default dimensions', () => {
+	it('Check if default dimensions are correct', () => {
 		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
 			.to
 			.be
 			.true;
 	});
 
-	it('Check resolved dimensions after scroll', () => {
+	it('Check if resolved dimensions after scroll are correct', () => {
 		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
 			.to
 			.be
 			.true;
 	});
 
-	it('Check resolved dimensions after refresh', () => {
+	it('Check if resolved dimensions after refresh are correct', () => {
 		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
 			.to
 			.be
 			.true;
 	});
 
-	it('Check closing top leaderboard', () => {
+	it('Check if closing top leaderboard works properly', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
@@ -73,39 +73,39 @@ describe('Hivi uap static ads page: top leaderboard', () => {
 	});
 });
 
-describe('Hivi uap ads page: video player in top leaderboard', () => {
+describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	it('Check opening the full screen player', () => {
+	it('Check if opening the full screen player works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
-	it('Check pausing the video', () => {
+	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
 
-	it('Check unmuting the video', () => {
+	it('Check if unmuting the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
 
-	it('Check replaying the video', () => {
+	it('Check if replaying the video works properly', () => {
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.extended);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
 	});
 });
 
-describe('Hivi uap ads page: top boxad', () => {
+describe('HiVi UAP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -119,7 +119,7 @@ describe('Hivi uap ads page: top boxad', () => {
 	});
 });
 
-describe('Hivi uap ads page: incontent boxad', () => {
+describe('HiVi UAP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -134,7 +134,7 @@ describe('Hivi uap ads page: incontent boxad', () => {
 	});
 });
 
-describe('Hivi uap ads page: bottom leaderboard', () => {
+describe('HiVi UAP ads page: bottom leaderboard', () => {
 	let adStatus;
 
 	before(() => {
@@ -147,7 +147,7 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -155,7 +155,7 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 
 	// TODO fix; this leaderboard is not as wide as window, but as </body>
-	it('Check dimensions', () => {
+	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotRatio(adSlots.bottomLeaderboard, 10);
 
 		expect(dimensions.status, dimensions.capturedErrors)
@@ -164,14 +164,14 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check line item id', () => {
+	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
 			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check redirect on click', () => {
+	it('Check if redirect on click works properly', () => {
 		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -179,7 +179,7 @@ describe('Hivi uap ads page: bottom leaderboard', () => {
 	});
 });
 
-describe('Hivi uap ads page: video player in bottom leaderboard', () => {
+describe('HiVi UAP ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
@@ -188,19 +188,19 @@ describe('Hivi uap ads page: video player in bottom leaderboard', () => {
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	it('Check opening the fullscreen player', () => {
+	it('Check if opening the fullscreen player works', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`, timeouts.standard);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
-	it('Check pausing the video', () => {
+	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
 	});
 
-	it('Check unmuting the video', () => {
+	it('Check if unmuting the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
 		browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
