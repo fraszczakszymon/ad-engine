@@ -58,6 +58,7 @@ describe('Porvata player', () => {
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
 		browser.keys(['Escape', 'Escape']); // TODO fix buttons not working
+		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard, true);
 	});
 
 	it('Check if replaying the video works', () => {

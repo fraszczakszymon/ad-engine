@@ -38,6 +38,7 @@ exports.config = {
 			'./tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
 		],
 		currentTest: [
+			// './tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
 			'./tests/specs/hivi-uap-twitch-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [

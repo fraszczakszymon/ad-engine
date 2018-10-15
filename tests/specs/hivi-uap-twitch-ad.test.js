@@ -12,7 +12,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check dimensions and visibility', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.adProductsTopLeaderboardWidth, adSlots.twitchLeaderboardHeight);
+		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 3.88, 'Top leaderboard');
 		const tableOfErrors = [];
 
 		expect(dimensions.status, dimensions.capturedErrors)

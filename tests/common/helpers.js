@@ -5,6 +5,7 @@ const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
+const aspectRatioDelta = 3;
 
 class Helpers {
 	constructor() {
@@ -198,12 +199,13 @@ class Helpers {
 
 		if (slotSize.width !== browserWidth) {
 			result = false;
-			errorMessages += `${customPrefix} Slot ratio incorrect - expected ${browserWidth} - actual ${slotSize.width}\n`;
+			errorMessages += `${customPrefix} Slot width ratio incorrect - expected ${browserWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (slotSize.height !== browserWidth / heightRatio) {
+		console.log(Math.abs(slotSize.height - browserWidth / heightRatio));
+		if (Math.abs(slotSize.height - browserWidth / heightRatio) > aspectRatioDelta) {
 			result = false;
-			errorMessages += `${customPrefix} Slot ratio incorrect - expected ${browserWidth / heightRatio} - actual ${slotSize.height}\n`;
+			errorMessages += `${customPrefix} Slot height ratio incorrect - expected ${browserWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
 
 		return {
