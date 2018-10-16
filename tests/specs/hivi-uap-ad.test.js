@@ -158,6 +158,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;
+	let videoFinishedDimensions;
 
 	before(() => {
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
@@ -171,6 +172,13 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
 		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 10, 'Resolved after refresh:');
+
+		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.slowScroll(7000);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		hiviUap.waitForVideoToFinish();
+
+		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Resolved after video finished:');
 	});
 
 	beforeEach(() => {
@@ -193,6 +201,13 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 
 	it('Check if resolved dimensions after refresh are correct', () => {
 		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if resolved dimensions after video finished are correct', () => {
+		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors)
 			.to
 			.be
 			.true;

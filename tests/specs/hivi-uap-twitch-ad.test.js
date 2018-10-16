@@ -61,13 +61,32 @@ describe('Twitch ads page: player', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(adSlots.topLeaderboard);
-	});
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 
-	it('Check if Twitch player is visible', () => {
 		const playerFrame = browser.element(twitchAd.playerFrame).value;
 
 		browser.frame(playerFrame);
-		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
+		browser.waitForVisible(twitchAd.twitchPlayer);
+	});
+
+	it('Check if Twitch player is visible', () => {
+		expect(browser.isVisibleWithinViewport(twitchAd.twitchPlayer), 'Player not visible')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if playing the stream works properly', () => {
+		browser.click(twitchAd.playPauseButton);
+		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
+			.to
+			.include(twitchAd.playPauseButton, 'Stream not playing');
+	});
+
+	it('Check if unmuting the stream works properly', () => {
+		browser.click(twitchAd.unmuteButton);
+		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
+			.to
+			.include(twitchAd.unmuteButton, 'Stream not unmuted');
 	});
 });

@@ -1,6 +1,7 @@
 import repeatableSlots from '../pages/repeatable-slots.page';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
+import adSlots from '../common/adSlots';
 
 const { expect } = require('chai');
 
@@ -28,7 +29,6 @@ describe('Repeatable slots ads', () => {
 
 		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLimitOfSlots(3), repeatableSlots.setLengthOfContent(5)]));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
-
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
 			expect(browser.isVisible(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
@@ -51,6 +51,25 @@ describe('Repeatable slots ads', () => {
 		}
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(numberOfSlots));
 		expect(browser.isVisible(repeatableSlots.getRepeatableSlot(numberOfSlots + 1)), 'Slot not visible')
+			.to
+			.be
+			.false;
+	});
+
+	it('Check if there is at least one viewport between slots', () => {
+		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));
+		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(1));
+		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(2));
+		expect(browser.isVisible(repeatableSlots.getRepeatableSlot(3)))
+			.to
+			.be
+			.true;
+		browser.scroll(repeatableSlots.getRepeatableSlot(2), 0, adSlots.boxadHeight + 2);
+		expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(2)))
+			.to
+			.be
+			.false;
+		expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(3)))
 			.to
 			.be
 			.false;
