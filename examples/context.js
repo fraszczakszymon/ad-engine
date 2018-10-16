@@ -62,7 +62,6 @@ export default {
 			wikiaVideo: {
 				enabled: true,
 				slots: {
-					featured: {},
 					incontent_player: {}
 				}
 			}

@@ -12,7 +12,9 @@ describe('vast-url-builder', () => {
 				adUnitId: '/5441/wka.fandom/{src}/{slotConfig.slotName}'
 			},
 			slots: {
-				top_leaderboard: {}
+				top_leaderboard: {
+					pos: 'top_leaderboard'
+				}
 			},
 			targeting: {
 				uno: 'foo',
@@ -85,7 +87,6 @@ describe('vast-url-builder', () => {
 
 		const custParams =
 			/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx%26src%3Dtest%26pos%3Dtop_leaderboard/;
-
 		expect(vastUrl.match(custParams)).to.be.ok;
 	});
 
