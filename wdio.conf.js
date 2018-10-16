@@ -1,5 +1,3 @@
-const networkCapture = require('./tests/common/networkCapture');
-
 exports.config = {
 	specs: [
 		'./tests/specs/**/*.js'
@@ -63,7 +61,7 @@ exports.config = {
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone', networkCapture],
+	services: ['selenium-standalone'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 
