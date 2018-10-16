@@ -8,7 +8,7 @@ const cacheMarker = '-cached',
 	negativePrefix = 'non-',
 	precision = 10 ** 6, // precision to 0.00000001 (or 0.000001%) of traffic
 	samplingSeparator = '/',
-	sessionCookieDefault = 'wikia_session_id';
+	sessionCookieDefault = 'tracking_session_id';
 
 let cache = {},
 	cookieLoaded = false,

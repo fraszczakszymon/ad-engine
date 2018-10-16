@@ -35,9 +35,13 @@ function createRequest(params) {
 	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
 	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
-		targeting: params.vastTargeting
-	});
+	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(
+		params.width / params.height,
+		adSlot.getSlotName(),
+		{
+			targeting: params.vastTargeting
+		}
+	);
 	adsRequest.linearAdSlotWidth = params.width;
 	adsRequest.linearAdSlotHeight = params.height;
 
