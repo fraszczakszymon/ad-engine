@@ -1571,10 +1571,10 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		}
 	}, {
 		key: 'getVastUrl',
-		value: function getVastUrl(width, height) {
-			return Object(ad_engine_["buildVastUrl"])(width / height, 'outstream', {
-				pos: 'outstream',
-				passback: 'wikiaVideo'
+		value: function getVastUrl(width, height, slotName) {
+			return Object(ad_engine_["buildVastUrl"])(width / height, slotName, {
+				pos: slotName,
+				passback: this.bidderName
 			});
 		}
 	}, {
@@ -1605,7 +1605,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				bidResponse.mediaType = 'video';
 				bidResponse.width = width;
 				bidResponse.height = height;
-				bidResponse.vastUrl = _this3.getVastUrl(width, height);
+				bidResponse.vastUrl = _this3.getVastUrl(width, height, bid.adUnitCode);
 				bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 				addBidResponse(bid.adUnitCode, bidResponse);
