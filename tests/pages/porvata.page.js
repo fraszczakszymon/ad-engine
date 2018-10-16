@@ -16,7 +16,7 @@ class Porvata {
 	/**
 	 * Returns autoplay on or off
 	 * @param {boolean} autoplay - true/false
-	 * @returns {string}
+	 * @returns {string} link with correct parameter
 	 */
 	turnAutoplay = (autoplay) => {
 		if (autoplay) {
