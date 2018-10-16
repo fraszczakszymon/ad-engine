@@ -5,6 +5,15 @@ import adSlots from '../common/adSlots';
 
 const { expect } = require('chai');
 
+let theUrlYouWantToGet;
+
+global.client.on('Network.responseReceived', (params) => {
+	const { url, status } = params.response;
+	if (url.includes('gampad/ads?gdfp')) {
+		theUrlYouWantToGet = url;
+	}
+});
+
 describe('Floating rail ads page: floating rail', () => {
 	before(() => {
 		browser.url(floatingRailAd.pageLink);

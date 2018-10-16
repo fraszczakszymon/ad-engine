@@ -116,32 +116,43 @@ describe('HiVi UAP static ads page: incontent boxad', () => {
 
 describe('HiVi UAP static ads page: bottom leaderboard', () => {
 	let adStatus;
+	let defaultDimensions;
+	let refreshDimensions;
 
 	before(() => {
-		browser.url(hiviUapStatic.pageLink);
+		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.slowScroll(7000);
+		helpers.waitForExpanded(adSlots.bottomLeaderboard);
+
+		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 4, 'Default');
+
+		browser.refresh();
+		helpers.slowScroll(7000);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+
+		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 10, 'Resolved after refresh:');
 	});
 
 	beforeEach(() => {
-		helpers.slowScroll(7000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
 	});
 
-	afterEach(() => {
-		browser.scroll(0, 0);
-	});
-
-	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.uapBottomLeaderboardWidth, adSlots.uapBottomLeaderboardHeight);
-
-		expect(dimensions.status, dimensions.capturedErrors)
+	it('Check if slot is visible', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check if slot is visible', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
+	it('Check if default dimensions are correct', () => {
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if resolved dimensions after refresh are correct', () => {
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
 			.to
 			.be
 			.true;
