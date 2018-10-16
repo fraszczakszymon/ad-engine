@@ -38,28 +38,28 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check visibility', () => {
+	it('Check if slot is visible', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check default dimensions', () => {
+	it('Check if default dimensions are correct', () => {
 		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
 			.to
 			.be
 			.true;
 	});
 
-	it('Check resolved dimensions after scroll', () => {
+	it('Check if resolved dimensions after scroll are correct', () => {
 		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
 			.to
 			.be
 			.true;
 	});
 
-	it('Check resolved dimensions after refresh', () => {
+	it('Check if resolved dimensions after refresh are correct', () => {
 		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
 			.to
 			.be
@@ -73,7 +73,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check closing top leaderboard', () => {
+	it('Check if closing top leaderboard works properly', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to

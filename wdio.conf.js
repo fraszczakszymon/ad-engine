@@ -11,7 +11,7 @@ exports.config = {
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
 			'./tests/specs/abcd-ad.test.js',
-			'./tests/specs/hivi-uap-ad.test.js', // TODO retest and fix
+			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.test.js', // TODO write tests for Twitch player controls

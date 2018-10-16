@@ -19,12 +19,12 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Resolved after scroll:');
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Resolved after refresh:');
 	});
 
 	beforeEach(() => {
@@ -143,14 +143,24 @@ describe('HiVi UAP ads page: incontent boxad', () => {
 
 describe('HiVi UAP ads page: bottom leaderboard', () => {
 	let adStatus;
+	let defaultDimensions;
+	let refreshDimensions;
 
 	before(() => {
-		browser.url(hiviUap.pageLink);
+		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
+		helpers.waitForExpanded(adSlots.bottomLeaderboard);
+
+		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 4, 'Default');
+
+		browser.refresh();
+		helpers.slowScroll(7000);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+
+		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 10, 'Resolved after refresh:');
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
 	});
 
@@ -161,10 +171,15 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 10);
+	it('Check if default dimensions are correct', () => {
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
+			.to
+			.be
+			.true;
+	});
 
-		expect(dimensions.status, dimensions.capturedErrors)
+	it('Check if resolved dimensions after refresh are correct', () => {
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
 			.to
 			.be
 			.true;
@@ -194,7 +209,7 @@ describe('HiVi UAP ads page: video player in bottom leaderboard', () => {
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	it('Check if opening the fullscreen player works', () => {
+	it('Check if opening the fullscreen player works properly', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`, timeouts.standard);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);

@@ -103,7 +103,7 @@ describe('HiVi UAP JWP ads page: incontent boxad', () => {
 			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
 
-	it('Check if incontent boxad shows up after clicking the button, if it was viewed and if it is uap ad', () => {
+	it('Check if incontent boxad shows up after clicking the button, if it was viewed and if it is UAP ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
