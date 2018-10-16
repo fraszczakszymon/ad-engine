@@ -2,6 +2,7 @@
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 const md5 = require('js-md5');
+const networkCapture = require('./tests/common/networkCapture');
 
 function getScreenshotName(basePath) {
 	return function (context) {
@@ -30,7 +31,7 @@ exports.config = {
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone', 'visual-regression'],
+	services: ['selenium-standalone', networkCapture, 'visual-regression'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 	reporterOptions: {
