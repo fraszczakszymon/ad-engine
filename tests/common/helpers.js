@@ -14,6 +14,7 @@ class Helpers {
 		this.classProperty = 'class';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
+		this.wrapper = '.wrapper';
 	}
 
 	/**
@@ -177,30 +178,53 @@ class Helpers {
 	/**
 	 * Check's the slot\'s dimensions using ratio to measure height.
 	 * @param adSlot slot dimensions are taken from
+	 * @param expectedWidth correct slot\'s width
 	 * @param heightRatio slot's ratio to measure height
 	 * @param customPrefix additional information to add before the error message (e.g. if the size applies to default or resolved state of the slot)
 	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
 	 */
-	checkSlotRatio(adSlot, heightRatio, customPrefix = '') {
-		const browserWidth = browser.getViewportSize('width');
+	checkSlotRatio(adSlot, expectedWidth, heightRatio, customPrefix = '') {
 		let result = true;
 		let errorMessages = '';
 
 		const slotSize = browser.getElementSize(adSlot);
 
-		if (slotSize.width !== browserWidth) {
+		if (slotSize.width !== expectedWidth) {
 			result = false;
-			errorMessages += `${customPrefix} Slot width ratio incorrect - expected ${browserWidth} - actual ${slotSize.width}\n`;
+			errorMessages += `${customPrefix} Slot width ratio incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (Math.abs(slotSize.height - browserWidth / heightRatio) > aspectRatioDelta) {
+		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
 			result = false;
-			errorMessages += `${customPrefix} Slot height ratio incorrect - expected ${browserWidth / heightRatio} - actual ${slotSize.height}\n`;
+			errorMessages += `${customPrefix} Slot height ratio incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
 		return {
 			status: result,
 			capturedErrors: errorMessages,
 		};
+	}
+
+	/**
+	 * Checks UAP slot size based on the given ratio
+	 * @param adSlot slot to measure
+	 * @param heightRatio ratio value for height of the slot
+	 * @param customPrefix custom message to add before the error message
+	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
+	 */
+	checkUAPSizeSlotRatio(adSlot, heightRatio, customPrefix = '') {
+		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio, customPrefix);
+	}
+
+	/**
+	 * Checks slot ratio based on a given derivative value
+	 * @param adSlot slot to measure
+	 * @param sizeDeterminant derivative value for the slot
+	 * @param heightRatio ratio value for height of the slot
+	 * @param customPrefix custom message to add before the error message
+	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
+	 */
+	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio, customPrefix = '') {
+		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio, customPrefix);
 	}
 
 	/**

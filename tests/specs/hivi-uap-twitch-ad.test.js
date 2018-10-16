@@ -10,11 +10,11 @@ describe('Twitch ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(twitchAd.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is visible', () => {
@@ -25,7 +25,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 3.88);
+		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 3.88);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -65,9 +65,9 @@ describe('Twitch ads page: player', () => {
 	});
 
 	it('Check if Twitch player is visible', () => {
-		const myFrame = browser.element(twitchAd.playerFrame).value;
+		const playerFrame = browser.element(twitchAd.playerFrame).value;
 
-		browser.frame(myFrame);
+		browser.frame(playerFrame);
 		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
 	});
 });

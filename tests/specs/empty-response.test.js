@@ -10,11 +10,8 @@ describe('Empty response page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(emptyResponse.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(emptyResponse.article, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is not visible', () => {

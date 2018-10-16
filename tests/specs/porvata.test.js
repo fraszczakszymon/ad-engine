@@ -10,11 +10,11 @@ describe('Porvata player', () => {
 	before(() => {
 		browser.url(porvata.pageLink);
 		browser.scroll(porvata.porvataPlayer);
-		adStatus = helpers.checkSlotStatus(porvata.porvataPlayer);
 	});
 
 	beforeEach(() => {
 		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(porvata.porvataPlayer);
 		helpers.waitToStartPlaying();
 	});
 
@@ -34,7 +34,7 @@ describe('Porvata player', () => {
 			.true;
 	});
 
-	it('Check if redirect on click works properly', () => {
+	it('Check if redirect on click on default player works properly', () => {
 		browser.click(porvata.porvataPlayer);
 
 		const tabIds = browser.getTabIds();
@@ -53,12 +53,20 @@ describe('Porvata player', () => {
 		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
 	});
 
-	it('Check if opening full screen works properly', () => {
+	it('Check if opening full screen and redirect on fullscreen player works properly', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
-		browser.keys(['Escape', 'Escape']); // TODO fix buttons not working
-		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard, true);
+		browser.click(porvata.porvataPlayer);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
+		expect(browser.getUrl())
+			.to
+			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		helpers.closeNewTabs();
 	});
 
 	it('Check if replaying the video works properly', () => {

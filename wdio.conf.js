@@ -10,9 +10,9 @@ exports.config = {
 		],
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
-			'./tests/specs/abcd-ad.test.js', // TODO check video player and top leaderboard visibility
+			'./tests/specs/abcd-ad.test.js',
 			'./tests/specs/hivi-uap-ad.test.js', // TODO retest and fix
-			'./tests/specs/hivi-uap-static-ad.test.js', // TODO fix flaky tests that show up after first run
+			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.test.js', // TODO write tests for Twitch player controls
 			'./tests/specs/floating-ad.test.js',
@@ -28,17 +28,17 @@ exports.config = {
 			'./tests/specs/btf-only-ad.test.js',
 			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
-			'./tests/specs/common-slots-ad.test.js', // TODO check incontent boxad visibility (flaky, tends to fail at first run)
+			'./tests/specs/common-slots-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
 			'./tests/specs/block-btf-ad.test.js',
 			'./tests/specs/empty-response.test.js',
 		],
 		video: [
-			'./tests/specs/porvata.test.js', // TODO fix full screen test (blocking other tests)
+			'./tests/specs/porvata.test.js',
 		],
 		currentTest: [
-			'./tests/specs/abcd-ad.test.js', // spot for a test that is currently being worked on
+			'./tests/specs/hivi-uap-ad.test.js', // spot for a test that is currently being worked on
 		],
 		otherFeature: [
 

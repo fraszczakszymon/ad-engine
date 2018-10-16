@@ -14,23 +14,24 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 4, 'Default');
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 4, 'Default');
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
 
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
 	});
 
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	afterEach(() => {
@@ -118,12 +119,12 @@ describe('HiVi UAP static ads page: bottom leaderboard', () => {
 
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
 	});
 
 	beforeEach(() => {
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
 	});
 
 	afterEach(() => {

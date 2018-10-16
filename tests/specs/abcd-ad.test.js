@@ -10,11 +10,11 @@ describe('ABCD ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(abcdAd.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is visible in viewport', () => {
@@ -25,7 +25,7 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 5);
+		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 5);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -60,11 +60,10 @@ describe('ABCD ads page: video player in leaderboard', () => {
 
 	before(() => {
 		browser.url(abcdAd.pageLink);
-		adStatus = helpers.checkSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 	});
-
 	beforeEach(() => {
 		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		helpers.waitToStartPlaying();
 	});
 

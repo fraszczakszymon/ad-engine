@@ -2,7 +2,6 @@ import hiviUap from '../pages/hivi-uap-ad.page';
 import adSlots from '../common/adSlots';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
-import hiviUapStatic from '../pages/hivi-uap-static-ad.page';
 
 const { expect } = require('chai');
 
@@ -14,23 +13,24 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(hiviUap.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 4, 'Default');
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 4, 'Default');
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkSlotRatio(adSlots.topLeaderboard, 10, 'Default');
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 10, 'Default');
 	});
 
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	afterEach(() => {
@@ -66,16 +66,17 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
-		browser.click(hiviUapStatic.closeLeaderboardButton);
+		browser.click(hiviUap.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
+			.equal(hiviUap.slotCollapsed, 'Top leaderboard has not been closed');
 	});
 });
 
 describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard);
 		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
@@ -99,8 +100,14 @@ describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if replaying the video works properly', () => {
-		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.extended);
-		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
+		const playerFrame = browser.element(hiviUap.playerFrame).value;
+
+		hiviUap.waitForVideoToFinish();
+		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
+		browser.frame(playerFrame);
+		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
+		browser.click(hiviUap.replayOverlay);
+		browser.frame();
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
 	});
 });
@@ -140,11 +147,11 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 	before(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);
-		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard, timeouts.standard);
 	});
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
 	});
 
 	it('Check if slot is visible', () => {
@@ -154,9 +161,8 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	// TODO fix; this leaderboard is not as wide as window, but as </body>
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotRatio(adSlots.bottomLeaderboard, 10);
+		const dimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper, 10);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
