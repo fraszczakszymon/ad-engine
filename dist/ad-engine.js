@@ -814,7 +814,7 @@ var cacheMarker = '-cached',
     precision = Math.pow(10, 6),
     // precision to 0.00000001 (or 0.000001%) of traffic
 samplingSeparator = '/',
-    sessionCookieDefault = 'wikia_session_id';
+    sessionCookieDefault = 'tracking_session_id';
 
 var cache = {},
     cookieLoaded = false,
@@ -1693,7 +1693,7 @@ function createRequest(params) {
 	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
 	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
+	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, adSlot.getSlotName(), {
 		targeting: params.vastTargeting
 	});
 	adsRequest.linearAdSlotWidth = params.width;
@@ -5085,8 +5085,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.0.4');
-logger('ad-engine', 'v19.0.4');
+set_default()(window, versionField, 'v19.0.5');
+logger('ad-engine', 'v19.0.5');
 
 
 
