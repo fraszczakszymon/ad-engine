@@ -1,35 +1,5 @@
-import { expect, assert } from 'chai';
-import sinon from 'sinon';
-import { context } from '@wikia/ad-engine';
+import { expect } from 'chai';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
-
-function getMocks() {
-	const mocks = {
-		addBidResponseMock: sinon.spy(),
-		bidsRequestMock: {
-			bidderCode: 'fake-wikia-video-bidder',
-			auctionId: 'fake-id',
-			bids: [
-				{
-					adUnitCode: 'fake-ad-unit',
-					sizes: [[640, 480]]
-				}
-			]
-		},
-		fakeVastUrl: 'https://fake-vast-url',
-		fakePrice: 2000,
-		done: function () {},
-		window: {
-			pbjs: {
-				createBid: function () {
-					return {};
-				}
-			}
-		}
-	};
-
-	return mocks;
-}
 
 describe('WikiaVideo bidder adapter', () => {
 	it('can be enabled', () => {
@@ -62,36 +32,6 @@ describe('WikiaVideo bidder adapter', () => {
 						bidder: 'wikiaVideo'
 					}
 				]
-			}
-		]);
-	});
-
-	it('calls addBiddResponse callback with correct properties', () => {
-		const wikiaVideo = new WikiaVideo({
-			enabled: true,
-			slots: {
-				featured: {}
-			}
-		});
-		const mocks = getMocks();
-		global.window.pbjs = mocks.window.pbjs;
-		sinon.stub(wikiaVideo, 'getVastUrl').returns(mocks.fakeVastUrl);
-		context.set('bidders.prebid.wikiaVideo.price', mocks.fakePrice);
-
-		wikiaVideo.addBids(mocks.bidsRequestMock, mocks.addBidResponseMock, mocks.done);
-		assert.ok(mocks.addBidResponseMock.called);
-		expect(mocks.addBidResponseMock.args[0]).to.deep.equal([
-			'fake-ad-unit',
-			{
-				bidderCode: 'fake-wikia-video-bidder',
-				cpm: 20,
-				creativeId: 'foo123_wikiaVideoCreativeId',
-				ttl: 300,
-				mediaType: 'video',
-				width: 640,
-				height: 480,
-				vastUrl: 'https://fake-vast-url',
-				videoCacheKey: '123foo_wikiaVideoCacheKey',
 			}
 		]);
 	});
