@@ -96,7 +96,7 @@ class Helpers {
 	}
 
 	/**
-	 * Refreshes the page pauses all the actions to let elements reload properly.
+	 * Refreshes the page and pauses all the actions to let them reload properly.
 	 * @param adSlot slot to wait for
 	 * @param timeout duration of the pause
 	 */
@@ -176,7 +176,7 @@ class Helpers {
 	}
 
 	/**
-	 * Check's the slot\'s dimensions using ratio to measure height.
+	 * Checks the slot\'s dimensions using ratio to measure height.
 	 * @param adSlot slot dimensions are taken from
 	 * @param expectedWidth correct slot\'s width
 	 * @param heightRatio slot's ratio to measure height
@@ -205,7 +205,7 @@ class Helpers {
 	}
 
 	/**
-	 * Checks UAP slot size based on the given ratio
+	 * Checks UAP slot size based on the given ratio.
 	 * @param adSlot slot to measure
 	 * @param heightRatio ratio value for height of the slot
 	 * @param customPrefix custom message to add before the error message
@@ -216,7 +216,7 @@ class Helpers {
 	}
 
 	/**
-	 * Checks slot ratio based on a given derivative value
+	 * Checks slot ratio based on a given derivative value.
 	 * @param adSlot slot to measure
 	 * @param sizeDeterminant derivative value for the slot
 	 * @param heightRatio ratio value for height of the slot
@@ -265,6 +265,16 @@ class Helpers {
 			inViewport: browser.isVisibleWithinViewport(adSlot),
 			enabled: browser.isEnabled(adSlot)
 		};
+	}
+
+	/**
+	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame() instead.
+	 * @param frameID name of the frame to change focus to
+	 */
+	switchToFrame(frameID) {
+		const frame = browser.element(frameID).value;
+
+		browser.frame(frame);
 	}
 }
 

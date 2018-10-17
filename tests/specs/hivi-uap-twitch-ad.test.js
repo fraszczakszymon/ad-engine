@@ -77,9 +77,7 @@ describe('Twitch ads page: player', () => {
 
 	// TODO fix assertion
 	it('Check if playing the stream works properly', () => {
-		const twitchFrame = browser.element(twitchAd.twitchFrame).value;
-
-		browser.frame(twitchFrame);
+		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.click(twitchAd.playPauseButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
@@ -88,12 +86,24 @@ describe('Twitch ads page: player', () => {
 
 	// TODO fix assertion
 	it('Check if unmuting the stream works properly', () => {
-		const twitchFrame = browser.element(twitchAd.twitchFrame).value;
-
-		browser.frame(twitchFrame);
+		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.click(twitchAd.unmuteButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
 			.include(twitchAd.unmuteButton, 'Stream not unmuted');
+	});
+
+	it('Check if clicking on Twitch button redirects to Twitch account with that stream', () => {
+		helpers.switchToFrame(twitchAd.twitchFrame);
+		browser.click(twitchAd.twitchButton);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(twitchAd.twitchWord);
+		expect(browser.getUrl())
+			.to
+			.include(twitchAd.twitchWord, `Wrong page loaded: expected ${twitchAd.twitchWord}`);
+		helpers.closeNewTabs();
 	});
 });

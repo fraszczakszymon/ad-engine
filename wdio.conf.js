@@ -12,7 +12,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
-			'./tests/specs/hivi-uap-twitch-ad.test.js', // TODO write tests for Twitch player controls
+			'./tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 			'./tests/specs/sticky-ad.test.js',
 		],
