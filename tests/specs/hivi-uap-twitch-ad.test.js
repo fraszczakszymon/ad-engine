@@ -61,12 +61,11 @@ describe('Twitch ads page: player', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-
-		const playerFrame = browser.element(twitchAd.playerFrame).value;
-
-		browser.frame(playerFrame);
 		browser.waitForVisible(twitchAd.twitchPlayer);
+	});
+
+	afterEach(() => {
+		browser.frame();
 	});
 
 	it('Check if Twitch player is visible', () => {
@@ -76,14 +75,22 @@ describe('Twitch ads page: player', () => {
 			.true;
 	});
 
+	// TODO fix assertion
 	it('Check if playing the stream works properly', () => {
+		const twitchFrame = browser.element(twitchAd.twitchFrame).value;
+
+		browser.frame(twitchFrame);
 		browser.click(twitchAd.playPauseButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
 			.include(twitchAd.playPauseButton, 'Stream not playing');
 	});
 
+	// TODO fix assertion
 	it('Check if unmuting the stream works properly', () => {
+		const twitchFrame = browser.element(twitchAd.twitchFrame).value;
+
+		browser.frame(twitchFrame);
 		browser.click(twitchAd.unmuteButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
