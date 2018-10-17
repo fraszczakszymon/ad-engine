@@ -5,7 +5,8 @@ class HiviUap {
 		this.playerFullscreenButton = `${this.videoPlayer} .toggle-fullscreen-button`;
 		this.volumeButton = `${this.videoPlayer} .volume-button`;
 		this.playPauseButton = `${this.videoPlayer} .play-pause-button`;
-		this.playerFrame = 'iframe[id="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]';
+		this.topPlayerFrame = 'iframe[id="google_ads_iframe_/5441/wka.life/_project43//article/test/top_leaderboard_0"]';
+		this.bottomPlayerFrame = 'iframe[id="google_ads_iframe_/5441/wka.life/_project43//article/test/bottom_leaderboard_0"]';
 		this.replayOverlay = '.replay-overlay';
 		this.buttonIsOnClass = '.is-on';
 		this.closeLeaderboardButton = 'button';

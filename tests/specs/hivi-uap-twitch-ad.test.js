@@ -75,22 +75,20 @@ describe('Twitch ads page: player', () => {
 			.true;
 	});
 
-	// TODO fix assertion
 	it('Check if playing the stream works properly', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.click(twitchAd.playPauseButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
-			.include(twitchAd.playPauseButton, 'Stream not playing');
+			.include(twitchAd.playPauseButton.substring(1), 'Stream not playing');
 	});
 
-	// TODO fix assertion
 	it('Check if unmuting the stream works properly', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.click(twitchAd.unmuteButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
-			.include(twitchAd.unmuteButton, 'Stream not unmuted');
+			.include(twitchAd.unmuteButton.substring(1), 'Stream not unmuted');
 	});
 
 	it('Check if clicking on Twitch button redirects to Twitch account with that stream', () => {

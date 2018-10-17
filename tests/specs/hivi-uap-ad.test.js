@@ -79,6 +79,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
+		browser.waitForVisible(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
@@ -113,11 +114,9 @@ describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if replaying the video works properly', () => {
-		const playerFrame = browser.element(hiviUap.playerFrame).value;
-
 		hiviUap.waitForVideoToFinish();
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
-		browser.frame(playerFrame);
+		helpers.switchToFrame(hiviUap.topPlayerFrame);
 		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
 		browser.click(hiviUap.replayOverlay);
 		browser.frame();
@@ -253,5 +252,15 @@ describe('HiVi UAP ads page: video player in bottom leaderboard', () => {
 		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
 		browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`, timeouts.standard, true);
+	});
+
+	it('Check if replaying the video works properly', () => {
+		hiviUap.waitForVideoToFinish();
+		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
+		helpers.switchToFrame(hiviUap.bottomPlayerFrame);
+		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
+		browser.click(hiviUap.replayOverlay);
+		browser.frame();
+		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
 	});
 });
