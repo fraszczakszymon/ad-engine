@@ -1602,17 +1602,7 @@ var vast_debugger_VastDebugger = function () {
 }();
 
 var vastDebugger = new vast_debugger_VastDebugger();
-// CONCATENATED MODULE: ./src/ad-engine/video/video-ad-unit-builder.js
-
-
-
-function video_ad_unit_builder_getVideoAdUnit(slotName) {
-	return stringBuilder.build(context.get('slots.' + slotName + '.vast.adUnitId') || context.get('vast.adUnitId'), {
-		slotConfig: context.get('slots.' + slotName)
-	});
-}
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-url-builder.js
-
 
 
 
@@ -1621,10 +1611,10 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
     baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
     correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters(slotName) {
+function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	var params = assign_default()({}, context.get('targeting'), context.get('slots.' + slotName + '.targeting'), extraTargeting);
+	var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(keys_default()(params).filter(function (key) {
 		return params[key];
@@ -1636,7 +1626,15 @@ function getCustomParameters(slotName) {
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator, 'iu=' + video_ad_unit_builder_getVideoAdUnit(slotName), 'cust_params=' + getCustomParameters(slotName, options.targeting)];
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
+	    slot = slotService.get(slotName);
+
+	if (slot) {
+		params.push('iu=' + slot.getVideoAdUnit());
+		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
+	} else {
+		throw Error('Slot does not exist!');
+	}
 
 	if (options.contentSourceId && options.videoId) {
 		params.push('cmsid=' + options.contentSourceId);
@@ -1693,7 +1691,7 @@ function createRequest(params) {
 	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
 	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, adSlot.getSlotName(), {
+	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
 	});
 	adsRequest.linearAdSlotWidth = params.width;
@@ -5085,8 +5083,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.0.5');
-logger('ad-engine', 'v19.0.5');
+set_default()(window, versionField, 'v19.0.6');
+logger('ad-engine', 'v19.0.6');
 
 
 
