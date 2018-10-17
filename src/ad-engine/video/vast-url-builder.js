@@ -1,14 +1,11 @@
-import { getVideoAdUnit } from './video-ad-unit-builder';
-import { context, trackingOptIn } from '../services';
+import { context, slotService, trackingOptIn } from '../services';
 
 const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
 	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
 	correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters(slotName, extraTargeting = {}) {
-	const params = Object.assign(
-		{}, context.get('targeting'), context.get(`slots.${slotName}.targeting`), extraTargeting
-	);
+function getCustomParameters(slot, extraTargeting = {}) {
+	const params = Object.assign({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(
 		Object.keys(params)
@@ -20,18 +17,24 @@ function getCustomParameters(slotName, extraTargeting = {}) {
 
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
-		'output=vast',
-		'env=vp',
-		'gdfp_req=1',
-		'impl=s',
-		'unviewed_position_start=1',
-		'sz=640x480',
-		`url=${encodeURIComponent(window.location.href)}`,
-		`description_url=${encodeURIComponent(window.location.href)}`,
-		`correlator=${correlator}`,
-		`iu=${getVideoAdUnit(slotName)}`,
-		`cust_params=${getCustomParameters(slotName, options.targeting)}`
-	];
+			'output=vast',
+			'env=vp',
+			'gdfp_req=1',
+			'impl=s',
+			'unviewed_position_start=1',
+			'sz=640x480',
+			`url=${encodeURIComponent(window.location.href)}`,
+			`description_url=${encodeURIComponent(window.location.href)}`,
+			`correlator=${correlator}`
+		],
+		slot = slotService.get(slotName);
+
+	if (slot) {
+		params.push(`iu=${slot.getVideoAdUnit()}`);
+		params.push(`cust_params=${getCustomParameters(slot, options.targeting)}`);
+	} else {
+		throw Error('Slot does not exist!');
+	}
 
 	if (options.contentSourceId && options.videoId) {
 		params.push(`cmsid=${options.contentSourceId}`);
