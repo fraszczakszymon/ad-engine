@@ -1,3 +1,4 @@
+/* global browser */
 exports.config = {
 	specs: [
 		'./tests/specs/**/*.js'
@@ -74,7 +75,6 @@ exports.config = {
 		timeout: 200000
 	},
 	before() {
-		// eslint-disable-next-line no-undef
 		browser.windowHandleSize({ width: 1920, height: 1080 });
 	}
 };
