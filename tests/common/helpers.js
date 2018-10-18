@@ -241,7 +241,7 @@ class Helpers {
 	/**
 	 * Checks slot ratio based on a given derivative value.
 	 * @param adSlot slot to measure
-	 * @param sizeDeterminant derivative value for the slot
+	 * @param sizeDeterminant derivative value for the slot (CSS selector, e.g. wrapper)
 	 * @param heightRatio ratio value for height of the slot
 	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found,
 	 * else returns true. captured errors: returns string with errors
