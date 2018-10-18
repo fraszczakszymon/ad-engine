@@ -16,5 +16,9 @@ describe('Floating rail ads page: floating rail', () => {
 		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
 			.to
 			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
+		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
+			.to
+			.be
+			.true;
 	});
 });
