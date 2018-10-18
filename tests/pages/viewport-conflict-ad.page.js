@@ -3,7 +3,6 @@ class ViewportConflictAd {
 		this.pageLink = 'slots/viewport-conflicts/';
 		this.hideBoxadButton = '#hideTopBoxad';
 		this.addParagraphButton = '#addParagraph';
-		this.dataSlotResult = 'data-slot-result';
 		this.maxNewParagraphs = 10;
 	}
 

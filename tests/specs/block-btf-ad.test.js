@@ -5,56 +5,17 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test block btf ad page', () => {
-	beforeEach(() => {
+describe('Block BTF ads page: incontent boxad', () => {
+	let adStatus;
+
+	before(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.incontentBoxad);
 	});
 
-	it('will test top leaderboard visibility and dimensions', () => {
-		const size = browser.getElementSize(adSlots.topLeaderboard);
-		const tableOfErrors = [];
-
-		try {
-			expect(size.width)
-				.to
-				.equal(adSlots.leaderboardWidth, 'Top leaderboard width incorrect');
-			expect(size.height)
-				.to
-				.equal(adSlots.leaderboardHeight);
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
-			.to
-			.equal(0);
-	});
-
-	it(' will test top leaderboard ad redirect on click', () => {
-		browser.click(adSlots.topLeaderboard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.fandomWord);
-		helpers.closeNewTabs();
-	});
-
-	it('will test if incontent boxad is hidden on the page', () => {
+	it('Check if slot is hidden on the page', () => {
 		helpers.slowScroll(2000);
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not hidden')
+		expect(adStatus.inViewport, 'Visible in viewport')
 			.to
 			.be
 			.false;
