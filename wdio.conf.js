@@ -1,8 +1,9 @@
+/* global browser */
 /* eslint-disable import/no-extraneous-dependencies */
+const networkCapture = require('./tests/common/networkCapture');
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 const md5 = require('js-md5');
-const networkCapture = require('./tests/common/networkCapture');
 
 function getScreenshotName(basePath) {
 	return function (context) {
