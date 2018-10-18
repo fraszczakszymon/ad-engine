@@ -11,7 +11,7 @@ describe('Empty response page: top leaderboard', () => {
 	before(() => {
 		browser.url(emptyResponse.pageLink);
 		browser.waitForVisible(emptyResponse.article, timeouts.standard);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is not visible', () => {
@@ -30,7 +30,7 @@ describe('Empty response page: top boxad', () => {
 		browser.url(emptyResponse.pageLink);
 		browser.waitForVisible(emptyResponse.article, timeouts.standard);
 		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
-		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
 	});
 
 	it('Check if slot is not visible', () => {

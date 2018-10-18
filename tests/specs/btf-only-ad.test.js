@@ -14,10 +14,10 @@ describe('BTF Only ads page: incontent boxad', () => {
 		browser.click(btfOnlyAd.finishQueueButton);
 		helpers.slowScroll(2500);
 		helpers.waitForExpanded(adSlots.incontentBoxad);
-		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
+		adStatus = helpers.getSlotStatus(adSlots.incontentBoxad);
 	});
 
-	it('Check if boxad is visible after clicking on the button', () => {
+	it('Check if boxad is visible and in viewport after clicking on the button', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be

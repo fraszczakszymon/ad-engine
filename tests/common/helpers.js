@@ -1,7 +1,6 @@
 import { timeouts } from '../common/timeouts';
 import adSlots from '../common/adSlots';
 
-const newUrlTimeout = 10000;
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
@@ -10,7 +9,6 @@ const aspectRatioDelta = 3;
 class Helpers {
 	constructor() {
 		this.classHidden = '.hide';
-		this.pageBody = 'body';
 		this.classProperty = 'class';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
@@ -22,7 +20,7 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), newUrlTimeout, 'expected new page after 10 seconds', timeouts.interval);
+		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), timeouts.newUrlTimeout, 'expected new page after 10 seconds', timeouts.interval);
 	}
 
 	/**
@@ -100,7 +98,7 @@ class Helpers {
 	 * @param adSlot slot to wait for
 	 * @param timeout duration of the pause
 	 */
-	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.pageReload) {
+	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.standard) {
 		browser.refresh();
 		browser.pause(timeout);
 		browser.waitForVisible(adSlot);
@@ -153,25 +151,24 @@ class Helpers {
 	 * @param adSlot slot dimensions are taken from
 	 * @param width slot\'s width
 	 * @param height slot\'s height
-	 * @param customPrefix additional information to add before the error message (e.g. if the size applies to default or resolved state of the slot)
 	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
 	 */
-	checkSlotSize(adSlot, width, height, customPrefix = '') {
+	checkSlotSize(adSlot, width, height) {
 		let result = true;
-		let errorMessages = '';
+		let error = '';
 		const slotSize = browser.getElementSize(adSlot);
 
 		if (slotSize.width !== width) {
 			result = false;
-			errorMessages += `${customPrefix} Width incorrect: expected ${slotSize.width} to equal ${width}\n`;
+			error += `Width incorrect: expected ${slotSize.width} to equal ${width}\n`;
 		}
 		if (slotSize.height !== height) {
 			result = false;
-			errorMessages += `${customPrefix} Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
+			error += `Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
 		return {
 			status: result,
-			capturedErrors: errorMessages,
+			capturedErrors: error,
 		};
 	}
 
@@ -180,27 +177,26 @@ class Helpers {
 	 * @param adSlot slot dimensions are taken from
 	 * @param expectedWidth correct slot\'s width
 	 * @param heightRatio slot's ratio to measure height
-	 * @param customPrefix additional information to add before the error message (e.g. if the size applies to default or resolved state of the slot)
 	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
 	 */
-	checkSlotRatio(adSlot, expectedWidth, heightRatio, customPrefix = '') {
+	checkSlotRatio(adSlot, expectedWidth, heightRatio) {
 		let result = true;
-		let errorMessages = '';
+		let error = '';
 
 		const slotSize = browser.getElementSize(adSlot);
 
 		if (slotSize.width !== expectedWidth) {
 			result = false;
-			errorMessages += `${customPrefix} Slot width ratio incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
+			error += `Slot width ratio incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
 		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
 			result = false;
-			errorMessages += `${customPrefix} Slot height ratio incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
+			error += `Slot height ratio incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
 		return {
 			status: result,
-			capturedErrors: errorMessages,
+			capturedErrors: error,
 		};
 	}
 
@@ -208,11 +204,10 @@ class Helpers {
 	 * Checks UAP slot size based on the given ratio.
 	 * @param adSlot slot to measure
 	 * @param heightRatio ratio value for height of the slot
-	 * @param customPrefix custom message to add before the error message
 	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
 	 */
-	checkUAPSizeSlotRatio(adSlot, heightRatio, customPrefix = '') {
-		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio, customPrefix);
+	checkUAPSizeSlotRatio(adSlot, heightRatio) {
+		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
 	}
 
 	/**
@@ -220,11 +215,10 @@ class Helpers {
 	 * @param adSlot slot to measure
 	 * @param sizeDeterminant derivative value for the slot
 	 * @param heightRatio ratio value for height of the slot
-	 * @param customPrefix custom message to add before the error message
 	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
 	 */
-	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio, customPrefix = '') {
-		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio, customPrefix);
+	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio) {
+		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio);
 	}
 
 	/**
@@ -256,9 +250,9 @@ class Helpers {
 	 * Checks slot\'s status after making sure it exists in the code.
 	 * Returns information about visibility in general, visibility in viewport and about being enabled.
 	 * @param adSlot slot to wait for
-	 * @returns {{visible: *, inViewport: (Boolean|Boolean[]), enabled: (Boolean|Boolean[])}} slot statuses
+	 * @returns {{visible: (Boolean|Boolean[]), inViewport: (Boolean|Boolean[]), enabled: (Boolean|Boolean[])}} slot statuses
 	 */
-	checkSlotStatus(adSlot) {
+	getSlotStatus(adSlot) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		return {
 			visible: browser.isVisible(adSlot),

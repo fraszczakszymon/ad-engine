@@ -19,6 +19,8 @@ class AdSlots {
 		this.adViewed = 'true';
 		this.adCollapsed = 'collapse';
 		this.inhouseLineItemId = '271491732';
+		this.defaultRatio = 4;
+		this.resolvedRatio = 10;
 	}
 }
 

@@ -14,7 +14,7 @@ describe('ABCD ads page: top leaderboard', () => {
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is visible in viewport', () => {
@@ -25,7 +25,7 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, 5);
+		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, abcdAd.abcdLeaderboardRatio);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -40,7 +40,7 @@ describe('ABCD ads page: top leaderboard', () => {
 			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 
-	it('Check if leaderboard does not obstruct the navbar', () => {
+	it('Check if navbar is visible in viewport', () => {
 		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
 			.to
 			.be
@@ -63,7 +63,7 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 	beforeEach(() => {
 		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
-		adStatus = helpers.checkSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		adStatus = helpers.getSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		helpers.waitToStartPlaying();
 	});
 

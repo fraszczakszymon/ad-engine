@@ -10,6 +10,7 @@ class TwitchAd {
 		this.twitchButton = '.qa-watch-twitch-button';
 		this.buttonPressedAttribute = 'data-whatclasses';
 		this.twitchWord = 'twitch';
+		this.twitchLeaderboardRatio = 3.88;
 	}
 }
 

@@ -18,6 +18,9 @@ class HiviUap {
 		this.videoLength = 45000;
 	}
 
+	/**
+	 * Waits for the video to finish playing.
+	 */
 	waitForVideoToFinish() {
 		browser.pause(this.videoLength);
 	}

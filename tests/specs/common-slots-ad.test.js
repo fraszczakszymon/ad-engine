@@ -10,11 +10,8 @@ describe('Common slots: top leaderboard', () => {
 
 	before(() => {
 		browser.url(commonAds.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if dimensions are correct', () => {
@@ -53,11 +50,8 @@ describe('Common slots: top boxad', () => {
 
 	before(() => {
 		browser.url(commonAds.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
 	});
 
 	it('Check if dimensions are correct', () => {
@@ -96,12 +90,9 @@ describe('Common slots: rail module', () => {
 
 	before(() => {
 		browser.url(commonAds.pageLink);
-		adStatus = helpers.checkSlotStatus(adSlots.railModule);
 		browser.scroll(0, 250);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.railModule);
 	});
 
 	it('Check if dimensions are correct', () => {
@@ -127,11 +118,8 @@ describe('Common slots: incontent boxad', () => {
 	before(() => {
 		browser.url(commonAds.pageLink);
 		browser.scroll(0, 500);
-		adStatus = helpers.checkSlotStatus(adSlots.incontentBoxad);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.incontentBoxad);
 	});
 
 	it('Check if dimensions are correct', () => {
@@ -171,16 +159,13 @@ describe('Common slots: bottom leaderboard', () => {
 	before(() => {
 		browser.url(commonAds.pageLink);
 		browser.scroll(0, 6000);
-		adStatus = helpers.checkSlotStatus(adSlots.bottomLeaderboard);
-	});
-
-	beforeEach(() => {
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 	});
 
 	it('Check if dimensions are correct', () => {
 		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
+		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be

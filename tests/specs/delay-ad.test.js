@@ -11,7 +11,6 @@ describe('Delay ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
-		adStatus = helpers.checkSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if slot is not immediately visible', () => {
@@ -20,6 +19,7 @@ describe('Delay ads page: top leaderboard', () => {
 
 	it('Check if slot is visible after delay', () => {
 		delayAd.waitToLoadAds();
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -56,20 +56,20 @@ describe('Delay ads page: top boxad', () => {
 
 	before(() => {
 		browser.url();
-		adStatus = helpers.checkSlotStatus(adSlots.topBoxad);
 	});
 
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
-		browser.waitForVisible(helpers.pageBody, timeouts.standard);
+		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
 	});
 
 	it('Check if slot is not immediately visible', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check if slot is visible after delay', () => {
+	it('Check if slot is visible and in viewport after delay', () => {
 		delayAd.waitToLoadAds();
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be

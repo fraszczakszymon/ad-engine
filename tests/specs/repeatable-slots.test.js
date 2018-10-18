@@ -10,7 +10,7 @@ describe('Repeatable slots ads', () => {
 
 	before(() => {
 		browser.url(repeatableSlots.pageLink);
-		adStatus = helpers.checkSlotStatus(repeatableSlots.getRepeatableSlot(1));
+		adStatus = helpers.getSlotStatus(repeatableSlots.getRepeatableSlot(1));
 	});
 
 	beforeEach(() => {

@@ -11,7 +11,7 @@ describe('HiVi UAP JWP ads page: top leaderboard', () => {
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
 	});
 
-	it('Check if top leaderboard is not immediately visible', () => {
+	it('Check if top leaderboard is existing, but not immediately visible', () => {
 		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`), 'Top leaderboard visible')
 			.to
 			.be
@@ -33,7 +33,7 @@ describe('HiVi UAP JWP ads page: top boxad', () => {
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
 	});
 
-	it('Check if top boxad is not immediately visible', () => {
+	it('Check if top boxad is existing, but not immediately visible', () => {
 		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Top boxad visible')
 			.to
 			.be
@@ -42,9 +42,8 @@ describe('HiVi UAP JWP ads page: top boxad', () => {
 
 	it('Check if the ad loaded after delay is visible and if it is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport')
 			.to
 			.be
 			.true;
@@ -55,9 +54,8 @@ describe('HiVi UAP JWP ads page: top boxad', () => {
 
 	it('Check if top boxad shows up after clicking the button, if it was viewed and if it is uap ad', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 		helpers.waitForViewed(adSlots.topBoxad);
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport')
 			.to
 			.be
 			.true;
@@ -82,7 +80,7 @@ describe('HiVi UAP JWP ads page: incontent boxad', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check if incontent boxad is not immediately visible', () => {
+	it('Check if incontent boxad is existing, but not immediately visible', () => {
 		expect(browser.isExisting(`${adSlots.incontentBoxad}${adSlots.resultAttribute}`), 'Incontent boxad visible')
 			.to
 			.be
