@@ -87,8 +87,10 @@ async function loadTwitchPlayer(iframe, params) {
 }
 
 async function loadTwitchAd(iframe, params) {
+	const { player } = params;
 	await loadTwitchPlayer(iframe, params);
 	window.addEventListener('resize', throttle(recalculateTwitchSize(params), 250));
+	player.firstChild.id = 'twitchPlayerContainer';
 }
 
 async function loadVideoAd(videoSettings) {

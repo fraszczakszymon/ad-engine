@@ -1,3 +1,4 @@
+/* global browser */
 exports.config = {
 	specs: [
 		'./tests/specs/**/*.js'
@@ -11,6 +12,8 @@ exports.config = {
 			'./tests/specs/abcd-ad.test.js',
 			'./tests/specs/hivi-uap-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
+			'./tests/specs/hivi-uap-jwp-ad.test.js',
+			'./tests/specs/hivi-uap-twitch-ad.test.js',
 			'./tests/specs/floating-ad.test.js',
 			'./tests/specs/sticky-ad.test.js',
 		],
@@ -22,8 +25,9 @@ exports.config = {
 		],
 		slots: [
 			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots-ad.test.js',
+			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
+			'./tests/specs/common-slots-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
 			'./tests/specs/viewport-conflict-ad.test.js',
 			'./tests/specs/block-btf-ad.test.js',
@@ -32,24 +36,23 @@ exports.config = {
 		video: [
 			'./tests/specs/porvata.test.js',
 		],
-		currentTest: [
-
-		],
-		otherFeature: [
+		vendors: [
 
 		]
 	},
 	exclude: [
 	],
-	maxInstances: 10,
+	maxInstances: 3,
 	capabilities: [{
-		maxInstances: 5,
-		browserName: 'chrome'
+		browserName: 'chrome',
+		loggingPrefs: {
+			browser: 'ALL'
+		}
 	}],
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
-	deprecationWarnings: true,
+	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/.wdio/errorShots/',
 	baseUrl: 'http://localhost:8080',
@@ -71,4 +74,7 @@ exports.config = {
 		compilers: ['js:babel-core/register'],
 		timeout: 200000
 	},
+	before() {
+		browser.windowHandleSize({ width: 1920, height: 1080 });
+	}
 };

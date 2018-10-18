@@ -5,144 +5,78 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test abcd ads', () => {
-	beforeEach(() => {
+describe('ABCD ads page: top leaderboard', () => {
+	let adStatus;
+
+	before(() => {
 		browser.url(abcdAd.pageLink);
-		browser.waitForVisible(helpers.pageBody);
 	});
 
-	describe('It will test top leaderboard', () => {
-		beforeEach(() => {
-			browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		});
-
-		it('will test dimensions and visibility', () => {
-			const size = browser.getElementSize(adSlots.topLeaderboard);
-			const tableOfErrors = [];
-
-			try {
-				expect(size.width)
-					.to
-					.equal(adSlots.adProductsTopLeaderboardWidth, 'Width incorrect');
-				expect(size.height)
-					.to
-					.equal(adSlots.abcdLeaderboardHeight, 'Height incorrect');
-			} catch (error) {
-				tableOfErrors.push(error.message);
-			}
-			try {
-				expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not in viewport')
-					.to
-					.be
-					.true;
-			} catch (error) {
-				tableOfErrors.push(error.message);
-			}
-
-			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-				.to
-				.equal(0);
-		});
-
-		it('will test line item id', () => {
-			expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.lineItemParam))
-				.to
-				.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
-		});
-
-		it('will test if leaderboard does not obstruct the navbar', () => {
-			expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-				.to
-				.be
-				.true;
-		});
-
-		it('will test redirect on click', () => {
-			browser.click(adSlots.topLeaderboard);
-
-			const tabIds = browser.getTabIds();
-
-			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.fandomWord);
-			expect(browser.getUrl())
-				.to
-				.include(helpers.fandomWord);
-			helpers.closeNewTabs();
-		});
-
-		describe('It will test video player in leaderboard', () => {
-			beforeEach(() => {
-				helpers.waitToStartPlaying();
-			});
-
-			it('will test if video player is visible', () => {
-				expect(browser.isVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`), 'Video player not in viewport')
-					.to
-					.be
-					.true;
-			});
-
-			it('will test if clicking the button unmutes the video', () => {
-				browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
-				browser.click(abcdAd.unmuteButton);
-				expect(browser.isExisting(`${abcdAd.unmuteButton}${adSlots.buttonIsOnClass}`), 'Video not unmuted')
-					.to
-					.be
-					.false;
-			});
-		});
+	beforeEach(() => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
-	describe('It will test top boxad', () => {
-		beforeEach(() => {
-			browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		});
+	it('Check if slot is visible in viewport', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
 
-		it('will test dimensions and visibility', () => {
-			const size = browser.getElementSize(adSlots.topBoxad);
-			const tableOfErrors = [];
+	it('Check if dimensions are correct', () => {
+		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, abcdAd.abcdLeaderboardRatio);
 
-			try {
-				expect(size.width)
-					.to
-					.equal(adSlots.boxadWidth, 'Top boxad width incorrect');
-				expect(size.height)
-					.to
-					.equal(adSlots.boxadHeight, 'Top boxad height incorrect');
-			} catch (error) {
-				tableOfErrors.push(error.message);
-			}
-			try {
-				expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad not in viewport')
-					.to
-					.be
-					.true;
-			} catch (error) {
-				tableOfErrors.push(error.message);
-			}
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+	});
 
-			expect(tableOfErrors.length, helpers.errorFormatter(tableOfErrors))
-				.to
-				.equal(0);
-		});
+	it('Check if line item id is from the proper campaign', () => {
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+			.to
+			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+	});
 
-		it('will test line item id', () => {
-			expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemParam))
-				.to
-				.equal(abcdAd.topBoxadLineItemId, 'Line item ID mismatch');
-		});
+	it('Check if navbar is visible in viewport', () => {
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
+			.to
+			.be
+			.true;
+	});
 
-		it('will test redirect on click', () => {
-			browser.click(adSlots.topBoxad);
+	it('Check if redirect on click works', () => {
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
+			.to
+			.be
+			.true;
+	});
+});
 
-			const tabIds = browser.getTabIds();
+describe('ABCD ads page: video player in leaderboard', () => {
+	let adStatus;
 
-			browser.switchTab(tabIds[1]);
-			helpers.waitForUrl(helpers.fandomWord);
-			expect(browser.getUrl())
-				.to
-				.include(helpers.fandomWord);
-			helpers.closeNewTabs();
-		});
+	before(() => {
+		browser.url(abcdAd.pageLink);
+	});
+	beforeEach(() => {
+		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
+		adStatus = helpers.getSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		helpers.waitToStartPlaying();
+	});
+
+	it('Check if player is visible', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if unmuting the video works properly', () => {
+		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		browser.click(abcdAd.unmuteButton);
+		browser.waitForExist(`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`, timeouts.standard, true);
 	});
 });

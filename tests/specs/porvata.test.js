@@ -4,87 +4,86 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test porvata player', () => {
-	beforeEach(() => {
+describe('Porvata player', () => {
+	let adStatus;
+
+	before(() => {
 		browser.url(porvata.pageLink);
-		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
-		browser.scroll(porvata.porvataPlayer);
-		porvata.waitForVideoOverlay();
+		browser.scroll(porvata.player);
 	});
 
-	it('will test porvata player visibility', () => {
-		const size = browser.getElementSize(porvata.porvataPlayer);
-		const tableOfErrors = [];
+	beforeEach(() => {
+		browser.waitForVisible(porvata.player, timeouts.standard);
+		adStatus = helpers.getSlotStatus(porvata.player);
+		helpers.waitToStartPlaying();
+	});
 
-		try {
-			expect(size.width)
-				.to
-				.equal(porvata.playerWidth, 'Porvata width incorrect');
-			expect(size.height)
-				.to
-				.equal(porvata.playerHeight, 'Porvata height incorrect');
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-		try {
-			expect(browser.isVisibleWithinViewport(porvata.porvataPlayer), 'Player not visible')
-				.to
-				.be
-				.true;
-		} catch (error) {
-			tableOfErrors.push(error.message);
-		}
-
-		expect(tableOfErrors.length, `Errors found: ${tableOfErrors.toString()}`)
+	it('Check if player is visible', () => {
+		expect(adStatus.inViewport, 'Not in viewport')
 			.to
-			.equal(0);
+			.be
+			.true;
 	});
 
-	it('will test redirect on click in porvata player', () => {
-		browser.click(porvata.porvataPlayer);
+	it('Check if dimensions are correct', () => {
+		const dimensions = helpers.checkSlotSize(porvata.player, porvata.playerWidth, porvata.playerHeight);
+
+		expect(dimensions.status, dimensions.capturedErrors)
+			.to
+			.be
+			.true;
+	});
+
+	it('Check if redirect on click on default player works', () => {
+		browser.click(porvata.player);
 
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
-		helpers.waitForUrl(helpers.fandomWord);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
-			.include(helpers.fandomWord);
+			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
 		helpers.closeNewTabs();
 	});
 
-	it('will test if clicking unmute button unmutes the video', () => {
+	it('Check if unmuting the video works', () => {
 		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
 		browser.click(porvata.unmuteButton);
-		expect(browser.isExisting(`${porvata.unmuteButton}${porvata.iconHidden}`))
-			.to
-			.be
-			.true;
+		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
 	});
 
-	it('will test opening full screen', () => {
+	it('Check if opening full screen and redirect on fullscreen player works', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
-		expect(browser.isExisting(porvata.stopScrolling))
+		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
+		browser.click(porvata.player);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[1]);
+		helpers.waitForUrl(helpers.clickThroughUrlDomain);
+		expect(browser.getUrl())
 			.to
-			.be
-			.true;
+			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		helpers.closeNewTabs();
 	});
 
-	it('will test closing the player', () => {
+	it('Check if replaying the video works', () => {
+		porvata.waitForVideoToFinish();
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
+		browser.click(porvata.player);
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
+	});
+
+	it('Check if closing the player works', () => {
 		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
 		browser.click(porvata.closePlayerButton);
-		expect(browser.isExisting(porvata.videoPlayerHidden))
-			.to
-			.be
-			.true;
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 
-	it('will test if autoplay is disabled upon entering the page', () => {
+	it('Check if autoplay is disabled upon entering the page', () => {
 		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
-		expect(browser.isExisting(porvata.videoPlayerHidden))
-			.to
-			.be
-			.true;
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });
