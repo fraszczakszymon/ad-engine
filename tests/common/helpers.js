@@ -35,13 +35,15 @@ class Helpers {
 	 * @param scrollFromElement - element we want to scroll from
 	 */
 	slowScroll(px, scrollFromElement = null) {
+		const step = px / valueToDivideBy;
+
 		if (scrollFromElement !== null) {
-			for (let i = (px / valueToDivideBy); i < px; i += i) {
+			for (let i = step; i < px; i += step) {
 				browser.scroll(scrollFromElement, 0, i);
 				browser.pause(pauseBetweenScrolls);
 			}
 		} else {
-			for (let i = (px / valueToDivideBy); i < px; i += i) {
+			for (let i = step; i < px; i += step) {
 				browser.scroll(0, i);
 				browser.pause(pauseBetweenScrolls);
 			}
