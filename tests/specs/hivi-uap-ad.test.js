@@ -43,7 +43,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 		browser.scroll(0, 0);
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -206,7 +206,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
