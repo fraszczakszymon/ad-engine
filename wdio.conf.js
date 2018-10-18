@@ -35,16 +35,13 @@ exports.config = {
 		video: [
 			'./tests/specs/porvata.test.js',
 		],
-		currentTest: [
-			// spot for a test that is currently being worked on
-		],
-		otherFeature: [
+		vendors: [
 
 		]
 	},
 	exclude: [
 	],
-	maxInstances: 5,
+	maxInstances: 3,
 	capabilities: [{
 		browserName: 'chrome',
 		loggingPrefs: {
