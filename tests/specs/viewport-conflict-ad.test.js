@@ -31,7 +31,7 @@ describe('Viewport conflict ads page: bottom leaderboard', () => {
 		browser.url(viewportConflictAd.pageLink);
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.waitForVisible(viewportConflictAd.addParagraphButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);

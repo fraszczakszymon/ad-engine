@@ -17,7 +17,7 @@ describe('Delay ads page: top leaderboard', () => {
 		browser.waitForExist(`${adSlots.topLeaderboard}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check if slot is visible after delay', () => {
+	it('Check if slot is visible in viewport after delay', () => {
 		delayAd.waitToLoadAds();
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 		expect(adStatus.inViewport, 'Not in viewport')
@@ -67,7 +67,7 @@ describe('Delay ads page: top boxad', () => {
 		browser.waitForExist(`${adSlots.topBoxad}[${adSlots.resultAttribute}]`, timeouts.standard, true);
 	});
 
-	it('Check if slot is visible and in viewport after delay', () => {
+	it('Check if slot is visible in viewport after delay', () => {
 		delayAd.waitToLoadAds();
 		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
 		expect(adStatus.inViewport, 'Not in viewport')

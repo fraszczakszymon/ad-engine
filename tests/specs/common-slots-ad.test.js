@@ -23,7 +23,7 @@ describe('Common slots: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -63,7 +63,7 @@ describe('Common slots: top boxad', () => {
 			.true;
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -131,7 +131,7 @@ describe('Common slots: incontent boxad', () => {
 			.true;
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -172,7 +172,7 @@ describe('Common slots: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be

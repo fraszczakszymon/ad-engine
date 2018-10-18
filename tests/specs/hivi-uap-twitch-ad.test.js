@@ -14,7 +14,7 @@ describe('Twitch ads page: top leaderboard', () => {
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
-	it('Check if slot is visible', () => {
+	it('Check if slot is visible in viewport', () => {
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
