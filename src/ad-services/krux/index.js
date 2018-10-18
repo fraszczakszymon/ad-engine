@@ -52,7 +52,7 @@ class Krux {
 	 * @returns {Promise}
 	 */
 	call() {
-		if (!context.get('services.krux.enabled')) {
+		if (!context.get('services.krux.enabled') || !context.get('options.trackingOptIn')) {
 			utils.logger(logGroup, 'disabled');
 			return Promise.resolve();
 		}
