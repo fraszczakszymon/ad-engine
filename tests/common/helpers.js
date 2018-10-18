@@ -20,11 +20,17 @@ class Helpers {
 	 * @param {string} newUrl - URL we are waiting for
 	 */
 	waitForUrl(newUrl) {
-		browser.waitUntil(() => RegExp(newUrl).test(browser.getUrl()), timeouts.newUrlTimeout, 'expected new page after 10 seconds', timeouts.interval);
+		browser.waitUntil(
+			() => RegExp(newUrl).test(browser.getUrl()),
+			timeouts.newUrlTimeout,
+			'expected new page after 10 seconds',
+			timeouts.interval,
+		);
 	}
 
 	/**
-	 * Scrolls by given number of pixels starting from the given element. If no element is given, it scrolls from the top.
+	 * Scrolls by given number of pixels starting from the given element.
+	 * If no element is given, it scrolls from the top.
 	 * @param {number} px - number of pixels by which we want to scroll
 	 * @param scrollFromElement - element we want to scroll from
 	 */
@@ -109,7 +115,12 @@ class Helpers {
 	 * @param adSlot ad slot that should receive the parameter
 	 */
 	waitForLineItemIdAttribute(adSlot) {
-		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null, timeouts.standard, 'No line item id attribute', timeouts.interval);
+		browser.waitUntil(
+			() => browser.element(adSlot)
+				.getAttribute(adSlots.lineItemIdAttribute) !== null,
+			timeouts.standard,
+			'No line item id attribute',
+			timeouts.interval);
 	}
 
 	/**
@@ -126,7 +137,11 @@ class Helpers {
 	 * @param adSlot ad slot we are waiting for
 	 */
 	waitForExpanded(adSlot) {
-		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') > 0, timeouts.standard, 'Element not expanded', timeouts.interval);
+		browser.waitUntil(
+			() => browser.getElementSize(adSlot, 'height') > 0,
+			timeouts.standard,
+			'Element not expanded',
+			timeouts.interval);
 	}
 
 	/**
@@ -134,7 +149,12 @@ class Helpers {
 	 * @param adSlot ad slot waiting for bool value
 	 */
 	waitForViewed(adSlot) {
-		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.viewedAttribute) === adSlots.adViewed, timeouts.standard, 'Slot has not been viewed', timeouts.interval);
+		browser.waitUntil(
+			() => browser.element(adSlot)
+				.getAttribute(adSlots.viewedAttribute) === adSlots.adViewed,
+			timeouts.standard,
+			'Slot has not been viewed',
+			timeouts.interval);
 	}
 
 	/**
@@ -143,7 +163,12 @@ class Helpers {
 	 * @param result parameter that result should equal to
 	 */
 	waitForResult(adSlot, result) {
-		browser.waitUntil(() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === result, timeouts.standard, `Result mismatch: expected ${result}`, timeouts.interval);
+		browser.waitUntil(
+			() => browser.element(adSlot)
+				.getAttribute(adSlots.resultAttribute) === result,
+			timeouts.standard,
+			`Result mismatch: expected ${result}`,
+			timeouts.interval);
 	}
 
 	/**
@@ -151,7 +176,8 @@ class Helpers {
 	 * @param adSlot slot dimensions are taken from
 	 * @param width slot\'s width
 	 * @param height slot\'s height
-	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
+	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors,
+	 * false if errors were found; capturedErrors: error message.
 	 */
 	checkSlotSize(adSlot, width, height) {
 		let result = true;
@@ -177,7 +203,8 @@ class Helpers {
 	 * @param adSlot slot dimensions are taken from
 	 * @param expectedWidth correct slot\'s width
 	 * @param heightRatio slot's ratio to measure height
-	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors, false if errors were found; capturedErrors: error message.
+	 * @returns {{status: boolean, capturedErrors: string}} status: true if there were no errors,
+	 * false if errors were found; capturedErrors: error message.
 	 */
 	checkSlotRatio(adSlot, expectedWidth, heightRatio) {
 		let result = true;
@@ -204,7 +231,8 @@ class Helpers {
 	 * Checks UAP slot size based on the given ratio.
 	 * @param adSlot slot to measure
 	 * @param heightRatio ratio value for height of the slot
-	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
+	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found,
+	 * else returns true. captured errors: returns string with errors
 	 */
 	checkUAPSizeSlotRatio(adSlot, heightRatio) {
 		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
@@ -215,7 +243,8 @@ class Helpers {
 	 * @param adSlot slot to measure
 	 * @param sizeDeterminant derivative value for the slot
 	 * @param heightRatio ratio value for height of the slot
-	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found, else returns true. captured errors: returns string with errors
+	 * @returns {{status: boolean, capturedErrors: string}} returns false if no errors were found,
+	 * else returns true. captured errors: returns string with errors
 	 */
 	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio) {
 		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio);

@@ -14,8 +14,16 @@ class HiviUapJwp {
 	 * Waits for the delay to pass so the ads load up.
 	 */
 	waitToLoadAds() {
-		browser.waitUntil(() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (9s)', timeouts.standard, 'Button not loaded', timeouts.interval);
-		browser.waitUntil(() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP', loadAdTime, 'Ads not loaded', timeouts.interval);
+		browser.waitUntil(
+			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (9s)',
+			timeouts.standard,
+			'Button not loaded',
+			timeouts.interval);
+		browser.waitUntil(
+			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
+			loadAdTime,
+			'Ads not loaded',
+			timeouts.interval);
 	}
 }
 

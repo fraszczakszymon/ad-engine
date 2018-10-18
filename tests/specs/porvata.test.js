@@ -9,12 +9,12 @@ describe('Porvata player', () => {
 
 	before(() => {
 		browser.url(porvata.pageLink);
-		browser.scroll(porvata.porvataPlayer);
+		browser.scroll(porvata.player);
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(porvata.porvataPlayer, timeouts.standard);
-		adStatus = helpers.getSlotStatus(porvata.porvataPlayer);
+		browser.waitForVisible(porvata.player, timeouts.standard);
+		adStatus = helpers.getSlotStatus(porvata.player);
 		helpers.waitToStartPlaying();
 	});
 
@@ -26,7 +26,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(porvata.porvataPlayer, porvata.playerWidth, porvata.playerHeight);
+		const dimensions = helpers.checkSlotSize(porvata.player, porvata.playerWidth, porvata.playerHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -35,7 +35,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if redirect on click on default player works', () => {
-		browser.click(porvata.porvataPlayer);
+		browser.click(porvata.player);
 
 		const tabIds = browser.getTabIds();
 
@@ -57,7 +57,7 @@ describe('Porvata player', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
-		browser.click(porvata.porvataPlayer);
+		browser.click(porvata.player);
 
 		const tabIds = browser.getTabIds();
 
@@ -72,7 +72,7 @@ describe('Porvata player', () => {
 	it('Check if replaying the video works', () => {
 		porvata.waitForVideoToFinish();
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
-		browser.click(porvata.porvataPlayer);
+		browser.click(porvata.player);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
 	});
 

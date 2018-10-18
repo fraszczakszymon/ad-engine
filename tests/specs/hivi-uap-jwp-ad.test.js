@@ -12,7 +12,8 @@ describe('HiVi UAP JWP ads page: top leaderboard', () => {
 	});
 
 	it('Check if top leaderboard is existing, but not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`), 'Top leaderboard visible')
+		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`),
+			'Top leaderboard visible')
 			.to
 			.be
 			.false;
@@ -81,7 +82,8 @@ describe('HiVi UAP JWP ads page: incontent boxad', () => {
 	});
 
 	it('Check if incontent boxad is existing, but not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.incontentBoxad}${adSlots.resultAttribute}`), 'Incontent boxad visible')
+		expect(browser.isExisting(`${adSlots.incontentBoxad}${adSlots.resultAttribute}`),
+			'Incontent boxad visible')
 			.to
 			.be
 			.false;

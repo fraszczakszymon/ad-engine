@@ -14,7 +14,7 @@ class Porvata {
 	constructor() {
 		this.pageLink = 'video/porvata/';
 		this.autoplayLink = 'autoplay';
-		this.porvataPlayer = '#player';
+		this.player = '#player';
 		this.playerWidth = 300;
 		this.playerHeight = 250;
 		this.unmuteButton = '#player-unmute';
