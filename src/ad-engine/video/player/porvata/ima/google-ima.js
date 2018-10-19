@@ -20,7 +20,8 @@ function getPlayer(videoSettings) {
 	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
-	if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+	if (window.performance && window.performance.navigation
+		&& window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
 		iframe.contentWindow.location.href = iframe.src;
 	}
 
