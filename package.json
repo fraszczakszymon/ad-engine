@@ -37,7 +37,7 @@
     "eslint-plugin-import": "2.11.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.7.0",
-    "jsdom": "^11.3.0",
+    "jsdom": "11.11.0",
     "jsdom-global": "^3.0.2",
     "json-loader": "0.5.7",
     "mini-css-extract-plugin": "0.4.0",
