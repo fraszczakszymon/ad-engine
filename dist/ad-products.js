@@ -2294,17 +2294,20 @@ var loadTwitchPlayer = function () {
 
 var loadTwitchAd = function () {
 	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
+		var player;
 		return regenerator_default.a.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
 					case 0:
-						_context3.next = 2;
+						player = params.player;
+						_context3.next = 3;
 						return loadTwitchPlayer(iframe, params);
 
-					case 2:
-						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(params), 250));
-
 					case 3:
+						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(params), 250));
+						player.firstChild.id = 'twitchPlayerContainer';
+
+					case 5:
 					case 'end':
 						return _context3.stop();
 				}

@@ -146,49 +146,49 @@ module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 20 */
@@ -563,7 +563,7 @@ var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(13);
+var typeof_ = __webpack_require__(12);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -637,7 +637,7 @@ var slicedToArray_ = __webpack_require__(5);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(15);
+var external_js_cookie_ = __webpack_require__(14);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/random.js
@@ -1299,7 +1299,7 @@ var script_loader_ScriptLoader = function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(12);
+var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
@@ -1307,7 +1307,7 @@ var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(19);
+var get_own_property_names_ = __webpack_require__(18);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -1323,15 +1323,15 @@ var possibleConstructorReturn_ = __webpack_require__(11);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(14);
+var helpers_get_ = __webpack_require__(13);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(17);
+var inherits_ = __webpack_require__(16);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(16);
+var external_eventemitter3_ = __webpack_require__(15);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -2021,7 +2021,7 @@ function google_ima_getPlayer(videoSettings) {
 	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
-	if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+	if (window.performance && window.performance.navigation && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
 		iframe.contentWindow.location.href = iframe.src;
 	}
 
@@ -2525,7 +2525,7 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(18);
+var regenerator_ = __webpack_require__(17);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
@@ -4495,7 +4495,6 @@ var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater()
 
 
 
-
 var slot_injector_logGroup = 'slot-repeater';
 
 function findNextSuitablePlace() {
@@ -4531,18 +4530,16 @@ var slot_injector_SlotInjector = function () {
 	createClass_default()(SlotInjector, [{
 		key: 'inject',
 		value: function inject(slotName) {
-			var injectBelowConflictingElements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+			var insertBelowScrollPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 			var config = context.get('slots.' + slotName);
 			var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
 			var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
 
-			if (injectBelowConflictingElements) {
-				var highestOffset = Math.max.apply(Math, toConsumableArray_default()(conflictingElements.map(function (el) {
-					return el.offsetTop;
-				})));
+			if (insertBelowScrollPosition) {
+				var scrollPos = window.scrollY;
 				anchorElements = anchorElements.filter(function (el) {
-					return el.offsetTop > highestOffset;
+					return el.offsetTop > scrollPos;
 				});
 			}
 
@@ -4606,8 +4603,8 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	var injectBelowConflictingElements = !!adSlot.config.repeat.injectBelowConflictingElements;
-	var container = slotInjector.inject(slotName, injectBelowConflictingElements);
+	var insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
+	var container = slotInjector.inject(slotName, insertBelowScrollPosition);
 	var additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {
@@ -5083,8 +5080,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.0.7');
-logger('ad-engine', 'v19.0.7');
+set_default()(window, versionField, 'v19.0.8');
+logger('ad-engine', 'v19.0.8');
 
 
 
