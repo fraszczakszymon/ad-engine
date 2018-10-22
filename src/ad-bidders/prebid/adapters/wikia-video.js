@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { AdSlot, buildVastUrl, context, slotService, utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class WikiaVideo extends BaseAdapter {
@@ -41,6 +41,13 @@ export class WikiaVideo extends BaseAdapter {
 		return parseInt(price, 10) / 100;
 	}
 
+	getVastUrl(width, height, slotName) {
+		return buildVastUrl(width / height, slotName, {
+			pos: slotName,
+			passback: this.bidderName
+		});
+	}
+
 	callBids(bidRequest, addBidResponse, done) {
 		window.pbjs.que.push(() => {
 			this.addBids(bidRequest, addBidResponse, done);
@@ -50,7 +57,13 @@ export class WikiaVideo extends BaseAdapter {
 	addBids(bidRequest, addBidResponse, done) {
 		bidRequest.bids.forEach((bid) => {
 			const bidResponse = window.pbjs.createBid(1),
-				[width, height] = bid.sizes[0];
+				[width, height] = bid.sizes[0],
+				slotName = bid.adUnitCode,
+				slot = slotService.get(slotName) || new AdSlot({ id: slotName });
+
+			if (!slotService.get(slotName)) {
+				slotService.add(slot);
+			}
 
 			bidResponse.bidderCode = bidRequest.bidderCode;
 			bidResponse.cpm = this.getPrice();
@@ -59,6 +72,8 @@ export class WikiaVideo extends BaseAdapter {
 			bidResponse.mediaType = 'video';
 			bidResponse.width = width;
 			bidResponse.height = height;
+			bidResponse.vastUrl = this.getVastUrl(width, height, slotName);
+			bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 			addBidResponse(bid.adUnitCode, bidResponse);
 		});
