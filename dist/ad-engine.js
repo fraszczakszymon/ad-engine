@@ -3260,6 +3260,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			return !!this.config.repeat;
 		}
 	}, {
+		key: 'isOutOfPage',
+		value: function isOutOfPage() {
+			return !!this.config.outOfPage;
+		}
+	}, {
 		key: 'getCopy',
 		value: function getCopy() {
 			return JSON.parse(stringify_default()(this.config));
@@ -4189,7 +4194,15 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 			var targeting = this.parseTargetingParams(adSlot.getTargeting());
 			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
 
-			var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMap.build());
+			var gptSlot = null;
+
+			if (adSlot.isOutOfPage()) {
+				gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+			} else {
+				gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
+			}
+
+			gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
@@ -4405,6 +4418,19 @@ var slot_tweaker_SlotTweaker = function () {
 			});
 		}
 	}, {
+		key: 'adjustIframeByContentSize',
+		value: function adjustIframeByContentSize(adSlot) {
+			this.onReady(adSlot).then(function (iframe) {
+				var height = iframe.contentWindow.document.body.scrollHeight;
+				var width = iframe.contentWindow.document.body.scrollWidth;
+
+				iframe.width = width;
+				iframe.height = height;
+
+				logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+			});
+		}
+	}, {
 		key: 'registerMessageListener',
 		value: function registerMessageListener() {
 			var _this = this;
@@ -4469,9 +4495,11 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	createClass_default()(SlotDataParamsUpdater, [{
 		key: 'updateOnCreate',
 		value: function updateOnCreate(adSlot, targeting) {
+			var sizes = adSlot.isOutOfPage() ? 'out-of-page' : new gpt_size_map_GptSizeMap(adSlot.getSizes()).toString();
+
 			slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
 			slotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);
-			slotTweaker.setDataParam(adSlot, 'sizes', new gpt_size_map_GptSizeMap(adSlot.getSizes()).toString());
+			slotTweaker.setDataParam(adSlot, 'sizes', sizes);
 		}
 	}, {
 		key: 'updateOnRenderEnd',
@@ -4479,7 +4507,7 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 			if (event) {
 				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
 				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.isOutOfPage() ? 'out-of-page' : event.size);
 			}
 		}
 	}]);
