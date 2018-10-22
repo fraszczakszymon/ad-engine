@@ -11,6 +11,25 @@ let i = 0;
 
 describe('Floating rail ads page: floating rail', () => {
 	beforeEach(() => {
+		browser.url(floatingRailAd.pageLink);
+		browser.waitForVisible(adSlots.railModule, timeouts.standard);
+	});
+
+
+	it('Check if rail scrolls with the content', () => {
+		helpers.slowScroll(500);
+		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
+			.to
+			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
+		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
+			.to
+			.be
+			.true;
+	});
+});
+
+describe('Floating rail ads page: floating rail', () => {
+	beforeEach(() => {
 		global.clientSelenium.on('Network.responseReceived', (params) => {
 			const { url, status } = params.response;
 			if (url.includes('gampad/ads?gdfp')) {
@@ -19,15 +38,13 @@ describe('Floating rail ads page: floating rail', () => {
 				i += 1;
 			}
 		});
-
-		afterEach(() => {
-			i = 0;
-			gatheredUrls.length = 0;
-		});
-
-
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
+	});
+
+	afterEach(() => {
+		i = 0;
+		gatheredUrls.length = 0;
 	});
 
 	it('Check if rail scrolls with the content', () => {
@@ -35,7 +52,6 @@ describe('Floating rail ads page: floating rail', () => {
 		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
 			.to
 			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
-		// console.log(gatheredUrls);
 		expect(gatheredUrls[1]).to.include('cookie');
 		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
 			.to
@@ -48,7 +64,6 @@ describe('Floating rail ads page: floating rail', () => {
 		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
 			.to
 			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
-		// console.log(gatheredUrls);
 		expect(gatheredUrls[1]).to.include('cookie');
 		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
 			.to
