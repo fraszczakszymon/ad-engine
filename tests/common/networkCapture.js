@@ -54,14 +54,14 @@ class EavesDropService {
 		if (this.shouldAttemptRemoteDebugConnection()) {
 			await this.initChromeDevtoolsProtocolAndEnableNetworkDebugging();
 			if (this.client) {
-				global.client = this.client;
+				global.clientSelenium = this.client;
 			}
 		}
 	}
 
-	// async after() {
-	// 	!!this.client && (await this.client.close());
-	// }
+	async after() {
+		!!this.client && (await this.client.close()) && (await this.client.end());
+	}
 }
 
 module.exports = new EavesDropService();
