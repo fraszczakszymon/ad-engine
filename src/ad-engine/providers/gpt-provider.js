@@ -76,10 +76,18 @@ export class GptProvider {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
 
-		const gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
+		let gptSlot = null;
+
+		if (adSlot.isOutOfPage()) {
+			gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+		} else {
+			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
+				.defineSizeMapping(sizeMap.build());
+		}
+
+		gptSlot
 			.addService(window.googletag.pubads())
-			.setCollapseEmptyDiv(true)
-			.defineSizeMapping(sizeMap.build());
+			.setCollapseEmptyDiv(true);
 
 		this.applyTargetingParams(gptSlot, targeting);
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
