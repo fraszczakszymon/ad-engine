@@ -16,7 +16,7 @@ exports.config = {
 			'./tests/specs/hivi-uap-jwp-ad.test.js',
 			'./tests/specs/hivi-uap-static-ad.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.test.js',
-			// './tests/specs/interstitial.test.js',
+			'./tests/specs/interstitial.test.js',
 			'./tests/specs/sticky-ad.test.js',
 		],
 		services: [
@@ -26,14 +26,14 @@ exports.config = {
 			'./tests/specs/basset.test.js',
 		],
 		slots: [
-			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots.test.js',
 			'./tests/specs/animations-ad.test.js',
+			'./tests/specs/block-btf-ad.test.js',
+			'./tests/specs/btf-only-ad.test.js',
 			'./tests/specs/common-slots-ad.test.js',
 			'./tests/specs/delay-ad.test.js',
-			'./tests/specs/viewport-conflict-ad.test.js',
-			'./tests/specs/block-btf-ad.test.js',
 			'./tests/specs/empty-response.test.js',
+			'./tests/specs/repeatable-slots.test.js',
+			'./tests/specs/viewport-conflict-ad.test.js',
 		],
 		video: [
 			'./tests/specs/porvata.test.js',
