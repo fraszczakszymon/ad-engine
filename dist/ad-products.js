@@ -4343,6 +4343,10 @@ var interstitial_Interstitial = function () {
 			ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
 
 			ad_engine_["utils"].logger(Interstitial.getName(), 'init');
+
+			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
+				document.documentElement.classList.remove('stop-scrolling');
+			});
 		}
 	}]);
 
