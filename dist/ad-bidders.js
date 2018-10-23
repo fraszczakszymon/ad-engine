@@ -1466,26 +1466,28 @@ var wikia_Wikia = function (_BaseAdapter) {
 		value: function addBids(bidRequest, addBidResponse, done) {
 			var _this3 = this;
 
-			bidRequest.bids.forEach(function (bid) {
-				var bidResponse = window.pbjs.createBid(1);
+			setTimeout(function () {
+				bidRequest.bids.forEach(function (bid) {
+					var bidResponse = window.pbjs.createBid(1);
 
-				var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
-				    width = _bid$sizes$[0],
-				    height = _bid$sizes$[1];
+					var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+					    width = _bid$sizes$[0],
+					    height = _bid$sizes$[1];
 
-				var cpm = _this3.getPrice();
+					var cpm = _this3.getPrice();
 
-				bidResponse.ad = _this3.getCreative(bid.sizes[0], cpm);
-				bidResponse.bidderCode = bidRequest.bidderCode;
-				bidResponse.cpm = cpm;
-				bidResponse.ttl = 300;
-				bidResponse.mediaType = 'banner';
-				bidResponse.width = width;
-				bidResponse.height = height;
+					bidResponse.ad = _this3.getCreative(bid.sizes[0], cpm);
+					bidResponse.bidderCode = bidRequest.bidderCode;
+					bidResponse.cpm = cpm;
+					bidResponse.ttl = 300;
+					bidResponse.mediaType = 'banner';
+					bidResponse.width = width;
+					bidResponse.height = height;
 
-				addBidResponse(bid.adUnitCode, bidResponse);
-			});
-			setTimeout(done, this.timeout);
+					addBidResponse(bid.adUnitCode, bidResponse);
+				});
+				done();
+			}, this.timeout);
 		}
 	}, {
 		key: 'getCreative',
@@ -1597,24 +1599,26 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		value: function addBids(bidRequest, addBidResponse, done) {
 			var _this3 = this;
 
-			bidRequest.bids.forEach(function (bid) {
-				var bidResponse = window.pbjs.createBid(1),
-				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
-				    width = _bid$sizes$[0],
-				    height = _bid$sizes$[1];
+			setTimeout(function () {
+				bidRequest.bids.forEach(function (bid) {
+					var bidResponse = window.pbjs.createBid(1),
+					    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+					    width = _bid$sizes$[0],
+					    height = _bid$sizes$[1];
 
 
-				bidResponse.bidderCode = bidRequest.bidderCode;
-				bidResponse.cpm = _this3.getPrice();
-				bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
-				bidResponse.ttl = 300;
-				bidResponse.mediaType = 'video';
-				bidResponse.width = width;
-				bidResponse.height = height;
+					bidResponse.bidderCode = bidRequest.bidderCode;
+					bidResponse.cpm = _this3.getPrice();
+					bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
+					bidResponse.ttl = 300;
+					bidResponse.mediaType = 'video';
+					bidResponse.width = width;
+					bidResponse.height = height;
 
-				addBidResponse(bid.adUnitCode, bidResponse);
-			});
-			setTimeout(done, this.timeout);
+					addBidResponse(bid.adUnitCode, bidResponse);
+				});
+				done();
+			}, this.timeout);
 		}
 	}]);
 
