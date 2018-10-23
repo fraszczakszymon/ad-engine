@@ -54,20 +54,22 @@ export class WikiaVideo extends BaseAdapter {
 	}
 
 	addBids(bidRequest, addBidResponse, done) {
-		bidRequest.bids.forEach((bid) => {
-			const bidResponse = window.pbjs.createBid(1),
-				[width, height] = bid.sizes[0];
+		setTimeout(() => {
+			bidRequest.bids.forEach((bid) => {
+				const bidResponse = window.pbjs.createBid(1),
+					[width, height] = bid.sizes[0];
 
-			bidResponse.bidderCode = bidRequest.bidderCode;
-			bidResponse.cpm = this.getPrice();
-			bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
-			bidResponse.ttl = 300;
-			bidResponse.mediaType = 'video';
-			bidResponse.width = width;
-			bidResponse.height = height;
+				bidResponse.bidderCode = bidRequest.bidderCode;
+				bidResponse.cpm = this.getPrice();
+				bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
+				bidResponse.ttl = 300;
+				bidResponse.mediaType = 'video';
+				bidResponse.width = width;
+				bidResponse.height = height;
 
-			addBidResponse(bid.adUnitCode, bidResponse);
-		});
-		setTimeout(done, this.timeout);
+				addBidResponse(bid.adUnitCode, bidResponse);
+			});
+			done();
+		}, this.timeout);
 	}
 }

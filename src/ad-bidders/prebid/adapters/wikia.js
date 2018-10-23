@@ -53,22 +53,24 @@ export class Wikia extends BaseAdapter {
 	}
 
 	addBids(bidRequest, addBidResponse, done) {
-		bidRequest.bids.forEach((bid) => {
-			const bidResponse = window.pbjs.createBid(1);
-			const [width, height] = bid.sizes[0];
-			const cpm = this.getPrice();
+		setTimeout(() => {
+			bidRequest.bids.forEach((bid) => {
+				const bidResponse = window.pbjs.createBid(1);
+				const [width, height] = bid.sizes[0];
+				const cpm = this.getPrice();
 
-			bidResponse.ad = this.getCreative(bid.sizes[0], cpm);
-			bidResponse.bidderCode = bidRequest.bidderCode;
-			bidResponse.cpm = cpm;
-			bidResponse.ttl = 300;
-			bidResponse.mediaType = 'banner';
-			bidResponse.width = width;
-			bidResponse.height = height;
+				bidResponse.ad = this.getCreative(bid.sizes[0], cpm);
+				bidResponse.bidderCode = bidRequest.bidderCode;
+				bidResponse.cpm = cpm;
+				bidResponse.ttl = 300;
+				bidResponse.mediaType = 'banner';
+				bidResponse.width = width;
+				bidResponse.height = height;
 
-			addBidResponse(bid.adUnitCode, bidResponse);
-		});
-		setTimeout(done, this.timeout);
+				addBidResponse(bid.adUnitCode, bidResponse);
+			});
+			done();
+		}, this.timeout);
 	}
 
 	getCreative(size, cpm) {
