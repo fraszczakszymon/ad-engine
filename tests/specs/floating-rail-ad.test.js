@@ -5,11 +5,8 @@ import adSlots from '../common/adSlots';
 
 const { expect } = require('chai');
 
-let fetchedUrl;
-const gatheredUrls = [];
-let i = 0;
 
-describe('Floating rail ads page: floating rail', () => {
+xdescribe('Floating rail ads page: floating rail', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
@@ -28,46 +25,47 @@ describe('Floating rail ads page: floating rail', () => {
 	});
 });
 
-describe('Floating rail ads page: floating rail', () => {
-	beforeEach(() => {
+describe('Floating rail ads page: top boxad requests', () => {
+	let fetchedUrl;
+	const gatheredUrls = [];
+	let i = 0;
+
+	before(() => {
+		const pattern = RegExp('.*gampad\\/ads\\?.*top_boxad');
 		global.clientSelenium.on('Network.responseReceived', (params) => {
 			const { url, status } = params.response;
-			if (url.includes('gampad/ads?gdfp')) {
-				fetchedUrl = url.replace(/.*ads\\?/, '');
+			if (pattern.test(url)) {
+				fetchedUrl = url.replace(/.*gampad\/ads\?/, '');
 				gatheredUrls[i] = fetchedUrl;
 				i += 1;
 			}
 		});
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
+		browser.pause(timeouts.viewabillity);
 	});
 
-	afterEach(() => {
-		i = 0;
-		gatheredUrls.length = 0;
+	it('Check position of the slot', () => {
+		expect(gatheredUrls[0])
+			.to
+			.include('pos%3Dtop_boxad');
 	});
 
-	it('Check if rail scrolls with the content', () => {
-		helpers.slowScroll(500);
-		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
+	it('Check if ad is not from UAP', () => {
+		expect(gatheredUrls[0])
 			.to
-			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
-		expect(gatheredUrls[1]).to.include('cookie');
-		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
-			.to
-			.be
-			.true;
+			.include('uap%3Dnone');
 	});
 
-	it('Check if rail scrolls with the content', () => {
-		helpers.slowScroll(500);
-		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
+	it('Check slot size in response', () => {
+		expect(gatheredUrls[0])
 			.to
-			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
-		expect(gatheredUrls[1]).to.include('cookie');
-		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))
+			.include('prev_iu_szs=300x250');
+	});
+
+	it('Check positioning of the slot', () => {
+		expect(gatheredUrls[0])
 			.to
-			.be
-			.true;
+			.include('prev_scp=loc%3Dtop');
 	});
 });
