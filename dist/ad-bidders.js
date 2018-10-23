@@ -1407,6 +1407,8 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 		_this.bidderName = 'wikia';
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_adapter');
+		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
 
 		_this.create = function () {
 			return _this;
@@ -1442,7 +1444,11 @@ var wikia_Wikia = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["context"].get('bidders.prebid.wikia.price') || ad_engine_["utils"].queryString.get('wikia_adapter');
+			var price = ad_engine_["utils"].queryString.get('wikia_adapter');
+
+			if (this.useRandomPrice) {
+				return Math.floor(Math.random() * 2000) / 100;
+			}
 
 			return parseInt(price, 10) / 100;
 		}
@@ -1461,15 +1467,17 @@ var wikia_Wikia = function (_BaseAdapter) {
 			var _this3 = this;
 
 			bidRequest.bids.forEach(function (bid) {
-				var bidResponse = window.pbjs.createBid(1),
-				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+				var bidResponse = window.pbjs.createBid(1);
+
+				var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
 				    width = _bid$sizes$[0],
 				    height = _bid$sizes$[1];
 
+				var cpm = _this3.getPrice();
 
-				bidResponse.ad = _this3.getCreative(bid.sizes[0]);
+				bidResponse.ad = _this3.getCreative(bid.sizes[0], cpm);
 				bidResponse.bidderCode = bidRequest.bidderCode;
-				bidResponse.cpm = _this3.getPrice();
+				bidResponse.cpm = cpm;
 				bidResponse.ttl = 300;
 				bidResponse.mediaType = 'banner';
 				bidResponse.width = width;
@@ -1477,11 +1485,11 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 				addBidResponse(bid.adUnitCode, bidResponse);
 			});
-			done();
+			setTimeout(done, this.timeout);
 		}
 	}, {
 		key: 'getCreative',
-		value: function getCreative(size) {
+		value: function getCreative(size, cpm) {
 			var creative = document.createElement('div');
 
 			creative.style.background = '#00b7e0';
@@ -1500,7 +1508,7 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 			var details = document.createElement('small');
 
-			details.innerText = 'cpm: ' + this.getPrice() + ', size: ' + size.join('x');
+			details.innerText = 'cpm: ' + cpm + ', size: ' + size.join('x');
 
 			creative.appendChild(title);
 			creative.appendChild(details);
@@ -1531,6 +1539,8 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 		_this.bidderName = 'wikiaVideo';
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_video_adapter');
+		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
 
 		_this.create = function () {
 			return _this;
@@ -1565,7 +1575,11 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["context"].get('bidders.prebid.wikiaVideo.price') || ad_engine_["utils"].queryString.get('wikia_video_adapter');
+			var price = ad_engine_["utils"].queryString.get('wikia_video_adapter');
+
+			if (this.useRandomPrice) {
+				return Math.floor(Math.random() * 20);
+			}
 
 			return parseInt(price, 10) / 100;
 		}
@@ -1600,7 +1614,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 				addBidResponse(bid.adUnitCode, bidResponse);
 			});
-			done();
+			setTimeout(done, this.timeout);
 		}
 	}]);
 
