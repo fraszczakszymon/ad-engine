@@ -1897,6 +1897,8 @@ var prebid_loaded = false;
 window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
+ad_engine_["events"].registerEvent('BIDS_REFRESH');
+
 var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec2 = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec3 = Object(external_core_decorators_["decorate"])(prebidLazyRun), (_class = function (_BaseBidder) {
 	inherits_default()(Prebid, _BaseBidder);
 
@@ -2090,6 +2092,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 			window.pbjs.que.push(function () {
 				window.pbjs.onEvent('bidWon', function (winningBid) {
 					if (_this4.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
+						ad_engine_["events"].emit(ad_engine_["events"].BIDS_REFRESH);
 						var adUnitsToRefresh = _this4.adUnits.filter(function (adUnit) {
 							return adUnit.code === winningBid.adUnitCode && adUnit.bids && adUnit.bids[0] && adUnit.bids[0].bidder === winningBid.bidderCode;
 						});
