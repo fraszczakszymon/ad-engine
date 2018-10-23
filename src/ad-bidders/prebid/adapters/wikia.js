@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class Wikia extends BaseAdapter {
@@ -7,6 +7,8 @@ export class Wikia extends BaseAdapter {
 
 		this.bidderName = 'wikia';
 		this.enabled = !!(utils.queryString.get('wikia_adapter'));
+		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
+		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
 
 		this.create = () => this;
 	}
@@ -35,7 +37,11 @@ export class Wikia extends BaseAdapter {
 	}
 
 	getPrice() {
-		const price = context.get('bidders.prebid.wikia.price') || utils.queryString.get('wikia_adapter');
+		const price = utils.queryString.get('wikia_adapter');
+
+		if (this.useRandomPrice) {
+			return Math.floor(Math.random() * 2000) / 100;
+		}
 
 		return parseInt(price, 10) / 100;
 	}
@@ -48,12 +54,13 @@ export class Wikia extends BaseAdapter {
 
 	addBids(bidRequest, addBidResponse, done) {
 		bidRequest.bids.forEach((bid) => {
-			const bidResponse = window.pbjs.createBid(1),
-				[width, height] = bid.sizes[0];
+			const bidResponse = window.pbjs.createBid(1);
+			const [width, height] = bid.sizes[0];
+			const cpm = this.getPrice();
 
-			bidResponse.ad = this.getCreative(bid.sizes[0]);
+			bidResponse.ad = this.getCreative(bid.sizes[0], cpm);
 			bidResponse.bidderCode = bidRequest.bidderCode;
-			bidResponse.cpm = this.getPrice();
+			bidResponse.cpm = cpm;
 			bidResponse.ttl = 300;
 			bidResponse.mediaType = 'banner';
 			bidResponse.width = width;
@@ -61,10 +68,10 @@ export class Wikia extends BaseAdapter {
 
 			addBidResponse(bid.adUnitCode, bidResponse);
 		});
-		done();
+		setTimeout(done, this.timeout);
 	}
 
-	getCreative(size) {
+	getCreative(size, cpm) {
 		const creative = document.createElement('div');
 
 		creative.style.background = '#00b7e0';
@@ -83,7 +90,7 @@ export class Wikia extends BaseAdapter {
 
 		const details = document.createElement('small');
 
-		details.innerText = `cpm: ${this.getPrice()}, size: ${size.join('x')}`;
+		details.innerText = `cpm: ${cpm}, size: ${size.join('x')}`;
 
 		creative.appendChild(title);
 		creative.appendChild(details);
