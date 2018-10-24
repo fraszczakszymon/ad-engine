@@ -5,8 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-
-describe('HiVi UAP static ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -95,7 +94,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP static ads page: top boxad', () => {
+describe('Desktop HiVi UAP static ads page: top boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -113,7 +112,7 @@ describe('HiVi UAP static ads page: top boxad', () => {
 	});
 });
 
-describe('HiVi UAP static ads page: incontent boxad', () => {
+describe('Desktop HiVi UAP static ads page: incontent boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.scroll(0, 1000);
@@ -128,7 +127,7 @@ describe('HiVi UAP static ads page: incontent boxad', () => {
 	});
 });
 
-describe('HiVi UAP static ads page: bottom leaderboard', () => {
+describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;

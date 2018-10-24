@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('HiVi UAP static ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -101,7 +101,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP ads page: video player in top leaderboard', () => {
+describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard);
@@ -141,7 +141,7 @@ describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP ads page: top boxad', () => {
+describe('Desktop HiVi UAP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -155,7 +155,7 @@ describe('HiVi UAP ads page: top boxad', () => {
 	});
 });
 
-describe('HiVi UAP ads page: incontent boxad', () => {
+describe('Desktop HiVi UAP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -170,7 +170,7 @@ describe('HiVi UAP ads page: incontent boxad', () => {
 	});
 });
 
-describe('HiVi UAP ads page: bottom leaderboard', () => {
+describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;
@@ -249,7 +249,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP ads page: video player in bottom leaderboard', () => {
+describe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);

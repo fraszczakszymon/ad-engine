@@ -7,7 +7,7 @@ const { expect } = require('chai');
 
 // TODO check stability
 
-describe('HiVi UAP static ads page: top leaderboard', () => {
+describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -103,7 +103,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP ads page: video player in top leaderboard', () => {
+describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard);
@@ -143,7 +143,7 @@ describe('HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP ads page: top boxad', () => {
+describe('Mobile HiVi UAP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 5000);
@@ -158,7 +158,7 @@ describe('HiVi UAP ads page: top boxad', () => {
 	});
 });
 
-describe('HiVi UAP ads page: incontent boxad', () => {
+describe('Mobile HiVi UAP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 6200);

@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('HiVi UAP JWP ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -28,7 +28,7 @@ describe('HiVi UAP JWP ads page: top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
+describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -55,7 +55,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	});
 });
 
-describe('HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
+describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -87,7 +87,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button
 	});
 });
 
-describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
+describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -120,7 +120,7 @@ describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => 
 	});
 });
 
-describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
+describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.click(hiviUapJwp.loadAdsButton);

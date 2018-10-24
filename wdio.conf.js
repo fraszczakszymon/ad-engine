@@ -28,9 +28,11 @@ exports.config = {
 			'./tests/specs/desktop/floating-rail-ad.test.js',
 			'./tests/specs//desktop/abcd-ad.test.js',
 			'./tests/specs/desktop/hivi-uap-ad-desktop.test.js',
+			// './tests/specs/desktop/hivi-uap-ad-mobile.test.js', // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-static-ad-desktop.test.js',
-			'./tests/specs/mobile/hivi-uap-static-ad-mobile.test.js',
+			// './tests/specs/mobile/hivi-uap-static-ad-mobile.test.js',  // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-jwp-ad-desktop.test.js',
+			// './tests/specs/desktop/hivi-uap-jwp-ad-mobile.test.js', // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-twitch-ad-desktop.test.js',
 			'./tests/specs/desktop/floating-ad.test.js',
 			'./tests/specs/desktop/sticky-ad.test.js',
@@ -65,20 +67,7 @@ exports.config = {
 		browserName: 'chrome',
 		loggingPrefs: {
 			browser: 'ALL'
-		},
-		specs: [
-			'./tests/specs/desktop/*'
-		]
-	}, {
-		browserName: 'chrome',
-		chromeOptions: {
-			mobileEmulation: {
-				deviceName: 'iPhone X'
-			}
-		},
-		specs: [
-			'./tests/specs/mobile/*'
-		]
+		}
 	}],
 	sync: true,
 	logLevel: 'error',

@@ -7,7 +7,7 @@ const { expect } = require('chai');
 
 // TODO check stability
 
-describe('HiVi UAP JWP ads page: top leaderboard', () => {
+describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -58,7 +58,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	});
 });
 
-describe('HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
+describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -91,7 +91,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button
 	});
 });
 
-describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
+describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -125,7 +125,7 @@ describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => 
 	});
 });
 
-describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
+describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.click(hiviUapJwp.loadAdsButton);

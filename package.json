@@ -11,6 +11,7 @@
     "blockadblock": "3.2.1",
     "core-decorators": "^0.20.0",
     "current-device": "0.7.8",
+    "deepmerge": "2.2.1",
     "eventemitter3": "3.0.1",
     "js-cookie": "2.2.0",
     "lodash": "^4.17.4",
