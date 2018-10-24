@@ -130,6 +130,10 @@ export class AdSlot extends EventEmitter {
 		return !!this.config.repeat;
 	}
 
+	isOutOfPage() {
+		return !!this.config.outOfPage;
+	}
+
 	getCopy() {
 		return JSON.parse(JSON.stringify(this.config));
 	}

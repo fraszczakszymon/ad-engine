@@ -2294,17 +2294,20 @@ var loadTwitchPlayer = function () {
 
 var loadTwitchAd = function () {
 	var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3(iframe, params) {
+		var player;
 		return regenerator_default.a.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
 					case 0:
-						_context3.next = 2;
+						player = params.player;
+						_context3.next = 3;
 						return loadTwitchPlayer(iframe, params);
 
-					case 2:
-						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(params), 250));
-
 					case 3:
+						window.addEventListener('resize', throttle_default()(recalculateTwitchSize(params), 250));
+						player.firstChild.id = 'twitchPlayerContainer';
+
+					case 5:
 					case 'end':
 						return _context3.stop();
 				}
@@ -4230,9 +4233,132 @@ var roadblock_Roadblock = function () {
 
 
 
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/floor-adhesion.js
+
+
+
+
+
+var floor_adhesion_FloorAdhesion = function () {
+	createClass_default()(FloorAdhesion, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'floorAdhesion';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
+	function FloorAdhesion(adSlot) {
+		classCallCheck_default()(this, FloorAdhesion);
+
+		this.adSlot = adSlot;
+		this.config = ad_engine_["context"].get('templates.floorAdhesion');
+	}
+
+	createClass_default()(FloorAdhesion, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			var wrapper = this.adSlot.getElement();
+			var closeButton = new close_button_CloseButton({
+				onClick: function onClick() {
+					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					ad_engine_["utils"].logger(FloorAdhesion.getName(), 'closed');
+				}
+			});
+
+			this.config.onInit();
+
+			wrapper.appendChild(closeButton.render());
+			wrapper.classList.add('floor-adhesion');
+			wrapper.classList.add('out-of-page-template');
+
+			ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
+
+			ad_engine_["utils"].logger(FloorAdhesion.getName(), 'init');
+		}
+	}]);
+
+	return FloorAdhesion;
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/interstitial.js
+
+
+
+
+
+
+var interstitial_Interstitial = function () {
+	createClass_default()(Interstitial, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'interstitial';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
+	function Interstitial(adSlot) {
+		classCallCheck_default()(this, Interstitial);
+
+		this.adSlot = adSlot;
+		this.config = ad_engine_["context"].get('templates.interstitial');
+	}
+
+	createClass_default()(Interstitial, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			var wrapper = this.adSlot.getElement();
+			var closeButton = new close_button_CloseButton({
+				onClick: function onClick() {
+					document.documentElement.classList.remove('stop-scrolling');
+					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					ad_engine_["utils"].logger(Interstitial.getName(), 'closed');
+				}
+			});
+			var label = new advertisement_label_AdvertisementLabel();
+
+			this.config.onInit();
+
+			wrapper.appendChild(closeButton.render());
+			wrapper.appendChild(label.render());
+			wrapper.classList.add('interstitial');
+			wrapper.classList.add('out-of-page-template');
+			document.documentElement.classList.add('stop-scrolling');
+
+			ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
+
+			ad_engine_["utils"].logger(Interstitial.getName(), 'init');
+
+			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
+				document.documentElement.classList.remove('stop-scrolling');
+			});
+		}
+	}]);
+
+	return Interstitial;
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/index.js
+
+
 // CONCATENATED MODULE: ./src/ad-products/templates/outstream/index.js
 
 // CONCATENATED MODULE: ./src/ad-products/templates/index.js
+
 
 
 
@@ -4249,6 +4375,8 @@ var roadblock_Roadblock = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdInPlayer", function() { return big_fancy_ad_in_player_BigFancyAdInPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Roadblock", function() { return roadblock_Roadblock; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "universalAdPackage", function() { return universalAdPackage; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloorAdhesion", function() { return floor_adhesion_FloorAdhesion; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Interstitial", function() { return interstitial_Interstitial; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DEFAULT_VIDEO_ASPECT_RATIO", function() { return DEFAULT_VIDEO_ASPECT_RATIO; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });

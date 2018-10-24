@@ -37,8 +37,8 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	const injectBelowConflictingElements = !!adSlot.config.repeat.injectBelowConflictingElements;
-	const container = slotInjector.inject(slotName, injectBelowConflictingElements);
+	const insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
+	const container = slotInjector.inject(slotName, insertBelowScrollPosition);
 	const additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {

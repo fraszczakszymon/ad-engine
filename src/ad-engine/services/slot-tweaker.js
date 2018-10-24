@@ -93,6 +93,18 @@ class SlotTweaker {
 		});
 	}
 
+	adjustIframeByContentSize(adSlot) {
+		this.onReady(adSlot).then((iframe) => {
+			const height = iframe.contentWindow.document.body.scrollHeight;
+			const width = iframe.contentWindow.document.body.scrollWidth;
+
+			iframe.width = width;
+			iframe.height = height;
+
+			logger(logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+		});
+	}
+
 	registerMessageListener() {
 		messageBus.register({
 			keys: ['action', 'slotName'],

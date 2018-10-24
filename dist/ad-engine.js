@@ -146,49 +146,49 @@ module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 20 */
@@ -563,7 +563,7 @@ var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(13);
+var typeof_ = __webpack_require__(12);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -637,7 +637,7 @@ var slicedToArray_ = __webpack_require__(5);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(15);
+var external_js_cookie_ = __webpack_require__(14);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/random.js
@@ -1299,7 +1299,7 @@ var script_loader_ScriptLoader = function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(12);
+var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
@@ -1307,7 +1307,7 @@ var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(19);
+var get_own_property_names_ = __webpack_require__(18);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -1323,15 +1323,15 @@ var possibleConstructorReturn_ = __webpack_require__(11);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(14);
+var helpers_get_ = __webpack_require__(13);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(17);
+var inherits_ = __webpack_require__(16);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(16);
+var external_eventemitter3_ = __webpack_require__(15);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -1602,17 +1602,7 @@ var vast_debugger_VastDebugger = function () {
 }();
 
 var vastDebugger = new vast_debugger_VastDebugger();
-// CONCATENATED MODULE: ./src/ad-engine/video/video-ad-unit-builder.js
-
-
-
-function video_ad_unit_builder_getVideoAdUnit(slotName) {
-	return stringBuilder.build(context.get('slots.' + slotName + '.vast.adUnitId') || context.get('vast.adUnitId'), {
-		slotConfig: context.get('slots.' + slotName)
-	});
-}
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-url-builder.js
-
 
 
 
@@ -1621,10 +1611,10 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
     baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
     correlator = Math.round(Math.random() * 10000000000);
 
-function getCustomParameters(slotName) {
+function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	var params = assign_default()({}, context.get('targeting'), context.get('slots.' + slotName + '.targeting'), extraTargeting);
+	var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(keys_default()(params).filter(function (key) {
 		return params[key];
@@ -1636,7 +1626,15 @@ function getCustomParameters(slotName) {
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator, 'iu=' + video_ad_unit_builder_getVideoAdUnit(slotName), 'cust_params=' + getCustomParameters(slotName, options.targeting)];
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
+	    slot = slotService.get(slotName);
+
+	if (slot) {
+		params.push('iu=' + slot.getVideoAdUnit());
+		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
+	} else {
+		throw Error('Slot does not exist!');
+	}
 
 	if (options.contentSourceId && options.videoId) {
 		params.push('cmsid=' + options.contentSourceId);
@@ -1693,7 +1691,7 @@ function createRequest(params) {
 	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
 	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, adSlot.getSlotName(), {
+	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
 		targeting: params.vastTargeting
 	});
 	adsRequest.linearAdSlotWidth = params.width;
@@ -2023,7 +2021,7 @@ function google_ima_getPlayer(videoSettings) {
 	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
-	if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+	if (window.performance && window.performance.navigation && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
 		iframe.contentWindow.location.href = iframe.src;
 	}
 
@@ -2527,7 +2525,7 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(18);
+var regenerator_ = __webpack_require__(17);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
@@ -3260,6 +3258,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'isRepeatable',
 		value: function isRepeatable() {
 			return !!this.config.repeat;
+		}
+	}, {
+		key: 'isOutOfPage',
+		value: function isOutOfPage() {
+			return !!this.config.outOfPage;
 		}
 	}, {
 		key: 'getCopy',
@@ -4191,7 +4194,15 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 			var targeting = this.parseTargetingParams(adSlot.getTargeting());
 			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
 
-			var gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).addService(window.googletag.pubads()).setCollapseEmptyDiv(true).defineSizeMapping(sizeMap.build());
+			var gptSlot = null;
+
+			if (adSlot.isOutOfPage()) {
+				gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+			} else {
+				gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
+			}
+
+			gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
@@ -4407,6 +4418,19 @@ var slot_tweaker_SlotTweaker = function () {
 			});
 		}
 	}, {
+		key: 'adjustIframeByContentSize',
+		value: function adjustIframeByContentSize(adSlot) {
+			this.onReady(adSlot).then(function (iframe) {
+				var height = iframe.contentWindow.document.body.scrollHeight;
+				var width = iframe.contentWindow.document.body.scrollWidth;
+
+				iframe.width = width;
+				iframe.height = height;
+
+				logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+			});
+		}
+	}, {
 		key: 'registerMessageListener',
 		value: function registerMessageListener() {
 			var _this = this;
@@ -4471,9 +4495,11 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	createClass_default()(SlotDataParamsUpdater, [{
 		key: 'updateOnCreate',
 		value: function updateOnCreate(adSlot, targeting) {
+			var sizes = adSlot.isOutOfPage() ? 'out-of-page' : new gpt_size_map_GptSizeMap(adSlot.getSizes()).toString();
+
 			slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
 			slotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);
-			slotTweaker.setDataParam(adSlot, 'sizes', new gpt_size_map_GptSizeMap(adSlot.getSizes()).toString());
+			slotTweaker.setDataParam(adSlot, 'sizes', sizes);
 		}
 	}, {
 		key: 'updateOnRenderEnd',
@@ -4481,7 +4507,7 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 			if (event) {
 				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
 				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', event.size);
+				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.isOutOfPage() ? 'out-of-page' : event.size);
 			}
 		}
 	}]);
@@ -4491,7 +4517,6 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 
 var slotDataParamsUpdater = new slot_data_params_updater_SlotDataParamsUpdater();
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-injector.js
-
 
 
 
@@ -4533,18 +4558,16 @@ var slot_injector_SlotInjector = function () {
 	createClass_default()(SlotInjector, [{
 		key: 'inject',
 		value: function inject(slotName) {
-			var injectBelowConflictingElements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+			var insertBelowScrollPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 			var config = context.get('slots.' + slotName);
 			var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
 			var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
 
-			if (injectBelowConflictingElements) {
-				var highestOffset = Math.max.apply(Math, toConsumableArray_default()(conflictingElements.map(function (el) {
-					return el.offsetTop;
-				})));
+			if (insertBelowScrollPosition) {
+				var scrollPos = window.scrollY;
 				anchorElements = anchorElements.filter(function (el) {
-					return el.offsetTop > highestOffset;
+					return el.offsetTop > scrollPos;
 				});
 			}
 
@@ -4608,8 +4631,8 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	var injectBelowConflictingElements = !!adSlot.config.repeat.injectBelowConflictingElements;
-	var container = slotInjector.inject(slotName, injectBelowConflictingElements);
+	var insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
+	var container = slotInjector.inject(slotName, insertBelowScrollPosition);
 	var additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {
@@ -5085,8 +5108,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.0.5');
-logger('ad-engine', 'v19.0.5');
+set_default()(window, versionField, 'v19.1.0');
+logger('ad-engine', 'v19.1.0');
 
 
 

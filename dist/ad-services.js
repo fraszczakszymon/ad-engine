@@ -647,7 +647,7 @@ var krux_Krux = function () {
 		value: function call() {
 			var _this = this;
 
-			if (!ad_engine_["context"].get('services.krux.enabled')) {
+			if (!ad_engine_["context"].get('services.krux.enabled') || !ad_engine_["context"].get('options.trackingOptIn')) {
 				ad_engine_["utils"].logger(krux_logGroup, 'disabled');
 				return promise_default.a.resolve();
 			}

@@ -1,7 +1,7 @@
 class EmptyResponse {
 	constructor() {
 		this.pageLink = 'slots/empty-response/';
-		this.articleClass = 'article.main';
+		this.article = 'article.main';
 	}
 }
 

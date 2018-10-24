@@ -5,30 +5,36 @@ import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 
-describe('It will test empty response page', () => {
-	beforeEach(() => {
+describe('Empty response page: top leaderboard', () => {
+	let adStatus;
+
+	before(() => {
 		browser.url(emptyResponse.pageLink);
-		browser.waitForVisible(emptyResponse.articleClass, timeouts.standard);
+		browser.waitForVisible(emptyResponse.article, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
-	it('will test if top leaderboard ad is not visible', () => {
-		browser.isExisting(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${helpers.classHidden}`), 'Element does not exist')
-			.to
-			.be
-			.true;
-		expect(browser.isVisibleWithinViewport(adSlots.topLeaderboard), 'Top leaderboard not visible in viewport')
+	it('Check if slot is not visible', () => {
+		helpers.waitForResult(adSlots.topLeaderboard, adSlots.adCollapsed);
+		expect(adStatus.inViewport, 'Slot in viewport')
 			.to
 			.be
 			.false;
 	});
-	it('will test if top boxad is not visible', () => {
-		browser.isExisting(adSlots.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`), 'Top boxad exists in code')
-			.to
-			.be
-			.true;
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Top boxad is visible in viewport')
+});
+
+describe('Empty response page: top boxad', () => {
+	let adStatus;
+
+	before(() => {
+		browser.url(emptyResponse.pageLink);
+		browser.waitForVisible(emptyResponse.article, timeouts.standard);
+		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
+	});
+
+	it('Check if slot is not visible', () => {
+		expect(adStatus.inViewport, 'Slot in viewport')
 			.to
 			.be
 			.false;
