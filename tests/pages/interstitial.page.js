@@ -2,8 +2,9 @@ class Interstitial {
 	constructor() {
 		this.pageLink = 'templates/interstitial/';
 		this.outOfPageWrapper = '.out-of-page-template';
-		this.advertisementLabel = '.out-of-page-template.interstitial > .button-close';
-		this.closeButton = '.out-of-page-template.interstitial > .button-close';
+		this.advertisementLabel = `${this.outOfPageWrapper}.interstitial > .button-close`;
+		this.closeButton = `${this.outOfPageWrapper}.interstitial > .button-close`;
+		this.stopScrolling = '.stop-scrolling';
 	}
 }
 

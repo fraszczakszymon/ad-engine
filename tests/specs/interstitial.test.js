@@ -25,18 +25,13 @@ describe('Interstitial page: interstitial', () => {
 			.to
 			.be
 			.true;
-		expect(browser.element('html').getAttribute('class'))
-			.to
-			.include('stop-scrolling', 'Document does not have .stop-scrolling class');
+		browser.waitForExist(interstitial.stopScrolling, timeouts.standard);
 
 		browser.click(interstitial.closeButton);
 		expect(browser.isVisibleWithinViewport(adSlots.invisibleHighImpact, 'Floor adhesion is in the viewport'))
 			.to
 			.be
 			.false;
-		expect(browser.element('html').getAttribute('class'))
-			.not
-			.to
-			.include('stop-scrolling', 'Document still has .stop-scrolling class');
+		browser.waitForExist(interstitial.stopScrolling, timeouts.standard, true);
 	});
 });
