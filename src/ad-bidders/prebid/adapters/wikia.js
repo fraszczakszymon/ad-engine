@@ -9,6 +9,7 @@ export class Wikia extends BaseAdapter {
 		this.enabled = !!(utils.queryString.get('wikia_adapter'));
 		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
 		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
+		this.limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		this.create = () => this;
 	}
@@ -55,6 +56,10 @@ export class Wikia extends BaseAdapter {
 	addBids(bidRequest, addBidResponse, done) {
 		setTimeout(() => {
 			bidRequest.bids.forEach((bid) => {
+				if (this.limit === 0) {
+					return;
+				}
+
 				const bidResponse = window.pbjs.createBid(1);
 				const [width, height] = bid.sizes[0];
 				const cpm = this.getPrice();
@@ -68,6 +73,7 @@ export class Wikia extends BaseAdapter {
 				bidResponse.height = height;
 
 				addBidResponse(bid.adUnitCode, bidResponse);
+				this.limit -= 1;
 			});
 			done();
 		}, this.timeout);

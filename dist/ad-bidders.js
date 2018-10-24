@@ -1409,6 +1409,7 @@ var wikia_Wikia = function (_BaseAdapter) {
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_adapter');
 		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
 		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		_this.create = function () {
 			return _this;
@@ -1468,6 +1469,10 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 			setTimeout(function () {
 				bidRequest.bids.forEach(function (bid) {
+					if (_this3.limit === 0) {
+						return;
+					}
+
 					var bidResponse = window.pbjs.createBid(1);
 
 					var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
@@ -1485,6 +1490,7 @@ var wikia_Wikia = function (_BaseAdapter) {
 					bidResponse.height = height;
 
 					addBidResponse(bid.adUnitCode, bidResponse);
+					_this3.limit -= 1;
 				});
 				done();
 			}, this.timeout);
@@ -1543,6 +1549,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_video_adapter');
 		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
 		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		_this.create = function () {
 			return _this;
@@ -1601,6 +1608,10 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 			setTimeout(function () {
 				bidRequest.bids.forEach(function (bid) {
+					if (_this3.limit === 0) {
+						return;
+					}
+
 					var bidResponse = window.pbjs.createBid(1),
 					    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
 					    width = _bid$sizes$[0],
@@ -1616,6 +1627,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 					bidResponse.height = height;
 
 					addBidResponse(bid.adUnitCode, bidResponse);
+					_this3.limit -= 1;
 				});
 				done();
 			}, this.timeout);
