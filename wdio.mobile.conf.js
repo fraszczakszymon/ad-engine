@@ -1,9 +1,12 @@
-// wdio.mobile.config.js
+/* eslint-disable import/no-extraneous-dependencies */
 const merge = require('deepmerge');
 const wdioConf = require('./wdio.conf.js');
 
-// have main config file as default but overwrite environment specific information
 exports.config = merge(wdioConf.config, {
+
+	specs: [
+		'tests/specs/mobile/*.js'
+	],
 	capabilities: [
 		{
 			browserName: 'chrome',
@@ -11,10 +14,7 @@ exports.config = merge(wdioConf.config, {
 				mobileEmulation: {
 					deviceName: 'iPhone X'
 				}
-			},
-			specs: [
-				'./tests/specs/mobile/*'
-			]
+			}
 		}
-	],
+	]
 }, { clone: false });

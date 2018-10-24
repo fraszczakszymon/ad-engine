@@ -1,47 +1,42 @@
 /* global browser */
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 
 function getScreenshotName(basePath) {
 	return function (context) {
-		const type = context.type;
 		const testName = context.test.title;
-		const browserVersion = parseInt(context.browser.version, 10);
-		const browserName = context.browser.name;
-		const browserViewport = context.meta.viewport;
-		const browserWidth = browserViewport.width;
-		const browserHeight = browserViewport.height;
 
-		return path.join(basePath, `${testName}_${type}_${browserName}_v${browserVersion}_${browserWidth}x${browserHeight}.png`);
+		return path.join(basePath, `${testName}.png`);
 	};
 }
 
 exports.config = {
-	specs: [
-		'./tests/specs/desktop/*.js'
-	],
+
 	suites: {
 		bidders: [
 
 		],
-		templates: [
+		desktopTemplates: [
 			'./tests/specs/desktop/floating-rail-ad.test.js',
 			'./tests/specs//desktop/abcd-ad.test.js',
 			'./tests/specs/desktop/hivi-uap-ad-desktop.test.js',
-			// './tests/specs/desktop/hivi-uap-ad-mobile.test.js', // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-static-ad-desktop.test.js',
-			// './tests/specs/mobile/hivi-uap-static-ad-mobile.test.js',  // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-jwp-ad-desktop.test.js',
-			// './tests/specs/desktop/hivi-uap-jwp-ad-mobile.test.js', // temporarily off for test, TODO remove comment
 			'./tests/specs/desktop/hivi-uap-twitch-ad-desktop.test.js',
 			'./tests/specs/desktop/floating-ad.test.js',
 			'./tests/specs/desktop/sticky-ad.test.js',
+		],
+		mobileTemplates: [
+			'./tests/specs/mobile/hivi-uap-ad-mobile.test.js',
+			'./tests/specs/mobile/hivi-uap-static-ad-mobile.test.js',
+			'./tests/specs/mobile/hivi-uap-jwp-ad-mobile.test.js',
 		],
 		services: [
 
 		],
 		utils: [
-			'./tests/specs/basset.test.js',
+			'./tests/specs/labrador-basset.test.js',
 		],
 		slots: [
 			'./tests/specs/desktop/btf-only-ad.test.js',
@@ -60,15 +55,7 @@ exports.config = {
 
 		]
 	},
-	exclude: [
-	],
 	maxInstances: 3,
-	capabilities: [{
-		browserName: 'chrome',
-		loggingPrefs: {
-			browser: 'ALL'
-		}
-	}],
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
