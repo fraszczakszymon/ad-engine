@@ -1,9 +1,11 @@
-import twitchAd from '../pages/hivi-uap-twitch-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import twitchAd from '../../pages/hivi-uap-twitch-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
+
+// I have not started working on it just yet
 
 describe('Twitch ads page: top leaderboard', () => {
 	let adStatus;

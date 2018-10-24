@@ -1,10 +1,11 @@
-import hiviUapStatic from '../pages/hivi-uap-static-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import hiviUapStatic from '../../pages/hivi-uap-static-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
+// Tweaked for mobile, only thing that remains is to test its stability
 
 describe('HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
@@ -16,16 +17,16 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 		browser.url(hiviUapStatic.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultRatio);
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultMobileRatio);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedRatio);
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedRatio);
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
 
 	beforeEach(() => {
@@ -80,7 +81,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check if redirect on click works', () => {
+	it('Check if redirect on tap works', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -98,6 +99,7 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 describe('HiVi UAP static ads page: top boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
+		browser.scroll(0, 5000);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
@@ -116,7 +118,7 @@ describe('HiVi UAP static ads page: top boxad', () => {
 describe('HiVi UAP static ads page: incontent boxad', () => {
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		browser.scroll(0, 1000);
+		browser.scroll(0, 6000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
@@ -125,66 +127,5 @@ describe('HiVi UAP static ads page: incontent boxad', () => {
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
 			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
-	});
-});
-
-describe('HiVi UAP static ads page: bottom leaderboard', () => {
-	let adStatus;
-	let defaultDimensions;
-	let refreshDimensions;
-
-	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		helpers.slowScroll(7000);
-		helpers.waitForExpanded(adSlots.bottomLeaderboard);
-
-		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
-			adSlots.defaultRatio);
-
-		browser.refresh();
-		helpers.slowScroll(7000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-
-		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
-			adSlots.resolvedRatio);
-	});
-
-	beforeEach(() => {
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
-	});
-
-	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
-	});
-
-	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check if line item id is from the same campaign', () => {
-		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
-		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
-			.to
-			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
-	});
-
-	it('Check if redirect on click works', () => {
-		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
 	});
 });

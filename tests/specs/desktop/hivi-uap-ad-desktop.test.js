@@ -1,7 +1,7 @@
-import hiviUap from '../pages/hivi-uap-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import hiviUap from '../../pages/hivi-uap-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
@@ -16,21 +16,21 @@ describe('HiVi UAP static ads page: top leaderboard', () => {
 		browser.url(hiviUap.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultRatio);
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedRatio);
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedRatio);
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
 
-		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedRatio);
+		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 	});
 
 	beforeEach(() => {
@@ -183,7 +183,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 
 		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard,
 			helpers.wrapper,
-			adSlots.defaultRatio);
+			adSlots.defaultDesktopRatio);
 
 		browser.refresh();
 		helpers.slowScroll(7000);
@@ -191,7 +191,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 
 		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard,
 			helpers.wrapper,
-			adSlots.resolvedRatio);
+			adSlots.resolvedDesktopRatio);
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
@@ -199,7 +199,7 @@ describe('HiVi UAP ads page: bottom leaderboard', () => {
 		hiviUap.waitForVideoToFinish();
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
-			adSlots.resolvedRatio);
+			adSlots.resolvedDesktopRatio);
 	});
 
 	beforeEach(() => {
