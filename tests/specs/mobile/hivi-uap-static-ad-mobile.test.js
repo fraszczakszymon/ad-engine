@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// Tweaked for mobile, only thing that remains is to test its stability
+// TODO check stability
 
 describe('HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;

@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// I have not started working on it just yet
+// TODO check stability
 
 describe('HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -34,6 +34,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
+		browser.scroll(0, 5000);
 	});
 
 	it('Check if top boxad is existing, but not immediately visible', () => {
@@ -62,6 +63,7 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
 		browser.click(hiviUapJwp.loadAdsButton);
+		browser.scroll(0, 5000);
 	});
 
 	it('Check if top boxad shows up after clicking the button', () => {
@@ -93,6 +95,7 @@ describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => 
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
+		browser.scroll(0, 6000);
 	});
 	afterEach(() => {
 		browser.scroll(0, 0);
@@ -108,7 +111,7 @@ describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => 
 
 	it('Check if the ad loaded after delay is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
-		helpers.slowScroll(1000);
+		browser.scroll(0, 200); // after ads load this boxad becomes visible
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
@@ -126,7 +129,7 @@ describe('HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the 
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.click(hiviUapJwp.loadAdsButton);
-		helpers.slowScroll(1000);
+		browser.scroll(0, 6200);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
