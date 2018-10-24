@@ -194,6 +194,12 @@ export default {
 			],
 			defaultSizes: [[1000, 1000]]
 		},
+		invisible_high_impact_2: {
+			outOfPage: true,
+			targeting: {
+				loc: 'hivi'
+			}
+		},
 		repeatable_boxad_1: {
 			bidderAlias: 'top_boxad',
 			defaultSizes: [[300, 250]],
