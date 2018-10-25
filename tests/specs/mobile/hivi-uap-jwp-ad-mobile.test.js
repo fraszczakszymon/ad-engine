@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// TODO check stability
+// TODO fix pressing the button (for both top and incontent boxad tests)
 
 describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -37,6 +37,10 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 		browser.scroll(0, 5000);
 	});
 
+	afterEach(() => {
+		browser.scroll(0, 0);
+	});
+
 	it('Check if top boxad is existing, but not immediately visible', () => {
 		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Top boxad visible')
 			.to
@@ -59,11 +63,20 @@ describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 });
 
 describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
-	before(() => {
+	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
+		browser.waitUntil(
+			() => browser.getText(hiviUapJwp.loadAdsButton) === 'Load UAP:JWP (7s)',
+			timeouts.standard,
+			'Button not loaded',
+			timeouts.interval);
 		browser.click(hiviUapJwp.loadAdsButton);
 		browser.scroll(0, 5000);
+	});
+
+	afterEach(() => {
+		browser.scroll(0, 0);
 	});
 
 	it('Check if top boxad shows up after clicking the button', () => {
@@ -87,15 +100,17 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after clicking the
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
-			.equal(hiviUapJwp.uapLineItemId);
+			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded:');
 	});
 });
 
 describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
-		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
-		browser.scroll(0, 6000);
+		hiviUapJwp.waitToLoadAds();
+		browser.scroll(adSlots.railModule);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
 	});
 	afterEach(() => {
 		browser.scroll(0, 0);
@@ -110,9 +125,6 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 	});
 
 	it('Check if the ad loaded after delay is the inhouse one', () => {
-		hiviUapJwp.waitToLoadAds();
-		browser.scroll(0, 200); // after ads load this boxad becomes visible
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
 			.to
@@ -128,9 +140,20 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
+		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
+		browser.waitUntil(
+			() => browser.getText(hiviUapJwp.loadAdsButton) === 'Load UAP:JWP (7s)',
+			timeouts.standard,
+			'Button not loaded',
+			timeouts.interval);
 		browser.click(hiviUapJwp.loadAdsButton);
-		browser.scroll(0, 6200);
+		browser.scroll(adSlots.railModule);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
+	});
+
+	afterEach(() => {
+		browser.scroll(0, 0);
 	});
 
 	it('Check if slot shows up after clicking the button', () => {

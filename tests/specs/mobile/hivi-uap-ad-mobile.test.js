@@ -5,8 +5,6 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// TODO check stability
-
 describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
@@ -87,7 +85,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check if redirect on click works', () => {
+	it('Check if redirect on tap works', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
@@ -103,12 +101,14 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	});
 });
 
+// TODO fix pressing buttons
+
 describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard);
 		helpers.waitToStartPlaying();
-		browser.click(adSlots.topLeaderboard);
+		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
 	it('Check if opening the full screen player works properly', () => {
@@ -161,8 +161,9 @@ describe('Mobile HiVi UAP ads page: top boxad', () => {
 describe('Mobile HiVi UAP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		browser.scroll(0, 6200);
+		browser.scroll(adSlots.railModule);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.scroll(adSlots.incontentBoxad);
 	});
 
 	it('Check if line item id is from the same campaign', () => {

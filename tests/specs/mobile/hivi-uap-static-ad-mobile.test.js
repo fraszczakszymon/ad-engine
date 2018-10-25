@@ -5,8 +5,6 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// TODO check stability
-
 describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
