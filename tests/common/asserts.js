@@ -11,11 +11,11 @@ class Asserts {
 			.equal(expectedLineItemId, 'Line item ID mismatch');
 	}
 
-	assertInhouseCreative(slotName) {
+	assertInhouseCampaign(slotName) {
 		this.assertSlotLineItemId(slotName, adSlots.inhouseLineItemId);
 	}
 
-	assertWikiaAdapterCreative(slotName) {
+	assertWikiaAdapterCampaign(slotName) {
 		this.assertSlotLineItemId(slotName, adSlots.wikiaAdapterLineItemId);
 	}
 }
