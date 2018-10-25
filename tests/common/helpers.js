@@ -216,12 +216,12 @@ class Helpers {
 
 		if (slotSize.width !== expectedWidth) {
 			result = false;
-			error += `Slot width ratio incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
+			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
 		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
 			result = false;
-			error += `Slot height ratio incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
+			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
 		return {
 			status: result,

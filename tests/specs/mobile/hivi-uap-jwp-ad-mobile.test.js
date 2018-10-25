@@ -138,7 +138,7 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 });
 
 describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
-	before(() => {
+	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
 		browser.waitUntil(
