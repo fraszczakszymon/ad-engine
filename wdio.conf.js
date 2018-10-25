@@ -5,7 +5,7 @@ exports.config = {
 	],
 	suites: {
 		bidders: [
-
+			'./tests/specs/prebid-wikia-adapter.test.js',
 		],
 		templates: [
 			'./tests/specs/floating-rail-ad.test.js',
