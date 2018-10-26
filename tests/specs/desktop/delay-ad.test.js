@@ -69,7 +69,7 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check if slot is visible in viewport after delay', () => {
 		delayAd.waitToLoadAds();
-		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad); // TODO
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
