@@ -2619,7 +2619,7 @@ twitch_listener_TwitchListener.EVENTS = {
 	pause: 'pause',
 	play: 'play_triggered',
 	playback_blocked: 'playback_blocked',
-	playing: 'started',
+	playing: 'playing',
 	ready: 'ready'
 };
 twitch_listener_TwitchListener.LOG_GROUP = 'twitch-listener';
@@ -5108,8 +5108,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.1.0');
-logger('ad-engine', 'v19.1.0');
+set_default()(window, versionField, 'v19.2.0');
+logger('ad-engine', 'v19.2.0');
 
 
 

@@ -10,7 +10,8 @@ export class Roadblock {
 	static getDefaultConfig() {
 		return {
 			slotsToEnable: [],
-			slotsToDisable: []
+			slotsToDisable: [],
+			onInit: () => {}
 		};
 	}
 
@@ -25,5 +26,9 @@ export class Roadblock {
 		this.params = params;
 		this.params.adProduct = 'ruap';
 		universalAdPackage.init(this.params, this.config.slotsToEnable, this.config.slotsToDisable);
+
+		if (this.config.onInit) {
+			this.config.onInit();
+		}
 	}
 }

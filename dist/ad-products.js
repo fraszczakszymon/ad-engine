@@ -4198,7 +4198,8 @@ var roadblock_Roadblock = function () {
 		value: function getDefaultConfig() {
 			return {
 				slotsToEnable: [],
-				slotsToDisable: []
+				slotsToDisable: [],
+				onInit: function onInit() {}
 			};
 		}
 	}]);
@@ -4220,6 +4221,10 @@ var roadblock_Roadblock = function () {
 			this.params = params;
 			this.params.adProduct = 'ruap';
 			universalAdPackage.init(this.params, this.config.slotsToEnable, this.config.slotsToDisable);
+
+			if (this.config.onInit) {
+				this.config.onInit();
+			}
 		}
 	}]);
 
