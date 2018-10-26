@@ -1,7 +1,7 @@
-import twitchAd from '../pages/hivi-uap-twitch-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import twitchAd from '../../pages/hivi-uap-twitch-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 

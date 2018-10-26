@@ -1,7 +1,7 @@
-import blockBtfAd from '../pages/block-btf-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import blockBtfAd from '../../pages/block-btf-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 

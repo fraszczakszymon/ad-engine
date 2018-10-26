@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class WikiaVideo extends BaseAdapter {
@@ -7,6 +7,9 @@ export class WikiaVideo extends BaseAdapter {
 
 		this.bidderName = 'wikiaVideo';
 		this.enabled = !!(utils.queryString.get('wikia_video_adapter'));
+		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
+		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
+		this.limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		this.create = () => this;
 	}
@@ -36,7 +39,11 @@ export class WikiaVideo extends BaseAdapter {
 	}
 
 	getPrice() {
-		const price = context.get('bidders.prebid.wikiaVideo.price') || utils.queryString.get('wikia_video_adapter');
+		const price = utils.queryString.get('wikia_video_adapter');
+
+		if (this.useRandomPrice) {
+			return Math.floor(Math.random() * 20);
+		}
 
 		return parseInt(price, 10) / 100;
 	}
@@ -48,20 +55,27 @@ export class WikiaVideo extends BaseAdapter {
 	}
 
 	addBids(bidRequest, addBidResponse, done) {
-		bidRequest.bids.forEach((bid) => {
-			const bidResponse = window.pbjs.createBid(1),
-				[width, height] = bid.sizes[0];
+		setTimeout(() => {
+			bidRequest.bids.forEach((bid) => {
+				if (this.limit === 0) {
+					return;
+				}
 
-			bidResponse.bidderCode = bidRequest.bidderCode;
-			bidResponse.cpm = this.getPrice();
-			bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
-			bidResponse.ttl = 300;
-			bidResponse.mediaType = 'video';
-			bidResponse.width = width;
-			bidResponse.height = height;
+				const bidResponse = window.pbjs.createBid(1),
+					[width, height] = bid.sizes[0];
 
-			addBidResponse(bid.adUnitCode, bidResponse);
-		});
-		done();
+				bidResponse.bidderCode = bidRequest.bidderCode;
+				bidResponse.cpm = this.getPrice();
+				bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
+				bidResponse.ttl = 300;
+				bidResponse.mediaType = 'video';
+				bidResponse.width = width;
+				bidResponse.height = height;
+
+				addBidResponse(bid.adUnitCode, bidResponse);
+				this.limit -= 1;
+			});
+			done();
+		}, this.timeout);
 	}
 }

@@ -1,7 +1,7 @@
-import viewportConflictAd from '../pages/viewport-conflict-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import viewportConflictAd from '../../pages/viewport-conflict-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
