@@ -2,12 +2,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
+const md5 = require('js-md5');
 
 function getScreenshotName(basePath) {
 	return function (context) {
-		const testName = context.test.title;
+		const hash = md5(context.test.parent + context.test.title);
 
-		return path.join(basePath, `${testName}.png`);
+		return path.join(basePath, `${hash}.png`);
 	};
 }
 

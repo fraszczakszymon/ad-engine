@@ -92,6 +92,16 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 			.to
 			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
 	});
+
+	it('Check regression in top leaderboard (default)', () => {
+		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.checkElement(adSlots.topLeaderboard);
+	});
+
+	it('Check regression in top leaderboard (resolved)', () => {
+		helpers.refreshPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.checkElement(adSlots.topLeaderboard);
+	});
 });
 
 describe('Desktop HiVi UAP static ads page: top boxad', () => {
@@ -185,5 +195,17 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('Check regression in top leaderboard (default)', () => {
+		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.scroll(0, 7000);
+		browser.checkElement(adSlots.bottomLeaderboard);
+	});
+
+	it('Check regression in top leaderboard (resolved)', () => {
+		helpers.refreshPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		browser.scroll(0, 7000);
+		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 });

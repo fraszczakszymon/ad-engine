@@ -53,6 +53,11 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =
 			.to
 			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
+
+	it('Check regression in top boxad', () => {
+		hiviUapJwp.waitToLoadAds();
+		browser.checkElement(adSlots.topBoxad);
+	});
 });
 
 describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
@@ -84,6 +89,10 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking th
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUapJwp.uapLineItemId);
+	});
+
+	it('Check regression in top boxad', () => {
+		browser.checkElement(adSlots.topBoxad);
 	});
 });
 
@@ -118,6 +127,11 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 			.to
 			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
+
+	it('Check regression in incontent boxad', () => {
+		hiviUapJwp.waitToLoadAds();
+		browser.checkElement(adSlots.incontentBoxad);
+	});
 });
 
 describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
@@ -150,5 +164,10 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after click
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.lineItemIdAttribute))
 			.to
 			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded');
+	});
+
+	it('Check regression in incontent boxad', () => {
+		hiviUapJwp.waitToLoadAds();
+		browser.checkElement(adSlots.incontentBoxad);
 	});
 });

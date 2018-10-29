@@ -43,6 +43,11 @@ describe('Common slots: top leaderboard', () => {
 			.be
 			.true;
 	});
+
+	it('Check regression in top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.checkElement(adSlots.topLeaderboard);
+	});
 });
 
 describe('Common slots: top boxad', () => {
@@ -82,6 +87,11 @@ describe('Common slots: top boxad', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('Check regression in top boxad', () => {
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		browser.checkElement(adSlots.topBoxad);
 	});
 });
 
@@ -151,6 +161,11 @@ describe('Common slots: incontent boxad', () => {
 			.be
 			.true;
 	});
+
+	it('Check regression in incontent boxad', () => {
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.checkElement(adSlots.incontentBoxad);
+	});
 });
 
 describe('Common slots: bottom leaderboard', () => {
@@ -191,6 +206,13 @@ describe('Common slots: bottom leaderboard', () => {
 			.to
 			.be
 			.true;
+	});
+
+	// TODO fix so it takes picture of the actual slot, not blank page
+	it('Check regression in bottom leaderboard', () => {
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.pause(2000);
+		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 });
 

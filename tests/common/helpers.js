@@ -12,7 +12,7 @@ class Helpers {
 		this.classProperty = 'class';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
-		this.wrapper = '.wrapper';
+		this.wrapper = '.wrapper:first-of-type';
 	}
 
 	/**

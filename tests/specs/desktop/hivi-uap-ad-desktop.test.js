@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -90,6 +90,13 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('Check if the line item id is from the same campaign', () => {
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+			.to
+			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
