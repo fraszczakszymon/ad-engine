@@ -1570,6 +1570,14 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 			return parseInt(price, 10) / 100;
 		}
 	}, {
+		key: 'getVastUrl',
+		value: function getVastUrl(width, height, slotName) {
+			return Object(ad_engine_["buildVastUrl"])(width / height, slotName, {
+				pos: slotName,
+				passback: this.bidderName
+			});
+		}
+	}, {
 		key: 'callBids',
 		value: function callBids(bidRequest, addBidResponse, done) {
 			var _this2 = this;
@@ -1587,8 +1595,14 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				var bidResponse = window.pbjs.createBid(1),
 				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
 				    width = _bid$sizes$[0],
-				    height = _bid$sizes$[1];
+				    height = _bid$sizes$[1],
+				    slotName = bid.adUnitCode,
+				    slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
 
+
+				if (!ad_engine_["slotService"].get(slotName)) {
+					ad_engine_["slotService"].add(slot);
+				}
 
 				bidResponse.bidderCode = bidRequest.bidderCode;
 				bidResponse.cpm = _this3.getPrice();
@@ -1597,6 +1611,8 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				bidResponse.mediaType = 'video';
 				bidResponse.width = width;
 				bidResponse.height = height;
+				bidResponse.vastUrl = _this3.getVastUrl(width, height, slotName);
+				bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 				addBidResponse(bid.adUnitCode, bidResponse);
 			});
