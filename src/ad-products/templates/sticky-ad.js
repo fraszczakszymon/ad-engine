@@ -71,9 +71,9 @@ export class StickyAd {
 			}
 		}
 
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
+		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 
-		const startOffset = utils.getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
+		const startOffset = utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
 		this.scrollListener = scrollListener.addCallback(() => {
 			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
@@ -103,7 +103,7 @@ export class StickyAd {
 			onClick: () => this.stickiness.close()
 		}).render();
 
-		this.adSlot.getElement().firstChild.appendChild(this.closeButton);
+		this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
 	}
 
 	removeUnstickButton() {
@@ -113,8 +113,8 @@ export class StickyAd {
 	removeStickyParameters() {
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
 		this.adSlot.getElement().style.height = null;
-		this.adSlot.getElement().firstChild.style.top = null;
-		this.adSlot.getElement().firstChild.style.left = null;
+		this.adSlot.getElement().querySelector('div').style.top = null;
+		this.adSlot.getElement().querySelector('div').style.left = null;
 	}
 
 	addUnstickEventsListeners() {
@@ -125,16 +125,16 @@ export class StickyAd {
 
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
-			await animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.removeStickyParameters();
-			animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
 		} else {
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = `${this.adSlot.getElement().firstChild.offsetHeight}px`;
-			this.adSlot.getElement().firstChild.style.top = `${this.topOffset}px`;
-			this.adSlot.getElement().firstChild.style.left = `${this.leftOffset}px`;
+			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
+			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
+			this.adSlot.getElement().querySelector('div').style.left = `${this.leftOffset}px`;
 
 			this.addUnstickButton();
 		}
