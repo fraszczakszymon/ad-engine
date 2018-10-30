@@ -205,7 +205,7 @@
     animation: fadeIn 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19); }
   .sticky-template.sticky-slot > div {
     padding: 0;
-    position: fixed;
+    position: fixed !important;
     z-index: 5000000;
     top: 0;
     backface-visibility: hidden; }

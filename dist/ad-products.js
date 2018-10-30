@@ -1053,9 +1053,9 @@ var sticky_ad_StickyAd = function () {
 				}
 			}
 
-			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 
-			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
+			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
 			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
 				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
@@ -1115,7 +1115,7 @@ var sticky_ad_StickyAd = function () {
 				}
 			}).render();
 
-			this.adSlot.getElement().firstChild.appendChild(this.closeButton);
+			this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
 		}
 	}, {
 		key: 'removeUnstickButton',
@@ -1127,8 +1127,8 @@ var sticky_ad_StickyAd = function () {
 		value: function removeStickyParameters() {
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = null;
-			this.adSlot.getElement().firstChild.style.top = null;
-			this.adSlot.getElement().firstChild.style.left = null;
+			this.adSlot.getElement().querySelector('div').style.top = null;
+			this.adSlot.getElement().querySelector('div').style.left = null;
 		}
 	}, {
 		key: 'addUnstickEventsListeners',
@@ -1155,11 +1155,11 @@ var sticky_ad_StickyAd = function () {
 								}
 
 								_context2.next = 3;
-								return animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 3:
 								this.removeStickyParameters();
-								animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
 								_context2.next = 13;
@@ -1167,9 +1167,9 @@ var sticky_ad_StickyAd = function () {
 
 							case 8:
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-								this.adSlot.getElement().style.height = this.adSlot.getElement().firstChild.offsetHeight + 'px';
-								this.adSlot.getElement().firstChild.style.top = this.topOffset + 'px';
-								this.adSlot.getElement().firstChild.style.left = this.leftOffset + 'px';
+								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
+								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
+								this.adSlot.getElement().querySelector('div').style.left = this.leftOffset + 'px';
 
 								this.addUnstickButton();
 
