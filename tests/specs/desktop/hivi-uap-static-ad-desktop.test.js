@@ -93,12 +93,12 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
 	});
 
-	it('Check regression in top leaderboard (default)', () => {
+	it('Check visual regression in top leaderboard (default)', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.checkElement(adSlots.topLeaderboard);
 	});
 
-	it('Check regression in top leaderboard (resolved)', () => {
+	it('Check visual regression in top leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.checkElement(adSlots.topLeaderboard);
 	});
@@ -197,14 +197,14 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check regression in bottom leaderboard (default)', () => {
+	it('Check visual regression in bottom leaderboard (default)', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard);
 		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 
-	it('Check regression in bottom leaderboard (resolved)', () => {
+	it('Check visual regression in bottom leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard);

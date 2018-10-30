@@ -11,7 +11,7 @@ describe('Floating rail ads page: top boxad', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
-	it('Check regression in top boxad', () => {
+	it('Check visual regression in top boxad', () => {
 		browser.checkElement(adSlots.topBoxad);
 	});
 });
