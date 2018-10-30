@@ -1,4 +1,4 @@
-import { AdEngine, context, utils } from '@wikia/ad-engine';
+import { AdEngine, context, events, utils } from '@wikia/ad-engine';
 import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
 
@@ -17,6 +17,10 @@ function makeCall(lazyCallProject = null) {
 			serializedElement.innerText = billTheLizard.serialize();
 		});
 }
+
+events.on(events.BILL_THE_LIZARD_REQUEST, (query) => {
+	console.log('⛳ bill-the-lizard requested', query);
+});
 
 context.extend(adContext);
 
