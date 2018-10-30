@@ -4,6 +4,7 @@ import adSlots from '../common/adSlots';
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
+const timeToCollapse = 2000;
 const aspectRatioDelta = 3;
 
 class Helpers {
@@ -300,6 +301,13 @@ class Helpers {
 		const frame = browser.element(frameID).value;
 
 		browser.frame(frame);
+	}
+
+	/**
+	 * Waits for the slot to collapse.
+	 */
+	waitToCollapse() {
+		browser.pause(timeToCollapse);
 	}
 }
 
