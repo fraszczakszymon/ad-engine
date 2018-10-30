@@ -22,6 +22,7 @@ exports.config = {
 			'./tests/specs/desktop/floating-rail-ad.test.js',
 			'./tests/specs/desktop/abcd-ad.test.js',
 			'./tests/specs/desktop/hivi-uap-ad-desktop.test.js',
+			'./tests/specs/desktop/hivi-uap-sticky-bfab-ad-desktop.test.js',
 			'./tests/specs/desktop/hivi-uap-static-ad-desktop.test.js',
 			'./tests/specs/desktop/hivi-uap-jwp-ad-desktop.test.js',
 			'./tests/specs/desktop/hivi-uap-twitch-ad-desktop.test.js',

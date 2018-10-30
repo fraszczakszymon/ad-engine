@@ -14,6 +14,7 @@ describe('Floating rail ads page: top boxad', () => {
 	it('Check regression in top boxad', () => {
 		browser.checkElement(adSlots.topBoxad);
 	});
+});
 
 describe('Floating rail ads page: floating rail', () => {
 	before(() => {
@@ -23,7 +24,8 @@ describe('Floating rail ads page: floating rail', () => {
 
 	it('Check if rail scrolls with the content', () => {
 		helpers.slowScroll(500);
-		expect(browser.element(floatingRailAd.rail).getAttribute(helpers.classProperty))
+		expect(browser.element(floatingRailAd.rail)
+			.getAttribute(helpers.classProperty))
 			.to
 			.equal(floatingRailAd.attributeRailScrolling, 'Rail did not scroll');
 		expect(browser.isVisibleWithinViewport(floatingRailAd.rail, 'Rail not in viewport'))

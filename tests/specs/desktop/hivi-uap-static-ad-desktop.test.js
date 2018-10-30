@@ -197,15 +197,17 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check regression in top leaderboard (default)', () => {
+	it('Check regression in bottom leaderboard (default)', () => {
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
+		browser.waitForVisible(adSlots.bottomLeaderboard);
 		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 
-	it('Check regression in top leaderboard (resolved)', () => {
+	it('Check regression in bottom leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
+		browser.waitForVisible(adSlots.bottomLeaderboard);
 		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 });

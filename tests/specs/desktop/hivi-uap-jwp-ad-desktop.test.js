@@ -117,6 +117,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 		hiviUapJwp.waitToLoadAds();
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.waitForEnabled(adSlots.incontentBoxad, timeouts.standard);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
 			.to
@@ -130,13 +131,16 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 
 	it('Check regression in incontent boxad', () => {
 		hiviUapJwp.waitToLoadAds();
+		helpers.slowScroll(1000);
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		browser.checkElement(adSlots.incontentBoxad);
 	});
 });
 
 describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
-	before(() => {
+	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
+		browser.waitForVisible(hiviUapJwp.loadAdsButton);
 		browser.click(hiviUapJwp.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
@@ -167,7 +171,6 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after click
 	});
 
 	it('Check regression in incontent boxad', () => {
-		hiviUapJwp.waitToLoadAds();
 		browser.checkElement(adSlots.incontentBoxad);
 	});
 });
