@@ -109,7 +109,7 @@ class Helpers {
 	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.standard) {
 		browser.refresh();
 		browser.pause(timeout);
-		browser.waitForVisible(adSlot);
+		browser.waitForVisible(adSlot, timeout);
 	}
 
 	/**

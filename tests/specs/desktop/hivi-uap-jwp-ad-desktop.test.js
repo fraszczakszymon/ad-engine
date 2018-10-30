@@ -146,6 +146,10 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after click
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
+	afterEach(() => {
+		browser.scroll(0, 0);
+	});
+
 	it('Check if slot shows up after clicking the button', () => {
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
 			.to
