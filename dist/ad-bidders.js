@@ -1577,7 +1577,8 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 					pos: slotName,
 					passback: this.bidderName
 				},
-				videoAdUnitId: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.videoAdUnitId')
+				videoAdUnitId: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.videoAdUnitId'),
+				customParams: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.customParams')
 			});
 		}
 	}, {

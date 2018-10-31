@@ -15,18 +15,6 @@ function getCustomParameters(slot, extraTargeting = {}) {
 	);
 }
 
-// TODO: remove this function after there is no AdEngine2 or Porvata2
-function getCustomParametersForAdEngine2(extraTargeting = {}) {
-	const params = Object.assign({}, context.get('targeting'), extraTargeting);
-
-	return encodeURIComponent(
-		Object.keys(params)
-			.filter(key => params[key])
-			.map(key => `${key}=${params[key]}`)
-			.join('&')
-	);
-}
-
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
 			'output=vast',
@@ -44,9 +32,10 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	if (slot) {
 		params.push(`iu=${slot.getVideoAdUnit()}`);
 		params.push(`cust_params=${getCustomParameters(slot, options.targeting)}`);
-	} else if (options.videoAdUnitId) {
+	} else if (options.videoAdUnitId && options.customParams) {
+	// this condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push(`iu=${options.videoAdUnitId}`);
-		params.push(`cust_params=${getCustomParametersForAdEngine2(options.targeting)}`);
+		params.push(`cust_params=${options.customParams}`);
 	} else {
 		throw Error('Slot does not exist!');
 	}
