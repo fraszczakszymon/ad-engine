@@ -1573,8 +1573,10 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		key: 'getVastUrl',
 		value: function getVastUrl(width, height, slotName) {
 			return Object(ad_engine_["buildVastUrl"])(width / height, slotName, {
-				pos: slotName,
-				passback: this.bidderName
+				targetting: {
+					pos: slotName,
+					passback: this.bidderName
+				}
 			});
 		}
 	}, {
@@ -1596,12 +1598,15 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
 				    width = _bid$sizes$[0],
 				    height = _bid$sizes$[1],
-				    slotName = bid.adUnitCode,
-				    slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
+				    slotName = bid.adUnitCode;
 
+				var slot = ad_engine_["slotService"].get(slotName);
 
-				if (!ad_engine_["slotService"].get(slotName)) {
+				if (!slot) {
+					slot = new ad_engine_["AdSlot"]({ id: slotName });
 					ad_engine_["slotService"].add(slot);
+					// ADEN-7773 once there is no AdEngine2 remove the line below
+					ad_engine_["slotService"].get(slotName);
 				}
 
 				bidResponse.bidderCode = bidRequest.bidderCode;
