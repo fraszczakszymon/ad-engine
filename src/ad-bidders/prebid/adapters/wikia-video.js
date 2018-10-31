@@ -43,8 +43,10 @@ export class WikiaVideo extends BaseAdapter {
 
 	getVastUrl(width, height, slotName) {
 		return buildVastUrl(width / height, slotName, {
-			pos: slotName,
-			passback: this.bidderName
+			targetting: {
+				pos: slotName,
+				passback: this.bidderName
+			}
 		});
 	}
 
@@ -58,11 +60,14 @@ export class WikiaVideo extends BaseAdapter {
 		bidRequest.bids.forEach((bid) => {
 			const bidResponse = window.pbjs.createBid(1),
 				[width, height] = bid.sizes[0],
-				slotName = bid.adUnitCode,
-				slot = slotService.get(slotName) || new AdSlot({ id: slotName });
+				slotName = bid.adUnitCode;
+			let slot = slotService.get(slotName);
 
-			if (!slotService.get(slotName)) {
+			if (!slot) {
+				slot = new AdSlot({ id: slotName });
 				slotService.add(slot);
+				// ADEN-7773 once there is no AdEngine2 remove the line below
+				slotService.get(slotName);
 			}
 
 			bidResponse.bidderCode = bidRequest.bidderCode;
