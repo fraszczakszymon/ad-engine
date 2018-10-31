@@ -19,15 +19,15 @@ exports.config = {
 
 		],
 		desktopTemplates: [
-			'./tests/specs/floating-rail-ad.test.js',
-			'./tests/specs/abcd-ad.test.js',
+			'./tests/specs/floating-rail-ad.desktop.test.js',
+			'./tests/specs/abcd-ad.desktop.test.js',
 			'./tests/specs/hivi-uap-ad.desktop.test.js',
 			'./tests/specs/hivi-uap-sticky-bfab-ad.desktop.test.js',
 			'./tests/specs/hivi-uap-static-ad.desktop.test.js',
 			'./tests/specs/hivi-uap-jwp-ad.desktop.test.js',
 			'./tests/specs/hivi-uap-twitch-ad.desktop.test.js',
-			'./tests/specs/floating-ad.test.js',
-			'./tests/specs/sticky-ad.test.js',
+			'./tests/specs/floating-ad.desktop.test.js',
+			'./tests/specs/sticky-ad.desktop.test.js',
 		],
 		mobileTemplates: [
 			'./tests/specs/hivi-uap-ad.mobile.test.js',
@@ -39,20 +39,20 @@ exports.config = {
 
 		],
 		utils: [
-			'./tests/specs/labrador-basset.test.js',
+			'./tests/specs/labrador-basset.desktop.test.js',
 		],
 		slots: [
-			'./tests/specs/btf-only-ad.test.js',
-			'./tests/specs/repeatable-slots.test.js',
-			'./tests/specs/animations-ad.test.js',
-			'./tests/specs/common-slots-ad.test.js',
-			'./tests/specs/delay-ad.test.js',
-			'./tests/specs/viewport-conflict-ad.test.js',
-			'./tests/specs/block-btf-ad.test.js',
-			'./tests/specs/empty-response.test.js',
+			'./tests/specs/btf-only-ad.desktop.test.js',
+			'./tests/specs/repeatable-slots.desktop.test.js',
+			'./tests/specs/animations-ad.desktop.test.js',
+			'./tests/specs/common-slots-ad.desktop.test.js',
+			'./tests/specs/delay-ad.desktop.test.js',
+			'./tests/specs/viewport-conflict-ad.desktop.test.js',
+			'./tests/specs/block-btf-ad.desktop.test.js',
+			'./tests/specs/empty-response.desktop.test.js',
 		],
 		video: [
-			'./tests/specs/porvata.test.js',
+			'./tests/specs/porvata.desktop.test.js',
 		],
 		vendors: [
 
