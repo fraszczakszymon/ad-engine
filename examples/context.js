@@ -62,7 +62,9 @@ export default {
 			wikiaVideo: {
 				enabled: true,
 				slots: {
-					incontent_player: {}
+					incontent_player: {
+							videoAdUnitId: '/5441/wka.life/_project43//article/test/outstream'
+					}
 				}
 			}
 		}

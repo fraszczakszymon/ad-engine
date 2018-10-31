@@ -46,7 +46,8 @@ export class WikiaVideo extends BaseAdapter {
 			targetting: {
 				pos: slotName,
 				passback: this.bidderName
-			}
+			},
+			videoAdUnitId: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.videoAdUnitId`)
 		});
 	}
 
@@ -61,14 +62,6 @@ export class WikiaVideo extends BaseAdapter {
 			const bidResponse = window.pbjs.createBid(1),
 				[width, height] = bid.sizes[0],
 				slotName = bid.adUnitCode;
-			let slot = slotService.get(slotName);
-
-			if (!slot) {
-				slot = new AdSlot({ id: slotName });
-				slotService.add(slot);
-				// ADEN-7773 once there is no AdEngine2 remove the line below
-				slotService.get(slotName);
-			}
 
 			bidResponse.bidderCode = bidRequest.bidderCode;
 			bidResponse.cpm = this.getPrice();
