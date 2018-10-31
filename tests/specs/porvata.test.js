@@ -1,6 +1,6 @@
-import porvata from '../../pages/porvata.page';
-import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import porvata from '../pages/porvata.page';
+import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 

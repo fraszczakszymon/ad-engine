@@ -1,7 +1,7 @@
-import emptyResponse from '../../pages/empty-response.page';
-import adSlots from '../../common/adSlots';
-import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import emptyResponse from '../pages/empty-response.page';
+import adSlots from '../common/adSlots';
+import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 

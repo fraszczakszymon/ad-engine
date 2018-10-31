@@ -1,7 +1,7 @@
-import hiviUap from '../../pages/hivi-uap-ad.page';
-import adSlots from '../../common/adSlots';
-import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import hiviUap from '../pages/hivi-uap-ad.page';
+import adSlots from '../common/adSlots';
+import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 

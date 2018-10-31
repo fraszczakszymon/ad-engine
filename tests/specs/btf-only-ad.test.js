@@ -1,7 +1,7 @@
-import btfOnlyAd from '../../pages/btf-only-ad.page';
-import adSlots from '../../common/adSlots';
-import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import btfOnlyAd from '../pages/btf-only-ad.page';
+import adSlots from '../common/adSlots';
+import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 

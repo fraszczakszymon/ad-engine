@@ -1,7 +1,7 @@
-import stickyAd from '../../pages/sticky-ad.page';
-import adSlots from '../../common/adSlots';
-import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import stickyAd from '../pages/sticky-ad.page';
+import adSlots from '../common/adSlots';
+import { timeouts } from '../common/timeouts';
+import helpers from '../common/helpers';
 
 const { expect } = require('chai');
 

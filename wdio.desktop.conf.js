@@ -5,7 +5,7 @@ const wdioConf = require('./wdio.conf.js');
 exports.config = merge(wdioConf.config, {
 
 	specs: [
-		'tests/specs/desktop/*.js'
+		'tests/specs/*.desktop.js'
 	],
 	capabilities: [
 		{

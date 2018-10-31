@@ -1,7 +1,7 @@
-import floatingAd from '../../pages/floating-ad.page';
-import adSlots from '../../common/adSlots';
-import helpers from '../../common/helpers';
-import { timeouts } from '../../common/timeouts';
+import floatingAd from '../pages/floating-ad.page';
+import adSlots from '../common/adSlots';
+import helpers from '../common/helpers';
+import { timeouts } from '../common/timeouts';
 
 const { expect } = require('chai');
 
