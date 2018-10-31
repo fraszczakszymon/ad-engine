@@ -197,14 +197,6 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	// TODO fix endY problems
-	it('Check visual regression in bottom leaderboard (default)', () => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		browser.scroll(0, 7000);
-		browser.waitForVisible(adSlots.bottomLeaderboard);
-		browser.checkElement(adSlots.bottomLeaderboard);
-	});
-
 	it('Check visual regression in bottom leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 7000);

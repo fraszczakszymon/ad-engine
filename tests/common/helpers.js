@@ -265,6 +265,7 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
+		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
 
 		const tabIds = browser.getTabIds();
 

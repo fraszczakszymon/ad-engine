@@ -207,10 +207,5 @@ describe('Common slots: bottom leaderboard', () => {
 			.be
 			.true;
 	});
-
-	// TODO fix so it takes picture of the actual slot, not blank page
-	it('Check visual regression in bottom leaderboard', () => {
-		browser.checkElement(adSlots.bottomLeaderboard);
-	});
 });
 
