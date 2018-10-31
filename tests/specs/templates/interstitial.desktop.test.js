@@ -1,6 +1,6 @@
-import interstitial from '../pages/interstitial.page';
-import { timeouts } from '../common/timeouts';
-import adSlots from '../common/adSlots';
+import interstitial from '../../pages/interstitial.page';
+import { timeouts } from '../../common/timeouts';
+import adSlots from '../../common/adSlots';
 
 const { expect } = require('chai');
 

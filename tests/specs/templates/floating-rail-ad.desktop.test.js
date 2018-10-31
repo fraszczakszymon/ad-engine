@@ -1,7 +1,7 @@
-import floatingRailAd from '../pages/floating-rail-ad.page';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
-import adSlots from '../common/adSlots';
+import floatingRailAd from '../../pages/floating-rail-ad.page';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
+import adSlots from '../../common/adSlots';
 
 const { expect } = require('chai');
 

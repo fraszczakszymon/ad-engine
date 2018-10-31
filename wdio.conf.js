@@ -13,9 +13,6 @@ function getScreenshotName(basePath) {
 }
 
 exports.config = {
-	specs: [
-		'./tests/specs/**/*.js'
-	],
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
 		slots: ['./tests/specs/slots/*.test.js'],

@@ -1,7 +1,7 @@
-import hiviUapStickyBfab from '../pages/hivi-uap-sticky-bfab-ad.page';
-import adSlots from '../common/adSlots';
-import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import hiviUapStickyBfab from '../../pages/hivi-uap-sticky-bfab-ad.page';
+import adSlots from '../../common/adSlots';
+import { timeouts } from '../../common/timeouts';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
