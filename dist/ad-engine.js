@@ -5108,8 +5108,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.2.1');
-logger('ad-engine', 'v19.2.1');
+set_default()(window, versionField, 'v19.3.0');
+logger('ad-engine', 'v19.3.0');
 
 
 
