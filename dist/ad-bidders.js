@@ -1576,7 +1576,8 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				targetting: {
 					pos: slotName,
 					passback: this.bidderName
-				}
+				},
+				videoAdUnitId: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.videoAdUnitId')
 			});
 		}
 	}, {
@@ -1600,14 +1601,6 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 				    height = _bid$sizes$[1],
 				    slotName = bid.adUnitCode;
 
-				var slot = ad_engine_["slotService"].get(slotName);
-
-				if (!slot) {
-					slot = new ad_engine_["AdSlot"]({ id: slotName });
-					ad_engine_["slotService"].add(slot);
-					// ADEN-7773 once there is no AdEngine2 remove the line below
-					ad_engine_["slotService"].get(slotName);
-				}
 
 				bidResponse.bidderCode = bidRequest.bidderCode;
 				bidResponse.cpm = _this3.getPrice();
