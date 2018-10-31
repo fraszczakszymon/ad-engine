@@ -14,3 +14,4 @@ tests/allure-results/*
 spec/build
 tests/config.json
 tests/.wdio
+tests/screenshots/current

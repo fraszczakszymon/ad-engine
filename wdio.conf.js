@@ -87,9 +87,9 @@ exports.config = {
 
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
-			referenceName: getScreenshotName(path.join(process.cwd(), 'screenshots/reference')),
-			screenshotName: getScreenshotName(path.join(process.cwd(), 'screenshots/screen')),
-			diffName: getScreenshotName(path.join(process.cwd(), 'screenshots/diff')),
+			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),
+			screenshotName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/current')),
+			diffName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/diff')),
 			misMatchTolerance: 0.01,
 		}),
 		viewportChangePause: 300,
