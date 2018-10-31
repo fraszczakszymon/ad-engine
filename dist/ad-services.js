@@ -332,23 +332,32 @@ var projects_handler_ProjectsHandler = function () {
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
 
+ad_engine_["events"].registerEvent('BILL_THE_LIZARD_REQUEST');
+
 /**
- * Builds endpoint url
- * @param {string} host
- * @param {string} endpoint
+ * Builds query parameters for url
  * @param {Object} queryParameters (key-value pairs for query parameters)
  * @returns {string}
  */
-function buildUrl(host, endpoint) {
-	var queryParameters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
+function buildQueryUrl(queryParameters) {
 	var params = [];
 
 	keys_default()(queryParameters).forEach(function (key) {
 		params.push(key + '=' + queryParameters[key]);
 	});
 
-	return host + '/' + endpoint + '?' + encodeURI(params.join('&'));
+	return encodeURI(params.join('&'));
+}
+
+/**
+ * Builds endpoint url
+ * @param {string} host
+ * @param {string} endpoint
+ * @param {string} query
+ * @returns {string}
+ */
+function buildUrl(host, endpoint, query) {
+	return host + '/' + endpoint + '?' + query;
 }
 
 /**
@@ -364,7 +373,10 @@ function httpRequest(host, endpoint) {
 	var timeout = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
 	var request = new window.XMLHttpRequest();
-	var url = buildUrl(host, endpoint, queryParameters);
+	var query = buildQueryUrl(queryParameters);
+	var url = buildUrl(host, endpoint, query);
+
+	ad_engine_["events"].emit(ad_engine_["events"].BILL_THE_LIZARD_REQUEST, query);
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
