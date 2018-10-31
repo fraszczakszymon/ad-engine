@@ -1635,7 +1635,7 @@ function buildVastUrl(aspectRatio, slotName) {
 	} else if (options.videoAdUnitId && options.customParams) {
 		// this condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push('iu=' + options.videoAdUnitId);
-		params.push('cust_params=' + options.customParams);
+		params.push('cust_params=' + encodeURIComponent(options.customParams));
 	} else {
 		throw Error('Slot does not exist!');
 	}
