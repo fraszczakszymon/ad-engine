@@ -1053,9 +1053,9 @@ var sticky_ad_StickyAd = function () {
 				}
 			}
 
-			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().firstChild.firstChild);
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 
-			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().firstChild) - this.topOffset;
+			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
 			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
 				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
@@ -1115,7 +1115,7 @@ var sticky_ad_StickyAd = function () {
 				}
 			}).render();
 
-			this.adSlot.getElement().firstChild.appendChild(this.closeButton);
+			this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
 		}
 	}, {
 		key: 'removeUnstickButton',
@@ -1127,8 +1127,8 @@ var sticky_ad_StickyAd = function () {
 		value: function removeStickyParameters() {
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = null;
-			this.adSlot.getElement().firstChild.style.top = null;
-			this.adSlot.getElement().firstChild.style.left = null;
+			this.adSlot.getElement().querySelector('div').style.top = null;
+			this.adSlot.getElement().querySelector('div').style.left = null;
 		}
 	}, {
 		key: 'addUnstickEventsListeners',
@@ -1155,11 +1155,11 @@ var sticky_ad_StickyAd = function () {
 								}
 
 								_context2.next = 3;
-								return animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 3:
 								this.removeStickyParameters();
-								animate(this.adSlot.getElement().firstChild, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
 								_context2.next = 13;
@@ -1167,9 +1167,9 @@ var sticky_ad_StickyAd = function () {
 
 							case 8:
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-								this.adSlot.getElement().style.height = this.adSlot.getElement().firstChild.offsetHeight + 'px';
-								this.adSlot.getElement().firstChild.style.top = this.topOffset + 'px';
-								this.adSlot.getElement().firstChild.style.left = this.leftOffset + 'px';
+								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
+								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
+								this.adSlot.getElement().querySelector('div').style.left = this.leftOffset + 'px';
 
 								this.addUnstickButton();
 
@@ -4198,7 +4198,8 @@ var roadblock_Roadblock = function () {
 		value: function getDefaultConfig() {
 			return {
 				slotsToEnable: [],
-				slotsToDisable: []
+				slotsToDisable: [],
+				onInit: function onInit() {}
 			};
 		}
 	}]);
@@ -4220,6 +4221,10 @@ var roadblock_Roadblock = function () {
 			this.params = params;
 			this.params.adProduct = 'ruap';
 			universalAdPackage.init(this.params, this.config.slotsToEnable, this.config.slotsToDisable);
+
+			if (this.config.onInit) {
+				this.config.onInit();
+			}
 		}
 	}]);
 
@@ -4233,9 +4238,132 @@ var roadblock_Roadblock = function () {
 
 
 
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/floor-adhesion.js
+
+
+
+
+
+var floor_adhesion_FloorAdhesion = function () {
+	createClass_default()(FloorAdhesion, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'floorAdhesion';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
+	function FloorAdhesion(adSlot) {
+		classCallCheck_default()(this, FloorAdhesion);
+
+		this.adSlot = adSlot;
+		this.config = ad_engine_["context"].get('templates.floorAdhesion');
+	}
+
+	createClass_default()(FloorAdhesion, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			var wrapper = this.adSlot.getElement();
+			var closeButton = new close_button_CloseButton({
+				onClick: function onClick() {
+					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					ad_engine_["utils"].logger(FloorAdhesion.getName(), 'closed');
+				}
+			});
+
+			this.config.onInit();
+
+			wrapper.appendChild(closeButton.render());
+			wrapper.classList.add('floor-adhesion');
+			wrapper.classList.add('out-of-page-template');
+
+			ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
+
+			ad_engine_["utils"].logger(FloorAdhesion.getName(), 'init');
+		}
+	}]);
+
+	return FloorAdhesion;
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/interstitial.js
+
+
+
+
+
+
+var interstitial_Interstitial = function () {
+	createClass_default()(Interstitial, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'interstitial';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
+	function Interstitial(adSlot) {
+		classCallCheck_default()(this, Interstitial);
+
+		this.adSlot = adSlot;
+		this.config = ad_engine_["context"].get('templates.interstitial');
+	}
+
+	createClass_default()(Interstitial, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			var wrapper = this.adSlot.getElement();
+			var closeButton = new close_button_CloseButton({
+				onClick: function onClick() {
+					document.documentElement.classList.remove('stop-scrolling');
+					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					ad_engine_["utils"].logger(Interstitial.getName(), 'closed');
+				}
+			});
+			var label = new advertisement_label_AdvertisementLabel();
+
+			this.config.onInit();
+
+			wrapper.appendChild(closeButton.render());
+			wrapper.appendChild(label.render());
+			wrapper.classList.add('interstitial');
+			wrapper.classList.add('out-of-page-template');
+			document.documentElement.classList.add('stop-scrolling');
+
+			ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
+
+			ad_engine_["utils"].logger(Interstitial.getName(), 'init');
+
+			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
+				document.documentElement.classList.remove('stop-scrolling');
+			});
+		}
+	}]);
+
+	return Interstitial;
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/out-of-page/index.js
+
+
 // CONCATENATED MODULE: ./src/ad-products/templates/outstream/index.js
 
 // CONCATENATED MODULE: ./src/ad-products/templates/index.js
+
 
 
 
@@ -4252,6 +4380,8 @@ var roadblock_Roadblock = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdInPlayer", function() { return big_fancy_ad_in_player_BigFancyAdInPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Roadblock", function() { return roadblock_Roadblock; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "universalAdPackage", function() { return universalAdPackage; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloorAdhesion", function() { return floor_adhesion_FloorAdhesion; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Interstitial", function() { return interstitial_Interstitial; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DEFAULT_VIDEO_ASPECT_RATIO", function() { return DEFAULT_VIDEO_ASPECT_RATIO; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });

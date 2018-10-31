@@ -15,6 +15,8 @@ let loaded = false;
 window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
+events.registerEvent('BIDS_REFRESH');
+
 export class Prebid extends BaseBidder {
 	constructor(bidderConfig, timeout = 2000) {
 		super('prebid', bidderConfig, timeout);
@@ -196,6 +198,7 @@ export class Prebid extends BaseBidder {
 		window.pbjs.que.push(() => {
 			window.pbjs.onEvent('bidWon', (winningBid) => {
 				if (this.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
+					events.emit(events.BIDS_REFRESH);
 					const adUnitsToRefresh = this.adUnits.filter(
 						adUnit => (
 							adUnit.code === winningBid.adUnitCode &&

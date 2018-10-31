@@ -13,50 +13,15 @@ function getScreenshotName(basePath) {
 }
 
 exports.config = {
-
+	specs: [
+		'./tests/specs/**/*.js'
+	],
 	suites: {
-		bidders: [
-
-		],
-		desktopTemplates: [
-			'./tests/specs/floating-rail-ad.desktop.test.js',
-			'./tests/specs/abcd-ad.desktop.test.js',
-			'./tests/specs/hivi-uap-ad.desktop.test.js',
-			'./tests/specs/hivi-uap-sticky-bfab-ad.desktop.test.js',
-			'./tests/specs/hivi-uap-static-ad.desktop.test.js',
-			'./tests/specs/hivi-uap-jwp-ad.desktop.test.js',
-			'./tests/specs/hivi-uap-twitch-ad.desktop.test.js',
-			'./tests/specs/floating-ad.desktop.test.js',
-			'./tests/specs/sticky-ad.desktop.test.js',
-		],
-		mobileTemplates: [
-			'./tests/specs/hivi-uap-ad.mobile.test.js',
-			'./tests/specs/hivi-uap-static-ad.mobile.test.js',
-			'./tests/specs/hivi-uap-jwp-ad.mobile.test.js',
-			'./tests/specs/abcd-ad-mobile.test.js',
-		],
-		services: [
-
-		],
-		utils: [
-			'./tests/specs/labrador-basset.desktop.test.js',
-		],
-		slots: [
-			'./tests/specs/btf-only-ad.desktop.test.js',
-			'./tests/specs/repeatable-slots.desktop.test.js',
-			'./tests/specs/animations-ad.desktop.test.js',
-			'./tests/specs/common-slots-ad.desktop.test.js',
-			'./tests/specs/delay-ad.desktop.test.js',
-			'./tests/specs/viewport-conflict-ad.desktop.test.js',
-			'./tests/specs/block-btf-ad.desktop.test.js',
-			'./tests/specs/empty-response.desktop.test.js',
-		],
-		video: [
-			'./tests/specs/porvata.desktop.test.js',
-		],
-		vendors: [
-
-		]
+		bidders: ['./tests/specs/bidders/*.test.js'],
+		slots: ['./tests/specs/slots/*.test.js'],
+		templates: ['./tests/specs/templates/*.test.js'],
+		utils: ['./tests/specs/utils/*.test.js'],
+		video: ['./tests/specs/video/*.test.js']
 	},
 	maxInstances: 3,
 	sync: true,

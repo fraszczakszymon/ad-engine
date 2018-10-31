@@ -68,19 +68,11 @@ class Helpers {
 	/**
 	 * Adds additional parameters to URL.
 	 * @param {string} url - base URL
-	 * @param {array} parameters - array of parameters to add
+	 * @param {string[]} parameters - array of parameters to add
 	 * @returns {string} given URL with added parameters
 	 */
-	addParametersToUrl(url, parameters) {
-		let finalLink = `${url}?${parameters[0]}`;
-
-		parameters.shift();
-		if (parameters.length > 0) {
-			parameters.forEach((parameter) => {
-				finalLink += `&${parameter}`;
-			});
-		}
-		return finalLink;
+	addParametersToUrl(url, parameters = []) {
+		return `${url}?${parameters.join('&')}`;
 	}
 
 	/**

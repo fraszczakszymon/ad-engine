@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { context, events, utils } from '@wikia/ad-engine';
 import { Executor } from './executor';
 import { ProjectsHandler } from './projects-handler';
 
@@ -12,21 +12,32 @@ import { ProjectsHandler } from './projects-handler';
 
 const logGroup = 'bill-the-lizard';
 
+events.registerEvent('BILL_THE_LIZARD_REQUEST');
+
 /**
- * Builds endpoint url
- * @param {string} host
- * @param {string} endpoint
+ * Builds query parameters for url
  * @param {Object} queryParameters (key-value pairs for query parameters)
  * @returns {string}
  */
-function buildUrl(host, endpoint, queryParameters = {}) {
+function buildQueryUrl(queryParameters) {
 	const params = [];
 
 	Object.keys(queryParameters).forEach((key) => {
 		params.push(`${key}=${queryParameters[key]}`);
 	});
 
-	return `${host}/${endpoint}?${encodeURI(params.join('&'))}`;
+	return encodeURI(params.join('&'));
+}
+
+/**
+ * Builds endpoint url
+ * @param {string} host
+ * @param {string} endpoint
+ * @param {string} query
+ * @returns {string}
+ */
+function buildUrl(host, endpoint, query) {
+	return `${host}/${endpoint}?${query}`;
 }
 
 /**
@@ -39,7 +50,10 @@ function buildUrl(host, endpoint, queryParameters = {}) {
  */
 function httpRequest(host, endpoint, queryParameters = {}, timeout = 0) {
 	const request = new window.XMLHttpRequest();
-	const url = buildUrl(host, endpoint, queryParameters);
+	const query = buildQueryUrl(queryParameters);
+	const url = buildUrl(host, endpoint, query);
+
+	events.emit(events.BILL_THE_LIZARD_REQUEST, query);
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
