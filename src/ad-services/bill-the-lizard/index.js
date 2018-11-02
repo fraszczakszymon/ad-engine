@@ -170,6 +170,7 @@ class BillTheLizard {
 				} else {
 					this.status = BillTheLizard.FAILURE;
 				}
+				return Promise.reject(error);
 			})
 			.then(response => overridePredictions(response))
 			.then((response) => {
@@ -179,6 +180,10 @@ class BillTheLizard {
 				this.executor.executeMethods(models, response);
 
 				return predictions;
+			})
+			.catch((error) => {
+				utils.logger(logGroup, 'service response', error.message);
+				return {};
 			});
 	}
 
