@@ -64,16 +64,20 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0) {
 	return new Promise((resolve, reject) => {
 		request.addEventListener('timeout', () => {
 			request.abort();
-			reject(new Error('Timeout reached'));
+			reject(new Error('timeout'));
 			utils.logger(logGroup, 'timed out');
 		});
-		request.onload = function () {
+		request.onreadystatechange = function () {
+			if (this.readyState < 4) {
+				return;
+			}
+
 			if (this.status === 200) {
 				utils.logger(logGroup, 'has response');
 				resolve(this.response);
 			} else {
 				utils.logger(logGroup, 'error occurred');
-				reject(new Error(this.response ? this.response.message : 'Error'));
+				reject(new Error(this.response ? this.response.message : 'error'));
 			}
 		};
 		request.send();
@@ -118,10 +122,17 @@ function overridePredictions(response) {
  * Bill the Lizard service handler
  */
 class BillTheLizard {
+	static FAILURE = 'failure';
+	static NOT_USED = 'not_used';
+	static ON_TIME = 'on_time';
+	static TIMEOUT = 'timeout';
+	static TOO_LATE = 'too_late';
+
 	constructor() {
 		this.executor = new Executor();
 		this.projectsHandler = new ProjectsHandler();
 		this.predictions = {};
+		this.status = null;
 	}
 
 	/**
@@ -142,16 +153,28 @@ class BillTheLizard {
 
 		if (!models || models.length < 1) {
 			utils.logger(logGroup, 'no models to predict');
-			return new Promise((resolve, reject) => reject(new Error('Missing models')));
+			this.status = BillTheLizard.NOT_USED;
+
+			return Promise.resolve({});
 		}
 
 		const queryParameters = getQueryParameters(models, parameters);
 		utils.logger(logGroup, 'calling service', host, endpoint, queryParameters);
 
+		this.status = BillTheLizard.TOO_LATE;
+
 		return httpRequest(host, endpoint, queryParameters, timeout)
+			.catch((error) => {
+				if (error.message === 'timeout') {
+					this.status = BillTheLizard.TIMEOUT;
+				} else {
+					this.status = BillTheLizard.FAILURE;
+				}
+			})
 			.then(response => overridePredictions(response))
 			.then((response) => {
 				const predictions = this.parsePredictions(models, response);
+				this.status = BillTheLizard.ON_TIME;
 
 				this.executor.executeMethods(models, response);
 
@@ -207,6 +230,14 @@ class BillTheLizard {
 	 */
 	getPredictions() {
 		return this.predictions;
+	}
+
+	/**
+	 * Returns response status (one of: failure, not_used, on_time, timeout, too_late)
+	 * @returns {null|string}
+	 */
+	getResponseStatus() {
+		return this.status;
 	}
 
 	/**
