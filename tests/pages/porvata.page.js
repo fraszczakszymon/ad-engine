@@ -22,7 +22,7 @@ class Porvata {
 	}
 
 	/**
-	 * Returns autoplay on or off
+	 * Turns autoplay on/off
 	 * @param {boolean} autoplay - true/false
 	 * @returns {string} link with correct parameter
 	 */

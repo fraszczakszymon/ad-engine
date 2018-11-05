@@ -105,10 +105,7 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after clicking the
 describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
-		hiviUapJwp.waitToLoadAds();
-		browser.scroll(adSlots.railModule);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
+		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.railModule, adSlots.incontentBoxad);
 	});
 	afterEach(() => {
 		browser.scroll(0, 0);
@@ -138,16 +135,7 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicking the button)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
-		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
-		browser.waitUntil(
-			() => browser.getText(hiviUapJwp.loadAdsButton) === 'Load UAP:JWP (7s)',
-			timeouts.standard,
-			'Button not loaded',
-			timeouts.interval);
-		browser.click(hiviUapJwp.loadAdsButton);
-		browser.scroll(adSlots.railModule);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
+		hiviUapJwp.waitForAdsAfterClickAndScrollToAdSlotOnMobile(adSlots.railModule, adSlots.incontentBoxad);
 	});
 
 	afterEach(() => {
