@@ -1644,6 +1644,7 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 					addBidResponse(bid.adUnitCode, bidResponse);
 					_this3.limit -= 1;
 				});
+
 				done();
 			}, this.timeout);
 		}

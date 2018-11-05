@@ -1,4 +1,4 @@
-import { AdSlot, buildVastUrl, context, slotService, utils } from '@wikia/ad-engine';
+import { buildVastUrl, context, utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
 export class WikiaVideo extends BaseAdapter {
@@ -84,11 +84,12 @@ export class WikiaVideo extends BaseAdapter {
 				bidResponse.width = width;
 				bidResponse.height = height;
 				bidResponse.vastUrl = this.getVastUrl(width, height, slotName);
-                        	bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
+				bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 				addBidResponse(bid.adUnitCode, bidResponse);
 				this.limit -= 1;
 			});
+
 			done();
 		}, this.timeout);
 	}
