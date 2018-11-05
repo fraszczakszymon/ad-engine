@@ -1,3 +1,6 @@
+import helpers from '../common/helpers';
+import { timeouts } from '../common/timeouts';
+
 class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
@@ -15,7 +18,7 @@ class HiviUap {
 		this.slotCollapsed = 'collapse';
 		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
 		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
-		this.videoLength = 50000; // 5 seconds more than the movie has to make sure it changes dimensions (necessary fix)
+		this.videoLength = 45000;
 	}
 
 	/**
@@ -23,6 +26,25 @@ class HiviUap {
 	 */
 	waitForVideoToFinish() {
 		browser.pause(this.videoLength);
+	}
+
+	/**
+	 * Returns current slot size if it equals the one we desire based on ratio.
+	 * @param adSlot slot to take dimensions from
+	 * @param ratio desired slot ratio
+	 * @returns {boolean}
+	 */
+	checkUapSize(adSlot, ratio) {
+		return browser.getElementSize(adSlot) === helpers.checkUAPSizeSlotRatio(adSlot, ratio);
+	}
+
+	/**
+	 * Takes slot size and its ratio and waits for the desired dimensions.
+	 * @param adSlot Slot to take dimensions from
+	 * @param ratio desired slot ratio
+	 */
+	waitForResolved(adSlot, ratio) {
+		browser.waitUntil(this.checkUapSize(adSlot, ratio), timeouts.standard, 'Dimensions not changed', timeouts.interval);
 	}
 }
 

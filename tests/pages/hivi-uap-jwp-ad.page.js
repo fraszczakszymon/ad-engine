@@ -9,6 +9,7 @@ class HiviUapJwp {
 		this.loadAdsButton = '#clickDelay';
 		this.inHouseLineItemId = '271491732';
 		this.uapLineItemId = '4517824948';
+		this.staticFrame = '[name="google_osd_static_frame"]';
 	}
 
 	/**

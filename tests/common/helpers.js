@@ -297,10 +297,15 @@ class Helpers {
 	}
 
 	/**
-	 * Waits for the slot to collapse.
+	 * Waits until the slot has collapsed (its size equals 0).
+	 * @param adSlot ad slot we are waiting for
 	 */
-	waitToCollapse() {
-		browser.pause(timeToCollapse);
+	waitToCollapse(adSlot) {
+		browser.waitUntil(
+			() => browser.getElementSize(adSlot, 'height') === 0,
+			timeouts.standard,
+			'Element not expanded',
+			timeouts.interval);
 	}
 }
 

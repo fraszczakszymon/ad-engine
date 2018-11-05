@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-xdescribe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -21,6 +21,7 @@ xdescribe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check if top leaderboard does not load after manually finishing the queue', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
+		browser.waitForExist(hiviUapJwp.staticFrame, timeouts.standard);
 		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded')
 			.to
 			.be
@@ -28,7 +29,7 @@ xdescribe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 	});
 });
 
-xdescribe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
+describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -60,7 +61,7 @@ xdescribe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () 
 	});
 });
 
-xdescribe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
+describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking the button)', () => {
 	before(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
@@ -125,7 +126,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
 	});
 
-	xit('Check visual regression in incontent boxad', () => {
+	it('Check visual regression in incontent boxad', () => {
 		browser.checkElement(adSlots.incontentBoxad);
 	});
 });
@@ -164,7 +165,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after click
 			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded');
 	});
 
-	xit('Check visual regression in incontent boxad', () => {
+	it('Check visual regression in incontent boxad', () => {
 		browser.checkElement(adSlots.incontentBoxad);
 	});
 });

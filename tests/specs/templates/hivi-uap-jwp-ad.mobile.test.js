@@ -21,6 +21,7 @@ describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check if top leaderboard does not load after manually finishing the queue', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
+		browser.waitForExist(hiviUapJwp.staticFrame, timeouts.standard);
 		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded')
 			.to
 			.be
