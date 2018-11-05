@@ -101,8 +101,6 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	});
 });
 
-// TODO fix pressing buttons
-
 describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);

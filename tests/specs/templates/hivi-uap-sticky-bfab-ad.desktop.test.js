@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Desktop HiVi UAP ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStickyBfab.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
@@ -19,7 +19,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: top boxad', () => {
+describe('Desktop HiVi UAP sticky BFAB ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStickyBfab.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -33,7 +33,7 @@ describe('Desktop HiVi UAP ads page: top boxad', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: incontent boxad', () => {
+describe('Desktop HiVi UAP sticky BFAB ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStickyBfab.pageLink);
 		browser.scroll(0, 1000);
@@ -48,7 +48,7 @@ describe('Desktop HiVi UAP ads page: incontent boxad', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
+describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;

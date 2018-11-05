@@ -5,8 +5,6 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-// TODO fix pressing the button (for both top and incontent boxad tests)
-
 describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
@@ -30,7 +28,7 @@ describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	});
 });
 
-describe('HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
+describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		browser.waitForVisible(hiviUapJwp.loadAdsButton, timeouts.standard);
