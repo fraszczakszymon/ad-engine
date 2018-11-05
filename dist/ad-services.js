@@ -332,23 +332,32 @@ var projects_handler_ProjectsHandler = function () {
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
 
+ad_engine_["events"].registerEvent('BILL_THE_LIZARD_REQUEST');
+
 /**
- * Builds endpoint url
- * @param {string} host
- * @param {string} endpoint
+ * Builds query parameters for url
  * @param {Object} queryParameters (key-value pairs for query parameters)
  * @returns {string}
  */
-function buildUrl(host, endpoint) {
-	var queryParameters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
+function buildQueryUrl(queryParameters) {
 	var params = [];
 
 	keys_default()(queryParameters).forEach(function (key) {
 		params.push(key + '=' + queryParameters[key]);
 	});
 
-	return host + '/' + endpoint + '?' + encodeURI(params.join('&'));
+	return encodeURI(params.join('&'));
+}
+
+/**
+ * Builds endpoint url
+ * @param {string} host
+ * @param {string} endpoint
+ * @param {string} query
+ * @returns {string}
+ */
+function buildUrl(host, endpoint, query) {
+	return host + '/' + endpoint + '?' + query;
 }
 
 /**
@@ -364,7 +373,10 @@ function httpRequest(host, endpoint) {
 	var timeout = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
 	var request = new window.XMLHttpRequest();
-	var url = buildUrl(host, endpoint, queryParameters);
+	var query = buildQueryUrl(queryParameters);
+	var url = buildUrl(host, endpoint, query);
+
+	ad_engine_["events"].emit(ad_engine_["events"].BILL_THE_LIZARD_REQUEST, query);
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
@@ -375,16 +387,20 @@ function httpRequest(host, endpoint) {
 	return new promise_default.a(function (resolve, reject) {
 		request.addEventListener('timeout', function () {
 			request.abort();
-			reject(new Error('Timeout reached'));
+			reject(new Error('timeout'));
 			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'timed out');
 		});
-		request.onload = function () {
+		request.onreadystatechange = function () {
+			if (this.readyState < 4) {
+				return;
+			}
+
 			if (this.status === 200) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'has response');
 				resolve(this.response);
 			} else {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'error occurred');
-				reject(new Error(this.response ? this.response.message : 'Error'));
+				reject(new Error(this.response ? this.response.message : 'error'));
 			}
 		};
 		request.send();
@@ -438,6 +454,7 @@ var bill_the_lizard_BillTheLizard = function () {
 		this.executor = new executor_Executor();
 		this.projectsHandler = new projects_handler_ProjectsHandler();
 		this.predictions = {};
+		this.status = null;
 	}
 
 	/**
@@ -469,18 +486,27 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			if (!models || models.length < 1) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'no models to predict');
-				return new promise_default.a(function (resolve, reject) {
-					return reject(new Error('Missing models'));
-				});
+				this.status = BillTheLizard.NOT_USED;
+
+				return promise_default.a.resolve({});
 			}
 
 			var queryParameters = getQueryParameters(models, parameters);
 			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'calling service', host, endpoint, queryParameters);
 
-			return httpRequest(host, endpoint, queryParameters, timeout).then(function (response) {
+			this.status = BillTheLizard.TOO_LATE;
+
+			return httpRequest(host, endpoint, queryParameters, timeout).catch(function (error) {
+				if (error.message === 'timeout') {
+					_this.status = BillTheLizard.TIMEOUT;
+				} else {
+					_this.status = BillTheLizard.FAILURE;
+				}
+			}).then(function (response) {
 				return overridePredictions(response);
 			}).then(function (response) {
 				var predictions = _this.parsePredictions(models, response);
+				_this.status = BillTheLizard.ON_TIME;
 
 				_this.executor.executeMethods(models, response);
 
@@ -555,6 +581,17 @@ var bill_the_lizard_BillTheLizard = function () {
 		}
 
 		/**
+   * Returns response status (one of: failure, not_used, on_time, timeout, too_late)
+   * @returns {null|string}
+   */
+
+	}, {
+		key: 'getResponseStatus',
+		value: function getResponseStatus() {
+			return this.status;
+		}
+
+		/**
    * Serializes all predictions
    * @returns {string}
    */
@@ -572,6 +609,13 @@ var bill_the_lizard_BillTheLizard = function () {
 
 	return BillTheLizard;
 }();
+
+bill_the_lizard_BillTheLizard.FAILURE = 'failure';
+bill_the_lizard_BillTheLizard.NOT_USED = 'not_used';
+bill_the_lizard_BillTheLizard.ON_TIME = 'on_time';
+bill_the_lizard_BillTheLizard.TIMEOUT = 'timeout';
+bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
+
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
 // CONCATENATED MODULE: ./src/ad-services/krux/index.js
