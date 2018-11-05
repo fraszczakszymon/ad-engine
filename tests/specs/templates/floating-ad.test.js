@@ -1,6 +1,6 @@
-import floatingAd from '../pages/floating-ad.page';
-import adSlots from '../common/adSlots';
-import helpers from '../common/helpers';
+import floatingAd from '../../pages/floating-ad.page';
+import adSlots from '../../common/adSlots';
+import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 

@@ -7,7 +7,6 @@ const contentTemplate = document.querySelector('.content-template').innerHTML;
 const mainContainer = document.getElementById('main-container');
 const limit = utils.queryString.get('limit') || null;
 const contentLength = utils.queryString.get('content_length') || 1;
-const randomPrice = utils.queryString.get('random_price') === '1';
 const enabledProjects = utils.queryString.get('enabled-project');
 
 function loadContent() {
@@ -38,7 +37,12 @@ context.push('listeners.slot', {
 			return '';
 		}
 
-		console.log(`⛳ ${slotName}: wikia adapter price is %c$${transformBidderPrice('wikia')}`, 'font-weight: bold');
+		const price = transformBidderPrice('wikia');
+		if (price) {
+			console.log(`⛳ ${slotName}: wikia adapter price is %c$${price}`, 'font-weight: bold');
+		} else {
+			console.log(`⛳ ${slotName}: wikia adapter responded %ctoo late`, 'font-weight: bold');
+		}
 	}
 });
 
@@ -88,12 +92,6 @@ bidders.requestBids({
 				resolveBidders();
 				resolveBidders = null;
 			}
-
-			window.pbjs.onEvent('auctionInit', () => {
-				if (randomPrice) {
-					context.set('bidders.prebid.wikia.price', (Math.floor(Math.random() * 20) * 100));
-				}
-			});
 		}
 	}
 });

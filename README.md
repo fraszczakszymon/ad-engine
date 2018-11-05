@@ -377,12 +377,6 @@ npm run lint
 
 ## WebdriverIO tests
 
-For allure reports
-
-```bash
-npm install -g allure-commandline --save-dev
-```
-
 ### Run tests
 
 In one session run ad-engine and in other run tests.
@@ -393,6 +387,18 @@ npm run serve
 
 ```bash
 npm run wdio
+```
+
+Run single suite:
+
+```bash
+npm run wdio -- --suite bidders
+```
+
+Run single test file:
+
+```bash
+npm run wdio -- --spec specs/bidders/prebid-wikia-adapter.test.js
 ```
 
 ### Generate Allure report

@@ -14,7 +14,7 @@ export class TwitchListener {
 			pause: 'pause',
 			play: 'play_triggered',
 			playback_blocked: 'playback_blocked',
-			playing: 'started',
+			playing: 'playing',
 			ready: 'ready'
 		};
 		static LOG_GROUP = 'twitch-listener';

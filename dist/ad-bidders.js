@@ -1407,6 +1407,9 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 		_this.bidderName = 'wikia';
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_adapter');
+		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		_this.create = function () {
 			return _this;
@@ -1442,7 +1445,11 @@ var wikia_Wikia = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["context"].get('bidders.prebid.wikia.price') || ad_engine_["utils"].queryString.get('wikia_adapter');
+			var price = ad_engine_["utils"].queryString.get('wikia_adapter');
+
+			if (this.useRandomPrice) {
+				return Math.floor(Math.random() * 2000) / 100;
+			}
 
 			return parseInt(price, 10) / 100;
 		}
@@ -1460,28 +1467,37 @@ var wikia_Wikia = function (_BaseAdapter) {
 		value: function addBids(bidRequest, addBidResponse, done) {
 			var _this3 = this;
 
-			bidRequest.bids.forEach(function (bid) {
-				var bidResponse = window.pbjs.createBid(1),
-				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
-				    width = _bid$sizes$[0],
-				    height = _bid$sizes$[1];
+			setTimeout(function () {
+				bidRequest.bids.forEach(function (bid) {
+					if (_this3.limit === 0) {
+						return;
+					}
 
+					var bidResponse = window.pbjs.createBid(1);
 
-				bidResponse.ad = _this3.getCreative(bid.sizes[0]);
-				bidResponse.bidderCode = bidRequest.bidderCode;
-				bidResponse.cpm = _this3.getPrice();
-				bidResponse.ttl = 300;
-				bidResponse.mediaType = 'banner';
-				bidResponse.width = width;
-				bidResponse.height = height;
+					var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+					    width = _bid$sizes$[0],
+					    height = _bid$sizes$[1];
 
-				addBidResponse(bid.adUnitCode, bidResponse);
-			});
-			done();
+					var cpm = _this3.getPrice();
+
+					bidResponse.ad = _this3.getCreative(bid.sizes[0], cpm);
+					bidResponse.bidderCode = bidRequest.bidderCode;
+					bidResponse.cpm = cpm;
+					bidResponse.ttl = 300;
+					bidResponse.mediaType = 'banner';
+					bidResponse.width = width;
+					bidResponse.height = height;
+
+					addBidResponse(bid.adUnitCode, bidResponse);
+					_this3.limit -= 1;
+				});
+				done();
+			}, this.timeout);
 		}
 	}, {
 		key: 'getCreative',
-		value: function getCreative(size) {
+		value: function getCreative(size, cpm) {
 			var creative = document.createElement('div');
 
 			creative.style.background = '#00b7e0';
@@ -1500,7 +1516,7 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 			var details = document.createElement('small');
 
-			details.innerText = 'cpm: ' + this.getPrice() + ', size: ' + size.join('x');
+			details.innerText = 'cpm: ' + cpm + ', size: ' + size.join('x');
 
 			creative.appendChild(title);
 			creative.appendChild(details);
@@ -1531,6 +1547,9 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 		_this.bidderName = 'wikiaVideo';
 		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_video_adapter');
+		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
 
 		_this.create = function () {
 			return _this;
@@ -1565,7 +1584,11 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["context"].get('bidders.prebid.wikiaVideo.price') || ad_engine_["utils"].queryString.get('wikia_video_adapter');
+			var price = ad_engine_["utils"].queryString.get('wikia_video_adapter');
+
+			if (this.useRandomPrice) {
+				return Math.floor(Math.random() * 20);
+			}
 
 			return parseInt(price, 10) / 100;
 		}
@@ -1595,27 +1618,34 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		value: function addBids(bidRequest, addBidResponse, done) {
 			var _this3 = this;
 
-			bidRequest.bids.forEach(function (bid) {
-				var bidResponse = window.pbjs.createBid(1),
-				    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
-				    width = _bid$sizes$[0],
-				    height = _bid$sizes$[1],
-				    slotName = bid.adUnitCode;
+			setTimeout(function () {
+				bidRequest.bids.forEach(function (bid) {
+					if (_this3.limit === 0) {
+						return;
+					}
+
+					var bidResponse = window.pbjs.createBid(1),
+					    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+					    width = _bid$sizes$[0],
+					    height = _bid$sizes$[1],
+					    slotName = bid.adUnitCode;
 
 
-				bidResponse.bidderCode = bidRequest.bidderCode;
-				bidResponse.cpm = _this3.getPrice();
-				bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
-				bidResponse.ttl = 300;
-				bidResponse.mediaType = 'video';
-				bidResponse.width = width;
-				bidResponse.height = height;
-				bidResponse.vastUrl = _this3.getVastUrl(width, height, slotName);
-				bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
+					bidResponse.bidderCode = bidRequest.bidderCode;
+					bidResponse.cpm = _this3.getPrice();
+					bidResponse.creativeId = 'foo123_wikiaVideoCreativeId';
+					bidResponse.ttl = 300;
+					bidResponse.mediaType = 'video';
+					bidResponse.width = width;
+					bidResponse.height = height;
+					bidResponse.vastUrl = _this3.getVastUrl(width, height, slotName);
+					bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
-				addBidResponse(bid.adUnitCode, bidResponse);
-			});
-			done();
+					addBidResponse(bid.adUnitCode, bidResponse);
+					_this3.limit -= 1;
+				});
+				done();
+			}, this.timeout);
 		}
 	}]);
 
@@ -1898,6 +1928,8 @@ var prebid_loaded = false;
 window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
+ad_engine_["events"].registerEvent('BIDS_REFRESH');
+
 var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec2 = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec3 = Object(external_core_decorators_["decorate"])(prebidLazyRun), (_class = function (_BaseBidder) {
 	inherits_default()(Prebid, _BaseBidder);
 
@@ -2091,6 +2123,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 			window.pbjs.que.push(function () {
 				window.pbjs.onEvent('bidWon', function (winningBid) {
 					if (_this4.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
+						ad_engine_["events"].emit(ad_engine_["events"].BIDS_REFRESH);
 						var adUnitsToRefresh = _this4.adUnits.filter(function (adUnit) {
 							return adUnit.code === winningBid.adUnitCode && adUnit.bids && adUnit.bids[0] && adUnit.bids[0].bidder === winningBid.bidderCode;
 						});
