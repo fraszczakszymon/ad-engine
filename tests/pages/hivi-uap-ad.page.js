@@ -15,7 +15,7 @@ class HiviUap {
 		this.slotCollapsed = 'collapse';
 		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
 		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
-		this.videoLength = 45000;
+		this.videoLength = 50000; // 5 seconds more than the movie has to make sure it changes dimensions (necessary fix)
 	}
 
 	/**

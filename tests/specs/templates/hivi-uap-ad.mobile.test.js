@@ -5,7 +5,7 @@ import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
+describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -93,7 +93,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
-		browser.waitForVisible(hiviUap.closeLeaderboardButton, timeouts.standard);
+		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to

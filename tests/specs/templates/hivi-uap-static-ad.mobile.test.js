@@ -87,6 +87,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if closing top leaderboard works', () => {
+		browser.waitForVisible(hiviUapStatic.closeLeaderboardButton);
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
