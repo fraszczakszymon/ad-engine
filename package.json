@@ -94,9 +94,9 @@
     "test": "mocha-webpack --full-trace './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test",
     "test-coverage": "nyc mocha-webpack './spec/**/*.spec.js' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml",
     "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch",
-    "wdioDesktop": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.desktop.conf.js",
-    "wdioMobile": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.mobile.conf.js",
-    "wdioAll": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.mobile.conf.js; BABEL_ENV=test ./node_modules/.bin/wdio wdio.desktop.conf.js",
+    "wdio-desktop": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.desktop.conf.js",
+    "wdio-mobile": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.mobile.conf.js",
+    "wdio-all": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.mobile.conf.js; BABEL_ENV=test ./node_modules/.bin/wdio wdio.desktop.conf.js",
     "allure": "cp -R ./tests/allure-results/report/history ./tests/allure-results | true && allure generate ./tests/allure-results --output ./tests/allure-results/report --clean && allure open ./tests/allure-results/report",
     "allure-clear": "find ./tests/allure-results/ -name *attachment.json -delete; find ./tests/allure-results/ -name *testsuite.xml -delete; find ./tests/allure-results/ -name *attachment.png -delete"
   }
