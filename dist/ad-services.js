@@ -386,21 +386,17 @@ function httpRequest(host, endpoint) {
 
 	return new promise_default.a(function (resolve, reject) {
 		request.addEventListener('timeout', function () {
-			request.abort();
 			reject(new Error('timeout'));
 			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'timed out');
 		});
+		request.addEventListener('error', function () {
+			reject(new Error('error'));
+			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'errored');
+		});
 		request.onreadystatechange = function () {
-			if (this.readyState < 4) {
-				return;
-			}
-
-			if (this.status === 200) {
+			if (this.readyState === 4 && this.status === 200) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'has response');
 				resolve(this.response);
-			} else {
-				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'error occurred');
-				reject(new Error(this.response ? this.response.message : 'error'));
 			}
 		};
 		request.send();
@@ -502,6 +498,7 @@ var bill_the_lizard_BillTheLizard = function () {
 				} else {
 					_this.status = BillTheLizard.FAILURE;
 				}
+				return promise_default.a.reject(error);
 			}).then(function (response) {
 				return overridePredictions(response);
 			}).then(function (response) {
@@ -511,6 +508,9 @@ var bill_the_lizard_BillTheLizard = function () {
 				_this.executor.executeMethods(models, response);
 
 				return predictions;
+			}).catch(function (error) {
+				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'service response', error.message);
+				return {};
 			});
 		}
 
