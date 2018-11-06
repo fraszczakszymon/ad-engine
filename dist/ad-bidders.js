@@ -1593,6 +1593,14 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 			return parseInt(price, 10) / 100;
 		}
 	}, {
+		key: 'getVastUrl',
+		value: function getVastUrl(width, height, slotName) {
+			return Object(ad_engine_["buildVastUrl"])(width / height, slotName, {
+				videoAdUnitId: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.videoAdUnitId'),
+				customParams: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.customParams')
+			});
+		}
+	}, {
 		key: 'callBids',
 		value: function callBids(bidRequest, addBidResponse, done) {
 			var _this2 = this;
@@ -1615,7 +1623,8 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 					var bidResponse = window.pbjs.createBid(1),
 					    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
 					    width = _bid$sizes$[0],
-					    height = _bid$sizes$[1];
+					    height = _bid$sizes$[1],
+					    slotName = bid.adUnitCode;
 
 
 					bidResponse.bidderCode = bidRequest.bidderCode;
@@ -1625,10 +1634,13 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 					bidResponse.mediaType = 'video';
 					bidResponse.width = width;
 					bidResponse.height = height;
+					bidResponse.vastUrl = _this3.getVastUrl(width, height, slotName);
+					bidResponse.videoCacheKey = '123foo_wikiaVideoCacheKey';
 
 					addBidResponse(bid.adUnitCode, bidResponse);
 					_this3.limit -= 1;
 				});
+
 				done();
 			}, this.timeout);
 		}

@@ -7,7 +7,6 @@ import { context } from '../../../src/ad-engine/services/context-service';
 let adSlot;
 let elementProperties = {};
 let slotConfigs;
-let contextGetStub;
 
 function clearSlotServiceState() {
 	this.slots = {};
@@ -16,23 +15,20 @@ function clearSlotServiceState() {
 }
 
 describe('slot-service', () => {
-	let oldContextGet;
+	beforeEach(() => {
+		const originalGet = context.get;
+		sinon.stub(context, 'get').callsFake((key) => {
+			if (key === 'slots') {
+				return slotConfigs;
+			}
 
-	before(() => {
-		oldContextGet = context.get;
-		contextGetStub = sinon.stub(context, 'get');
-		contextGetStub.callsFake((key) => {
-			if (key === 'slots') return slotConfigs;
-			return context.get(key);
+			return originalGet(key);
 		});
-	});
-
-	after(() => {
-		context.get = oldContextGet;
 	});
 
 	afterEach(() => {
 		document.getElementById.restore();
+		context.get.restore();
 	});
 
 	beforeEach(() => {
