@@ -1633,7 +1633,7 @@ function buildVastUrl(aspectRatio, slotName) {
 		params.push('iu=' + slot.getVideoAdUnit());
 		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
 	} else if (options.videoAdUnitId && options.customParams) {
-		// this condition can be removed once we have Porvata3 and AdEngine3 everywhere
+		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push('iu=' + options.videoAdUnitId);
 		params.push('cust_params=' + encodeURIComponent(options.customParams));
 	} else {
@@ -5112,8 +5112,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.3.3');
-logger('ad-engine', 'v19.3.3');
+set_default()(window, versionField, 'v19.4.0');
+logger('ad-engine', 'v19.4.0');
 
 
 
