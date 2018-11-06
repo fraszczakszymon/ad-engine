@@ -45,7 +45,7 @@ class HiviUapJwp {
 	 */
 	waitForAdsAfterDelayAndScrollToAdSlotOnDesktop(adSlot) {
 		this.waitToLoadAds();
-		helpers.slowScroll(1000);
+		browser.scroll(adSlot);
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 

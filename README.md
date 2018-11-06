@@ -386,7 +386,7 @@ npm run serve
 ```
 
 ```bash
-npm run wdioAll
+npm run wdio-all
 ```
 
 Run single suite:

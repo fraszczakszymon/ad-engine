@@ -86,14 +86,14 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 			.true;
 	});
 
-	it('Check if redirect on tap works', () => {
+	it('Check redirect to new page', () => {
 		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
 			.to
 			.be
 			.true;
 	});
 
-	it('Check if closing top leaderboard works properly', () => {
+	it('Check closing top leaderboard after clicking the button', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
@@ -110,28 +110,28 @@ describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
 
-	it('Check if opening the full screen player works properly', () => {
+	it('Check if opening the full screen player works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`,
 			timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
-	it('Check if pausing the video works properly', () => {
+	it('Check if pausing the video works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if unmuting the video works properly', () => {
+	it('Check if unmuting the video works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if replaying the video works properly', () => {
+	it('Check if replaying the video works', () => {
 		hiviUap.waitForVideoToFinish();
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.topPlayerFrame);

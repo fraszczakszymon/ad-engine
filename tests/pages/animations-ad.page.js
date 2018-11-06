@@ -1,3 +1,6 @@
+import adSlots from '../common/adSlots';
+import { timeouts } from '../common/timeouts';
+
 const scrollWaitTime = 500;
 
 class AnimationsAd {
@@ -14,6 +17,19 @@ class AnimationsAd {
 	 */
 	waitToScroll() {
 		browser.pause(scrollWaitTime);
+	}
+
+	waitUntilCollapsed() {
+		browser.waitUntil(
+			() => {
+				const leaderboardStyle = browser
+					.element(adSlots.topLeaderboard)
+					.getAttribute(this.topLeaderboardStyle);
+				return leaderboardStyle === this.collapsedAdMaxHeight;
+			},
+			this.waitForAnimationsTime,
+			'Top leaderboard ad did not collapse',
+			timeouts.interval);
 	}
 }
 
