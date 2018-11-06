@@ -4,7 +4,6 @@ import adSlots from '../common/adSlots';
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
-const timeToCollapse = 2000;
 const aspectRatioDelta = 3;
 
 class Helpers {

@@ -100,8 +100,8 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking th
 describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)', () => {
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
-		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnDesktop(adSlots.incontentBoxad);
 	});
+
 	afterEach(() => {
 		browser.scroll(0, 0);
 	});
@@ -115,6 +115,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 	});
 
 	it('Check if the ad loaded after delay is the inhouse one', () => {
+		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnDesktop(adSlots.incontentBoxad);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
 			.to
@@ -127,6 +128,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)'
 	});
 
 	it('Check visual regression in incontent boxad', () => {
+		hiviUapJwp.waitForAdsAfterClickAndScrollToAdSlotOnDesktop(adSlots.incontentBoxad);
 		browser.checkElement(adSlots.incontentBoxad);
 	});
 });

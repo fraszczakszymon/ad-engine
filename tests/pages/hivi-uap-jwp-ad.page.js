@@ -29,18 +29,13 @@ class HiviUapJwp {
 	}
 
 	/**
-	 * Waits for the delay to pass so ads can load and scrolls to the first ad slot.
-	 * After that, waits until the second ad slot is visible and scrolls to it.
+	 * Waits for the delay to pass so ads can load and scrolls to the desired ad slot.
 	 * This method is desired for mobile tests.
-	 * @param slot1 first ad slot/module to scroll to
-	 * @param slot2 second ad slot/module to scroll to
-	 * @param timeout time to wait for the slot
+	 * @param adSlot first ad slot/module to scroll to
 	 */
-	waitForAdsAfterDelayAndScrollToAdSlotOnMobile(slot1, slot2, timeout = timeouts.standard) {
+	waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlot) {
 		this.waitToLoadAds();
-		browser.scroll(slot1);
-		browser.waitForVisible(slot2, timeout);
-		browser.scroll(slot2); // separate scroll, because this slot is not immediately visible
+		browser.scroll(adSlot);
 	}
 
 	/**
@@ -55,14 +50,11 @@ class HiviUapJwp {
 	}
 
 	/**
-	 * Clicks on the button to load ads. After the click, scrolls to the first ad slot.
-	 * After the second ad slot is visible, it scrolls to it.
+	 * Clicks on the button to load ads. After the click, scrolls to the desired ad slot.
 	 * This method is desired for mobile tests.
-	 * @param slot1 first ad slot/module to scroll to
-	 * @param slot2 second ad slot/module to scroll to
-	 * @param timeout time to wait for the slot
+	 * @param adSlot ad slot to scroll to
 	 */
-	waitForAdsAfterClickAndScrollToAdSlotOnMobile(slot1, slot2, timeout = timeouts.standard) {
+	waitForAdsAfterClickAndScrollToAdSlotOnMobile(adSlot) {
 		browser.waitForVisible(this.loadAdsButton, timeouts.standard);
 		browser.waitUntil(
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
@@ -70,9 +62,7 @@ class HiviUapJwp {
 			'Button not loaded',
 			timeouts.interval);
 		browser.click(this.loadAdsButton);
-		browser.scroll(slot1);
-		browser.waitForVisible(slot2, timeout);
-		browser.scroll(slot2); // separate scroll, because this slot is not immediately visible
+		browser.scroll(adSlot);
 	}
 
 	/**
