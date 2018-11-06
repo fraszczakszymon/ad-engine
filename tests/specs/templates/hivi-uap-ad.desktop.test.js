@@ -109,7 +109,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
+xdescribe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard);
@@ -149,7 +149,7 @@ describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: top boxad', () => {
+xdescribe('Desktop HiVi UAP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
@@ -163,7 +163,7 @@ describe('Desktop HiVi UAP ads page: top boxad', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: incontent boxad', () => {
+xdescribe('Desktop HiVi UAP ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		browser.scroll(0, 1000);
@@ -178,7 +178,7 @@ describe('Desktop HiVi UAP ads page: incontent boxad', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
+xdescribe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;
@@ -257,7 +257,7 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => {
+xdescribe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
 		helpers.slowScroll(7000);

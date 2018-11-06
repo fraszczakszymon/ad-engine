@@ -294,18 +294,6 @@ class Helpers {
 
 		browser.frame(frame);
 	}
-
-	/**
-	 * Waits until the slot has collapsed (its size equals 0).
-	 * @param adSlot ad slot we are waiting for
-	 */
-	waitToCollapse(adSlot) {
-		browser.waitUntil(
-			() => browser.getElementSize(adSlot, 'height') === 0,
-			timeouts.standard,
-			'Element not expanded',
-			timeouts.interval);
-	}
 }
 
 export default new Helpers();

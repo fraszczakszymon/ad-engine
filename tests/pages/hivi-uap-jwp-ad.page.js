@@ -45,12 +45,12 @@ class HiviUapJwp {
 	 */
 	waitForAdsAfterDelayAndScrollToAdSlotOnDesktop(adSlot) {
 		this.waitToLoadAds();
-		browser.scroll(adSlot);
+		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
 	/**
-	 * Clicks on the button to load ads. After the click, scrolls to the desired ad slot.
+	 * Clicks on the button to load ads. After the click, scrolls to the slot\`s approximate position.
 	 * This method is desired for mobile tests.
 	 * @param adSlot ad slot to scroll to
 	 */
@@ -66,7 +66,7 @@ class HiviUapJwp {
 	}
 
 	/**
-	 * Clicks on the button to load ads. After the click, scrolls to the desired slot.
+	 * Clicks on the button to load ads. After the click, scrolls to the slot\'s approximate position.
 	 * This method is desired for desktop tests.
 	 * @param adSlot slot we want to be visible
 	 */

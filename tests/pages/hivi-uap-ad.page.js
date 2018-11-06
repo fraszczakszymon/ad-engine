@@ -29,13 +29,13 @@ class HiviUap {
 	}
 
 	/**
-	 * Returns current slot size if it equals the one we desire based on ratio.
+	 * It checks slot size ratio.
 	 * @param adSlot slot to take dimensions from
 	 * @param ratio desired slot ratio
 	 * @returns {boolean}
 	 */
 	checkUapSize(adSlot, ratio) {
-		return browser.getElementSize(adSlot) === helpers.checkUAPSizeSlotRatio(adSlot, ratio);
+		return browser.getElementSize(adSlot) === helpers.checkUAPSizeSlotRatio(adSlot, ratio); // TODO fix this method
 	}
 
 	/**

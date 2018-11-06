@@ -99,7 +99,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check visual regression in top leaderboard (resolved)', () => {
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard, timeouts.standard);
+		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.checkElement(adSlots.topLeaderboard);
 	});
 });
@@ -198,7 +198,7 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check visual regression in bottom leaderboard (resolved)', () => {
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard, timeouts.standard);
+		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard);
 		browser.checkElement(adSlots.bottomLeaderboard);
