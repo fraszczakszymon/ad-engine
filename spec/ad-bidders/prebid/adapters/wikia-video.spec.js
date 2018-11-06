@@ -1,6 +1,9 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
+import adSlots from '../../../../tests/common/adSlots';
+import helpers from '../../../../tests/common/helpers';
+import { timeouts } from '../../../../tests/common/timeouts';
 
 function getMocks() {
 	const mocks = {
@@ -19,11 +22,10 @@ function getMocks() {
 		setTimeout: function (cb) {
 			cb();
 		},
-		window: {
-			pbjs: {
-				createBid: function () {
-					return {};
-				}
+		pbjs: {
+			que: [],
+			createBid: function () {
+				return {};
 			}
 		}
 	};
@@ -32,6 +34,19 @@ function getMocks() {
 }
 
 describe('WikiaVideo bidder adapter', () => {
+	let originalPbjs;
+
+	before(function() {
+		const mocks = getMocks();
+
+		originalPbjs = global.window.pbjs;
+		global.window.pbjs = mocks.pbjs;
+	});
+
+	after(function() {
+		global.window.pbjs = originalPbjs;
+	});
+
 	it('can be enabled', () => {
 		const wikiaVideo = new WikiaVideo({
 			enabled: true
@@ -75,8 +90,7 @@ describe('WikiaVideo bidder adapter', () => {
 		});
 		const mocks = getMocks();
 
-		global.window.pbjs = mocks.window.pbjs;
-		global.setTimeout = mocks.setTimeout;
+		sinon.stub(global, 'setTimeout').callsFake(mocks.setTimeout);
 		sinon.stub(wikiaVideo, 'getVastUrl').returns(mocks.fakeVastUrl);
 		sinon.stub(wikiaVideo, 'getPrice').returns(mocks.fakePrice);
 

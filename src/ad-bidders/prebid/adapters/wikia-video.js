@@ -50,10 +50,6 @@ export class WikiaVideo extends BaseAdapter {
 
 	getVastUrl(width, height, slotName) {
 		return buildVastUrl(width / height, slotName, {
-			targetting: {
-				pos: slotName,
-				passback: this.bidderName
-			},
 			videoAdUnitId: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.videoAdUnitId`),
 			customParams: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.customParams`)
 		});
