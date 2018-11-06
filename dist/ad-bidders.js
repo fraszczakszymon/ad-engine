@@ -1596,10 +1596,6 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		key: 'getVastUrl',
 		value: function getVastUrl(width, height, slotName) {
 			return Object(ad_engine_["buildVastUrl"])(width / height, slotName, {
-				targetting: {
-					pos: slotName,
-					passback: this.bidderName
-				},
 				videoAdUnitId: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.videoAdUnitId'),
 				customParams: ad_engine_["context"].get('bidders.prebid.wikiaVideo.slots.' + slotName + '.customParams')
 			});
