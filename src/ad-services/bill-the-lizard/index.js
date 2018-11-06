@@ -63,21 +63,17 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0) {
 
 	return new Promise((resolve, reject) => {
 		request.addEventListener('timeout', () => {
-			request.abort();
 			reject(new Error('timeout'));
 			utils.logger(logGroup, 'timed out');
 		});
+		request.addEventListener('error', () => {
+			reject(new Error('error'));
+			utils.logger(logGroup, 'errored');
+		});
 		request.onreadystatechange = function () {
-			if (this.readyState < 4) {
-				return;
-			}
-
-			if (this.status === 200) {
+			if (this.readyState === 4 && this.status === 200) {
 				utils.logger(logGroup, 'has response');
 				resolve(this.response);
-			} else {
-				utils.logger(logGroup, 'error occurred');
-				reject(new Error(this.response ? this.response.message : 'error'));
 			}
 		};
 		request.send();
@@ -170,6 +166,7 @@ class BillTheLizard {
 				} else {
 					this.status = BillTheLizard.FAILURE;
 				}
+				return Promise.reject(error);
 			})
 			.then(response => overridePredictions(response))
 			.then((response) => {
@@ -179,6 +176,10 @@ class BillTheLizard {
 				this.executor.executeMethods(models, response);
 
 				return predictions;
+			})
+			.catch((error) => {
+				utils.logger(logGroup, 'service response', error.message);
+				return {};
 			});
 	}
 
