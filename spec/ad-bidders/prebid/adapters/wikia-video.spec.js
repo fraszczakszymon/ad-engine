@@ -1,9 +1,6 @@
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
-import adSlots from '../../../../tests/common/adSlots';
-import helpers from '../../../../tests/common/helpers';
-import { timeouts } from '../../../../tests/common/timeouts';
 
 function getMocks() {
 	const mocks = {
@@ -36,14 +33,14 @@ function getMocks() {
 describe('WikiaVideo bidder adapter', () => {
 	let originalPbjs;
 
-	before(function() {
+	before(() => {
 		const mocks = getMocks();
 
 		originalPbjs = global.window.pbjs;
 		global.window.pbjs = mocks.pbjs;
 	});
 
-	after(function() {
+	after(() => {
 		global.window.pbjs = originalPbjs;
 	});
 
