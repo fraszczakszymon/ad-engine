@@ -44,7 +44,7 @@ class HiviUap {
 	 * @param ratio desired slot ratio
 	 */
 	waitForResolved(adSlot, ratio) {
-		browser.waitUntil(this.checkUapSize(adSlot, ratio), timeouts.standard, 'Dimensions not changed', timeouts.interval);
+		browser.waitUntil(() => this.checkUapSize(adSlot, ratio), timeouts.standard, 'Dimensions not changed', timeouts.interval);
 	}
 }
 

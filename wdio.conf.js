@@ -60,5 +60,8 @@ exports.config = {
 	},
 	before() {
 		browser.windowHandleSize({ width: 1920, height: 1080 });
+	},
+	after() {
+		browser.windowHandleSize({ width: 1920, height: 1080 });
 	}
 };
