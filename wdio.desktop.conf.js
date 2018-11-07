@@ -36,7 +36,7 @@ exports.config = merge(wdioConf.config, {
 		}),
 		viewportChangePause: 300,
 		viewports: [{ width: 1920, height: 1080 }],
-		orientations: ['landscape', 'portrait'],
+		orientations: ['landscape'],
 	},
 	before() {
 		browser.windowHandleSize({ width: 1920, height: 1080 });
