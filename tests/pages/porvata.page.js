@@ -22,8 +22,8 @@ class Porvata {
 	}
 
 	/**
-	 * Turns autoplay on/off
-	 * @param {boolean} autoplay
+	 * Provides query param with autoplay.
+	 * @param {boolean} autoplay - sets autoplay to 1 if true
 	 * @returns {string} link with correct parameter
 	 */
 	turnAutoplay = (autoplay) => {
