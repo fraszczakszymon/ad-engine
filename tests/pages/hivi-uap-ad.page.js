@@ -3,7 +3,8 @@ import { timeouts } from '../common/timeouts';
 class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
-		this.videoPlayer = '.video-player.video-player-right';
+		this.videoPlayer = '.video-player';
+		this.playerFullscreen = `${this.videoPlayer}.video-player-fullscreen`;
 		this.playerFullscreenButton = `${this.videoPlayer} .toggle-fullscreen-button`;
 		this.volumeButton = `${this.videoPlayer} .volume-button`;
 		this.playPauseButton = `${this.videoPlayer} .play-pause-button`;
