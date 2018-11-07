@@ -1,4 +1,3 @@
-import helpers from '../common/helpers';
 import { timeouts } from '../common/timeouts';
 
 class HiviUap {
@@ -19,6 +18,7 @@ class HiviUap {
 		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
 		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
 		this.videoLength = 45000;
+		this.resolvedHeight = 192;
 	}
 
 	/**
@@ -29,22 +29,14 @@ class HiviUap {
 	}
 
 	/**
-	 * It checks slot size ratio.
-	 * @param adSlot slot to take dimensions from
-	 * @param ratio desired slot ratio
-	 * @returns {boolean}
-	 */
-	checkUapSize(adSlot, ratio) {
-		return browser.getElementSize(adSlot) === helpers.checkUAPSizeSlotRatio(adSlot, ratio); // TODO fix this method
-	}
-
-	/**
 	 * Takes slot size and its ratio and waits for the desired dimensions.
 	 * @param adSlot Slot to take dimensions from
-	 * @param ratio desired slot ratio
 	 */
-	waitForResolved(adSlot, ratio) {
-		browser.waitUntil(() => this.checkUapSize(adSlot, ratio), timeouts.standard, 'Dimensions not changed', timeouts.interval);
+	waitForResolved(adSlot) {
+		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') === this.resolvedHeight,
+			timeouts.standard,
+			'Dimensions not changed',
+			timeouts.interval);
 	}
 }
 
