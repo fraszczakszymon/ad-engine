@@ -15,7 +15,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
-			.equal(hiviUapStickyBfab.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.topLeaderboardLineItemId, 'Line item ID mismatch');
 	});
 });
 
@@ -29,7 +29,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUapStickyBfab.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.topBoxadLineItemId, 'Line item ID mismatch');
 	});
 });
 

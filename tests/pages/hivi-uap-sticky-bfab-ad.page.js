@@ -4,6 +4,8 @@ class HiviUapStickyBfab {
 		this.videoPlayer = '.video-player.video-player-right';
 		this.fullScreen = '.stop-scrolling';
 		this.slotResult = 'data-slot-result';
+		this.topLeaderboardLineItemId = '4466763538';
+		this.topBoxadLineItemId = '4511050296';
 		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
 		this.videoLength = 45000;
 	}
