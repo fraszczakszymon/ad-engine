@@ -124,21 +124,21 @@ describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 		browser.waitForVisible(hiviUap.playerFullscreen, timeouts.standard);
 	});
 
-	xit('Check if pausing the video works properly', () => {
+	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`,
 			timeouts.standard, true);
 	});
 
-	xit('Check if unmuting the video works properly', () => {
+	it('Check if unmuting the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`,
 			timeouts.standard, true);
 	});
 
-	xit('Check if replaying the video works properly', () => {
+	it('Check if replaying the video works properly', () => {
 		hiviUap.waitForVideoToFinish();
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.topPlayerFrame);
