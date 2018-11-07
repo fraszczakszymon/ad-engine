@@ -80,6 +80,7 @@ class HiviUapJwp {
 		browser.click(this.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlot, timeouts.standard);
+		browser.scroll(adSlot);
 	}
 }
 
