@@ -14,7 +14,7 @@ describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	it('Check if slot is existing, but the ad is not immediately visible', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`),
-			'Top leaderboard visible')
+			'Ad is visible')
 			.to
 			.be
 			.false;
@@ -39,14 +39,14 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =>
 		browser.scroll(0, 0);
 	});
 
-	it('Check if top boxad is existing, but not immediately visible', () => {
-		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Top boxad visible')
+	it('Check if top boxad is existing, but the ad is not immediately visible', () => {
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Ad is visible')
 			.to
 			.be
 			.false;
 	});
 
-	// TODO split into two tests
 	it('Check if the ad loaded after delay is visible and if it is the inhouse one', () => {
 		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.topBoxad);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
@@ -54,6 +54,11 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =>
 			.to
 			.be
 			.true;
+	});
+
+	it('Check if the ad is the inhouse one', () => {
+		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.topBoxad);
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad)
 			.getAttribute(adSlots.lineItemIdAttribute))
 			.to
@@ -103,7 +108,7 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 
 	it('Check if slot is existing, but not immediately visible', () => {
 		browser.scroll(0, 6000);
-		browser.waitForExist(adSlots.incontentBoxad, timeouts.standard);
+		browser.waitForExist(adSlots.incontentBoxad, timeouts.standard); // should exist, but show up after delay and scroll
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Slot visible in viewport')
 			.to
 			.be

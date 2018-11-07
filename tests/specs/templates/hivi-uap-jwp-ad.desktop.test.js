@@ -43,7 +43,6 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =
 			.false;
 	});
 
-	// TODO split into two tests
 	it('Check if the ad loaded after delay is visible and if it is the inhouse one', () => {
 		hiviUapJwp.waitToLoadAds();
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
@@ -51,6 +50,11 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =
 			.to
 			.be
 			.true;
+	});
+
+	it('Check if the loaded ad is the inhouse one', () => {
+		hiviUapJwp.waitToLoadAds();
+		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad)
 			.getAttribute(adSlots.lineItemIdAttribute))
 			.to
