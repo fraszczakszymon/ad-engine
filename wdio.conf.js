@@ -1,17 +1,4 @@
-/* global browser */
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
-const md5 = require('js-md5');
-
-function getScreenshotName(basePath) {
-	return function (context) {
-		const hash = md5(context.test.parent + context.test.title);
-
-		return path.join(basePath, `${hash}.png`);
-	};
-}
-
 exports.config = {
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
@@ -31,7 +18,7 @@ exports.config = {
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone', 'visual-regression'],
+	services: ['selenium-standalone'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 
@@ -40,28 +27,9 @@ exports.config = {
 			outputDir: 'tests/allure-results'
 		}
 	},
-
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
 		timeout: 200000
 	},
-
-	visualRegression: {
-		compare: new VisualRegressionCompare.LocalCompare({
-			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),
-			screenshotName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/current')),
-			diffName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/diff')),
-			misMatchTolerance: 0.01,
-		}),
-		viewportChangePause: 300,
-		viewports: [{ width: 1920, height: 1080 }],
-		orientations: ['landscape', 'portrait'],
-	},
-	before() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-	},
-	after() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-	}
 };
