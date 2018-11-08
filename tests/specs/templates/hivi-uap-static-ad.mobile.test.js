@@ -69,7 +69,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
-			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStatic.firstCall, 'Line item ID mismatch');
 	});
 
 	it('Check if navbar is visible in viewport', () => {
@@ -110,7 +110,7 @@ describe('Mobile HiVi UAP static ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUapStatic.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
 	});
 });
 
@@ -125,6 +125,6 @@ describe('Mobile HiVi UAP static ads page: incontent boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
-			.equal(hiviUapStatic.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
 	});
 });

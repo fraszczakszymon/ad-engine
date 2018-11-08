@@ -16,8 +16,8 @@ class HiviUap {
 		this.fullScreen = '.stop-scrolling';
 		this.slotResult = 'data-slot-result';
 		this.slotCollapsed = 'collapse';
-		this.topLineItemId = '4466763538'; // top leaderboard and top boxad share the same ID
-		this.bottomLineItemId = '4511050296'; // bottom leaderboard and incontent boxad share the same ID
+		this.firstCall = '4466763538'; // applies only to top leaderboard
+		this.secondCall = '4511050296'; // top and incontent boxad and bottom leaderboard
 		this.videoLength = 45000;
 		this.resolvedHeight = 192;
 	}

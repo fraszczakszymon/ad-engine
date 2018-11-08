@@ -15,7 +15,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
-			.equal(hiviUapStickyBfab.topLeaderboardLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.firstCall, 'Line item ID mismatch');
 	});
 });
 
@@ -29,7 +29,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUapStickyBfab.topBoxadLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
 	});
 });
 
@@ -44,7 +44,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: incontent boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
-			.equal(hiviUapStickyBfab.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
 	});
 });
 
@@ -120,7 +120,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
-			.equal(hiviUapStickyBfab.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
 	});
 
 	it('Check if redirect on click works properly', () => {

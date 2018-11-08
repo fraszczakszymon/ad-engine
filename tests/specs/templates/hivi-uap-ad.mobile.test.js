@@ -153,7 +153,7 @@ describe('Mobile HiVi UAP ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.firstCall, 'Line item ID mismatch');
 	});
 });
 
@@ -169,6 +169,6 @@ describe('Mobile HiVi UAP ads page: incontent boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
-			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 });

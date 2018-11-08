@@ -97,7 +97,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
-			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.firstCall, 'Line item ID mismatch');
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
@@ -159,7 +159,7 @@ describe('Desktop HiVi UAP ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUap.topLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 });
 
@@ -174,7 +174,7 @@ describe('Desktop HiVi UAP ads page: incontent boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
-			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 });
 
@@ -246,7 +246,7 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
-			.equal(hiviUap.bottomLineItemId, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 
 	it('Check if redirect on click works properly', () => {
