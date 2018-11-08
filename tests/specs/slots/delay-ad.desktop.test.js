@@ -54,10 +54,6 @@ describe('Delay ads page: top leaderboard', () => {
 describe('Delay ads page: top boxad', () => {
 	let adStatus;
 
-	before(() => {
-		browser.url();
-	});
-
 	beforeEach(() => {
 		browser.url(delayAd.pageLink);
 		browser.waitForVisible(delayAd.loadAdsButton, timeouts.standard);
@@ -78,7 +74,7 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check if slot shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
-		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
 		helpers.waitForViewed(adSlots.topBoxad);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to

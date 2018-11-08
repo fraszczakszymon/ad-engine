@@ -1,8 +1,5 @@
-/* global browser */
+/* eslint-disable import/no-extraneous-dependencies */
 exports.config = {
-	specs: [
-		'./tests/specs/**/*.test.js'
-	],
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
 		slots: ['./tests/specs/slots/*.test.js'],
@@ -10,15 +7,7 @@ exports.config = {
 		utils: ['./tests/specs/utils/*.test.js'],
 		video: ['./tests/specs/video/*.test.js']
 	},
-	exclude: [
-	],
 	maxInstances: 3,
-	capabilities: [{
-		browserName: 'chrome',
-		loggingPrefs: {
-			browser: 'ALL'
-		}
-	}],
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
@@ -38,13 +27,9 @@ exports.config = {
 			outputDir: 'tests/allure-results'
 		}
 	},
-
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
 		timeout: 200000
 	},
-	before() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-	}
 };

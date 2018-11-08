@@ -12,7 +12,7 @@ class Helpers {
 		this.classProperty = 'class';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
-		this.wrapper = '.wrapper';
+		this.wrapper = '.wrapper:first-of-type';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Helpers {
 	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.standard) {
 		browser.refresh();
 		browser.pause(timeout);
-		browser.waitForVisible(adSlot);
+		browser.waitForVisible(adSlot, timeout);
 	}
 
 	/**
@@ -208,12 +208,12 @@ class Helpers {
 
 		if (slotSize.width !== expectedWidth) {
 			result = false;
-			error += `Slot width ratio incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
+			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
 		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
 			result = false;
-			error += `Slot height ratio incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
+			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
 		return {
 			status: result,
@@ -256,6 +256,7 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
+		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
 
 		const tabIds = browser.getTabIds();
 

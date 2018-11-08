@@ -2,6 +2,11 @@ import { context, slotTweaker, utils } from '@wikia/ad-engine';
 import CloseButton from '../interface/close-button';
 
 export class FloorAdhesion {
+	constructor(adSlot) {
+		this.adSlot = adSlot;
+		this.config = context.get('templates.floorAdhesion');
+	}
+
 	static getName() {
 		return 'floorAdhesion';
 	}
@@ -10,11 +15,6 @@ export class FloorAdhesion {
 		return {
 			onInit: () => {}
 		};
-	}
-
-	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.config = context.get('templates.floorAdhesion');
 	}
 
 	init() {

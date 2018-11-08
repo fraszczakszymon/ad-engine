@@ -43,6 +43,11 @@ describe('Common slots: top leaderboard', () => {
 			.be
 			.true;
 	});
+
+	it('Check visual regression in top leaderboard', () => {
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.checkElement(adSlots.topLeaderboard);
+	});
 });
 
 describe('Common slots: top boxad', () => {
@@ -82,6 +87,11 @@ describe('Common slots: top boxad', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('Check visual regression in top boxad', () => {
+		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
+		browser.checkElement(adSlots.topBoxad);
 	});
 });
 
@@ -150,6 +160,11 @@ describe('Common slots: incontent boxad', () => {
 			.to
 			.be
 			.true;
+	});
+
+	it('Check visual regression in incontent boxad', () => {
+		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		browser.checkElement(adSlots.incontentBoxad);
 	});
 });
 

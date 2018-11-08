@@ -1,16 +1,4 @@
 class Porvata {
-	/**
-	 * Returns autoplay on or off
-	 * @param {boolean} autoplay - true/false
-	 * @returns {string} link with correct parameter
-	 */
-	turnAutoplay = (autoplay) => {
-		if (autoplay) {
-			return `${this.autoplayLink}=1`;
-		}
-		return `${this.autoplayLink}=0`;
-	};
-
 	constructor() {
 		this.pageLink = 'video/porvata/';
 		this.autoplayLink = 'autoplay';
@@ -32,6 +20,18 @@ class Porvata {
 	waitForVideoToFinish() {
 		browser.pause(this.videoLength);
 	}
+
+	/**
+	 * Provides query param with autoplay.
+	 * @param {boolean} autoplay - sets autoplay to 1 if true
+	 * @returns {string} link with correct parameter
+	 */
+	turnAutoplay = (autoplay) => {
+		if (autoplay) {
+			return `${this.autoplayLink}=1`;
+		}
+		return `${this.autoplayLink}=0`;
+	};
 }
 
 export default new Porvata();
