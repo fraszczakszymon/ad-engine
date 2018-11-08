@@ -4245,20 +4245,6 @@ var roadblock_Roadblock = function () {
 
 
 var floor_adhesion_FloorAdhesion = function () {
-	createClass_default()(FloorAdhesion, null, [{
-		key: 'getName',
-		value: function getName() {
-			return 'floorAdhesion';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
-		}
-	}]);
-
 	function FloorAdhesion(adSlot) {
 		classCallCheck_default()(this, FloorAdhesion);
 
@@ -4289,6 +4275,18 @@ var floor_adhesion_FloorAdhesion = function () {
 
 			ad_engine_["utils"].logger(FloorAdhesion.getName(), 'init');
 		}
+	}], [{
+		key: 'getName',
+		value: function getName() {
+			return 'floorAdhesion';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
 	}]);
 
 	return FloorAdhesion;
@@ -4301,20 +4299,6 @@ var floor_adhesion_FloorAdhesion = function () {
 
 
 var interstitial_Interstitial = function () {
-	createClass_default()(Interstitial, null, [{
-		key: 'getName',
-		value: function getName() {
-			return 'interstitial';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
-		}
-	}]);
-
 	function Interstitial(adSlot) {
 		classCallCheck_default()(this, Interstitial);
 
@@ -4352,6 +4336,18 @@ var interstitial_Interstitial = function () {
 			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
 				document.documentElement.classList.remove('stop-scrolling');
 			});
+		}
+	}], [{
+		key: 'getName',
+		value: function getName() {
+			return 'interstitial';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
 		}
 	}]);
 
