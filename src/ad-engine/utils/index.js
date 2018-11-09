@@ -1,5 +1,6 @@
 export * from './client';
 export * from './dimensions';
+export * from './document';
 export * from './flow-control';
 export * from './geo';
 export * from './lazy-queue';

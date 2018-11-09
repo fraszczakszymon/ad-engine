@@ -245,6 +245,8 @@ __webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { retur
 __webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() { return isInTheSameViewport; });
+__webpack_require__.d(utils_namespaceObject, "VISIBILITY_STATUS", function() { return VISIBILITY_STATUS; });
+__webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", function() { return getDocumentVisibilityStatus; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
@@ -557,6 +559,32 @@ function isInTheSameViewport(element) {
 	});
 
 	return conflicts.length > 0;
+}
+// CONCATENATED MODULE: ./src/ad-engine/utils/document.js
+var VISIBILITY_STATUS = {
+	visible: 'visible',
+	hidden: 'hidden',
+	notImplemented: 'not_implemented'
+};
+
+/**
+ * Returns document visibility status.
+ *
+ * @returns {string} 'visible'|'hidden'|'notImplemented'
+ */
+function getDocumentVisibilityStatus() {
+	var status = void 0;
+	switch (document.hidden) {
+		case true:
+			status = VISIBILITY_STATUS.hidden;
+			break;
+		case false:
+			status = VISIBILITY_STATUS.visible;
+			break;
+		default:
+			status = VISIBILITY_STATUS.notImplemented;
+	}
+	return status;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(6);
@@ -4829,6 +4857,7 @@ var viewportObserver = {
 	removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/ad-engine/utils/index.js
+
 
 
 
