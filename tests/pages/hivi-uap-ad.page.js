@@ -19,7 +19,8 @@ class HiviUap {
 		this.firstCall = '4466763538'; // applies only to top leaderboard
 		this.secondCall = '4511050296'; // top and incontent boxad and bottom leaderboard
 		this.videoLength = 45000;
-		this.resolvedHeight = 192;
+		this.desktopResolvedHeight = 192;
+		this.mobileResolvedHeight = 125;
 	}
 
 	/**
@@ -29,13 +30,15 @@ class HiviUap {
 		browser.pause(this.videoLength);
 	}
 
+	// TODO rewrite that method so it uses ratio instead of hardcoded height values
 	/**
 	 * Takes slot size and its ratio and waits for the desired dimensions.
 	 * @param adSlot Slot to take dimensions from
+	 * @param resolvedHeight awaited resolved height
 	 */
-	waitForResolved(adSlot) {
-		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') === this.resolvedHeight,
-			timeouts.standard,
+	waitForResolved(adSlot, resolvedHeight) {
+		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') === resolvedHeight,
+			timeouts.standard, // only because it fails too often with standard, despite working on debug
 			'Dimensions not changed',
 			timeouts.interval);
 	}

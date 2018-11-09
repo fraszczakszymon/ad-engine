@@ -30,7 +30,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
-		hiviUap.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		hiviUap.waitForResolved(adSlots.topLeaderboard, hiviUap.desktopResolvedHeight);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 	});

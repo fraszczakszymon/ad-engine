@@ -29,7 +29,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
-		hiviUap.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		hiviUap.waitForResolved(adSlots.topLeaderboard, hiviUap.mobileResolvedHeight);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
