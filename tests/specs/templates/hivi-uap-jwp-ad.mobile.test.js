@@ -136,7 +136,7 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicki
 	beforeEach(() => {
 		browser.url(hiviUapJwp.pageLink);
 		hiviUapJwp.waitForAdsAfterClickAndScrollToAdSlotOnMobile(adSlots.railModule);
-		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
+		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
 	});
 
