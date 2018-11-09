@@ -94,7 +94,7 @@ export class StickyAd {
 			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout());
+		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 	}
 
 	addUnstickButton() {
