@@ -93,6 +93,13 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 			.true;
 	});
 
+	it('Check if the line item id is from the same campaign', () => {
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+			.to
+			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+	});
+
 	it('Check closing top leaderboard after clicking the button', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
@@ -153,7 +160,7 @@ describe('Mobile HiVi UAP ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 });
 
