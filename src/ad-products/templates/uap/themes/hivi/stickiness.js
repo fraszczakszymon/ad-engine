@@ -81,9 +81,10 @@ export class Stickiness extends EventEmitter {
 				this.logger('Unsticking');
 				this.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
 				this.sticky = false;
-			});
+			}, { once: true });
 		}
 	}
+
 	close() {
 		this.logger('Closing and removing stickiness');
 		this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
