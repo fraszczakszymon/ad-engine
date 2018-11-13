@@ -113,7 +113,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});

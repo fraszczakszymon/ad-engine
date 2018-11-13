@@ -201,7 +201,7 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	it('Check visual regression in bottom leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
-		browser.waitForVisible(adSlots.bottomLeaderboard);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 });

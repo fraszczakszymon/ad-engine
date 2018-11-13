@@ -112,7 +112,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitToStartPlaying();
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});

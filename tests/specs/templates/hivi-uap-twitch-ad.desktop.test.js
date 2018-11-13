@@ -58,7 +58,7 @@ describe('Twitch ads page: player', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(twitchAd.twitchPlayer);
+		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
 	});
 
 	afterEach(() => {
