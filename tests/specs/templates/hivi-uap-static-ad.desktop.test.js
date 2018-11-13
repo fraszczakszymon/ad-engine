@@ -89,9 +89,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 
 	it('Check if closing top leaderboard works', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 
 	it('Check visual regression in top leaderboard (default)', () => {

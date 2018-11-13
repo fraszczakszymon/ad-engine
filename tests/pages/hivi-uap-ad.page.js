@@ -14,8 +14,6 @@ class HiviUap {
 		this.buttonIsOnClass = '.is-on';
 		this.closeLeaderboardButton = 'button';
 		this.fullScreen = '.stop-scrolling';
-		this.slotResult = 'data-slot-result';
-		this.slotCollapsed = 'collapse';
 		this.firstCall = '4466763538'; // applies only to top leaderboard
 		this.secondCall = '4511050296'; // top and incontent boxad and bottom leaderboard
 		this.videoLength = 45000;

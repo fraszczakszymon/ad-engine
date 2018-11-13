@@ -103,9 +103,10 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	it('Check closing top leaderboard after clicking the button', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
 			.to
-			.equal(hiviUap.slotCollapsed, 'Top leaderboard has not been closed');
+			.equal(helpers.slotCollapsed, 'Top leaderboard has not been closed');
 	});
 });
 

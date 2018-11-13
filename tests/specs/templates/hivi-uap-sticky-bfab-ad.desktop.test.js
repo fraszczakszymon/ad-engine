@@ -135,9 +135,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 		browser.refresh();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitToStartPlaying(); // will not stick if scrolled earlier
-		helpers.slowScroll(500);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard, true);
-		browser.scroll(0, 2500);
+		helpers.slowScroll(2500);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
 			.to

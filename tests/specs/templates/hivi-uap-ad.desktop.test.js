@@ -104,9 +104,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	it('Check if closing top leaderboard works properly', () => {
 		browser.waitForVisible(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUap.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 });
 

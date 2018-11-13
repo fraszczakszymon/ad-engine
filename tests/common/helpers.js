@@ -13,6 +13,8 @@ class Helpers {
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
 		this.wrapper = '.wrapper:first-of-type';
+		this.slotResult = 'data-slot-result';
+		this.slotCollapsed = 'collapse';
 	}
 
 	/**
@@ -135,6 +137,18 @@ class Helpers {
 			() => browser.getElementSize(adSlot, 'height') > 0,
 			timeouts.standard,
 			'Element not expanded',
+			timeouts.interval);
+	}
+
+	/**
+	 * Waits until the slot is collapsed.
+	 * @param adSlot ad slot we are waiting for
+	 */
+	waitForCollapsed(adSlot) {
+		browser.waitUntil(
+			() => browser.getAttribute(adSlot, this.slotResult) === this.slotCollapsed,
+			timeouts.standard,
+			'Slot did not collapse',
 			timeouts.interval);
 	}
 
