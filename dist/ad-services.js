@@ -86,19 +86,19 @@ module.exports = require("babel-runtime/core-js/object/keys");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 5 */
@@ -114,11 +114,11 @@ module.exports = require("babel-runtime/core-js/object/assign");
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(3);
+var classCallCheck_ = __webpack_require__(4);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(2);
+var createClass_ = __webpack_require__(3);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
@@ -126,7 +126,7 @@ var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(4);
+var promise_ = __webpack_require__(2);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
@@ -618,6 +618,69 @@ bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
 
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
+
+
+
+
+
+var geo_edge_logGroup = 'geo-edge';
+var scriptDomainId = 'd3b02estmut877';
+
+/**
+ * Injects Geo Edge Site Side Protection script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var firstScript = document.getElementsByTagName('script')[0];
+	var geoEdgeScript = document.createElement('script');
+
+	return new promise_default.a(function (resolve) {
+		geoEdgeScript.type = 'text/javascript';
+		geoEdgeScript.src = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
+		geoEdgeScript.onload = resolve;
+		firstScript.parentNode.insertBefore(geoEdgeScript, firstScript);
+	});
+}
+
+/**
+ * GeoEdge service handler
+ */
+
+var geo_edge_GeoEdge = function () {
+	function GeoEdge() {
+		classCallCheck_default()(this, GeoEdge);
+	}
+
+	createClass_default()(GeoEdge, [{
+		key: 'call',
+
+		/**
+   * Requests service and injects script tag
+   * @returns {Promise}
+   */
+		value: function call() {
+			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
+
+			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
+
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
+			window.WrapperPubKey = geoEdgeKey;
+
+			return loadScript().then(function () {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
+			});
+		}
+	}]);
+
+	return GeoEdge;
+}();
+
+var geoEdge = new geo_edge_GeoEdge();
 // CONCATENATED MODULE: ./src/ad-services/krux/index.js
 
 
@@ -631,7 +694,7 @@ var krux_logGroup = 'krux';
  * Injects Krux script
  * @returns {Promise}
  */
-function loadScript() {
+function krux_loadScript() {
 	var firstScript = document.getElementsByTagName('script')[0];
 	var kruxId = ad_engine_["context"].get('services.krux.id');
 	var kruxScript = document.createElement('script');
@@ -697,7 +760,7 @@ var krux_Krux = function () {
 			}
 
 			ad_engine_["utils"].logger(krux_logGroup, 'loading');
-			return loadScript().then(function () {
+			return krux_loadScript().then(function () {
 				_this.exportPageParams();
 				_this.importUserData();
 			});
@@ -765,7 +828,9 @@ var krux_Krux = function () {
 var krux = new krux_Krux();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
+
 
 
 
