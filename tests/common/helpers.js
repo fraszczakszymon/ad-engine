@@ -141,8 +141,8 @@ class Helpers {
 	}
 
 	/**
-	 * Waits until the slot is collapsed.
-	 * @param adSlot ad slot we are waiting for
+	 * Waits until the slot receives the "collapse" value as its result attribute.
+	 * @param adSlot ad slot we want to check
 	 */
 	waitForCollapsed(adSlot) {
 		browser.waitUntil(
