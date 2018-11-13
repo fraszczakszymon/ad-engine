@@ -31,6 +31,7 @@ export default {
 			country: utils.getCountryCode() || '',
 			creative_id: videoData.creative_id || '',
 			ctp: videoData.ctp ? 1 : 0,
+			document_visibility: utils.getDocumentVisibilityStatus(),
 			event_name: videoData.event_name,
 			line_item_id: videoData.line_item_id || '',
 			player: videoData.player,

@@ -36,6 +36,7 @@ describe('Video event data provider', () => {
 		assert.equal(data.country, 'PL');
 		assert.equal(data.creative_id, 123);
 		assert.equal(data.ctp, 0);
+		assert.equal(data.document_visibility, 'not_implemented');
 		assert.equal(data.event_name, 'start');
 		assert.equal(data.line_item_id, 987);
 		assert.equal(data.player, 'player-name');

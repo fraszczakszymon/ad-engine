@@ -2420,7 +2420,8 @@ var porvata_Porvata = function () {
 				adProduct: params.adProduct,
 				position: params.slotName,
 				src: params.src,
-				withAudio: !params.autoPlay
+				withAudio: !params.autoPlay,
+				withCtp: !params.autoPlay
 			});
 
 			var isFirstPlay = true,
@@ -2494,6 +2495,7 @@ var porvata_Porvata = function () {
 					}
 					isFirstPlay = false;
 					porvataListener.params.withAudio = true;
+					porvataListener.params.withCtp = true;
 				});
 				video.addEventListener('wikiaAdRestart', function () {
 					isFirstPlay = false;
@@ -2868,15 +2870,17 @@ var porvata_listener_PorvataListener = function () {
 			return {
 				ad_error_code: errorCode,
 				ad_product: this.params.adProduct,
-				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
+				audio: this.params.withAudio ? 1 : 0,
 				content_type: contentType || '(none)',
 				creative_id: creativeId || 0,
+				ctp: this.params.withCtp ? 1 : 0,
 				event_name: eventName,
 				line_item_id: lineItemId || 0,
 				player: PorvataListener.PLAYER_NAME,
 				position: this.params.position ? this.params.position.toLowerCase() : '(none)',
-				timestamp: new Date().getTime(),
-				audio: this.params.withAudio ? 1 : 0
+				// @DEPRECATED
+				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
+				timestamp: new Date().getTime()
 			};
 		}
 	}]);
@@ -3427,6 +3431,11 @@ var slot_service_SlotService = function () {
 
 	createClass_default()(SlotService, [{
 		key: 'add',
+
+		/**
+   * Add new slot to register
+   * @param {AdSlot} adSlot
+   */
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
@@ -3441,6 +3450,12 @@ var slot_service_SlotService = function () {
 
 			events.emit(events.AD_SLOT_CREATED, adSlot);
 		}
+
+		/**
+   * Removes slot from register
+   * @param {AdSlot} adSlot
+   */
+
 	}, {
 		key: 'remove',
 		value: function remove(adSlot) {
@@ -3452,6 +3467,13 @@ var slot_service_SlotService = function () {
 			delete slotStates[slotName];
 			delete slotStatuses[slotName];
 		}
+
+		/**
+   * Get slot by its name or pos
+   * @param id
+   * @returns {AdSlot}
+   */
+
 	}, {
 		key: 'get',
 		value: function get(id) {
@@ -3479,6 +3501,12 @@ var slot_service_SlotService = function () {
 
 			return slotByPos;
 		}
+
+		/**
+   * Iterate over all defined slots
+   * @param {function} callback
+   */
+
 	}, {
 		key: 'forEach',
 		value: function forEach(callback) {
@@ -3486,11 +3514,24 @@ var slot_service_SlotService = function () {
 				callback(slot_service_slots[id]);
 			});
 		}
+
+		/**
+   * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   */
+
 	}, {
 		key: 'enable',
 		value: function enable(slotName) {
 			setState(slotName, true);
 		}
+
+		/**
+   * Disable slot by name (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   * @param {null|string} status
+   */
+
 	}, {
 		key: 'disable',
 		value: function disable(slotName) {
@@ -3498,6 +3539,13 @@ var slot_service_SlotService = function () {
 
 			setState(slotName, false, status);
 		}
+
+		/**
+   * Get current state of slot (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   * @returns {boolean}
+   */
+
 	}, {
 		key: 'getState',
 		value: function getState(slotName) {
@@ -3505,6 +3553,13 @@ var slot_service_SlotService = function () {
 			// that wasn't disabled or enabled (in case when state is undefined)
 			return slotStates[slotName] !== false;
 		}
+
+		/**
+   * Checks whether ad slot has conflict with defined elements
+   * @param {AdSlot} adSlot
+   * @returns {boolean}
+   */
+
 	}, {
 		key: 'hasViewportConflict',
 		value: function hasViewportConflict(adSlot) {
