@@ -1,5 +1,5 @@
 import blockBtfAd from '../../pages/block-btf-ad.page';
-import adSlots from '../../common/adSlots';
+import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
 

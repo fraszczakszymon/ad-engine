@@ -1,4 +1,4 @@
-import adSlots from '../common/adSlots';
+import adSlots from './ad-slots';
 import helpers from './helpers';
 
 const { expect } = require('chai');

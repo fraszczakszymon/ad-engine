@@ -1,5 +1,5 @@
 import hiviUapJwp from '../../pages/hivi-uap-jwp-ad.page';
-import adSlots from '../../common/adSlots';
+import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
 
