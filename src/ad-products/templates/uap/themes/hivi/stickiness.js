@@ -113,6 +113,7 @@ export class Stickiness extends EventEmitter {
 
 	async onAdReady() {
 		this.applyStickiness();
+		this.revertStickinessOnResize();
 		this.logger('waiting for viewability and custom condition');
 
 		await Promise.all([
@@ -123,6 +124,5 @@ export class Stickiness extends EventEmitter {
 		]);
 
 		this.registerRevertStickiness();
-		this.revertStickinessOnResize();
 	}
 }
