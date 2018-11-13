@@ -83,6 +83,7 @@ const development = {
 		'utils/browser-detect': './examples/utils/browser-detect/script.js',
 		'utils/device-detect': './examples/utils/device-detect/script.js',
 		'utils/labrador-basset': './examples/utils/labrador-basset/script.js',
+		'video/jwplayer': './examples/video/jwplayer/script.js',
 		'video/porvata': './examples/video/porvata/script.js'
 	},
 	devtool: 'cheap-module-eval-source-map',

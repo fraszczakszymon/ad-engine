@@ -251,6 +251,13 @@ export default {
 			targeting: {},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
 			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'
+		},
+		featured: {
+			lowerSlotName: 'featured',
+			slotGroup: 'VIDEO',
+			targeting: {},
+			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+			'/{custom.device}/ae-{custom.adLayout}/_example'
 		}
 	},
 	services: {

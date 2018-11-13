@@ -241,7 +241,8 @@ export class Porvata {
 			adProduct: params.adProduct,
 			position: params.slotName,
 			src: params.src,
-			withAudio: !params.autoPlay
+			withAudio: !params.autoPlay,
+			withCtp: !params.autoPlay,
 		});
 
 		let isFirstPlay = true,
@@ -314,6 +315,7 @@ export class Porvata {
 					}
 					isFirstPlay = false;
 					porvataListener.params.withAudio = true;
+					porvataListener.params.withCtp = true;
 				});
 				video.addEventListener('wikiaAdRestart', () => {
 					isFirstPlay = false;
