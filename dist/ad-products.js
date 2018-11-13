@@ -563,6 +563,7 @@ var stickiness_Stickiness = function (_EventEmitter) {
 
 	function Stickiness(adSlot) {
 		var customWhen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : promise_default.a.resolve();
+		var unstickOnResize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
 		classCallCheck_default()(this, Stickiness);
 
@@ -580,6 +581,7 @@ var stickiness_Stickiness = function (_EventEmitter) {
 
 			return ad_engine_["utils"].logger.apply(ad_engine_["utils"], [Stickiness.LOG_GROUP].concat(args));
 		};
+		_this.unstickOnResize = unstickOnResize;
 
 		if (!isFunction_default()(_this.customWhen)) {
 			promise_default.a.all([_this.customWhen]).then(function () {
@@ -668,6 +670,19 @@ var stickiness_Stickiness = function (_EventEmitter) {
 			}
 		}
 	}, {
+		key: 'revertStickinessOnResize',
+		value: function revertStickinessOnResize() {
+			var _this3 = this;
+
+			if (this.unstickOnResize) {
+				window.addEventListener('resize', function () {
+					_this3.logger('Unsticking');
+					_this3.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
+					_this3.sticky = false;
+				}, { once: true });
+			}
+		}
+	}, {
 		key: 'close',
 		value: function close() {
 			this.logger('Closing and removing stickiness');
@@ -730,16 +745,17 @@ var stickiness_Stickiness = function (_EventEmitter) {
 						switch (_context3.prev = _context3.next) {
 							case 0:
 								this.applyStickiness();
+								this.revertStickinessOnResize();
 								this.logger('waiting for viewability and custom condition');
 
-								_context3.next = 4;
+								_context3.next = 5;
 								return promise_default.a.all([!this.adSlot.isViewed() ? ad_engine_["utils"].once(this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve(), isFunction_default()(this.customWhen) ? this.customWhen() : this.customWhen]);
 
-							case 4:
+							case 5:
 
 								this.registerRevertStickiness();
 
-							case 5:
+							case 6:
 							case 'end':
 								return _context3.stop();
 						}
@@ -1101,7 +1117,7 @@ var sticky_ad_StickyAd = function () {
 				};
 			}();
 
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout());
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 		}
 	}, {
 		key: 'addUnstickButton',
