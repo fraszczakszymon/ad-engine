@@ -91,7 +91,6 @@ export class JWPlayerTracker {
 		this.playerInstance = player;
 
 		this.updateVideoId();
-		this.updatePlayerState();
 
 		this.emit('init');
 
@@ -109,6 +108,7 @@ export class JWPlayerTracker {
 			this.updateCreativeData(currentAd);
 		});
 
+		this.updatePlayerState();
 
 		Object.keys(trackingEventsMap).forEach((playerEvent) => {
 			player.on(playerEvent, (event) => {

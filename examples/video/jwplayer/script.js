@@ -1,5 +1,5 @@
-import { AdSlot, buildVastUrl, context, events, slotService, utils } from '@wikia/ad-engine';
-import { JWPlayerTracker } from '@wikia/ad-products';
+import { context, events, utils } from '@wikia/ad-engine';
+import { jwplayerAdsFactory } from '@wikia/ad-products';
 import 'jwplayer-fandom/dist/wikiajwplayer.js';
 
 import adContext from '../../context';
@@ -12,8 +12,10 @@ context.set('targeting.artid', 355);
 context.set('targeting.skin', 'oasis');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
-
-slotService.add(new AdSlot({ id: 'featured' }));
+context.set('options.tracking.kikimora.player', true);
+context.set('options.video.isMidrollEnabled', utils.queryString.get('midroll') === '1');
+context.set('options.video.isPostrollEnabled', utils.queryString.get('postroll') === '1');
+context.set('options.video.adsOnNextVideoFrequency', parseInt(utils.queryString.get('capping'), 10) || 3);
 
 events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	const request = new window.XMLHttpRequest();
@@ -23,12 +25,10 @@ events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	request.send();
 });
 
-context.set('options.tracking.kikimora.player', true);
-
 const playlist = [video];
 const playerOptions = {
-	autoplay: true,
-	mute: true,
+	autoplay: utils.queryString.get('autoplay') !== '0',
+	mute: utils.queryString.get('mute') !== '0',
 	settings: {
 		showAutoplayToggle: false,
 		showQuality: true
@@ -44,17 +44,16 @@ const playerOptions = {
 		time: 3
 	}
 };
-const tracker = new JWPlayerTracker({
+const videoAds = jwplayerAdsFactory.create({
 	adProduct: 'featured-video',
 	audio: !playerOptions.mute,
-	ctp: !playerOptions.autoplay,
+	autoplay: playerOptions.autoplay,
+	featured: true,
 	slotName: 'featured'
 });
 
 window.wikiaJWPlayer('playerContainer', playerOptions, (player) => {
-	player.on('beforePlay', () => {
-		player.playAd(buildVastUrl(640 / 360, 'featured'));
-	});
-
-	tracker.register(player);
+	videoAds.register(player);
 });
+
+jwplayerAdsFactory.loadMoatPlugin();

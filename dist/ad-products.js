@@ -4566,7 +4566,6 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 			this.playerInstance = player;
 
 			this.updateVideoId();
-			this.updatePlayerState();
 
 			this.emit('init');
 
@@ -4583,6 +4582,8 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 
 				_this.updateCreativeData(currentAd);
 			});
+
+			this.updatePlayerState();
 
 			keys_default()(trackingEventsMap).forEach(function (playerEvent) {
 				player.on(playerEvent, function (event) {
@@ -4713,6 +4714,257 @@ var porvata_tracker_PorvataTracker = function () {
 // CONCATENATED MODULE: ./src/ad-products/tracking/index.js
 
 
+// CONCATENATED MODULE: ./src/ad-products/video/jwplayer-ads-factory.js
+
+
+
+
+/**
+ * Calculate depth
+ *
+ * @param {number} depth
+ * @returns {number}
+ */
+function calculateRV(depth) {
+	var capping = ad_engine_["context"].get('options.video.adsOnNextVideoFrequency');
+
+	return depth < 2 || !capping ? 1 : Math.floor((depth - 1) / capping) + 1;
+}
+
+/**
+ * @param {number} depth
+ * @returns {boolean}
+ */
+function shouldPlayAdOnNextVideo(depth) {
+	var capping = ad_engine_["context"].get('options.video.adsOnNextVideoFrequency');
+
+	return ad_engine_["context"].get('options.video.playAdsOnNextVideo') && capping > 0 && (depth - 1) % capping === 0;
+}
+
+/**
+ * @param {number} depth
+ * @returns {boolean}
+ */
+function canAdBePlayed(depth) {
+	var isReplay = depth > 1;
+
+	return !isReplay || isReplay && shouldPlayAdOnNextVideo(depth);
+}
+
+/**
+ * @param {number} videoDepth
+ * @returns {boolean}
+ */
+function shouldPlayPreroll(videoDepth) {
+	return canAdBePlayed(videoDepth);
+}
+
+/**
+ * @param {number} videoDepth
+ * @returns {boolean}
+ */
+function shouldPlayMidroll(videoDepth) {
+	return ad_engine_["context"].get('options.video.isMidrollEnabled') && canAdBePlayed(videoDepth);
+}
+
+/**
+ * @param {number} videoDepth
+ * @returns {boolean}
+ */
+function shouldPlayPostroll(videoDepth) {
+	return ad_engine_["context"].get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
+}
+
+/**
+ * @param {Object} slot
+ * @param {string} position
+ * @param {number} depth
+ * @param {number} correlator
+ * @param {Object} slotTargeting
+ * @returns {string}
+ */
+function getVastUrl(slot, position, depth, correlator, slotTargeting) {
+	return Object(ad_engine_["buildVastUrl"])(16 / 9, slot.getSlotName(), {
+		correlator: correlator,
+		vpos: position,
+		targeting: assign_default()({
+			passback: 'jwplayer',
+			rv: calculateRV(depth)
+		}, slotTargeting)
+	});
+}
+
+/**
+ * Creates instance with ads schedule and tracking for JWPlayer
+ * @param options
+ * @param options.adProduct Base ad product name
+ * @param options.slotName Slot name for video ads
+ * @param [options.audio] Initial state of audio of created player
+ * @param [options.autoplay] Initial state of autoplay of created player
+ * @returns {{register: register}}
+ */
+function create(options) {
+	function register(player) {
+		var slotTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+		var slot = ad_engine_["slotService"].get(slotName);
+		var adProduct = slot.config.trackingKey;
+		var videoElement = player && player.getContainer && player.getContainer();
+		var videoContainer = videoElement && videoElement.parentNode;
+		var targeting = slotTargeting;
+
+		var correlator = void 0;
+		var depth = 0;
+		var prerollPositionReached = false;
+
+		slot.element = videoContainer;
+		slot.setConfigProperty('audio', !player.getMute());
+		slot.setConfigProperty('autoplay', player.getConfig().autostart);
+
+		if (ad_engine_["context"].get('options.video.moatTracking.enabledForArticleVideos')) {
+			player.on('adImpression', function (event) {
+				if (window.moatjw) {
+					window.moatjw.add({
+						adImpressionEvent: event,
+						partnerCode: ad_engine_["context"].get('options.video.moatTracking.partnerCode'),
+						player: player
+					});
+				}
+			});
+		}
+
+		player.on('adBlock', function () {
+			tracker.adProduct = adProduct;
+		});
+
+		player.on('beforePlay', function () {
+			var currentMedia = player.getPlaylistItem() || {};
+
+			targeting.v1 = currentMedia.mediaid;
+			tracker.updateVideoId();
+
+			if (prerollPositionReached) {
+				return;
+			}
+
+			correlator = Math.round(Math.random() * 10000000000);
+			depth += 1;
+			slot.setConfigProperty('audio', !player.getMute());
+			slot.setConfigProperty('videoDepth', depth);
+
+			if (shouldPlayPreroll(depth)) {
+				tracker.adProduct = adProduct + '-preroll';
+				/**
+     * Fill in slot handle
+     * @returns {void}
+     */
+				var fillInSlot = function fillInSlot() {
+					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
+				};
+
+				if (slotName === 'featured') {
+					fillInSlot();
+				} else {
+					ad_engine_["btfBlockerService"].push(slot, fillInSlot);
+				}
+			}
+
+			prerollPositionReached = true;
+		});
+
+		player.on('videoMidPoint', function () {
+			if (shouldPlayMidroll(depth)) {
+				tracker.adProduct = adProduct + '-midroll';
+				slot.setConfigProperty('audio', !player.getMute());
+				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+			}
+		});
+
+		player.on('beforeComplete', function () {
+			if (shouldPlayPostroll(depth)) {
+				tracker.adProduct = adProduct + '-postroll';
+				slot.setConfigProperty('audio', !player.getMute());
+				player.playAd(getVastUrl(slot, 'postroll', depth, correlator, targeting));
+			}
+		});
+
+		player.on('complete', function () {
+			prerollPositionReached = false;
+			tracker.adProduct = adProduct;
+		});
+
+		player.on('adRequest', function (event) {
+			var vastParams = ad_engine_["vastParser"].parse(event.tag, {
+				imaAd: event.ima && event.ima.ad
+			});
+
+			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
+
+			// TODO: set slot status so it's tracked to adengadinfo
+			// Currently it isn't working:
+			// slotTracker.onRenderEnded(
+			// 		slot,
+			// 		{
+			// 			timestamp: Date.now(),
+			// 			line_item_id: vastParams.lineItemId,
+			// 			creative_id: vastParams.creativeId,
+			// 			creative_size: vastParams.size,
+			// 			status: 'success',
+			// 			page_width: videoContainer.clientWidth,
+			// 			viewport_height: videoContainer.scrollTop,
+			// 		},
+			// );
+		});
+
+		player.on('adError', function (event) {
+			ad_engine_["vastDebugger"].setVastAttributes(videoContainer, event.tag, 'error', event.ima && event.ima.ad);
+
+			// TODO: set slot status so it's tracked to adengadinfo
+			// Currently it isn't working:
+			// slotTracker.onRenderEnded(
+			// 		slot,
+			// 		{
+			// 			timestamp: Date.now(),
+			// 			status: 'error',
+			// 			page_width: videoContainer.clientWidth,
+			// 			viewport_height: videoContainer.scrollTop,
+			// 		},
+			// );
+		});
+
+		tracker.register(player);
+	}
+
+	var slotName = options.featured ? 'featured' : 'video';
+	var slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
+
+	if (!ad_engine_["slotService"].get(slotName)) {
+		ad_engine_["slotService"].add(slot);
+	}
+
+	var tracker = new jwplayer_tracker_JWPlayerTracker({
+		adProduct: slot.config.trackingKey,
+		audio: options.audio,
+		ctp: !options.autoplay,
+		slotName: slotName,
+		videoId: options.videoId
+	});
+
+	return {
+		register: register
+	};
+}
+
+function loadMoatPlugin() {
+	ad_engine_["utils"].scriptLoader.loadScript(ad_engine_["context"].get('options.video.moatTracking.jwplayerPluginUrl'));
+}
+
+var jwplayerAdsFactory = {
+	create: create,
+	loadMoatPlugin: loadMoatPlugin
+};
+// CONCATENATED MODULE: ./src/ad-products/video/index.js
+
 // CONCATENATED MODULE: ./src/ad-products/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "getAdProductInfo", function() { return getAdProductInfo; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
@@ -4731,7 +4983,9 @@ var porvata_tracker_PorvataTracker = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "JWPlayerTracker", function() { return jwplayer_tracker_JWPlayerTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTracker", function() { return porvata_tracker_PorvataTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "jwplayerAdsFactory", function() { return jwplayerAdsFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
+
 
 
 
