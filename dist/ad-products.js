@@ -1042,6 +1042,11 @@ var sticky_ad_StickyAd = function () {
 	}
 
 	createClass_default()(StickyAd, [{
+		key: 'adjustAdSlot',
+		value: function adjustAdSlot() {
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		}
+	}, {
 		key: 'init',
 		value: function init(params) {
 			var _this = this;
@@ -1069,7 +1074,7 @@ var sticky_ad_StickyAd = function () {
 				}
 			}
 
-			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+			this.adjustAdSlot();
 
 			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
@@ -1081,6 +1086,8 @@ var sticky_ad_StickyAd = function () {
 					ad_engine_["scrollListener"].removeCallback(_this.scrollListener);
 				}
 			});
+
+			window.addEventListener('resize', this.adjustAdSlot.bind(this));
 		}
 	}, {
 		key: 'addUnstickLogic',
