@@ -3,9 +3,9 @@ import playerEventEmitter from './player-event-emitter';
 import videoEventDataProvider from './video-event-data-provider';
 
 /**
- * Ads tracker for Porvata
+ * Ads tracker for Twitch
  */
-class PorvataTracker {
+export class TwitchTracker {
 	/**
 	 * Register event listeners on player
 	 * @returns {void}
@@ -13,7 +13,7 @@ class PorvataTracker {
 	register() {
 		const listener = {
 			/**
-			 * Porvata event callback
+			 * Twitch event callback
 			 * @param {string} eventName
 			 * @param {Object} playerParams
 			 * @param {Object} data
@@ -26,7 +26,7 @@ class PorvataTracker {
 			}
 		};
 
-		context.push('listeners.porvata', listener);
+		context.push('listeners.twitch', listener);
 	}
 
 	/**
@@ -40,4 +40,4 @@ class PorvataTracker {
 	}
 }
 
-export const porvataTracker = new PorvataTracker();
+export const twitchTracker = new TwitchTracker();

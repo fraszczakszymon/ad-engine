@@ -7,7 +7,7 @@ import {
 	slotService,
 	utils
 } from '@wikia/ad-engine';
-import { PorvataTracker } from '@wikia/ad-products';
+import { porvataTracker } from '@wikia/ad-products';
 import adContext from '../../context';
 
 const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1',
@@ -41,8 +41,7 @@ context.set('custom.adLayout', 'article');
 slotService.add(new AdSlot({ id: 'outstream' }));
 
 context.set('options.tracking.kikimora.player', true);
-const tracker = new PorvataTracker();
-tracker.register();
+porvataTracker.register();
 
 events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	const request = new window.XMLHttpRequest();
