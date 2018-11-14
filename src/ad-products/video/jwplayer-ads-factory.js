@@ -9,6 +9,7 @@ import {
 	vastParser
 } from '@wikia/ad-engine';
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
+import featuredVideo15s from './featured-video-f15s';
 
 /**
  * Calculate depth
@@ -107,6 +108,11 @@ function create(options) {
 		let correlator;
 		let depth = 0;
 		let prerollPositionReached = false;
+		// the flag is needed to avoid playing the same mid-roll
+		// in the very same second, so there is no race condition
+		// in JWPlayer when removing ad layer and going back to the video
+		// player.off('time') solves it but it also unregisters other event handlers
+		let f15sMidrollPlayed = false;
 
 		slot.element = videoContainer;
 		slot.setConfigProperty('audio', !player.getMute());
@@ -143,6 +149,11 @@ function create(options) {
 			slot.setConfigProperty('audio', !player.getMute());
 			slot.setConfigProperty('videoDepth', depth);
 
+			if (featuredVideo15s.isEnabled(currentMedia.mediaid)) {
+				prerollPositionReached = true;
+				return;
+			}
+
 			if (shouldPlayPreroll(depth)) {
 				tracker.adProduct = `${adProduct}-preroll`;
 				/**
@@ -152,7 +163,6 @@ function create(options) {
 				const fillInSlot = () => {
 					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
 				};
-
 
 				if (slotName === 'featured') {
 					fillInSlot();
@@ -177,6 +187,28 @@ function create(options) {
 				tracker.adProduct = `${adProduct}-postroll`;
 				slot.setConfigProperty('audio', !player.getMute());
 				player.playAd(getVastUrl(slot, 'postroll', depth, correlator, targeting));
+			}
+		});
+
+		player.on('time', (data) => {
+			const currentMedia = player.getPlaylistItem() || {};
+
+			if (f15sMidrollPlayed) {
+				return;
+			}
+
+			if (!featuredVideo15s.isEnabled(currentMedia.mediaid)) {
+				return;
+			}
+
+			const { currentTime } = data;
+			const f15sTime = parseFloat(featuredVideo15s.getTime(currentMedia.mediaid));
+
+			if (currentTime >= f15sTime && !f15sMidrollPlayed) {
+				tracker.adProduct = `${adProduct}-midroll`;
+				slot.setConfigProperty('audio', !player.getMute());
+				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				f15sMidrollPlayed = true;
 			}
 		});
 

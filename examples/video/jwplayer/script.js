@@ -7,6 +7,8 @@ import video from './video';
 
 import '../../styles.scss';
 
+const f15sVideoId = utils.queryString.get('f15s');
+
 context.extend(adContext);
 context.set('targeting.artid', 355);
 context.set('targeting.skin', 'oasis');
@@ -16,6 +18,14 @@ context.set('options.tracking.kikimora.player', true);
 context.set('options.video.isMidrollEnabled', utils.queryString.get('midroll') === '1');
 context.set('options.video.isPostrollEnabled', utils.queryString.get('postroll') === '1');
 context.set('options.video.adsOnNextVideoFrequency', parseInt(utils.queryString.get('capping'), 10) || 3);
+
+if (f15sVideoId) {
+	const map = {};
+	map[f15sVideoId] = 5.0;
+
+	context.set('options.featuredVideo15sEnabled', true);
+	context.set('options.featuredVideo15sMap', map);
+}
 
 events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	const request = new window.XMLHttpRequest();
@@ -49,7 +59,8 @@ const videoAds = jwplayerAdsFactory.create({
 	audio: !playerOptions.mute,
 	autoplay: playerOptions.autoplay,
 	featured: true,
-	slotName: 'featured'
+	slotName: 'featured',
+	videoId: video.mediaid
 });
 
 window.wikiaJWPlayer('playerContainer', playerOptions, (player) => {

@@ -99,6 +99,7 @@ export default {
 				key: 'audio'
 			}
 		},
+		featuredVideo15sEnabled: false,
 		video: {
 			adsOnNextVideoFrequency: 3,
 			isMidrollEnabled: false,
