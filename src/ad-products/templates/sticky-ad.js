@@ -1,18 +1,28 @@
-import { AdSlot, context, scrollListener, utils } from '@wikia/ad-engine';
-import { Stickiness } from './uap/themes/hivi/stickiness';
-import {
-	CSS_CLASSNAME_FADE_IN_ANIMATION,
-	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-	CSS_CLASSNAME_STICKY_SLOT,
-	CSS_CLASSNAME_STICKY_TEMPLATE,
-	FADE_IN_TIME,
-	SLIDE_OUT_TIME
-} from './uap/constants';
+import { AdSlot, context, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+
+import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
+import { Stickiness } from './uap/themes/hivi/stickiness';
+import { universalAdPackage } from './uap/universal-ad-package';
+import { adIsReady } from './uap/themes/hivi/ready';
+import {
+	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME,
+	CSS_CLASSNAME_STICKY_IAB,
+} from './uap/constants';
 
 export class StickyAd {
 	static DEFAULT_UNSTICK_DELAY = 2000;
+
+	constructor(adSlot) {
+		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
+		this.config = context.get(`templates.${StickyAd.getName()}`);
+		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
+		this.container = document.getElementById(this.adSlot.getSlotName());
+		this.stickiness = null;
+	}
 
 	static getName() {
 		return 'stickyAd';
@@ -21,36 +31,38 @@ export class StickyAd {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
+			desktopNavbarWrapperSelector: '.wds-global-navigation-wrapper',
+			mobileNavbarWrapperSelector: '.global-navigation-mobile-wrapper',
+			mainContainer: document.body,
+			handleNavbar: false,
 			stickyAdditionalTime: 0,
 			stickyUntilSlotViewed: true,
-			handleNavbar: true,
-			navbarWrapperSelector: 'body > nav.navigation',
-			smartBannerSelector: null,
-			slotsIgnoringNavbar: []
+			stickinessAllowed: true, // TODO
+			slotSibling: '.topic-header',
+			onInit: () => {},
+			onBeforeStickBfaaCallback: () => {},
+			onAfterStickBfaaCallback: () => {},
+			onBeforeUnstickBfaaCallback: () => {},
+			onAfterUnstickBfaaCallback: () => {},
+			moveNavbar(offset, time = SLIDE_OUT_TIME) {
+				const navbarElement = document.querySelector('body > nav.navigation');
+
+				if (navbarElement) {
+					navbarElement.style.transition = (
+						offset ? '' : `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`
+					);
+					navbarElement.style.top = (offset ? `${offset}px` : '');
+				}
+			}
 		};
-	}
-
-	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyAd.getName()}`);
-		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
-		this.stickiness = null;
-		this.scrollListener = null;
-		this.topOffset = 0;
-		this.leftOffset = 0;
-	}
-
-	static isEnabled() {
-		return context.get(`templates.${StickyAd.getName()}.enabled`);
-	}
-
-	adjustAdSlot() {
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 	}
 
 	init(params) {
 		this.params = params;
+
+		if (!this.container) {
+			return;
+		}
 
 		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
 			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
@@ -58,37 +70,25 @@ export class StickyAd {
 			return;
 		}
 
-		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+		this.addStickinessPlugin();
 
+		this.container.style.backgroundColor = '#000';
+		this.container.classList.add('bfaa-template');
+
+		adIsReady({
+			adSlot: this.adSlot,
+			params: this.params
+		}).then(iframe => this.onAdReady(iframe));
+
+		this.config.onInit(this.adSlot, this.params, this.config);
+	}
+
+	addStickinessPlugin() {
+		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();
-		this.addUnstickEventsListeners();
-
-		if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
-			const navbarElement = document.querySelector(this.config.navbarWrapperSelector);
-
-			this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
-
-			if (this.config.smartBannerSelector) {
-				const smartBannerElement = document.querySelector(this.config.smartBannerSelector);
-
-				this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
-			}
-		}
-
-		this.adjustAdSlot();
-
-		const startOffset = utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
-
-		this.scrollListener = scrollListener.addCallback(() => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-
-			if (scrollPosition >= startOffset) {
-				this.stickiness.run();
-				scrollListener.removeCallback(this.scrollListener);
-			}
-		});
-
-		window.addEventListener('resize', this.adjustAdSlot.bind(this));
+		this.addUnstickButton();
+		this.addUnstickEvents();
+		this.stickiness.run();
 	}
 
 	addUnstickLogic() {
@@ -103,54 +103,106 @@ export class StickyAd {
 		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 	}
 
+	addAdvertisementLabel() {
+		const advertisementLabel = new AdvertisementLabel();
+
+		this.adSlot.getElement().appendChild(advertisementLabel.render());
+	}
+
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
 			onClick: () => this.stickiness.close()
 		}).render();
 
-		this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
+		this.container.appendChild(this.closeButton);
 	}
 
 	removeUnstickButton() {
 		this.closeButton.remove();
 	}
 
-	removeStickyParameters() {
-		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-		this.adSlot.getElement().style.height = null;
-		this.adSlot.getElement().querySelector('div').style.top = null;
-		this.adSlot.getElement().querySelector('div').style.left = null;
-	}
-
-	addUnstickEventsListeners() {
+	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
+		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.onCloseClicked.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
 
 	async onStickinessChange(isSticky) {
+		const stickinessBeforeCallback = isSticky ?
+			this.config.onBeforeStickBfaaCallback :
+			this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky ?
+			this.config.onAfterStickBfaaCallback :
+			this.config.onAfterUnstickBfaaCallback;
+
+		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+
 		if (!isSticky) {
-			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-			this.removeStickyParameters();
-			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-
-			this.removeUnstickButton();
+			this.config.moveNavbar(0, SLIDE_OUT_TIME);
+			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+			this.adSlot.getElement().classList.add('theme-resolved');
+			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
-			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
-			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
-			this.adSlot.getElement().querySelector('div').style.left = `${this.leftOffset}px`;
-
-			this.addUnstickButton();
+			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}
+
+		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+	}
+
+	async onAdReady() {
+		this.container.classList.add('theme-hivi');
+		this.addAdvertisementLabel();
+
+		this.config.mainContainer.style.paddingTop = `${this.container.scrollHeight}px`;
+		this.config.mainContainer.classList.add('has-bfaa');
+
+
+		if (this.config.handleNavbar) {
+			this.setupNavbar();
+		}
+
+		this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
+
+		if (document.hidden) {
+			await utils.once(window, 'visibilitychange');
+		}
+
+		return slotTweaker.makeResponsive(this.adSlot);
+	}
+
+	onCloseClicked() {
+		this.unstickImmediately();
 	}
 
 	unstickImmediately() {
-		if (this.stickiness) {
-			this.removeStickyParameters();
-			this.stickiness.sticky = false;
-			this.removeUnstickButton();
+		this.config.moveNavbar(0, 0);
+		scrollListener.removeCallback(this.scrollListener);
+		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+		this.adSlot.getElement().classList.add('theme-resolved');
+		this.stickiness.sticky = false;
+		this.removeUnstickButton();
+		this.config.mainContainer.style.paddingTop = '0';
+		this.adSlot.getElement().classList.add('hide');
+	}
+
+	static isEnabled() {
+		return context.get(`templates.${StickyAd.getName()}.enabled`);
+	}
+
+	setupNavbar() {
+		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
+		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
+		const slotParent = this.container.parentNode;
+		const sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
+
+		if (mobileNavbarWrapper) {
+			slotParent.insertBefore(mobileNavbarWrapper, sibling);
+		}
+
+		if (desktopNavbarWrapper) {
+			slotParent.insertBefore(desktopNavbarWrapper, sibling);
 		}
 	}
 }
