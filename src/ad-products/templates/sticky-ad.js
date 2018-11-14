@@ -83,6 +83,10 @@ export class StickyAd {
 				scrollListener.removeCallback(this.scrollListener);
 			}
 		});
+
+		window.addEventListener('resize', () => {
+			this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		});
 	}
 
 	addUnstickLogic() {
