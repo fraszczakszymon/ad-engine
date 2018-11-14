@@ -45,6 +45,10 @@ export class StickyAd {
 		return context.get(`templates.${StickyAd.getName()}.enabled`);
 	}
 
+	adjustAdSlot() {
+		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+	}
+
 	init(params) {
 		this.params = params;
 
@@ -71,7 +75,7 @@ export class StickyAd {
 			}
 		}
 
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		this.adjustAdSlot();
 
 		const startOffset = utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
@@ -85,7 +89,7 @@ export class StickyAd {
 		});
 
 		window.addEventListener('resize', () => {
-			this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+			this.adjustAdSlot();
 		});
 	}
 
