@@ -88,9 +88,7 @@ export class StickyAd {
 			}
 		});
 
-		window.addEventListener('resize', () => {
-			this.adjustAdSlot();
-		});
+		window.addEventListener('resize',	this.adjustAdSlot.bind(this));
 	}
 
 	addUnstickLogic() {
