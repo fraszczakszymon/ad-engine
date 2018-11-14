@@ -4676,8 +4676,9 @@ jwplayer_tracker_JWPlayerTracker.PLAYER_NAME = 'jwplayer';
 
 
 /**
- * Ads tracker for JWPlayer
+ * Ads tracker for Porvata
  */
+
 var porvata_tracker_PorvataTracker = function () {
 	function PorvataTracker() {
 		classCallCheck_default()(this, PorvataTracker);
@@ -4727,10 +4728,110 @@ var porvata_tracker_PorvataTracker = function () {
 
 	return PorvataTracker;
 }();
+
+var porvataTracker = new porvata_tracker_PorvataTracker();
+// CONCATENATED MODULE: ./src/ad-products/tracking/video/twitch-tracker.js
+
+
+
+
+
+
+/**
+ * Ads tracker for Twitch
+ */
+var twitch_tracker_TwitchTracker = function () {
+	function TwitchTracker() {
+		classCallCheck_default()(this, TwitchTracker);
+	}
+
+	createClass_default()(TwitchTracker, [{
+		key: 'register',
+
+		/**
+   * Register event listeners on player
+   * @returns {void}
+   */
+		value: function register() {
+			var listener = {
+				/**
+     * Twitch event callback
+     * @param {string} eventName
+     * @param {Object} playerParams
+     * @param {Object} data
+     * @returns {void}
+     */
+				onEvent: function onEvent(eventName, playerParams, data) {
+					var eventInfo = video_event_data_provider.getEventData(data);
+
+					player_event_emitter.emit(eventInfo);
+				}
+			};
+
+			ad_engine_["context"].push('listeners.twitch', listener);
+		}
+
+		/**
+   * Dispatch single event
+   * @param {string} eventName
+   * @param {int} errorCode
+   * @returns {void}
+   */
+
+	}, {
+		key: 'emit',
+		value: function emit(eventName) {
+			var errorCode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+			video_event_data_provider.emit(eventName, errorCode);
+		}
+	}]);
+
+	return TwitchTracker;
+}();
+
+var twitchTracker = new twitch_tracker_TwitchTracker();
 // CONCATENATED MODULE: ./src/ad-products/tracking/index.js
 
 
+
+// CONCATENATED MODULE: ./src/ad-products/video/featured-video-f15s.js
+
+
+var logGroup = 'featured-video-f15s';
+
+/* harmony default export */ var featured_video_f15s = ({
+	/**
+  * Checks if for given video we want the f15s experiment to be enabled
+  *
+  * @param {string} videoId a unique mediaId from JWPlayer instance
+  * @returns {boolean}
+  */
+	isEnabled: function isEnabled(videoId) {
+		if (!ad_engine_["context"].get('options.featuredVideo15sEnabled')) {
+			return false;
+		}
+
+		var adTime = this.getTime(videoId);
+
+		ad_engine_["utils"].logger(logGroup, 'isEnabled (video id, time, enabled?)', videoId, adTime, !!adTime);
+
+		return !!adTime;
+	},
+
+
+	/**
+  * Returns time for an ad from the configuration
+  *
+  * @param {string} videoId a unique mediaId from JWPlayer instance
+  * @returns {*}
+  */
+	getTime: function getTime(videoId) {
+		return ad_engine_["context"].get('options.featuredVideo15sMap.' + videoId);
+	}
+});
 // CONCATENATED MODULE: ./src/ad-products/video/jwplayer-ads-factory.js
+
 
 
 
@@ -4834,6 +4935,11 @@ function create(options) {
 		var correlator = void 0;
 		var depth = 0;
 		var prerollPositionReached = false;
+		// the flag is needed to avoid playing the same mid-roll
+		// in the very same second, so there is no race condition
+		// in JWPlayer when removing ad layer and going back to the video
+		// player.off('time') solves it but it also unregisters other event handlers
+		var f15sMidrollPlayed = false;
 
 		slot.element = videoContainer;
 		slot.setConfigProperty('audio', !player.getMute());
@@ -4870,6 +4976,11 @@ function create(options) {
 			slot.setConfigProperty('audio', !player.getMute());
 			slot.setConfigProperty('videoDepth', depth);
 
+			if (featured_video_f15s.isEnabled(currentMedia.mediaid)) {
+				prerollPositionReached = true;
+				return;
+			}
+
 			if (shouldPlayPreroll(depth)) {
 				tracker.adProduct = adProduct + '-preroll';
 				/**
@@ -4903,6 +5014,29 @@ function create(options) {
 				tracker.adProduct = adProduct + '-postroll';
 				slot.setConfigProperty('audio', !player.getMute());
 				player.playAd(getVastUrl(slot, 'postroll', depth, correlator, targeting));
+			}
+		});
+
+		player.on('time', function (data) {
+			var currentMedia = player.getPlaylistItem() || {};
+
+			if (f15sMidrollPlayed) {
+				return;
+			}
+
+			if (!featured_video_f15s.isEnabled(currentMedia.mediaid)) {
+				return;
+			}
+
+			var currentTime = data.currentTime;
+
+			var f15sTime = parseFloat(featured_video_f15s.getTime(currentMedia.mediaid));
+
+			if (currentTime >= f15sTime && !f15sMidrollPlayed) {
+				tracker.adProduct = adProduct + '-midroll';
+				slot.setConfigProperty('audio', !player.getMute());
+				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				f15sMidrollPlayed = true;
 			}
 		});
 
@@ -5000,7 +5134,9 @@ var jwplayerAdsFactory = {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "JWPlayerTracker", function() { return jwplayer_tracker_JWPlayerTracker; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTracker", function() { return porvata_tracker_PorvataTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "porvataTracker", function() { return porvataTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchTracker", function() { return twitch_tracker_TwitchTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "twitchTracker", function() { return twitchTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "jwplayerAdsFactory", function() { return jwplayerAdsFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 

@@ -2633,13 +2633,11 @@ var twitch_listener_TwitchListener = function () {
 		value: function getData(eventName) {
 			return {
 				ad_product: this.params.adProduct,
-				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 				creative_id: this.params.creativeId || 0,
 				event_name: eventName,
 				line_item_id: this.params.lineItemId || 0,
 				player: TwitchListener.PLAYER_NAME,
-				position: this.params.slotName || '(none)',
-				timestamp: new Date().getTime()
+				position: this.params.slotName || '(none)'
 			};
 		}
 	}]);
