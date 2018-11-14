@@ -92,6 +92,10 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
 		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
+
+	it('Check visual regression in top leaderboard', () => {
+		browser.checkElement(adSlots.topLeaderboard);
+	});
 });
 
 describe('Mobile HiVi UAP static ads page: top boxad', () => {
@@ -110,10 +114,6 @@ describe('Mobile HiVi UAP static ads page: top boxad', () => {
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
 			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
-	});
-
-	it('Check visual regression in top boxad', () => {
-		browser.checkElement(adSlots.topBoxad);
 	});
 });
 
