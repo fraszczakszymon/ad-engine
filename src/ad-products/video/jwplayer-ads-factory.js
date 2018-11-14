@@ -93,6 +93,7 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
  * @param [options.audio] Initial state of audio of created player
  * @param [options.autoplay] Initial state of autoplay of created player
  * @param [options.featured] Decides about ad slot used in the video
+ * @param [options.videoId] Id of initialized video
  * @returns {{register: register}}
  */
 function create(options) {
