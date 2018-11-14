@@ -10,7 +10,8 @@ export class Stickiness extends EventEmitter {
 
 	constructor(
 		adSlot,
-		customWhen = Promise.resolve()
+		customWhen = Promise.resolve(),
+		unstickOnResize = false
 	) {
 		super();
 
@@ -20,6 +21,7 @@ export class Stickiness extends EventEmitter {
 		this.isStickinessBlocked = false;
 		this.isRevertStickinessBlocked = false;
 		this.logger = (...args) => utils.logger(Stickiness.LOG_GROUP, ...args);
+		this.unstickOnResize = unstickOnResize;
 
 		if (!isFunction(this.customWhen)) {
 			Promise.all([this.customWhen]).then(() => {
@@ -73,6 +75,16 @@ export class Stickiness extends EventEmitter {
 		}
 	}
 
+	revertStickinessOnResize() {
+		if (this.unstickOnResize) {
+			window.addEventListener('resize', () => {
+				this.logger('Unsticking');
+				this.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
+				this.sticky = false;
+			}, { once: true });
+		}
+	}
+
 	close() {
 		this.logger('Closing and removing stickiness');
 		this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
@@ -101,6 +113,7 @@ export class Stickiness extends EventEmitter {
 
 	async onAdReady() {
 		this.applyStickiness();
+		this.revertStickinessOnResize();
 		this.logger('waiting for viewability and custom condition');
 
 		await Promise.all([
