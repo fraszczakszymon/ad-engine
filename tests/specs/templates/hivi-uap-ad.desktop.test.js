@@ -13,6 +13,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
+		helpers.setWindowSize();
 		browser.url(hiviUap.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
@@ -24,6 +25,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
@@ -103,16 +105,14 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	it('Check if closing top leaderboard works properly', () => {
 		browser.waitForVisible(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUap.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 });
 
 describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
