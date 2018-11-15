@@ -3,6 +3,7 @@ import {
 	buildVastUrl,
 	btfBlockerService,
 	context,
+	events,
 	slotService,
 	utils,
 	vastDebugger,
@@ -223,6 +224,7 @@ function create(options) {
 			});
 
 			vastDebugger.setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
+			events.emit(events.VIDEO_AD_REQUESTED, slot);
 
 			// TODO: set slot status so it's tracked to adengadinfo
 			// Currently it isn't working:

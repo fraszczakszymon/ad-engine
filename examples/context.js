@@ -65,6 +65,10 @@ export default {
 					incontent_player: {
 						videoAdUnitId: '/5441/wka.life/_project43//article/test/outstream',
 						customParams: 's1=_project43&artid=402&src=test&pos=incontent_player&passback=wikiaVideo'
+					},
+					featured: {
+						videoAdUnitId: '/5441/wka.life/_project43//article/test/featured',
+						customParams: 's1=_project43&artid=402&src=test&pos=featured&passback=wikiaVideo'
 					}
 				}
 			}
