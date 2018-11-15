@@ -9,6 +9,35 @@ export class Pubmatic extends BaseAdapter {
 	}
 
 	prepareConfigForAdUnit(code, { sizes, ids }) {
+		console.log('TEST BIELIK', code);
+		switch (code.toLowerCase()) {
+			case 'featured':
+			case 'incontent_player':
+				return this.getVideoConfig(code, ids);
+			default:
+				return this.getStandardConfig(code, sizes, ids);
+		}
+	}
+
+	getVideoConfig(code, ids) {
+		const videoParams = {
+			video: {
+				mimes: ['video/mp4', 'video/x-flv'],
+			},
+		};
+		return {
+			code,
+			mediaTypes: {
+				video: {
+					playerSize: [640, 480],
+					context: 'instream',
+				},
+			},
+			bids: this.getBids(ids, videoParams),
+		};
+	}
+
+	getStandardConfig(code, sizes, ids) {
 		return {
 			code,
 			mediaTypes: {
@@ -16,13 +45,18 @@ export class Pubmatic extends BaseAdapter {
 					sizes,
 				},
 			},
-			bids: ids.map((adSlot) => ({
-				bidder: this.bidderName,
-				params: {
-					adSlot,
-					publisherId: this.publisherId,
-				},
-			})),
+			bids: this.getBids(ids),
 		};
+	}
+
+	getBids(ids, params = {}) {
+		return ids.map((adSlot) => ({
+			bidder: this.bidderName,
+			params: {
+				adSlot,
+				publisherId: this.publisherId,
+				...params,
+			},
+		}));
 	}
 }
