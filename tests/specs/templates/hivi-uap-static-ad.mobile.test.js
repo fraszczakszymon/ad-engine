@@ -23,6 +23,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
@@ -87,16 +88,18 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if closing top leaderboard works', () => {
-		browser.waitForVisible(hiviUapStatic.closeLeaderboardButton);
+		browser.waitForVisible(hiviUapStatic.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
+	});
+
+	it('Check visual regression in top leaderboard', () => {
+		browser.checkElement(adSlots.topLeaderboard);
 	});
 });
 
 describe('Mobile HiVi UAP static ads page: top boxad', () => {
-	before(() => {
+	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.scroll(0, 5000);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);

@@ -12,18 +12,22 @@ class HiviUapJwp {
 		this.staticFrame = '[name="google_osd_static_frame"]';
 	}
 
+	waitForJWPAdVideoToFinish() {
+		browser.pause(loadAdTime);
+	}
 	/**
 	 * Waits for the delay to pass so the ads load up.
 	 */
 	waitToLoadAds() {
 		browser.waitUntil(
-			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (9s)',
+			() => browser.getText(this.loadAdsButton).includes('Load UAP:JWP ('),
 			timeouts.standard,
 			'Button not loaded',
 			timeouts.interval);
+		this.waitForJWPAdVideoToFinish();
 		browser.waitUntil(
-			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
-			loadAdTime,
+			() => browser.getText(this.loadAdsButton) === ('Load UAP:JWP'),
+			timeouts.standard,
 			'Ads not loaded',
 			timeouts.interval);
 	}
