@@ -324,6 +324,10 @@ class Helpers {
 
 		browser.frame(frame);
 	}
+
+	setWindowSize(width = 1920, height = 1080) {
+		browser.windowHandleSize({ width, height });
+	}
 }
 
 export default new Helpers();

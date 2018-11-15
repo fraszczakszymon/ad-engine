@@ -35,7 +35,7 @@ class HiviUap {
 	waitForResolved(adSlot, ratio) {
 		browser.waitUntil(
 			() => browser.getElementSize(adSlot, 'height') >= helpers.calculateHeightWithRatio(adSlot, ratio),
-			timeouts.standard, // only because it fails too often with standard, despite working on debug
+			timeouts.standard,
 			'Dimensions not changed',
 			timeouts.interval);
 	}

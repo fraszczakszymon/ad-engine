@@ -13,6 +13,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
+		helpers.setWindowSize();
 		browser.url(hiviUap.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
