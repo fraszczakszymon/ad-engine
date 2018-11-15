@@ -207,6 +207,17 @@ class Helpers {
 	}
 
 	/**
+	 * Calculates height based on the actual width and given ratio.
+	 * @param adSlot slot to measure
+	 * @param heightRatio ratio to use as a divider
+	 * @returns {number} slot\'s height
+	 */
+	calculateHeightWithRatio(adSlot, heightRatio) {
+		const slotSize = browser.getElementSize(adSlot);
+		return slotSize.width / heightRatio;
+	}
+
+	/**
 	 * Checks the slot\'s dimensions using ratio to measure height.
 	 * @param adSlot slot dimensions are taken from
 	 * @param expectedWidth correct slot\'s width
@@ -225,7 +236,7 @@ class Helpers {
 			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
+		if (Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) > aspectRatioDelta) {
 			result = false;
 			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
@@ -243,6 +254,7 @@ class Helpers {
 	 * else returns true. captured errors: returns string with errors
 	 */
 	checkUAPSizeSlotRatio(adSlot, heightRatio) {
+		this.waitForExpanded(adSlot);
 		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
 	}
 
@@ -288,10 +300,14 @@ class Helpers {
 	 * Checks slot\'s status after making sure it exists in the code.
 	 * Returns information about visibility in general, visibility in viewport and about being enabled.
 	 * @param adSlot slot to wait for
+	 * @param withScroll optional scroll to element
 	 * @returns {{visible: (Boolean|Boolean[]), inViewport: (Boolean|Boolean[]), enabled: (Boolean|Boolean[])}} slot statuses
 	 */
-	getSlotStatus(adSlot) {
+	getSlotStatus(adSlot, withScroll = false) {
 		browser.waitForExist(adSlot, timeouts.standard);
+		if (withScroll) {
+			browser.scroll(adSlot);
+		}
 		return {
 			visible: browser.isVisible(adSlot),
 			inViewport: browser.isVisibleWithinViewport(adSlot),

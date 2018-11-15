@@ -14,7 +14,7 @@ describe('ABCD ads page: top leaderboard', () => {
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	it('Check if slot is visible in viewport', () => {

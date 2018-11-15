@@ -31,7 +31,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	afterEach(() => {

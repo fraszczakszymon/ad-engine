@@ -29,12 +29,13 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
-		hiviUap.waitForResolved(adSlots.topLeaderboard, hiviUap.mobileResolvedHeight);
+		hiviUap.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
 
 	beforeEach(() => {
+		helpers.closeNewTabs();
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
@@ -104,9 +105,6 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
 		helpers.waitForCollapsed(adSlots.topLeaderboard);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(helpers.slotCollapsed, 'Top leaderboard has not been closed');
 	});
 });
 

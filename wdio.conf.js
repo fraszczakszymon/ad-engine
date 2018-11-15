@@ -41,7 +41,7 @@ exports.config = {
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
-		timeout: 200000
+		timeout: 120000
 	},
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
