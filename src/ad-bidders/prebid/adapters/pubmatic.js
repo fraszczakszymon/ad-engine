@@ -9,7 +9,6 @@ export class Pubmatic extends BaseAdapter {
 	}
 
 	prepareConfigForAdUnit(code, { sizes, ids }) {
-		console.log('TEST BIELIK', code);
 		switch (code.toLowerCase()) {
 			case 'featured':
 			case 'incontent_player':
