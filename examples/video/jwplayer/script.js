@@ -20,11 +20,8 @@ context.set('options.video.isPostrollEnabled', utils.queryString.get('postroll')
 context.set('options.video.adsOnNextVideoFrequency', parseInt(utils.queryString.get('capping'), 10) || 3);
 
 if (f15sVideoId) {
-	const map = {};
-	map[f15sVideoId] = 5.0;
-
 	context.set('options.featuredVideo15sEnabled', true);
-	context.set('options.featuredVideo15sMap', map);
+	context.set(`options.featuredVideo15sMap.${f15sVideoId}`, 5.0);
 }
 
 events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
