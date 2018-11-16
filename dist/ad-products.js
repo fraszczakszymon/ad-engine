@@ -2726,7 +2726,7 @@ var sticky_tlb_StickyTLB = function () {
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
 				return _this4.onStickinessChange(isSticky);
 			});
-			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.onCloseClicked.bind(this));
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately().bind(this));
 			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 		}
 	}, {
@@ -2826,11 +2826,6 @@ var sticky_tlb_StickyTLB = function () {
 
 			return onAdReady;
 		}()
-	}, {
-		key: 'onCloseClicked',
-		value: function onCloseClicked() {
-			this.unstickImmediately();
-		}
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
