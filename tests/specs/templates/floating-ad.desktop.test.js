@@ -1,5 +1,5 @@
 import floatingAd from '../../pages/floating-ad.page';
-import adSlots from '../../common/adSlots';
+import adSlots from '../../common/ad-slots';
 import helpers from '../../common/helpers';
 import { timeouts } from '../../common/timeouts';
 

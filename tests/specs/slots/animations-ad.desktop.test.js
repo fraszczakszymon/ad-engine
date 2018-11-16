@@ -1,5 +1,5 @@
 import animationsAd from '../../pages/animations-ad.page';
-import adSlots from '../../common/adSlots';
+import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 
 const { expect } = require('chai');

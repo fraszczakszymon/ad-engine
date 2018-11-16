@@ -1,11 +1,13 @@
 import {
 	AdSlot,
-	slotService,
 	context,
-	scrollListener,
+	events,
 	Porvata,
+	scrollListener,
+	slotService,
 	utils
 } from '@wikia/ad-engine';
+import { porvataTracker } from '@wikia/ad-products';
 import adContext from '../../context';
 
 const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1',
@@ -37,6 +39,17 @@ context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 
 slotService.add(new AdSlot({ id: 'outstream' }));
+
+context.set('options.tracking.kikimora.player', true);
+porvataTracker.register();
+
+events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
+	const request = new window.XMLHttpRequest();
+	const queryUrl = Object.keys(eventInfo).map(key => `${key}=${eventInfo[key]}`).join('&');
+
+	request.open('GET', `http://example.com?${queryUrl}`);
+	request.send();
+});
 
 scrollListener.init();
 Porvata.inject(params)

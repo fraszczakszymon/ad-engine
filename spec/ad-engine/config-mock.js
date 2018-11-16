@@ -133,6 +133,12 @@ export default {
 			targeting: {
 				loc: 'top'
 			}
+		},
+		incontent_player: {
+			defaultSizes: [[1, 1]],
+			targeting: {
+				loc: 'hivi'
+			}
 		}
 	}
 };
