@@ -638,6 +638,7 @@ function loadScript() {
 	return new promise_default.a(function (resolve) {
 		geoEdgeScript.type = 'text/javascript';
 		geoEdgeScript.src = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
+		geoEdgeScript.async = true;
 		geoEdgeScript.onload = resolve;
 		firstScript.parentNode.insertBefore(geoEdgeScript, firstScript);
 	});
@@ -669,7 +670,16 @@ var geo_edge_GeoEdge = function () {
 			}
 
 			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
-			window.WrapperPubKey = geoEdgeKey;
+			window.grumi = {
+				/* ToDo: advertiser ids
+    cfg: {
+    	advs: {
+    		'12345': true,
+    		'67890': true
+    	}
+    }, */
+				key: geoEdgeKey
+			};
 
 			return loadScript().then(function () {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
