@@ -14,6 +14,7 @@ function loadScript() {
 	return new Promise((resolve) => {
 		geoEdgeScript.type = 'text/javascript';
 		geoEdgeScript.src = `//${scriptDomainId}.cloudfront.net/grumi-ip.js`;
+		geoEdgeScript.async = true;
 		geoEdgeScript.onload = resolve;
 		firstScript.parentNode.insertBefore(geoEdgeScript, firstScript);
 	});
@@ -37,7 +38,16 @@ class GeoEdge {
 		}
 
 		utils.logger(logGroup, 'loading');
-		window.WrapperPubKey = geoEdgeKey;
+		window.grumi = {
+			/* ToDo: advertiser ids
+			cfg: {
+				advs: {
+					'12345': true,
+					'67890': true
+				}
+			}, */
+			key: geoEdgeKey
+		};
 
 		return loadScript().then(() => {
 			utils.logger(logGroup, 'ready');
