@@ -8,16 +8,9 @@ const scriptDomainId = 'd3b02estmut877';
  * @returns {Promise}
  */
 function loadScript() {
-	const firstScript = document.getElementsByTagName('script')[0];
-	const geoEdgeScript = document.createElement('script');
+	const geoEdgeLibraryUrl = `//${scriptDomainId}.cloudfront.net/grumi-ip.js`;
 
-	return new Promise((resolve) => {
-		geoEdgeScript.type = 'text/javascript';
-		geoEdgeScript.src = `//${scriptDomainId}.cloudfront.net/grumi-ip.js`;
-		geoEdgeScript.async = true;
-		geoEdgeScript.onload = resolve;
-		firstScript.parentNode.insertBefore(geoEdgeScript, firstScript);
-	});
+	return utils.scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
 }
 
 /**

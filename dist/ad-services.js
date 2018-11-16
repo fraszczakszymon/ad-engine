@@ -86,19 +86,19 @@ module.exports = require("babel-runtime/core-js/object/keys");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 5 */
@@ -114,11 +114,11 @@ module.exports = require("babel-runtime/core-js/object/assign");
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(4);
+var classCallCheck_ = __webpack_require__(3);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(3);
+var createClass_ = __webpack_require__(2);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
@@ -126,7 +126,7 @@ var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(2);
+var promise_ = __webpack_require__(4);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
@@ -632,16 +632,9 @@ var scriptDomainId = 'd3b02estmut877';
  * @returns {Promise}
  */
 function loadScript() {
-	var firstScript = document.getElementsByTagName('script')[0];
-	var geoEdgeScript = document.createElement('script');
+	var geoEdgeLibraryUrl = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
 
-	return new promise_default.a(function (resolve) {
-		geoEdgeScript.type = 'text/javascript';
-		geoEdgeScript.src = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
-		geoEdgeScript.async = true;
-		geoEdgeScript.onload = resolve;
-		firstScript.parentNode.insertBefore(geoEdgeScript, firstScript);
-	});
+	return ad_engine_["utils"].scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
 }
 
 /**
@@ -705,17 +698,11 @@ var krux_logGroup = 'krux';
  * @returns {Promise}
  */
 function krux_loadScript() {
-	var firstScript = document.getElementsByTagName('script')[0];
 	var kruxId = ad_engine_["context"].get('services.krux.id');
-	var kruxScript = document.createElement('script');
+	var kruxLibraryUrl = '//cdn.krxd.net/controltag?confid=' + kruxId;
 
-	return new promise_default.a(function (resolve) {
-		kruxScript.type = 'text/javascript';
-		kruxScript.id = 'krux-control-tag';
-		kruxScript.async = true;
-		kruxScript.onload = resolve;
-		kruxScript.src = '//cdn.krxd.net/controltag?confid=' + kruxId;
-		firstScript.parentNode.insertBefore(kruxScript, firstScript);
+	return ad_engine_["utils"].scriptLoader.loadScript(kruxLibraryUrl, 'text/javascript', true, 'first', {
+		id: 'krux-control-tag'
 	});
 }
 
