@@ -123,7 +123,7 @@ export class StickyTLB {
 
 	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately().bind(this));
+		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
 
