@@ -2351,7 +2351,7 @@ function adIsReady(_ref) {
 
 	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
 }
-// CONCATENATED MODULE: ./src/ad-products/templates/sticky-ad.js
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-tlb.js
 
 
 
@@ -2367,19 +2367,19 @@ function adIsReady(_ref) {
 
 
 
-var sticky_ad_StickyAd = function () {
-	function StickyAd(adSlot) {
-		classCallCheck_default()(this, StickyAd);
+var sticky_tlb_StickyTLB = function () {
+	function StickyTLB(adSlot) {
+		classCallCheck_default()(this, StickyTLB);
 
 		this.adSlot = adSlot;
 		this.lineId = adSlot.lineItemId;
-		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
-		this.lines = ad_engine_["context"].get('templates.' + StickyAd.getName() + '.lineItemIds');
+		this.config = ad_engine_["context"].get('templates.' + StickyTLB.getName());
+		this.lines = ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.lineItemIds');
 		this.container = document.getElementById(this.adSlot.getSlotName());
 		this.stickiness = null;
 	}
 
-	createClass_default()(StickyAd, [{
+	createClass_default()(StickyTLB, [{
 		key: 'init',
 		value: function init(params) {
 			var _this = this;
@@ -2390,7 +2390,7 @@ var sticky_ad_StickyAd = function () {
 				return;
 			}
 
-			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+			if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
 				return;
 			}
 
@@ -2437,7 +2437,7 @@ var sticky_ad_StickyAd = function () {
 
 								case 2:
 									_context.next = 4;
-									return ad_engine_["utils"].wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+									return ad_engine_["utils"].wait(StickyTLB.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 
 								case 4:
 								case 'end':
@@ -2624,7 +2624,7 @@ var sticky_ad_StickyAd = function () {
 	}], [{
 		key: 'getName',
 		value: function getName() {
-			return 'stickyAd';
+			return 'stickyTLB';
 		}
 	}, {
 		key: 'getDefaultConfig',
@@ -2637,7 +2637,6 @@ var sticky_ad_StickyAd = function () {
 				handleNavbar: false,
 				stickyAdditionalTime: 0,
 				stickyUntilSlotViewed: true,
-				stickinessAllowed: true, // TODO
 				slotSibling: '.topic-header',
 				onInit: function onInit() {},
 				onBeforeStickBfaaCallback: function onBeforeStickBfaaCallback() {},
@@ -2659,13 +2658,13 @@ var sticky_ad_StickyAd = function () {
 	}, {
 		key: 'isEnabled',
 		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
+			return ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.enabled');
 		}
 	}]);
 
-	return StickyAd;
+	return StickyTLB;
 }();
-sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
+sticky_tlb_StickyTLB.DEFAULT_UNSTICK_DELAY = 2000;
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(10);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
@@ -4469,7 +4468,7 @@ var interstitial_Interstitial = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "getAdProductInfo", function() { return getAdProductInfo; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyTLB", function() { return sticky_tlb_StickyTLB; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "resolvedState", function() { return resolvedState; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdAbove", function() { return big_fancy_ad_above_BigFancyAdAbove; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdBelow", function() { return big_fancy_ad_below_BigFancyAdBelow; });

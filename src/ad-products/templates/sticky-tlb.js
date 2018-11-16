@@ -12,20 +12,20 @@ import {
 	CSS_CLASSNAME_STICKY_IAB,
 } from './uap/constants';
 
-export class StickyAd {
+export class StickyTLB {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
 	constructor(adSlot) {
 		this.adSlot = adSlot;
 		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyAd.getName()}`);
-		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
+		this.config = context.get(`templates.${StickyTLB.getName()}`);
+		this.lines = context.get(`templates.${StickyTLB.getName()}.lineItemIds`);
 		this.container = document.getElementById(this.adSlot.getSlotName());
 		this.stickiness = null;
 	}
 
 	static getName() {
-		return 'stickyAd';
+		return 'stickyTLB';
 	}
 
 	static getDefaultConfig() {
@@ -37,7 +37,6 @@ export class StickyAd {
 			handleNavbar: false,
 			stickyAdditionalTime: 0,
 			stickyUntilSlotViewed: true,
-			stickinessAllowed: true, // TODO
 			slotSibling: '.topic-header',
 			onInit: () => {},
 			onBeforeStickBfaaCallback: () => {},
@@ -64,7 +63,7 @@ export class StickyAd {
 			return;
 		}
 
-		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
+		if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
 			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
 		) {
 			return;
@@ -97,7 +96,7 @@ export class StickyAd {
 			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
 				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
 				Promise.resolve());
-			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+			await utils.wait(StickyTLB.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
 		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
@@ -188,7 +187,7 @@ export class StickyAd {
 	}
 
 	static isEnabled() {
-		return context.get(`templates.${StickyAd.getName()}.enabled`);
+		return context.get(`templates.${StickyTLB.getName()}.enabled`);
 	}
 
 	setupNavbar() {
