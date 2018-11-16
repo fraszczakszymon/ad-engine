@@ -11,7 +11,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	before(() => {
 		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	it('Check if slot is visible in viewport', () => {
@@ -58,7 +58,7 @@ describe('Twitch ads page: player', () => {
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(twitchAd.twitchPlayer);
+		browser.waitForVisible(twitchAd.twitchPlayer, timeouts.standard);
 	});
 
 	afterEach(() => {
@@ -74,6 +74,7 @@ describe('Twitch ads page: player', () => {
 
 	it('Check if playing the stream works', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
+		browser.waitForEnabled(twitchAd.playPauseButton, timeouts.standard);
 		browser.click(twitchAd.playPauseButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
@@ -82,6 +83,7 @@ describe('Twitch ads page: player', () => {
 
 	it('Check if unmuting the stream works', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
+		browser.waitForEnabled(twitchAd.unmuteButton);
 		browser.click(twitchAd.unmuteButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
@@ -90,6 +92,7 @@ describe('Twitch ads page: player', () => {
 
 	it('Check if clicking on Twitch button redirects to Twitch account with that stream', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
+		browser.waitForEnabled(twitchAd.twitchButton);
 		browser.click(twitchAd.twitchButton);
 
 		const tabIds = browser.getTabIds();

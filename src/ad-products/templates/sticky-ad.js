@@ -45,6 +45,10 @@ export class StickyAd {
 		return context.get(`templates.${StickyAd.getName()}.enabled`);
 	}
 
+	adjustAdSlot() {
+		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+	}
+
 	init(params) {
 		this.params = params;
 
@@ -71,7 +75,7 @@ export class StickyAd {
 			}
 		}
 
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		this.adjustAdSlot();
 
 		const startOffset = utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
@@ -83,6 +87,8 @@ export class StickyAd {
 				scrollListener.removeCallback(this.scrollListener);
 			}
 		});
+
+		window.addEventListener('resize', this.adjustAdSlot.bind(this));
 	}
 
 	addUnstickLogic() {
@@ -94,7 +100,7 @@ export class StickyAd {
 			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout());
+		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 	}
 
 	addUnstickButton() {

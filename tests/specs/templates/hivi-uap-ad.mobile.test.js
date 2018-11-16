@@ -35,6 +35,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	});
 
 	beforeEach(() => {
+		helpers.closeNewTabs();
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
@@ -93,19 +94,24 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 			.true;
 	});
 
+	it('Check if the line item id is from the same campaign', () => {
+		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
+		expect(helpers.getLineItemId(adSlots.topLeaderboard))
+			.to
+			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+	});
+
 	it('Check closing top leaderboard after clicking the button', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUap.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 });
 
 describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitToStartPlaying();
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 	});
@@ -153,7 +159,7 @@ describe('Mobile HiVi UAP ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+			.equal(hiviUap.secondCall, 'Line item ID mismatch');
 	});
 });
 
