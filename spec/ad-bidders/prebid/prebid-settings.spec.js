@@ -2,22 +2,32 @@ import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/services/context-service';
 import { getSettings } from '../../../src/ad-bidders/prebid/prebid-settings';
 
-describe('getSettings', () => {
-	it('should return videoCacheKey', () => {
-		const bidResponse = { bidderCode: 'rubicon', videoCacheKey: 'b' };
-		context.set('custom.rubiconDfp', true);
+describe('getBidderUuid', () => {
+	let bidResponse;
+	let getBidderUuid;
+
+	before(() => {
+		bidResponse = { bidderCode: 'rubicon', videoCacheKey: 'b' };
 		const settings = getSettings();
 		const hbUuid = settings.standard.adserverTargeting.find(x => x.key === 'hb_uuid');
-		const result = hbUuid.val(bidResponse);
-		expect(result).to.equal('b');
+		getBidderUuid = hbUuid.val;
 	});
 
 	it('should return videoCacheKey', () => {
-		const bidResponse = { bidderCode: '', videoCacheKey: 'b' };
 		context.set('custom.rubiconDfp', true);
-		const settings = getSettings();
-		const hbUuid = settings.standard.adserverTargeting.find(x => x.key === 'hb_uuid');
-		const result = hbUuid.val(bidResponse);
+		const result = getBidderUuid(bidResponse);
+		expect(result).to.equal('b');
+	});
+
+	it('should return disabled (bidderCode)', () => {
+		context.set('custom.rubiconDfp', true);
+		const result = getBidderUuid({ ...bidResponse, bidderCode: undefined });
+		expect(result).to.equal('disabled');
+	});
+
+	it('should return disabled (context)', () => {
+		context.set('custom.rubiconDfp', false);
+		const result = getBidderUuid(bidResponse);
 		expect(result).to.equal('disabled');
 	});
 });
