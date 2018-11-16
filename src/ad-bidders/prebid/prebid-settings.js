@@ -6,6 +6,7 @@ const videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders w
 const dfpVideoBidders = [
 	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
 	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
+	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
 ];
 
 export function getSettings() {
@@ -47,11 +48,9 @@ export function getSettings() {
 }
 
 function getBidderUuid(bidResponse) {
-	const isVideo = dfpVideoBidders.some((video) => hasBidderCode(video, bidResponse));
+	const isVideo = dfpVideoBidders.some(
+		(video) => bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey),
+	);
 
 	return isVideo ? bidResponse.videoCacheKey : 'disabled';
-}
-
-function hasBidderCode(video, bidResponse) {
-	return bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey);
 }
