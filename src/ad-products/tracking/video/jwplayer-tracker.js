@@ -51,9 +51,9 @@ export class JWPlayerTracker {
 	 * @param {AdSlot | null} slot
 	 */
 	updatePlayerState(slot = null) {
-		if (slot && slot.targeting.ctp !== undefined && slot.targeting.audio !== undefined) {
-			this.ctp = slot.targeting.ctp === 'yes';
-			this.audio = slot.targeting.audio === 'yes';
+		if (slot && slot.config.autoplay !== undefined && slot.config.audio !== undefined) {
+			this.ctp = !slot.config.autoplay;
+			this.audio = slot.config.audio;
 			this.isCtpAudioUpdateEnabled = false;
 		} else {
 			this.ctp = !this.playerInstance.getConfig().autostart;
