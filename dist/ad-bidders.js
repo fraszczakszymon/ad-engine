@@ -527,15 +527,7 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'insertScript',
 		value: function insertScript() {
-			var a9Script = document.createElement('script');
-
-			a9Script.type = 'text/javascript';
-			a9Script.async = true;
-			a9Script.src = '//c.amazon-adsystem.com/aax2/apstag.js';
-
-			var node = document.getElementsByTagName('script')[0];
-
-			node.parentNode.insertBefore(a9Script, node);
+			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 		}
 	}, {
 		key: 'isSupported',
@@ -2022,15 +2014,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 				return;
 			}
 
-			var script = document.createElement('script');
-
-			script.type = 'text/javascript';
-			script.async = true;
-			script.src = libraryUrl;
-
-			var node = document.getElementsByTagName('script')[0];
-
-			node.parentNode.insertBefore(script, node);
+			ad_engine_["utils"].scriptLoader.loadScript(libraryUrl, 'text/javascript', true, 'first');
 			prebid_loaded = true;
 		}
 	}, {
