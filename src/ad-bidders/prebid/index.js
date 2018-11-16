@@ -103,15 +103,7 @@ export class Prebid extends BaseBidder {
 			return;
 		}
 
-		const script = document.createElement('script');
-
-		script.type = 'text/javascript';
-		script.async = true;
-		script.src = libraryUrl;
-
-		const node = document.getElementsByTagName('script')[0];
-
-		node.parentNode.insertBefore(script, node);
+		utils.scriptLoader.loadScript(libraryUrl, 'text/javascript', true, 'first');
 		loaded = true;
 	}
 

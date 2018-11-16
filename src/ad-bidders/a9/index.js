@@ -1,4 +1,4 @@
-import { context, slotService } from '@wikia/ad-engine';
+import { context, slotService, utils } from '@wikia/ad-engine';
 import { BaseBidder } from '../base-bidder';
 
 let loaded = false;
@@ -157,15 +157,7 @@ export class A9 extends BaseBidder {
 	}
 
 	insertScript() {
-		const a9Script = document.createElement('script');
-
-		a9Script.type = 'text/javascript';
-		a9Script.async = true;
-		a9Script.src = '//c.amazon-adsystem.com/aax2/apstag.js';
-
-		const node = document.getElementsByTagName('script')[0];
-
-		node.parentNode.insertBefore(a9Script, node);
+		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 	}
 
 	isSupported(slotName) {

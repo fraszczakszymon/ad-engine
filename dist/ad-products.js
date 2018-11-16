@@ -4536,9 +4536,9 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 		value: function updatePlayerState() {
 			var slot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-			if (slot && slot.targeting.ctp !== undefined && slot.targeting.audio !== undefined) {
-				this.ctp = slot.targeting.ctp === 'yes';
-				this.audio = slot.targeting.audio === 'yes';
+			if (slot && slot.config.autoplay !== undefined && slot.config.audio !== undefined) {
+				this.ctp = !slot.config.autoplay;
+				this.audio = slot.config.audio;
 				this.isCtpAudioUpdateEnabled = false;
 			} else {
 				this.ctp = !this.playerInstance.getConfig().autostart;

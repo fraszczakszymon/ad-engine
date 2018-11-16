@@ -618,6 +618,72 @@ bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
 
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
+
+
+
+
+
+var geo_edge_logGroup = 'geo-edge';
+var scriptDomainId = 'd3b02estmut877';
+
+/**
+ * Injects Geo Edge Site Side Protection script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var geoEdgeLibraryUrl = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
+
+	return ad_engine_["utils"].scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
+}
+
+/**
+ * GeoEdge service handler
+ */
+
+var geo_edge_GeoEdge = function () {
+	function GeoEdge() {
+		classCallCheck_default()(this, GeoEdge);
+	}
+
+	createClass_default()(GeoEdge, [{
+		key: 'call',
+
+		/**
+   * Requests service and injects script tag
+   * @returns {Promise}
+   */
+		value: function call() {
+			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
+
+			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
+
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
+			window.grumi = {
+				/* ToDo: advertiser ids
+    cfg: {
+    	advs: {
+    		'12345': true,
+    		'67890': true
+    	}
+    }, */
+				key: geoEdgeKey
+			};
+
+			return loadScript().then(function () {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
+			});
+		}
+	}]);
+
+	return GeoEdge;
+}();
+
+var geoEdge = new geo_edge_GeoEdge();
 // CONCATENATED MODULE: ./src/ad-services/krux/index.js
 
 
@@ -631,18 +697,12 @@ var krux_logGroup = 'krux';
  * Injects Krux script
  * @returns {Promise}
  */
-function loadScript() {
-	var firstScript = document.getElementsByTagName('script')[0];
+function krux_loadScript() {
 	var kruxId = ad_engine_["context"].get('services.krux.id');
-	var kruxScript = document.createElement('script');
+	var kruxLibraryUrl = '//cdn.krxd.net/controltag?confid=' + kruxId;
 
-	return new promise_default.a(function (resolve) {
-		kruxScript.type = 'text/javascript';
-		kruxScript.id = 'krux-control-tag';
-		kruxScript.async = true;
-		kruxScript.onload = resolve;
-		kruxScript.src = '//cdn.krxd.net/controltag?confid=' + kruxId;
-		firstScript.parentNode.insertBefore(kruxScript, firstScript);
+	return ad_engine_["utils"].scriptLoader.loadScript(kruxLibraryUrl, 'text/javascript', true, 'first', {
+		id: 'krux-control-tag'
 	});
 }
 
@@ -697,7 +757,7 @@ var krux_Krux = function () {
 			}
 
 			ad_engine_["utils"].logger(krux_logGroup, 'loading');
-			return loadScript().then(function () {
+			return krux_loadScript().then(function () {
 				_this.exportPageParams();
 				_this.importUserData();
 			});
@@ -765,7 +825,9 @@ var krux_Krux = function () {
 var krux = new krux_Krux();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
+
 
 
 

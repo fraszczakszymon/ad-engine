@@ -1281,6 +1281,7 @@ var sampler = new sampler_Sampler();
 
 
 
+
 var script_loader_ScriptLoader = function () {
 	function ScriptLoader() {
 		classCallCheck_default()(this, ScriptLoader);
@@ -1292,13 +1293,19 @@ var script_loader_ScriptLoader = function () {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			var script = document.createElement('script');
 
-			node = node || document.body.lastChild;
+			node = node === 'first' ? document.getElementsByTagName('script')[0] : node || document.body.lastChild;
 			script.async = isAsync;
 			script.type = type;
 			script.src = src;
+
+			keys_default()(parameters).forEach(function (parameter) {
+				script[parameter] = parameters[parameter];
+			});
+
 			node.parentNode.insertBefore(script, node);
 
 			return script;
@@ -1307,14 +1314,15 @@ var script_loader_ScriptLoader = function () {
 		key: 'loadScript',
 		value: function loadScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
+			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var _this = this;
 
-			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			return new promise_default.a(function (resolve, reject) {
-				var script = _this.createScript(src, type, isAsync, node);
+				var script = _this.createScript(src, type, isAsync, node, parameters);
 
 				script.onload = resolve;
 				script.onerror = reject;
@@ -5194,8 +5202,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.6.0');
-logger('ad-engine', 'v19.6.0');
+set_default()(window, versionField, 'v19.7.0');
+logger('ad-engine', 'v19.7.0');
 
 
 
