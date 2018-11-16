@@ -227,7 +227,9 @@ __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_FADE_IN_ANIMATIO
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_SLIDE_OUT_ANIMATION", function() { return CSS_CLASSNAME_SLIDE_OUT_ANIMATION; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAA", function() { return CSS_CLASSNAME_STICKY_BFAA; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAB", function() { return CSS_CLASSNAME_STICKY_BFAB; });
-__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_IAB", function() { return CSS_CLASSNAME_STICKY_IAB; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_SLOT", function() { return CSS_CLASSNAME_STICKY_SLOT; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_TEMPLATE", function() { return CSS_CLASSNAME_STICKY_TEMPLATE; });
+__webpack_require__.d(constants_namespaceObject, "CSS_TIMING_EASE_IN_CUBIC", function() { return CSS_TIMING_EASE_IN_CUBIC; });
 __webpack_require__.d(constants_namespaceObject, "SLIDE_OUT_TIME", function() { return SLIDE_OUT_TIME; });
 __webpack_require__.d(constants_namespaceObject, "FADE_IN_TIME", function() { return FADE_IN_TIME; });
 __webpack_require__.d(constants_namespaceObject, "DEFAULT_UAP_ID", function() { return DEFAULT_UAP_ID; });
@@ -517,6 +519,10 @@ var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 var asyncToGenerator_ = __webpack_require__(4);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
+// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
+var symbol_ = __webpack_require__(13);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
+
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
 var get_prototype_of_ = __webpack_require__(5);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
@@ -528,415 +534,6 @@ var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possi
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
 var inherits_ = __webpack_require__(7);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/ui-component.js
-
-
-
-var ui_component_UiComponent = function () {
-	createClass_default()(UiComponent, [{
-		key: "classNames",
-		get: function get() {
-			return this.props.classNames || [];
-		}
-	}]);
-
-	function UiComponent() {
-		var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-		classCallCheck_default()(this, UiComponent);
-
-		this.props = props;
-	}
-
-	createClass_default()(UiComponent, [{
-		key: "render",
-		value: function render() {
-			return document.createDocumentFragment();
-		}
-	}]);
-
-	return UiComponent;
-}();
-
-
-// CONCATENATED MODULE: ./src/ad-products/common/translations.js
-var TRANSLATIONS = {
-	labels: {
-		en: {
-			advertisement: 'Advertisement',
-			'learn-more': 'Learn More'
-		},
-		ar: {
-			advertisement: 'إعلان'
-		},
-		bn: {
-			advertisement: 'বিজ্ঞাপন'
-		},
-		br: {
-			advertisement: 'Bomm bruderezh'
-		},
-		ca: {
-			advertisement: 'Anunci'
-		},
-		cs: {
-			advertisement: 'Reklama'
-		},
-		de: {
-			advertisement: 'Anzeige',
-			'learn-more': 'Erfahre mehr'
-		},
-		es: {
-			advertisement: 'Anuncio',
-			'learn-more': 'Conoce más'
-		},
-		eu: {
-			advertisement: 'Iragarkia'
-		},
-		fa: {
-			advertisement: 'تبلیغات'
-		},
-		fo: {
-			advertisement: 'Lýsing'
-		},
-		fr: {
-			advertisement: 'Publicité',
-			'learn-more': 'En savoir plus'
-		},
-		fy: {
-			advertisement: 'Advertinsje'
-		},
-		gl: {
-			advertisement: 'Anuncio'
-		},
-		gv: {
-			advertisement: 'Soilsheen'
-		},
-		he: {
-			advertisement: 'פרסומת'
-		},
-		hu: {
-			advertisement: 'Hirdetés'
-		},
-		id: {
-			advertisement: 'Iklan',
-			'learn-more': 'Baca Selengkapnya'
-		},
-		inh: {
-			advertisement: 'дебат'
-		},
-		it: {
-			advertisement: 'Pubblicità',
-			'learn-more': 'Ulteriori informazioni'
-		},
-		ja: {
-			advertisement: '広告',
-			'learn-more': 'もっと見る'
-		},
-		ko: {
-			advertisement: '광고'
-		},
-		krc: {
-			advertisement: 'Pеклама'
-		},
-		lb: {
-			advertisement: 'Reklamm'
-		},
-		mk: {
-			advertisement: 'Pеклама'
-		},
-		mr: {
-			advertisement: 'जाहिरात'
-		},
-		ms: {
-			advertisement: 'Iklan'
-		},
-		nl: {
-			advertisement: 'Advertentie',
-			'learn-more': 'Meer te weten komen'
-		},
-		no: {
-			advertisement: 'Reklame'
-		},
-		pl: {
-			advertisement: 'Reklama',
-			'learn-more': 'Czytaj więcej'
-		},
-		ps: {
-			advertisement: 'خبرتيا'
-		},
-		pt: {
-			advertisement: 'Anúncio',
-			'learn-more': 'Saiba Mais'
-		},
-		'roa-tara': {
-			advertisement: 'Pubblecetà'
-		},
-		ru: {
-			advertisement: 'Pеклама',
-			'learn-more': 'Узнать больше'
-		},
-		si: {
-			advertisement: 'ප්‍රචාරක දැන්වීම'
-		},
-		sl: {
-			advertisement: 'Oglas'
-		},
-		'sr-ec': {
-			advertisement: 'Pеклама'
-		},
-		sv: {
-			advertisement: 'Annons'
-		},
-		te: {
-			advertisement: 'వాణిజ్య ప్రకటన'
-		},
-		th: {
-			advertisement: 'การโฆษณา'
-		},
-		tr: {
-			advertisement: 'Reklam'
-		},
-		'tt-cyrl': {
-			advertisement: 'Pеклама'
-		},
-		uk: {
-			advertisement: 'Pеклама'
-		},
-		vi: {
-			advertisement: 'Quảng cáo'
-		},
-		'zh-hans': {
-			advertisement: '广告',
-			'learn-more': '了解更多'
-		},
-		'zh-hant': {
-			advertisement: '廣告',
-			'learn-more': '閱讀更多'
-		}
-	}
-};
-// CONCATENATED MODULE: ./src/ad-products/common/i18n.js
-
-
-
-var defaultLanguage = 'en';
-
-function getTranslation(category, key) {
-	var lang = ad_engine_["context"].get('options.contentLanguage'),
-	    language = lang && typeof TRANSLATIONS[category][lang] !== 'undefined' ? lang : defaultLanguage;
-
-	return TRANSLATIONS[category][language][key] || TRANSLATIONS[category][defaultLanguage][key];
-}
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/advertisement-label.js
-
-
-
-
-
-
-
-
-var advertisement_label_AdvertisementLabel = function (_UiComponent) {
-	inherits_default()(AdvertisementLabel, _UiComponent);
-
-	function AdvertisementLabel() {
-		classCallCheck_default()(this, AdvertisementLabel);
-
-		return possibleConstructorReturn_default()(this, (AdvertisementLabel.__proto__ || get_prototype_of_default()(AdvertisementLabel)).apply(this, arguments));
-	}
-
-	createClass_default()(AdvertisementLabel, [{
-		key: 'render',
-		value: function render() {
-			var label = document.createElement('div');
-
-			label.innerText = getTranslation('labels', 'advertisement');
-			label.className = 'advertisement-label';
-
-			return label;
-		}
-	}]);
-
-	return AdvertisementLabel;
-}(ui_component_UiComponent);
-
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
-
-
-
-
-var animate = function () {
-	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
-		return regenerator_default.a.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						container.style.animationDuration = duration + 'ms';
-						container.classList.add(className);
-						_context.next = 4;
-						return ad_engine_["utils"].wait(duration);
-
-					case 4:
-						container.classList.remove(className);
-						container.style.animationDuration = '';
-
-					case 6:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, this);
-	}));
-
-	return function animate(_x, _x2, _x3) {
-		return _ref.apply(this, arguments);
-	};
-}();
-// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(11);
-var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var get_ = __webpack_require__(9);
-var get_default = /*#__PURE__*/__webpack_require__.n(get_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/button.js
-
-
-
-
-
-
-
-
-
-var button_Button = function (_UiComponent) {
-	inherits_default()(Button, _UiComponent);
-
-	function Button() {
-		classCallCheck_default()(this, Button);
-
-		return possibleConstructorReturn_default()(this, (Button.__proto__ || get_prototype_of_default()(Button)).apply(this, arguments));
-	}
-
-	createClass_default()(Button, [{
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			var buttonElement = document.createElement('button');
-
-			this.classNames.forEach(function (className) {
-				return buttonElement.classList.add(className);
-			});
-			buttonElement.addEventListener('click', function (event) {
-				return _this2.onClick(event);
-			});
-
-			return buttonElement;
-		}
-	}, {
-		key: 'onClick',
-		value: function onClick(event) {
-			var onClick = this.props.onClick;
-
-
-			if (typeof onClick === 'function') {
-				return onClick(event);
-			}
-
-			return undefined;
-		}
-	}, {
-		key: 'classNames',
-		get: function get() {
-			return ['button-control'].concat(toConsumableArray_default()(get_default()(Button.prototype.__proto__ || get_prototype_of_default()(Button.prototype), 'classNames', this)));
-		}
-	}]);
-
-	return Button;
-}(ui_component_UiComponent);
-
-
-// EXTERNAL MODULE: ./src/ad-products/templates/interface/icons.json
-var icons = __webpack_require__(16);
-var icons_default = /*#__PURE__*/__webpack_require__.n(icons);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/icons.js
-
-
-
-var parser = new window.DOMParser();
-
-function createIcon(iconName) {
-	var classNames = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-	if (icons_default.a[iconName]) {
-		var element = parser.parseFromString(icons_default.a[iconName], 'image/svg+xml').documentElement;
-
-		// IE 11 doesn't support classList nor className on SVG elements
-		element.setAttribute('class', classNames.join(' '));
-
-		return element;
-	}
-
-	return null;
-}
-
-var icons_icons = keys_default()(icons_default.a).reduce(function (map, name) {
-	map[name] = name;
-	return map;
-}, {});
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/close-button.js
-
-
-
-
-
-
-
-
-
-
-
-var close_button_CloseButton = function (_UiComponent) {
-	inherits_default()(CloseButton, _UiComponent);
-
-	function CloseButton() {
-		classCallCheck_default()(this, CloseButton);
-
-		return possibleConstructorReturn_default()(this, (CloseButton.__proto__ || get_prototype_of_default()(CloseButton)).apply(this, arguments));
-	}
-
-	createClass_default()(CloseButton, [{
-		key: 'render',
-		value: function render() {
-			var onClick = this.props.onClick;
-			var classNames = this.classNames;
-
-			var button = new button_Button({ onClick: onClick, classNames: classNames }).render();
-			var closeIcon = createIcon(icons_icons.CROSS, ['icon']);
-
-			button.appendChild(closeIcon);
-
-			return button;
-		}
-	}, {
-		key: 'classNames',
-		get: function get() {
-			return ['button-close'].concat(toConsumableArray_default()(get_default()(CloseButton.prototype.__proto__ || get_prototype_of_default()(CloseButton.prototype), 'classNames', this)));
-		}
-	}]);
-
-	return CloseButton;
-}(ui_component_UiComponent);
-
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(13);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "lodash/isFunction"
 var isFunction_ = __webpack_require__(18);
@@ -1180,6 +777,660 @@ stickiness_Stickiness.LOG_GROUP = 'stickiness';
 stickiness_Stickiness.STICKINESS_CHANGE_EVENT = symbol_default()('stickinessChange');
 stickiness_Stickiness.CLOSE_CLICKED_EVENT = symbol_default()('closeClicked');
 stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT = symbol_default()('unstickImmediately');
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
+var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
+var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
+var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
+var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
+var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
+var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
+var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+// Animation time is defined also in CSS, remember to change it in both places
+var SLIDE_OUT_TIME = 600;
+var FADE_IN_TIME = 400;
+
+var DEFAULT_UAP_ID = 'none';
+var DEFAULT_UAP_TYPE = 'none';
+var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
+
+
+
+
+var animate = function () {
+	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
+		return regenerator_default.a.wrap(function _callee$(_context) {
+			while (1) {
+				switch (_context.prev = _context.next) {
+					case 0:
+						container.style.animationDuration = duration + 'ms';
+						container.classList.add(className);
+						_context.next = 4;
+						return ad_engine_["utils"].wait(duration);
+
+					case 4:
+						container.classList.remove(className);
+						container.style.animationDuration = '';
+
+					case 6:
+					case 'end':
+						return _context.stop();
+				}
+			}
+		}, _callee, this);
+	}));
+
+	return function animate(_x, _x2, _x3) {
+		return _ref.apply(this, arguments);
+	};
+}();
+// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
+var toConsumableArray_ = __webpack_require__(11);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/get"
+var get_ = __webpack_require__(9);
+var get_default = /*#__PURE__*/__webpack_require__.n(get_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/ui-component.js
+
+
+
+var ui_component_UiComponent = function () {
+	createClass_default()(UiComponent, [{
+		key: "classNames",
+		get: function get() {
+			return this.props.classNames || [];
+		}
+	}]);
+
+	function UiComponent() {
+		var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+		classCallCheck_default()(this, UiComponent);
+
+		this.props = props;
+	}
+
+	createClass_default()(UiComponent, [{
+		key: "render",
+		value: function render() {
+			return document.createDocumentFragment();
+		}
+	}]);
+
+	return UiComponent;
+}();
+
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/button.js
+
+
+
+
+
+
+
+
+
+var button_Button = function (_UiComponent) {
+	inherits_default()(Button, _UiComponent);
+
+	function Button() {
+		classCallCheck_default()(this, Button);
+
+		return possibleConstructorReturn_default()(this, (Button.__proto__ || get_prototype_of_default()(Button)).apply(this, arguments));
+	}
+
+	createClass_default()(Button, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var buttonElement = document.createElement('button');
+
+			this.classNames.forEach(function (className) {
+				return buttonElement.classList.add(className);
+			});
+			buttonElement.addEventListener('click', function (event) {
+				return _this2.onClick(event);
+			});
+
+			return buttonElement;
+		}
+	}, {
+		key: 'onClick',
+		value: function onClick(event) {
+			var onClick = this.props.onClick;
+
+
+			if (typeof onClick === 'function') {
+				return onClick(event);
+			}
+
+			return undefined;
+		}
+	}, {
+		key: 'classNames',
+		get: function get() {
+			return ['button-control'].concat(toConsumableArray_default()(get_default()(Button.prototype.__proto__ || get_prototype_of_default()(Button.prototype), 'classNames', this)));
+		}
+	}]);
+
+	return Button;
+}(ui_component_UiComponent);
+
+
+// EXTERNAL MODULE: ./src/ad-products/templates/interface/icons.json
+var icons = __webpack_require__(16);
+var icons_default = /*#__PURE__*/__webpack_require__.n(icons);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/icons.js
+
+
+
+var parser = new window.DOMParser();
+
+function createIcon(iconName) {
+	var classNames = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	if (icons_default.a[iconName]) {
+		var element = parser.parseFromString(icons_default.a[iconName], 'image/svg+xml').documentElement;
+
+		// IE 11 doesn't support classList nor className on SVG elements
+		element.setAttribute('class', classNames.join(' '));
+
+		return element;
+	}
+
+	return null;
+}
+
+var icons_icons = keys_default()(icons_default.a).reduce(function (map, name) {
+	map[name] = name;
+	return map;
+}, {});
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/close-button.js
+
+
+
+
+
+
+
+
+
+
+
+var close_button_CloseButton = function (_UiComponent) {
+	inherits_default()(CloseButton, _UiComponent);
+
+	function CloseButton() {
+		classCallCheck_default()(this, CloseButton);
+
+		return possibleConstructorReturn_default()(this, (CloseButton.__proto__ || get_prototype_of_default()(CloseButton)).apply(this, arguments));
+	}
+
+	createClass_default()(CloseButton, [{
+		key: 'render',
+		value: function render() {
+			var onClick = this.props.onClick;
+			var classNames = this.classNames;
+
+			var button = new button_Button({ onClick: onClick, classNames: classNames }).render();
+			var closeIcon = createIcon(icons_icons.CROSS, ['icon']);
+
+			button.appendChild(closeIcon);
+
+			return button;
+		}
+	}, {
+		key: 'classNames',
+		get: function get() {
+			return ['button-close'].concat(toConsumableArray_default()(get_default()(CloseButton.prototype.__proto__ || get_prototype_of_default()(CloseButton.prototype), 'classNames', this)));
+		}
+	}]);
+
+	return CloseButton;
+}(ui_component_UiComponent);
+
+
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-ad.js
+
+
+
+
+
+
+
+
+
+
+
+var sticky_ad_StickyAd = function () {
+	createClass_default()(StickyAd, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'stickyAd';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				enabled: true,
+				stickyAdditionalTime: 0,
+				stickyUntilSlotViewed: true,
+				handleNavbar: true,
+				navbarWrapperSelector: 'body > nav.navigation',
+				smartBannerSelector: null,
+				slotsIgnoringNavbar: []
+			};
+		}
+	}]);
+
+	function StickyAd(adSlot) {
+		classCallCheck_default()(this, StickyAd);
+
+		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
+		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
+		this.lines = ad_engine_["context"].get('templates.' + StickyAd.getName() + '.lineItemIds');
+		this.stickiness = null;
+		this.scrollListener = null;
+		this.topOffset = 0;
+		this.leftOffset = 0;
+	}
+
+	createClass_default()(StickyAd, [{
+		key: 'adjustAdSlot',
+		value: function adjustAdSlot() {
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		}
+	}, {
+		key: 'init',
+		value: function init(params) {
+			var _this = this;
+
+			this.params = params;
+
+			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+				return;
+			}
+
+			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+
+			this.addUnstickLogic();
+			this.addUnstickEventsListeners();
+
+			if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
+				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
+
+				this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
+
+				if (this.config.smartBannerSelector) {
+					var smartBannerElement = document.querySelector(this.config.smartBannerSelector);
+
+					this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
+				}
+			}
+
+			this.adjustAdSlot();
+
+			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
+
+			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
+				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+				if (scrollPosition >= startOffset) {
+					_this.stickiness.run();
+					ad_engine_["scrollListener"].removeCallback(_this.scrollListener);
+				}
+			});
+
+			window.addEventListener('resize', this.adjustAdSlot.bind(this));
+		}
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var _this2 = this;
+
+			var _config = this.config,
+			    stickyAdditionalTime = _config.stickyAdditionalTime,
+			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
+
+			var whenSlotViewedOrTimeout = function () {
+				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+					return regenerator_default.a.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									_context.next = 2;
+									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+
+								case 2:
+									_context.next = 4;
+									return ad_engine_["utils"].wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+
+								case 4:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this2);
+				}));
+
+				return function whenSlotViewedOrTimeout() {
+					return _ref.apply(this, arguments);
+				};
+			}();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		}
+	}, {
+		key: 'addUnstickButton',
+		value: function addUnstickButton() {
+			var _this3 = this;
+
+			this.closeButton = new close_button_CloseButton({
+				classNames: ['button-unstick'],
+				onClick: function onClick() {
+					return _this3.stickiness.close();
+				}
+			}).render();
+
+			this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
+		}
+	}, {
+		key: 'removeUnstickButton',
+		value: function removeUnstickButton() {
+			this.closeButton.remove();
+		}
+	}, {
+		key: 'removeStickyParameters',
+		value: function removeStickyParameters() {
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+			this.adSlot.getElement().style.height = null;
+			this.adSlot.getElement().querySelector('div').style.top = null;
+			this.adSlot.getElement().querySelector('div').style.left = null;
+		}
+	}, {
+		key: 'addUnstickEventsListeners',
+		value: function addUnstickEventsListeners() {
+			var _this4 = this;
+
+			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
+				return _this4.onStickinessChange(isSticky);
+			});
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+		}
+	}, {
+		key: 'onStickinessChange',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								if (isSticky) {
+									_context2.next = 8;
+									break;
+								}
+
+								_context2.next = 3;
+								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+
+							case 3:
+								this.removeStickyParameters();
+								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+
+								this.removeUnstickButton();
+								_context2.next = 13;
+								break;
+
+							case 8:
+								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
+								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
+								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
+								this.adSlot.getElement().querySelector('div').style.left = this.leftOffset + 'px';
+
+								this.addUnstickButton();
+
+							case 13:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function onStickinessChange(_x) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return onStickinessChange;
+		}()
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately() {
+			if (this.stickiness) {
+				this.removeStickyParameters();
+				this.stickiness.sticky = false;
+				this.removeUnstickButton();
+			}
+		}
+	}], [{
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
+		}
+	}]);
+
+	return StickyAd;
+}();
+sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
+// CONCATENATED MODULE: ./src/ad-products/common/translations.js
+var TRANSLATIONS = {
+	labels: {
+		en: {
+			advertisement: 'Advertisement',
+			'learn-more': 'Learn More'
+		},
+		ar: {
+			advertisement: 'إعلان'
+		},
+		bn: {
+			advertisement: 'বিজ্ঞাপন'
+		},
+		br: {
+			advertisement: 'Bomm bruderezh'
+		},
+		ca: {
+			advertisement: 'Anunci'
+		},
+		cs: {
+			advertisement: 'Reklama'
+		},
+		de: {
+			advertisement: 'Anzeige',
+			'learn-more': 'Erfahre mehr'
+		},
+		es: {
+			advertisement: 'Anuncio',
+			'learn-more': 'Conoce más'
+		},
+		eu: {
+			advertisement: 'Iragarkia'
+		},
+		fa: {
+			advertisement: 'تبلیغات'
+		},
+		fo: {
+			advertisement: 'Lýsing'
+		},
+		fr: {
+			advertisement: 'Publicité',
+			'learn-more': 'En savoir plus'
+		},
+		fy: {
+			advertisement: 'Advertinsje'
+		},
+		gl: {
+			advertisement: 'Anuncio'
+		},
+		gv: {
+			advertisement: 'Soilsheen'
+		},
+		he: {
+			advertisement: 'פרסומת'
+		},
+		hu: {
+			advertisement: 'Hirdetés'
+		},
+		id: {
+			advertisement: 'Iklan',
+			'learn-more': 'Baca Selengkapnya'
+		},
+		inh: {
+			advertisement: 'дебат'
+		},
+		it: {
+			advertisement: 'Pubblicità',
+			'learn-more': 'Ulteriori informazioni'
+		},
+		ja: {
+			advertisement: '広告',
+			'learn-more': 'もっと見る'
+		},
+		ko: {
+			advertisement: '광고'
+		},
+		krc: {
+			advertisement: 'Pеклама'
+		},
+		lb: {
+			advertisement: 'Reklamm'
+		},
+		mk: {
+			advertisement: 'Pеклама'
+		},
+		mr: {
+			advertisement: 'जाहिरात'
+		},
+		ms: {
+			advertisement: 'Iklan'
+		},
+		nl: {
+			advertisement: 'Advertentie',
+			'learn-more': 'Meer te weten komen'
+		},
+		no: {
+			advertisement: 'Reklame'
+		},
+		pl: {
+			advertisement: 'Reklama',
+			'learn-more': 'Czytaj więcej'
+		},
+		ps: {
+			advertisement: 'خبرتيا'
+		},
+		pt: {
+			advertisement: 'Anúncio',
+			'learn-more': 'Saiba Mais'
+		},
+		'roa-tara': {
+			advertisement: 'Pubblecetà'
+		},
+		ru: {
+			advertisement: 'Pеклама',
+			'learn-more': 'Узнать больше'
+		},
+		si: {
+			advertisement: 'ප්‍රචාරක දැන්වීම'
+		},
+		sl: {
+			advertisement: 'Oglas'
+		},
+		'sr-ec': {
+			advertisement: 'Pеклама'
+		},
+		sv: {
+			advertisement: 'Annons'
+		},
+		te: {
+			advertisement: 'వాణిజ్య ప్రకటన'
+		},
+		th: {
+			advertisement: 'การโฆษณา'
+		},
+		tr: {
+			advertisement: 'Reklam'
+		},
+		'tt-cyrl': {
+			advertisement: 'Pеклама'
+		},
+		uk: {
+			advertisement: 'Pеклама'
+		},
+		vi: {
+			advertisement: 'Quảng cáo'
+		},
+		'zh-hans': {
+			advertisement: '广告',
+			'learn-more': '了解更多'
+		},
+		'zh-hant': {
+			advertisement: '廣告',
+			'learn-more': '閱讀更多'
+		}
+	}
+};
+// CONCATENATED MODULE: ./src/ad-products/common/i18n.js
+
+
+
+var defaultLanguage = 'en';
+
+function getTranslation(category, key) {
+	var lang = ad_engine_["context"].get('options.contentLanguage'),
+	    language = lang && typeof TRANSLATIONS[category][lang] !== 'undefined' ? lang : defaultLanguage;
+
+	return TRANSLATIONS[category][language][key] || TRANSLATIONS[category][defaultLanguage][key];
+}
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/advertisement-label.js
+
+
+
+
+
+
+
+
+var advertisement_label_AdvertisementLabel = function (_UiComponent) {
+	inherits_default()(AdvertisementLabel, _UiComponent);
+
+	function AdvertisementLabel() {
+		classCallCheck_default()(this, AdvertisementLabel);
+
+		return possibleConstructorReturn_default()(this, (AdvertisementLabel.__proto__ || get_prototype_of_default()(AdvertisementLabel)).apply(this, arguments));
+	}
+
+	createClass_default()(AdvertisementLabel, [{
+		key: 'render',
+		value: function render() {
+			var label = document.createElement('div');
+
+			label.innerText = getTranslation('labels', 'advertisement');
+			label.className = 'advertisement-label';
+
+			return label;
+		}
+	}]);
+
+	return AdvertisementLabel;
+}(ui_component_UiComponent);
+
+
 // EXTERNAL MODULE: external "babel-runtime/helpers/extends"
 var extends_ = __webpack_require__(23);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
@@ -1997,19 +2248,6 @@ function setup(video, uiElements, params) {
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/video/index.js
 
 
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
-var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
-var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
-var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
-var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
-var CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
-// Animation time is defined also in CSS, remember to change it in both places
-var SLIDE_OUT_TIME = 600;
-var FADE_IN_TIME = 400;
-
-var DEFAULT_UAP_ID = 'none';
-var DEFAULT_UAP_TYPE = 'none';
-var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/universal-ad-package.js
 
 
@@ -2411,7 +2649,7 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addStickinessPlugin',
 		value: function addStickinessPlugin() {
-			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
+			this.container.classList.add(/* Cannot get final name for export "CSS_CLASSNAME_STICKY_IAB" in "./src/ad-products/templates/uap/constants.js" (known exports: CSS_CLASSNAME_FADE_IN_ANIMATION CSS_CLASSNAME_SLIDE_OUT_ANIMATION CSS_CLASSNAME_STICKY_BFAA CSS_CLASSNAME_STICKY_BFAB CSS_CLASSNAME_STICKY_SLOT CSS_CLASSNAME_STICKY_TEMPLATE CSS_TIMING_EASE_IN_CUBIC SLIDE_OUT_TIME FADE_IN_TIME DEFAULT_UAP_ID DEFAULT_UAP_TYPE FAN_TAKEOVER_TYPES, known reexports: ) */ undefined);
 			this.addUnstickLogic();
 			this.addUnstickButton();
 			this.addUnstickEvents();
@@ -3927,7 +4165,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 					var navbarElement = document.querySelector('body > nav.navigation');
 
 					if (navbarElement) {
-						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + universalAdPackage.CSS_TIMING_EASE_IN_CUBIC;
+						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + CSS_TIMING_EASE_IN_CUBIC;
 						navbarElement.style.top = offset ? offset + 'px' : '';
 					}
 				}
@@ -4464,10 +4702,12 @@ var interstitial_Interstitial = function () {
 
 
 
+
 // CONCATENATED MODULE: ./src/ad-products/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "getAdProductInfo", function() { return getAdProductInfo; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyTLB", function() { return sticky_tlb_StickyTLB; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "resolvedState", function() { return resolvedState; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdAbove", function() { return big_fancy_ad_above_BigFancyAdAbove; });

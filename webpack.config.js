@@ -76,6 +76,7 @@ const development = {
 		'templates/hivi-uap-twitch': './examples/templates/hivi-uap-twitch/script.js',
 		'templates/interstitial': './examples/templates/interstitial/script.js',
 		'templates/outstream': './examples/templates/outstream/script.js',
+		'templates/sticky-ad': './examples/templates/sticky-ad/script.js',
 		'templates/sticky-tlb': './examples/templates/sticky-tlb/script.js',
 		'templates/uap-roadblock': './examples/templates/uap-roadblock/script.js',
 		'templates/vuap': './examples/templates/vuap/script.js',
