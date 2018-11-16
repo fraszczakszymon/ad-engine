@@ -325,8 +325,26 @@ class Helpers {
 		browser.frame(frame);
 	}
 
+	/**
+	 * Set window size to full HD.
+	 * @param width
+	 * @param height
+	 */
 	setWindowSize(width = 1920, height = 1080) {
 		browser.windowHandleSize({ width, height });
+	}
+
+	/**
+	 * Takes slot size and its ratio and waits for the desired dimensions.
+	 * @param adSlot Slot to take dimensions from
+	 * @param ratio value to divide by
+	 */
+	waitForResolved(adSlot, ratio) {
+		browser.waitUntil(
+			() => browser.getElementSize(adSlot, 'height') >= this.calculateHeightWithRatio(adSlot, ratio),
+			timeouts.standard,
+			'Dimensions not changed',
+			timeouts.interval);
 	}
 }
 

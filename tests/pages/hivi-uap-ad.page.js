@@ -1,6 +1,3 @@
-import helpers from '../common/helpers';
-import { timeouts } from '../common/timeouts';
-
 class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
@@ -25,19 +22,6 @@ class HiviUap {
 	 */
 	waitForVideoToFinish() {
 		browser.pause(this.videoLength);
-	}
-
-	/**
-	 * Takes slot size and its ratio and waits for the desired dimensions.
-	 * @param adSlot Slot to take dimensions from
-	 * @param ratio value to divide by
-	 */
-	waitForResolved(adSlot, ratio) {
-		browser.waitUntil(
-			() => browser.getElementSize(adSlot, 'height') >= helpers.calculateHeightWithRatio(adSlot, ratio),
-			timeouts.standard,
-			'Dimensions not changed',
-			timeouts.interval);
 	}
 }
 
