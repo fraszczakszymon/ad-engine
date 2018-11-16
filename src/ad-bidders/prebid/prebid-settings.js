@@ -3,6 +3,11 @@ import { transformPriceFromCpm, DEFAULT_MAX_CPM } from './price-helper';
 
 const videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
+const dfpVideoBidders = [
+	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
+	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
+];
+
 export function getSettings() {
 	return {
 		standard: {
@@ -34,13 +39,19 @@ export function getSettings() {
 				},
 				{
 					key: 'hb_uuid',
-					val: (bidResponse) =>
-						(bidResponse.bidderCode === 'appnexusAst' && context.get('custom.appnexusDfp')) ||
-						(bidResponse.bidderCode === 'rubicon' && context.get('custom.rubiconDfp'))
-							? bidResponse.videoCacheKey
-							: 'disabled',
+					val: (bidResponse) => getBidderUuid(bidResponse),
 				},
 			],
 		},
 	};
+}
+
+function getBidderUuid(bidResponse) {
+	const isVideo = dfpVideoBidders.some((video) => hasBidderCode(video, bidResponse));
+
+	return isVideo ? bidResponse.videoCacheKey : 'disabled';
+}
+
+function hasBidderCode(video, bidResponse) {
+	return bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey);
 }
