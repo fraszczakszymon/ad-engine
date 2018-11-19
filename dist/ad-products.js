@@ -1057,6 +1057,7 @@ var sticky_ad_StickyAd = function () {
 				return;
 			}
 
+			this.adSlot.setStatus(StickyAd.SLOT_STICKY_READY_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 			this.addUnstickLogic();
@@ -1173,22 +1174,24 @@ var sticky_ad_StickyAd = function () {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 8;
+									_context2.next = 9;
 									break;
 								}
 
-								_context2.next = 3;
+								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								_context2.next = 4;
 								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
-							case 3:
+							case 4:
 								this.removeStickyParameters();
 								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 13;
+								_context2.next = 15;
 								break;
 
-							case 8:
+							case 9:
+								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
 								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
@@ -1196,7 +1199,7 @@ var sticky_ad_StickyAd = function () {
 
 								this.addUnstickButton();
 
-							case 13:
+							case 15:
 							case 'end':
 								return _context2.stop();
 						}
@@ -1214,6 +1217,7 @@ var sticky_ad_StickyAd = function () {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
+				this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
@@ -1229,6 +1233,7 @@ var sticky_ad_StickyAd = function () {
 	return StickyAd;
 }();
 sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
+sticky_ad_StickyAd.SLOT_STICKY_READY_STATE = 'sticky-ready';
 // EXTERNAL MODULE: external "babel-runtime/helpers/extends"
 var extends_ = __webpack_require__(23);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
