@@ -121,7 +121,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 			if (isBfaaSticky && scrollPosition >= slotPosition - this.config.topThreshold - bfaaHeight) {
 				scrollListener.removeCallback(id);
-				this.adSlot.setStatus('viewport-conflict');
+				this.adSlot.trackEvent('viewport-conflict');
 			} else if (scrollPosition >= slotPosition - this.config.topThreshold && !isBfaaSticky) {
 				scrollListener.removeCallback(id);
 				resolvePromise();
@@ -144,7 +144,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 				const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
-					this.adSlot.setStatus('top-conflict');
+					this.adSlot.trackEvent('top-conflict');
 					scrollListener.removeCallback(id);
 					this.stickiness.revertStickiness();
 				}
@@ -166,13 +166,13 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 			if (this.adSlot.getStatus() !== 'top-conflict') {
 				await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			}
-			this.adSlot.setStatus(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.trackEvent(AdSlot.SLOT_UNSTICKED_STATE);
 			element.style.top = null;
 			element.parentNode.style.height = null;
 			element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
-			this.adSlot.setStatus(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.trackEvent(AdSlot.SLOT_STICKED_STATE);
 			element.parentNode.style.height = `${element.offsetHeight}px`;
 			element.classList.add(CSS_CLASSNAME_STICKY_BFAB);
 			element.style.top = `${this.config.topThreshold}px`;
