@@ -39,13 +39,11 @@
     "eslint-plugin-import": "2.11.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.7.0",
-    "husky": "1.1.4",
     "js-md5": "0.7.3",
     "jsdom": "11.11.0",
     "jsdom-global": "^3.0.2",
     "json-loader": "0.5.7",
     "jwplayer-fandom": "github:wikia/jwplayer-fandom#1.6.1",
-    "lint-staged": "8.0.5",
     "mini-css-extract-plugin": "0.4.0",
     "mocha": "4.1.0",
     "mocha-jsdom": "^1.1.0",
@@ -102,21 +100,5 @@
     "wdio-all": "npm run wdio-mobile; npm run wdio-desktop",
     "allure": "cp -R ./tests/allure-results/report/history ./tests/allure-results | true && allure generate ./tests/allure-results --output ./tests/allure-results/report --clean && allure open ./tests/allure-results/report",
     "allure-clear": "find ./tests/allure-results/ -name *attachment.json -delete; find ./tests/allure-results/ -name *testsuite.xml -delete; find ./tests/allure-results/ -name *attachment.png -delete"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "linters": {
-      "*.js": [
-        "eslint --fix",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "**/dist/**/*"
-    ]
   }
 }
