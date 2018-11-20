@@ -25,6 +25,8 @@ class AdSlots {
 		this.resolvedDesktopRatio = 10;
 		this.defaultMobileRatio = 1.77;
 		this.resolvedMobileRatio = 3;
+		this.floatingRailTopBoxadRequestPattern = '.*gampad\\/ads\\?.*top_boxad';
+		this.floatingRailTopBoxadReplaceRegexp = /.*gampad\/ads\?/;
 	}
 }
 
