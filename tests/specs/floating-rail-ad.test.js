@@ -1,12 +1,13 @@
 import floatingRailAd from '../pages/floating-rail-ad.page';
 import { timeouts } from '../common/timeouts';
 import helpers from '../common/helpers';
-import adSlots from '../common/adSlots';
+import adSlots from '../common/ad-slots';
+import networkCapture from '../common/networkCapture';
 
 const { expect } = require('chai');
 
 
-xdescribe('Floating rail ads page: floating rail', () => {
+describe('Floating rail ads page: floating rail', () => {
 	beforeEach(() => {
 		browser.url(floatingRailAd.pageLink);
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
@@ -29,20 +30,26 @@ describe('Floating rail ads page: top boxad requests', () => {
 	let fetchedUrl;
 	const gatheredUrls = [];
 	let i = 0;
+	let client;
 
-	before(() => {
+	before(async () => {
+		client = await networkCapture.getClient();
 		const pattern = RegExp('.*gampad\\/ads\\?.*top_boxad');
-		global.clientSelenium.on('Network.responseReceived', (params) => {
-			const { url, status } = params.response;
+		client.on('Network.responseReceived', (params) => {
+			const { url } = params.response;
 			if (pattern.test(url)) {
 				fetchedUrl = url.replace(/.*gampad\/ads\?/, '');
 				gatheredUrls[i] = fetchedUrl;
 				i += 1;
 			}
 		});
-		browser.url(floatingRailAd.pageLink);
-		browser.waitForVisible(adSlots.railModule, timeouts.standard);
-		browser.pause(timeouts.viewabillity);
+		await browser.url(floatingRailAd.pageLink);
+		await browser.waitForVisible(adSlots.railModule, timeouts.standard);
+		await browser.pause(timeouts.viewabillity);
+	});
+
+	after(() => {
+		networkCapture.closeClient(client);
 	});
 
 	it('Check position of the slot', () => {
