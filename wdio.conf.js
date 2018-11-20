@@ -1,4 +1,3 @@
-/* global browser */
 /* eslint-disable import/no-extraneous-dependencies */
 const networkCapture = require('./tests/common/networkCapture');
 const path = require('path');
