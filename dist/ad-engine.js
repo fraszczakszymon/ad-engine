@@ -3365,12 +3365,12 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			this.setStatus(status);
 		}
 	}, {
-		key: 'trackEvent',
-		value: function trackEvent() {
-			var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+		key: 'emitEvent',
+		value: function emitEvent() {
+			var eventName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-			if (event !== null) {
-				slotListener.emitCustomEvent(event, this);
+			if (eventName !== null) {
+				slotListener.emitCustomEvent(eventName, this);
 			}
 		}
 	}, {

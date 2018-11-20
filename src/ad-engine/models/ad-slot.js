@@ -171,9 +171,9 @@ export class AdSlot extends EventEmitter {
 		this.setStatus(status);
 	}
 
-	trackEvent(event = null) {
-		if (event !== null) {
-			slotListener.emitCustomEvent(event, this);
+	emitEvent(eventName = null) {
+		if (eventName !== null) {
+			slotListener.emitCustomEvent(eventName, this);
 		}
 	}
 }
