@@ -230,6 +230,7 @@ __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAB", fu
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_SLOT", function() { return CSS_CLASSNAME_STICKY_SLOT; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_TEMPLATE", function() { return CSS_CLASSNAME_STICKY_TEMPLATE; });
 __webpack_require__.d(constants_namespaceObject, "CSS_TIMING_EASE_IN_CUBIC", function() { return CSS_TIMING_EASE_IN_CUBIC; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_IAB", function() { return CSS_CLASSNAME_STICKY_IAB; });
 __webpack_require__.d(constants_namespaceObject, "SLIDE_OUT_TIME", function() { return SLIDE_OUT_TIME; });
 __webpack_require__.d(constants_namespaceObject, "FADE_IN_TIME", function() { return FADE_IN_TIME; });
 __webpack_require__.d(constants_namespaceObject, "DEFAULT_UAP_ID", function() { return DEFAULT_UAP_ID; });
@@ -785,6 +786,7 @@ var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
 var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
 var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
 var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+var CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
 // Animation time is defined also in CSS, remember to change it in both places
 var SLIDE_OUT_TIME = 600;
 var FADE_IN_TIME = 400;
@@ -2649,7 +2651,7 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addStickinessPlugin',
 		value: function addStickinessPlugin() {
-			this.container.classList.add(/* Cannot get final name for export "CSS_CLASSNAME_STICKY_IAB" in "./src/ad-products/templates/uap/constants.js" (known exports: CSS_CLASSNAME_FADE_IN_ANIMATION CSS_CLASSNAME_SLIDE_OUT_ANIMATION CSS_CLASSNAME_STICKY_BFAA CSS_CLASSNAME_STICKY_BFAB CSS_CLASSNAME_STICKY_SLOT CSS_CLASSNAME_STICKY_TEMPLATE CSS_TIMING_EASE_IN_CUBIC SLIDE_OUT_TIME FADE_IN_TIME DEFAULT_UAP_ID DEFAULT_UAP_TYPE FAN_TAKEOVER_TYPES, known reexports: ) */ undefined);
+			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 			this.addUnstickLogic();
 			this.addUnstickButton();
 			this.addUnstickEvents();
