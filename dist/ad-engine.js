@@ -1281,6 +1281,7 @@ var sampler = new sampler_Sampler();
 
 
 
+
 var script_loader_ScriptLoader = function () {
 	function ScriptLoader() {
 		classCallCheck_default()(this, ScriptLoader);
@@ -1292,13 +1293,19 @@ var script_loader_ScriptLoader = function () {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			var script = document.createElement('script');
 
-			node = node || document.body.lastChild;
+			node = node === 'first' ? document.getElementsByTagName('script')[0] : node || document.body.lastChild;
 			script.async = isAsync;
 			script.type = type;
 			script.src = src;
+
+			keys_default()(parameters).forEach(function (parameter) {
+				script[parameter] = parameters[parameter];
+			});
+
 			node.parentNode.insertBefore(script, node);
 
 			return script;
@@ -1307,14 +1314,15 @@ var script_loader_ScriptLoader = function () {
 		key: 'loadScript',
 		value: function loadScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
+			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var _this = this;
 
-			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			return new promise_default.a(function (resolve, reject) {
-				var script = _this.createScript(src, type, isAsync, node);
+				var script = _this.createScript(src, type, isAsync, node, parameters);
 
 				script.onload = resolve;
 				script.onerror = reject;
@@ -2420,7 +2428,8 @@ var porvata_Porvata = function () {
 				adProduct: params.adProduct,
 				position: params.slotName,
 				src: params.src,
-				withAudio: !params.autoPlay
+				withAudio: !params.autoPlay,
+				withCtp: !params.autoPlay
 			});
 
 			var isFirstPlay = true,
@@ -2494,6 +2503,7 @@ var porvata_Porvata = function () {
 					}
 					isFirstPlay = false;
 					porvataListener.params.withAudio = true;
+					porvataListener.params.withCtp = true;
 				});
 				video.addEventListener('wikiaAdRestart', function () {
 					isFirstPlay = false;
@@ -2631,13 +2641,11 @@ var twitch_listener_TwitchListener = function () {
 		value: function getData(eventName) {
 			return {
 				ad_product: this.params.adProduct,
-				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 				creative_id: this.params.creativeId || 0,
 				event_name: eventName,
 				line_item_id: this.params.lineItemId || 0,
 				player: TwitchListener.PLAYER_NAME,
-				position: this.params.slotName || '(none)',
-				timestamp: new Date().getTime()
+				position: this.params.slotName || '(none)'
 			};
 		}
 	}]);
@@ -2868,15 +2876,17 @@ var porvata_listener_PorvataListener = function () {
 			return {
 				ad_error_code: errorCode,
 				ad_product: this.params.adProduct,
-				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
+				audio: this.params.withAudio ? 1 : 0,
 				content_type: contentType || '(none)',
 				creative_id: creativeId || 0,
+				ctp: this.params.withCtp ? 1 : 0,
 				event_name: eventName,
 				line_item_id: lineItemId || 0,
 				player: PorvataListener.PLAYER_NAME,
 				position: this.params.position ? this.params.position.toLowerCase() : '(none)',
-				timestamp: new Date().getTime(),
-				audio: this.params.withAudio ? 1 : 0
+				// @DEPRECATED
+				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
+				timestamp: new Date().getTime()
 			};
 		}
 	}]);
@@ -3427,6 +3437,11 @@ var slot_service_SlotService = function () {
 
 	createClass_default()(SlotService, [{
 		key: 'add',
+
+		/**
+   * Add new slot to register
+   * @param {AdSlot} adSlot
+   */
 		value: function add(adSlot) {
 			var slotName = adSlot.getSlotName();
 
@@ -3441,6 +3456,12 @@ var slot_service_SlotService = function () {
 
 			events.emit(events.AD_SLOT_CREATED, adSlot);
 		}
+
+		/**
+   * Removes slot from register
+   * @param {AdSlot} adSlot
+   */
+
 	}, {
 		key: 'remove',
 		value: function remove(adSlot) {
@@ -3452,6 +3473,13 @@ var slot_service_SlotService = function () {
 			delete slotStates[slotName];
 			delete slotStatuses[slotName];
 		}
+
+		/**
+   * Get slot by its name or pos
+   * @param id
+   * @returns {AdSlot}
+   */
+
 	}, {
 		key: 'get',
 		value: function get(id) {
@@ -3479,6 +3507,12 @@ var slot_service_SlotService = function () {
 
 			return slotByPos;
 		}
+
+		/**
+   * Iterate over all defined slots
+   * @param {function} callback
+   */
+
 	}, {
 		key: 'forEach',
 		value: function forEach(callback) {
@@ -3486,11 +3520,24 @@ var slot_service_SlotService = function () {
 				callback(slot_service_slots[id]);
 			});
 		}
+
+		/**
+   * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   */
+
 	}, {
 		key: 'enable',
 		value: function enable(slotName) {
 			setState(slotName, true);
 		}
+
+		/**
+   * Disable slot by name (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   * @param {null|string} status
+   */
+
 	}, {
 		key: 'disable',
 		value: function disable(slotName) {
@@ -3498,6 +3545,13 @@ var slot_service_SlotService = function () {
 
 			setState(slotName, false, status);
 		}
+
+		/**
+   * Get current state of slot (it isn't necessary to have given ad slot in register at this point)
+   * @param {string} slotName
+   * @returns {boolean}
+   */
+
 	}, {
 		key: 'getState',
 		value: function getState(slotName) {
@@ -3505,6 +3559,13 @@ var slot_service_SlotService = function () {
 			// that wasn't disabled or enabled (in case when state is undefined)
 			return slotStates[slotName] !== false;
 		}
+
+		/**
+   * Checks whether ad slot has conflict with defined elements
+   * @param {AdSlot} adSlot
+   * @returns {boolean}
+   */
+
 	}, {
 		key: 'hasViewportConflict',
 		value: function hasViewportConflict(adSlot) {
@@ -5141,8 +5202,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.6.0');
-logger('ad-engine', 'v19.6.0');
+set_default()(window, versionField, 'v19.8.1');
+logger('ad-engine', 'v19.8.1');
 
 
 

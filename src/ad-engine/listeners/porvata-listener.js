@@ -82,15 +82,17 @@ export class PorvataListener {
 		return {
 			ad_error_code: errorCode,
 			ad_product: this.params.adProduct,
-			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
+			audio: this.params.withAudio ? 1 : 0,
 			content_type: contentType || '(none)',
 			creative_id: creativeId || 0,
+			ctp: this.params.withCtp ? 1 : 0,
 			event_name: eventName,
 			line_item_id: lineItemId || 0,
 			player: PorvataListener.PLAYER_NAME,
 			position: this.params.position ? this.params.position.toLowerCase() : '(none)',
-			timestamp: new Date().getTime(),
-			audio: this.params.withAudio ? 1 : 0
+			// @DEPRECATED
+			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
+			timestamp: new Date().getTime()
 		};
 	}
 }

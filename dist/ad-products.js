@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 25);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -86,13 +86,13 @@ module.exports = require("babel-runtime/helpers/createClass");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 4 */
@@ -140,13 +140,13 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 13 */
@@ -188,34 +188,40 @@ module.exports = require("lodash/isFunction");
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/debounce");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/isUndefined");
+module.exports = require("lodash/debounce");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/toPlainObject");
+module.exports = require("lodash/isUndefined");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toArray");
+module.exports = require("lodash/toPlainObject");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/extends");
+module.exports = require("babel-runtime/helpers/toArray");
 
 /***/ }),
 /* 24 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/extends");
+
+/***/ }),
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -259,10 +265,10 @@ function setupNpaContext() {
 // CONCATENATED MODULE: ./src/ad-products/utils/index.js
 
 // EXTERNAL MODULE: ./src/ad-products/styles/styles.scss
-var styles = __webpack_require__(26);
+var styles = __webpack_require__(27);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
-var keys_ = __webpack_require__(12);
+var keys_ = __webpack_require__(11);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // CONCATENATED MODULE: ./src/ad-products/common/product-info.js
@@ -301,7 +307,7 @@ function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 // CONCATENATED MODULE: ./src/ad-products/common/index.js
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(3);
+var classCallCheck_ = __webpack_require__(2);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
@@ -509,7 +515,7 @@ var skin_Skin = function () {
 	return Skin;
 }();
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(2);
+var regenerator_ = __webpack_require__(3);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -827,7 +833,7 @@ var animate = function () {
 	};
 }();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(11);
+var toConsumableArray_ = __webpack_require__(12);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -2905,7 +2911,7 @@ var assign_ = __webpack_require__(10);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/toArray"
-var toArray_ = __webpack_require__(22);
+var toArray_ = __webpack_require__(23);
 var toArray_default = /*#__PURE__*/__webpack_require__.n(toArray_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/resolved-state-switch.js
@@ -2914,7 +2920,7 @@ var toArray_default = /*#__PURE__*/__webpack_require__.n(toArray_);
 
 var cacheKey = 'adEngine_resolvedStateCounter';
 var cacheTtl = 24 * 3600;
-var now = new Date();
+var resolved_state_switch_now = new Date();
 
 function createCacheKey() {
 	return cacheKey + '_' + universalAdPackage.getUapId();
@@ -2929,13 +2935,13 @@ function wasDefaultStateSeen() {
 
 	// check for presence in localStorage and if present, make sure that we're
 	// not comparing to current session data - bfab that wants to load after bfaa
-	return !!record && now.getTime() !== record.lastSeenDate;
+	return !!record && resolved_state_switch_now.getTime() !== record.lastSeenDate;
 }
 
 function updateInformationAboutSeenDefaultStateAd() {
 	ad_engine_["localCache"].set(createCacheKey(), {
 		adId: universalAdPackage.getUapId(),
-		lastSeenDate: now.getTime()
+		lastSeenDate: resolved_state_switch_now.getTime()
 	}, cacheTtl);
 }
 
@@ -3276,11 +3282,11 @@ var ready_adIsReady = function () {
 
 
 // EXTERNAL MODULE: external "lodash/toPlainObject"
-var toPlainObject_ = __webpack_require__(21);
+var toPlainObject_ = __webpack_require__(22);
 var toPlainObject_default = /*#__PURE__*/__webpack_require__.n(toPlainObject_);
 
 // EXTERNAL MODULE: external "lodash/isUndefined"
-var isUndefined_ = __webpack_require__(20);
+var isUndefined_ = __webpack_require__(21);
 var isUndefined_default = /*#__PURE__*/__webpack_require__.n(isUndefined_);
 
 // EXTERNAL MODULE: external "lodash/mapValues"
@@ -3288,7 +3294,7 @@ var mapValues_ = __webpack_require__(14);
 var mapValues_default = /*#__PURE__*/__webpack_require__.n(mapValues_);
 
 // EXTERNAL MODULE: external "lodash/debounce"
-var debounce_ = __webpack_require__(19);
+var debounce_ = __webpack_require__(20);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-theme.js
@@ -4717,6 +4723,11 @@ var interstitial_Interstitial = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DEFAULT_VIDEO_ASPECT_RATIO", function() { return DEFAULT_VIDEO_ASPECT_RATIO; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "JWPlayerTracker", function() { return jwplayer_tracker_JWPlayerTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "porvataTracker", function() { return porvataTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchTracker", function() { return twitch_tracker_TwitchTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "twitchTracker", function() { return twitchTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "jwplayerAdsFactory", function() { return jwplayerAdsFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 
 
@@ -4725,9 +4736,11 @@ var interstitial_Interstitial = function () {
 
 
 
+
+
 /***/ }),
-/* 25 */,
-/* 26 */
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
