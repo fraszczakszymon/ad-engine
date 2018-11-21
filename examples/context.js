@@ -138,6 +138,9 @@ export default {
 				},
 				onImpressionViewable(adSlot) {
 					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
+				},
+				onCustomEvent(adSlot, data) {
+					console.log('👁 Custom listener: onCustomEvent', adSlot.getSlotName(), data.status);
 				}
 			}
 		]

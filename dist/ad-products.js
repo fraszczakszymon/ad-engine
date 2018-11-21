@@ -236,6 +236,7 @@ __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_BFAB", fu
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_SLOT", function() { return CSS_CLASSNAME_STICKY_SLOT; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_TEMPLATE", function() { return CSS_CLASSNAME_STICKY_TEMPLATE; });
 __webpack_require__.d(constants_namespaceObject, "CSS_TIMING_EASE_IN_CUBIC", function() { return CSS_TIMING_EASE_IN_CUBIC; });
+__webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_STICKY_IAB", function() { return CSS_CLASSNAME_STICKY_IAB; });
 __webpack_require__.d(constants_namespaceObject, "SLIDE_OUT_TIME", function() { return SLIDE_OUT_TIME; });
 __webpack_require__.d(constants_namespaceObject, "FADE_IN_TIME", function() { return FADE_IN_TIME; });
 __webpack_require__.d(constants_namespaceObject, "DEFAULT_UAP_ID", function() { return DEFAULT_UAP_ID; });
@@ -244,11 +245,11 @@ __webpack_require__.d(constants_namespaceObject, "FAN_TAKEOVER_TYPES", function(
 var themes_classic_namespaceObject = {};
 __webpack_require__.d(themes_classic_namespaceObject, "BfaaTheme", function() { return classic_BfaaTheme; });
 __webpack_require__.d(themes_classic_namespaceObject, "BfabTheme", function() { return classic_BfabTheme; });
-__webpack_require__.d(themes_classic_namespaceObject, "adIsReady", function() { return adIsReady; });
+__webpack_require__.d(themes_classic_namespaceObject, "adIsReady", function() { return ready_adIsReady; });
 var hivi_namespaceObject = {};
+__webpack_require__.d(hivi_namespaceObject, "adIsReady", function() { return adIsReady; });
 __webpack_require__.d(hivi_namespaceObject, "BfaaTheme", function() { return hivi_bfaa_BfaaTheme; });
 __webpack_require__.d(hivi_namespaceObject, "BfabTheme", function() { return hivi_bfab_BfabTheme; });
-__webpack_require__.d(hivi_namespaceObject, "adIsReady", function() { return ready_adIsReady; });
 
 // EXTERNAL MODULE: external "@wikia/ad-engine"
 var ad_engine_ = __webpack_require__(0);
@@ -692,8 +693,8 @@ var stickiness_Stickiness = function (_EventEmitter) {
 		key: 'close',
 		value: function close() {
 			this.logger('Closing and removing stickiness');
-			this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
 			this.sticky = false;
+			this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
 		}
 	}, {
 		key: 'registerRevertStickiness',
@@ -791,6 +792,7 @@ var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
 var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
 var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
 var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+var CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
 // Animation time is defined also in CSS, remember to change it in both places
 var SLIDE_OUT_TIME = 600;
 var FADE_IN_TIME = 400;
@@ -1063,6 +1065,7 @@ var sticky_ad_StickyAd = function () {
 				return;
 			}
 
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 			this.addUnstickLogic();
@@ -1179,22 +1182,24 @@ var sticky_ad_StickyAd = function () {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 8;
+									_context2.next = 9;
 									break;
 								}
 
-								_context2.next = 3;
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								_context2.next = 4;
 								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
-							case 3:
+							case 4:
 								this.removeStickyParameters();
 								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 13;
+								_context2.next = 15;
 								break;
 
-							case 8:
+							case 9:
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
 								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
@@ -1202,7 +1207,7 @@ var sticky_ad_StickyAd = function () {
 
 								this.addUnstickButton();
 
-							case 13:
+							case 15:
 							case 'end':
 								return _context2.stop();
 						}
@@ -1220,6 +1225,7 @@ var sticky_ad_StickyAd = function () {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
+				this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
@@ -1235,30 +1241,8 @@ var sticky_ad_StickyAd = function () {
 	return StickyAd;
 }();
 sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
-// EXTERNAL MODULE: external "babel-runtime/helpers/extends"
-var extends_ = __webpack_require__(24);
-var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
-
-// EXTERNAL MODULE: external "lodash/throttle"
-var throttle_ = __webpack_require__(17);
-var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/video/close-button.js
-function add(video, container) {
-	var closeButton = document.createElement('div');
-
-	closeButton.classList.add('close-ad');
-	closeButton.addEventListener('click', function (event) {
-		video.stop();
-		event.preventDefault();
-	});
-
-	container.appendChild(closeButton);
-}
-
-/* harmony default export */ var close_button = ({
-	add: add
-});
+sticky_ad_StickyAd.SLOT_STICKY_READY_STATE = 'sticky-ready';
+sticky_ad_StickyAd.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 // CONCATENATED MODULE: ./src/ad-products/common/translations.js
 var TRANSLATIONS = {
 	labels: {
@@ -1427,6 +1411,64 @@ function getTranslation(category, key) {
 
 	return TRANSLATIONS[category][language][key] || TRANSLATIONS[category][defaultLanguage][key];
 }
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/advertisement-label.js
+
+
+
+
+
+
+
+
+var advertisement_label_AdvertisementLabel = function (_UiComponent) {
+	inherits_default()(AdvertisementLabel, _UiComponent);
+
+	function AdvertisementLabel() {
+		classCallCheck_default()(this, AdvertisementLabel);
+
+		return possibleConstructorReturn_default()(this, (AdvertisementLabel.__proto__ || get_prototype_of_default()(AdvertisementLabel)).apply(this, arguments));
+	}
+
+	createClass_default()(AdvertisementLabel, [{
+		key: 'render',
+		value: function render() {
+			var label = document.createElement('div');
+
+			label.innerText = getTranslation('labels', 'advertisement');
+			label.className = 'advertisement-label';
+
+			return label;
+		}
+	}]);
+
+	return AdvertisementLabel;
+}(ui_component_UiComponent);
+
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/extends"
+var extends_ = __webpack_require__(24);
+var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
+
+// EXTERNAL MODULE: external "lodash/throttle"
+var throttle_ = __webpack_require__(17);
+var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/video/close-button.js
+function add(video, container) {
+	var closeButton = document.createElement('div');
+
+	closeButton.classList.add('close-ad');
+	closeButton.addEventListener('click', function (event) {
+		video.stop();
+		event.preventDefault();
+	});
+
+	container.appendChild(closeButton);
+}
+
+/* harmony default export */ var close_button = ({
+	add: add
+});
 // CONCATENATED MODULE: ./src/ad-products/templates/outstream/porvata-template.js
 
 
@@ -2552,6 +2594,324 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 	setType: setType,
 	setUapId: setUapId
 });
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/ready.js
+
+
+function adIsReady(_ref) {
+	var adSlot = _ref.adSlot,
+	    params = _ref.params;
+
+	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
+}
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-tlb.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var sticky_tlb_StickyTLB = function () {
+	function StickyTLB(adSlot) {
+		classCallCheck_default()(this, StickyTLB);
+
+		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId;
+		this.config = ad_engine_["context"].get('templates.' + StickyTLB.getName());
+		this.lines = ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.lineItemIds');
+		this.container = document.getElementById(this.adSlot.getSlotName());
+		this.stickiness = null;
+	}
+
+	createClass_default()(StickyTLB, [{
+		key: 'init',
+		value: function init(params) {
+			var _this = this;
+
+			this.params = params;
+
+			if (!this.container) {
+				return;
+			}
+
+			if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+				return;
+			}
+
+			this.addStickinessPlugin();
+
+			this.container.style.backgroundColor = '#000';
+			this.container.classList.add('bfaa-template');
+
+			adIsReady({
+				adSlot: this.adSlot,
+				params: this.params
+			}).then(function (iframe) {
+				return _this.onAdReady(iframe);
+			});
+
+			this.config.onInit(this.adSlot, this.params, this.config);
+		}
+	}, {
+		key: 'addStickinessPlugin',
+		value: function addStickinessPlugin() {
+			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
+			this.addUnstickLogic();
+			this.addUnstickButton();
+			this.addUnstickEvents();
+			this.stickiness.run();
+		}
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var _this2 = this;
+
+			var _config = this.config,
+			    stickyAdditionalTime = _config.stickyAdditionalTime,
+			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
+
+			var whenSlotViewedOrTimeout = function () {
+				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+					return regenerator_default.a.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									_context.next = 2;
+									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+
+								case 2:
+									_context.next = 4;
+									return ad_engine_["utils"].wait(StickyTLB.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+
+								case 4:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this2);
+				}));
+
+				return function whenSlotViewedOrTimeout() {
+					return _ref.apply(this, arguments);
+				};
+			}();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		}
+	}, {
+		key: 'addAdvertisementLabel',
+		value: function addAdvertisementLabel() {
+			var advertisementLabel = new advertisement_label_AdvertisementLabel();
+
+			this.adSlot.getElement().appendChild(advertisementLabel.render());
+		}
+	}, {
+		key: 'addUnstickButton',
+		value: function addUnstickButton() {
+			var _this3 = this;
+
+			this.closeButton = new close_button_CloseButton({
+				classNames: ['button-unstick'],
+				onClick: function onClick() {
+					return _this3.stickiness.close();
+				}
+			}).render();
+
+			this.container.appendChild(this.closeButton);
+		}
+	}, {
+		key: 'removeUnstickButton',
+		value: function removeUnstickButton() {
+			this.closeButton.remove();
+		}
+	}, {
+		key: 'addUnstickEvents',
+		value: function addUnstickEvents() {
+			var _this4 = this;
+
+			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
+				return _this4.onStickinessChange(isSticky);
+			});
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+		}
+	}, {
+		key: 'onStickinessChange',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
+				var stickinessBeforeCallback, stickinessAfterCallback;
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								stickinessBeforeCallback = isSticky ? this.config.onBeforeStickBfaaCallback : this.config.onBeforeUnstickBfaaCallback;
+								stickinessAfterCallback = isSticky ? this.config.onAfterStickBfaaCallback : this.config.onAfterUnstickBfaaCallback;
+
+
+								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+
+								if (isSticky) {
+									_context2.next = 12;
+									break;
+								}
+
+								this.config.moveNavbar(0, SLIDE_OUT_TIME);
+								_context2.next = 7;
+								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+
+							case 7:
+								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+								this.adSlot.getElement().classList.add('theme-resolved');
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								_context2.next = 13;
+								break;
+
+							case 12:
+								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
+
+							case 13:
+
+								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+
+							case 14:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function onStickinessChange(_x) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return onStickinessChange;
+		}()
+	}, {
+		key: 'onAdReady',
+		value: function () {
+			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
+				return regenerator_default.a.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								this.container.classList.add('theme-hivi');
+								this.addAdvertisementLabel();
+
+								this.config.mainContainer.style.paddingTop = this.container.scrollHeight + 'px';
+								this.config.mainContainer.classList.add('has-bfaa');
+
+								if (this.config.handleNavbar) {
+									this.setupNavbar();
+								}
+
+								this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
+
+								if (!document.hidden) {
+									_context3.next = 9;
+									break;
+								}
+
+								_context3.next = 9;
+								return ad_engine_["utils"].once(window, 'visibilitychange');
+
+							case 9:
+								return _context3.abrupt('return', ad_engine_["slotTweaker"].makeResponsive(this.adSlot));
+
+							case 10:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function onAdReady() {
+				return _ref3.apply(this, arguments);
+			}
+
+			return onAdReady;
+		}()
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately() {
+			this.config.moveNavbar(0, 0);
+			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+			this.adSlot.getElement().classList.add('theme-resolved');
+			this.stickiness.sticky = false;
+			this.removeUnstickButton();
+			this.config.mainContainer.style.paddingTop = '0';
+			this.adSlot.getElement().classList.add('hide');
+		}
+	}, {
+		key: 'setupNavbar',
+		value: function setupNavbar() {
+			var desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
+			var mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
+			var slotParent = this.container.parentNode;
+			var sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
+
+			if (mobileNavbarWrapper) {
+				slotParent.insertBefore(mobileNavbarWrapper, sibling);
+			}
+
+			if (desktopNavbarWrapper) {
+				slotParent.insertBefore(desktopNavbarWrapper, sibling);
+			}
+		}
+	}], [{
+		key: 'getName',
+		value: function getName() {
+			return 'stickyTLB';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				enabled: true,
+				desktopNavbarWrapperSelector: '.wds-global-navigation-wrapper',
+				mobileNavbarWrapperSelector: '.global-navigation-mobile-wrapper',
+				mainContainer: document.body,
+				handleNavbar: false,
+				stickyAdditionalTime: 0,
+				stickyUntilSlotViewed: true,
+				slotSibling: '.topic-header',
+				onInit: function onInit() {},
+				onBeforeStickBfaaCallback: function onBeforeStickBfaaCallback() {},
+				onAfterStickBfaaCallback: function onAfterStickBfaaCallback() {},
+				onBeforeUnstickBfaaCallback: function onBeforeUnstickBfaaCallback() {},
+				onAfterUnstickBfaaCallback: function onAfterUnstickBfaaCallback() {},
+				moveNavbar: function moveNavbar(offset) {
+					var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : SLIDE_OUT_TIME;
+
+					var navbarElement = document.querySelector('body > nav.navigation');
+
+					if (navbarElement) {
+						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + universalAdPackage.CSS_TIMING_EASE_IN_CUBIC;
+						navbarElement.style.top = offset ? offset + 'px' : '';
+					}
+				}
+			};
+		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.enabled');
+		}
+	}]);
+
+	return StickyTLB;
+}();
+sticky_tlb_StickyTLB.DEFAULT_UNSTICK_DELAY = 2000;
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(10);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
@@ -2897,7 +3257,7 @@ var classic_BfabTheme = function (_BigFancyAdClassicThe2) {
 
 
 
-var adIsReady = function () {
+var ready_adIsReady = function () {
 	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(_ref) {
 		var adSlot = _ref.adSlot,
 		    params = _ref.params,
@@ -2942,40 +3302,6 @@ var mapValues_default = /*#__PURE__*/__webpack_require__.n(mapValues_);
 // EXTERNAL MODULE: external "lodash/debounce"
 var debounce_ = __webpack_require__(20);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
-
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/advertisement-label.js
-
-
-
-
-
-
-
-
-var advertisement_label_AdvertisementLabel = function (_UiComponent) {
-	inherits_default()(AdvertisementLabel, _UiComponent);
-
-	function AdvertisementLabel() {
-		classCallCheck_default()(this, AdvertisementLabel);
-
-		return possibleConstructorReturn_default()(this, (AdvertisementLabel.__proto__ || get_prototype_of_default()(AdvertisementLabel)).apply(this, arguments));
-	}
-
-	createClass_default()(AdvertisementLabel, [{
-		key: 'render',
-		value: function render() {
-			var label = document.createElement('div');
-
-			label.innerText = getTranslation('labels', 'advertisement');
-			label.className = 'advertisement-label';
-
-			return label;
-		}
-	}]);
-
-	return AdvertisementLabel;
-}(ui_component_UiComponent);
-
 
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-theme.js
 
@@ -3636,7 +3962,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 				if (isBfaaSticky && scrollPosition >= slotPosition - _this3.config.topThreshold - bfaaHeight) {
 					ad_engine_["scrollListener"].removeCallback(id);
-					_this3.adSlot.setStatus('viewport-conflict');
+					_this3.adSlot.emitEvent('viewport-conflict');
 				} else if (scrollPosition >= slotPosition - _this3.config.topThreshold && !isBfaaSticky) {
 					ad_engine_["scrollListener"].removeCallback(id);
 					resolvePromise();
@@ -3670,7 +3996,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 										var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 										if (scrollPosition <= _this4.config.unstickInstantlyBelowPosition) {
-											_this4.adSlot.setStatus('top-conflict');
+											_this4.adSlot.emitEvent('top-conflict');
 											ad_engine_["scrollListener"].removeCallback(id);
 											_this4.stickiness.revertStickiness();
 										}
@@ -3745,7 +4071,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 5:
-								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 								element.style.top = null;
 								element.parentNode.style.height = null;
 								element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
@@ -3754,7 +4080,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								break;
 
 							case 12:
-								this.adSlot.setStatus(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
 								element.parentNode.style.height = element.offsetHeight + 'px';
 								element.classList.add(CSS_CLASSNAME_STICKY_BFAB);
 								element.style.top = this.config.topThreshold + 'px';
@@ -3801,15 +4127,6 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 	return BfabTheme;
 }(hivi_theme_BigFancyAdHiviTheme);
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/ready.js
-
-
-function ready_adIsReady(_ref) {
-	var adSlot = _ref.adSlot,
-	    params = _ref.params;
-
-	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
-}
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/index.js
 
 
@@ -3857,7 +4174,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 					var navbarElement = document.querySelector('body > nav.navigation');
 
 					if (navbarElement) {
-						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + universalAdPackage.CSS_TIMING_EASE_IN_CUBIC;
+						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + CSS_TIMING_EASE_IN_CUBIC;
 						navbarElement.style.top = offset ? offset + 'px' : '';
 					}
 				}
@@ -4388,6 +4705,7 @@ var interstitial_Interstitial = function () {
 // CONCATENATED MODULE: ./src/ad-products/templates/outstream/index.js
 
 // CONCATENATED MODULE: ./src/ad-products/templates/index.js
+
 
 
 
@@ -5129,6 +5447,7 @@ var jwplayerAdsFactory = {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyTLB", function() { return sticky_tlb_StickyTLB; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "resolvedState", function() { return resolvedState; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdAbove", function() { return big_fancy_ad_above_BigFancyAdAbove; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdBelow", function() { return big_fancy_ad_below_BigFancyAdBelow; });

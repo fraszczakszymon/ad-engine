@@ -3046,7 +3046,8 @@ function getAdType(event, adSlot) {
 }
 
 function slot_listener_getData(adSlot, _ref) {
-	var adType = _ref.adType;
+	var adType = _ref.adType,
+	    status = _ref.status;
 
 	return {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
@@ -3054,7 +3055,7 @@ function slot_listener_getData(adSlot, _ref) {
 		creative_id: adSlot.creativeId,
 		creative_size: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
-		status: adSlot.getStatus(),
+		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
@@ -3142,6 +3143,11 @@ var slot_listener_SlotListener = function () {
 		value: function emitStatusChanged(adSlot) {
 			slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
 			slot_listener_dispatch('onStatusChanged', adSlot);
+		}
+	}, {
+		key: 'emitCustomEvent',
+		value: function emitCustomEvent(event, adSlot) {
+			slot_listener_dispatch('onCustomEvent', adSlot, { status: event });
 		}
 	}]);
 
@@ -3359,6 +3365,15 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			slotTweaker.hide(this);
 			this.setStatus(status);
+		}
+	}, {
+		key: 'emitEvent',
+		value: function emitEvent() {
+			var eventName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+			if (eventName !== null) {
+				slotListener.emitCustomEvent(eventName, this);
+			}
 		}
 	}, {
 		key: 'targeting',
@@ -5202,8 +5217,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.8.1');
-logger('ad-engine', 'v19.8.1');
+set_default()(window, versionField, 'v20.0.0');
+logger('ad-engine', 'v20.0.0');
 
 
 
