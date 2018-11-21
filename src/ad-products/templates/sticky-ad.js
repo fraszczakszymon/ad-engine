@@ -13,6 +13,8 @@ import CloseButton from './interface/close-button';
 
 export class StickyAd {
 	static DEFAULT_UNSTICK_DELAY = 2000;
+	static SLOT_STICKY_READY_STATE = 'sticky-ready';
+	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 
 	static getName() {
 		return 'stickyAd';
@@ -58,6 +60,7 @@ export class StickyAd {
 			return;
 		}
 
+		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 		this.addUnstickLogic();
@@ -131,12 +134,14 @@ export class StickyAd {
 
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
+			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
 			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.removeStickyParameters();
 			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
 		} else {
+			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
 			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
@@ -148,6 +153,7 @@ export class StickyAd {
 
 	unstickImmediately() {
 		if (this.stickiness) {
+			this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();

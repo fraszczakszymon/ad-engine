@@ -1,5 +1,5 @@
 import { timeouts } from '../common/timeouts';
-import adSlots from '../common/adSlots';
+import adSlots from './ad-slots';
 
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
