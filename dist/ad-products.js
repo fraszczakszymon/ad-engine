@@ -5271,11 +5271,13 @@ function create(options) {
 		slot.setConfigProperty('autoplay', player.getConfig().autostart);
 
 		if (ad_engine_["context"].get('options.video.moatTracking.enabledForArticleVideos')) {
+			var partnerCode = ad_engine_["context"].get('options.video.moatTracking.articleVideosPartnerCode') || ad_engine_["context"].get('options.video.moatTracking.partnerCode');
+
 			player.on('adImpression', function (event) {
 				if (window.moatjw) {
 					window.moatjw.add({
 						adImpressionEvent: event,
-						partnerCode: ad_engine_["context"].get('options.video.moatTracking.partnerCode'),
+						partnerCode: partnerCode,
 						player: player
 					});
 				}
