@@ -17,9 +17,9 @@ exports.config = merge(wdioConf.config, {
 		}
 	],
 	before() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
+		browser.windowHandleSize({ width: 1600, height: 900 });
 	},
 	after() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
+		browser.windowHandleSize({ width: 1600, height: 900 });
 	}
 }, { clone: false });
