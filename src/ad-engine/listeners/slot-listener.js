@@ -32,14 +32,14 @@ function getAdType(event, adSlot) {
 	return 'success';
 }
 
-function getData(adSlot, { adType }) {
+function getData(adSlot, { adType, status }) {
 	return {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
 		creative_size: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
-		status: adSlot.getStatus(),
+		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: (new Date()).getHours(),
 		timestamp: new Date().getTime(),
@@ -115,6 +115,10 @@ class SlotListener {
 	emitStatusChanged(adSlot) {
 		slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
 		dispatch('onStatusChanged', adSlot);
+	}
+
+	emitCustomEvent(event, adSlot) {
+		dispatch('onCustomEvent', adSlot, { status: event });
 	}
 }
 

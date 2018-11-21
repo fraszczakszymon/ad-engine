@@ -1065,6 +1065,7 @@ var sticky_ad_StickyAd = function () {
 				return;
 			}
 
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 			this.addUnstickLogic();
@@ -1181,22 +1182,24 @@ var sticky_ad_StickyAd = function () {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 8;
+									_context2.next = 9;
 									break;
 								}
 
-								_context2.next = 3;
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								_context2.next = 4;
 								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
-							case 3:
+							case 4:
 								this.removeStickyParameters();
 								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 13;
+								_context2.next = 15;
 								break;
 
-							case 8:
+							case 9:
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
 								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
@@ -1204,7 +1207,7 @@ var sticky_ad_StickyAd = function () {
 
 								this.addUnstickButton();
 
-							case 13:
+							case 15:
 							case 'end':
 								return _context2.stop();
 						}
@@ -1222,6 +1225,7 @@ var sticky_ad_StickyAd = function () {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
+				this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
@@ -1237,6 +1241,32 @@ var sticky_ad_StickyAd = function () {
 	return StickyAd;
 }();
 sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
+sticky_ad_StickyAd.SLOT_STICKY_READY_STATE = 'sticky-ready';
+sticky_ad_StickyAd.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+// EXTERNAL MODULE: external "babel-runtime/helpers/extends"
+var extends_ = __webpack_require__(23);
+var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
+
+// EXTERNAL MODULE: external "lodash/throttle"
+var throttle_ = __webpack_require__(17);
+var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/video/close-button.js
+function add(video, container) {
+	var closeButton = document.createElement('div');
+
+	closeButton.classList.add('close-ad');
+	closeButton.addEventListener('click', function (event) {
+		video.stop();
+		event.preventDefault();
+	});
+
+	container.appendChild(closeButton);
+}
+
+/* harmony default export */ var close_button = ({
+	add: add
+});
 // CONCATENATED MODULE: ./src/ad-products/common/translations.js
 var TRANSLATIONS = {
 	labels: {
@@ -4337,6 +4367,14 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 
 
 
+				if (isBfaaSticky && scrollPosition >= slotPosition - _this3.config.topThreshold - bfaaHeight) {
+					ad_engine_["scrollListener"].removeCallback(id);
+					_this3.adSlot.emitEvent('viewport-conflict');
+				} else if (scrollPosition >= slotPosition - _this3.config.topThreshold && !isBfaaSticky) {
+					ad_engine_["scrollListener"].removeCallback(id);
+					resolvePromise();
+				}
+			});
 
 
 
@@ -4380,9 +4418,13 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 		this.videoSettings = null;
 	}
 
-	/**
-  * Initializes the BFAB unit
-  */
+										if (scrollPosition <= _this4.config.unstickInstantlyBelowPosition) {
+											_this4.adSlot.emitEvent('top-conflict');
+											ad_engine_["scrollListener"].removeCallback(id);
+											_this4.stickiness.revertStickiness();
+										}
+									});
+								}
 
 
 	createClass_default()(BigFancyAdBelow, [{
@@ -4454,8 +4496,20 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 							case 7:
 								video = _context.sent;
 
+							case 5:
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								element.style.top = null;
+								element.parentNode.style.height = null;
+								element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
+								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+								_context4.next = 16;
+								break;
 
-								this.theme.onVideoReady(video);
+							case 12:
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
+								element.parentNode.style.height = element.offsetHeight + 'px';
+								element.classList.add(CSS_CLASSNAME_STICKY_BFAB);
+								element.style.top = this.config.topThreshold + 'px';
 
 							case 9:
 							case 'end':
