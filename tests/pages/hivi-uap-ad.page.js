@@ -1,4 +1,4 @@
-class HiviUap {
+export class HiviUap {
 	constructor() {
 		this.pageLink = 'templates/hivi-uap/';
 		this.videoPlayer = '.video-player';
