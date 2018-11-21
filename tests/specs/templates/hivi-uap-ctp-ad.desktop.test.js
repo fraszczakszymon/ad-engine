@@ -280,20 +280,23 @@ describe('Desktop HiVi UAP CTP ads page: video player in bottom leaderboard', ()
 
 	it('Check if opening the fullscreen player works properly', () => {
 		browser.waitForEnabled(hiviUapCtp.playerFullscreenButton, timeouts.standard);
-		browser.click(hiviUapCtp.playerFullscreenButton);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.playerFullscreenButton}`);
 		browser.waitForVisible(hiviUapCtp.playerFullscreen, timeouts.standard);
 	});
 
 	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(hiviUapCtp.playPauseButton, timeouts.standard);
-		browser.click(hiviUapCtp.playPauseButton);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.playPauseButton}`);
 		browser.waitForExist(`${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
 	it('Check if muting the video works properly', () => {
 		browser.waitForEnabled(hiviUapCtp.volumeButton, timeouts.standard);
-		browser.click(hiviUapCtp.volumeButton);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.volumeButton}`);
 		browser.isExisting(`${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard);
 	});
