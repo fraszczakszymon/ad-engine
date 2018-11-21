@@ -136,15 +136,15 @@ describe('Desktop HiVi UAP CTP ads page: video player in top leaderboard', () =>
 	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOnClass}`,
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if unmuting the video works properly', () => {
+	it('Check if muting the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOnClass}`,
-			timeouts.standard, true);
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOn}`,
+			timeouts.standard);
 	});
 
 	it('Check if replaying the video works properly', () => {
@@ -287,15 +287,15 @@ describe('Desktop HiVi UAP CTP ads page: video player in bottom leaderboard', ()
 	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(hiviUapCtp.playPauseButton, timeouts.standard);
 		browser.click(hiviUapCtp.playPauseButton);
-		browser.waitForExist(`${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOnClass}`,
+		browser.waitForExist(`${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if unmuting the video works properly', () => {
+	it('Check if muting the video works properly', () => {
 		browser.waitForEnabled(hiviUapCtp.volumeButton, timeouts.standard);
 		browser.click(hiviUapCtp.volumeButton);
-		browser.isExisting(`${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOnClass}`,
-			timeouts.standard, true);
+		browser.isExisting(`${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOn}`,
+			timeouts.standard);
 	});
 
 	it('Check if replaying the video works properly', () => {
