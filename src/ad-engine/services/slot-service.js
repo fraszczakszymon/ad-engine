@@ -41,6 +41,10 @@ function setState(slotName, state, status = null) {
 }
 
 class SlotService {
+	/**
+	 * Add new slot to register
+	 * @param {AdSlot} adSlot
+	 */
 	add(adSlot) {
 		const slotName = adSlot.getSlotName();
 
@@ -56,6 +60,10 @@ class SlotService {
 		events.emit(events.AD_SLOT_CREATED, adSlot);
 	}
 
+	/**
+	 * Removes slot from register
+	 * @param {AdSlot} adSlot
+	 */
 	remove(adSlot) {
 		const slotName = adSlot.getSlotName();
 
@@ -66,6 +74,11 @@ class SlotService {
 		delete slotStatuses[slotName];
 	}
 
+	/**
+	 * Get slot by its name or pos
+	 * @param id
+	 * @returns {AdSlot}
+	 */
 	get(id) {
 		const [singleSlotName] = id.split(',');
 		if (slots[singleSlotName]) {
@@ -89,26 +102,49 @@ class SlotService {
 		return slotByPos;
 	}
 
+	/**
+	 * Iterate over all defined slots
+	 * @param {function} callback
+	 */
 	forEach(callback) {
 		Object.keys(slots).forEach((id) => {
 			callback(slots[id]);
 		});
 	}
 
+	/**
+	 * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
+	 * @param {string} slotName
+	 */
 	enable(slotName) {
 		setState(slotName, true);
 	}
 
+	/**
+	 * Disable slot by name (it isn't necessary to have given ad slot in register at this point)
+	 * @param {string} slotName
+	 * @param {null|string} status
+	 */
 	disable(slotName, status = null) {
 		setState(slotName, false, status);
 	}
 
+	/**
+	 * Get current state of slot (it isn't necessary to have given ad slot in register at this point)
+	 * @param {string} slotName
+	 * @returns {boolean}
+	 */
 	getState(slotName) {
 		// Comparing with false in order to get truthy value for slot
 		// that wasn't disabled or enabled (in case when state is undefined)
 		return slotStates[slotName] !== false;
 	}
 
+	/**
+	 * Checks whether ad slot has conflict with defined elements
+	 * @param {AdSlot} adSlot
+	 * @returns {boolean}
+	 */
 	hasViewportConflict(adSlot) {
 		if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
 			return false;

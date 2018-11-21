@@ -99,9 +99,16 @@ export default {
 				key: 'audio'
 			}
 		},
+		featuredVideo15sEnabled: false,
 		video: {
+			adsOnNextVideoFrequency: 3,
+			isMidrollEnabled: false,
+			isPostrollEnabled: false,
+			playAdsOnNextVideo: true,
 			moatTracking: {
 				enabled: true,
+				enabledForArticleVideos: true,
+				jwplayerPluginUrl: 'https://z.moatads.com/jwplayerplugin0938452/moatplugin.js',
 				partnerCode: 'wikiaimajsint377461931603',
 				sampling: 1
 			}
@@ -254,6 +261,16 @@ export default {
 			targeting: {},
 			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
 			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'
+		},
+		featured: {
+			lowerSlotName: 'featured',
+			slotGroup: 'VIDEO',
+			targeting: {
+				wsi: 'xxx1'
+			},
+			trackingKey: 'featured-video',
+			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+			'/{custom.device}/ae-{custom.adLayout}/_example'
 		}
 	},
 	services: {
