@@ -55,7 +55,7 @@ class SlotTweaker {
 		container.style.maxHeight = `${container.scrollHeight}px`;
 	}
 
-	makeResponsive(adSlot, aspectRatio = null) {
+	makeResponsive(adSlot, aspectRatio = null, paddingBottom = true) {
 		const slotContainer = this.getContainer(adSlot);
 
 		slotContainer.classList.add('slot-responsive');
@@ -71,7 +71,9 @@ class SlotTweaker {
 				}
 
 				logger(logGroup, 'make responsive', adSlot.getSlotName());
-				container.style.paddingBottom = `${100 / aspectRatio}%`;
+				if (paddingBottom) {
+					container.style.paddingBottom = `${100 / aspectRatio}%`;
+				}
 				return iframe;
 			});
 	}

@@ -4486,6 +4486,7 @@ var slot_tweaker_SlotTweaker = function () {
 		key: 'makeResponsive',
 		value: function makeResponsive(adSlot) {
 			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+			var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var slotContainer = this.getContainer(adSlot);
 
@@ -4501,7 +4502,9 @@ var slot_tweaker_SlotTweaker = function () {
 				}
 
 				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
-				container.style.paddingBottom = 100 / aspectRatio + '%';
+				if (paddingBottom) {
+					container.style.paddingBottom = 100 / aspectRatio + '%';
+				}
 				return iframe;
 			});
 		}

@@ -298,13 +298,13 @@
     outline: none;
     cursor: pointer;
     padding: 0; }
-  .gpt-ad.bfaa-template iframe,
-  .gpt-ad.bfab-template iframe {
+  .gpt-ad.bfaa-template:not(.sticky-iab) iframe,
+  .gpt-ad.bfab-template:not(.sticky-iab) iframe {
     height: 100%;
     left: 0;
     position: absolute;
-    width: 100%;
-    top: 0; }
+    top: 0;
+    width: 100%; }
   .gpt-ad.bfaa-template.porvata .video-player > iframe,
   .gpt-ad.bfaa-template.mobile-porvata .video-player > iframe,
   .gpt-ad.bfab-template.porvata .video-player > iframe,
@@ -651,12 +651,12 @@ body.ctp-vuap-loaded {
   width: 100%; }
   .gpt-ad.slot-responsive > div {
     position: relative; }
-    .gpt-ad.slot-responsive > div iframe {
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%; }
+  .gpt-ad.slot-responsive:not(.sticky-iab) > div > iframe {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%; }
 
 .gpt-ad.hide,
 .gpt-ad .hide {

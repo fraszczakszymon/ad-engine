@@ -5,7 +5,6 @@ import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import { universalAdPackage } from './uap/universal-ad-package';
-import { adIsReady } from './uap/themes/hivi/ready';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
 	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME,
@@ -74,12 +73,8 @@ export class StickyTLB {
 		this.container.style.backgroundColor = '#000';
 		this.container.classList.add('bfaa-template');
 
-		adIsReady({
-			adSlot: this.adSlot,
-			params: this.params
-		}).then(iframe => this.onAdReady(iframe));
-
 		this.config.onInit(this.adSlot, this.params, this.config);
+		this.onAdReady();
 	}
 
 	addStickinessPlugin() {
@@ -151,6 +146,8 @@ export class StickyTLB {
 	}
 
 	async onAdReady() {
+		slotTweaker.makeResponsive(this.adSlot, null, false);
+
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
 
@@ -167,8 +164,6 @@ export class StickyTLB {
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
-
-		return slotTweaker.makeResponsive(this.adSlot);
 	}
 
 	unstickImmediately() {

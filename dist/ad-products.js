@@ -245,11 +245,11 @@ __webpack_require__.d(constants_namespaceObject, "FAN_TAKEOVER_TYPES", function(
 var themes_classic_namespaceObject = {};
 __webpack_require__.d(themes_classic_namespaceObject, "BfaaTheme", function() { return classic_BfaaTheme; });
 __webpack_require__.d(themes_classic_namespaceObject, "BfabTheme", function() { return classic_BfabTheme; });
-__webpack_require__.d(themes_classic_namespaceObject, "adIsReady", function() { return ready_adIsReady; });
+__webpack_require__.d(themes_classic_namespaceObject, "adIsReady", function() { return adIsReady; });
 var hivi_namespaceObject = {};
-__webpack_require__.d(hivi_namespaceObject, "adIsReady", function() { return adIsReady; });
 __webpack_require__.d(hivi_namespaceObject, "BfaaTheme", function() { return hivi_bfaa_BfaaTheme; });
 __webpack_require__.d(hivi_namespaceObject, "BfabTheme", function() { return hivi_bfab_BfabTheme; });
+__webpack_require__.d(hivi_namespaceObject, "adIsReady", function() { return ready_adIsReady; });
 
 // EXTERNAL MODULE: external "@wikia/ad-engine"
 var ad_engine_ = __webpack_require__(0);
@@ -2594,17 +2594,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 	setType: setType,
 	setUapId: setUapId
 });
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/ready.js
-
-
-function adIsReady(_ref) {
-	var adSlot = _ref.adSlot,
-	    params = _ref.params;
-
-	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
-}
 // CONCATENATED MODULE: ./src/ad-products/templates/sticky-tlb.js
-
 
 
 
@@ -2634,8 +2624,6 @@ var sticky_tlb_StickyTLB = function () {
 	createClass_default()(StickyTLB, [{
 		key: 'init',
 		value: function init(params) {
-			var _this = this;
-
 			this.params = params;
 
 			if (!this.container) {
@@ -2651,14 +2639,8 @@ var sticky_tlb_StickyTLB = function () {
 			this.container.style.backgroundColor = '#000';
 			this.container.classList.add('bfaa-template');
 
-			adIsReady({
-				adSlot: this.adSlot,
-				params: this.params
-			}).then(function (iframe) {
-				return _this.onAdReady(iframe);
-			});
-
 			this.config.onInit(this.adSlot, this.params, this.config);
+			this.onAdReady();
 		}
 	}, {
 		key: 'addStickinessPlugin',
@@ -2672,7 +2654,7 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addUnstickLogic',
 		value: function addUnstickLogic() {
-			var _this2 = this;
+			var _this = this;
 
 			var _config = this.config,
 			    stickyAdditionalTime = _config.stickyAdditionalTime,
@@ -2685,7 +2667,7 @@ var sticky_tlb_StickyTLB = function () {
 							switch (_context.prev = _context.next) {
 								case 0:
 									_context.next = 2;
-									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+									return stickyUntilSlotViewed && !_this.adSlot.isViewed() ? ad_engine_["utils"].once(_this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
 
 								case 2:
 									_context.next = 4;
@@ -2696,7 +2678,7 @@ var sticky_tlb_StickyTLB = function () {
 									return _context.stop();
 							}
 						}
-					}, _callee, _this2);
+					}, _callee, _this);
 				}));
 
 				return function whenSlotViewedOrTimeout() {
@@ -2716,12 +2698,12 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addUnstickButton',
 		value: function addUnstickButton() {
-			var _this3 = this;
+			var _this2 = this;
 
 			this.closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					return _this3.stickiness.close();
+					return _this2.stickiness.close();
 				}
 			}).render();
 
@@ -2735,10 +2717,10 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addUnstickEvents',
 		value: function addUnstickEvents() {
-			var _this4 = this;
+			var _this3 = this;
 
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
-				return _this4.onStickinessChange(isSticky);
+				return _this3.onStickinessChange(isSticky);
 			});
 			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
@@ -2803,6 +2785,8 @@ var sticky_tlb_StickyTLB = function () {
 					while (1) {
 						switch (_context3.prev = _context3.next) {
 							case 0:
+								ad_engine_["slotTweaker"].makeResponsive(this.adSlot, null, false);
+
 								this.container.classList.add('theme-hivi');
 								this.addAdvertisementLabel();
 
@@ -2816,15 +2800,12 @@ var sticky_tlb_StickyTLB = function () {
 								this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
 
 								if (!document.hidden) {
-									_context3.next = 9;
+									_context3.next = 10;
 									break;
 								}
 
-								_context3.next = 9;
+								_context3.next = 10;
 								return ad_engine_["utils"].once(window, 'visibilitychange');
-
-							case 9:
-								return _context3.abrupt('return', ad_engine_["slotTweaker"].makeResponsive(this.adSlot));
 
 							case 10:
 							case 'end':
@@ -3257,7 +3238,7 @@ var classic_BfabTheme = function (_BigFancyAdClassicThe2) {
 
 
 
-var ready_adIsReady = function () {
+var adIsReady = function () {
 	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(_ref) {
 		var adSlot = _ref.adSlot,
 		    params = _ref.params,
@@ -4127,6 +4108,15 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 	return BfabTheme;
 }(hivi_theme_BigFancyAdHiviTheme);
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/ready.js
+
+
+function ready_adIsReady(_ref) {
+	var adSlot = _ref.adSlot,
+	    params = _ref.params;
+
+	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
+}
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/index.js
 
 
