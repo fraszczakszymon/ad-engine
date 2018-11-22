@@ -21,9 +21,10 @@
 		> div {
 			position: relative;
 
-			iframe {
-				@include absolute-fill();
-			}
+		}
+
+		&:not(.sticky-iab) > div > iframe {
+			@include absolute-fill();
 		}
 	}
 
