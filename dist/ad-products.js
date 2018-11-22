@@ -2609,6 +2609,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 
 
+
 var sticky_tlb_StickyTLB = function () {
 	function StickyTLB(adSlot) {
 		classCallCheck_default()(this, StickyTLB);
@@ -2633,6 +2634,8 @@ var sticky_tlb_StickyTLB = function () {
 			if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
 				return;
 			}
+
+			this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
 
 			this.addStickinessPlugin();
 
@@ -2741,29 +2744,31 @@ var sticky_tlb_StickyTLB = function () {
 								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 								if (isSticky) {
-									_context2.next = 12;
+									_context2.next = 13;
 									break;
 								}
 
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
-								_context2.next = 7;
+								_context2.next = 8;
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
-							case 7:
+							case 8:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 								this.adSlot.getElement().classList.add('theme-resolved');
 								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-								_context2.next = 13;
+								_context2.next = 15;
 								break;
 
-							case 12:
+							case 13:
+								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 
-							case 13:
+							case 15:
 
 								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
 
-							case 14:
+							case 16:
 							case 'end':
 								return _context2.stop();
 						}
@@ -2824,6 +2829,7 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
+			this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_UNSTICK_IMMEDIATELY);
 			this.config.moveNavbar(0, 0);
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
