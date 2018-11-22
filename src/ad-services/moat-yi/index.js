@@ -38,7 +38,7 @@ class MoatYi {
 			this.importPageParams();
 			moatYeildReadyResolve();
 		};
-		context.set('targeting.m_data', -1);
+		context.set('targeting.m_data', 'waiting');
 
 		loadScript().then(() => {
 			utils.logger(logGroup, 'ready');
@@ -55,9 +55,8 @@ class MoatYi {
 		if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
 			const pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
 
-			const isInvalid = pageParams.m_data || -2;
-			context.set('targeting.m_data', isInvalid);
-			events.emit(events.MOAT_YI_READY, `m_data=${isInvalid}`);
+			context.set('targeting.m_data', pageParams.m_data);
+			events.emit(events.MOAT_YI_READY, `m_data=${pageParams.m_data}`);
 			utils.logger(logGroup, 'moatYieldReady', pageParams);
 		}
 	}

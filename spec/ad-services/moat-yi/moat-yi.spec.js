@@ -17,16 +17,10 @@ describe('MOAT YI service', () => {
 		delete window.moatYieldReady;
 	});
 
-	it('targeting.m_data has -1 value by default', () => {
+	it('targeting.m_data has "waiting" value by default', () => {
 		moatYi.call();
 
-		expect(context.get('targeting.m_data')).to.equal(-1);
-	});
-
-	it('targeting.m_data has -2 value when moatPrebidApi has missing data', () => {
-		moatYi.importPageParams();
-
-		expect(context.get('targeting.m_data')).to.equal(-2);
+		expect(context.get('targeting.m_data')).to.equal('waiting');
 	});
 
 	it('targeting.m_data has value from moatPrebidApi', () => {
