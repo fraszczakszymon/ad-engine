@@ -35,7 +35,7 @@ class MoatYi {
 		});
 		utils.logger(logGroup, 'loading');
 		window.moatYieldReady = () => {
-			this.exportPageParams();
+			this.importPageParams();
 			moatYeildReadyResolve();
 		};
 		context.set('targeting.m_data', -1);
@@ -48,15 +48,16 @@ class MoatYi {
 	}
 
 	/**
-	 * Export page level params to Krux
+	 * Adds page params to targeting
 	 * @returns {void}
 	 */
-	exportPageParams() {
+	importPageParams() {
 		if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
 			const pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
 
-			context.set('targeting.m_data', pageParams.m_data || -2);
-			events.emit(events.MOAT_YI_READY, context.get('targeting.m_data'));
+			const isInvalid = pageParams.m_data || -2;
+			context.set('targeting.m_data', isInvalid);
+			events.emit(events.MOAT_YI_READY, `m_data=${isInvalid}`);
 			utils.logger(logGroup, 'moatYieldReady', pageParams);
 		}
 	}

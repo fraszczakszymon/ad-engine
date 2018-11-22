@@ -24,14 +24,14 @@ describe('MOAT YI service', () => {
 	});
 
 	it('targeting.m_data has -2 value when moatPrebidApi has missing data', () => {
-		moatYi.exportPageParams();
+		moatYi.importPageParams();
 
 		expect(context.get('targeting.m_data')).to.equal(-2);
 	});
 
 	it('targeting.m_data has value from moatPrebidApi', () => {
 		moatPageLevelData.m_data = 1;
-		moatYi.exportPageParams();
+		moatYi.importPageParams();
 
 		expect(context.get('targeting.m_data')).to.equal(1);
 	});
