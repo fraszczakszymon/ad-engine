@@ -4,6 +4,7 @@ import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 import { Stickiness } from './uap/themes/hivi/stickiness';
+import { StickyAd } from './sticky-ad';
 import { universalAdPackage } from './uap/universal-ad-package';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
@@ -67,6 +68,8 @@ export class StickyTLB {
 		) {
 			return;
 		}
+
+		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 
 		this.addStickinessPlugin();
 
@@ -133,12 +136,14 @@ export class StickyTLB {
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 		if (!isSticky) {
+			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
 			this.config.moveNavbar(0, SLIDE_OUT_TIME);
 			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 			this.adSlot.getElement().classList.add('theme-resolved');
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
+			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}
 
@@ -167,6 +172,7 @@ export class StickyTLB {
 	}
 
 	unstickImmediately() {
+		this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
 		scrollListener.removeCallback(this.scrollListener);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
