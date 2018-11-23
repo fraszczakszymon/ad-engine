@@ -112,6 +112,7 @@
     "linters": {
       "*.js": [
         "eslint --fix",
+        "./maintenance/detect-incorrect-usages.sh",
         "git add"
       ]
     },
