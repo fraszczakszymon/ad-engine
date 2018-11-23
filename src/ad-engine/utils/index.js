@@ -1,3 +1,4 @@
+export * from './bind-callback';
 export * from './client';
 export * from './dimensions';
 export * from './document';
@@ -9,5 +10,6 @@ export * from './query-string';
 export * from './sampler';
 export * from './script-loader';
 export * from './string-builder';
+export * from './timeout-reject';
 export * from './try-property';
 export * from './viewport-observer';

@@ -8,74 +8,8 @@ export class BaseBidder {
 		this.timeout = timeout;
 
 		this.resetState();
-		this.onResponse = () => this.onResponseCall();
 
 		utils.logger(this.logGroup, 'created');
-	}
-
-	addResponseListener(callback) {
-		this.onResponseCallbacks.push(callback);
-	}
-
-	call() {
-		this.response = false;
-		this.called = true;
-
-		if (this.callBids) {
-			this.callBids(this.onResponse);
-		}
-
-		utils.logger(this.logGroup, 'called');
-	}
-
-	createWithTimeout(func, msToTimeout = 2000) {
-		const timeout = new Promise((resolve, reject) => {
-			setTimeout(reject, msToTimeout);
-		});
-
-		return Promise.race([new Promise(func), timeout]);
-	}
-
-	getSlotBestPrice(slotName) {
-		if (this.getBestPrice) {
-			return this.getBestPrice(slotName);
-		}
-
-		return {};
-	}
-
-	getSlotTargetingParams(slotName) {
-		if (!this.called || !this.isSlotSupported(slotName) || !this.getTargetingParams) {
-			return {};
-		}
-
-		return this.getTargetingParams(slotName);
-	}
-
-	hasResponse() {
-		return this.response;
-	}
-
-	isSlotSupported(slotName) {
-		if (this.isSupported) {
-			return this.isSupported(slotName);
-		}
-
-		return false;
-	}
-
-	onResponseCall() {
-		this.response = true;
-
-		if (this.calculatePrices) {
-			this.calculatePrices();
-		}
-
-		if (this.onResponseCallbacks) {
-			this.onResponseCallbacks.start();
-		}
-
-		utils.logger(this.logGroup, 'respond');
 	}
 
 	resetState() {
@@ -88,6 +22,44 @@ export class BaseBidder {
 		});
 	}
 
+	call() {
+		this.response = false;
+		this.called = true;
+
+		this.callBids(() => this.onBidResponse());
+
+		utils.logger(this.logGroup, 'called');
+	}
+
+	onBidResponse() {
+		this.response = true;
+
+		this.calculatePrices();
+		this.onResponseCallbacks.start();
+
+		utils.logger(this.logGroup, 'respond');
+	}
+
+	createWithTimeout(func, msToTimeout = 2000) {
+		return Promise.race([new Promise(func), utils.timeoutReject(msToTimeout)]);
+	}
+
+	getSlotBestPrice(slotName) {
+		return this.getBestPrice(slotName);
+	}
+
+	getSlotTargetingParams(slotName) {
+		if (!this.called || !this.isSlotSupported(slotName)) {
+			return {};
+		}
+
+		return this.getTargetingParams(slotName);
+	}
+
+	isSlotSupported(slotName) {
+		return this.isSupported(slotName);
+	}
+
 	waitForResponse() {
 		return this.createWithTimeout((resolve) => {
 			if (this.hasResponse()) {
@@ -98,7 +70,40 @@ export class BaseBidder {
 		}, this.timeout);
 	}
 
+	hasResponse() {
+		return this.response;
+	}
+
+	addResponseListener(callback) {
+		this.onResponseCallbacks.push(callback);
+	}
+
 	wasCalled() {
 		return this.called;
+	}
+
+	/** @abstract */
+	// eslint-disable-next-line no-unused-vars
+	callBids(cb) {}
+
+	/** @abstract */
+	calculatePrices() {}
+
+	/** @abstract */
+	// eslint-disable-next-line no-unused-vars
+	getBestPrice(slotName) {
+		return {};
+	}
+
+	/** @abstract */
+	// eslint-disable-next-line no-unused-vars
+	getTargetingParams(slotName) {
+		return {};
+	}
+
+	/** @abstract */
+	// eslint-disable-next-line no-unused-vars
+	isSupported(slotName) {
+		return false;
 	}
 }

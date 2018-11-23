@@ -1,8 +1,9 @@
-import { context, slotService, utils } from '@wikia/ad-engine';
+import { context, slotService, utils, apstag, cmp } from '@wikia/ad-engine';
 import { BaseBidder } from '../base-bidder';
 
 let loaded = false;
 
+// DISCUSS: GodClass? SR?
 export class A9 extends BaseBidder {
 	constructor(bidderConfig, timeout = 2000) {
 		super('a9', bidderConfig, timeout);
@@ -14,106 +15,73 @@ export class A9 extends BaseBidder {
 		this.priceMap = {};
 		this.slotNamesMap = {};
 		this.targetingKeys = [];
-		this.timeout = timeout;
-	}
-
-	calculatePrices() {
-		Object
-			.keys(this.bids)
-			.forEach((slotName) => {
-				this.priceMap[slotName] = this.bids[slotName].amznbid;
-			});
-	}
-
-	callBids(onResponse) {
-		if (window.__cmp) {
-			window.__cmp('getConsentData', null, (consentData) => {
-				this.init(onResponse, consentData);
-			});
-		} else {
-			this.init(onResponse);
-		}
+		this.apstag = apstag;
+		this.cmp = cmp;
 	}
 
 	init(onResponse, consentData = {}) {
-		if (!loaded) {
-			this.insertScript();
-			this.configureApstag();
-
-			const apsConfig = {
-				pubID: this.amazonId,
-				videoAdServer: 'DFP',
-				deals: !!this.bidderConfig.dealsEnabled
-			};
-
-			if (this.isCMPEnabled && consentData && consentData.consentData) {
-				apsConfig.gdpr = {
-					enabled: consentData.gdprApplies,
-					consent: consentData.consentData,
-					cmpTimeout: 5000
-				};
-			}
-
-			window.apstag.init(apsConfig);
-
-			loaded = true;
-		}
+		this.initIfNotLoaded(consentData);
 
 		this.bids = {};
 		this.priceMap = {};
 
-		const a9Slots = Object
+		this.fetchBids(onResponse);
+	}
+
+	initIfNotLoaded(consentData) {
+		if (!loaded) {
+			this.insertScript();
+			this.apstag.init(this.getApsConfig(consentData));
+			loaded = true;
+		}
+	}
+
+	insertScript() {
+		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
+	}
+
+	getApsConfig(consentData) {
+		return {
+			pubID: this.amazonId,
+			videoAdServer: 'DFP',
+			deals: !!this.bidderConfig.dealsEnabled,
+			gdpr: this.getGdprIfEnabled(consentData)
+		};
+	}
+
+	getGdprIfEnabled(consentData) {
+		if (this.isCMPEnabled && consentData && consentData.consentData) {
+			return {
+				enabled: consentData.gdprApplies,
+				consent: consentData.consentData,
+				cmpTimeout: 5000
+			};
+		}
+		return undefined;
+	}
+
+	async fetchBids(onResponse) {
+		const currentBids = await this.apstag.fetchBids(this.getBidsConfig());
+		currentBids.forEach((bid) => {
+			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
+			const { keys, bidTargeting } = this.getBidTargetingAndKeys(bid);
+			this.updateBidSlot(slotName, keys, bidTargeting);
+		});
+		onResponse();
+	}
+
+	getBidsConfig() {
+		return {
+			slots: this.getA9Slots(),
+			timeout: this.timeout
+		};
+	}
+
+	getA9Slots() {
+		return Object
 			.keys(this.slots)
 			.map(key => this.createSlotDefinition(key, this.slots[key]))
 			.filter(slot => slot !== null);
-
-		window.apstag.fetchBids({
-			slots: a9Slots,
-			timeout: this.timeout
-		}, (currentBids) => {
-			currentBids.forEach((bid) => {
-				const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
-
-				let bidTargeting = bid;
-				let keys = window.apstag.targetingKeys();
-
-				if (this.bidderConfig.dealsEnabled) {
-					keys = bid.helpers.targetingKeys;
-					bidTargeting = bid.targeting;
-				}
-
-				this.bids[slotName] = {};
-				keys.forEach((key) => {
-					if (this.targetingKeys.indexOf(key) === -1) {
-						this.targetingKeys.push(key);
-					}
-					this.bids[slotName][key] = bidTargeting[key];
-				});
-			});
-
-			onResponse();
-		});
-	}
-
-	configureApstag() {
-		window.apstag = window.apstag || {};
-		window.apstag._Q = window.apstag._Q || [];
-
-		if (typeof window.apstag.init === 'undefined') {
-			window.apstag.init = (...args) => {
-				this.configureApstagCommand('i', args);
-			};
-		}
-
-		if (typeof window.apstag.fetchBids === 'undefined') {
-			window.apstag.fetchBids = (...args) => {
-				this.configureApstagCommand('f', args);
-			};
-		}
-	}
-
-	configureApstagCommand(command, args) {
-		window.apstag._Q.push([command, args]);
 	}
 
 	createSlotDefinition(slotName, config) {
@@ -140,27 +108,65 @@ export class A9 extends BaseBidder {
 		return definition;
 	}
 
+	getBidTargetingAndKeys(bid) {
+		return this.bidderConfig.dealsEnabled
+			? {
+				keys: bid.helpers.targetingKeys,
+				bidTargeting: bid.targeting
+			}
+			: {
+				keys: this.apstag.targetingKeys(),
+				bidTargeting: bid
+			};
+	}
+
+	updateBidSlot(slotName, keys, bidTargeting) {
+		this.bids[slotName] = {};
+		keys.forEach((key) => {
+			if (this.targetingKeys.indexOf(key) === -1) {
+				this.targetingKeys.push(key);
+			}
+			this.bids[slotName][key] = bidTargeting[key];
+		});
+	}
+
+	async callBids(onResponse) {
+		if (this.cmp) {
+			const consentData = await this.cmp.getConsentData(null);
+			this.init(onResponse, consentData);
+		} else {
+			this.init(onResponse);
+		}
+	}
+
+	calculatePrices() {
+		return Object
+			.keys(this.bids)
+			.forEach((slotName) => {
+				this.priceMap[slotName] = this.bids[slotName].amznbid;
+			});
+	}
+
 	getBestPrice(slotName) {
 		return this.priceMap[slotName] ? { a9: this.priceMap[slotName] } : {};
-	}
-
-	getPrices() {
-		return this.priceMap;
-	}
-
-	getTargetingKeysToReset() {
-		return this.targetingKeys;
 	}
 
 	getTargetingParams(slotName) {
 		return this.bids[slotName] || {};
 	}
 
-	insertScript() {
-		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
-	}
-
 	isSupported(slotName) {
 		return !!this.slots[slotName];
+	}
+
+	// DISCUSS: Is it used somewhere?
+	// Should mark external methods, so that we know they cannot be easily renamed
+	getPrices() {
+		return this.priceMap;
+	}
+
+	// DISCUSS: Is it used somewhere?
+	getTargetingKeysToReset() {
+		return this.targetingKeys;
 	}
 }
