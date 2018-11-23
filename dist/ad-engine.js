@@ -1289,6 +1289,16 @@ var script_loader_ScriptLoader = function () {
 
 	createClass_default()(ScriptLoader, [{
 		key: 'createScript',
+
+		/**
+   * Creates <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {HTMLScriptElement}
+   */
 		value: function createScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
@@ -1310,6 +1320,17 @@ var script_loader_ScriptLoader = function () {
 
 			return script;
 		}
+
+		/**
+   * Injects <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {Promise<any>}
+   */
+
 	}, {
 		key: 'loadScript',
 		value: function loadScript(src) {

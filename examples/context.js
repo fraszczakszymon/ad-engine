@@ -324,6 +324,10 @@ export default {
 		krux: {
 			enabled: true,
 			id: 'KPSUiAKl'
+		},
+		moatYi: {
+			enabled: true,
+			partnerCode: 'wikiaprebidheader490634422386'
 		}
 	},
 	state: {
