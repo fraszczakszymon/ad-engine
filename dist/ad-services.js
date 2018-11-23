@@ -877,7 +877,7 @@ var moat_yi_MoatYi = function () {
 				_this.importPageParams();
 				moatYeildReadyResolve();
 			};
-			ad_engine_["context"].set('targeting.m_data', -1);
+			ad_engine_["context"].set('targeting.m_data', 'waiting');
 
 			moat_yi_loadScript().then(function () {
 				ad_engine_["utils"].logger(moat_yi_logGroup, 'ready');
@@ -897,9 +897,8 @@ var moat_yi_MoatYi = function () {
 			if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
 				var pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
 
-				var isInvalid = pageParams.m_data || -2;
-				ad_engine_["context"].set('targeting.m_data', isInvalid);
-				ad_engine_["events"].emit(ad_engine_["events"].MOAT_YI_READY, 'm_data=' + isInvalid);
+				ad_engine_["context"].set('targeting.m_data', pageParams.m_data);
+				ad_engine_["events"].emit(ad_engine_["events"].MOAT_YI_READY, 'm_data=' + pageParams.m_data);
 				ad_engine_["utils"].logger(moat_yi_logGroup, 'moatYieldReady', pageParams);
 			}
 		}
