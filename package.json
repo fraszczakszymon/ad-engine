@@ -36,6 +36,7 @@
     "deepmerge": "2.2.1",
     "eslint": "5.9.0",
     "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "3.3.0",
     "eslint-plugin-import": "2.14.0",
     "husky": "1.1.4",
     "js-md5": "0.7.3",
@@ -53,6 +54,7 @@
     "nyc": "11.4.1",
     "phantomjs-polyfill-object-assign": "0.0.2",
     "phantomjs-prebuilt": "^2.1.7",
+    "prettier": "1.15.2",
     "sass-loader": "^6.0.6",
     "selenium-standalone": "6.15.2",
     "sinon": "4.1.4",
@@ -88,6 +90,9 @@
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
     "ci-check": "npm run test && npm run lint",
     "lint": "eslint . && ./maintenance/detect-incorrect-usages.sh",
+    "lintf": "eslint . --fix && ./maintenance/detect-incorrect-usages.sh",
+    "prettier": "prettier --write '**/*.{js,json,css,scss,html}'",
+    "format": "npm run prettier && npm run lintf",
     "preversion": "./maintenance/preversion.sh",
     "version": "./maintenance/version.sh",
     "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
@@ -109,6 +114,7 @@
   "lint-staged": {
     "linters": {
       "*.js": [
+        "prettier --write",
         "eslint --fix",
         "./maintenance/detect-incorrect-usages.sh",
         "git add"

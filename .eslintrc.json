@@ -1,49 +1,73 @@
 {
-    "parser": "babel-eslint",
-    "extends": "airbnb-base",
-    "rules": {
-        "class-methods-use-this": 0,
-        "comma-dangle": 0,
-        "func-names": 0,
-        "function-paren-newline": 0,
-        "import/extensions": [
-            "never",
-            {
-                "@wikia/ad-engine": "always"
-            }
-        ],
-        "import/no-unresolved": [
-            2,
-            {
-                "ignore": [
-                    "@wikia/ad-engine"
-                ]
-            }
-        ],
-        "import/prefer-default-export": 0,
-        "indent": [2, "tab", {"VariableDeclarator": 1, "SwitchCase": 1}],
-        "max-len": [2, 120, 2],
-        "no-mixed-operators": 0,
-        "no-param-reassign": 0,
-        "no-use-before-define": 0,
-        "no-restricted-globals": 0,
-        "no-tabs": 0,
-        "no-underscore-dangle": [
-            "error",
-            {
-                "allow": [
-                    "__useDefault",
-                    "_Q",
-                    "__cmp"
-                ]
-            }
-        ],
-        "one-var": 0
-    },
-    "globals": {
-        "document": false,
-        "window": false,
-        "top": false,
-        "CSSStyleDeclaration": false
-    }
+	"parser": "babel-eslint",
+	"extends": ["airbnb-base", "prettier"],
+	"rules": {
+		"class-methods-use-this": ["off"],
+		"func-names": ["off"],
+		"one-var": ["off"],
+		"no-tabs": ["off"],
+		"import/prefer-default-export": ["off"],
+		"import/extensions": [
+			"never",
+			{
+				"@wikia/ad-engine": "always"
+			}
+		],
+		"import/no-unresolved": [
+			2,
+			{
+				"ignore": ["@wikia/ad-engine"]
+			}
+		],
+		"import/order": [
+			"error",
+			{
+				"groups": ["builtin", "external", "internal"],
+				"newlines-between": "never"
+			}
+		],
+		"lines-between-class-members": [
+			"off",
+			"always",
+			{
+				"exceptAfterSingleLine": true
+			}
+		],
+		"no-underscore-dangle": [
+			"error",
+			{
+				"allow": ["__useDefault", "_Q", "__cmp"]
+			}
+		],
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "always",
+				"named": "never",
+				"asyncArrow": "always"
+			}
+		],
+		"indent": ["error", "tab"],
+		"max-len": [
+			"error",
+			{
+				"code": 100,
+				"tabWidth": 2,
+				"ignoreUrls": true,
+				"ignoreComments": false,
+				"ignoreRegExpLiterals": true,
+				"ignoreStrings": true,
+				"ignoreTemplateLiterals": true
+			}
+		],
+		"no-param-reassign": 0,
+		"no-use-before-define": 0,
+		"no-restricted-globals": 0
+	},
+	"globals": {
+		"document": false,
+		"window": false,
+		"top": false,
+		"CSSStyleDeclaration": false
+	}
 }
