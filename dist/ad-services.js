@@ -655,6 +655,7 @@ var geo_edge_GeoEdge = function () {
    */
 		value: function call() {
 			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
+			var geoEdgeAdvertisers = ad_engine_["context"].get('services.geoEdge.advs');
 
 			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
@@ -664,13 +665,7 @@ var geo_edge_GeoEdge = function () {
 
 			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
 			window.grumi = {
-				/* ToDo: advertiser ids
-    cfg: {
-    	advs: {
-    		'12345': true,
-    		'67890': true
-    	}
-    }, */
+				cfg: geoEdgeAdvertisers,
 				key: geoEdgeKey
 			};
 
