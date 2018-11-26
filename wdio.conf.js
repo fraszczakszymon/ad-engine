@@ -20,7 +20,7 @@ exports.config = {
 		utils: ['./tests/specs/utils/*.test.js'],
 		video: ['./tests/specs/video/*.test.js']
 	},
-	maxInstances: 3,
+	maxInstances: 5,
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,

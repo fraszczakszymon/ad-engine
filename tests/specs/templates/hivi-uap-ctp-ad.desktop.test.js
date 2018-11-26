@@ -14,7 +14,7 @@ describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 
 	before(() => {
 		helpers.setWindowSize();
-		browser.url(hiviUapCtp.pageLink);
+		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
@@ -23,13 +23,14 @@ describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+
+		hiviUapCtp.openUapWithState(true, hiviUapCtp.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
+		browser.url(hiviUapCtp.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.switchToFrame(hiviUapCtp.topPlayerFrame);
 		browser.waitForVisible(hiviUapCtp.videoContainer, timeouts.standard);
 		browser.click(hiviUapCtp.videoContainer);
@@ -118,7 +119,7 @@ describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 describe('Desktop HiVi UAP CTP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapCtp.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.switchToFrame(hiviUapCtp.topPlayerFrame);
 		browser.click(hiviUapCtp.videoContainer);
 		helpers.waitToStartPlaying();
@@ -194,7 +195,8 @@ describe('Desktop HiVi UAP CTP ads page: bottom leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
+		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink, adSlots.topLeaderboard);
+		// helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
@@ -202,7 +204,8 @@ describe('Desktop HiVi UAP CTP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
-		browser.refresh();
+		hiviUapCtp.openUapWithState(true, hiviUapCtp.pageLink, adSlots.topLeaderboard);
+
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
@@ -210,7 +213,7 @@ describe('Desktop HiVi UAP CTP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
+		helpers.openUrlAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		hiviUapCtp.waitForVideoToFinish();

@@ -85,13 +85,15 @@ class Helpers {
 
 	/**
 	 * Provides parameters with the example page to load and ad slot to wait for.
-	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
-	reloadPageAndWaitForSlot(adPage, adSlot) {
-		browser.reload();
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-		browser.url(adPage); // mandatory, because test page fails to load without it
+	reloadPageAndWaitForSlot(adSlot) {
+		browser.refresh();
+		browser.waitForVisible(adSlot, timeouts.standard);
+	}
+
+	openUrlAndWaitForSlot(url, adSlot) {
+		browser.url(url);
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
@@ -330,7 +332,7 @@ class Helpers {
 	 * @param width
 	 * @param height
 	 */
-	setWindowSize(width = 1920, height = 1080) {
+	setWindowSize(width = 1600, height = 900) {
 		browser.windowHandleSize({ width, height });
 	}
 

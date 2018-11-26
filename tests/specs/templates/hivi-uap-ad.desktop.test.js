@@ -14,22 +14,20 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 	before(() => {
 		helpers.setWindowSize();
-		browser.url(hiviUap.pageLink);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		hiviUap.openUapWithState(false, hiviUap.pageLink, adSlots.topLeaderboard);
 
 		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
 
 		helpers.slowScroll(500);
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
-
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		hiviUap.openUapWithState(true, hiviUap.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		browser.url(hiviUap.pageLink);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
 		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
@@ -120,12 +118,14 @@ describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	it('Check if opening the full screen player works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`,
 			timeouts.standard);
+		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForVisible(hiviUap.playerFullscreen, timeouts.standard);
 	});
 
 	it('Check if pausing the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
+		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
 			timeouts.standard, true);
@@ -133,6 +133,7 @@ describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 
 	it('Check if unmuting the video works properly', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
+		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
 		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
 			timeouts.standard, true);
@@ -185,7 +186,9 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		// helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
+		hiviUap.openUapWithState(false, hiviUap.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
@@ -193,7 +196,8 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
-		browser.refresh();
+		hiviUap.openUapWithState(true, hiviUap.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
@@ -201,7 +205,9 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		browser.url(hiviUap.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		hiviUap.waitForVideoToFinish();
@@ -260,10 +266,14 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 describe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
-		helpers.slowScroll(7000);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.slowScroll(8000);
 		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
 		helpers.waitToStartPlaying();
 		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
+	});
+	afterEach(() => {
+		browser.scroll(0, 0);
 	});
 
 	it('Check if opening the fullscreen player works properly', () => {
