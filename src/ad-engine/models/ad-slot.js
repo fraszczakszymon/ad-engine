@@ -170,4 +170,10 @@ export class AdSlot extends EventEmitter {
 		slotTweaker.hide(this);
 		this.setStatus(status);
 	}
+
+	emitEvent(eventName = null) {
+		if (eventName !== null) {
+			slotListener.emitCustomEvent(eventName, this);
+		}
+	}
 }

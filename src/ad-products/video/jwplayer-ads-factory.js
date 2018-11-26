@@ -120,12 +120,15 @@ function create(options) {
 		slot.setConfigProperty('autoplay', player.getConfig().autostart);
 
 		if (context.get('options.video.moatTracking.enabledForArticleVideos')) {
+			const partnerCode = context.get('options.video.moatTracking.articleVideosPartnerCode') ||
+				context.get('options.video.moatTracking.partnerCode');
+
 			player.on('adImpression', (event) => {
 				if (window.moatjw) {
 					window.moatjw.add({
 						adImpressionEvent: event,
-						partnerCode: context.get('options.video.moatTracking.partnerCode'),
-						player,
+						partnerCode,
+						player
 					});
 				}
 			});

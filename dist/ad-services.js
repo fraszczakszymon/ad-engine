@@ -80,25 +80,25 @@ module.exports = require("@wikia/ad-engine");
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
 /* 5 */
@@ -114,11 +114,11 @@ module.exports = require("babel-runtime/core-js/object/assign");
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(3);
+var classCallCheck_ = __webpack_require__(2);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(2);
+var createClass_ = __webpack_require__(1);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
@@ -126,11 +126,11 @@ var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(4);
+var promise_ = __webpack_require__(3);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
-var keys_ = __webpack_require__(1);
+var keys_ = __webpack_require__(4);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@wikia/ad-engine"
@@ -618,6 +618,72 @@ bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
 
 
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
+
+
+
+
+
+var geo_edge_logGroup = 'geo-edge';
+var scriptDomainId = 'd3b02estmut877';
+
+/**
+ * Injects Geo Edge Site Side Protection script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var geoEdgeLibraryUrl = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
+
+	return ad_engine_["utils"].scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
+}
+
+/**
+ * GeoEdge service handler
+ */
+
+var geo_edge_GeoEdge = function () {
+	function GeoEdge() {
+		classCallCheck_default()(this, GeoEdge);
+	}
+
+	createClass_default()(GeoEdge, [{
+		key: 'call',
+
+		/**
+   * Requests service and injects script tag
+   * @returns {Promise}
+   */
+		value: function call() {
+			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
+
+			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
+
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
+			window.grumi = {
+				/* ToDo: advertiser ids
+    cfg: {
+    	advs: {
+    		'12345': true,
+    		'67890': true
+    	}
+    }, */
+				key: geoEdgeKey
+			};
+
+			return loadScript().then(function () {
+				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
+			});
+		}
+	}]);
+
+	return GeoEdge;
+}();
+
+var geoEdge = new geo_edge_GeoEdge();
 // CONCATENATED MODULE: ./src/ad-services/krux/index.js
 
 
@@ -631,18 +697,12 @@ var krux_logGroup = 'krux';
  * Injects Krux script
  * @returns {Promise}
  */
-function loadScript() {
-	var firstScript = document.getElementsByTagName('script')[0];
+function krux_loadScript() {
 	var kruxId = ad_engine_["context"].get('services.krux.id');
-	var kruxScript = document.createElement('script');
+	var kruxLibraryUrl = '//cdn.krxd.net/controltag?confid=' + kruxId;
 
-	return new promise_default.a(function (resolve) {
-		kruxScript.type = 'text/javascript';
-		kruxScript.id = 'krux-control-tag';
-		kruxScript.async = true;
-		kruxScript.onload = resolve;
-		kruxScript.src = '//cdn.krxd.net/controltag?confid=' + kruxId;
-		firstScript.parentNode.insertBefore(kruxScript, firstScript);
+	return ad_engine_["utils"].scriptLoader.loadScript(kruxLibraryUrl, 'text/javascript', true, 'first', {
+		id: 'krux-control-tag'
 	});
 }
 
@@ -697,7 +757,7 @@ var krux_Krux = function () {
 			}
 
 			ad_engine_["utils"].logger(krux_logGroup, 'loading');
-			return loadScript().then(function () {
+			return krux_loadScript().then(function () {
 				_this.exportPageParams();
 				_this.importUserData();
 			});
@@ -763,9 +823,98 @@ var krux_Krux = function () {
 }();
 
 var krux = new krux_Krux();
+// CONCATENATED MODULE: ./src/ad-services/moat-yi/index.js
+
+
+
+
+
+var moat_yi_logGroup = 'moat-yi';
+
+ad_engine_["events"].registerEvent('MOAT_YI_READY');
+
+/**
+ * Injects MOAT YI script
+ * @returns {Promise}
+ */
+function moat_yi_loadScript() {
+	var partnerCode = ad_engine_["context"].get('services.moatYi.partnerCode');
+	var url = '//z.moatads.com/' + partnerCode + '/yi.js';
+
+	return ad_engine_["utils"].scriptLoader.loadScript(url, 'text/javascript', true, 'first');
+}
+
+/**
+ * MOAT YI service handler
+ */
+
+var moat_yi_MoatYi = function () {
+	function MoatYi() {
+		classCallCheck_default()(this, MoatYi);
+	}
+
+	createClass_default()(MoatYi, [{
+		key: 'call',
+
+		/**
+   * Requests MOAT YI service and saves page level data in targeting
+   * @returns {Promise}
+   */
+		value: function call() {
+			var _this = this;
+
+			if (!ad_engine_["context"].get('services.moatYi.enabled') || !ad_engine_["context"].get('services.moatYi.partnerCode')) {
+				ad_engine_["utils"].logger(moat_yi_logGroup, 'disabled');
+				return promise_default.a.resolve();
+			}
+
+			var moatYeildReadyResolve = void 0;
+			var promise = new promise_default.a(function (resolve) {
+				moatYeildReadyResolve = resolve;
+			});
+			ad_engine_["utils"].logger(moat_yi_logGroup, 'loading');
+			window.moatYieldReady = function () {
+				_this.importPageParams();
+				moatYeildReadyResolve();
+			};
+			ad_engine_["context"].set('targeting.m_data', 'waiting');
+
+			moat_yi_loadScript().then(function () {
+				ad_engine_["utils"].logger(moat_yi_logGroup, 'ready');
+			});
+
+			return promise;
+		}
+
+		/**
+   * Adds page params to targeting
+   * @returns {void}
+   */
+
+	}, {
+		key: 'importPageParams',
+		value: function importPageParams() {
+			if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
+				var pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
+
+				ad_engine_["context"].set('targeting.m_data', pageParams.m_data);
+				ad_engine_["events"].emit(ad_engine_["events"].MOAT_YI_READY, 'm_data=' + pageParams.m_data);
+				ad_engine_["utils"].logger(moat_yi_logGroup, 'moatYieldReady', pageParams);
+			}
+		}
+	}]);
+
+	return MoatYi;
+}();
+
+var moatYi = new moat_yi_MoatYi();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYi", function() { return moatYi; });
+
+
 
 
 

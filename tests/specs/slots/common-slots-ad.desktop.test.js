@@ -208,4 +208,3 @@ describe('Common slots: bottom leaderboard', () => {
 			.true;
 	});
 });
-

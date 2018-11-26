@@ -1,6 +1,6 @@
 import { AdEngine, context, templateService, utils, events } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
-import { PorvataTemplate } from '@wikia/ad-products';
+import { PorvataTemplate, porvataTracker } from '@wikia/ad-products';
 
 import customContext from '../../context';
 import '../../styles.scss';
@@ -9,6 +9,7 @@ context.extend(customContext);
 
 context.set('targeting.artid', '503');
 context.set('slots.incontent_boxad.disabled', false);
+context.set('options.tracking.kikimora.player', true);
 
 context.push('listeners.slot', {
 	onStatusChanged: (adSlot) => {
@@ -56,5 +57,15 @@ templateService.register(PorvataTemplate, {
 events.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());
 });
+
+events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
+	const request = new window.XMLHttpRequest();
+	const queryUrl = Object.keys(eventInfo).map(key => `${key}=${eventInfo[key]}`).join('&');
+
+	request.open('GET', `http://example.com?${queryUrl}`);
+	request.send();
+});
+
+porvataTracker.register();
 
 new AdEngine().init();

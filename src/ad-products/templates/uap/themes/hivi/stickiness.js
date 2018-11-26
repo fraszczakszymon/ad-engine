@@ -87,8 +87,8 @@ export class Stickiness extends EventEmitter {
 
 	close() {
 		this.logger('Closing and removing stickiness');
-		this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
 		this.sticky = false;
+		this.emit(Stickiness.CLOSE_CLICKED_EVENT, this.sticky);
 	}
 
 	async registerRevertStickiness() {

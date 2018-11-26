@@ -12,6 +12,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	let refreshDimensions;
 
 	before(() => {
+		helpers.setWindowSize();
 		browser.url(hiviUapStatic.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
@@ -23,6 +24,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 
 		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 	});
@@ -30,7 +32,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	afterEach(() => {
@@ -88,9 +90,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 
 	it('Check if closing top leaderboard works', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		expect(browser.element(adSlots.topLeaderboard).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(hiviUapStatic.slotCollapsed, 'Top leaderboard has not been closed');
+		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 
 	it('Check visual regression in top leaderboard (default)', () => {
@@ -200,7 +200,7 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	it('Check visual regression in bottom leaderboard (resolved)', () => {
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.scroll(0, 7000);
-		browser.waitForVisible(adSlots.bottomLeaderboard);
+		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.checkElement(adSlots.bottomLeaderboard);
 	});
 });

@@ -142,6 +142,9 @@ export default {
 				},
 				onImpressionViewable(adSlot) {
 					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
+				},
+				onCustomEvent(adSlot, data) {
+					console.log('👁 Custom listener: onCustomEvent', adSlot.getSlotName(), data.status);
 				}
 			}
 		]
@@ -325,6 +328,10 @@ export default {
 		krux: {
 			enabled: true,
 			id: 'KPSUiAKl'
+		},
+		moatYi: {
+			enabled: true,
+			partnerCode: 'wikiaprebidheader490634422386'
 		}
 	},
 	state: {

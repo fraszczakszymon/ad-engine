@@ -1281,6 +1281,7 @@ var sampler = new sampler_Sampler();
 
 
 
+
 var script_loader_ScriptLoader = function () {
 	function ScriptLoader() {
 		classCallCheck_default()(this, ScriptLoader);
@@ -1288,33 +1289,61 @@ var script_loader_ScriptLoader = function () {
 
 	createClass_default()(ScriptLoader, [{
 		key: 'createScript',
+
+		/**
+   * Creates <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {HTMLScriptElement}
+   */
 		value: function createScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			var script = document.createElement('script');
 
-			node = node || document.body.lastChild;
+			node = node === 'first' ? document.getElementsByTagName('script')[0] : node || document.body.lastChild;
 			script.async = isAsync;
 			script.type = type;
 			script.src = src;
+
+			keys_default()(parameters).forEach(function (parameter) {
+				script[parameter] = parameters[parameter];
+			});
+
 			node.parentNode.insertBefore(script, node);
 
 			return script;
 		}
+
+		/**
+   * Injects <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {Promise<any>}
+   */
+
 	}, {
 		key: 'loadScript',
 		value: function loadScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
+			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var _this = this;
 
-			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 			var node = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+			var parameters = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
 			return new promise_default.a(function (resolve, reject) {
-				var script = _this.createScript(src, type, isAsync, node);
+				var script = _this.createScript(src, type, isAsync, node, parameters);
 
 				script.onload = resolve;
 				script.onerror = reject;
@@ -3038,7 +3067,8 @@ function getAdType(event, adSlot) {
 }
 
 function slot_listener_getData(adSlot, _ref) {
-	var adType = _ref.adType;
+	var adType = _ref.adType,
+	    status = _ref.status;
 
 	return {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
@@ -3046,7 +3076,7 @@ function slot_listener_getData(adSlot, _ref) {
 		creative_id: adSlot.creativeId,
 		creative_size: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
-		status: adSlot.getStatus(),
+		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
@@ -3134,6 +3164,11 @@ var slot_listener_SlotListener = function () {
 		value: function emitStatusChanged(adSlot) {
 			slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
 			slot_listener_dispatch('onStatusChanged', adSlot);
+		}
+	}, {
+		key: 'emitCustomEvent',
+		value: function emitCustomEvent(event, adSlot) {
+			slot_listener_dispatch('onCustomEvent', adSlot, { status: event });
 		}
 	}]);
 
@@ -3351,6 +3386,15 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			slotTweaker.hide(this);
 			this.setStatus(status);
+		}
+	}, {
+		key: 'emitEvent',
+		value: function emitEvent() {
+			var eventName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+			if (eventName !== null) {
+				slotListener.emitCustomEvent(eventName, this);
+			}
 		}
 	}, {
 		key: 'targeting',
@@ -4463,6 +4507,7 @@ var slot_tweaker_SlotTweaker = function () {
 		key: 'makeResponsive',
 		value: function makeResponsive(adSlot) {
 			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+			var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var slotContainer = this.getContainer(adSlot);
 
@@ -4478,7 +4523,9 @@ var slot_tweaker_SlotTweaker = function () {
 				}
 
 				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
-				container.style.paddingBottom = 100 / aspectRatio + '%';
+				if (paddingBottom) {
+					container.style.paddingBottom = 100 / aspectRatio + '%';
+				}
 				return iframe;
 			});
 		}
@@ -5194,8 +5241,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v19.6.0');
-logger('ad-engine', 'v19.6.0');
+set_default()(window, versionField, 'v20.1.0');
+logger('ad-engine', 'v20.1.0');
 
 
 

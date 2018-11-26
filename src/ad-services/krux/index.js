@@ -7,17 +7,11 @@ const logGroup = 'krux';
  * @returns {Promise}
  */
 function loadScript() {
-	const firstScript = document.getElementsByTagName('script')[0];
 	const kruxId = context.get('services.krux.id');
-	const kruxScript = document.createElement('script');
+	const kruxLibraryUrl = `//cdn.krxd.net/controltag?confid=${kruxId}`;
 
-	return new Promise((resolve) => {
-		kruxScript.type = 'text/javascript';
-		kruxScript.id = 'krux-control-tag';
-		kruxScript.async = true;
-		kruxScript.onload = resolve;
-		kruxScript.src = `//cdn.krxd.net/controltag?confid=${kruxId}`;
-		firstScript.parentNode.insertBefore(kruxScript, firstScript);
+	return utils.scriptLoader.loadScript(kruxLibraryUrl, 'text/javascript', true, 'first', {
+		id: 'krux-control-tag'
 	});
 }
 

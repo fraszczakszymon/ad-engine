@@ -13,6 +13,8 @@ class Helpers {
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
 		this.wrapper = '.wrapper:first-of-type';
+		this.slotResult = 'data-slot-result';
+		this.slotCollapsed = 'collapse';
 	}
 
 	/**
@@ -139,6 +141,18 @@ class Helpers {
 	}
 
 	/**
+	 * Waits until the slot receives the "collapse" value as its result attribute.
+	 * @param adSlot ad slot we want to check
+	 */
+	waitForCollapsed(adSlot) {
+		browser.waitUntil(
+			() => browser.getAttribute(adSlot, this.slotResult) === this.slotCollapsed,
+			timeouts.standard,
+			'Slot did not collapse',
+			timeouts.interval);
+	}
+
+	/**
 	 * Waits for the adslot\'s attribute "Viewed" to equal "true".
 	 * @param adSlot ad slot waiting for bool value
 	 */
@@ -193,6 +207,17 @@ class Helpers {
 	}
 
 	/**
+	 * Calculates height based on the actual width and given ratio.
+	 * @param adSlot slot to measure
+	 * @param heightRatio ratio to use as a divider
+	 * @returns {number} slot\'s height
+	 */
+	calculateHeightWithRatio(adSlot, heightRatio) {
+		const slotSize = browser.getElementSize(adSlot);
+		return slotSize.width / heightRatio;
+	}
+
+	/**
 	 * Checks the slot\'s dimensions using ratio to measure height.
 	 * @param adSlot slot dimensions are taken from
 	 * @param expectedWidth correct slot\'s width
@@ -211,7 +236,7 @@ class Helpers {
 			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (Math.abs(slotSize.height - expectedWidth / heightRatio) > aspectRatioDelta) {
+		if (Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) > aspectRatioDelta) {
 			result = false;
 			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
 		}
@@ -229,6 +254,7 @@ class Helpers {
 	 * else returns true. captured errors: returns string with errors
 	 */
 	checkUAPSizeSlotRatio(adSlot, heightRatio) {
+		this.waitForExpanded(adSlot);
 		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
 	}
 
@@ -274,10 +300,14 @@ class Helpers {
 	 * Checks slot\'s status after making sure it exists in the code.
 	 * Returns information about visibility in general, visibility in viewport and about being enabled.
 	 * @param adSlot slot to wait for
+	 * @param withScroll optional scroll to element
 	 * @returns {{visible: (Boolean|Boolean[]), inViewport: (Boolean|Boolean[]), enabled: (Boolean|Boolean[])}} slot statuses
 	 */
-	getSlotStatus(adSlot) {
+	getSlotStatus(adSlot, withScroll = false) {
 		browser.waitForExist(adSlot, timeouts.standard);
+		if (withScroll) {
+			browser.scroll(adSlot);
+		}
 		return {
 			visible: browser.isVisible(adSlot),
 			inViewport: browser.isVisibleWithinViewport(adSlot),
@@ -293,6 +323,10 @@ class Helpers {
 		const frame = browser.element(frameID).value;
 
 		browser.frame(frame);
+	}
+
+	setWindowSize(width = 1920, height = 1080) {
+		browser.windowHandleSize({ width, height });
 	}
 }
 
