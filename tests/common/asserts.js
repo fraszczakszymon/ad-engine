@@ -1,7 +1,6 @@
+import { expect } from 'chai';
 import adSlots from './ad-slots';
 import helpers from './helpers';
-
-const { expect } = require('chai');
 
 class Asserts {
 	assertSlotLineItemId(slotName, expectedLineItemId) {

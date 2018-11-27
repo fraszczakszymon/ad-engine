@@ -1,8 +1,7 @@
 /* global browser */
 /* eslint-disable import/no-extraneous-dependencies */
-
-const merge = require('deepmerge');
-const wdioConf = require('./wdio.conf.js');
+import merge from 'deepmerge';
+import wdioConf from './wdio.conf.js';
 
 global.wdioEnvironment = 'desktop';
 

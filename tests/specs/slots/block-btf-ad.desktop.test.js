@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import blockBtfAd from '../../pages/block-btf-ad.page';
 import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
 
-const { expect } = require('chai');
 
 describe('Block BTF ads page: incontent boxad', () => {
 	let adStatus;

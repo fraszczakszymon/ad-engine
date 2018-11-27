@@ -1,9 +1,8 @@
+import { expect } from 'chai';
 import hiviUapJwp from '../../pages/hivi-uap-jwp-ad.page';
 import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
 
 describe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {

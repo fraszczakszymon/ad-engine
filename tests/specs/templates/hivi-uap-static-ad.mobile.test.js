@@ -1,9 +1,8 @@
+import { expect } from 'chai';
 import hiviUapStatic from '../../pages/hivi-uap-static-ad.page';
 import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
 
 describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;

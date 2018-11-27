@@ -1,9 +1,8 @@
+import { expect } from 'chai';
 import viewportConflictAd from '../../pages/viewport-conflict-ad.page';
 import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
 
 describe('Viewport conflict ads page: top boxad', () => {
 	before(() => {
