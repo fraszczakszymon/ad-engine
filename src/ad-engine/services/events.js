@@ -9,6 +9,7 @@ class EventService extends EventEmitter {
 	BEFORE_PAGE_CHANGE_EVENT = Symbol('BEFORE_PAGE_CHANGE_EVENT');
 	PAGE_CHANGE_EVENT = Symbol('PAGE_CHANGE_EVENT');
 	PAGE_RENDER_EVENT = Symbol('PAGE_RENDER_EVENT');
+	VIDEO_AD_REQUESTED = Symbol('VIDEO_AD_REQUESTED');
 
 	beforePageChange(...args) {
 		this.emit(this.BEFORE_PAGE_CHANGE_EVENT, ...args);
