@@ -13,7 +13,7 @@ describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
-		helpers.setWindowSize();
+		helpers.setDefaultWindowSize();
 		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
@@ -196,7 +196,6 @@ describe('Desktop HiVi UAP CTP ads page: bottom leaderboard', () => {
 
 	before(() => {
 		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink, adSlots.topLeaderboard);
-		// helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 

@@ -7,7 +7,6 @@ const wdioConf = require('./wdio.conf.js');
 global.wdioEnvironment = 'desktop';
 
 exports.config = merge(wdioConf.config, {
-
 	specs: [
 		'tests/specs/**/*.desktop.test.js'
 	],

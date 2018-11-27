@@ -24,7 +24,8 @@ class Helpers {
 	 */
 	waitForUrl(newUrl) {
 		browser.waitUntil(
-			() => RegExp(newUrl).test(browser.getUrl()),
+			() => RegExp(newUrl)
+				.test(browser.getUrl()),
 			timeouts.newUrlTimeout,
 			'expected new page after 10 seconds',
 			timeouts.interval,
@@ -129,7 +130,8 @@ class Helpers {
 	 * @returns {String|String[]|*|(WebdriverIO.Client<string> & WebdriverIO.Client<null> & string & null)|(WebdriverIO.Client<string[]> & WebdriverIO.Client<null[]> & string[] & null[])|WebdriverIO.Client<any>|string}
 	 */
 	getLineItemId(adSlot) {
-		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
+		return browser.element(adSlot)
+			.getAttribute(adSlots.lineItemIdAttribute);
 	}
 
 	/**
@@ -293,7 +295,8 @@ class Helpers {
 		browser.switchTab(tabIds[1]);
 		this.waitForUrl(url);
 
-		if (browser.getUrl().includes(url)) {
+		if (browser.getUrl()
+			.includes(url)) {
 			result = true;
 		}
 		this.closeNewTabs();
@@ -330,13 +333,24 @@ class Helpers {
 	}
 
 	/**
-	 * Set window size to full HD.
+	 * Set window size to default
 	 * @param width
 	 * @param height
 	 */
-	setWindowSize(width = 1600, height = 900) {
-		browser.windowHandleSize({ width, height });
+	setDefaultWindowSize(width = 1600, height = 900) {
+		browser.windowHandleSize({
+			width,
+			height
+		});
 	}
+
+	isSlotHeightRatioCorrect(adSlot, ratio) {
+		const slotActualHeight = browser.getElementSize(adSlot, 'height');
+		const slotExpectedHeight = this.calculateHeightWithRatio(adSlot, ratio);
+
+		return slotActualHeight >= (slotExpectedHeight - comparisonOffsetPx);
+	}
+
 
 	/**
 	 * Takes slot size and its ratio and waits for the desired dimensions.
@@ -344,10 +358,12 @@ class Helpers {
 	 * @param ratio value to divide by
 	 */
 	waitForResolved(adSlot, ratio) {
-		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') >= (this.calculateHeightWithRatio(adSlot, ratio) - comparisonOffsetPx),
+		browser.waitUntil(
+			() => this.isSlotHeightRatioCorrect(adSlot, ratio),
 			timeouts.standard,
 			'Dimensions not changed',
-			timeouts.interval);
+			timeouts.interval
+		);
 	}
 }
 
