@@ -21,7 +21,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
@@ -31,6 +31,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.scroll(0, 0);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 

@@ -5,6 +5,7 @@ const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
 const aspectRatioDelta = 3;
+const comparisonOffsetPx = 5;
 
 class Helpers {
 	constructor() {
@@ -23,7 +24,8 @@ class Helpers {
 	 */
 	waitForUrl(newUrl) {
 		browser.waitUntil(
-			() => RegExp(newUrl).test(browser.getUrl()),
+			() => RegExp(newUrl)
+				.test(browser.getUrl()),
 			timeouts.newUrlTimeout,
 			'expected new page after 10 seconds',
 			timeouts.interval,
@@ -85,13 +87,15 @@ class Helpers {
 
 	/**
 	 * Provides parameters with the example page to load and ad slot to wait for.
-	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
-	reloadPageAndWaitForSlot(adPage, adSlot) {
-		browser.reload();
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-		browser.url(adPage); // mandatory, because test page fails to load without it
+	reloadPageAndWaitForSlot(adSlot) {
+		browser.refresh();
+		browser.waitForVisible(adSlot, timeouts.standard);
+	}
+
+	openUrlAndWaitForSlot(url, adSlot) {
+		browser.url(url);
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
@@ -111,6 +115,7 @@ class Helpers {
 	 * @param adSlot ad slot that should receive the parameter
 	 */
 	waitForLineItemIdAttribute(adSlot) {
+		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
 			() => browser.element(adSlot)
 				.getAttribute(adSlots.lineItemIdAttribute) !== null,
@@ -125,7 +130,8 @@ class Helpers {
 	 * @returns {String|String[]|*|(WebdriverIO.Client<string> & WebdriverIO.Client<null> & string & null)|(WebdriverIO.Client<string[]> & WebdriverIO.Client<null[]> & string[] & null[])|WebdriverIO.Client<any>|string}
 	 */
 	getLineItemId(adSlot) {
-		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
+		return browser.element(adSlot)
+			.getAttribute(adSlots.lineItemIdAttribute);
 	}
 
 	/**
@@ -289,7 +295,8 @@ class Helpers {
 		browser.switchTab(tabIds[1]);
 		this.waitForUrl(url);
 
-		if (browser.getUrl().includes(url)) {
+		if (browser.getUrl()
+			.includes(url)) {
 			result = true;
 		}
 		this.closeNewTabs();
@@ -325,8 +332,38 @@ class Helpers {
 		browser.frame(frame);
 	}
 
-	setWindowSize(width = 1920, height = 1080) {
-		browser.windowHandleSize({ width, height });
+	/**
+	 * Set window size to default
+	 * @param width
+	 * @param height
+	 */
+	setDefaultWindowSize(width = 1600, height = 900) {
+		browser.windowHandleSize({
+			width,
+			height
+		});
+	}
+
+	isSlotHeightRatioCorrect(adSlot, ratio) {
+		const slotActualHeight = browser.getElementSize(adSlot, 'height');
+		const slotExpectedHeight = this.calculateHeightWithRatio(adSlot, ratio);
+
+		return slotActualHeight >= (slotExpectedHeight - comparisonOffsetPx);
+	}
+
+
+	/**
+	 * Takes slot size and its ratio and waits for the desired dimensions.
+	 * @param adSlot Slot to take dimensions from
+	 * @param ratio value to divide by
+	 */
+	waitForResolved(adSlot, ratio) {
+		browser.waitUntil(
+			() => this.isSlotHeightRatioCorrect(adSlot, ratio),
+			timeouts.standard,
+			'Dimensions not changed',
+			timeouts.interval
+		);
 	}
 }
 

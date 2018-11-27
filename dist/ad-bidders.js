@@ -2146,6 +2146,10 @@ var biddersRegistry = {};
 var realSlotPrices = {};
 var ad_bidders_logGroup = 'bidders';
 
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_REQUESTED, function (adSlot) {
+	resetTargetingKeys(adSlot.getSlotName());
+});
+
 function applyTargetingParams(slotName, targeting) {
 	keys_default()(targeting).forEach(function (key) {
 		return ad_engine_["context"].set('slots.' + slotName + '.targeting.' + key, targeting[key]);

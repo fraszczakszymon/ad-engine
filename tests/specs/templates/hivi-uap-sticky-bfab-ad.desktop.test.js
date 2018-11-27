@@ -55,7 +55,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	let videoFinishedDimensions;
 
 	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
+		hiviUapStickyBfab.openUapWithState(false, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
@@ -63,15 +63,15 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
-		browser.refresh();
+		hiviUapStickyBfab.openUapWithState(true, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
 		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard,
 			helpers.wrapper,
 			adSlots.resolvedDesktopRatio);
-
-		helpers.reloadPageAndWaitForSlot(hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
+		browser.url(hiviUapStickyBfab.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 3000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		hiviUapStickyBfab.waitForVideoToFinish();
@@ -81,7 +81,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	});
 
 	beforeEach(() => {
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
+		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard, true);
 	});
 
 	afterEach(() => {
