@@ -7,20 +7,20 @@ const biddersRegistry = {};
 const realSlotPrices = {};
 const logGroup = 'bidders';
 
+events.on(events.VIDEO_AD_REQUESTED, (adSlot) => {
+	resetTargetingKeys(adSlot.getSlotName());
+});
+
 function applyTargetingParams(slotName, targeting) {
-	Object
-		.keys(targeting)
-		.forEach(
-			key => context.set(`slots.${slotName}.targeting.${key}`, targeting[key])
-		);
+	Object.keys(targeting).forEach((key) =>
+		context.set(`slots.${slotName}.targeting.${key}`, targeting[key]),
+	);
 }
 
 function forEachBidder(callback) {
-	Object
-		.keys(biddersRegistry)
-		.forEach((bidderName) => {
-			callback(biddersRegistry[bidderName]);
-		});
+	Object.keys(biddersRegistry).forEach((bidderName) => {
+		callback(biddersRegistry[bidderName]);
+	});
 }
 
 function getBidParameters(slotName) {
@@ -30,11 +30,9 @@ function getBidParameters(slotName) {
 		if (bidder && bidder.wasCalled()) {
 			const params = bidder.getSlotTargetingParams(slotName);
 
-			Object
-				.keys(params)
-				.forEach((key) => {
-					slotParams[key] = params[key];
-				});
+			Object.keys(params).forEach((key) => {
+				slotParams[key] = params[key];
+			});
 		}
 	});
 
@@ -48,11 +46,9 @@ function getCurrentSlotPrices(slotName) {
 		if (bidder && bidder.isSlotSupported(slotName)) {
 			const priceFromBidder = bidder.getSlotBestPrice(slotName);
 
-			Object
-				.keys(priceFromBidder)
-				.forEach((bidderName) => {
-					slotPrices[bidderName] = priceFromBidder[bidderName];
-				});
+			Object.keys(priceFromBidder).forEach((bidderName) => {
+				slotPrices[bidderName] = priceFromBidder[bidderName];
+			});
 		}
 	});
 
@@ -64,13 +60,11 @@ function getDfpSlotPrices(slotName) {
 }
 
 function hasAllResponses() {
-	const missingBidders = Object
-		.keys(biddersRegistry)
-		.filter((bidderName) => {
-			const bidder = biddersRegistry[bidderName];
+	const missingBidders = Object.keys(biddersRegistry).filter((bidderName) => {
+		const bidder = biddersRegistry[bidderName];
 
-			return !bidder.hasResponse();
-		});
+		return !bidder.hasResponse();
+	});
 
 	return missingBidders.length === 0;
 }
@@ -132,5 +126,5 @@ export const bidders = {
 	hasAllResponses,
 	prebidHelper,
 	requestBids,
-	updateSlotTargeting
+	updateSlotTargeting,
 };

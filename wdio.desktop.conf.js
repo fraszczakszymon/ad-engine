@@ -4,22 +4,26 @@
 const merge = require('deepmerge');
 const wdioConf = require('./wdio.conf.js');
 
-exports.config = merge(wdioConf.config, {
-	specs: [
-		'tests/specs/**/*.desktop.test.js'
-	],
-	capabilities: [
-		{
-			browserName: 'chrome',
-			loggingPrefs: {
-				browser: 'ALL'
-			}
-		}
-	],
-	before() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
+global.wdioEnvironment = 'desktop';
+
+exports.config = merge(
+	wdioConf.config,
+	{
+		specs: ['tests/specs/**/*.desktop.test.js'],
+		capabilities: [
+			{
+				browserName: 'chrome',
+				loggingPrefs: {
+					browser: 'ALL',
+				},
+			},
+		],
+		before() {
+			browser.windowHandleSize({ width: 1600, height: 900 });
+		},
+		after() {
+			browser.windowHandleSize({ width: 1600, height: 900 });
+		},
 	},
-	after() {
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-	}
-}, { clone: false });
+	{ clone: false },
+);

@@ -23,13 +23,15 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton).includes('Load UAP:JWP ('),
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		this.waitForJWPAdVideoToFinish();
 		browser.waitUntil(
-			() => browser.getText(this.loadAdsButton) === ('Load UAP:JWP'),
+			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
 			timeouts.standard,
 			'Ads not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -64,7 +66,8 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		browser.scroll(adSlot);
 	}
@@ -75,12 +78,13 @@ class HiviUapJwp {
 	 * @param adSlot slot we want to be visible
 	 */
 	waitForAdsAfterClickAndScrollToAdSlotOnDesktop(adSlot) {
-		browser.waitForVisible(this.loadAdsButton);
+		browser.waitForVisible(this.loadAdsButton, timeouts.standard);
 		browser.waitUntil(
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlot, timeouts.standard);

@@ -15,22 +15,32 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 		browser.url(hiviUapStatic.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultMobileRatio);
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.defaultMobileRatio,
+		);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedMobileRatio,
+		);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedMobileRatio,
+		);
 	});
 
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.scroll(0, 0);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
@@ -39,52 +49,35 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after scroll are correct', () => {
-		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(scrollDimensions.status, scrollDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(hiviUapStatic.firstCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			hiviUapStatic.firstCall,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if navbar is visible in viewport', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible').to.be.true;
 	});
 
 	it('Check if redirect on tap works', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check if closing top leaderboard works', () => {
@@ -111,9 +104,10 @@ describe('Mobile HiVi UAP static ads page: top boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topBoxad))
-			.to
-			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topBoxad)).to.equal(
+			hiviUapStatic.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -126,8 +120,9 @@ describe('Mobile HiVi UAP static ads page: incontent boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUapStatic.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });

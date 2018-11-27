@@ -12,21 +12,29 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	let refreshDimensions;
 
 	before(() => {
-		helpers.setWindowSize();
-		browser.url(hiviUapStatic.pageLink);
+		helpers.setDefaultWindowSize();
+		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
+		defaultDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.defaultDesktopRatio,
+		);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		scrollDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedDesktopRatio,
+		);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		refreshDimensions = helpers.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedDesktopRatio,
+		);
 	});
 
 	beforeEach(() => {
@@ -40,52 +48,35 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after scroll are correct', () => {
-		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(scrollDimensions.status, scrollDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(hiviUapStatic.firstCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			hiviUapStatic.firstCall,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if navbar is visible in viewport', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible').to.be.true;
 	});
 
 	it('Check if redirect on click works', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check if closing top leaderboard works', () => {
@@ -94,7 +85,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check visual regression in top leaderboard (default)', () => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.checkElement(adSlots.topLeaderboard);
 	});
 
@@ -116,9 +107,10 @@ describe('Desktop HiVi UAP static ads page: top boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topBoxad))
-			.to
-			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topBoxad)).to.equal(
+			hiviUapStatic.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -131,9 +123,10 @@ describe('Desktop HiVi UAP static ads page: incontent boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUapStatic.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -143,19 +136,25 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	let refreshDimensions;
 
 	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
-		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
-			adSlots.defaultDesktopRatio);
+		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(
+			adSlots.bottomLeaderboard,
+			helpers.wrapper,
+			adSlots.defaultDesktopRatio,
+		);
 
-		browser.refresh();
+		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
-		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
-			adSlots.resolvedDesktopRatio);
+		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(
+			adSlots.bottomLeaderboard,
+			helpers.wrapper,
+			adSlots.resolvedDesktopRatio,
+		);
 	});
 
 	beforeEach(() => {
@@ -163,38 +162,27 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
-		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
-			.to
-			.equal(hiviUapStatic.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.bottomLeaderboard)).to.equal(
+			hiviUapStatic.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if redirect on click works', () => {
-		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check visual regression in bottom leaderboard (resolved)', () => {

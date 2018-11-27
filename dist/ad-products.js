@@ -5374,6 +5374,7 @@ function create(options) {
 			});
 
 			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_REQUESTED, slot);
 
 			// TODO: set slot status so it's tracked to adengadinfo
 			// Currently it isn't working:

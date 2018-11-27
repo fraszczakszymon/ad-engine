@@ -1,10 +1,11 @@
-import { timeouts } from '../common/timeouts';
+import { timeouts } from "./timeouts";
 import adSlots from './ad-slots';
 
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
 const aspectRatioDelta = 3;
+const comparisonOffsetPx = 5;
 
 class Helpers {
 	constructor() {
@@ -85,13 +86,15 @@ class Helpers {
 
 	/**
 	 * Provides parameters with the example page to load and ad slot to wait for.
-	 * @param adPage example page with ads to load
 	 * @param adSlot ad slot to wait for visible
 	 */
-	reloadPageAndWaitForSlot(adPage, adSlot) {
-		browser.reload();
-		browser.windowHandleSize({ width: 1920, height: 1080 });
-		browser.url(adPage); // mandatory, because test page fails to load without it
+	reloadPageAndWaitForSlot(adSlot) {
+		browser.refresh();
+		browser.waitForVisible(adSlot, timeouts.standard);
+	}
+
+	openUrlAndWaitForSlot(url, adSlot) {
+		browser.url(url);
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
@@ -111,12 +114,13 @@ class Helpers {
 	 * @param adSlot ad slot that should receive the parameter
 	 */
 	waitForLineItemIdAttribute(adSlot) {
+		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(adSlots.lineItemIdAttribute) !== null,
+			() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null,
 			timeouts.standard,
 			'No line item id attribute',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -137,7 +141,8 @@ class Helpers {
 			() => browser.getElementSize(adSlot, 'height') > 0,
 			timeouts.standard,
 			'Element not expanded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -149,7 +154,8 @@ class Helpers {
 			() => browser.getAttribute(adSlot, this.slotResult) === this.slotCollapsed,
 			timeouts.standard,
 			'Slot did not collapse',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -158,11 +164,11 @@ class Helpers {
 	 */
 	waitForViewed(adSlot) {
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(adSlots.viewedAttribute) === adSlots.adViewed,
+			() => browser.element(adSlot).getAttribute(adSlots.viewedAttribute) === adSlots.adViewed,
 			timeouts.standard,
 			'Slot has not been viewed',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -172,11 +178,11 @@ class Helpers {
 	 */
 	waitForResult(adSlot, result) {
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(adSlots.resultAttribute) === result,
+			() => browser.element(adSlot).getAttribute(adSlots.resultAttribute) === result,
 			timeouts.standard,
 			`Result mismatch: expected ${result}`,
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -236,9 +242,14 @@ class Helpers {
 			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) > aspectRatioDelta) {
+		if (
+			Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) >
+			aspectRatioDelta
+		) {
 			result = false;
-			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
+			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${
+				slotSize.height
+			}\n`;
 		}
 		return {
 			status: result,
@@ -267,7 +278,11 @@ class Helpers {
 	 * else returns true. captured errors: returns string with errors
 	 */
 	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio) {
-		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio);
+		return this.checkSlotRatio(
+			adSlot,
+			browser.getElementSize(sizeDeterminant, 'width'),
+			heightRatio,
+		);
 	}
 
 	/**
@@ -311,7 +326,7 @@ class Helpers {
 		return {
 			visible: browser.isVisible(adSlot),
 			inViewport: browser.isVisibleWithinViewport(adSlot),
-			enabled: browser.isEnabled(adSlot)
+			enabled: browser.isEnabled(adSlot),
 		};
 	}
 
@@ -325,8 +340,37 @@ class Helpers {
 		browser.frame(frame);
 	}
 
-	setWindowSize(width = 1920, height = 1080) {
-		browser.windowHandleSize({ width, height });
+	/**
+	 * Set window size to default
+	 * @param width
+	 * @param height
+	 */
+	setDefaultWindowSize(width = 1600, height = 900) {
+		browser.windowHandleSize({
+			width,
+			height,
+		});
+	}
+
+	isSlotHeightRatioCorrect(adSlot, ratio) {
+		const slotActualHeight = browser.getElementSize(adSlot, 'height');
+		const slotExpectedHeight = this.calculateHeightWithRatio(adSlot, ratio);
+
+		return slotActualHeight >= slotExpectedHeight - comparisonOffsetPx;
+	}
+
+	/**
+	 * Takes slot size and its ratio and waits for the desired dimensions.
+	 * @param adSlot Slot to take dimensions from
+	 * @param ratio value to divide by
+	 */
+	waitForResolved(adSlot, ratio) {
+		browser.waitUntil(
+			() => this.isSlotHeightRatioCorrect(adSlot, ratio),
+			timeouts.standard,
+			'Dimensions not changed',
+			timeouts.interval,
+		);
 	}
 }
 
