@@ -131,7 +131,7 @@ export class A9 extends BaseBidder {
 	}
 
 	async callBids(onResponse) {
-		if (this.cmp) {
+		if (this.cmp.exists) {
 			const consentData = await this.cmp.getConsentData(null);
 			this.init(onResponse, consentData);
 		} else {
