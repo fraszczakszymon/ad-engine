@@ -31,6 +31,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.scroll(0, 0);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 

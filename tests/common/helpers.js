@@ -5,6 +5,7 @@ const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
 const timeToStartPlaying = 3000;
 const aspectRatioDelta = 3;
+const comparisonOffsetPx = 5;
 
 class Helpers {
 	constructor() {
@@ -113,6 +114,7 @@ class Helpers {
 	 * @param adSlot ad slot that should receive the parameter
 	 */
 	waitForLineItemIdAttribute(adSlot) {
+		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
 			() => browser.element(adSlot)
 				.getAttribute(adSlots.lineItemIdAttribute) !== null,
@@ -342,8 +344,7 @@ class Helpers {
 	 * @param ratio value to divide by
 	 */
 	waitForResolved(adSlot, ratio) {
-		browser.waitUntil(
-			() => browser.getElementSize(adSlot, 'height') >= this.calculateHeightWithRatio(adSlot, ratio),
+		browser.waitUntil(() => browser.getElementSize(adSlot, 'height') >= (this.calculateHeightWithRatio(adSlot, ratio) - comparisonOffsetPx),
 			timeouts.standard,
 			'Dimensions not changed',
 			timeouts.interval);
