@@ -84,7 +84,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
-		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
+		porvata.openWithSetAutoplay(porvata.pageLink, false);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });

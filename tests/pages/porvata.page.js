@@ -1,3 +1,5 @@
+import helpers from '../common/helpers';
+
 class Porvata {
 	constructor() {
 		this.pageLink = 'video/porvata/';
@@ -32,6 +34,11 @@ class Porvata {
 		}
 		return `${this.autoplayLink}=0`;
 	};
+
+	openWithSetAutoplay(url, autoplay) {
+		const finalLink = helpers.addParametersToUrl(url, [this.turnAutoplay(autoplay)]);
+		browser.url(finalLink);
+	}
 }
 
 export default new Porvata();
