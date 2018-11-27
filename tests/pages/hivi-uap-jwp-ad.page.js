@@ -75,7 +75,7 @@ class HiviUapJwp {
 	 * @param adSlot slot we want to be visible
 	 */
 	waitForAdsAfterClickAndScrollToAdSlotOnDesktop(adSlot) {
-		browser.waitForVisible(this.loadAdsButton);
+		browser.waitForVisible(this.loadAdsButton, timeouts.standard);
 		browser.waitUntil(
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,

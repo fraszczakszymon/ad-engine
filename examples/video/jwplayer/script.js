@@ -1,4 +1,5 @@
 import { context, events, utils } from '@wikia/ad-engine';
+import { bidders } from '@wikia/ad-bidders';
 import { jwplayerAdsFactory } from '@wikia/ad-products';
 import 'jwplayer-fandom/dist/wikiajwplayer.js';
 
@@ -15,6 +16,7 @@ context.set('targeting.skin', 'oasis');
 context.set('custom.device', utils.client.getDeviceType());
 context.set('custom.adLayout', 'article');
 context.set('options.tracking.kikimora.player', true);
+context.set('bidders.prebid.enabled', !!utils.queryString.get('wikia_video_adapter'));
 context.set('options.video.isMidrollEnabled', utils.queryString.get('midroll') === '1');
 context.set('options.video.isPostrollEnabled', utils.queryString.get('postroll') === '1');
 context.set('options.video.adsOnNextVideoFrequency', parseInt(utils.queryString.get('capping'), 10) || 3);
@@ -32,36 +34,67 @@ events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	request.send();
 });
 
-const playlist = [video];
-const playerOptions = {
-	autoplay: utils.queryString.get('autoplay') !== '0',
-	mute: utils.queryString.get('mute') !== '0',
-	settings: {
-		showAutoplayToggle: false,
-		showQuality: true
-	},
-	videoDetails: {
-		description: playlist[0].description,
-		title: playlist[0].title,
-		playlist
-	},
-	related: {
-		autoplay: true,
-		playlistId: 'Y2RWCKuS',
-		time: 3
-	}
+events.on(events.AD_SLOT_CREATED, (slot) => {
+	bidders.updateSlotTargeting(slot.getSlotName());
+});
+
+let resolveBidders;
+
+const biddersDelay = {
+	isEnabled: () => true,
+	getName: () => 'bidders-delay',
+	getPromise: () => new Promise((resolve) => {
+		resolveBidders = resolve;
+	})
 };
-const videoAds = jwplayerAdsFactory.create({
-	adProduct: 'featured-video',
-	audio: !playerOptions.mute,
-	autoplay: playerOptions.autoplay,
-	featured: true,
-	slotName: 'featured',
-	videoId: video.mediaid
+
+context.set('options.maxDelayTimeout', 1000);
+context.push('delayModules', biddersDelay);
+
+bidders.requestBids({
+	responseListener: () => {
+		if (bidders.hasAllResponses()) {
+			if (resolveBidders) {
+				resolveBidders();
+				resolveBidders = null;
+			}
+		}
+	}
 });
 
-window.wikiaJWPlayer('playerContainer', playerOptions, (player) => {
-	videoAds.register(player);
+biddersDelay.getPromise().then(() => {
+	const playlist = [video];
+	const playerOptions = {
+		autoplay: utils.queryString.get('autoplay') !== '0',
+		mute: utils.queryString.get('mute') !== '0',
+		settings: {
+			showAutoplayToggle: false,
+			showQuality: true
+		},
+		videoDetails: {
+			description: playlist[0].description,
+			title: playlist[0].title,
+			playlist
+		},
+		related: {
+			autoplay: true,
+			playlistId: 'Y2RWCKuS',
+			time: 3
+		}
+	};
+	const videoAds = jwplayerAdsFactory.create({
+		adProduct: 'featured-video',
+		audio: !playerOptions.mute,
+		autoplay: playerOptions.autoplay,
+		featured: true,
+		slotName: 'featured',
+		videoId: video.mediaid
+	});
+
+	window.wikiaJWPlayer('playerContainer', playerOptions, (player) => {
+		videoAds.register(player);
+	});
+
+	jwplayerAdsFactory.loadMoatPlugin();
 });
 
-jwplayerAdsFactory.loadMoatPlugin();

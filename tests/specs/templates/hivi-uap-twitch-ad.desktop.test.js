@@ -83,7 +83,7 @@ describe('Twitch ads page: player', () => {
 
 	it('Check if unmuting the stream works', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
-		browser.waitForEnabled(twitchAd.unmuteButton);
+		browser.waitForEnabled(twitchAd.unmuteButton, timeouts.standard);
 		browser.click(twitchAd.unmuteButton);
 		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
 			.to
@@ -92,7 +92,7 @@ describe('Twitch ads page: player', () => {
 
 	it('Check if clicking on Twitch button redirects to Twitch account with that stream', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
-		browser.waitForEnabled(twitchAd.twitchButton);
+		browser.waitForEnabled(twitchAd.twitchButton, timeouts.standard);
 		browser.click(twitchAd.twitchButton);
 
 		const tabIds = browser.getTabIds();

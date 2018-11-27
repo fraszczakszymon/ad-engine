@@ -12,8 +12,8 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	let refreshDimensions;
 
 	before(() => {
-		helpers.setWindowSize();
-		browser.url(hiviUapStatic.pageLink);
+		helpers.setDefaultWindowSize();
+		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
@@ -22,8 +22,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
+		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
@@ -94,7 +93,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	});
 
 	it('Check visual regression in top leaderboard (default)', () => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		browser.checkElement(adSlots.topLeaderboard);
 	});
 
@@ -143,14 +142,14 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	let refreshDimensions;
 
 	before(() => {
-		helpers.reloadPageAndWaitForSlot(hiviUapStatic.pageLink, adSlots.topLeaderboard);
+		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
 		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
-		browser.refresh();
+		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
