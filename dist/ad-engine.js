@@ -1289,6 +1289,16 @@ var script_loader_ScriptLoader = function () {
 
 	createClass_default()(ScriptLoader, [{
 		key: 'createScript',
+
+		/**
+   * Creates <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {HTMLScriptElement}
+   */
 		value: function createScript(src) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'text/javascript';
 			var isAsync = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
@@ -1310,6 +1320,17 @@ var script_loader_ScriptLoader = function () {
 
 			return script;
 		}
+
+		/**
+   * Injects <script> tag
+   * @param {string} src
+   * @param {string} type
+   * @param {boolean} isAsync
+   * @param {HTMLElement|string|null} node
+   * @param {Object} parameters
+   * @returns {Promise<any>}
+   */
+
 	}, {
 		key: 'loadScript',
 		value: function loadScript(src) {
@@ -4486,6 +4507,7 @@ var slot_tweaker_SlotTweaker = function () {
 		key: 'makeResponsive',
 		value: function makeResponsive(adSlot) {
 			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+			var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 			var slotContainer = this.getContainer(adSlot);
 
@@ -4501,7 +4523,9 @@ var slot_tweaker_SlotTweaker = function () {
 				}
 
 				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
-				container.style.paddingBottom = 100 / aspectRatio + '%';
+				if (paddingBottom) {
+					container.style.paddingBottom = 100 / aspectRatio + '%';
+				}
 				return iframe;
 			});
 		}
@@ -5217,8 +5241,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v20.0.1');
-logger('ad-engine', 'v20.0.1');
+set_default()(window, versionField, 'v20.1.0');
+logger('ad-engine', 'v20.1.0');
 
 
 

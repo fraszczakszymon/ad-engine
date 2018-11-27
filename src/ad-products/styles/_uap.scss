@@ -1,4 +1,5 @@
 @import '_breakpoints';
+@import '_mixin';
 
 $player-button-border-space: 10px;
 $player-button-click-area-desktop: 10px;
@@ -112,12 +113,8 @@ $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 		padding: 0;
 	}
 
-	iframe {
-		height: 100%;
-		left: 0;
-		position: absolute;
-		width: 100%;
-		top: 0;
+	&:not(.sticky-iab) iframe {
+		@include absolute-fill();
 	}
 
 	&.porvata .video-player > iframe,
