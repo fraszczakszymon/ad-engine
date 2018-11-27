@@ -1,6 +1,6 @@
 {
   "name": "@wikia/ad-engine",
-  "version": "20.0.2",
+  "version": "20.1.0",
   "description": "Wikia AdEngine",
   "repository": {
     "type": "git",
@@ -112,6 +112,7 @@
     "linters": {
       "*.js": [
         "eslint --fix",
+        "./maintenance/detect-incorrect-usages.sh",
         "git add"
       ]
     },

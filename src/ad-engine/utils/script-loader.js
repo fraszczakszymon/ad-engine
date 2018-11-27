@@ -1,4 +1,13 @@
 class ScriptLoader {
+	/**
+	 * Creates <script> tag
+	 * @param {string} src
+	 * @param {string} type
+	 * @param {boolean} isAsync
+	 * @param {HTMLElement|string|null} node
+	 * @param {Object} parameters
+	 * @returns {HTMLScriptElement}
+	 */
 	createScript(src, type = 'text/javascript', isAsync = true, node = null, parameters = {}) {
 		const script = document.createElement('script');
 
@@ -16,6 +25,15 @@ class ScriptLoader {
 		return script;
 	}
 
+	/**
+	 * Injects <script> tag
+	 * @param {string} src
+	 * @param {string} type
+	 * @param {boolean} isAsync
+	 * @param {HTMLElement|string|null} node
+	 * @param {Object} parameters
+	 * @returns {Promise<any>}
+	 */
 	loadScript(src, type = 'text/javascript', isAsync = true, node = null, parameters = {}) {
 		return new Promise((resolve, reject) => {
 			const script = this.createScript(src, type, isAsync, node, parameters);

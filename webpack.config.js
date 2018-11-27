@@ -1,6 +1,7 @@
 /* global module, require */
 /* eslint-disable no-console, import/no-extraneous-dependencies */
 
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -9,6 +10,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
 const get = require('lodash/get');
 const pkg = require('./package.json');
+
+const examplePages = {};
+function findExamplePages(startPath, filter) {
+	const files = fs.readdirSync(startPath);
+
+	files.forEach((file) => {
+		const filename = path.join(startPath, file);
+		const stat = fs.lstatSync(filename);
+		if (stat.isDirectory()) {
+			findExamplePages(filename, filter);
+		} else if (filename.indexOf(filter) >= 0) {
+			const shortName = filename.replace('examples/', '').replace('/script.js', '');
+			examplePages[shortName] = `./${filename}`;
+		}
+	});
+}
+
+findExamplePages('./examples', 'script.js');
 
 const common = {
 	mode: 'development',
@@ -49,44 +68,7 @@ const common = {
 };
 
 const development = {
-	entry: {
-		'bidders/a9': './examples/bidders/a9/script.js',
-		'bidders/prebid': './examples/bidders/prebid/script.js',
-		'bidders/reusable-prebid': './examples/bidders/reusable-prebid/script.js',
-		'services/bill-the-lizard': './examples/services/bill-the-lizard/script.js',
-		'services/krux': './examples/services/krux/script.js',
-		'slots/animations': './examples/slots/animations/script.js',
-		'slots/block-btf': './examples/slots/block-btf/script.js',
-		'slots/btf-only': './examples/slots/btf-only/script.js',
-		'slots/common-slots': './examples/slots/common-slots/script.js',
-		'slots/delay': './examples/slots/delay/script.js',
-		'slots/empty-response': './examples/slots/empty-response/script.js',
-		'slots/repeatable-slots': './examples/slots/repeatable-slots/script.js',
-		'slots/viewport-conflicts': './examples/slots/viewport-conflicts/script.js',
-		'templates/abcd': './examples/templates/abcd/script.js',
-		'templates/floating-ad': './examples/templates/floating-ad/script.js',
-		'templates/floating-rail': './examples/templates/floating-rail/script.js',
-		'templates/floor-adhesion': './examples/templates/floor-adhesion/script.js',
-		'templates/hivi-uap': './examples/templates/hivi-uap/script.js',
-		'templates/hivi-uap-ctp': './examples/templates/hivi-uap-ctp/script.js',
-		'templates/hivi-uap-stickiness-not-allowed': './examples/templates/hivi-uap-stickiness-not-allowed/script.js',
-		'templates/hivi-uap-static': './examples/templates/hivi-uap-static/script.js',
-		'templates/hivi-uap-jwp': './examples/templates/hivi-uap-jwp/script.js',
-		'templates/hivi-uap-sticky-bfab': './examples/templates/hivi-uap-sticky-bfab/script.js',
-		'templates/hivi-uap-twitch': './examples/templates/hivi-uap-twitch/script.js',
-		'templates/interstitial': './examples/templates/interstitial/script.js',
-		'templates/outstream': './examples/templates/outstream/script.js',
-		'templates/sticky-ad': './examples/templates/sticky-ad/script.js',
-		'templates/sticky-tlb': './examples/templates/sticky-tlb/script.js',
-		'templates/uap-roadblock': './examples/templates/uap-roadblock/script.js',
-		'templates/vuap': './examples/templates/vuap/script.js',
-		'utils/block-detect': './examples/utils/block-detect/script.js',
-		'utils/browser-detect': './examples/utils/browser-detect/script.js',
-		'utils/device-detect': './examples/utils/device-detect/script.js',
-		'utils/labrador-basset': './examples/utils/labrador-basset/script.js',
-		'video/jwplayer': './examples/video/jwplayer/script.js',
-		'video/porvata': './examples/video/porvata/script.js'
-	},
+	entry: examplePages,
 	devtool: 'cheap-module-eval-source-map',
 	optimization: {
 		splitChunks: {
