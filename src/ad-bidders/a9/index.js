@@ -31,7 +31,7 @@ export class A9 extends BaseBidder {
 	initIfNotLoaded(consentData) {
 		if (!loaded) {
 			this.insertScript();
-			this.apstag.init(this.getApsConfig(consentData));
+			this.apstag.init(this.getApstagConfig(consentData));
 			loaded = true;
 		}
 	}
@@ -40,16 +40,16 @@ export class A9 extends BaseBidder {
 		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 	}
 
-	getApsConfig(consentData) {
+	getApstagConfig(consentData) {
 		return {
 			pubID: this.amazonId,
 			videoAdServer: 'DFP',
 			deals: !!this.bidderConfig.dealsEnabled,
-			gdpr: this.getGdprIfEnabled(consentData)
+			gdpr: this.getGdprIfApplicable(consentData)
 		};
 	}
 
-	getGdprIfEnabled(consentData) {
+	getGdprIfApplicable(consentData) {
 		if (this.isCMPEnabled && consentData && consentData.consentData) {
 			return {
 				enabled: consentData.gdprApplies,
@@ -64,7 +64,7 @@ export class A9 extends BaseBidder {
 		const currentBids = await this.apstag.fetchBids(this.getBidsConfig());
 		currentBids.forEach((bid) => {
 			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
-			const { keys, bidTargeting } = this.getBidTargetingAndKeys(bid);
+			const { keys, bidTargeting } = this.getBidTargetingWithKeys(bid);
 			this.updateBidSlot(slotName, keys, bidTargeting);
 		});
 		onResponse();
@@ -108,7 +108,7 @@ export class A9 extends BaseBidder {
 		return definition;
 	}
 
-	getBidTargetingAndKeys(bid) {
+	getBidTargetingWithKeys(bid) {
 		return this.bidderConfig.dealsEnabled
 			? {
 				keys: bid.helpers.targetingKeys,
@@ -159,13 +159,11 @@ export class A9 extends BaseBidder {
 		return !!this.slots[slotName];
 	}
 
-	// DISCUSS: Is it used somewhere?
 	// Should mark external methods, so that we know they cannot be easily renamed
 	getPrices() {
 		return this.priceMap;
 	}
 
-	// DISCUSS: Is it used somewhere?
 	getTargetingKeysToReset() {
 		return this.targetingKeys;
 	}

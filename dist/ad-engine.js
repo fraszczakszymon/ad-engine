@@ -239,6 +239,7 @@ module.exports = require("lodash/set");
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
+__webpack_require__.d(utils_namespaceObject, "bindCallback", function() { return bindCallback; });
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { return getLeftOffset; });
@@ -269,6 +270,7 @@ __webpack_require__.d(utils_namespaceObject, "queryString", function() { return 
 __webpack_require__.d(utils_namespaceObject, "sampler", function() { return sampler; });
 __webpack_require__.d(utils_namespaceObject, "scriptLoader", function() { return scriptLoader; });
 __webpack_require__.d(utils_namespaceObject, "stringBuilder", function() { return stringBuilder; });
+__webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
 __webpack_require__.d(utils_namespaceObject, "whichProperty", function() { return whichProperty; });
 __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return tryProperty; });
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
@@ -281,6 +283,14 @@ var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 var get_ = __webpack_require__(25);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
+// CONCATENATED MODULE: ./src/ad-engine/utils/bind-callback.js
+/** Return passed promise and executes callback if present. */
+function bindCallback(callback, promise) {
+	if (callback && typeof callback === 'function') {
+		promise.then(callback.bind(null, null), callback);
+	}
+	return promise;
+}
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
 var classCallCheck_ = __webpack_require__(1);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
@@ -4883,6 +4893,13 @@ var string_builder_StringBuilder = function () {
 }();
 
 var stringBuilder = new string_builder_StringBuilder();
+// CONCATENATED MODULE: ./src/ad-engine/utils/timeout-reject.js
+
+function timeoutReject(msToTimeout) {
+	return new promise_default.a(function (resolve, reject) {
+		setTimeout(reject, msToTimeout);
+	});
+}
 // CONCATENATED MODULE: ./src/ad-engine/utils/try-property.js
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -4957,6 +4974,8 @@ var viewportObserver = {
 	removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/ad-engine/utils/index.js
+
+
 
 
 
@@ -5195,6 +5214,148 @@ var ad_engine_AdEngine = function () {
 
 	return AdEngine;
 }();
+// CONCATENATED MODULE: ./src/ad-engine/wrappers/apstag.js
+
+
+
+
+
+var apstag_Apstag = function () {
+	function Apstag() {
+		classCallCheck_default()(this, Apstag);
+	}
+
+	createClass_default()(Apstag, [{
+		key: 'init',
+		value: function init(apsConfig) {
+			this.configure();
+			window.apstag.init(apsConfig);
+		}
+
+		/** @private */
+
+	}, {
+		key: 'configure',
+		value: function configure() {
+			var _this = this;
+
+			window.apstag = window.apstag || {};
+			window.apstag._Q = window.apstag._Q || [];
+
+			if (typeof window.apstag.init === 'undefined') {
+				window.apstag.init = function () {
+					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+						args[_key] = arguments[_key];
+					}
+
+					_this.configureCommand('i', args);
+				};
+			}
+
+			if (typeof window.apstag.fetchBids === 'undefined') {
+				window.apstag.fetchBids = function () {
+					for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+						args[_key2] = arguments[_key2];
+					}
+
+					_this.configureCommand('f', args);
+				};
+			}
+		}
+
+		/** @private */
+
+	}, {
+		key: 'configureCommand',
+		value: function configureCommand(command, args) {
+			window.apstag._Q.push([command, args]);
+		}
+
+		/**
+   * @param {object} bidsConfig configuration of bids
+   * @param {function(object)} cb Callback receiving current bids
+   * @returns {!Promise} If `cb` has been omitted
+   */
+
+	}, {
+		key: 'fetchBids',
+		value: function fetchBids(bidsConfig) {
+			var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			return bindCallback(cb, new promise_default.a(function (resolve) {
+				window.apstag.fetchBids(bidsConfig, function (currentBids) {
+					return resolve(currentBids);
+				});
+			}));
+		}
+	}, {
+		key: 'targetingKeys',
+		value: function targetingKeys() {
+			return window.apstag.targetingKeys();
+		}
+	}, {
+		key: 'enableDebug',
+		value: function enableDebug() {
+			window.apstag.debug('enable');
+		}
+	}, {
+		key: 'disableDebug',
+		value: function disableDebug() {
+			window.apstag.debug('disable');
+		}
+	}]);
+
+	return Apstag;
+}();
+
+var apstag = new apstag_Apstag();
+// CONCATENATED MODULE: ./src/ad-engine/wrappers/cmp.js
+
+
+
+
+
+var cmp_Cmp = function () {
+	function Cmp() {
+		classCallCheck_default()(this, Cmp);
+	}
+
+	createClass_default()(Cmp, [{
+		key: 'getConsentData',
+
+
+		/**
+   * @param {function(object)} cb Callback receiving current bids
+   * @returns {!Promise} If `cb` has been omitted
+   */
+		value: function getConsentData(param) {
+			var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+			return bindCallback(cb, new promise_default.a(function (resolve) {
+				window.__cmp('getConsentData', param, function (consentData) {
+					return resolve(consentData);
+				});
+			}));
+		}
+	}, {
+		key: 'override',
+		value: function override(newCmp) {
+			window.__cmp = newCmp;
+		}
+	}, {
+		key: 'exists',
+		get: function get() {
+			return !!window.__cmp;
+		}
+	}]);
+
+	return Cmp;
+}();
+
+var cmp = new cmp_Cmp();
+// CONCATENATED MODULE: ./src/ad-engine/wrappers/index.js
+
+
 // CONCATENATED MODULE: ./src/ad-engine/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdEngine", function() { return ad_engine_AdEngine; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
@@ -5229,6 +5390,10 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "googleImaPlayerFactory", function() { return googleImaPlayerFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchPlayer", function() { return twitch_TwitchPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Twitch", function() { return twitch_Twitch; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Apstag", function() { return apstag_Apstag; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "apstag", function() { return apstag; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Cmp", function() { return cmp_Cmp; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "cmp", function() { return cmp; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 
 
@@ -5243,6 +5408,7 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v20.1.1');
 logger('ad-engine', 'v20.1.1');
+
 
 
 

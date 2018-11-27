@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -116,34 +116,46 @@ module.exports = require("babel-runtime/core-js/object/keys");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/assign");
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -163,6 +175,14 @@ var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@wikia/ad-engine"
 var ad_engine_ = __webpack_require__(0);
+
+// EXTERNAL MODULE: external "babel-runtime/regenerator"
+var regenerator_ = __webpack_require__(7);
+var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
+var asyncToGenerator_ = __webpack_require__(12);
+var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
 var get_prototype_of_ = __webpack_require__(5);
@@ -185,7 +205,7 @@ var inherits_ = __webpack_require__(3);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(10);
+var promise_ = __webpack_require__(11);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // CONCATENATED MODULE: ./src/ad-bidders/base-bidder.js
@@ -196,8 +216,6 @@ var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 var base_bidder_BaseBidder = function () {
 	function BaseBidder(name, bidderConfig) {
-		var _this = this;
-
 		var timeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 2000;
 
 		classCallCheck_default()(this, BaseBidder);
@@ -208,100 +226,72 @@ var base_bidder_BaseBidder = function () {
 		this.timeout = timeout;
 
 		this.resetState();
-		this.onResponse = function () {
-			return _this.onResponseCall();
-		};
 
 		ad_engine_["utils"].logger(this.logGroup, 'created');
 	}
 
 	createClass_default()(BaseBidder, [{
-		key: 'addResponseListener',
-		value: function addResponseListener(callback) {
-			this.onResponseCallbacks.push(callback);
-		}
-	}, {
-		key: 'call',
-		value: function call() {
-			this.response = false;
-			this.called = true;
-
-			if (this.callBids) {
-				this.callBids(this.onResponse);
-			}
-
-			ad_engine_["utils"].logger(this.logGroup, 'called');
-		}
-	}, {
-		key: 'createWithTimeout',
-		value: function createWithTimeout(func) {
-			var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
-
-			var timeout = new promise_default.a(function (resolve, reject) {
-				setTimeout(reject, msToTimeout);
-			});
-
-			return promise_default.a.race([new promise_default.a(func), timeout]);
-		}
-	}, {
-		key: 'getSlotBestPrice',
-		value: function getSlotBestPrice(slotName) {
-			if (this.getBestPrice) {
-				return this.getBestPrice(slotName);
-			}
-
-			return {};
-		}
-	}, {
-		key: 'getSlotTargetingParams',
-		value: function getSlotTargetingParams(slotName) {
-			if (!this.called || !this.isSlotSupported(slotName) || !this.getTargetingParams) {
-				return {};
-			}
-
-			return this.getTargetingParams(slotName);
-		}
-	}, {
-		key: 'hasResponse',
-		value: function hasResponse() {
-			return this.response;
-		}
-	}, {
-		key: 'isSlotSupported',
-		value: function isSlotSupported(slotName) {
-			if (this.isSupported) {
-				return this.isSupported(slotName);
-			}
-
-			return false;
-		}
-	}, {
-		key: 'onResponseCall',
-		value: function onResponseCall() {
-			this.response = true;
-
-			if (this.calculatePrices) {
-				this.calculatePrices();
-			}
-
-			if (this.onResponseCallbacks) {
-				this.onResponseCallbacks.start();
-			}
-
-			ad_engine_["utils"].logger(this.logGroup, 'respond');
-		}
-	}, {
 		key: 'resetState',
 		value: function resetState() {
-			var _this2 = this;
+			var _this = this;
 
 			this.called = false;
 			this.response = false;
 			this.onResponseCallbacks = [];
 
 			ad_engine_["utils"].makeLazyQueue(this.onResponseCallbacks, function (callback) {
-				callback(_this2.name);
+				callback(_this.name);
 			});
+		}
+	}, {
+		key: 'call',
+		value: function call() {
+			var _this2 = this;
+
+			this.response = false;
+			this.called = true;
+
+			this.callBids(function () {
+				return _this2.onBidResponse();
+			});
+
+			ad_engine_["utils"].logger(this.logGroup, 'called');
+		}
+	}, {
+		key: 'onBidResponse',
+		value: function onBidResponse() {
+			this.response = true;
+
+			this.calculatePrices();
+			this.onResponseCallbacks.start();
+
+			ad_engine_["utils"].logger(this.logGroup, 'respond');
+		}
+	}, {
+		key: 'createWithTimeout',
+		value: function createWithTimeout(func) {
+			var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
+
+			return promise_default.a.race([new promise_default.a(func), ad_engine_["utils"].timeoutReject(msToTimeout)]);
+		}
+	}, {
+		key: 'getSlotBestPrice',
+		value: function getSlotBestPrice(slotName) {
+			return this.getBestPrice(slotName);
+		}
+	}, {
+		key: 'getSlotTargetingParams',
+		value: function getSlotTargetingParams(slotName) {
+			if (!this.called || !this.isSlotSupported(slotName)) {
+				return {};
+			}
+
+			return this.getTargetingParams(slotName);
+		}
+	}, {
+		key: 'isSlotSupported',
+		value: function isSlotSupported(slotName) {
+			return this.isSupported(slotName);
 		}
 	}, {
 		key: 'waitForResponse',
@@ -317,9 +307,59 @@ var base_bidder_BaseBidder = function () {
 			}, this.timeout);
 		}
 	}, {
+		key: 'hasResponse',
+		value: function hasResponse() {
+			return this.response;
+		}
+	}, {
+		key: 'addResponseListener',
+		value: function addResponseListener(callback) {
+			this.onResponseCallbacks.push(callback);
+		}
+	}, {
 		key: 'wasCalled',
 		value: function wasCalled() {
 			return this.called;
+		}
+
+		/** @abstract */
+		// eslint-disable-next-line no-unused-vars
+
+	}, {
+		key: 'callBids',
+		value: function callBids(cb) {}
+
+		/** @abstract */
+
+	}, {
+		key: 'calculatePrices',
+		value: function calculatePrices() {}
+
+		/** @abstract */
+		// eslint-disable-next-line no-unused-vars
+
+	}, {
+		key: 'getBestPrice',
+		value: function getBestPrice(slotName) {
+			return {};
+		}
+
+		/** @abstract */
+		// eslint-disable-next-line no-unused-vars
+
+	}, {
+		key: 'getTargetingParams',
+		value: function getTargetingParams(slotName) {
+			return {};
+		}
+
+		/** @abstract */
+		// eslint-disable-next-line no-unused-vars
+
+	}, {
+		key: 'isSupported',
+		value: function isSupported(slotName) {
+			return false;
 		}
 	}]);
 
@@ -335,8 +375,11 @@ var base_bidder_BaseBidder = function () {
 
 
 
+
+
 var loaded = false;
 
+// DISCUSS: GodClass? SR?
 var a9_A9 = function (_BaseBidder) {
 	inherits_default()(A9, _BaseBidder);
 
@@ -354,130 +397,119 @@ var a9_A9 = function (_BaseBidder) {
 		_this.priceMap = {};
 		_this.slotNamesMap = {};
 		_this.targetingKeys = [];
-		_this.timeout = timeout;
+		_this.apstag = ad_engine_["apstag"];
+		_this.cmp = ad_engine_["cmp"];
 		return _this;
 	}
 
 	createClass_default()(A9, [{
-		key: 'calculatePrices',
-		value: function calculatePrices() {
-			var _this2 = this;
-
-			keys_default()(this.bids).forEach(function (slotName) {
-				_this2.priceMap[slotName] = _this2.bids[slotName].amznbid;
-			});
-		}
-	}, {
-		key: 'callBids',
-		value: function callBids(onResponse) {
-			var _this3 = this;
-
-			if (window.__cmp) {
-				window.__cmp('getConsentData', null, function (consentData) {
-					_this3.init(onResponse, consentData);
-				});
-			} else {
-				this.init(onResponse);
-			}
-		}
-	}, {
 		key: 'init',
 		value: function init(onResponse) {
-			var _this4 = this;
-
 			var consentData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-			if (!loaded) {
-				this.insertScript();
-				this.configureApstag();
-
-				var apsConfig = {
-					pubID: this.amazonId,
-					videoAdServer: 'DFP',
-					deals: !!this.bidderConfig.dealsEnabled
-				};
-
-				if (this.isCMPEnabled && consentData && consentData.consentData) {
-					apsConfig.gdpr = {
-						enabled: consentData.gdprApplies,
-						consent: consentData.consentData,
-						cmpTimeout: 5000
-					};
-				}
-
-				window.apstag.init(apsConfig);
-
-				loaded = true;
-			}
+			this.initIfNotLoaded(consentData);
 
 			this.bids = {};
 			this.priceMap = {};
 
-			var a9Slots = keys_default()(this.slots).map(function (key) {
-				return _this4.createSlotDefinition(key, _this4.slots[key]);
+			this.fetchBids(onResponse);
+		}
+	}, {
+		key: 'initIfNotLoaded',
+		value: function initIfNotLoaded(consentData) {
+			if (!loaded) {
+				this.insertScript();
+				this.apstag.init(this.getApstagConfig(consentData));
+				loaded = true;
+			}
+		}
+	}, {
+		key: 'insertScript',
+		value: function insertScript() {
+			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
+		}
+	}, {
+		key: 'getApstagConfig',
+		value: function getApstagConfig(consentData) {
+			return {
+				pubID: this.amazonId,
+				videoAdServer: 'DFP',
+				deals: !!this.bidderConfig.dealsEnabled,
+				gdpr: this.getGdprIfApplicable(consentData)
+			};
+		}
+	}, {
+		key: 'getGdprIfApplicable',
+		value: function getGdprIfApplicable(consentData) {
+			if (this.isCMPEnabled && consentData && consentData.consentData) {
+				return {
+					enabled: consentData.gdprApplies,
+					consent: consentData.consentData,
+					cmpTimeout: 5000
+				};
+			}
+			return undefined;
+		}
+	}, {
+		key: 'fetchBids',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(onResponse) {
+				var _this2 = this;
+
+				var currentBids;
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_context.next = 2;
+								return this.apstag.fetchBids(this.getBidsConfig());
+
+							case 2:
+								currentBids = _context.sent;
+
+								currentBids.forEach(function (bid) {
+									var slotName = _this2.slotNamesMap[bid.slotID] || bid.slotID;
+
+									var _getBidTargetingWithK = _this2.getBidTargetingWithKeys(bid),
+									    keys = _getBidTargetingWithK.keys,
+									    bidTargeting = _getBidTargetingWithK.bidTargeting;
+
+									_this2.updateBidSlot(slotName, keys, bidTargeting);
+								});
+								onResponse();
+
+							case 5:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function fetchBids(_x3) {
+				return _ref.apply(this, arguments);
+			}
+
+			return fetchBids;
+		}()
+	}, {
+		key: 'getBidsConfig',
+		value: function getBidsConfig() {
+			return {
+				slots: this.getA9Slots(),
+				timeout: this.timeout
+			};
+		}
+	}, {
+		key: 'getA9Slots',
+		value: function getA9Slots() {
+			var _this3 = this;
+
+			return keys_default()(this.slots).map(function (key) {
+				return _this3.createSlotDefinition(key, _this3.slots[key]);
 			}).filter(function (slot) {
 				return slot !== null;
 			});
-
-			window.apstag.fetchBids({
-				slots: a9Slots,
-				timeout: this.timeout
-			}, function (currentBids) {
-				currentBids.forEach(function (bid) {
-					var slotName = _this4.slotNamesMap[bid.slotID] || bid.slotID;
-
-					var bidTargeting = bid;
-					var keys = window.apstag.targetingKeys();
-
-					if (_this4.bidderConfig.dealsEnabled) {
-						keys = bid.helpers.targetingKeys;
-						bidTargeting = bid.targeting;
-					}
-
-					_this4.bids[slotName] = {};
-					keys.forEach(function (key) {
-						if (_this4.targetingKeys.indexOf(key) === -1) {
-							_this4.targetingKeys.push(key);
-						}
-						_this4.bids[slotName][key] = bidTargeting[key];
-					});
-				});
-
-				onResponse();
-			});
-		}
-	}, {
-		key: 'configureApstag',
-		value: function configureApstag() {
-			var _this5 = this;
-
-			window.apstag = window.apstag || {};
-			window.apstag._Q = window.apstag._Q || [];
-
-			if (typeof window.apstag.init === 'undefined') {
-				window.apstag.init = function () {
-					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-						args[_key] = arguments[_key];
-					}
-
-					_this5.configureApstagCommand('i', args);
-				};
-			}
-
-			if (typeof window.apstag.fetchBids === 'undefined') {
-				window.apstag.fetchBids = function () {
-					for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-						args[_key2] = arguments[_key2];
-					}
-
-					_this5.configureApstagCommand('f', args);
-				};
-			}
-		}
-	}, {
-		key: 'configureApstagCommand',
-		value: function configureApstagCommand(command, args) {
-			window.apstag._Q.push([command, args]);
 		}
 	}, {
 		key: 'createSlotDefinition',
@@ -505,10 +537,97 @@ var a9_A9 = function (_BaseBidder) {
 			return definition;
 		}
 	}, {
+		key: 'getBidTargetingWithKeys',
+		value: function getBidTargetingWithKeys(bid) {
+			return this.bidderConfig.dealsEnabled ? {
+				keys: bid.helpers.targetingKeys,
+				bidTargeting: bid.targeting
+			} : {
+				keys: this.apstag.targetingKeys(),
+				bidTargeting: bid
+			};
+		}
+	}, {
+		key: 'updateBidSlot',
+		value: function updateBidSlot(slotName, keys, bidTargeting) {
+			var _this4 = this;
+
+			this.bids[slotName] = {};
+			keys.forEach(function (key) {
+				if (_this4.targetingKeys.indexOf(key) === -1) {
+					_this4.targetingKeys.push(key);
+				}
+				_this4.bids[slotName][key] = bidTargeting[key];
+			});
+		}
+	}, {
+		key: 'callBids',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(onResponse) {
+				var consentData;
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								if (!this.cmp.exists) {
+									_context2.next = 7;
+									break;
+								}
+
+								_context2.next = 3;
+								return this.cmp.getConsentData(null);
+
+							case 3:
+								consentData = _context2.sent;
+
+								this.init(onResponse, consentData);
+								_context2.next = 8;
+								break;
+
+							case 7:
+								this.init(onResponse);
+
+							case 8:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function callBids(_x4) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return callBids;
+		}()
+	}, {
+		key: 'calculatePrices',
+		value: function calculatePrices() {
+			var _this5 = this;
+
+			return keys_default()(this.bids).forEach(function (slotName) {
+				_this5.priceMap[slotName] = _this5.bids[slotName].amznbid;
+			});
+		}
+	}, {
 		key: 'getBestPrice',
 		value: function getBestPrice(slotName) {
 			return this.priceMap[slotName] ? { a9: this.priceMap[slotName] } : {};
 		}
+	}, {
+		key: 'getTargetingParams',
+		value: function getTargetingParams(slotName) {
+			return this.bids[slotName] || {};
+		}
+	}, {
+		key: 'isSupported',
+		value: function isSupported(slotName) {
+			return !!this.slots[slotName];
+		}
+
+		// Should mark external methods, so that we know they cannot be easily renamed
+
 	}, {
 		key: 'getPrices',
 		value: function getPrices() {
@@ -519,31 +638,16 @@ var a9_A9 = function (_BaseBidder) {
 		value: function getTargetingKeysToReset() {
 			return this.targetingKeys;
 		}
-	}, {
-		key: 'getTargetingParams',
-		value: function getTargetingParams(slotName) {
-			return this.bids[slotName] || {};
-		}
-	}, {
-		key: 'insertScript',
-		value: function insertScript() {
-			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
-		}
-	}, {
-		key: 'isSupported',
-		value: function isSupported(slotName) {
-			return !!this.slots[slotName];
-		}
 	}]);
 
 	return A9;
 }(base_bidder_BaseBidder);
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(9);
+var get_own_property_descriptor_ = __webpack_require__(10);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(8);
+var external_core_decorators_ = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/base-adapter.js
 
@@ -1124,7 +1228,7 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 	return Pubmatic;
 }(base_adapter_BaseAdapter);
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(11);
+var assign_ = __webpack_require__(13);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-helper.js
@@ -1376,7 +1480,7 @@ var rubicon_display_RubiconDisplay = function (_BaseAdapter) {
 	return RubiconDisplay;
 }(base_adapter_BaseAdapter);
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(7);
+var slicedToArray_ = __webpack_require__(8);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/wikia.js
