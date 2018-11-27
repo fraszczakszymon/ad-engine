@@ -1,11 +1,11 @@
-import hiviUap from '../../pages/hivi-uap-ad.page';
+import hiviUapCtp from '../../pages/hivi-uap-ctp-ad.page';
 import adSlots from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
 
 const { expect } = require('chai');
 
-describe('Desktop HiVi UAP ads page: top leaderboard', () => {
+describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let scrollDimensions;
@@ -14,28 +14,37 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 	before(() => {
 		helpers.setDefaultWindowSize();
-		hiviUap.openUapWithState(false, hiviUap.pageLink, adSlots.topLeaderboard);
+		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink);
+		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
 
 		helpers.slowScroll(500);
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
-		hiviUap.openUapWithState(true, hiviUap.pageLink);
+
+
+		hiviUapCtp.openUapWithState(true, hiviUapCtp.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
-		browser.url(hiviUap.pageLink);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
-		hiviUap.waitForVideoToFinish();
+		browser.url(hiviUapCtp.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.switchToFrame(hiviUapCtp.topPlayerFrame);
+		browser.waitForVisible(hiviUapCtp.videoContainer, timeouts.standard);
+		browser.click(hiviUapCtp.videoContainer);
+		hiviUapCtp.waitForVideoToFinish();
+		browser.frame();
 		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+
+		browser.frame();
 	});
 
 	beforeEach(() => {
-		browser.url(hiviUap.pageLink);
+		browser.url(hiviUapCtp.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
@@ -97,62 +106,62 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
 		expect(helpers.getLineItemId(adSlots.topLeaderboard))
 			.to
-			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+			.equal(hiviUapCtp.firstCall, 'Line item ID mismatch');
 	});
 
 	it('Check if closing top leaderboard works properly', () => {
-		browser.waitForVisible(hiviUap.closeLeaderboardButton, timeouts.standard);
-		browser.click(hiviUap.closeLeaderboardButton);
+		browser.waitForVisible(hiviUapCtp.closeLeaderboardButton, timeouts.standard);
+		browser.click(hiviUapCtp.closeLeaderboardButton);
 		helpers.waitForCollapsed(adSlots.topLeaderboard);
 	});
 });
 
-describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
+describe('Desktop HiVi UAP CTP ads page: video player in top leaderboard', () => {
 	beforeEach(() => {
-		browser.url(hiviUap.pageLink);
+		browser.url(hiviUapCtp.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.switchToFrame(hiviUapCtp.topPlayerFrame);
+		browser.click(hiviUapCtp.videoContainer);
 		helpers.waitToStartPlaying();
-		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
+		browser.frame();
+		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUapCtp.videoPlayer}`);
 	});
 
 	it('Check if opening the full screen player works properly', () => {
-		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`,
+		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUapCtp.playerFullscreenButton}`,
 			timeouts.standard);
-		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
-		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
-		browser.waitForVisible(hiviUap.playerFullscreen, timeouts.standard);
+		browser.click(`${adSlots.topLeaderboard} ${hiviUapCtp.playerFullscreenButton}`);
+		browser.waitForVisible(hiviUapCtp.playerFullscreen, timeouts.standard);
 	});
 
 	it('Check if pausing the video works properly', () => {
-		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
-		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
-		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
+		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}`, timeouts.standard);
+		browser.click(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}`);
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if unmuting the video works properly', () => {
-		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
-		browser.moveToObject(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`);
-		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
-			timeouts.standard, true);
+	it('Check if muting the video works properly', () => {
+		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}`, timeouts.standard);
+		browser.click(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}`);
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOn}`,
+			timeouts.standard);
 	});
 
 	it('Check if replaying the video works properly', () => {
-		hiviUap.waitForVideoToFinish();
-		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
-		helpers.switchToFrame(hiviUap.topPlayerFrame);
-		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
-		browser.click(hiviUap.replayOverlay);
+		hiviUapCtp.waitForVideoToFinish();
+		browser.waitForExist(`${hiviUapCtp.videoPlayer}${helpers.classHidden}`, timeouts.standard);
+		helpers.switchToFrame(hiviUapCtp.topPlayerFrame);
+		browser.waitForVisible(hiviUapCtp.replayOverlay, timeouts.standard);
+		browser.click(hiviUapCtp.replayOverlay);
 		browser.frame();
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUapCtp.videoPlayer}`, timeouts.standard);
 	});
 });
 
-describe('Desktop HiVi UAP ads page: top boxad', () => {
+describe('Desktop HiVi UAP CTO ads page: top boxad', () => {
 	beforeEach(() => {
-		browser.url(hiviUap.pageLink);
+		browser.url(hiviUapCtp.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
 	});
 
@@ -160,13 +169,13 @@ describe('Desktop HiVi UAP ads page: top boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
 		expect(helpers.getLineItemId(adSlots.topBoxad))
 			.to
-			.equal(hiviUap.secondCall, 'Line item ID mismatch');
+			.equal(hiviUapCtp.secondCall, 'Line item ID mismatch');
 	});
 });
 
-describe('Desktop HiVi UAP ads page: incontent boxad', () => {
+describe('Desktop HiVi UAP CTP ads page: incontent boxad', () => {
 	beforeEach(() => {
-		browser.url(hiviUap.pageLink);
+		browser.url(hiviUapCtp.pageLink);
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
@@ -175,19 +184,18 @@ describe('Desktop HiVi UAP ads page: incontent boxad', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(helpers.getLineItemId(adSlots.incontentBoxad))
 			.to
-			.equal(hiviUap.secondCall, 'Line item ID mismatch');
+			.equal(hiviUapCtp.secondCall, 'Line item ID mismatch');
 	});
 });
 
-describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
+describe('Desktop HiVi UAP CTP ads page: bottom leaderboard', () => {
 	let adStatus;
 	let defaultDimensions;
 	let refreshDimensions;
 	let videoFinishedDimensions;
 
 	before(() => {
-		hiviUap.openUapWithState(false, hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		hiviUapCtp.openUapWithState(false, hiviUapCtp.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		helpers.waitForExpanded(adSlots.bottomLeaderboard);
 
@@ -195,8 +203,8 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
-		hiviUap.openUapWithState(true, hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		hiviUapCtp.openUapWithState(true, hiviUapCtp.pageLink, adSlots.topLeaderboard);
+
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
@@ -204,12 +212,10 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 			helpers.wrapper,
 			adSlots.resolvedDesktopRatio);
 
-		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
+		helpers.openUrlAndWaitForSlot(hiviUapCtp.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-		hiviUap.waitForVideoToFinish();
+		hiviUapCtp.waitForVideoToFinish();
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
 			adSlots.resolvedDesktopRatio);
@@ -251,7 +257,7 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
 		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
 			.to
-			.equal(hiviUap.secondCall, 'Line item ID mismatch');
+			.equal(hiviUapCtp.secondCall, 'Line item ID mismatch');
 	});
 
 	it('Check if redirect on click works properly', () => {
@@ -262,48 +268,48 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 	});
 });
 
-describe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => {
+describe('Desktop HiVi UAP CTP ads page: video player in bottom leaderboard', () => {
 	beforeEach(() => {
-		browser.url(hiviUap.pageLink);
-		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.slowScroll(8000);
-		browser.waitForVisible(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
+		browser.url(hiviUapCtp.pageLink);
+		helpers.slowScroll(7000);
+		helpers.switchToFrame(hiviUapCtp.bottomPlayerFrame);
+		browser.waitForVisible(hiviUapCtp.videoContainer, timeouts.standard);
+		browser.click(hiviUapCtp.videoContainer);
 		helpers.waitToStartPlaying();
-		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`);
-	});
-	afterEach(() => {
-		browser.scroll(0, 0);
+		browser.frame();
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
 	});
 
 	it('Check if opening the fullscreen player works properly', () => {
-		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`,
-			timeouts.standard);
-		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playerFullscreenButton}`);
-		browser.waitForVisible(hiviUap.playerFullscreen, timeouts.standard);
+		browser.waitForEnabled(hiviUapCtp.playerFullscreenButton, timeouts.standard);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.playerFullscreenButton}`);
+		browser.waitForVisible(hiviUapCtp.playerFullscreen, timeouts.standard);
 	});
 
 	it('Check if pausing the video works properly', () => {
-		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`,
-			timeouts.standard);
-		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}`);
-		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
+		browser.waitForEnabled(hiviUapCtp.playPauseButton, timeouts.standard);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.playPauseButton}`);
+		browser.waitForExist(`${hiviUapCtp.playPauseButton}${hiviUapCtp.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
-	it('Check if unmuting the video works properly', () => {
-		browser.waitForEnabled(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
-		browser.click(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}`);
-		browser.isExisting(`${adSlots.bottomLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
-			timeouts.standard, true);
+	it('Check if muting the video works properly', () => {
+		browser.waitForEnabled(hiviUapCtp.volumeButton, timeouts.standard);
+		browser.moveToObject(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`);
+		browser.click(`${adSlots.bottomLeaderboard} ${hiviUapCtp.volumeButton}`);
+		browser.isExisting(`${hiviUapCtp.volumeButton}${hiviUapCtp.buttonIsOn}`,
+			timeouts.standard);
 	});
 
 	it('Check if replaying the video works properly', () => {
-		hiviUap.waitForVideoToFinish();
-		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
-		helpers.switchToFrame(hiviUap.bottomPlayerFrame);
-		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
-		browser.click(hiviUap.replayOverlay);
+		hiviUapCtp.waitForVideoToFinish();
+		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}${helpers.classHidden}`, timeouts.standard);
+		helpers.switchToFrame(hiviUapCtp.bottomPlayerFrame);
+		browser.waitForVisible(hiviUapCtp.replayOverlay, timeouts.standard);
+		browser.click(hiviUapCtp.replayOverlay);
 		browser.frame();
-		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}`, timeouts.standard);
+		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUapCtp.videoPlayer}`, timeouts.standard);
 	});
 });

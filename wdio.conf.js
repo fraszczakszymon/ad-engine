@@ -20,7 +20,7 @@ exports.config = {
 		utils: ['./tests/specs/utils/*.test.js'],
 		video: ['./tests/specs/video/*.test.js']
 	},
-	maxInstances: 3,
+	maxInstances: 5,
 	sync: true,
 	logLevel: 'error',
 	coloredLogs: true,
@@ -52,7 +52,7 @@ exports.config = {
 			misMatchTolerance: 0.01,
 		}),
 		viewportChangePause: 300,
-		viewports: [{ width: 1920, height: 1080 }],
+		viewports: [{ width: 1600, height: 900 }],
 		orientations: ['landscape'],
 	}
 };

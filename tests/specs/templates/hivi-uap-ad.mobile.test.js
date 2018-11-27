@@ -22,14 +22,14 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 
 		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
-		helpers.reloadPageAndWaitForSlot(hiviUap.pageLink, adSlots.topLeaderboard);
+		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		hiviUap.waitForVideoToFinish();
-		hiviUap.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
@@ -38,6 +38,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		helpers.closeNewTabs();
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		browser.scroll(0, 0);
 		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
 	});
 
@@ -126,14 +127,14 @@ describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	it('Check if pausing the video works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOnClass}`,
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
 	it('Check if unmuting the video works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOnClass}`,
+		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
 			timeouts.standard, true);
 	});
 
