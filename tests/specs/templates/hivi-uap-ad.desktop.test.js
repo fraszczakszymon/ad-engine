@@ -20,7 +20,9 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 		helpers.slowScroll(500);
 
 		scrollDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		browser.scroll(0, 0).pause(timeouts.actions);
 		hiviUap.openUapWithState(true, hiviUap.pageLink);
+		helpers.setDefaultWindowSize();
 		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
 		refreshDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
@@ -35,6 +37,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 	beforeEach(() => {
 		browser.url(hiviUap.pageLink);
+		browser.scroll(0, 0);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard);
 	});

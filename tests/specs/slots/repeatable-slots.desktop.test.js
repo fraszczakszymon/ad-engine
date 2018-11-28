@@ -53,7 +53,7 @@ describe('Repeatable slots ads', () => {
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
 			expect(browser.isExisting(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
-			browser.scroll(repeatableSlots.getRepeatableSlot(i + 1)).pause(timeouts.interval);
+			browser.scroll(repeatableSlots.getRepeatableSlot(i + 1)).pause(timeouts.actions);
 			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
 		}
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(numberOfSlots));

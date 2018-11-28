@@ -6,6 +6,7 @@ class Timeouts {
 		this.newUrlTimeout = 10000;
 		this.unstickTime = this.viewabillity + 2000;
 		this.hover = 500;
+		this.actions = 500;
 	}
 }
 
