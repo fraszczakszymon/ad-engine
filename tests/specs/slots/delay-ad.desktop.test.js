@@ -18,7 +18,7 @@ describe('Delay ads page: top leaderboard', () => {
 
 	it('Check if slot is visible in viewport after delay', () => {
 		delayAd.waitToLoadAds();
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -28,7 +28,7 @@ describe('Delay ads page: top leaderboard', () => {
 	it('Check if slot shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		helpers.waitForViewed(adSlots.topLeaderboard);
+		adSlots.waitForSlotViewed(adSlots.topLeaderboard);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -64,7 +64,7 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check if slot is visible in viewport after delay', () => {
 		delayAd.waitToLoadAds();
-		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
+		adStatus = adSlots.getSlotStatus(adSlots.topBoxad);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be
@@ -73,8 +73,8 @@ describe('Delay ads page: top boxad', () => {
 
 	it('Check if slot shows up after clicking the button and if it was viewed', () => {
 		browser.click(delayAd.loadAdsButton);
-		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
-		helpers.waitForViewed(adSlots.topBoxad);
+		adStatus = adSlots.getSlotStatus(adSlots.topBoxad);
+		adSlots.waitForSlotViewed(adSlots.topBoxad);
 		expect(adStatus.inViewport, 'Not in viewport')
 			.to
 			.be

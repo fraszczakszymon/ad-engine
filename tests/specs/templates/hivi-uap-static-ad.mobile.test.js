@@ -12,26 +12,26 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(hiviUapStatic.pageLink);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultMobileRatio);
+		defaultDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultMobileRatio);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		scrollDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		refreshDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 	});
 
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 0);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	afterEach(() => {
@@ -90,7 +90,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	it('Check if closing top leaderboard works', () => {
 		browser.waitForVisible(hiviUapStatic.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		helpers.waitForCollapsed(adSlots.topLeaderboard);
+		adSlots.waitForSlotCollapsed(adSlots.topLeaderboard);
 	});
 
 	it('Check visual regression in top leaderboard', () => {

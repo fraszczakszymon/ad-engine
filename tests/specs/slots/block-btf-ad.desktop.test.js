@@ -10,7 +10,7 @@ describe('Block BTF ads page: incontent boxad', () => {
 
 	before(() => {
 		browser.url(blockBtfAd.pageLink, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.incontentBoxad);
+		adStatus = adSlots.getSlotStatus(adSlots.incontentBoxad);
 	});
 
 	it('Check if slot is hidden on the page', () => {

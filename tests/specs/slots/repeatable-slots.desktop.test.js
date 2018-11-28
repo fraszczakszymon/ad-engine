@@ -10,7 +10,7 @@ describe('Repeatable slots ads', () => {
 
 	before(() => {
 		browser.url(repeatableSlots.pageLink);
-		adStatus = helpers.getSlotStatus(repeatableSlots.getRepeatableSlot(1));
+		adStatus = adSlots.getSlotStatus(repeatableSlots.getRepeatableSlot(1));
 	});
 
 	beforeEach(() => {
@@ -48,11 +48,13 @@ describe('Repeatable slots ads', () => {
 
 		helpers.navigateToUrl(
 			repeatableSlots.pageLink,
-			queryStrings.getLengthOfContent(5));
+			queryStrings.getLengthOfContent(10));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
-			expect(browser.isVisible(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
+			expect(browser.isExisting(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
+			browser.scroll(repeatableSlots.getRepeatableSlot(i + 1)).pause(timeouts.interval);
+			expect(browser.isVisibleWithinViewport(repeatableSlots.getRepeatableSlot(i + 1)), `Slot number ${i + 1} is not visible`).to.be.true;
 		}
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(numberOfSlots));
 		expect(browser.isVisible(repeatableSlots.getRepeatableSlot(numberOfSlots + 1)), 'Slot not visible')

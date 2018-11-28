@@ -11,7 +11,7 @@ class RepeatableSlots {
 	 * @param currentBoxad {string} currently visible boxad
 	 * @param {number} distance to scroll
 	 */
-	scrollBetweenBoxads(currentBoxad, distance = 2000) {
+	scrollBetweenBoxads(currentBoxad, distance = 2250) {
 		helpers.slowScroll(distance, currentBoxad);
 	}
 

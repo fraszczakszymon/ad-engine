@@ -13,24 +13,24 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 	before(() => {
 		helpers.setDefaultWindowSize();
 		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
+		defaultDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultDesktopRatio);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		scrollDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
 		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
+		refreshDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 	});
 
 	beforeEach(() => {
 		browser.url(hiviUapStatic.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	afterEach(() => {
@@ -88,7 +88,7 @@ describe('Desktop HiVi UAP static ads page: top leaderboard', () => {
 
 	it('Check if closing top leaderboard works', () => {
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		helpers.waitForCollapsed(adSlots.topLeaderboard);
+		adSlots.waitForSlotCollapsed(adSlots.topLeaderboard);
 	});
 
 	it('Check visual regression in top leaderboard (default)', () => {
@@ -143,21 +143,21 @@ describe('Desktop HiVi UAP static ads page: bottom leaderboard', () => {
 	before(() => {
 		hiviUapStatic.openUapWithState(false, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
-		helpers.waitForExpanded(adSlots.bottomLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.bottomLeaderboard);
 
-		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
+		defaultDimensions = adSlots.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
 			adSlots.defaultDesktopRatio);
 
 		hiviUapStatic.openUapWithState(true, hiviUapStatic.pageLink, adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 
-		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
+		refreshDimensions = adSlots.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard, helpers.wrapper,
 			adSlots.resolvedDesktopRatio);
 	});
 
 	beforeEach(() => {
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.bottomLeaderboard);
 	});
 
 	it('Check if slot is visible in viewport', () => {

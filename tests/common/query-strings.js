@@ -9,7 +9,7 @@ class QueryStrings {
 			price: 'wikia_adapter',
 			limit: 'wikia_adapter_limit',
 			limitSlots: 'limit',
-			contentLength: 'contentLength',
+			contentLength: 'content_length',
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
 			sessionId: 'sessionid'

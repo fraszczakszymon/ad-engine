@@ -10,7 +10,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	before(() => {
 		browser.url(twitchAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	it('Check if slot is visible in viewport', () => {
@@ -21,7 +21,7 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, twitchAd.twitchLeaderboardRatio);
+		const dimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, twitchAd.twitchLeaderboardRatio);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to

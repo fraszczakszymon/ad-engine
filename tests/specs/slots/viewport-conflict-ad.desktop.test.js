@@ -13,7 +13,7 @@ describe('Viewport conflict ads page: top boxad', () => {
 	it('Check if top boxad is hidden after clicking the button', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
-		helpers.waitForResult(adSlots.topBoxad, adSlots.adCollapsed);
+		adSlots.waitForSlotResult(adSlots.topBoxad, adSlots.adCollapsed);
 		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`))
 			.to
 			.be
@@ -36,7 +36,7 @@ describe('Viewport conflict ads page: bottom leaderboard', () => {
 		browser.click(viewportConflictAd.hideBoxadButton);
 		viewportConflictAd.addParagraphs(5);
 		browser.scroll(0, 2800);
-		helpers.waitForResult(adSlots.bottomLeaderboard, adSlots.adLoaded);
+		adSlots.waitForSlotResult(adSlots.bottomLeaderboard, adSlots.adLoaded);
 		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
 			.to
 			.be
