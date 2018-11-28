@@ -1,4 +1,5 @@
 import { timeouts } from '../common/timeouts';
+import queryStrings from '../common/query-strings';
 import adSlots from './ad-slots';
 
 const valueToDivideBy = 10;
@@ -30,6 +31,11 @@ class Helpers {
 			'expected new page after 10 seconds',
 			timeouts.interval,
 		);
+	}
+
+
+	navigateToUrl(url, ...parameters) {
+		browser.url(queryStrings.getUrl(url, ...parameters));
 	}
 
 	/**
@@ -68,27 +74,10 @@ class Helpers {
 		browser.switchTab(tabIds[0]);
 	}
 
-	/**
-	 * Adds additional parameters to URL.
-	 * @param {string} url - base URL
-	 * @param {string[]} parameters - array of parameters to add
-	 * @returns {string} given URL with added parameters
-	 */
-	addParametersToUrl(url, parameters = []) {
-		return `${url}?${parameters.join('&')}`;
-	}
-
-	/**
-	 * Pauses actions so the movie can start playing before executing other actions.
-	 */
 	waitToStartPlaying() {
 		browser.pause(timeToStartPlaying);
 	}
 
-	/**
-	 * Provides parameters with the example page to load and ad slot to wait for.
-	 * @param adSlot ad slot to wait for visible
-	 */
 	reloadPageAndWaitForSlot(adSlot) {
 		browser.refresh();
 		browser.waitForVisible(adSlot, timeouts.standard);
@@ -99,15 +88,14 @@ class Helpers {
 		browser.waitForVisible(adSlot, timeouts.standard);
 	}
 
-	/**
-	 * Refreshes the page and pauses all the actions to let them reload properly.
-	 * @param adSlot slot to wait for
-	 * @param timeout duration of the pause
-	 */
 	refreshPageAndWaitForSlot(adSlot, timeout = timeouts.standard) {
 		browser.refresh();
 		browser.pause(timeout);
 		browser.waitForVisible(adSlot, timeout);
+	}
+
+	waitForVideoAdToFinish(videLength) {
+		browser.pause(videLength);
 	}
 
 	/**
@@ -333,7 +321,6 @@ class Helpers {
 	}
 
 	/**
-	 * Set window size to default
 	 * @param width
 	 * @param height
 	 */

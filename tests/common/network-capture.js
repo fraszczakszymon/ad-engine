@@ -1,5 +1,5 @@
-import path from 'path';
-import CDP from 'chrome-remote-interface';
+const path = require('path');
+const CDP = require('chrome-remote-interface');
 
 class EavesDropService {
 	async beforeSession(config) {

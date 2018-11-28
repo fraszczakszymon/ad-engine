@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import repeatableSlots from '../../pages/repeatable-slots.page';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
+import queryStrings from '../../common/query-strings';
 import adSlots from '../../common/ad-slots';
 
 describe('Repeatable slots ads', () => {
@@ -26,7 +27,10 @@ describe('Repeatable slots ads', () => {
 	it('Check if last slot is visible with a limit to 3', () => {
 		const numberOfSlots = 3;
 
-		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLimitOfSlots(3), repeatableSlots.setLengthOfContent(5)]));
+		helpers.navigateToUrl(
+			repeatableSlots.pageLink,
+			queryStrings.getLimitOfSlots(numberOfSlots),
+			queryStrings.getLengthOfContent(5));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
@@ -42,7 +46,9 @@ describe('Repeatable slots ads', () => {
 	it('Check if 8th boxad is visible', () => {
 		const numberOfSlots = 8;
 
-		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));
+		helpers.navigateToUrl(
+			repeatableSlots.pageLink,
+			queryStrings.getLengthOfContent(5));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
@@ -56,7 +62,10 @@ describe('Repeatable slots ads', () => {
 	});
 
 	it('Check if there is at least one viewport between slots', () => {
-		browser.url(helpers.addParametersToUrl(repeatableSlots.pageLink, [repeatableSlots.setLengthOfContent(5)]));
+		helpers.navigateToUrl(
+			repeatableSlots.pageLink,
+			queryStrings.getLengthOfContent());
+		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(1));
 		repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(2));
 		expect(browser.isVisible(repeatableSlots.getRepeatableSlot(3)))

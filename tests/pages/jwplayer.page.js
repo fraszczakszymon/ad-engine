@@ -14,15 +14,6 @@ class JWPlayer {
 
 		this.adLength = 30000;
 		this.videoLength = 75000;
-
-		this.queryStrings = {
-			midroll: 'midroll=',
-			postroll: 'postroll=',
-			capping: 'capping=',
-			autoplay: 'autoplay=',
-			mute: 'mute=',
-			f15n: 'f15s=eHnTdMot'
-		};
 	}
 
 	isAudioOn() {

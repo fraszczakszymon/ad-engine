@@ -3,7 +3,7 @@ import floatingRailAd from '../../pages/floating-rail-ad.page';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
 import adSlots from '../../common/ad-slots';
-import networkCapture from '../../common/networkCapture';
+import networkCapture from '../../common/network-capture';
 
 describe('Floating rail ads page: floating rail', () => {
 	before(() => {

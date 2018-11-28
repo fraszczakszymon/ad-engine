@@ -27,7 +27,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		refreshDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
@@ -138,7 +138,7 @@ describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if replaying the video works', () => {
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.topPlayerFrame);
 		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);

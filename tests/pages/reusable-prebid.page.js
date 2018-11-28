@@ -1,4 +1,4 @@
-import helpers from '../common/helpers';
+import queryStrings from '../common/query-strings';
 
 class ReusablePrebid {
 	constructor() {
@@ -14,21 +14,13 @@ class ReusablePrebid {
 	 * @returns {string} built url
 	 */
 	getLinkWithWikiaAdapterParameters(price = 0, limit = 0, randomness = false, timeout = 0) {
-		const queryParameters = [
-			`wikia_adapter_timeout=${timeout}`
-		];
-
-		if (price !== 0) {
-			queryParameters.push(`wikia_adapter=${price}`);
-		}
-		if (limit !== 0) {
-			queryParameters.push(`wikia_adapter_limit=${limit}`);
-		}
-		if (randomness) {
-			queryParameters.push('wikia_adapter_random=1');
-		}
-
-		return helpers.addParametersToUrl(this.pageLink, queryParameters);
+		return queryStrings.getUrl(
+			this.pageLink,
+			queryStrings.getPrice(price),
+			queryStrings.getLimit(limit),
+			queryStrings.getRandom(randomness),
+			queryStrings.getTimeout(timeout)
+		);
 	}
 }
 

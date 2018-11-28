@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import porvata from '../../pages/porvata.page';
 import { timeouts } from '../../common/timeouts';
 import helpers from '../../common/helpers';
+import queryStrings from '../../common/query-strings';
 
 describe('Porvata player', () => {
 	let adStatus;
@@ -71,7 +72,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if replaying the video works', () => {
-		porvata.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(porvata.videoLength);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 		browser.click(porvata.player);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
@@ -84,7 +85,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
-		porvata.openWithSetAutoplay(porvata.pageLink, false);
+		helpers.navigateToUrl(porvata.pageLink, queryStrings.getAutoplay(false));
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });

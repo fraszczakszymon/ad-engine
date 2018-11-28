@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import md5 from 'js-md5';
-import path from 'path';
-import VisualRegressionCompare from 'wdio-visual-regression-service/compare';
-import networkCapture from './tests/common/networkCapture';
+const networkCapture = require('./tests/common/network-capture');
+const path = require('path');
+const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
+const md5 = require('js-md5');
 
 
 function getScreenshotName(basePath) {

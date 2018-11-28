@@ -1,7 +1,8 @@
 /* global browser */
 /* eslint-disable import/no-extraneous-dependencies */
-import merge from 'deepmerge';
-import wdioConf from './wdio.conf.js';
+
+const merge = require('deepmerge');
+const wdioConf = require('./wdio.conf.js');
 
 global.wdioEnvironment = 'mobile';
 

@@ -27,7 +27,7 @@ describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 		browser.url(hiviUap.pageLink);
 		helpers.waitForExpanded(adSlots.topLeaderboard);
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedDesktopRatio);
@@ -139,7 +139,7 @@ describe('Desktop HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if replaying the video works properly', () => {
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.topPlayerFrame);
 		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
@@ -208,7 +208,7 @@ describe('Desktop HiVi UAP ads page: bottom leaderboard', () => {
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.slowScroll(7000);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 
 		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
 			adSlots.resolvedDesktopRatio);
@@ -297,7 +297,7 @@ describe('Desktop HiVi UAP ads page: video player in bottom leaderboard', () => 
 	});
 
 	it('Check if replaying the video works properly', () => {
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		browser.waitForExist(`${adSlots.bottomLeaderboard} ${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.bottomPlayerFrame);
 		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);
