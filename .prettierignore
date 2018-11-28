@@ -1,7 +1,7 @@
 examples/**/dist/bundle.js
-dist/
-lib/
-node_modules/
+**/dist/**/*
+lib/**/*
+node_modules/**/*
 jspm_packages/
 tests/allure-results
 src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
