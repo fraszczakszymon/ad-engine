@@ -63,9 +63,7 @@ export class StickyTLB {
 			return;
 		}
 
-		if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
+		if (!(StickyTLB.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
 			return;
 		}
 
