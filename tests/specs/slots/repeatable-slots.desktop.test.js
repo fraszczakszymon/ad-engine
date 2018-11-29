@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import repeatableSlots from '../../pages/repeatable-slots.page';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-import queryStrings from '../../common/query-strings';
-import adSlots from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
+import { queryStrings } from '../../common/query-strings';
+import { adSlots } from '../../common/ad-slots';
 
 describe('Repeatable slots ads', () => {
 	let adStatus;

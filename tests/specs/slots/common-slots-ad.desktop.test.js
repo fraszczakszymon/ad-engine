@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import commonAds from '../../pages/common-ad.page';
-import adSlots from '../../common/ad-slots';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import { helpers } from '../../common/helpers';
 
 describe('Common slots: top leaderboard', () => {
 	let adStatus;

@@ -1,5 +1,5 @@
-import helpers from '../common/helpers';
-import queryStrings from '../common/query-strings';
+import { helpers } from '../common/helpers';
+import { queryStrings } from '../common/query-strings';
 import { timeouts } from '../common/timeouts';
 
 export class HiviUap {

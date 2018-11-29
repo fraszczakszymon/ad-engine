@@ -1,5 +1,5 @@
 import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
+import { helpers } from '../common/helpers';
 
 class HiviUapJwp {
 	constructor() {

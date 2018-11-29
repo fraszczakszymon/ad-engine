@@ -1,6 +1,6 @@
-import asserts from '../../common/asserts';
-import adSlots from '../../common/ad-slots';
-import helpers from '../../common/helpers';
+import { asserts } from '../../common/asserts';
+import { adSlots } from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
 import repeatableSlots from '../../pages/repeatable-slots.page';
 import reusablePrebid from '../../pages/reusable-prebid.page';
 

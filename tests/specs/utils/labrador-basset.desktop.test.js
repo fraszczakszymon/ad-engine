@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import basset from '../../pages/labrador-basset.page';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-import queryStrings from '../../common/query-strings';
+import { helpers } from '../../common/helpers';
+import { queryStrings } from '../../common/query-strings';
 
 describe('It will test labrador-basset page', () => {
 	it('will test if cached value is stored', () => {

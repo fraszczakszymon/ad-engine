@@ -126,4 +126,4 @@ class QueryStrings {
 	}
 }
 
-export default new QueryStrings();
+export const queryStrings = new QueryStrings();

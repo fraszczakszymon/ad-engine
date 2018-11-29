@@ -1,6 +1,6 @@
 import { timeouts } from '../common/timeouts';
-import queryStrings from '../common/query-strings';
-import adSlots from './ad-slots';
+import { queryStrings } from '../common/query-strings';
+import { adSlots } from './ad-slots';
 
 const valueToDivideBy = 10;
 const pauseBetweenScrolls = 250;
@@ -33,7 +33,6 @@ class Helpers {
 	waitForViewabillityCounted(timeout = timeouts.viewabillity) {
 		browser.pause(timeout);
 	}
-
 
 	navigateToUrl(url, ...parameters) {
 		browser.url(queryStrings.getUrl(url, ...parameters));
@@ -95,8 +94,8 @@ class Helpers {
 		browser.waitForVisible(adSlot, timeout);
 	}
 
-	waitForVideoAdToFinish(videLength) {
-		browser.pause(videLength);
+	waitForVideoAdToFinish(videoLength) {
+		browser.pause(videoLength);
 	}
 
 	/**
@@ -172,4 +171,4 @@ class Helpers {
 	}
 }
 
-export default new Helpers();
+export const helpers = new Helpers();

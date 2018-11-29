@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import floorAdhesion from '../../pages/floor-adhesion.page';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-import adSlots from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
+import { adSlots } from '../../common/ad-slots';
 
 describe('Floor adhesion page: floor adhesion', () => {
 	before(() => {

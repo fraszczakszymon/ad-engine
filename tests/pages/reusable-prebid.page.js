@@ -1,4 +1,4 @@
-import queryStrings from '../common/query-strings';
+import { queryStrings } from '../common/query-strings';
 
 class ReusablePrebid {
 	constructor() {

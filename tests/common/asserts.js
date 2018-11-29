@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import adSlots from './ad-slots';
-import helpers from './helpers';
+import { adSlots } from './ad-slots';
+import { helpers } from './helpers';
 
 class Asserts {
 	assertSlotLineItemId(slotName, expectedLineItemId) {
@@ -19,4 +19,4 @@ class Asserts {
 	}
 }
 
-export default new Asserts();
+export const asserts = new Asserts();

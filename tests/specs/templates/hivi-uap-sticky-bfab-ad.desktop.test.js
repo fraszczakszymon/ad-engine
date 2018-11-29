@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import hiviUapStickyBfab from '../../pages/hivi-uap-sticky-bfab-ad.page';
-import adSlots from '../../common/ad-slots';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import { helpers } from '../../common/helpers';
 
 describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 	beforeEach(() => {

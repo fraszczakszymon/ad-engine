@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import stickyAd from '../../pages/sticky-ad.page';
-import adSlots from '../../common/ad-slots';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
+import { helpers } from '../../common/helpers';
 
 describe('sticky-ad template', () => {
 	beforeEach(() => {

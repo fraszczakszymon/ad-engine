@@ -1,4 +1,4 @@
-import adSlots from '../common/ad-slots';
+import { adSlots } from '../common/ad-slots';
 
 class StickyAd {
 	constructor() {

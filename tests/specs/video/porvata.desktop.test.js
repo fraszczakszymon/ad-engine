@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import porvata from '../../pages/porvata.page';
 import { timeouts } from '../../common/timeouts';
-import adSlots from '../../common/ad-slots';
-import helpers from '../../common/helpers';
-import queryStrings from '../../common/query-strings';
+import { adSlots } from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
+import { queryStrings } from '../../common/query-strings';
 
 describe('Porvata player', () => {
 	let adStatus;

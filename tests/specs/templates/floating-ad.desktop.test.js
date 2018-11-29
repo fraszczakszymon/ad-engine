@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import floatingAd from '../../pages/floating-ad.page';
-import adSlots from '../../common/ad-slots';
-import helpers from '../../common/helpers';
+import { adSlots } from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
 import { timeouts } from '../../common/timeouts';
 
 describe('Floating ad page: incontent boxad', () => {

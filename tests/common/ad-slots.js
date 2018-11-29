@@ -206,4 +206,4 @@ class AdSlots {
 	}
 }
 
-export default new AdSlots();
+export const adSlots = new AdSlots();
