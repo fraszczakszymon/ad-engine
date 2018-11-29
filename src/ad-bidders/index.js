@@ -15,11 +15,16 @@ function applyTargetingParams(slotName, targeting) {
 	Object
 		.keys(targeting)
 		.forEach(
-			key => context.set(`slots.${slotName}.targeting.${key}`, targeting[key])
+			key => context.set(`slots.${slotName}.targeting.${key}`, targeting[key]),
 		);
 }
 
 function forEachBidder(callback) {
+	console.log(
+		'%c ad-bidders forEachBidder', 'color: white; background: #6b5b95',
+		utils.timer.now(),
+		{ ...biddersRegistry },
+	);
 	Object
 		.keys(biddersRegistry)
 		.forEach((bidderName) => {
@@ -76,14 +81,21 @@ function hasAllResponses() {
 			return !bidder.hasResponse();
 		});
 
+	console.log(
+		'%c ad-bidders hasAllResponses', 'color: white; background: #6b5b95',
+		utils.timer.now(),
+		[...missingBidders],
+	);
+
 	return missingBidders.length === 0;
 }
 
 function resetTargetingKeys(slotName) {
 	forEachBidder((bidder) => {
-		bidder.getTargetingKeysToReset().forEach((key) => {
-			context.remove(`slots.${slotName}.targeting.${key}`);
-		});
+		bidder.getTargetingKeysToReset()
+			.forEach((key) => {
+				context.remove(`slots.${slotName}.targeting.${key}`);
+			});
 	});
 
 	utils.logger(logGroup, 'resetTargetingKeys', slotName);
@@ -104,11 +116,21 @@ function requestBids({ responseListener = null }) {
 		biddersRegistry.a9 = new A9(config.a9, config.timeout);
 	}
 
+	console.log(
+		'%c ad-bidders requestBids', 'color: white; background: #6b5b95',
+		utils.timer.now(),
+		{ ...biddersRegistry },
+	);
+
 	forEachBidder((bidder) => {
 		if (responseListener) {
 			bidder.addResponseListener(responseListener);
 		}
-
+		console.log(
+			'%c ad-bidders requestBids, forEachBidder', 'color: white; background: #6b5b95',
+			utils.timer.now(),
+			{ ...bidder },
+		);
 		bidder.call();
 	});
 }
@@ -136,5 +158,5 @@ export const bidders = {
 	hasAllResponses,
 	prebidHelper,
 	requestBids,
-	updateSlotTargeting
+	updateSlotTargeting,
 };

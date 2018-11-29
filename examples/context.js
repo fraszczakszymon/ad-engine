@@ -338,8 +338,8 @@ export default {
 		adStack: window.adsQueue,
 		isMobile: false,
 		providers: {
-			gpt: false,
-			prebidium: true,
+			gpt: true,
+			prebidium: false,
 		}
 	},
 	targeting: {

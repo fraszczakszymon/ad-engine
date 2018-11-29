@@ -1,4 +1,4 @@
-import { logger, makeLazyQueue } from './utils';
+import { logger, makeLazyQueue, timer } from './utils';
 import { AdSlot } from './models';
 import { FloatingAd } from './templates';
 import { GptProvider } from './providers';
@@ -27,6 +27,10 @@ function fillInUsingProvider(ad, provider) {
 }
 
 function getPromises() {
+	console.log(
+		'%c ae3 getPromise', 'color: white; background: #6b5b95',
+		timer.now(),
+	);
 	return (context.get('delayModules') || [])
 		.filter(module => module.isEnabled())
 		.map((module) => {
@@ -94,12 +98,27 @@ export class AdEngine {
 
 		logger(logGroup, `Delay by ${promises.length} modules (${maxTimeout}ms timeout)`);
 
+		console.log(
+			'%c ae3 runAdQueue', 'color: white; background: #6b5b95',
+			timer.now(),
+			promises,
+		);
 		if (promises.length > 0) {
-			Promise.all(promises).then(() => {
+			Promise.all(promises).then((...args) => {
+				console.log(
+					'%c ae3 promises then', 'color: white; background: #6b5b95',
+					timer.now(),
+					args,
+				);
 				logger(logGroup, 'startAdQueue', 'All modules ready');
 				startAdQueue();
 			});
+			// TODO: It may not be working.
 			timeout = setTimeout(() => {
+				console.log(
+					'%c ae3 timeout', 'color: white; background: #6b5b95',
+					timer.now(),
+				);
 				logger(logGroup, 'startAdQueue', 'Timeout reached');
 				startAdQueue();
 			}, maxTimeout);

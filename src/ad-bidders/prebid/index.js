@@ -143,6 +143,7 @@ export class Prebid extends BaseBidder {
 		];
 	}
 
+	/** get highest bid for the slot */
 	getTargetingParams(slotName) {
 		let slotParams = {};
 

@@ -129,6 +129,7 @@ export class GptProvider {
 		window.googletag.pubads().updateCorrelator();
 	}
 
+	/** Renders ads */
 	@decorate(gptLazyMethod)
 	flush() {
 		if (definedSlots.length) {
