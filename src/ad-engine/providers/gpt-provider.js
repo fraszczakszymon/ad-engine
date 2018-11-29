@@ -14,6 +14,12 @@ export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) 
 let definedSlots = [];
 let initialized = false;
 
+function getAdSlotFromEvent(event) {
+	const id = event.slot.getSlotElementId();
+
+	return slotService.get(id);
+}
+
 function configure() {
 	const tag = window.googletag.pubads();
 
@@ -21,20 +27,19 @@ function configure() {
 		tag.enableSingleRequest();
 	}
 	tag.disableInitialLoad();
-	tag.addEventListener('slotRenderEnded', (event) => {
-		const id = event.slot.getSlotElementId();
-		const slot = slotService.get(id);
 
+	tag.addEventListener('slotOnload', (event) => {
+		slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
+	});
+
+	tag.addEventListener('slotRenderEnded', (event) => {
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
-		defer(() => slotListener.emitRenderEnded(event, slot));
+		defer(() => slotListener.emitRenderEnded(event, getAdSlotFromEvent(event)));
 	});
 
 	tag.addEventListener('impressionViewable', (event) => {
-		const id = event.slot.getSlotElementId(),
-			slot = slotService.get(id);
-
-		slotListener.emitImpressionViewable(event, slot);
+		slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
 	});
 	window.googletag.enableServices();
 }

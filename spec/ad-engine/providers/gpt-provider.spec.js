@@ -54,7 +54,7 @@ describe('gpt-provider', () => {
 
 		expect(pubads.disableInitialLoad.called).to.be.true;
 		expect(pubads.enableSingleRequest.called).to.be.true;
-		expect(pubads.addEventListener.calledTwice).to.be.true;
+		expect(pubads.addEventListener.calledThrice).to.be.true;
 		expect(pubads.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
 	});
 
