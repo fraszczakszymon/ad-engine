@@ -106,6 +106,12 @@ class SlotListener {
 		dispatch('onRenderEnded', adSlot, { adType, event });
 	}
 
+	emitLoadedEvent(event, adSlot) {
+		adSlot.emit(AdSlot.SLOT_LOADED_EVENT);
+		dispatch('onLoaded', adSlot);
+		slotTweaker.setDataParam(adSlot, 'slotLoaded', true);
+	}
+
 	emitImpressionViewable(event, adSlot) {
 		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
 		dispatch('onImpressionViewable', adSlot);
