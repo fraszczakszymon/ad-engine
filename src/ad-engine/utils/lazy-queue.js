@@ -14,3 +14,60 @@ export function makeLazyQueue(queue, callback) {
 		throw new Error('LazyQueue requires an array as the first parameter');
 	}
 }
+
+// TODO: Proposal
+// example: https://stackblitz.com/edit/wikia-lazy-queue
+export class LazyQueue {
+	itemFlushed = {}; // TODO: RxJs Subject
+	/** @private */
+	itemFlushCallbacks = [];
+	/** @private */
+	pushCommand = undefined;
+	/** @private */
+	array = [];
+
+	constructor(...items) {
+		this.array = [...items];
+		this.setPreFlushPush();
+	}
+
+	// old start
+	flush() {
+		while (this.array.length > 0) {
+			this.emit(this.array.shift());
+		}
+		this.setPostFlushPush();
+	}
+
+	push(...items) {
+		this.pushCommand(...items);
+	}
+
+	onItemFlush(callback) {
+		this.itemFlushCallbacks.push(callback);
+	}
+
+	/** @private */
+	setPreFlushPush() {
+		this.pushCommand = (...items) => {
+			this.array.push(...items);
+		};
+	}
+
+	/** @private */
+	setPostFlushPush() {
+		this.pushCommand = (...items) => {
+			items.forEach((item) => {
+				this.emit(item);
+			});
+		};
+	}
+
+	/** @private */
+	emit(item) {
+		// this.flushed.next(item);
+		this.itemFlushCallbacks.forEach((flushCallback) => {
+			flushCallback(item);
+		});
+	}
+}
