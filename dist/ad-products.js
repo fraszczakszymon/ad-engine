@@ -1063,7 +1063,7 @@ var sticky_ad_StickyAd = function () {
 
 			this.params = params;
 
-			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+			if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
 				ad_engine_["utils"].logger(logGroup, 'stickiness rejected');
 				return;
 			}
@@ -1247,6 +1247,26 @@ var sticky_ad_StickyAd = function () {
 		key: 'isEnabled',
 		value: function isEnabled() {
 			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
+		}
+	}, {
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo(lineId, lines) {
+			if (!lineId || !lines || !lines.length) {
+				return false;
+			}
+
+			var found = false;
+			lineId = lineId.toString();
+
+			lines.forEach(function (line) {
+				line = line.split(':', 2);
+
+				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
+					found = true;
+				}
+			});
+
+			return found;
 		}
 	}]);
 
@@ -2647,7 +2667,7 @@ var sticky_tlb_StickyTLB = function () {
 				return;
 			}
 
-			if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+			if (!(StickyTLB.isEnabled() && sticky_ad_StickyAd.isLineAndGeo(this.lineId, this.lines))) {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
 				return;
 			}
