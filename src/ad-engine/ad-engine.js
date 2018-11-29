@@ -54,8 +54,12 @@ export class AdEngine {
 	}
 
 	setupProviders() {
-		// TODO: Add context variable for if
-		this.providers.set('gpt', new GptProvider());
+		if (context.get('state.providers.gpt')) {
+			this.providers.set('gpt', new GptProvider());
+		}
+		if (context.get('state.providers.prebidium')) {
+			console.log('Add Prebidium provider here');
+		}
 	}
 
 	setupQueue() {
