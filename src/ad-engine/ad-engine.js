@@ -17,12 +17,13 @@ import {
 
 const logGroup = 'ad-engine';
 
+// TODO: Move to BaseProvider class
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
 	slotService.add(adSlot);
 
-	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
+	btfBlockerService.push(adSlot, arg => provider.fillIn(arg));
 }
 
 function getPromises() {
@@ -53,6 +54,7 @@ export class AdEngine {
 	}
 
 	setupProviders() {
+		// TODO: Add context variable for if
 		this.providers.set('gpt', new GptProvider());
 	}
 

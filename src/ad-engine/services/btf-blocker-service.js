@@ -31,6 +31,7 @@ class BtfBlockerService {
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
+			// TODO: 'wrappedFillInCallback' doesn't take argument
 			fillInCallback(adSlot);
 		});
 
@@ -41,7 +42,7 @@ class BtfBlockerService {
 
 	init() {
 		context.push('listeners.slot', {
-			onRenderEnded: (/** AdSlot */adSlot) => {
+			onRenderEnded: (adSlot) => {
 				logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
 				if (!this.firstCallEnded && adSlot.isFirstCall()) {
 					this.finishFirstCall();
@@ -83,11 +84,12 @@ class BtfBlockerService {
 		}
 
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
-			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
+			this.slotsQueue.push({ adSlot, fillInCallback: (...args) => wrappedFillInCallback(...args) });
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
 			return;
 		}
 
+		// TODO: 'wrappedFillInCallback' doesn't take argument
 		wrappedFillInCallback(adSlot);
 	}
 
