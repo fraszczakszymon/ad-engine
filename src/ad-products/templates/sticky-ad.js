@@ -47,6 +47,25 @@ export class StickyAd {
 		return context.get(`templates.${StickyAd.getName()}.enabled`);
 	}
 
+	static isLineAndGeo(lineId, lines) {
+		if (!lineId || !lines || !lines.length) {
+			return false;
+		}
+
+		let found = false;
+		lineId = lineId.toString();
+
+		lines.forEach((line) => {
+			line = line.split(':', 2);
+
+			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
+				found = true;
+			}
+		});
+
+		return found;
+	}
+
 	adjustAdSlot() {
 		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 	}
@@ -54,9 +73,7 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
+		if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
 			return;
 		}
 

@@ -1,10 +1,12 @@
-import { AdEngine, context, templateService } from '@wikia/ad-engine';
+import { AdEngine, context, templateService, utils } from '@wikia/ad-engine';
 import { StickyTLB } from '@wikia/ad-products';
 import customContext from '../../context';
 
+const enabledGeo = utils.queryString.get('enabled-geo') || 'XX';
+
 context.extend(customContext);
 
-context.set('templates.stickyTLB.lineItemIds', ['271491732']);
+context.set('templates.stickyTLB.lineItemIds', [`271491732:${enabledGeo}`]);
 context.set('templates.stickyTLB.adContainerSelector', '#top_leaderboard');
 context.set('slots.top_leaderboard.defaultTemplates', ['stickyTLB']);
 
