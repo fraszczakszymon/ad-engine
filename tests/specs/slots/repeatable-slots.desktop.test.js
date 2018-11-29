@@ -26,11 +26,12 @@ describe('Repeatable slots ads', () => {
 
 	it('Check if last slot is visible with a limit to 3', () => {
 		const numberOfSlots = 3;
+		const lengthOfContent = 5;
 
 		helpers.navigateToUrl(
 			repeatableSlots.pageLink,
 			queryStrings.getLimitOfSlots(numberOfSlots),
-			queryStrings.getLengthOfContent(5));
+			queryStrings.getLengthOfContent(lengthOfContent));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
@@ -45,10 +46,11 @@ describe('Repeatable slots ads', () => {
 
 	it('Check if 8th boxad is visible', () => {
 		const numberOfSlots = 8;
+		const lengthOfContent = 10;
 
 		helpers.navigateToUrl(
 			repeatableSlots.pageLink,
-			queryStrings.getLengthOfContent(10));
+			queryStrings.getLengthOfContent(lengthOfContent));
 		browser.waitForVisible(repeatableSlots.getRepeatableSlot(1), timeouts.standard);
 		for (let i = 1; i < numberOfSlots; i += 1) {
 			repeatableSlots.scrollBetweenBoxads(repeatableSlots.getRepeatableSlot(i));
