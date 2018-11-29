@@ -11,6 +11,8 @@ import {
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 
+const logGroup = 'sticky-ad';
+
 export class StickyAd {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 	static SLOT_STICKY_READY_STATE = 'sticky-ready';
@@ -57,11 +59,13 @@ export class StickyAd {
 		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
 			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
 		) {
+			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
 
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
 			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
@@ -95,6 +99,7 @@ export class StickyAd {
 		});
 
 		window.addEventListener('resize', this.adjustAdSlot.bind(this));
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
 	addUnstickLogic() {
@@ -152,6 +157,7 @@ export class StickyAd {
 
 			this.addUnstickButton();
 		}
+		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	unstickImmediately() {
@@ -160,6 +166,7 @@ export class StickyAd {
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();
+			utils.logger(logGroup, 'unstick immediately');
 		}
 	}
 }
