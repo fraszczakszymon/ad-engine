@@ -60,7 +60,10 @@ export class StickyAd {
 			return;
 		}
 
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 		this.addUnstickLogic();

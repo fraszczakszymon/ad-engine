@@ -69,7 +69,10 @@ export class StickyTLB {
 			return;
 		}
 
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		});
 
 		this.addStickinessPlugin();
 
