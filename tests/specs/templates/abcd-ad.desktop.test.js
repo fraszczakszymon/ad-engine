@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import abcdAd from '../../pages/abcd-ad.page';
+import { abcdAd } from '../../pages/abcd-ad.page';
 import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import { helpers } from '../../common/helpers';

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import repeatableSlots from '../../pages/repeatable-slots.page';
+import { repeatableSlots } from '../../pages/repeatable-slots.page';
 import { timeouts } from '../../common/timeouts';
 import { helpers } from '../../common/helpers';
 import { queryStrings } from '../../common/query-strings';

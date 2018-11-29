@@ -29,4 +29,4 @@ export class HiviUap {
 	}
 }
 
-export default new HiviUap();
+export const hiviUap = new HiviUap();

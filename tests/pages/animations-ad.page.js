@@ -33,4 +33,4 @@ class AnimationsAd {
 	}
 }
 
-export default new AnimationsAd();
+export const animationsAd = new AnimationsAd();

@@ -1,4 +1,4 @@
-class LabradorBassetPage {
+class LabradorBasset {
 	constructor() {
 		this.pageLink = 'utils/labrador-basset/';
 		this.instantGlobalCached = '-cached';
@@ -6,4 +6,4 @@ class LabradorBassetPage {
 	}
 }
 
-export default new LabradorBassetPage();
+export const labradorBasset = new LabradorBasset();

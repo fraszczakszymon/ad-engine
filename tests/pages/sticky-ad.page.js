@@ -10,4 +10,4 @@ class StickyAd {
 	}
 }
 
-export default new StickyAd();
+export const stickyAd = new StickyAd();

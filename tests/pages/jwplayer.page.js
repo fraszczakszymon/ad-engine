@@ -26,4 +26,4 @@ class JWPlayer {
 	}
 }
 
-export default new JWPlayer();
+export const jwPlayer = new JWPlayer();

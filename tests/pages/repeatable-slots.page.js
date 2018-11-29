@@ -25,4 +25,4 @@ class RepeatableSlots {
 	}
 }
 
-export default new RepeatableSlots();
+export const repeatableSlots = new RepeatableSlots();

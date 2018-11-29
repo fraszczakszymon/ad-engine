@@ -14,4 +14,4 @@ class Porvata {
 	}
 }
 
-export default new Porvata();
+export const porvata = new Porvata();

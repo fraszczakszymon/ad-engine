@@ -84,4 +84,4 @@ class HiviUapJwp {
 	}
 }
 
-export default new HiviUapJwp();
+export const hiviUapJwp = new HiviUapJwp();

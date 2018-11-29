@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import viewportConflictAd from '../../pages/viewport-conflict-ad.page';
+import { viewportConflictAd } from '../../pages/viewport-conflict-ad.page';
 import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import { helpers } from '../../common/helpers';

@@ -24,4 +24,4 @@ class ReusablePrebid {
 	}
 }
 
-export default new ReusablePrebid();
+export const reusablePrebid = new ReusablePrebid();

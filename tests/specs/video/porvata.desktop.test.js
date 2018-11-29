@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import porvata from '../../pages/porvata.page';
+import { porvata } from '../../pages/porvata.page';
 import { timeouts } from '../../common/timeouts';
 import { adSlots } from '../../common/ad-slots';
 import { helpers } from '../../common/helpers';
