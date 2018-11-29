@@ -9,5 +9,6 @@ export * from './query-string';
 export * from './sampler';
 export * from './script-loader';
 export * from './string-builder';
+export * from './timer';
 export * from './try-property';
 export * from './viewport-observer';
