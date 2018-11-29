@@ -5,21 +5,21 @@
 	<title>Common slots</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" href="../../vendor/dist/styles.css" type="text/css" />
-	<script type="text/javascript" src="../../vendor/dist/vendor.js"></script>
+	<script id="node" type="text/javascript" src="../../vendor/dist/vendor.js"></script>
 	<script type="text/javascript">
-			var googletag = window.googletag || {};
-			googletag.cmd = googletag.cmd || [];
+		var googletag = window.googletag || {};
+		googletag.cmd = googletag.cmd || [];
 
-			(function() {
-				var gads = document.createElement('script'),
-						useSSL = 'https:' == document.location.protocol,
-						node = document.getElementsByTagName('script')[0];
+		(function() {
+			const gads = document.createElement('script'),
+				useSSL = 'https:' === document.location.protocol,
+				node = document.getElementById('node');
 
-				gads.async = true;
-				gads.type = 'text/javascript';
-				gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
-				node.parentNode.insertBefore(gads, node);
-			})();
+			gads.async = true;
+			gads.type = 'text/javascript';
+			gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+			node.parentNode.insertBefore(gads, node);
+		})();
 	</script>
 </head>
 <body>
@@ -29,9 +29,9 @@
 <header class="header">
 	<div id="top_leaderboard" class="gpt-ad top-leaderboard"></div>
 	<script>
-			window.adsQueue.push({
-				id: 'top_leaderboard'
-			});
+		window.adsQueue.push({
+			id: 'top_leaderboard'
+		});
 	</script>
 </header>
 <nav class="navigation">navbar</nav>
@@ -103,9 +103,9 @@
 			<div id="rail">
 				<div id="top_boxad" class="gpt-ad top-boxad"></div>
 				<script>
-									window.adsQueue.push({
-										id: 'top_boxad'
-									});
+					window.adsQueue.push({
+						id: 'top_boxad'
+					});
 				</script>
 				<div class="rail-module">rail module</div>
 				<div id="incontent_boxad" class="incontent-boxad floating pinned-top hide"></div>
