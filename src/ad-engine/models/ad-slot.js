@@ -5,6 +5,7 @@ import { slotListener } from '../listeners';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
+	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
@@ -31,6 +32,10 @@ export class AdSlot extends EventEmitter {
 
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
+		});
+
+		this.onLoadPromise = new Promise((resolve) => {
+			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
 	}
 
@@ -153,6 +158,10 @@ export class AdSlot extends EventEmitter {
 
 	setConfigProperty(key, value) {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
+	}
+
+	onLoad() {
+		return this.onLoadPromise;
 	}
 
 	success(status = 'success') {
