@@ -2907,7 +2907,8 @@ var porvata_listener_PorvataListener = function () {
 				position: this.params.position ? this.params.position.toLowerCase() : '(none)',
 				// @DEPRECATED
 				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
-				timestamp: new Date().getTime()
+				timestamp: new Date().getTime(),
+				tz_offset: new Date().getTimezoneOffset()
 			};
 		}
 	}]);
@@ -3080,6 +3081,7 @@ function slot_listener_getData(adSlot, _ref) {
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
+		tz_offset: new Date().getTimezoneOffset(),
 		viewport_height: window.innerHeight || 0
 	};
 }
