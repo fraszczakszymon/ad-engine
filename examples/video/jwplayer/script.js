@@ -2,7 +2,6 @@ import { context, events, utils } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { jwplayerAdsFactory } from '@wikia/ad-products';
 import 'jwplayer-fandom/dist/wikiajwplayer.js';
-
 import adContext from '../../context';
 import video from './video';
 

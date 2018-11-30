@@ -93,7 +93,8 @@ function setCookie(value) {
 }
 
 function getResult(samplingLimits, name, withCookie) {
-	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0, // eslint-disable-line no-bitwise
+	// eslint-disable-next-line no-bitwise
+	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0,
 		result = samplingLimits.some(value => randomValue < value);
 
 	if (name) {

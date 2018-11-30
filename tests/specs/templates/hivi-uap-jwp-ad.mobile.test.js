@@ -100,7 +100,8 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 
 	it('Check if slot is existing, but not immediately visible', () => {
 		browser.scroll(0, 6000);
-		browser.waitForExist(adSlots.incontentBoxad, timeouts.standard); // should exist, but show up after delay and scroll
+		// should exist, but show up after delay and scroll
+		browser.waitForExist(adSlots.incontentBoxad, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Slot visible in viewport').to
 			.be.false;
 	});
@@ -108,7 +109,8 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 	it('Check if the ad loaded after delay is the inhouse one', () => {
 		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.railModule);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
+		// separate scroll, because this slot is not immediately visible
+		browser.scroll(adSlots.incontentBoxad);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
 		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad)).to.be.true;
 		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
@@ -123,7 +125,8 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicki
 		browser.url(hiviUapJwp.pageLink);
 		hiviUapJwp.waitForAdsAfterClickAndScrollToAdSlotOnMobile(adSlots.railModule);
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
+		// separate scroll, because this slot is not immediately visible
+		browser.scroll(adSlots.incontentBoxad);
 	});
 
 	afterEach(() => {

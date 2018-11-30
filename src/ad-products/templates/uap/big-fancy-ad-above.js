@@ -128,18 +128,20 @@ export class BigFancyAdAbove {
 		this.theme.onAdReady(iframe);
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
+			// defers for proper rendering
 			const video = await utils.defer(
 				universalAdPackage.loadVideoAd,
 				this.videoSettings
-			); // defers for proper rendering
+			);
 
 			this.theme.onVideoReady(video);
 		} else if (this.params.channelName) {
+			// defers for proper rendering
 			await utils.defer(
 				universalAdPackage.loadTwitchAd,
 				iframe,
 				this.params
-			); // defers for proper rendering
+			);
 		}
 	}
 }

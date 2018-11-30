@@ -132,7 +132,8 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
+		// TODO remove this workaround after chromedriver update for opening new pages
+		browser.pause(timeouts.standard);
 
 		const tabIds = browser.getTabIds();
 
@@ -147,7 +148,8 @@ class Helpers {
 	}
 
 	/**
-	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame() instead.
+	 * Switches focus to a given frame.
+	 * If you want to go back to default frame,use browser.frame() instead.
 	 * @param frameID name of the frame to change focus to
 	 */
 	switchToFrame(frameID) {

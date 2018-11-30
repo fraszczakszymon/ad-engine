@@ -8,7 +8,8 @@ describe('client', () => {
 
 		client.checkBlocking(() => { blocker = true; }, () => { notBlocked = true; });
 
-		// Failed to load plugin because lack of window = simulate blocking extension by disabling import
+		// Failed to load plugin because lack of window = simulate blocking extension
+		// by disabling import
 		expect(blocker).to.equal(true);
 		expect(notBlocked).to.equal(false);
 	});

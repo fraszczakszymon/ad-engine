@@ -63,7 +63,8 @@ export function getViewportHeight() {
  * @param element DOM element that is going to be checked
  * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
  * @param bottomOffset bottom offset that defines bottom margin of viewport
- * @param areaThreshold element area that needs to be in/outside viewport to decide whether element is in the viewport
+ * @param areaThreshold element area that needs to be in/outside viewport to decide whether element
+ * is in the viewport
  * @returns {boolean}
  */
 export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThreshold = 0.5) {
