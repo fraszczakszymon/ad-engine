@@ -1,9 +1,8 @@
-import hiviUap from '../../pages/hivi-uap-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { hiviUap } from '../../pages/hivi-uap-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	let adStatus;
@@ -14,16 +13,16 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 
 	before(() => {
 		browser.url(hiviUap.pageLink);
-		helpers.waitForExpanded(adSlots.topLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = helpers.checkUAPSizeSlotRatio(
+		defaultDimensions = adSlots.checkUAPSizeSlotRatio(
 			adSlots.topLeaderboard,
 			adSlots.defaultMobileRatio,
 		);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = helpers.checkUAPSizeSlotRatio(
+		scrollDimensions = adSlots.checkUAPSizeSlotRatio(
 			adSlots.topLeaderboard,
 			adSlots.resolvedMobileRatio,
 		);
@@ -31,16 +30,16 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = helpers.checkUAPSizeSlotRatio(
+		refreshDimensions = adSlots.checkUAPSizeSlotRatio(
 			adSlots.topLeaderboard,
 			adSlots.resolvedMobileRatio,
 		);
 
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
-		hiviUap.waitForVideoToFinish();
-		helpers.waitForResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
+		adSlots.waitForSlotResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
-		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(
+		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(
 			adSlots.topLeaderboard,
 			adSlots.resolvedMobileRatio,
 		);
@@ -51,7 +50,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		browser.url(hiviUap.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 0);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	afterEach(() => {
@@ -97,7 +96,7 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	it('Check closing top leaderboard after clicking the button', () => {
 		browser.waitForEnabled(hiviUap.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUap.closeLeaderboardButton);
-		helpers.waitForCollapsed(adSlots.topLeaderboard);
+		adSlots.waitForSlotCollapsed(adSlots.topLeaderboard);
 	});
 });
 
@@ -142,7 +141,7 @@ describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if replaying the video works', () => {
-		hiviUap.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		browser.waitForExist(`${hiviUap.videoPlayer}${helpers.classHidden}`, timeouts.standard);
 		helpers.switchToFrame(hiviUap.topPlayerFrame);
 		browser.waitForVisible(hiviUap.replayOverlay, timeouts.standard);

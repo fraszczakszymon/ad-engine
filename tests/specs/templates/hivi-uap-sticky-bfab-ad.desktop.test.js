@@ -1,9 +1,8 @@
-import hiviUapStickyBfab from '../../pages/hivi-uap-sticky-bfab-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { hiviUapStickyBfab } from '../../pages/hivi-uap-sticky-bfab-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -38,6 +37,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top boxad', () => {
 describe('Desktop HiVi UAP sticky BFAB ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStickyBfab.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard);
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
@@ -60,9 +60,9 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	before(() => {
 		hiviUapStickyBfab.openUapWithState(false, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
-		helpers.waitForExpanded(adSlots.bottomLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.bottomLeaderboard);
 
-		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(
+		defaultDimensions = adSlots.checkDerivativeSizeSlotRatio(
 			adSlots.bottomLeaderboard,
 			helpers.wrapper,
 			adSlots.defaultDesktopRatio,
@@ -70,9 +70,10 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 
 		hiviUapStickyBfab.openUapWithState(true, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.scroll(adSlots.bottomLeaderboard);
 
-		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(
+		refreshDimensions = adSlots.checkDerivativeSizeSlotRatio(
 			adSlots.bottomLeaderboard,
 			helpers.wrapper,
 			adSlots.resolvedDesktopRatio,
@@ -80,17 +81,18 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 		browser.url(hiviUapStickyBfab.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 3000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-		hiviUapStickyBfab.waitForVideoToFinish();
+		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.scroll(adSlots.bottomLeaderboard);
+		helpers.waitForVideoAdToFinish(hiviUapStickyBfab.videoLength);
 
-		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(
+		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(
 			adSlots.topLeaderboard,
 			adSlots.resolvedDesktopRatio,
 		);
 	});
 
 	beforeEach(() => {
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard, true);
+		adStatus = adSlots.getSlotStatus(adSlots.bottomLeaderboard, true);
 	});
 
 	afterEach(() => {

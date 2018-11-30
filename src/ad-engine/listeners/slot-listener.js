@@ -41,15 +41,17 @@ function getData(adSlot, { adType, status }) {
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
-		time_bucket: (new Date()).getHours(),
+		time_bucket: new Date().getHours(),
 		timestamp: new Date().getTime(),
-		viewport_height: window.innerHeight || 0
+		viewport_height: window.innerHeight || 0,
 	};
 }
 
 function dispatch(methodName, adSlot, adInfo = {}) {
 	if (!listeners) {
-		listeners = context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
+		listeners = context
+			.get('listeners.slot')
+			.filter((listener) => !listener.isEnabled || listener.isEnabled());
 	}
 
 	const data = getData(adSlot, adInfo);
@@ -85,15 +87,15 @@ class SlotListener {
 		}
 
 		switch (adType) {
-			case 'collapse':
-				adSlot.collapse();
-				break;
-			case 'manual':
-				adSlot.setStatus(adType);
-				break;
-			default:
-				adSlot.success();
-				break;
+		case 'collapse':
+			adSlot.collapse();
+			break;
+		case 'manual':
+			adSlot.setStatus(adType);
+			break;
+		default:
+			adSlot.success();
+			break;
 		}
 
 		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
@@ -104,6 +106,12 @@ class SlotListener {
 		}
 
 		dispatch('onRenderEnded', adSlot, { adType, event });
+	}
+
+	emitLoadedEvent(event, adSlot) {
+		adSlot.emit(AdSlot.SLOT_LOADED_EVENT);
+		dispatch('onLoaded', adSlot);
+		slotTweaker.setDataParam(adSlot, 'slotLoaded', true);
 	}
 
 	emitImpressionViewable(event, adSlot) {

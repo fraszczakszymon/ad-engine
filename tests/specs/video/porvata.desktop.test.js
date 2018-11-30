@@ -1,8 +1,9 @@
-import porvata from '../../pages/porvata.page';
+import { expect } from 'chai';
+import { porvata } from '../../pages/porvata.page';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { adSlots } from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
+import { queryStrings } from '../../common/query-strings';
 
 describe('Porvata player', () => {
 	let adStatus;
@@ -14,24 +15,22 @@ describe('Porvata player', () => {
 
 	beforeEach(() => {
 		browser.waitForVisible(porvata.player, timeouts.standard);
-		adStatus = helpers.getSlotStatus(porvata.player);
+		adStatus = adSlots.getSlotStatus(porvata.player);
 		helpers.waitToStartPlaying();
 	});
 
 	it('Check if player is visible', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(porvata.player, porvata.playerWidth, porvata.playerHeight);
+		const dimensions = adSlots.checkSlotSize(
+			porvata.player,
+			porvata.playerWidth,
+			porvata.playerHeight,
+		);
 
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(dimensions.status, dimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if redirect on click on default player works', () => {
@@ -42,9 +41,10 @@ describe('Porvata player', () => {
 
 		browser.switchTab(tabIds[1]);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		expect(browser.getUrl()).to.include(
+			helpers.clickThroughUrlDomain,
+			`Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`,
+		);
 		helpers.closeNewTabs();
 	});
 
@@ -65,14 +65,15 @@ describe('Porvata player', () => {
 
 		browser.switchTab(tabIds[1]);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		expect(browser.getUrl()).to.include(
+			helpers.clickThroughUrlDomain,
+			`Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`,
+		);
 		helpers.closeNewTabs();
 	});
 
 	it('Check if replaying the video works', () => {
-		porvata.waitForVideoToFinish();
+		helpers.waitForVideoAdToFinish(porvata.videoLength);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 		browser.click(porvata.player);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
@@ -85,7 +86,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
-		browser.url(helpers.addParametersToUrl(porvata.pageLink, [porvata.turnAutoplay(false)]));
+		helpers.navigateToUrl(porvata.pageLink, queryStrings.getAutoplay(false));
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });

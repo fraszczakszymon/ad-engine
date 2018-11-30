@@ -5,6 +5,7 @@ import { slotListener } from '../listeners';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
+	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
@@ -32,16 +33,17 @@ export class AdSlot extends EventEmitter {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
 		});
+
+		this.onLoadPromise = new Promise((resolve) => {
+			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
+		});
 	}
 
 	getAdUnit() {
 		if (!this.adUnit) {
-			this.adUnit = stringBuilder.build(
-				this.config.adUnit || context.get('adUnitId'),
-				{
-					slotConfig: this.config
-				}
-			);
+			this.adUnit = stringBuilder.build(this.config.adUnit || context.get('adUnitId'), {
+				slotConfig: this.config,
+			});
 		}
 
 		return this.adUnit;
@@ -49,7 +51,7 @@ export class AdSlot extends EventEmitter {
 
 	getVideoAdUnit() {
 		return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-			slotConfig: this.config
+			slotConfig: this.config,
 		});
 	}
 
@@ -155,6 +157,10 @@ export class AdSlot extends EventEmitter {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
 	}
 
+	onLoad() {
+		return this.onLoadPromise;
+	}
+
 	success(status = 'success') {
 		slotTweaker.show(this);
 		this.setStatus(status);
@@ -162,7 +168,7 @@ export class AdSlot extends EventEmitter {
 		const templates = this.getConfigProperty('defaultTemplates');
 
 		if (templates && templates.length) {
-			templates.forEach(template => templateService.init(template, this));
+			templates.forEach((template) => templateService.init(template, this));
 		}
 	}
 

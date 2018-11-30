@@ -14,4 +14,4 @@ class TwitchAd {
 	}
 }
 
-export default new TwitchAd();
+export const twitchAd = new TwitchAd();

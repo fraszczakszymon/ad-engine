@@ -1,9 +1,8 @@
-import hiviUapJwp from '../../pages/hivi-uap-jwp-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { hiviUapJwp } from '../../pages/hivi-uap-jwp-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -13,19 +12,16 @@ describe('Mobile HiVi UAP JWP ads page: top leaderboard', () => {
 
 	it('Check if slot is existing, but the ad is not immediately visible', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`),
-			'Ad is visible')
-			.to
-			.be
-			.false;
+		expect(
+			browser.isExisting(`${adSlots.topLeaderboard}${adSlots.resultAttribute}`),
+			'Ad is visible',
+		).to.be.false;
 	});
 
 	it('Check if top leaderboard does not load after manually finishing the queue', () => {
 		browser.click(hiviUapJwp.loadAdsButton);
 		browser.waitForExist(hiviUapJwp.staticFrame, timeouts.standard);
-		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded')
-			.to
-			.be
+		expect(browser.isExisting(adSlots.lineItemIdAttribute), 'Top leaderboard has been loaded').to.be
 			.false;
 	});
 });
@@ -42,28 +38,23 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after 10s)', () =>
 
 	it('Check if top boxad is existing, but the ad is not immediately visible', () => {
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Ad is visible')
-			.to
-			.be
-			.false;
+		expect(browser.isExisting(`${adSlots.topBoxad}${adSlots.resultAttribute}`), 'Ad is visible').to
+			.be.false;
 	});
 
 	it('Check if the ad loaded after delay is visible and if it is the inhouse one', () => {
 		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.topBoxad);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport').to.be.true;
 	});
 
 	it('Check if the ad is the inhouse one', () => {
 		hiviUapJwp.waitForAdsAfterDelayAndScrollToAdSlotOnMobile(adSlots.topBoxad);
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad)
-			.getAttribute(adSlots.lineItemIdAttribute))
-			.to
-			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute)).to.equal(
+			hiviUapJwp.inHouseLineItemId,
+			'Wrong ad loaded',
+		);
 	});
 });
 
@@ -78,24 +69,23 @@ describe('Mobile HiVi UAP JWP ads page: top boxad (ads loaded after clicking the
 	});
 
 	it('Check if top boxad shows up after clicking the button', () => {
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad), 'Slot not in viewport').to.be.true;
 	});
 
 	it('Check if slot was viewed', () => {
-		helpers.waitForViewed(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(adSlots.adLoaded, 'Top boxad slot failed to load');
+		adSlots.waitForSlotViewed(adSlots.topBoxad);
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.resultAttribute)).to.equal(
+			adSlots.adLoaded,
+			'Top boxad slot failed to load',
+		);
 	});
 
 	it('Check if slot has UAP ad line item ID', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute))
-			.to
-			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded:');
+		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.lineItemIdAttribute)).to.equal(
+			hiviUapJwp.uapLineItemId,
+			'Wrong ad loaded:',
+		);
 	});
 });
 
@@ -111,10 +101,8 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 	it('Check if slot is existing, but not immediately visible', () => {
 		browser.scroll(0, 6000);
 		browser.waitForExist(adSlots.incontentBoxad, timeouts.standard); // should exist, but show up after delay and scroll
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Slot visible in viewport')
-			.to
-			.be
-			.false;
+		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Slot visible in viewport').to
+			.be.false;
 	});
 
 	it('Check if the ad loaded after delay is the inhouse one', () => {
@@ -122,13 +110,11 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after 10s)',
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 		browser.scroll(adSlots.incontentBoxad); // separate scroll, because this slot is not immediately visible
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad))
-			.to
-			.be
-			.true;
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUapJwp.inHouseLineItemId, 'Wrong ad loaded');
+		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad)).to.be.true;
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUapJwp.inHouseLineItemId,
+			'Wrong ad loaded',
+		);
 	});
 });
 
@@ -145,23 +131,25 @@ describe('Mobile HiVi UAP JWP ads page: incontent boxad (ads loaded after clicki
 	});
 
 	it('Check if slot shows up after clicking the button', () => {
-		expect(browser.isVisibleWithinViewport(adSlots.incontentBoxad), 'Incontent boxad not in viewport')
-			.to
-			.be
-			.true;
+		expect(
+			browser.isVisibleWithinViewport(adSlots.incontentBoxad),
+			'Incontent boxad not in viewport',
+		).to.be.true;
 	});
 
 	it('Check if slot was viewed', () => {
-		helpers.waitForViewed(adSlots.incontentBoxad);
-		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.resultAttribute))
-			.to
-			.equal(adSlots.adLoaded, 'Incontent boxad slot failed to load');
+		adSlots.waitForSlotViewed(adSlots.incontentBoxad);
+		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.resultAttribute)).to.equal(
+			adSlots.adLoaded,
+			'Incontent boxad slot failed to load',
+		);
 	});
 
 	it('Check if slot has UAP ad line item ID', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUapJwp.uapLineItemId, 'Wrong ad loaded');
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUapJwp.uapLineItemId,
+			'Wrong ad loaded',
+		);
 	});
 });

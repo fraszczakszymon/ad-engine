@@ -6,10 +6,12 @@ import {
 	CSS_CLASSNAME_STICKY_SLOT,
 	CSS_CLASSNAME_STICKY_TEMPLATE,
 	FADE_IN_TIME,
-	SLIDE_OUT_TIME
+	SLIDE_OUT_TIME,
 } from './uap/constants';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
+
+const logGroup = 'sticky-ad';
 
 export class StickyAd {
 	static DEFAULT_UNSTICK_DELAY = 2000;
@@ -28,7 +30,7 @@ export class StickyAd {
 			handleNavbar: true,
 			navbarWrapperSelector: 'body > nav.navigation',
 			smartBannerSelector: null,
-			slotsIgnoringNavbar: []
+			slotsIgnoringNavbar: [],
 		};
 	}
 
@@ -47,6 +49,25 @@ export class StickyAd {
 		return context.get(`templates.${StickyAd.getName()}.enabled`);
 	}
 
+	static isLineAndGeo(lineId, lines) {
+		if (!lineId || !lines || !lines.length) {
+			return false;
+		}
+
+		let found = false;
+		lineId = lineId.toString();
+
+		lines.forEach((line) => {
+			line = line.split(':', 2);
+
+			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
+				found = true;
+			}
+		});
+
+		return found;
+	}
+
 	adjustAdSlot() {
 		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 	}
@@ -54,19 +75,25 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
+		if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
 
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 		this.addUnstickLogic();
 		this.addUnstickEventsListeners();
 
-		if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
+		if (
+			this.config.handleNavbar &&
+			this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1
+		) {
 			const navbarElement = document.querySelector(this.config.navbarWrapperSelector);
 
 			this.topOffset = navbarElement ? navbarElement.offsetHeight : 0;
@@ -80,10 +107,12 @@ export class StickyAd {
 
 		this.adjustAdSlot();
 
-		const startOffset = utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
+		const startOffset =
+			utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
 
 		this.scrollListener = scrollListener.addCallback(() => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			if (scrollPosition >= startOffset) {
 				this.stickiness.run();
@@ -92,14 +121,15 @@ export class StickyAd {
 		});
 
 		window.addEventListener('resize', this.adjustAdSlot.bind(this));
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
 		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
+			await (stickyUntilSlotViewed && !this.adSlot.isViewed()
+				? utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT)
+				: Promise.resolve());
 			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
@@ -109,10 +139,13 @@ export class StickyAd {
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close()
+			onClick: () => this.stickiness.close(),
 		}).render();
 
-		this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
+		this.adSlot
+			.getElement()
+			.querySelector('div')
+			.appendChild(this.closeButton);
 	}
 
 	removeUnstickButton() {
@@ -127,7 +160,9 @@ export class StickyAd {
 	}
 
 	addUnstickEventsListeners() {
-		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
+		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
+			this.onStickinessChange(isSticky),
+		);
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
@@ -135,20 +170,31 @@ export class StickyAd {
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
 			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
-			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+			await animate(
+				this.adSlot.getElement().querySelector('div'),
+				CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+				SLIDE_OUT_TIME,
+			);
 			this.removeStickyParameters();
-			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+			animate(
+				this.adSlot.getElement().querySelector('div'),
+				CSS_CLASSNAME_FADE_IN_ANIMATION,
+				FADE_IN_TIME,
+			);
 
 			this.removeUnstickButton();
 		} else {
 			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
+			this.adSlot.getElement().style.height = `${
+				this.adSlot.getElement().querySelector('div').offsetHeight
+			}px`;
 			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
 			this.adSlot.getElement().querySelector('div').style.left = `${this.leftOffset}px`;
 
 			this.addUnstickButton();
 		}
+		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	unstickImmediately() {
@@ -157,6 +203,7 @@ export class StickyAd {
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();
+			utils.logger(logGroup, 'unstick immediately');
 		}
 	}
 }

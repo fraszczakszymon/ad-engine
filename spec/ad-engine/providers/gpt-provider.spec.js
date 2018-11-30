@@ -25,12 +25,12 @@ describe('gpt-provider', () => {
 			disableInitialLoad: spy(),
 			enableSingleRequest: spy(),
 			setRequestNonPersonalizedAds: spy(),
-			setTargeting: spy()
+			setTargeting: spy(),
 		};
 
 		window.googletag = {
 			pubads: () => pubads,
-			enableServices: spy()
+			enableServices: spy(),
 		};
 
 		window.googletag.cmd = window.googletag.cmd || [];
@@ -54,7 +54,7 @@ describe('gpt-provider', () => {
 
 		expect(pubads.disableInitialLoad.called).to.be.true;
 		expect(pubads.enableSingleRequest.called).to.be.true;
-		expect(pubads.addEventListener.calledTwice).to.be.true;
+		expect(pubads.addEventListener.calledThrice).to.be.true;
 		expect(pubads.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
 	});
 

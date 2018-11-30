@@ -9,4 +9,4 @@ class AbcdAd {
 	}
 }
 
-export default new AbcdAd();
+export const abcdAd = new AbcdAd();

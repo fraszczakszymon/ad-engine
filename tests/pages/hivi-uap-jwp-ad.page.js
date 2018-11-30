@@ -1,7 +1,5 @@
 import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
-
-const loadAdTime = 10000;
+import { helpers } from '../common/helpers';
 
 class HiviUapJwp {
 	constructor() {
@@ -10,11 +8,9 @@ class HiviUapJwp {
 		this.inHouseLineItemId = '271491732';
 		this.uapLineItemId = '4517824948';
 		this.staticFrame = '[name="google_osd_static_frame"]';
+		this.videoLength = 10000;
 	}
 
-	waitForJWPAdVideoToFinish() {
-		browser.pause(loadAdTime);
-	}
 	/**
 	 * Waits for the delay to pass so the ads load up.
 	 */
@@ -25,7 +21,7 @@ class HiviUapJwp {
 			'Button not loaded',
 			timeouts.interval,
 		);
-		this.waitForJWPAdVideoToFinish();
+		helpers.waitForVideoAdToFinish(this.videoLength);
 		browser.waitUntil(
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
 			timeouts.standard,
@@ -92,4 +88,4 @@ class HiviUapJwp {
 	}
 }
 
-export default new HiviUapJwp();
+export const hiviUapJwp = new HiviUapJwp();
