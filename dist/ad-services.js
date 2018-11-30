@@ -649,6 +649,8 @@ var bill_the_lizard_BillTheLizard = function () {
 
 		/**
    * Sets DFP targeting in context.
+   *
+   * @returns string
    */
 
 	}, {
@@ -656,14 +658,17 @@ var bill_the_lizard_BillTheLizard = function () {
 		value: function setTargeting() {
 			var targeting = this.getTargeting();
 			if (keys_default()(targeting).length > 0) {
-				ad_engine_["context"].set('targeting.btl', entries_default()(targeting).map(function (_ref) {
+				var serializedTargeting = entries_default()(targeting).map(function (_ref) {
 					var _ref2 = slicedToArray_default()(_ref, 2),
 					    modelName = _ref2[0],
 					    result = _ref2[1];
 
 					return modelName + '_' + result;
-				}));
+				});
+				ad_engine_["context"].set('targeting.btl', serializedTargeting);
+				return serializedTargeting;
 			}
+			return '';
 		}
 
 		/**

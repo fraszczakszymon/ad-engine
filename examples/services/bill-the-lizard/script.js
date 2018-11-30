@@ -20,7 +20,7 @@ function makeCall(lazyCallProject = null, callId) {
 			predictionsElement.innerText += Object.keys(predictions).map(key => `${key}\t\t${predictions[key]}`).join('\n');
 			serializedElement.innerText = billTheLizard.serialize();
 			statusElement.innerText = billTheLizard.getResponseStatus();
-			targetingElement.innerText = billTheLizard.targetingToArray(billTheLizard.getTargeting());
+			targetingElement.innerText = billTheLizard.setTargeting();
 		}, (response) => {
 			console.error(`❗ Error : ${response.message}`);
 

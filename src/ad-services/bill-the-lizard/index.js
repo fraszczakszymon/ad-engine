@@ -260,15 +260,18 @@ export class BillTheLizard {
 
 	/**
 	 * Sets DFP targeting in context.
+	 *
+	 * @returns string
 	 */
 	setTargeting() {
 		const targeting = this.getTargeting();
 		if (Object.keys(targeting).length > 0) {
-			context.set(
-				'targeting.btl',
-				Object.entries(targeting).map(([modelName, result]) => `${modelName}_${result}`)
-			);
+			const serializedTargeting = Object.entries(targeting)
+				.map(([modelName, result]) => `${modelName}_${result}`);
+			context.set('targeting.btl', serializedTargeting);
+			return serializedTargeting;
 		}
+		return '';
 	}
 
 	/**
