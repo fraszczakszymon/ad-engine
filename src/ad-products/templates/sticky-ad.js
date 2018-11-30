@@ -15,9 +15,6 @@ import CloseButton from './interface/close-button';
 const logGroup = 'sticky-ad';
 
 export class StickyAd extends StickyBase {
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-
 	static getDefaultConfig() {
 		return {
 			enabled: true,
@@ -43,25 +40,6 @@ export class StickyAd extends StickyBase {
 
 	getName() {
 		return StickyAd.getName();
-	}
-
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
-
-		let found = false;
-		lineId = lineId.toString();
-
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-
-		return found;
 	}
 
 	adjustAdSlot() {

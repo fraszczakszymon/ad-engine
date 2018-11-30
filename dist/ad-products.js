@@ -110,19 +110,19 @@ module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 9 */
@@ -518,29 +518,29 @@ var skin_Skin = function () {
 var regenerator_ = __webpack_require__(3);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(6);
-var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
-
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
 var asyncToGenerator_ = __webpack_require__(4);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(13);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
 var get_prototype_of_ = __webpack_require__(5);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(8);
+var possibleConstructorReturn_ = __webpack_require__(7);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(7);
+var inherits_ = __webpack_require__(6);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
+var promise_ = __webpack_require__(8);
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
+var symbol_ = __webpack_require__(13);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "lodash/isFunction"
 var isFunction_ = __webpack_require__(18);
@@ -784,6 +784,140 @@ stickiness_Stickiness.LOG_GROUP = 'stickiness';
 stickiness_Stickiness.STICKINESS_CHANGE_EVENT = symbol_default()('stickinessChange');
 stickiness_Stickiness.CLOSE_CLICKED_EVENT = symbol_default()('closeClicked');
 stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT = symbol_default()('unstickImmediately');
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-base.js
+
+
+
+
+
+
+
+
+var logGroup = 'sticky-base';
+
+var sticky_base_StickyBase = function () {
+
+	/**
+  * Base class for sticky ads
+  * @param {AdSlot} adSlot
+  */
+	function StickyBase(adSlot) {
+		classCallCheck_default()(this, StickyBase);
+
+		this.adSlot = adSlot;
+		this.lineId = adSlot.lineItemId === 'null' ? StickyBase.ADX : adSlot.lineItemId;
+		this.lines = ad_engine_["context"].get('templates.' + this.getName() + '.lineItemIds');
+		this.stickiness = null;
+		this.config = ad_engine_["context"].get('templates.' + this.getName());
+	}
+
+	/**
+  * Returns template name.
+  *
+  * @abstract
+  * @return {string}
+  */
+
+
+	createClass_default()(StickyBase, [{
+		key: 'getName',
+		value: function getName() {}
+
+		/**
+   * Runs logic which decides when to unstick the template.
+   */
+
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var _this = this;
+
+			var _config = this.config,
+			    stickyAdditionalTime = _config.stickyAdditionalTime,
+			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
+
+			var whenSlotViewedOrTimeout = function () {
+				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+					return regenerator_default.a.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									_context.next = 2;
+									return stickyUntilSlotViewed && !_this.adSlot.isViewed() ? ad_engine_["utils"].once(_this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+
+								case 2:
+									_context.next = 4;
+									return ad_engine_["utils"].wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+
+								case 4:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this);
+				}));
+
+				return function whenSlotViewedOrTimeout() {
+					return _ref.apply(this, arguments);
+				};
+			}();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			var isEnabledInContext = ad_engine_["context"].get('templates.' + this.getName() + '.enabled');
+			var isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
+			var isEnabled = isEnabledInContext && isLineAndGeo;
+
+			ad_engine_["utils"].logger(logGroup, 'isEnabledInContext: ' + isEnabledInContext);
+			ad_engine_["utils"].logger(logGroup, 'isLineAndGeo: ' + isLineAndGeo);
+
+			if (isEnabled) {
+				ad_engine_["utils"].logger(logGroup, 'enabled with line item id ' + this.lineId);
+
+				// DISCUSS: Should we set lineItemId to ADX for all slots or only sticky ones?
+				if (this.lineId === StickyBase.ADX) {
+					this.adSlot.lineItemId = StickyBase.ADX;
+					this.adSlot.creativeId = StickyBase.ADX;
+				}
+			}
+
+			return isEnabled;
+		}
+	}], [{
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo(lineId, lines) {
+			ad_engine_["utils"].logger(logGroup, 'isLineAndGeoArgs', lineId, lines);
+			if (!lineId || !lines || !lines.length) {
+				return false;
+			}
+
+			var found = false;
+			lineId = lineId.toString();
+
+			lines.forEach(function (line) {
+				line = line.split(':', 2);
+
+				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
+					found = true;
+				}
+			});
+			if (found) {
+				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
+			}
+
+			return found;
+		}
+	}]);
+
+	return StickyBase;
+}();
+sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
+sticky_base_StickyBase.SLOT_STICKY_READY_STATE = 'sticky-ready';
+sticky_base_StickyBase.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+sticky_base_StickyBase.ADX = 'AdX';
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
 var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
 var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
@@ -1015,15 +1149,15 @@ var close_button_CloseButton = function (_UiComponent) {
 
 
 
-var logGroup = 'sticky-ad';
 
-var sticky_ad_StickyAd = function () {
+
+
+var sticky_ad_logGroup = 'sticky-ad';
+
+var sticky_ad_StickyAd = function (_StickyBase) {
+	inherits_default()(StickyAd, _StickyBase);
+
 	createClass_default()(StickyAd, null, [{
-		key: 'getName',
-		value: function getName() {
-			return 'stickyAd';
-		}
-	}, {
 		key: 'getDefaultConfig',
 		value: function getDefaultConfig() {
 			return {
@@ -1041,17 +1175,20 @@ var sticky_ad_StickyAd = function () {
 	function StickyAd(adSlot) {
 		classCallCheck_default()(this, StickyAd);
 
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = ad_engine_["context"].get('templates.' + StickyAd.getName());
-		this.lines = ad_engine_["context"].get('templates.' + StickyAd.getName() + '.lineItemIds');
-		this.stickiness = null;
-		this.scrollListener = null;
-		this.topOffset = 0;
-		this.leftOffset = 0;
+		var _this = possibleConstructorReturn_default()(this, (StickyAd.__proto__ || get_prototype_of_default()(StickyAd)).call(this, adSlot));
+
+		_this.scrollListener = null;
+		_this.topOffset = 0;
+		_this.leftOffset = 0;
+		return _this;
 	}
 
 	createClass_default()(StickyAd, [{
+		key: 'getName',
+		value: function getName() {
+			return StickyAd.getName();
+		}
+	}, {
 		key: 'adjustAdSlot',
 		value: function adjustAdSlot() {
 			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
@@ -1059,19 +1196,19 @@ var sticky_ad_StickyAd = function () {
 	}, {
 		key: 'init',
 		value: function init(params) {
-			var _this = this;
+			var _this2 = this;
 
 			this.params = params;
 
-			if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
-				ad_engine_["utils"].logger(logGroup, 'stickiness rejected');
+			if (!this.isEnabled()) {
+				ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness rejected');
 				return;
 			}
 
 			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 			this.adSlot.onLoad().then(function () {
-				ad_engine_["utils"].logger(logGroup, _this.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+				ad_engine_["utils"].logger(sticky_ad_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
+				_this2.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
 			});
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
@@ -1098,50 +1235,13 @@ var sticky_ad_StickyAd = function () {
 				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 				if (scrollPosition >= startOffset) {
-					_this.stickiness.run();
-					ad_engine_["scrollListener"].removeCallback(_this.scrollListener);
+					_this2.stickiness.run();
+					ad_engine_["scrollListener"].removeCallback(_this2.scrollListener);
 				}
 			});
 
 			window.addEventListener('resize', this.adjustAdSlot.bind(this));
-			ad_engine_["utils"].logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
-		}
-	}, {
-		key: 'addUnstickLogic',
-		value: function addUnstickLogic() {
-			var _this2 = this;
-
-			var _config = this.config,
-			    stickyAdditionalTime = _config.stickyAdditionalTime,
-			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
-
-			var whenSlotViewedOrTimeout = function () {
-				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-					return regenerator_default.a.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									_context.next = 2;
-									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
-
-								case 2:
-									_context.next = 4;
-									return ad_engine_["utils"].wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-
-								case 4:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this2);
-				}));
-
-				return function whenSlotViewedOrTimeout() {
-					return _ref.apply(this, arguments);
-				};
-			}();
-
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+			ad_engine_["utils"].logger(sticky_ad_logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
 	}, {
 		key: 'addUnstickButton',
@@ -1184,18 +1284,18 @@ var sticky_ad_StickyAd = function () {
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
-			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
-				return regenerator_default.a.wrap(function _callee2$(_context2) {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(isSticky) {
+				return regenerator_default.a.wrap(function _callee$(_context) {
 					while (1) {
-						switch (_context2.prev = _context2.next) {
+						switch (_context.prev = _context.next) {
 							case 0:
 								if (isSticky) {
-									_context2.next = 9;
+									_context.next = 9;
 									break;
 								}
 
 								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
-								_context2.next = 4;
+								_context.next = 4;
 								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 4:
@@ -1203,7 +1303,7 @@ var sticky_ad_StickyAd = function () {
 								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 								this.removeUnstickButton();
-								_context2.next = 15;
+								_context.next = 15;
 								break;
 
 							case 9:
@@ -1216,18 +1316,18 @@ var sticky_ad_StickyAd = function () {
 								this.addUnstickButton();
 
 							case 15:
-								ad_engine_["utils"].logger(logGroup, 'stickiness changed', isSticky);
+								ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness changed', isSticky);
 
 							case 16:
 							case 'end':
-								return _context2.stop();
+								return _context.stop();
 						}
 					}
-				}, _callee2, this);
+				}, _callee, this);
 			}));
 
 			function onStickinessChange(_x) {
-				return _ref2.apply(this, arguments);
+				return _ref.apply(this, arguments);
 			}
 
 			return onStickinessChange;
@@ -1240,41 +1340,18 @@ var sticky_ad_StickyAd = function () {
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
-				ad_engine_["utils"].logger(logGroup, 'unstick immediately');
+				ad_engine_["utils"].logger(sticky_ad_logGroup, 'unstick immediately');
 			}
 		}
 	}], [{
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
-		}
-	}, {
-		key: 'isLineAndGeo',
-		value: function isLineAndGeo(lineId, lines) {
-			if (!lineId || !lines || !lines.length) {
-				return false;
-			}
-
-			var found = false;
-			lineId = lineId.toString();
-
-			lines.forEach(function (line) {
-				line = line.split(':', 2);
-
-				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
-					found = true;
-				}
-			});
-
-			return found;
+		key: 'getName',
+		value: function getName() {
+			return 'stickyAd';
 		}
 	}]);
 
 	return StickyAd;
-}();
-sticky_ad_StickyAd.DEFAULT_UNSTICK_DELAY = 2000;
-sticky_ad_StickyAd.SLOT_STICKY_READY_STATE = 'sticky-ready';
-sticky_ad_StickyAd.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+}(sticky_base_StickyBase);
 // CONCATENATED MODULE: ./src/ad-products/common/translations.js
 var TRANSLATIONS = {
 	labels: {
@@ -2642,40 +2719,81 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 
 
+
+
+
+
 var sticky_tlb_logGroup = 'sticky-tlb';
 
-var sticky_tlb_StickyTLB = function () {
+var sticky_tlb_StickyTLB = function (_StickyBase) {
+	inherits_default()(StickyTLB, _StickyBase);
+
+	createClass_default()(StickyTLB, null, [{
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				enabled: true,
+				desktopNavbarWrapperSelector: '.wds-global-navigation-wrapper',
+				mobileNavbarWrapperSelector: '.global-navigation-mobile-wrapper',
+				mainContainer: document.body,
+				handleNavbar: false,
+				stickyAdditionalTime: 0,
+				stickyUntilSlotViewed: true,
+				slotSibling: '.topic-header',
+				onInit: function onInit() {},
+				onBeforeStickBfaaCallback: function onBeforeStickBfaaCallback() {},
+				onAfterStickBfaaCallback: function onAfterStickBfaaCallback() {},
+				onBeforeUnstickBfaaCallback: function onBeforeUnstickBfaaCallback() {},
+				onAfterUnstickBfaaCallback: function onAfterUnstickBfaaCallback() {},
+				moveNavbar: function moveNavbar(offset) {
+					var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : SLIDE_OUT_TIME;
+
+					var navbarElement = document.querySelector('body > nav.navigation');
+
+					if (navbarElement) {
+						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + universalAdPackage.CSS_TIMING_EASE_IN_CUBIC;
+						navbarElement.style.top = offset ? offset + 'px' : '';
+					}
+				}
+			};
+		}
+	}]);
+
 	function StickyTLB(adSlot) {
 		classCallCheck_default()(this, StickyTLB);
 
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = ad_engine_["context"].get('templates.' + StickyTLB.getName());
-		this.lines = ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.lineItemIds');
-		this.container = document.getElementById(this.adSlot.getSlotName());
-		this.stickiness = null;
+		var _this = possibleConstructorReturn_default()(this, (StickyTLB.__proto__ || get_prototype_of_default()(StickyTLB)).call(this, adSlot));
+
+		_this.container = document.getElementById(_this.adSlot.getSlotName());
+		return _this;
 	}
 
 	createClass_default()(StickyTLB, [{
+		key: 'getName',
+		value: function getName() {
+			return StickyTLB.getName();
+		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return get_default()(StickyTLB.prototype.__proto__ || get_prototype_of_default()(StickyTLB.prototype), 'isEnabled', this).call(this) && this.container;
+		}
+	}, {
 		key: 'init',
 		value: function init(params) {
-			var _this = this;
+			var _this2 = this;
 
 			this.params = params;
 
-			if (!this.container) {
-				return;
-			}
-
-			if (!(StickyTLB.isEnabled() && sticky_ad_StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
 				return;
 			}
 
 			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 			this.adSlot.onLoad().then(function () {
-				ad_engine_["utils"].logger(sticky_tlb_logGroup, _this.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
+				ad_engine_["utils"].logger(sticky_tlb_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
+				_this2.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
 			});
 
 			this.addStickinessPlugin();
@@ -2695,43 +2813,6 @@ var sticky_tlb_StickyTLB = function () {
 			this.addUnstickEvents();
 			this.stickiness.run();
 			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
-		}
-	}, {
-		key: 'addUnstickLogic',
-		value: function addUnstickLogic() {
-			var _this2 = this;
-
-			var _config = this.config,
-			    stickyAdditionalTime = _config.stickyAdditionalTime,
-			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
-
-			var whenSlotViewedOrTimeout = function () {
-				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-					return regenerator_default.a.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									_context.next = 2;
-									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
-
-								case 2:
-									_context.next = 4;
-									return ad_engine_["utils"].wait(StickyTLB.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-
-								case 4:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this2);
-				}));
-
-				return function whenSlotViewedOrTimeout() {
-					return _ref.apply(this, arguments);
-				};
-			}();
-
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 		}
 	}, {
 		key: 'addAdvertisementLabel',
@@ -2773,11 +2854,11 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
-			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(isSticky) {
 				var stickinessBeforeCallback, stickinessAfterCallback;
-				return regenerator_default.a.wrap(function _callee2$(_context2) {
+				return regenerator_default.a.wrap(function _callee$(_context) {
 					while (1) {
-						switch (_context2.prev = _context2.next) {
+						switch (_context.prev = _context.next) {
 							case 0:
 								stickinessBeforeCallback = isSticky ? this.config.onBeforeStickBfaaCallback : this.config.onBeforeUnstickBfaaCallback;
 								stickinessAfterCallback = isSticky ? this.config.onAfterStickBfaaCallback : this.config.onAfterUnstickBfaaCallback;
@@ -2786,20 +2867,20 @@ var sticky_tlb_StickyTLB = function () {
 								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 								if (isSticky) {
-									_context2.next = 13;
+									_context.next = 13;
 									break;
 								}
 
 								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
-								_context2.next = 8;
+								_context.next = 8;
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 8:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 								this.adSlot.getElement().classList.add('theme-resolved');
 								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-								_context2.next = 15;
+								_context.next = 15;
 								break;
 
 							case 13:
@@ -2813,14 +2894,14 @@ var sticky_tlb_StickyTLB = function () {
 
 							case 17:
 							case 'end':
-								return _context2.stop();
+								return _context.stop();
 						}
 					}
-				}, _callee2, this);
+				}, _callee, this);
 			}));
 
-			function onStickinessChange(_x) {
-				return _ref2.apply(this, arguments);
+			function onStickinessChange(_x2) {
+				return _ref.apply(this, arguments);
 			}
 
 			return onStickinessChange;
@@ -2828,10 +2909,10 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'onAdReady',
 		value: function () {
-			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
-				return regenerator_default.a.wrap(function _callee3$(_context3) {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
 					while (1) {
-						switch (_context3.prev = _context3.next) {
+						switch (_context2.prev = _context2.next) {
 							case 0:
 								this.container.classList.add('theme-hivi');
 								this.addAdvertisementLabel();
@@ -2846,11 +2927,11 @@ var sticky_tlb_StickyTLB = function () {
 								this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
 
 								if (!document.hidden) {
-									_context3.next = 9;
+									_context2.next = 9;
 									break;
 								}
 
-								_context3.next = 9;
+								_context2.next = 9;
 								return ad_engine_["utils"].once(window, 'visibilitychange');
 
 							case 9:
@@ -2859,14 +2940,14 @@ var sticky_tlb_StickyTLB = function () {
 
 							case 10:
 							case 'end':
-								return _context3.stop();
+								return _context2.stop();
 						}
 					}
-				}, _callee3, this);
+				}, _callee2, this);
 			}));
 
 			function onAdReady() {
-				return _ref3.apply(this, arguments);
+				return _ref2.apply(this, arguments);
 			}
 
 			return onAdReady;
@@ -2906,45 +2987,10 @@ var sticky_tlb_StickyTLB = function () {
 		value: function getName() {
 			return 'stickyTLB';
 		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				enabled: true,
-				desktopNavbarWrapperSelector: '.wds-global-navigation-wrapper',
-				mobileNavbarWrapperSelector: '.global-navigation-mobile-wrapper',
-				mainContainer: document.body,
-				handleNavbar: false,
-				stickyAdditionalTime: 0,
-				stickyUntilSlotViewed: true,
-				slotSibling: '.topic-header',
-				onInit: function onInit() {},
-				onBeforeStickBfaaCallback: function onBeforeStickBfaaCallback() {},
-				onAfterStickBfaaCallback: function onAfterStickBfaaCallback() {},
-				onBeforeUnstickBfaaCallback: function onBeforeUnstickBfaaCallback() {},
-				onAfterUnstickBfaaCallback: function onAfterUnstickBfaaCallback() {},
-				moveNavbar: function moveNavbar(offset) {
-					var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : SLIDE_OUT_TIME;
-
-					var navbarElement = document.querySelector('body > nav.navigation');
-
-					if (navbarElement) {
-						navbarElement.style.transition = offset ? '' : 'top ' + time + 'ms ' + universalAdPackage.CSS_TIMING_EASE_IN_CUBIC;
-						navbarElement.style.top = offset ? offset + 'px' : '';
-					}
-				}
-			};
-		}
-	}, {
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.' + StickyTLB.getName() + '.enabled');
-		}
 	}]);
 
 	return StickyTLB;
-}();
-sticky_tlb_StickyTLB.DEFAULT_UNSTICK_DELAY = 2000;
+}(sticky_base_StickyBase);
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(10);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);

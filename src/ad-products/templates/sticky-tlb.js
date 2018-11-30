@@ -1,4 +1,4 @@
-import { AdSlot, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+import { AdSlot, scrollListener, utils } from '@wikia/ad-engine';
 
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';

@@ -15,10 +15,10 @@ export class StickyBase {
 	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId === null ? StickyBase.ADX : adSlot.lineItemId;
+		this.lineId = adSlot.lineItemId === 'null' ? StickyBase.ADX : adSlot.lineItemId;
+		this.lines = context.get(`templates.${this.getName()}.lineItemIds`);
 		this.stickiness = null;
 		this.config = context.get(`templates.${this.getName()}`);
-		this.lines = context.get(`templates.${this.getName()}.lineItemIds`);
 	}
 
 	/**
@@ -46,11 +46,11 @@ export class StickyBase {
 
 	isEnabled() {
 		const isEnabledInContext = context.get(`templates.${this.getName()}.enabled`);
-		const isEnabled = isEnabledInContext
-			&& this.lines
-			&& this.lines.length
-			&& this.lineId
-			&& (this.lines.indexOf(this.lineId.toString()) >= 0 || this.lines.indexOf(this.lineId) >= 0);
+		const isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
+		const isEnabled = isEnabledInContext && isLineAndGeo;
+
+		utils.logger(logGroup, `isEnabledInContext: ${isEnabledInContext}`);
+		utils.logger(logGroup, `isLineAndGeo: ${isLineAndGeo}`);
 
 		if (isEnabled) {
 			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
@@ -63,5 +63,28 @@ export class StickyBase {
 		}
 
 		return isEnabled;
+	}
+
+	static isLineAndGeo(lineId, lines) {
+		utils.logger(logGroup, 'isLineAndGeoArgs', lineId, lines);
+		if (!lineId || !lines || !lines.length) {
+			return false;
+		}
+
+		let found = false;
+		lineId = lineId.toString();
+
+		lines.forEach((line) => {
+			line = line.split(':', 2);
+
+			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
+				found = true;
+			}
+		});
+		if (found) {
+			utils.logger(logGroup, `line item ${lineId} enabled in geo`);
+		}
+
+		return found;
 	}
 }
