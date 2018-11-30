@@ -871,16 +871,16 @@ var sticky_base_StickyBase = function () {
 			var isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
 			var isEnabled = isEnabledInContext && isLineAndGeo;
 
-			ad_engine_["utils"].logger(logGroup, 'isEnabledInContext: ' + isEnabledInContext);
-			ad_engine_["utils"].logger(logGroup, 'isLineAndGeo: ' + isLineAndGeo);
-
 			if (isEnabled) {
 				ad_engine_["utils"].logger(logGroup, 'enabled with line item id ' + this.lineId);
 
-				// DISCUSS: Should we set lineItemId to ADX for all slots or only sticky ones?
+				// DISCUSS: Should we set lineItemId to ADX for all slots at creation time
+				// or only sticky ones?
 				if (this.lineId === StickyBase.ADX) {
-					this.adSlot.lineItemId = StickyBase.ADX;
 					this.adSlot.creativeId = StickyBase.ADX;
+					this.adSlot.lineItemId = StickyBase.ADX;
+					this.adSlot.container.firstChild.dataset.gptCreativeId = StickyBase.ADX;
+					this.adSlot.container.firstChild.dataset.gptLineItemId = StickyBase.ADX;
 				}
 			}
 
@@ -889,7 +889,6 @@ var sticky_base_StickyBase = function () {
 	}], [{
 		key: 'isLineAndGeo',
 		value: function isLineAndGeo(lineId, lines) {
-			ad_engine_["utils"].logger(logGroup, 'isLineAndGeoArgs', lineId, lines);
 			if (!lineId || !lines || !lines.length) {
 				return false;
 			}

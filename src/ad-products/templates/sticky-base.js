@@ -49,16 +49,16 @@ export class StickyBase {
 		const isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
 		const isEnabled = isEnabledInContext && isLineAndGeo;
 
-		utils.logger(logGroup, `isEnabledInContext: ${isEnabledInContext}`);
-		utils.logger(logGroup, `isLineAndGeo: ${isLineAndGeo}`);
-
 		if (isEnabled) {
 			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
 
-			// DISCUSS: Should we set lineItemId to ADX for all slots or only sticky ones?
+			// DISCUSS: Should we set lineItemId to ADX for all slots at creation time
+			// or only sticky ones?
 			if (this.lineId === StickyBase.ADX) {
-				this.adSlot.lineItemId = StickyBase.ADX;
 				this.adSlot.creativeId = StickyBase.ADX;
+				this.adSlot.lineItemId = StickyBase.ADX;
+				this.adSlot.container.firstChild.dataset.gptCreativeId = StickyBase.ADX;
+				this.adSlot.container.firstChild.dataset.gptLineItemId = StickyBase.ADX;
 			}
 		}
 
@@ -66,7 +66,6 @@ export class StickyBase {
 	}
 
 	static isLineAndGeo(lineId, lines) {
-		utils.logger(logGroup, 'isLineAndGeoArgs', lineId, lines);
 		if (!lineId || !lines || !lines.length) {
 			return false;
 		}
