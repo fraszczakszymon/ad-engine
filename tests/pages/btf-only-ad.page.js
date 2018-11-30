@@ -5,4 +5,4 @@ class BtfOnlyAd {
 	}
 }
 
-export default new BtfOnlyAd();
+export const btfOnlyAd = new BtfOnlyAd();

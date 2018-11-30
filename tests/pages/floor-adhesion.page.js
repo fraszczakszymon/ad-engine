@@ -6,4 +6,4 @@ class FloorAdhesion {
 	}
 }
 
-export default new FloorAdhesion();
+export const floorAdhesion = new FloorAdhesion();

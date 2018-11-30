@@ -6,4 +6,4 @@ class FloatingRailAd {
 	}
 }
 
-export default new FloatingRailAd();
+export const floatingRailAd = new FloatingRailAd();

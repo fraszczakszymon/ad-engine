@@ -17,4 +17,4 @@ class DelayAd {
 	}
 }
 
-export default new DelayAd();
+export const delayAd = new DelayAd();

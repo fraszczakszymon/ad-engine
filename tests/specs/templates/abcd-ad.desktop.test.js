@@ -1,9 +1,8 @@
-import abcdAd from '../../pages/abcd-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { abcdAd } from '../../pages/abcd-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('ABCD ads page: top leaderboard', () => {
 	let adStatus;
@@ -14,7 +13,7 @@ describe('ABCD ads page: top leaderboard', () => {
 
 	beforeEach(() => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard, true);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard, true);
 	});
 
 	it('Check if slot is visible in viewport', () => {
@@ -25,7 +24,7 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard, abcdAd.abcdLeaderboardRatio);
+		const dimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, abcdAd.abcdLeaderboardRatio);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -63,7 +62,7 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 	beforeEach(() => {
 		browser.waitForVisible(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`, timeouts.standard);
-		adStatus = helpers.getSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		adStatus = adSlots.getSlotStatus(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
 		helpers.waitToStartPlaying();
 	});
 
@@ -75,7 +74,7 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 
 	it('Check if unmuting the video works properly', () => {
-		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`);
+		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`).pause(timeouts.hover);
 		browser.click(abcdAd.unmuteButton);
 		browser.waitForExist(`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`, timeouts.standard, true);
 	});

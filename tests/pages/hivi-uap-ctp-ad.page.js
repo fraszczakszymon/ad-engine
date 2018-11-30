@@ -11,4 +11,4 @@ class HiviUapCtp extends HiviUap {
 	}
 }
 
-export default new HiviUapCtp();
+export const hiviUapCtp = new HiviUapCtp();

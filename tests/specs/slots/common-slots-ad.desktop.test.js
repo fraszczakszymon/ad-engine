@@ -1,9 +1,8 @@
-import commonAds from '../../pages/common-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { commonAds } from '../../pages/common-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Common slots: top leaderboard', () => {
 	let adStatus;
@@ -11,11 +10,11 @@ describe('Common slots: top leaderboard', () => {
 	before(() => {
 		browser.url(commonAds.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.topLeaderboard);
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
+		const dimensions = adSlots.checkSlotSize(adSlots.topLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -56,11 +55,11 @@ describe('Common slots: top boxad', () => {
 	before(() => {
 		browser.url(commonAds.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.topBoxad);
+		adStatus = adSlots.getSlotStatus(adSlots.topBoxad);
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
+		const dimensions = adSlots.checkSlotSize(adSlots.topBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -102,11 +101,11 @@ describe('Common slots: rail module', () => {
 		browser.url(commonAds.pageLink);
 		browser.scroll(0, 250);
 		browser.waitForVisible(adSlots.railModule, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.railModule);
+		adStatus = adSlots.getSlotStatus(adSlots.railModule);
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.railModule, adSlots.railModuleWidth, adSlots.railModuleHeight);
+		const dimensions = adSlots.checkSlotSize(adSlots.railModule, adSlots.railModuleWidth, adSlots.railModuleHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -129,11 +128,11 @@ describe('Common slots: incontent boxad', () => {
 		browser.url(commonAds.pageLink);
 		browser.scroll(0, 500);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
-		adStatus = helpers.getSlotStatus(adSlots.incontentBoxad);
+		adStatus = adSlots.getSlotStatus(adSlots.incontentBoxad);
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
+		const dimensions = adSlots.checkSlotSize(adSlots.incontentBoxad, adSlots.boxadWidth, adSlots.boxadHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -178,9 +177,9 @@ describe('Common slots: bottom leaderboard', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = helpers.checkSlotSize(adSlots.bottomLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
+		const dimensions = adSlots.checkSlotSize(adSlots.bottomLeaderboard, adSlots.leaderboardWidth, adSlots.leaderboardHeight);
 
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard);
+		adStatus = adSlots.getSlotStatus(adSlots.bottomLeaderboard);
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
 			.be

@@ -5,4 +5,4 @@ class FloatingAd {
 	}
 }
 
-export default new FloatingAd();
+export const floatingAd = new FloatingAd();

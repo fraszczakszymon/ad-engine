@@ -4,4 +4,4 @@ class CommonAds {
 	}
 }
 
-export default new CommonAds();
+export const commonAds = new CommonAds();

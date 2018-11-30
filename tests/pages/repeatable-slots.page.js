@@ -1,11 +1,9 @@
-import helpers from '../common/helpers';
-import adSlots from '../common/ad-slots';
+import { helpers } from '../common/helpers';
+import { adSlots } from '../common/ad-slots';
 
 class RepeatableSlots {
 	constructor() {
 		this.pageLink = 'slots/repeatable-slots/';
-		this.limitSlots = 'limit=';
-		this.contentLength = 'content_length=';
 	}
 
 	/**
@@ -13,7 +11,7 @@ class RepeatableSlots {
 	 * @param currentBoxad {string} currently visible boxad
 	 * @param {number} distance to scroll
 	 */
-	scrollBetweenBoxads(currentBoxad, distance = 2000) {
+	scrollBetweenBoxads(currentBoxad, distance = 2250) {
 		helpers.slowScroll(distance, currentBoxad);
 	}
 
@@ -25,24 +23,6 @@ class RepeatableSlots {
 	getRepeatableSlot(slotNumber) {
 		return `${adSlots.repeatableBoxad}${slotNumber}`;
 	}
-
-	/**
-	 * Provides parameter to limit number of slots
-	 * @param {number} limit - the amount to limit to
-	 * @returns {string} parameter with slot limit
-	 */
-	setLimitOfSlots(limit = 3) {
-		return `${this.limitSlots}${limit}`;
-	}
-
-	/**
-	 * Provides parameter to add more paragraphs
-	 * @param {number}lengthNumber - number of added paragraphs multiplied by 15
-	 * @returns {string} parameter with paragraphs added
-	 */
-	setLengthOfContent(lengthNumber = 5) {
-		return `${this.contentLength}${lengthNumber}`;
-	}
 }
 
-export default new RepeatableSlots();
+export const repeatableSlots = new RepeatableSlots();

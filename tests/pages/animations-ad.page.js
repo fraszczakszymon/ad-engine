@@ -1,4 +1,4 @@
-import adSlots from '../common/ad-slots';
+import { adSlots } from '../common/ad-slots';
 import { timeouts } from '../common/timeouts';
 
 const scrollWaitTime = 500;
@@ -33,4 +33,4 @@ class AnimationsAd {
 	}
 }
 
-export default new AnimationsAd();
+export const animationsAd = new AnimationsAd();

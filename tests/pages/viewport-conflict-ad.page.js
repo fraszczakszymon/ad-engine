@@ -21,4 +21,4 @@ class ViewportConflictAd {
 	}
 }
 
-export default new ViewportConflictAd();
+export const viewportConflictAd = new ViewportConflictAd();

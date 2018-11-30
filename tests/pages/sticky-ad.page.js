@@ -1,5 +1,4 @@
-import adSlots from '../common/ad-slots';
-import { timeouts } from '../common/timeouts';
+import { adSlots } from '../common/ad-slots';
 
 class StickyAd {
 	constructor() {
@@ -8,8 +7,7 @@ class StickyAd {
 		this.classStickySlot = '.sticky-slot';
 		this.classUnstickButton = '.button-unstick';
 		this.stickedSlot = `${adSlots.topLeaderboard}${this.classStickyTemplate}${this.classStickySlot}`;
-		this.unstickTime = timeouts.viewabillity + 2000;
 	}
 }
 
-export default new StickyAd();
+export const stickyAd = new StickyAd();
