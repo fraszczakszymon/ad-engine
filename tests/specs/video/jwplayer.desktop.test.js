@@ -1,22 +1,22 @@
 import { expect } from 'chai';
-import { porvata } from '../../pages/porvata.page';
+import { jwPlayer } from '../../pages/jwplayer.page';
 import { timeouts } from '../../common/timeouts';
 import { adSlots } from '../../common/ad-slots';
 import { helpers } from '../../common/helpers';
 import { queryStrings } from '../../common/query-strings';
 
-describe('Porvata player', () => {
+describe('jwPlayer player', () => {
 	let adStatus;
 
 	before(() => {
-		browser.url(porvata.pageLink);
-		browser.waitForVisible(porvata.player, timeouts.standard);
-		browser.scroll(porvata.player);
+		browser.url(jwPlayer.pageLink);
+		browser.waitForVisible(jwPlayer.player, timeouts.standard);
+		adStatus = adSlots.getSlotStatus(jwPlayer.player);
 	});
 
 	beforeEach(() => {
-		browser.waitForVisible(porvata.player, timeouts.standard);
-		adStatus = adSlots.getSlotStatus(porvata.player);
+		browser.url(jwPlayer.pageLink);
+		browser.waitForVisible(jwPlayer.player, timeouts.standard);
 		helpers.waitToStartPlaying();
 	});
 
@@ -28,7 +28,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = adSlots.checkSlotSize(porvata.player, porvata.playerWidth, porvata.playerHeight);
+		const dimensions = adSlots.checkSlotSize(jwPlayer.player, jwPlayer.playerWidth, jwPlayer.playerHeight);
 
 		expect(dimensions.status, dimensions.capturedErrors)
 			.to
@@ -37,7 +37,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if redirect on click on default player works', () => {
-		browser.click(porvata.player);
+		browser.click(jwPlayer.player);
 		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
 
 		const tabIds = browser.getTabIds();
@@ -51,16 +51,17 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if unmuting the video works', () => {
-		browser.waitForVisible(porvata.unmuteButton, timeouts.standard);
-		browser.click(porvata.unmuteButton);
-		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
+		browser.waitForVisible(jwPlayer.soundToggle, timeouts.standard);
+		browser.click(jwPlayer.soundToggle);
+		browser.waitForExist(`${jwPlayer.soundToggle}${jwPlayer.soundToggleOn}`, timeouts.standard);
+		expect(jwPlayer.isAudioOn()).to.be.true;
 	});
 
 	it('Check if opening full screen and redirect on fullscreen player works', () => {
-		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
-		browser.click(porvata.fullscreenButton);
-		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
-		browser.click(porvata.player);
+		browser.waitForVisible(jwPlayer.fullscreenButton, timeouts.standard);
+		browser.click(jwPlayer.fullscreenButton);
+		browser.waitForVisible(jwPlayer.fullscreenPlayer, timeouts.standard);
+		browser.click(jwPlayer.player);
 		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
 
 		const tabIds = browser.getTabIds();
@@ -73,21 +74,15 @@ describe('Porvata player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('Check if replaying the video works', () => {
-		helpers.waitForVideoAdToFinish(porvata.videoLength);
-		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
-		browser.click(porvata.player);
-		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
-	});
-
-	it('Check if closing the player works', () => {
-		browser.waitForVisible(porvata.closePlayerButton, timeouts.standard);
-		browser.click(porvata.closePlayerButton);
-		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
+	xit('Check if preroll the video works', () => {
+		browser.waitForExist(jwPlayer.videoIdle, timeouts.standard);
+		browser.click(jwPlayer.player);
+		browser.waitForExist(jwPlayer.videoIdle, timeouts.standard, true);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
-		helpers.navigateToUrl(porvata.pageLink, queryStrings.getAutoplay(false));
-		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
+		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getAutoplay(false));
+		browser.waitForVisible(jwPlayer.player, timeouts.standard);
+		expect(browser.isExisting(jwPlayer.videoIdle)).to.be.false;
 	});
 });

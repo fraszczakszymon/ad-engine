@@ -11,9 +11,12 @@ class JWPlayer {
 		this.soundToggleOn = '.jw-full';
 		this.fullscreenButton = '.jw-icon-fullscreen';
 		this.fullscreenPlayer = '.jw-flag-fullscreen';
+		this.videoIdle = '.jw-state-idle';
 
 		this.adLength = 30000;
 		this.videoLength = 75000;
+		this.playerWidth = 628;
+		this.playerHeight = 353;
 	}
 
 	isAudioOn() {
