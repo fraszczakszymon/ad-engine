@@ -136,10 +136,10 @@ function getCreativeId() {
 }
 
 function setIds(lineItemId, creativeId) {
-	uapCreativeId = creativeId || constants.DEFAULT_UAP_ID;
 	uapId = lineItemId || constants.DEFAULT_UAP_ID;
+	uapCreativeId = creativeId || constants.DEFAULT_UAP_ID;
 
-	updateSlotsTargeting(uapCreativeId, uapId);
+	updateSlotsTargeting(uapId, uapCreativeId);
 }
 
 function getType() {
