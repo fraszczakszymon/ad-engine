@@ -1015,6 +1015,8 @@ var close_button_CloseButton = function (_UiComponent) {
 
 
 
+var logGroup = 'sticky-ad';
+
 var sticky_ad_StickyAd = function () {
 	createClass_default()(StickyAd, null, [{
 		key: 'getName',
@@ -1061,11 +1063,16 @@ var sticky_ad_StickyAd = function () {
 
 			this.params = params;
 
-			if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+			if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+				ad_engine_["utils"].logger(logGroup, 'stickiness rejected');
 				return;
 			}
 
-			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+			this.adSlot.onLoad().then(function () {
+				ad_engine_["utils"].logger(logGroup, _this.adSlot.getSlotName(), 'slot ready for stickiness');
+				_this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+			});
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 			this.addUnstickLogic();
@@ -1097,6 +1104,7 @@ var sticky_ad_StickyAd = function () {
 			});
 
 			window.addEventListener('resize', this.adjustAdSlot.bind(this));
+			ad_engine_["utils"].logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
 	}, {
 		key: 'addUnstickLogic',
@@ -1208,6 +1216,9 @@ var sticky_ad_StickyAd = function () {
 								this.addUnstickButton();
 
 							case 15:
+								ad_engine_["utils"].logger(logGroup, 'stickiness changed', isSticky);
+
+							case 16:
 							case 'end':
 								return _context2.stop();
 						}
@@ -1229,12 +1240,33 @@ var sticky_ad_StickyAd = function () {
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
+				ad_engine_["utils"].logger(logGroup, 'unstick immediately');
 			}
 		}
 	}], [{
 		key: 'isEnabled',
 		value: function isEnabled() {
 			return ad_engine_["context"].get('templates.' + StickyAd.getName() + '.enabled');
+		}
+	}, {
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo(lineId, lines) {
+			if (!lineId || !lines || !lines.length) {
+				return false;
+			}
+
+			var found = false;
+			lineId = lineId.toString();
+
+			lines.forEach(function (line) {
+				line = line.split(':', 2);
+
+				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
+					found = true;
+				}
+			});
+
+			return found;
 		}
 	}]);
 
@@ -2610,6 +2642,8 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 
 
+var sticky_tlb_logGroup = 'sticky-tlb';
+
 var sticky_tlb_StickyTLB = function () {
 	function StickyTLB(adSlot) {
 		classCallCheck_default()(this, StickyTLB);
@@ -2625,17 +2659,24 @@ var sticky_tlb_StickyTLB = function () {
 	createClass_default()(StickyTLB, [{
 		key: 'init',
 		value: function init(params) {
+			var _this = this;
+
 			this.params = params;
 
 			if (!this.container) {
 				return;
 			}
 
-			if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId || this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1) {
+			if (!(StickyTLB.isEnabled() && sticky_ad_StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
 				return;
 			}
 
-			this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
+			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+			this.adSlot.onLoad().then(function () {
+				ad_engine_["utils"].logger(sticky_tlb_logGroup, _this.adSlot.getSlotName(), 'slot ready for stickiness');
+				_this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
+			});
 
 			this.addStickinessPlugin();
 
@@ -2653,11 +2694,12 @@ var sticky_tlb_StickyTLB = function () {
 			this.addUnstickButton();
 			this.addUnstickEvents();
 			this.stickiness.run();
+			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
 	}, {
 		key: 'addUnstickLogic',
 		value: function addUnstickLogic() {
-			var _this = this;
+			var _this2 = this;
 
 			var _config = this.config,
 			    stickyAdditionalTime = _config.stickyAdditionalTime,
@@ -2670,7 +2712,7 @@ var sticky_tlb_StickyTLB = function () {
 							switch (_context.prev = _context.next) {
 								case 0:
 									_context.next = 2;
-									return stickyUntilSlotViewed && !_this.adSlot.isViewed() ? ad_engine_["utils"].once(_this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+									return stickyUntilSlotViewed && !_this2.adSlot.isViewed() ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
 
 								case 2:
 									_context.next = 4;
@@ -2681,7 +2723,7 @@ var sticky_tlb_StickyTLB = function () {
 									return _context.stop();
 							}
 						}
-					}, _callee, _this);
+					}, _callee, _this2);
 				}));
 
 				return function whenSlotViewedOrTimeout() {
@@ -2701,12 +2743,12 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addUnstickButton',
 		value: function addUnstickButton() {
-			var _this2 = this;
+			var _this3 = this;
 
 			this.closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					return _this2.stickiness.close();
+					return _this3.stickiness.close();
 				}
 			}).render();
 
@@ -2720,10 +2762,10 @@ var sticky_tlb_StickyTLB = function () {
 	}, {
 		key: 'addUnstickEvents',
 		value: function addUnstickEvents() {
-			var _this3 = this;
+			var _this4 = this;
 
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
-				return _this3.onStickinessChange(isSticky);
+				return _this4.onStickinessChange(isSticky);
 			});
 			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
@@ -2767,8 +2809,9 @@ var sticky_tlb_StickyTLB = function () {
 							case 15:
 
 								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness changed', isSticky);
 
-							case 16:
+							case 17:
 							case 'end':
 								return _context2.stop();
 						}
@@ -2790,8 +2833,6 @@ var sticky_tlb_StickyTLB = function () {
 					while (1) {
 						switch (_context3.prev = _context3.next) {
 							case 0:
-								ad_engine_["slotTweaker"].makeResponsive(this.adSlot, null, false);
-
 								this.container.classList.add('theme-hivi');
 								this.addAdvertisementLabel();
 
@@ -2805,12 +2846,16 @@ var sticky_tlb_StickyTLB = function () {
 								this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
 
 								if (!document.hidden) {
-									_context3.next = 10;
+									_context3.next = 9;
 									break;
 								}
 
-								_context3.next = 10;
+								_context3.next = 9;
 								return ad_engine_["utils"].once(window, 'visibilitychange');
+
+							case 9:
+
+								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'ad ready');
 
 							case 10:
 							case 'end':
@@ -2838,6 +2883,7 @@ var sticky_tlb_StickyTLB = function () {
 			this.removeUnstickButton();
 			this.config.mainContainer.style.paddingTop = '0';
 			this.adSlot.getElement().classList.add('hide');
+			ad_engine_["utils"].logger(sticky_tlb_logGroup, 'unstick immediately');
 		}
 	}, {
 		key: 'setupNavbar',
@@ -5119,7 +5165,7 @@ var twitchTracker = new twitch_tracker_TwitchTracker();
 // CONCATENATED MODULE: ./src/ad-products/video/featured-video-f15s.js
 
 
-var logGroup = 'featured-video-f15s';
+var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 /* harmony default export */ var featured_video_f15s = ({
 	/**
@@ -5135,7 +5181,7 @@ var logGroup = 'featured-video-f15s';
 
 		var adTime = this.getTime(videoId);
 
-		ad_engine_["utils"].logger(logGroup, 'isEnabled (video id, time, enabled?)', videoId, adTime, !!adTime);
+		ad_engine_["utils"].logger(featured_video_f15s_logGroup, 'isEnabled (video id, time, enabled?)', videoId, adTime, !!adTime);
 
 		return !!adTime;
 	},

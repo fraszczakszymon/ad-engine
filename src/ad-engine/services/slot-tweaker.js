@@ -79,6 +79,10 @@ class SlotTweaker {
 	}
 
 	onReady(adSlot) {
+		if (adSlot.getConfigProperty('useGptOnloadEvent')) {
+			return adSlot.onLoad();
+		}
+
 		const container = this.getContainer(adSlot),
 			iframe = container.querySelector('div[id*="_container_"] iframe');
 
@@ -87,7 +91,14 @@ class SlotTweaker {
 				reject(new Error('Cannot find iframe element'));
 			}
 
-			if (iframe.contentWindow.document.readyState === 'complete') {
+			let iframeDocument = null;
+			try {
+				iframeDocument = iframe.contentWindow.document;
+			} catch (ignore) {
+				logger(logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
+			}
+
+			if (iframeDocument && iframeDocument.readyState === 'complete') {
 				resolve(iframe);
 			} else {
 				iframe.addEventListener('load', () => resolve(iframe));
