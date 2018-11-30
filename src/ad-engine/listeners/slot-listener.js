@@ -43,6 +43,7 @@ function getData(adSlot, { adType, status }) {
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: (new Date()).getHours(),
 		timestamp: new Date().getTime(),
+		tz_offset: new Date().getTimezoneOffset(),
 		viewport_height: window.innerHeight || 0
 	};
 }

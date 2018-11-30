@@ -92,7 +92,8 @@ export class PorvataListener {
 			position: this.params.position ? this.params.position.toLowerCase() : '(none)',
 			// @DEPRECATED
 			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
-			timestamp: new Date().getTime()
+			timestamp: new Date().getTime(),
+			tz_offset: new Date().getTimezoneOffset()
 		};
 	}
 }
