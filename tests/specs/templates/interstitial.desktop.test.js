@@ -1,8 +1,7 @@
-import interstitial from '../../pages/interstitial.page';
+import { expect } from 'chai';
+import { interstitial } from '../../pages/interstitial.page';
 import { timeouts } from '../../common/timeouts';
-import adSlots from '../../common/ad-slots';
-
-const { expect } = require('chai');
+import { adSlots } from '../../common/ad-slots';
 
 describe('Interstitial page: interstitial', () => {
 	before(() => {

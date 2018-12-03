@@ -8,4 +8,4 @@ class HiviUapStickyBfab extends HiviUap {
 	}
 }
 
-export default new HiviUapStickyBfab();
+export const hiviUapStickyBfab = new HiviUapStickyBfab();

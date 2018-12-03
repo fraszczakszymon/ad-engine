@@ -5,4 +5,4 @@ class EmptyResponse {
 	}
 }
 
-export default new EmptyResponse();
+export const emptyResponse = new EmptyResponse();

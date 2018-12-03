@@ -1,9 +1,8 @@
-import stickyAd from '../../pages/sticky-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { stickyAd } from '../../pages/sticky-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('sticky-ad template', () => {
 	beforeEach(() => {
@@ -28,7 +27,7 @@ describe('sticky-ad template', () => {
 			.be
 			.true;
 
-		browser.pause(stickyAd.unstickTime);
+		helpers.waitForViewabillityCounted(timeouts.unstickTime);
 		helpers.slowScroll(1000);
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not unsticked properly')
@@ -38,7 +37,7 @@ describe('sticky-ad template', () => {
 	});
 
 	it('should not stick if viewability is counted', () => {
-		browser.pause(stickyAd.unstickTime);
+		helpers.waitForViewabillityCounted(timeouts.unstickTime);
 		helpers.slowScroll(500);
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard should not stick')
@@ -48,7 +47,7 @@ describe('sticky-ad template', () => {
 	});
 
 	it('should unstick if close button is clicked', () => {
-		helpers.slowScroll(100);
+		helpers.slowScroll(200);
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked')
 			.to
