@@ -2894,6 +2894,7 @@ var porvata_listener_PorvataListener = function () {
 				lineItemId = this.video.container.getAttribute('data-vast-line-item-id');
 			}
 
+			var date = new Date();
 			return {
 				ad_error_code: errorCode,
 				ad_product: this.params.adProduct,
@@ -2907,8 +2908,8 @@ var porvata_listener_PorvataListener = function () {
 				position: this.params.position ? this.params.position.toLowerCase() : '(none)',
 				// @DEPRECATED
 				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
-				timestamp: new Date().getTime(),
-				tz_offset: new Date().getTimezoneOffset()
+				timestamp: date.getTime(),
+				tz_offset: date.getTimezoneOffset()
 			};
 		}
 	}]);
