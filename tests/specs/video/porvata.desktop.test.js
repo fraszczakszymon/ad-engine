@@ -38,11 +38,7 @@ describe('Porvata player', () => {
 
 	it('Check if redirect on click on default player works', () => {
 		browser.click(porvata.player);
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to
@@ -61,11 +57,7 @@ describe('Porvata player', () => {
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
 		browser.click(porvata.player);
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl())
 			.to

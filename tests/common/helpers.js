@@ -60,20 +60,6 @@ class Helpers {
 		}
 	}
 
-	/**
-	 * Closes all the tabs but the first one and switches back to it.
-	 */
-	closeNewTabs() {
-		const tabIds = browser.getTabIds();
-
-		if (tabIds.length > 1) {
-			for (let i = 1; i <= tabIds.length - 1; i += 1) {
-				browser.close(i);
-			}
-		}
-		browser.switchTab(tabIds[0]);
-	}
-
 	waitToStartPlaying() {
 		browser.pause(timeToStartPlaying);
 	}
@@ -134,11 +120,7 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		this.switchToTab(1);
 		this.waitForUrl(url);
 
 		if (browser.getUrl()
@@ -157,6 +139,29 @@ class Helpers {
 		const frame = browser.element(frameID).value;
 
 		browser.frame(frame);
+	}
+
+	switchToTab(tabId = 1) {
+		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[tabId]);
+	}
+
+	/**
+	 * Closes all the tabs but the first one and switches back to it.
+	 */
+	closeNewTabs() {
+		const tabIds = browser.getTabIds();
+
+		if (tabIds.length > 1) {
+			for (let i = 1; i <= tabIds.length - 1; i += 1) {
+				browser.close(i);
+			}
+		}
+		browser.pause(timeouts.standard);
+		browser.switchTab(tabIds[0]);
 	}
 
 	/**
