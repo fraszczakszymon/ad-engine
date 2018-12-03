@@ -1,6 +1,7 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater, slotInjector, ADX } from '../services';
+import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
+import { ADX } from '../providers';
 
 const logGroup = 'slot-listener';
 

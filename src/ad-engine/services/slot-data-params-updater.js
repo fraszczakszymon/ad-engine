@@ -1,8 +1,6 @@
-import { GptSizeMap } from '../providers';
+import { GptSizeMap, ADX } from '../providers';
 import { slotTweaker } from './slot-tweaker';
 import { context } from './context-service';
-
-export const ADX = 'AdX';
 
 class SlotDataParamsUpdater {
 	updateOnCreate(adSlot, targeting) {
