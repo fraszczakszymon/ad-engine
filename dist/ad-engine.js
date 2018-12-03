@@ -3115,26 +3115,7 @@ var slot_listener_SlotListener = function () {
 		value: function emitRenderEnded(event, adSlot) {
 			var adType = getAdType(event, adSlot);
 
-			slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
-			if (event) {
-				if (event.slot) {
-					var response = event.slot.getResponseInformation();
-
-					if (response) {
-						if (!response.isEmpty && response.creativeId === null && response.lineItemId === null) {
-							adSlot.creativeId = ADX;
-							adSlot.lineItemId = ADX;
-						} else {
-							adSlot.creativeId = response.creativeId;
-							adSlot.lineItemId = response.lineItemId;
-						}
-					}
-				}
-
-				if (event.size && event.size.length) {
-					adSlot.creativeSize = event.size.join('x');
-				}
-			}
+			adSlot.updateOnRenderEnd(event);
 
 			switch (adType) {
 				case 'collapse':
@@ -3193,7 +3174,383 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
+var get_own_property_descriptor_ = __webpack_require__(10);
+var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
+
+// EXTERNAL MODULE: external "core-decorators"
+var external_core_decorators_ = __webpack_require__(9);
+
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
+
+
+
+
+
+var gpt_size_map_logGroup = 'gpt-size-map';
+
+var gpt_size_map_GptSizeMap = function () {
+	function GptSizeMap(sizeMap) {
+		classCallCheck_default()(this, GptSizeMap);
+
+		this.sizeMap = sizeMap || [];
+		logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
+	}
+
+	createClass_default()(GptSizeMap, [{
+		key: 'addSize',
+		value: function addSize(viewportSize, sizes) {
+			logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
+			this.sizeMap.push({
+				viewportSize: viewportSize,
+				sizes: sizes
+			});
+		}
+	}, {
+		key: 'build',
+		value: function build() {
+			logger(gpt_size_map_logGroup, this.sizeMap, 'creating GPT size mapping builder');
+			var builder = window.googletag && window.googletag.sizeMapping();
+
+			if (!builder) {
+				logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
+				return null;
+			}
+
+			this.sizeMap.forEach(function (_ref) {
+				var viewportSize = _ref.viewportSize,
+				    sizes = _ref.sizes;
+
+				builder.addSize(viewportSize, sizes);
+			});
+
+			return builder.build();
+		}
+	}, {
+		key: 'isEmpty',
+		value: function isEmpty() {
+			return !this.sizeMap.length;
+		}
+	}, {
+		key: 'mapAllSizes',
+		value: function mapAllSizes(callback) {
+			return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
+				var viewportSize = _ref2.viewportSize,
+				    sizes = _ref2.sizes;
+
+				var mappedSizes = callback(sizes, viewportSize, index);
+
+				logger(gpt_size_map_logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
+
+				return {
+					viewportSize: viewportSize,
+					sizes: mappedSizes
+				};
+			}));
+		}
+	}, {
+		key: 'toString',
+		value: function toString() {
+			logger(gpt_size_map_logGroup, this.sizeMap, 'casting to string');
+			var map = {};
+
+			this.sizeMap.forEach(function (_ref3) {
+				var viewportSize = _ref3.viewportSize,
+				    sizes = _ref3.sizes;
+
+				map[viewportSize.join('x')] = sizes;
+			});
+
+			return stringify_default()(map);
+		}
+	}]);
+
+	return GptSizeMap;
+}();
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.js
+
+
+
+function setupGptTargeting() {
+	var tag = window.googletag.pubads(),
+	    targeting = context.get('targeting');
+
+	function setTargetingValue(key, value) {
+		if (typeof value === 'function') {
+			tag.setTargeting(key, value());
+		} else {
+			tag.setTargeting(key, value);
+		}
+	}
+
+	keys_default()(targeting).forEach(function (key) {
+		setTargetingValue(key, targeting[key]);
+	});
+
+	context.onChange('targeting', function (trigger, value) {
+		var segments = trigger.split('.'),
+		    key = segments[segments.length - 1];
+
+		setTargetingValue(key, value);
+	});
+}
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.js
+
+
+
+
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _desc, _value, _class;
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	var desc = {};
+	Object['ke' + 'ys'](descriptor).forEach(function (key) {
+		desc[key] = descriptor[key];
+	});
+	desc.enumerable = !!desc.enumerable;
+	desc.configurable = !!desc.configurable;
+
+	if ('value' in desc || desc.initializer) {
+		desc.writable = true;
+	}
+
+	desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+		return decorator(target, property, desc) || desc;
+	}, desc);
+
+	if (context && desc.initializer !== void 0) {
+		desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+		desc.initializer = undefined;
+	}
+
+	if (desc.initializer === void 0) {
+		Object['define' + 'Property'](target, property, desc);
+		desc = null;
+	}
+
+	return desc;
+}
+
+
+
+
+
+
+
+
+var gpt_provider_logGroup = 'gpt-provider';
+
+var ADX = 'AdX';
+
+var gptLazyMethod = function gptLazyMethod(method) {
+	return function decoratedGptLazyMethod() {
+		var _this = this;
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return window.googletag.cmd.push(function () {
+			return method.apply(_this, args);
+		});
+	};
+};
+
+var definedSlots = [];
+var initialized = false;
+
+function getAdSlotFromEvent(event) {
+	var id = event.slot.getSlotElementId();
+
+	return slotService.get(id);
+}
+
+function configure() {
+	var tag = window.googletag.pubads();
+
+	if (!context.get('options.isSraDisabled')) {
+		tag.enableSingleRequest();
+	}
+	tag.disableInitialLoad();
+
+	tag.addEventListener('slotOnload', function (event) {
+		slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
+	});
+
+	tag.addEventListener('slotRenderEnded', function (event) {
+		// IE doesn't allow us to inspect GPT iframe at this point.
+		// Let's launch our callback in a setTimeout instead.
+		flow_control_defer(function () {
+			return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
+		});
+	});
+
+	tag.addEventListener('impressionViewable', function (event) {
+		slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
+	});
+	window.googletag.enableServices();
+}
+
+var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec2 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec3 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec4 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec5 = Object(external_core_decorators_["decorate"])(gptLazyMethod), (_class = function () {
+	function GptProvider() {
+		var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+		classCallCheck_default()(this, GptProvider);
+
+		window.googletag = window.googletag || {};
+		window.googletag.cmd = window.googletag.cmd || [];
+
+		this.init(forceInit);
+	}
+
+	createClass_default()(GptProvider, [{
+		key: 'isInitialized',
+		value: function isInitialized() {
+			return initialized;
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			var _this2 = this;
+
+			if (this.isInitialized()) {
+				return;
+			}
+
+			setupGptTargeting();
+			configure();
+			this.setupNonPersonalizedAds();
+			events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+				return _this2.destroySlots();
+			});
+			events.on(events.PAGE_RENDER_EVENT, function () {
+				return _this2.updateCorrelator();
+			});
+			initialized = true;
+		}
+	}, {
+		key: 'setupNonPersonalizedAds',
+		value: function setupNonPersonalizedAds() {
+			var tag = window.googletag.pubads();
+
+			tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
+		}
+	}, {
+		key: 'fillIn',
+		value: function fillIn(adSlot) {
+			var targeting = this.parseTargetingParams(adSlot.getTargeting());
+			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
+
+			var gptSlot = null;
+
+			if (adSlot.isOutOfPage()) {
+				gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+			} else {
+				gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
+			}
+
+			gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
+
+			this.applyTargetingParams(gptSlot, targeting);
+			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+
+			window.googletag.display(adSlot.getSlotName());
+			definedSlots.push(gptSlot);
+
+			if (!adSlot.isFirstCall()) {
+				this.flush();
+			}
+
+			logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
+		}
+	}, {
+		key: 'applyTargetingParams',
+		value: function applyTargetingParams(gptSlot, targeting) {
+			keys_default()(targeting).forEach(function (key) {
+				return gptSlot.setTargeting(key, targeting[key]);
+			});
+		}
+	}, {
+		key: 'parseTargetingParams',
+		value: function parseTargetingParams(targeting) {
+			var result = {};
+
+			keys_default()(targeting).forEach(function (key) {
+				var value = targeting[key];
+
+				if (typeof value === 'function') {
+					value = value();
+				}
+
+				if (value !== null) {
+					result[key] = value;
+				}
+			});
+
+			return result;
+		}
+	}, {
+		key: 'updateCorrelator',
+		value: function updateCorrelator() {
+			window.googletag.pubads().updateCorrelator();
+		}
+	}, {
+		key: 'flush',
+		value: function flush() {
+			if (definedSlots.length) {
+				window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
+				definedSlots = [];
+			}
+		}
+	}, {
+		key: 'destroyGptSlots',
+		value: function destroyGptSlots(gptSlots) {
+			logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
+
+			gptSlots.forEach(function (gptSlot) {
+				var adSlot = slotService.get(gptSlot.getSlotElementId());
+
+				slotService.remove(adSlot);
+			});
+
+			var success = window.googletag.destroySlots(gptSlots);
+
+			if (!success) {
+				logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
+			}
+		}
+	}, {
+		key: 'destroySlots',
+		value: function destroySlots(slotNames) {
+			var allSlots = window.googletag.pubads().getSlots();
+			var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
+				var slotId = slot.getSlotElementId();
+
+				if (!slotId) {
+					logger(gpt_provider_logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
+				} else if (slotNames.indexOf(slotId) > -1) {
+					return true;
+				}
+
+				return false;
+			}) : allSlots;
+
+			if (slotsToDestroy.length) {
+				this.destroyGptSlots(slotsToDestroy);
+			} else {
+				logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
+			}
+		}
+	}]);
+
+	return GptProvider;
+}(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flush', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'flush'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec5], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/index.js
+
+
+
 // CONCATENATED MODULE: ./src/ad-engine/models/ad-slot.js
+
 
 
 
@@ -3417,6 +3774,38 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			if (eventName !== null) {
 				slotListener.emitCustomEvent(eventName, this);
 			}
+		}
+	}, {
+		key: 'updateOnRenderEnd',
+		value: function updateOnRenderEnd(event) {
+			if (!event) {
+				return;
+			}
+
+			var creativeId = event.creativeId,
+			    lineItemId = event.lineItemId;
+
+			if (event.slot) {
+				var resp = event.slot.getResponseInformation();
+				if (resp) {
+					if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
+						creativeId = ADX;
+						lineItemId = ADX;
+					} else {
+						creativeId = resp.creativeId;
+						lineItemId = resp.lineItemId;
+					}
+				}
+			}
+			this.creativeId = creativeId;
+			this.lineItemId = lineItemId;
+
+			var size = this.isOutOfPage() ? 'out-of-page' : event.size;
+
+			if (size && Array.isArray(size) && size.length) {
+				this.creativeSize = size.join('x');
+			}
+			slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId, size);
 		}
 	}, {
 		key: 'targeting',
@@ -4086,379 +4475,6 @@ var message_bus_MessageBus = function () {
 }();
 
 var messageBus = new message_bus_MessageBus();
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(10);
-var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
-
-// EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(9);
-
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
-
-
-
-
-
-var gpt_size_map_logGroup = 'gpt-size-map';
-
-var gpt_size_map_GptSizeMap = function () {
-	function GptSizeMap(sizeMap) {
-		classCallCheck_default()(this, GptSizeMap);
-
-		this.sizeMap = sizeMap || [];
-		logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
-	}
-
-	createClass_default()(GptSizeMap, [{
-		key: 'addSize',
-		value: function addSize(viewportSize, sizes) {
-			logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
-			this.sizeMap.push({
-				viewportSize: viewportSize,
-				sizes: sizes
-			});
-		}
-	}, {
-		key: 'build',
-		value: function build() {
-			logger(gpt_size_map_logGroup, this.sizeMap, 'creating GPT size mapping builder');
-			var builder = window.googletag && window.googletag.sizeMapping();
-
-			if (!builder) {
-				logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
-				return null;
-			}
-
-			this.sizeMap.forEach(function (_ref) {
-				var viewportSize = _ref.viewportSize,
-				    sizes = _ref.sizes;
-
-				builder.addSize(viewportSize, sizes);
-			});
-
-			return builder.build();
-		}
-	}, {
-		key: 'isEmpty',
-		value: function isEmpty() {
-			return !this.sizeMap.length;
-		}
-	}, {
-		key: 'mapAllSizes',
-		value: function mapAllSizes(callback) {
-			return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
-				var viewportSize = _ref2.viewportSize,
-				    sizes = _ref2.sizes;
-
-				var mappedSizes = callback(sizes, viewportSize, index);
-
-				logger(gpt_size_map_logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
-
-				return {
-					viewportSize: viewportSize,
-					sizes: mappedSizes
-				};
-			}));
-		}
-	}, {
-		key: 'toString',
-		value: function toString() {
-			logger(gpt_size_map_logGroup, this.sizeMap, 'casting to string');
-			var map = {};
-
-			this.sizeMap.forEach(function (_ref3) {
-				var viewportSize = _ref3.viewportSize,
-				    sizes = _ref3.sizes;
-
-				map[viewportSize.join('x')] = sizes;
-			});
-
-			return stringify_default()(map);
-		}
-	}]);
-
-	return GptSizeMap;
-}();
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.js
-
-
-
-function setupGptTargeting() {
-	var tag = window.googletag.pubads(),
-	    targeting = context.get('targeting');
-
-	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
-			tag.setTargeting(key, value());
-		} else {
-			tag.setTargeting(key, value);
-		}
-	}
-
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
-	});
-
-	context.onChange('targeting', function (trigger, value) {
-		var segments = trigger.split('.'),
-		    key = segments[segments.length - 1];
-
-		setTargetingValue(key, value);
-	});
-}
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.js
-
-
-
-
-
-var _dec, _dec2, _dec3, _dec4, _dec5, _desc, _value, _class;
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-	var desc = {};
-	Object['ke' + 'ys'](descriptor).forEach(function (key) {
-		desc[key] = descriptor[key];
-	});
-	desc.enumerable = !!desc.enumerable;
-	desc.configurable = !!desc.configurable;
-
-	if ('value' in desc || desc.initializer) {
-		desc.writable = true;
-	}
-
-	desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-		return decorator(target, property, desc) || desc;
-	}, desc);
-
-	if (context && desc.initializer !== void 0) {
-		desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-		desc.initializer = undefined;
-	}
-
-	if (desc.initializer === void 0) {
-		Object['define' + 'Property'](target, property, desc);
-		desc = null;
-	}
-
-	return desc;
-}
-
-
-
-
-
-
-
-
-var gpt_provider_logGroup = 'gpt-provider';
-
-var gptLazyMethod = function gptLazyMethod(method) {
-	return function decoratedGptLazyMethod() {
-		var _this = this;
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return window.googletag.cmd.push(function () {
-			return method.apply(_this, args);
-		});
-	};
-};
-
-var definedSlots = [];
-var initialized = false;
-
-function getAdSlotFromEvent(event) {
-	var id = event.slot.getSlotElementId();
-
-	return slotService.get(id);
-}
-
-function configure() {
-	var tag = window.googletag.pubads();
-
-	if (!context.get('options.isSraDisabled')) {
-		tag.enableSingleRequest();
-	}
-	tag.disableInitialLoad();
-
-	tag.addEventListener('slotOnload', function (event) {
-		slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
-	});
-
-	tag.addEventListener('slotRenderEnded', function (event) {
-		// IE doesn't allow us to inspect GPT iframe at this point.
-		// Let's launch our callback in a setTimeout instead.
-		flow_control_defer(function () {
-			return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
-		});
-	});
-
-	tag.addEventListener('impressionViewable', function (event) {
-		slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
-	});
-	window.googletag.enableServices();
-}
-
-var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec2 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec3 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec4 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec5 = Object(external_core_decorators_["decorate"])(gptLazyMethod), (_class = function () {
-	function GptProvider() {
-		var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-		classCallCheck_default()(this, GptProvider);
-
-		window.googletag = window.googletag || {};
-		window.googletag.cmd = window.googletag.cmd || [];
-
-		this.init(forceInit);
-	}
-
-	createClass_default()(GptProvider, [{
-		key: 'isInitialized',
-		value: function isInitialized() {
-			return initialized;
-		}
-	}, {
-		key: 'init',
-		value: function init() {
-			var _this2 = this;
-
-			if (this.isInitialized()) {
-				return;
-			}
-
-			setupGptTargeting();
-			configure();
-			this.setupNonPersonalizedAds();
-			events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-				return _this2.destroySlots();
-			});
-			events.on(events.PAGE_RENDER_EVENT, function () {
-				return _this2.updateCorrelator();
-			});
-			initialized = true;
-		}
-	}, {
-		key: 'setupNonPersonalizedAds',
-		value: function setupNonPersonalizedAds() {
-			var tag = window.googletag.pubads();
-
-			tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
-		}
-	}, {
-		key: 'fillIn',
-		value: function fillIn(adSlot) {
-			var targeting = this.parseTargetingParams(adSlot.getTargeting());
-			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
-
-			var gptSlot = null;
-
-			if (adSlot.isOutOfPage()) {
-				gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-			} else {
-				gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
-			}
-
-			gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
-
-			this.applyTargetingParams(gptSlot, targeting);
-			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-
-			window.googletag.display(adSlot.getSlotName());
-			definedSlots.push(gptSlot);
-
-			if (!adSlot.isFirstCall()) {
-				this.flush();
-			}
-
-			logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
-		}
-	}, {
-		key: 'applyTargetingParams',
-		value: function applyTargetingParams(gptSlot, targeting) {
-			keys_default()(targeting).forEach(function (key) {
-				return gptSlot.setTargeting(key, targeting[key]);
-			});
-		}
-	}, {
-		key: 'parseTargetingParams',
-		value: function parseTargetingParams(targeting) {
-			var result = {};
-
-			keys_default()(targeting).forEach(function (key) {
-				var value = targeting[key];
-
-				if (typeof value === 'function') {
-					value = value();
-				}
-
-				if (value !== null) {
-					result[key] = value;
-				}
-			});
-
-			return result;
-		}
-	}, {
-		key: 'updateCorrelator',
-		value: function updateCorrelator() {
-			window.googletag.pubads().updateCorrelator();
-		}
-	}, {
-		key: 'flush',
-		value: function flush() {
-			if (definedSlots.length) {
-				window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
-				definedSlots = [];
-			}
-		}
-	}, {
-		key: 'destroyGptSlots',
-		value: function destroyGptSlots(gptSlots) {
-			logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
-
-			gptSlots.forEach(function (gptSlot) {
-				var adSlot = slotService.get(gptSlot.getSlotElementId());
-
-				slotService.remove(adSlot);
-			});
-
-			var success = window.googletag.destroySlots(gptSlots);
-
-			if (!success) {
-				logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
-			}
-		}
-	}, {
-		key: 'destroySlots',
-		value: function destroySlots(slotNames) {
-			var allSlots = window.googletag.pubads().getSlots();
-			var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
-				var slotId = slot.getSlotElementId();
-
-				if (!slotId) {
-					logger(gpt_provider_logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
-				} else if (slotNames.indexOf(slotId) > -1) {
-					return true;
-				}
-
-				return false;
-			}) : allSlots;
-
-			if (slotsToDestroy.length) {
-				this.destroyGptSlots(slotsToDestroy);
-			} else {
-				logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
-			}
-		}
-	}]);
-
-	return GptProvider;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flush', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'flush'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec5], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
-// CONCATENATED MODULE: ./src/ad-engine/providers/index.js
-
-
-
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.js
 
 
@@ -4658,8 +4674,6 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 
 
-var ADX = 'AdX';
-
 var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	function SlotDataParamsUpdater() {
 		classCallCheck_default()(this, SlotDataParamsUpdater);
@@ -4676,18 +4690,10 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 		}
 	}, {
 		key: 'updateOnRenderEnd',
-		value: function updateOnRenderEnd(adSlot, event) {
-			if (event) {
-				var resp = event.slot.getResponseInformation();
-				if (resp && !resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
-					slotTweaker.setDataParam(adSlot, 'gptLineItemId', ADX);
-					slotTweaker.setDataParam(adSlot, 'gptCreativeId', ADX);
-				} else {
-					slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-					slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-				}
-				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.isOutOfPage() ? 'out-of-page' : event.size);
-			}
+		value: function updateOnRenderEnd(adSlot, creativeId, lineItemId, creativeSize) {
+			slotTweaker.setDataParam(adSlot, 'gptCreativeId', creativeId);
+			slotTweaker.setDataParam(adSlot, 'gptLineItemId', lineItemId);
+			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', creativeSize);
 		}
 	}]);
 
@@ -5249,6 +5255,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotListener", function() { return slotListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchListener", function() { return twitch_listener_TwitchListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "ADX", function() { return ADX; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "gptLazyMethod", function() { return gptLazyMethod; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptSizeMap", function() { return gpt_size_map_GptSizeMap; });
@@ -5259,7 +5266,6 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "events", function() { return events; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "ADX", function() { return ADX; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotInjector", function() { return slotInjector; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });

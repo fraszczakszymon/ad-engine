@@ -1,7 +1,8 @@
 import EventEmitter from 'eventemitter3';
-import { context, slotTweaker, templateService } from '../services';
+import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
 import { stringBuilder } from '../utils';
 import { slotListener } from '../listeners';
+import { ADX } from '../providers';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
@@ -184,5 +185,33 @@ export class AdSlot extends EventEmitter {
 		if (eventName !== null) {
 			slotListener.emitCustomEvent(eventName, this);
 		}
+	}
+
+	updateOnRenderEnd(event) {
+		if (!event) {
+			return;
+		}
+
+		let { creativeId, lineItemId } = event;
+		if (event.slot) {
+			const resp = event.slot.getResponseInformation();
+			if (resp) {
+				if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
+					creativeId = ADX;
+					lineItemId = ADX;
+				} else {
+					({ creativeId, lineItemId } = resp);
+				}
+			}
+		}
+		this.creativeId = creativeId;
+		this.lineItemId = lineItemId;
+
+		const size = this.isOutOfPage() ? 'out-of-page' : event.size;
+
+		if (size && Array.isArray(size) && size.length) {
+			this.creativeSize = size.join('x');
+		}
+		slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId, size);
 	}
 }

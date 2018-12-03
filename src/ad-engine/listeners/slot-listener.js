@@ -1,7 +1,6 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
-import { ADX } from '../providers';
+import { context, slotTweaker, slotInjector } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -69,26 +68,7 @@ class SlotListener {
 	emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
-		if (event) {
-			if (event.slot) {
-				const response = event.slot.getResponseInformation();
-
-				if (response) {
-					if (!response.isEmpty && response.creativeId === null && response.lineItemId === null) {
-						adSlot.creativeId = ADX;
-						adSlot.lineItemId = ADX;
-					} else {
-						adSlot.creativeId = response.creativeId;
-						adSlot.lineItemId = response.lineItemId;
-					}
-				}
-			}
-
-			if (event.size && event.size.length) {
-				adSlot.creativeSize = event.size.join('x');
-			}
-		}
+		adSlot.updateOnRenderEnd(event);
 
 		switch (adType) {
 			case 'collapse':
