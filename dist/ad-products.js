@@ -2753,7 +2753,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 		var _this = possibleConstructorReturn_default()(this, (StickyTLB.__proto__ || get_prototype_of_default()(StickyTLB)).call(this, adSlot));
 
-		_this.container = document.getElementById(_this.adSlot.getSlotName());
+		_this.container = _this.adSlot.getElement();
 		return _this;
 	}
 

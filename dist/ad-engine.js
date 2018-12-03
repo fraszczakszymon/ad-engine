@@ -3074,7 +3074,7 @@ function slot_listener_getData(adSlot, _ref) {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size: adSlot.creativeSize,
+		creative_size: Array.isArray(adSlot.creativeSize) ? adSlot.creativeSize.join('x') : null,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
@@ -3803,9 +3803,9 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			var size = this.isOutOfPage() ? 'out-of-page' : event.size;
 
 			if (size && Array.isArray(size) && size.length) {
-				this.creativeSize = size.join('x');
+				this.creativeSize = size;
 			}
-			slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId, size);
+			slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId);
 		}
 	}, {
 		key: 'targeting',
@@ -4690,10 +4690,9 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 		}
 	}, {
 		key: 'updateOnRenderEnd',
-		value: function updateOnRenderEnd(adSlot, creativeId, lineItemId, creativeSize) {
-			slotTweaker.setDataParam(adSlot, 'gptCreativeId', creativeId);
-			slotTweaker.setDataParam(adSlot, 'gptLineItemId', lineItemId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', creativeSize);
+		value: function updateOnRenderEnd(adSlot) {
+			slotTweaker.setDataParam(adSlot, 'gptCreativeId', adSlot.creativeId);
+			slotTweaker.setDataParam(adSlot, 'gptLineItemId', adSlot.lineItemId);
 		}
 	}]);
 

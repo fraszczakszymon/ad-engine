@@ -210,8 +210,8 @@ export class AdSlot extends EventEmitter {
 		const size = this.isOutOfPage() ? 'out-of-page' : event.size;
 
 		if (size && Array.isArray(size) && size.length) {
-			this.creativeSize = size.join('x');
+			this.creativeSize = size;
 		}
-		slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId, size);
+		slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId);
 	}
 }

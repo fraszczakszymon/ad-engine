@@ -37,7 +37,7 @@ function getData(adSlot, { adType, status }) {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size: adSlot.creativeSize,
+		creative_size: Array.isArray(adSlot.creativeSize) ? adSlot.creativeSize.join('x') : null,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',

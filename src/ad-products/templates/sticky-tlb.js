@@ -46,7 +46,7 @@ export class StickyTLB extends StickyBase {
 
 	constructor(adSlot) {
 		super(adSlot);
-		this.container = document.getElementById(this.adSlot.getSlotName());
+		this.container = this.adSlot.getElement();
 	}
 
 	static getName() {
