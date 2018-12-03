@@ -3074,7 +3074,7 @@ function slot_listener_getData(adSlot, _ref) {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size: Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length ? adSlot.creativeSize.join('x') : null,
+		creative_size: Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length ? adSlot.creativeSize.join('x') : adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',

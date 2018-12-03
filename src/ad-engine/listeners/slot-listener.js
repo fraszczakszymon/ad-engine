@@ -39,7 +39,7 @@ function getData(adSlot, { adType, status }) {
 		creative_id: adSlot.creativeId,
 		creative_size: (Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length)
 			? adSlot.creativeSize.join('x')
-			: null,
+			: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
