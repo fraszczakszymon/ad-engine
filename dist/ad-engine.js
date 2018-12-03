@@ -3802,7 +3802,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
 
-			slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId);
+			slotDataParamsUpdater.updateOnRenderEnd(this);
 		}
 	}, {
 		key: 'targeting',
@@ -4690,6 +4690,7 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 		value: function updateOnRenderEnd(adSlot) {
 			slotTweaker.setDataParam(adSlot, 'gptCreativeId', adSlot.creativeId);
 			slotTweaker.setDataParam(adSlot, 'gptLineItemId', adSlot.lineItemId);
+			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.creativeSize);
 		}
 	}]);
 

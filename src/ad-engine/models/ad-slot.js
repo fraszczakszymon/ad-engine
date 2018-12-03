@@ -209,6 +209,6 @@ export class AdSlot extends EventEmitter {
 
 		this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
 
-		slotDataParamsUpdater.updateOnRenderEnd(this, creativeId, lineItemId);
+		slotDataParamsUpdater.updateOnRenderEnd(this);
 	}
 }
