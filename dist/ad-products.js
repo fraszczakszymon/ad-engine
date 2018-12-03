@@ -805,7 +805,7 @@ var sticky_base_StickyBase = function () {
 		classCallCheck_default()(this, StickyBase);
 
 		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId === 'null' ? StickyBase.ADX : adSlot.lineItemId;
+		this.lineId = adSlot.lineItemId;
 		this.lines = ad_engine_["context"].get('templates.' + this.getName() + '.lineItemIds');
 		this.stickiness = null;
 		this.config = ad_engine_["context"].get('templates.' + this.getName());
@@ -873,15 +873,6 @@ var sticky_base_StickyBase = function () {
 
 			if (isEnabled) {
 				ad_engine_["utils"].logger(logGroup, 'enabled with line item id ' + this.lineId);
-
-				// DISCUSS: Should we set lineItemId to ADX for all slots at creation time
-				// or only sticky ones?
-				if (this.lineId === StickyBase.ADX) {
-					this.adSlot.creativeId = StickyBase.ADX;
-					this.adSlot.lineItemId = StickyBase.ADX;
-					this.adSlot.container.firstChild.dataset.gptCreativeId = StickyBase.ADX;
-					this.adSlot.container.firstChild.dataset.gptLineItemId = StickyBase.ADX;
-				}
 			}
 
 			return isEnabled;
@@ -916,7 +907,6 @@ var sticky_base_StickyBase = function () {
 sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
 sticky_base_StickyBase.SLOT_STICKY_READY_STATE = 'sticky-ready';
 sticky_base_StickyBase.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-sticky_base_StickyBase.ADX = 'AdX';
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
 var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
 var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';

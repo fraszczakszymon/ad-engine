@@ -3121,8 +3121,13 @@ var slot_listener_SlotListener = function () {
 					var response = event.slot.getResponseInformation();
 
 					if (response) {
-						adSlot.creativeId = response.creativeId;
-						adSlot.lineItemId = response.lineItemId;
+						if (!response.isEmpty && response.creativeId === null && response.lineItemId === null) {
+							adSlot.creativeId = ADX;
+							adSlot.lineItemId = ADX;
+						} else {
+							adSlot.creativeId = response.creativeId;
+							adSlot.lineItemId = response.lineItemId;
+						}
 					}
 				}
 
@@ -4653,6 +4658,8 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 
 
+var ADX = 'AdX';
+
 var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	function SlotDataParamsUpdater() {
 		classCallCheck_default()(this, SlotDataParamsUpdater);
@@ -4671,8 +4678,14 @@ var slot_data_params_updater_SlotDataParamsUpdater = function () {
 		key: 'updateOnRenderEnd',
 		value: function updateOnRenderEnd(adSlot, event) {
 			if (event) {
-				slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-				slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+				var resp = event.slot.getResponseInformation();
+				if (resp && !resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
+					slotTweaker.setDataParam(adSlot, 'gptLineItemId', ADX);
+					slotTweaker.setDataParam(adSlot, 'gptCreativeId', ADX);
+				} else {
+					slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
+					slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
+				}
 				slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.isOutOfPage() ? 'out-of-page' : event.size);
 			}
 		}
@@ -5246,6 +5259,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "events", function() { return events; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "ADX", function() { return ADX; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotInjector", function() { return slotInjector; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });

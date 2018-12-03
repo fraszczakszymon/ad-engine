@@ -7,7 +7,6 @@ export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 	static SLOT_STICKY_READY_STATE = 'sticky-ready';
 	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-	static ADX = 'AdX';
 
 	/**
 	 * Base class for sticky ads
@@ -15,7 +14,7 @@ export class StickyBase {
 	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId === 'null' ? StickyBase.ADX : adSlot.lineItemId;
+		this.lineId = adSlot.lineItemId;
 		this.lines = context.get(`templates.${this.getName()}.lineItemIds`);
 		this.stickiness = null;
 		this.config = context.get(`templates.${this.getName()}`);
@@ -51,15 +50,6 @@ export class StickyBase {
 
 		if (isEnabled) {
 			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
-
-			// DISCUSS: Should we set lineItemId to ADX for all slots at creation time
-			// or only sticky ones?
-			if (this.lineId === StickyBase.ADX) {
-				this.adSlot.creativeId = StickyBase.ADX;
-				this.adSlot.lineItemId = StickyBase.ADX;
-				this.adSlot.container.firstChild.dataset.gptCreativeId = StickyBase.ADX;
-				this.adSlot.container.firstChild.dataset.gptLineItemId = StickyBase.ADX;
-			}
 		}
 
 		return isEnabled;

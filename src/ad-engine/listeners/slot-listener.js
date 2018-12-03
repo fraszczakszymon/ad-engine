@@ -1,6 +1,6 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
+import { context, slotTweaker, slotDataParamsUpdater, slotInjector, ADX } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -74,8 +74,13 @@ class SlotListener {
 				const response = event.slot.getResponseInformation();
 
 				if (response) {
-					adSlot.creativeId = response.creativeId;
-					adSlot.lineItemId = response.lineItemId;
+					if (!response.isEmpty && response.creativeId === null && response.lineItemId === null) {
+						adSlot.creativeId = ADX;
+						adSlot.lineItemId = ADX;
+					} else {
+						adSlot.creativeId = response.creativeId;
+						adSlot.lineItemId = response.lineItemId;
+					}
 				}
 			}
 
