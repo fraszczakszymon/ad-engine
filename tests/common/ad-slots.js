@@ -18,6 +18,7 @@ class AdSlots {
 		this.boxadHeight = 250; // shared between boxads; fixed value
 		this.railModuleWidth = 300;
 		this.railModuleHeight = 600;
+		this.creativeIdAttribute = 'data-gpt-creative-id';
 		this.lineItemIdAttribute = 'data-gpt-line-item-id';
 		this.resultAttribute = 'data-slot-result';
 		this.viewedAttribute = 'data-slot-viewed';
