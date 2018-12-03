@@ -7,9 +7,11 @@ import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } fr
 
 const logGroup = 'gpt-provider';
 
-export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) {
-	return window.googletag.cmd.push(() => method.apply(this, args));
-};
+function postponeExecutionUntilGptLoads(method) {
+	return function (...args) {
+		return window.googletag.cmd.push(() => method.apply(this, args));
+	};
+}
 
 let definedSlots = [];
 let initialized = false;
@@ -51,7 +53,7 @@ export class GptProvider {
 		return initialized;
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	init() {
 		if (this.isInitialized()) {
 			return;
@@ -71,7 +73,7 @@ export class GptProvider {
 		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
@@ -124,13 +126,13 @@ export class GptProvider {
 		return result;
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	updateCorrelator() {
 		window.googletag.pubads().updateCorrelator();
 	}
 
 	/** Renders ads */
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	flush() {
 		if (definedSlots.length) {
 			window.googletag.pubads().refresh(
@@ -141,7 +143,7 @@ export class GptProvider {
 		}
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	destroyGptSlots(gptSlots) {
 		logger(logGroup, 'destroySlots', gptSlots);
 

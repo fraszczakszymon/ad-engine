@@ -6,7 +6,11 @@ import { getPrebidBestPrice } from './price-helper';
 import { getSettings } from './prebid-settings';
 import { getAvailableBidsByAdUnitCode, setupAdUnits } from './prebid-helper';
 
-export const prebidLazyRun = method => (...args) => window.pbjs.que.push(() => method.apply(this, args));
+function postponeExecutionUntilPbjsLoads(method) {
+	return function (...args) {
+		return window.pbjs.que.push(() => method.apply(this, args));
+	};
+}
 
 const logGroup = 'prebid';
 
@@ -64,12 +68,12 @@ export class Prebid extends BaseBidder {
 	static validResponseStatusCode = 1;
 	static errorResponseStatusCode = 2;
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	applyConfig(config) {
 		window.pbjs.setConfig(config);
 	}
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	applySettings() {
 		window.pbjs.bidderSettings = getSettings();
 	}
@@ -207,7 +211,7 @@ export class Prebid extends BaseBidder {
 		});
 	}
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	requestBids(adUnits, bidsBackHandler, withRemove = undefined) {
 		if (withRemove) {
 			withRemove();
