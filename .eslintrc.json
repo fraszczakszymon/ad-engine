@@ -54,6 +54,7 @@
 			}
 		],
 		"prefer-arrow-callback": [ "error", { "allowUnboundThis": false } ],
+		"no-extra-bind": "error",
 		"indent": ["error", "tab"],
 		"max-len": [
 			"error",
