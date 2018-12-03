@@ -2894,7 +2894,7 @@ var porvata_listener_PorvataListener = function () {
 				lineItemId = this.video.container.getAttribute('data-vast-line-item-id');
 			}
 
-			var date = new Date();
+			var now = new Date();
 			return {
 				ad_error_code: errorCode,
 				ad_product: this.params.adProduct,
@@ -2908,8 +2908,8 @@ var porvata_listener_PorvataListener = function () {
 				position: this.params.position ? this.params.position.toLowerCase() : '(none)',
 				// @DEPRECATED
 				browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
-				timestamp: date.getTime(),
-				tz_offset: date.getTimezoneOffset()
+				timestamp: now.getTime(),
+				tz_offset: now.getTimezoneOffset()
 			};
 		}
 	}]);
@@ -3072,6 +3072,7 @@ function slot_listener_getData(adSlot, _ref) {
 	var adType = _ref.adType,
 	    status = _ref.status;
 
+	var now = new Date();
 	return {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 		adType: adType || '',
@@ -3080,9 +3081,9 @@ function slot_listener_getData(adSlot, _ref) {
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
-		time_bucket: new Date().getHours(),
-		timestamp: new Date().getTime(),
-		tz_offset: new Date().getTimezoneOffset(),
+		time_bucket: now.getHours(),
+		timestamp: now.getTime(),
+		tz_offset: now.getTimezoneOffset(),
 		viewport_height: window.innerHeight || 0
 	};
 }

@@ -79,7 +79,7 @@ export class PorvataListener {
 			lineItemId = this.video.container.getAttribute('data-vast-line-item-id');
 		}
 
-		const date = new Date();
+		const now = new Date();
 		return {
 			ad_error_code: errorCode,
 			ad_product: this.params.adProduct,
@@ -93,8 +93,8 @@ export class PorvataListener {
 			position: this.params.position ? this.params.position.toLowerCase() : '(none)',
 			// @DEPRECATED
 			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
-			timestamp: date.getTime(),
-			tz_offset: date.getTimezoneOffset()
+			timestamp: now.getTime(),
+			tz_offset: now.getTimezoneOffset()
 		};
 	}
 }
