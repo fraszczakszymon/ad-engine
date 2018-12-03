@@ -38,6 +38,7 @@
 			{ "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
 			{ "blankLine": "always", "prev": "*", "next": "return" }
 		],
+		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
 		"no-underscore-dangle": [
 			"error",
 			{
