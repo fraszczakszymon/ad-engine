@@ -3,7 +3,6 @@
 	"extends": ["airbnb-base", "prettier"],
 	"rules": {
 		"class-methods-use-this": ["off"],
-		"one-var": ["off"],
 		"func-names": ["error", "never"],
 		"no-tabs": ["off"],
 		"import/prefer-default-export": ["off"],

@@ -245,10 +245,10 @@ export class Porvata {
 			withCtp: !params.autoPlay,
 		});
 
-		let isFirstPlay = true,
-			autoPaused = false,
-			autoPlayed = false,
-			viewportListenerId = null;
+		let isFirstPlay = true;
+		let autoPaused = false;
+		let autoPlayed = false;
+		let viewportListenerId = null;
 
 		function muteFirstPlay(video) {
 			video.addEventListener('loaded', () => {

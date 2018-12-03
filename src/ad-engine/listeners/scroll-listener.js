@@ -40,9 +40,13 @@ class ScrollListener {
 		}
 
 		this.addCallback((event, callbackId) => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
-				slotPosition = getTopOffset(node),
-				viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const slotPosition = getTopOffset(node);
+			const viewPortHeight = Math.max(
+				document.documentElement.clientHeight,
+				window.innerHeight || 0,
+			);
 
 			if (scrollPosition + viewPortHeight > slotPosition - threshold) {
 				this.removeCallback(callbackId);

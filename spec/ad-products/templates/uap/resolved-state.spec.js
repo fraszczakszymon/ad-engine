@@ -4,43 +4,37 @@ import { resolvedState } from '../../../../src/ad-products/templates/uap/resolve
 import { resolvedStateSwitch } from '../../../../src/ad-products/templates/uap/resolved-state-switch';
 import { utils } from '../../../../src/ad-engine';
 
-const ASPECT_RATIO = 1,
-	BIG_IMAGE = 'bigImage.png',
-	BIG_IMAGE_2 = 'bigImage2.png',
-	DEFAULT_IMAGE = 'oldImage.png',
-	RESOLVED_STATE_ASPECT_RATIO = 2,
-	RESOLVED_IMAGE = 'resolvedImage.png',
-	RESOLVED_IMAGE_2 = 'resolvedImage2.png',
-	addEventListener = (name, callback) => {
-		const event = {
-			target: {}
-		};
-		setTimeout(() => callback(event), 0);
+const ASPECT_RATIO = 1;
+const BIG_IMAGE = 'bigImage.png';
+const BIG_IMAGE_2 = 'bigImage2.png';
+const DEFAULT_IMAGE = 'oldImage.png';
+const RESOLVED_STATE_ASPECT_RATIO = 2;
+const RESOLVED_IMAGE = 'resolvedImage.png';
+const RESOLVED_IMAGE_2 = 'resolvedImage2.png';
+
+const addEventListener = (name, callback) => {
+	const event = {
+		target: {},
+	};
+	setTimeout(() => callback(event), 0);
+};
+
+const stubs = {
+	videoSettings: {
+		getParams() {
+			return {};
+		},
+		updateParams() {
+			return {};
+		},
+		isResolvedState() {
+			return false;
+		},
 	},
-	stubs = {
-		videoSettings: {
-			getParams() {
-				return {};
-			},
-			updateParams() {
-				return {};
-			},
-			isResolvedState() {
-				return false;
-			}
-		}
-	},
-	blockingUrlParams = [
-		false,
-		'blocked',
-		'false',
-		'0'
-	],
-	forcingUrlParams = [
-		true,
-		'true',
-		'1'
-	];
+};
+
+const blockingUrlParams = [false, 'blocked', 'false', '0'];
+const forcingUrlParams = [true, 'true', '1'];
 
 function createCorrectParams() {
 	return {

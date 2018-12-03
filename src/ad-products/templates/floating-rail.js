@@ -41,9 +41,10 @@ export class FloatingRail {
 		const floatingSpace = Math.min(offset, this.getAvailableSpace());
 
 		scrollListener.addCallback(() => {
-			const start = this.config.startOffset + utils.getTopOffset(this.railWrapper),
-				end = start + floatingSpace,
-				scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const start = this.config.startOffset + utils.getTopOffset(this.railWrapper);
+			const end = start + floatingSpace;
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			if (scrollPosition <= start) {
 				this.rail.style.paddingTop = '';
@@ -63,9 +64,9 @@ export class FloatingRail {
 
 	getAvailableSpace() {
 		if (availableSpace === null) {
-			const children = this.railWrapper.lastElementChild,
-				childrenHeight = children.offsetTop + children.offsetHeight,
-				space = this.railWrapper.offsetHeight;
+			const children = this.railWrapper.lastElementChild;
+			const childrenHeight = children.offsetTop + children.offsetHeight;
+			const space = this.railWrapper.offsetHeight;
 
 			availableSpace = Math.max(0, space - childrenHeight - (adsInRail * biggestAdSize));
 		}

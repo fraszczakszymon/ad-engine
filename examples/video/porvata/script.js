@@ -10,22 +10,22 @@ import {
 import { porvataTracker } from '@wikia/ad-products';
 import adContext from '../../context';
 
-const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1',
-	container = document.getElementById('player'),
-	params = {
-		adProduct: 'test-video',
-		autoPlay: utils.queryString.get('autoplay') !== '0',
-		blockOutOfViewportPausing,
-		container,
-		width: 300,
-		height: 250,
-		slotName: 'outstream'
-	},
-	playerCloseButton = document.getElementById('player-close'),
-	playerFullscreenButton = document.getElementById('player-fullscreen'),
-	playerMuteButton = document.getElementById('player-mute'),
-	playerResumePlayButton = document.getElementById('player-play-pause'),
-	playerUnmuteButton = document.getElementById('player-unmute');
+const blockOutOfViewportPausing = utils.queryString.get('block_pausing') === '1';
+const container = document.getElementById('player');
+const params = {
+	adProduct: 'test-video',
+	autoPlay: utils.queryString.get('autoplay') !== '0',
+	blockOutOfViewportPausing,
+	container,
+	width: 300,
+	height: 250,
+	slotName: 'outstream',
+};
+const playerCloseButton = document.getElementById('player-close');
+const playerFullscreenButton = document.getElementById('player-fullscreen');
+const playerMuteButton = document.getElementById('player-mute');
+const playerResumePlayButton = document.getElementById('player-play-pause');
+const playerUnmuteButton = document.getElementById('player-unmute');
 
 if (blockOutOfViewportPausing) {
 	console.warn('🎬 Block out of viewport pausing enabled');

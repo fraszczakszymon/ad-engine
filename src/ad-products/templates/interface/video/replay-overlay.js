@@ -52,10 +52,10 @@ function showOverlay(overlay, params) {
  * @return string in form '55%'
  */
 function getOverlayWidth(params) {
-	const adWidth = params.container.offsetWidth,
-		videoWidth = params.hideWhenPlaying.offsetWidth;
+	const adWidth = params.container.offsetWidth;
+	const videoWidth = params.hideWhenPlaying.offsetWidth;
 
-	return `${100 * videoWidth / adWidth}%`;
+	return `${(100 * videoWidth) / adWidth}%`;
 }
 
 function addReplayIcon(overlay) {

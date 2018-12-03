@@ -63,8 +63,8 @@ class SlotTweaker {
 		return this.onReady(adSlot).then((iframe) => {
 			const container = iframe.parentElement;
 			if (!aspectRatio) {
-				const height = iframe.contentWindow.document.body.scrollHeight,
-					width = iframe.contentWindow.document.body.scrollWidth;
+				const height = iframe.contentWindow.document.body.scrollHeight;
+				const width = iframe.contentWindow.document.body.scrollWidth;
 
 				aspectRatio = width / height;
 			}
@@ -82,8 +82,8 @@ class SlotTweaker {
 			return adSlot.onLoad();
 		}
 
-		const container = this.getContainer(adSlot),
-			iframe = container.querySelector('div[id*="_container_"] iframe');
+		const container = this.getContainer(adSlot);
+		const iframe = container.querySelector('div[id*="_container_"] iframe');
 
 		return new Promise((resolve, reject) => {
 			if (!iframe) {

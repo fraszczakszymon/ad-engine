@@ -24,9 +24,9 @@ class VastParser {
 	}
 
 	parse(vastUrl, extra = {}) {
-		const currentAd = this.getAdInfo(extra.imaAd),
-			vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			customParams = queryString.getValues(encodeURI(vastParams.cust_params));
+		const currentAd = this.getAdInfo(extra.imaAd);
+		const vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?')));
+		const customParams = queryString.getValues(encodeURI(vastParams.cust_params));
 
 		return {
 			contentType: currentAd.contentType || extra.contentType,

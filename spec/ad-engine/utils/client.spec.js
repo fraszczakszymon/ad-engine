@@ -3,8 +3,8 @@ import { client } from '../../../src/ad-engine/utils/client';
 
 describe('client', () => {
 	it('checkBlocking works correctly', () => {
-		let blocker = false,
-			notBlocked = false;
+		let blocker = false;
+		let notBlocked = false;
 
 		client.checkBlocking(() => { blocker = true; }, () => { notBlocked = true; });
 

@@ -14,8 +14,8 @@ function load() {
 }
 
 function getPlayer(videoSettings) {
-	const adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer()),
-		iframe = videoSettings.getContainer().querySelector('div > iframe');
+	const adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer());
+	const iframe = videoSettings.getContainer().querySelector('div > iframe');
 
 	// Reload iframe in order to make IMA work when user is moving back/forward to the page with
 	// player

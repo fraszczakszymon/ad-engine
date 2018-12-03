@@ -1,7 +1,7 @@
 import { logger } from '../utils';
 
-const callbacks = [],
-	logGroup = 'message-bus';
+const callbacks = [];
+const logGroup = 'message-bus';
 
 function isAdEngineMessage(message) {
 	try {
@@ -25,8 +25,8 @@ function messageMatch(match, message) {
 }
 
 function onMessage(message) {
-	let i = 0,
-		callback;
+	let i = 0;
+	let callback;
 
 	if (isAdEngineMessage(message)) {
 		logger(logGroup, 'Message received', message);

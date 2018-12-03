@@ -16,9 +16,9 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	const adSlot = slotService.get(params.slotName),
-		adsRequest = new window.google.ima.AdsRequest(),
-		overriddenVast = getOverriddenVast();
+	const adSlot = slotService.get(params.slotName);
+	const adsRequest = new window.google.ima.AdsRequest();
+	const overriddenVast = getOverriddenVast();
 
 	if (params.vastResponse || overriddenVast) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
@@ -45,8 +45,8 @@ function createRequest(params) {
 }
 
 function getRenderingSettings(params = {}) {
-	const adsRenderingSettings = new window.google.ima.AdsRenderingSettings(),
-		maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
+	const adsRenderingSettings = new window.google.ima.AdsRenderingSettings();
+	const maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
 
 	if (!context.get('state.isMobile')) {
 		adsRenderingSettings.bitrate = maximumRecommendedBitrate;

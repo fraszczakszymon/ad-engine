@@ -2,17 +2,17 @@ import Cookies from 'js-cookie';
 import Random from './random';
 import { context } from '../services/context-service';
 
-const cacheMarker = '-cached',
-	cacheMaxAge = 30 * 60 * 1000,
-	earth = 'XX',
-	negativePrefix = 'non-',
-	precision = 10 ** 6, // precision to 0.00000001 (or 0.000001%) of traffic
-	samplingSeparator = '/',
-	sessionCookieDefault = 'tracking_session_id';
-
-let cache = {},
-	cookieLoaded = false,
-	geoData = null;
+const cacheMarker = '-cached';
+const cacheMaxAge = 30 * 60 * 1000;
+const earth = 'XX';
+const negativePrefix = 'non-';
+// precision to 0.00000001 (or 0.000001%) of traffic
+const precision = 10 ** 6;
+const samplingSeparator = '/';
+const sessionCookieDefault = 'tracking_session_id';
+let cache = {};
+let cookieLoaded = false;
+let geoData = null;
 
 function hasCache(countryList) {
 	return countryList.some(country => country.indexOf(cacheMarker) !== -1);
@@ -94,8 +94,8 @@ function setCookie(value) {
 
 function getResult(samplingLimits, name, withCookie) {
 	// eslint-disable-next-line no-bitwise
-	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0,
-		result = samplingLimits.some(value => randomValue < value);
+	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0;
+	const result = samplingLimits.some(value => randomValue < value);
 
 	if (name) {
 		addResultToCache(name, result, samplingLimits, withCookie);
@@ -105,8 +105,8 @@ function getResult(samplingLimits, name, withCookie) {
 }
 
 function isSampledForGeo(countryList, geo, name) {
-	const countryListWithSampling = countryList.filter(hasSampling(geo)),
-		cachedWithCookie = hasCache(countryList);
+	const countryListWithSampling = countryList.filter(hasSampling(geo));
+	const cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;

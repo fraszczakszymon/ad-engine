@@ -114,10 +114,11 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 				return;
 			}
 
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
-				slotPosition = utils.getTopOffset(this.adSlot.getElement()),
-				isBfaaSticky = bfaa.getElement().classList.contains('sticky-bfaa'),
-				bfaaHeight = bfaa.getElement().offsetHeight;
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const slotPosition = utils.getTopOffset(this.adSlot.getElement());
+			const isBfaaSticky = bfaa.getElement().classList.contains('sticky-bfaa');
+			const bfaaHeight = bfaa.getElement().offsetHeight;
 
 			if (isBfaaSticky && scrollPosition >= slotPosition - this.config.topThreshold - bfaaHeight) {
 				scrollListener.removeCallback(id);
