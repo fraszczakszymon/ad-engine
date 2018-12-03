@@ -6,8 +6,7 @@ import '../../styles.scss';
 
 context.extend(customContext);
 context.set('slots.bottom_leaderboard.disabled', false);
-context.set('state.providers.gpt', false);
-context.set('state.providers.prebidium', true);
+context.set('state.provider', 'prebidium');
 
 adProductsUtils.setupNpaContext();
 
@@ -17,10 +16,6 @@ const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
 	getPromise: () => new Promise((resolve) => {
-		console.log(
-			'%c script getPromise', 'color: white; background: #6b5b95',
-			adEngineUtils.timer.now(),
-		);
 		resolveBidders = resolve;
 	}),
 };
@@ -28,23 +23,10 @@ const biddersDelay = {
 context.set('options.maxDelayTimeout', 1000);
 context.push('delayModules', biddersDelay);
 
-console.log(
-	'%c Request Bids', 'color: white; background: #6b5b95',
-	adEngineUtils.timer.now(),
-);
 bidders.requestBids({
-	responseListener: (...args) => {
-		console.log(
-			'%c script ResponseListener', 'color: white; background: #6b5b95',
-			adEngineUtils.timer.now(),
-			args,
-			{ ...window.pbjs.getBidResponses() }
-		);
+	responseListener: () => {
 		if (bidders.hasAllResponses()) {
-			console.log(
-				'%c script ResponseListener if', 'color: white; background: #6b5b95',
-				adEngineUtils.timer.now(),
-			);
+			// renderBids();
 			if (resolveBidders) {
 				resolveBidders();
 				resolveBidders = null;
@@ -54,10 +36,14 @@ bidders.requestBids({
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {
+	adEngineUtils.timer.log(
+		'script updateSlotTargeting',
+		slot.getSlotName(),
+	);
 	bidders.updateSlotTargeting(slot.getSlotName());
 });
 
-setTimeout(() => {
+function renderBids() {
 	const bids = window.pbjs.getBidResponses();
 	Object.keys(bids)
 		.forEach((key) => {
@@ -65,9 +51,8 @@ setTimeout(() => {
 			const doc = document.getElementById(`${bid.adUnitCode}`);
 			const iframe = doc.appendChild(document.createElement('iframe'));
 			const adId = bid.adId;
-			console.log(
-				'%c script pbjs', 'color: white; background: #6b5b95',
-				adEngineUtils.timer.now(),
+			adEngineUtils.timer.log(
+				'script pbjs',
 				{
 					doc,
 					adId,
@@ -75,6 +60,6 @@ setTimeout(() => {
 			);
 			window.pbjs.renderAd(iframe.contentWindow.document, adId);
 		});
-}, 1000);
+}
 
 new AdEngine().init();

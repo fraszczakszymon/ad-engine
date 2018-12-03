@@ -1,22 +1,9 @@
-import { logger, makeLazyQueue } from '../utils';
+import { logger, makeLazyQueue, timer } from '../utils';
 import { context } from './context-service';
 import { slotService } from './slot-service';
 import { events } from './events';
 
 const logGroup = 'btf-blocker';
-
-function disableSecondCall(unblockedSlots) {
-	const slots = context.get('slots');
-	logger(logGroup, 'second call queue disabled');
-
-	Object.keys(slots).forEach((adSlotKey) => {
-		const slotConfig = slots[adSlotKey];
-
-		if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
-			slotService.disable(adSlotKey, 'blocked');
-		}
-	});
-}
 
 class BtfBlockerService {
 	constructor() {
@@ -59,13 +46,28 @@ class BtfBlockerService {
 		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableSecondCall([
+			this.disableSecondCall([
 				...this.unblockedSlotNames,
 				...slotService.getAtfSlotConfigs().map(slot => slot.name),
 			]);
 		}
 
 		this.slotsQueue.start();
+	}
+
+	/** @private */
+	disableSecondCall(unblockedSlots) {
+		const slots = context.get('slots');
+		logger(logGroup, 'second call queue disabled');
+
+		Object.keys(slots)
+			.forEach((adSlotKey) => {
+				const slotConfig = slots[adSlotKey];
+
+				if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
+					slotService.disable(adSlotKey, 'blocked');
+				}
+			});
 	}
 
 	push(adSlot, fillInCallback) {
@@ -83,6 +85,11 @@ class BtfBlockerService {
 			fillInCallback(adSlot);
 		}
 
+		timer.log(
+			'push',
+			this.firstCallEnded,
+			adSlot.isFirstCall(),
+		);
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
 			this.slotsQueue.push({ adSlot, fillInCallback: (...args) => wrappedFillInCallback(...args) });
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');

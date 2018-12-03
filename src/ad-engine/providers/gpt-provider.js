@@ -1,5 +1,5 @@
 import { decorate } from 'core-decorators';
-import { logger, defer } from '../utils';
+import { logger, defer, timer } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
@@ -24,6 +24,11 @@ function configure() {
 	}
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', (event) => {
+		timer.log(
+			'slotRenderEnded',
+			event,
+		);
+
 		const id = event.slot.getSlotElementId();
 		const slot = slotService.get(id);
 
@@ -73,6 +78,7 @@ export class GptProvider {
 		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
+	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
@@ -131,7 +137,6 @@ export class GptProvider {
 		window.googletag.pubads().updateCorrelator();
 	}
 
-	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
 	flush() {
 		if (definedSlots.length) {

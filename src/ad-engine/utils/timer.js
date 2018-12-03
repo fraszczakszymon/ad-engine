@@ -5,6 +5,10 @@ export class Timer {
 	// eslint-disable-next-line no-undef
 	clock = performance;
 
+	constructor() {
+		this.reset();
+	}
+
 	reset() {
 		this.start = this.clock.now();
 	}
@@ -16,6 +20,16 @@ export class Timer {
 		}
 		this.start = this.clock.now();
 		return 0;
+	}
+
+	log(msg, ...args) {
+		// eslint-disable-next-line no-console
+		console.log(
+			`%c ${msg}`,
+			'color: white; background: #6b5b95',
+			this.now(),
+			...args,
+		);
 	}
 }
 

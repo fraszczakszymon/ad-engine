@@ -112,16 +112,18 @@ export class Prebid extends BaseBidder {
 	}
 
 	lazyCall(bidsBackHandler) {
-		if (!this.lazyLoaded) {
-			this.lazyLoaded = true;
+		if (this.lazyLoaded) {
+			return;
+		}
 
-			const adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
+		this.lazyLoaded = true;
 
-			if (adUnitsLazy.length > 0) {
-				this.requestBids(adUnitsLazy, bidsBackHandler);
+		const adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
 
-				this.adUnits = this.adUnits.concat(adUnitsLazy);
-			}
+		if (adUnitsLazy.length > 0) {
+			this.requestBids(adUnitsLazy, bidsBackHandler);
+
+			this.adUnits = this.adUnits.concat(adUnitsLazy);
 		}
 	}
 

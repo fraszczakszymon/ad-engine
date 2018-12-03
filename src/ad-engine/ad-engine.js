@@ -1,7 +1,7 @@
 import { logger, makeLazyQueue, timer } from './utils';
 import { AdSlot } from './models';
 import { FloatingAd } from './templates';
-import { GptProvider } from './providers';
+import { GptProvider, PrebidiumProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
@@ -20,17 +20,18 @@ const logGroup = 'ad-engine';
 // TODO: Move to BaseProvider class
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
+	timer.log(
+		'fillInUsingProvider',
+		adSlot.config.slotName,
+	);
 
 	slotService.add(adSlot);
 
+	// provider.fillIn(adSlot);
 	btfBlockerService.push(adSlot, arg => provider.fillIn(arg));
 }
 
 function getPromises() {
-	console.log(
-		'%c ae3 getPromise', 'color: white; background: #6b5b95',
-		timer.now(),
-	);
 	return (context.get('delayModules') || [])
 		.filter(module => module.isEnabled())
 		.map((module) => {
@@ -58,25 +59,31 @@ export class AdEngine {
 	}
 
 	setupProviders() {
-		if (context.get('state.providers.gpt')) {
-			this.providers.set('gpt', new GptProvider());
-		}
-		if (context.get('state.providers.prebidium')) {
-			console.log('Add Prebidium provider here');
+		const providerName = context.get('state.provider');
+		switch (providerName) {
+			case 'gpt':
+				this.provider = new GptProvider();
+				break;
+			case 'prebidium':
+				this.provider = new PrebidiumProvider();
+				break;
+			default:
+				throw new Error('Not implemented provider');
 		}
 	}
 
 	setupQueue() {
 		this.adStack = context.get('state.adStack');
-
+		timer.log(
+			'setupQueue',
+			{ ...this.adStack },
+		);
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
-				const gpt = this.providers.get('gpt');
-
-				fillInUsingProvider(ad, gpt);
+				fillInUsingProvider(ad, this.provider);
 
 				if (this.adStack.length === 0) {
-					gpt.flush();
+					this.provider.flush();
 				}
 			});
 		}
@@ -98,27 +105,12 @@ export class AdEngine {
 
 		logger(logGroup, `Delay by ${promises.length} modules (${maxTimeout}ms timeout)`);
 
-		console.log(
-			'%c ae3 runAdQueue', 'color: white; background: #6b5b95',
-			timer.now(),
-			promises,
-		);
 		if (promises.length > 0) {
-			Promise.all(promises).then((...args) => {
-				console.log(
-					'%c ae3 promises then', 'color: white; background: #6b5b95',
-					timer.now(),
-					args,
-				);
+			Promise.all(promises).then(() => {
 				logger(logGroup, 'startAdQueue', 'All modules ready');
 				startAdQueue();
 			});
-			// TODO: It may not be working.
 			timeout = setTimeout(() => {
-				console.log(
-					'%c ae3 timeout', 'color: white; background: #6b5b95',
-					timer.now(),
-				);
 				logger(logGroup, 'startAdQueue', 'Timeout reached');
 				startAdQueue();
 			}, maxTimeout);
@@ -127,8 +119,17 @@ export class AdEngine {
 		}
 	}
 
+	/**
+	 * Returns GptProvider if it is set in context
+	 * @deprecated
+	 * @param name
+	 * @returns {any}
+	 */
 	getProvider(name) {
-		return this.providers.get(name);
+		if (name === 'gpt') {
+			return this.provider;
+		}
+		throw new Error('Deprecated method, supports only Gpt');
 	}
 
 	init() {
