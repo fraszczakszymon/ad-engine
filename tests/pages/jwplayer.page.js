@@ -38,6 +38,10 @@ class JWPlayer {
 		}
 		return undefined;
 	}
+
+	waitForAdToChangeState(shouldAdBeVisible) {
+		browser.waitUntil(() => this.isAdVisible() === shouldAdBeVisible, timeouts.standard);
+	}
 }
 
 export const jwPlayer = new JWPlayer();

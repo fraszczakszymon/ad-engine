@@ -70,7 +70,17 @@ describe('jwPlayer player', () => {
 
 	it('Check if preroll the video works', () => {
 		browser.waitForExist(jwPlayer.player, timeouts.standard);
-		jwPlayer.isAdVisible();
+		expect(jwPlayer.isAdVisible()).to.be.true;
+	});
+
+	it('Check if midroll the video works', () => {
+		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getMidroll(true));
+		browser.waitForExist(jwPlayer.player, timeouts.standard);
+		jwPlayer.waitForAdToChangeState(true);
+		helpers.waitForVideoAdToFinish(30000);
+		jwPlayer.waitForAdToChangeState(false);
+		helpers.waitForVideoAdToFinish(40000);
+		jwPlayer.waitForAdToChangeState(true);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
