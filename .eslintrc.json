@@ -53,6 +53,7 @@
 				"asyncArrow": "always"
 			}
 		],
+		"prefer-arrow-callback": [ "error", { "allowUnboundThis": false } ],
 		"indent": ["error", "tab"],
 		"max-len": [
 			"error",
