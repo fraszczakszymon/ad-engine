@@ -28,7 +28,6 @@ describe('UniversalAdPackage', () => {
 			creativeId: UAP_CREATIVE_ID
 		});
 
-		console.log(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID));
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_boxad.targeting.uap', UAP_ID)).to.equal(true);
