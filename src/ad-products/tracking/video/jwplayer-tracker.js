@@ -98,10 +98,6 @@ export class JWPlayerTracker {
 			this.updateCreativeData();
 		});
 
-		player.on('adError', () => {
-			this.updateCreativeData();
-		});
-
 		player.on('adRequest', (event) => {
 			const currentAd = vastParser.getAdInfo(event.ima && event.ima.ad);
 
@@ -135,6 +131,10 @@ export class JWPlayerTracker {
 					this.ctp = false;
 				}
 			});
+		});
+
+		player.on('adError', () => {
+			this.updateCreativeData();
 		});
 	}
 
