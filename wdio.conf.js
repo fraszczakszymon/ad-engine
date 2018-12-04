@@ -26,7 +26,7 @@ exports.config = {
 	coloredLogs: true,
 	deprecationWarnings: false,
 	bail: 0,
-	screenshotPath: './tests/.wdio/errorShots/',
+	screenshotPath: './tests/errorScreenshots/',
 	baseUrl: 'http://localhost:8080',
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
