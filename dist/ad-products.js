@@ -2555,6 +2555,7 @@ var loadVideoAd = function () {
 
 
 
+var uapCreativeId = DEFAULT_UAP_ID;
 var uapId = DEFAULT_UAP_ID;
 var uapType = DEFAULT_UAP_TYPE;
 
@@ -2593,9 +2594,15 @@ function getUapId() {
 	return uapId;
 }
 
-function setUapId(id) {
-	uapId = id;
-	updateSlotsTargeting(id);
+function getCreativeId() {
+	return uapCreativeId;
+}
+
+function setIds(lineItemId, creativeId) {
+	uapId = lineItemId || DEFAULT_UAP_ID;
+	uapCreativeId = creativeId || DEFAULT_UAP_ID;
+
+	updateSlotsTargeting(uapId, uapCreativeId);
 }
 
 function getType() {
@@ -2606,11 +2613,12 @@ function setType(type) {
 	uapType = type;
 }
 
-function updateSlotsTargeting(id) {
+function updateSlotsTargeting(lineItemId, creativeId) {
 	var slots = ad_engine_["context"].get('slots');
 	keys_default()(slots).forEach(function (slotId) {
 		if (!slots[slotId].nonUapSlot) {
-			ad_engine_["context"].set('slots.' + slotId + '.targeting.uap', id);
+			ad_engine_["context"].set('slots.' + slotId + '.targeting.uap', lineItemId);
+			ad_engine_["context"].set('slots.' + slotId + '.targeting.uap_c', creativeId);
 		}
 	});
 }
@@ -2646,7 +2654,7 @@ function initSlot(params) {
 
 function universal_ad_package_reset() {
 	setType(DEFAULT_UAP_TYPE);
-	setUapId(DEFAULT_UAP_ID);
+	setIds(DEFAULT_UAP_ID, DEFAULT_UAP_ID);
 }
 
 function isFanTakeoverLoaded() {
@@ -2666,7 +2674,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 		params.adProduct = params.adProduct || adProduct;
 
-		setUapId(params.uap);
+		setIds(params.uap, params.creativeId);
 		disableSlots(slotsToDisable);
 		enableSlots(slotsToEnable);
 		setType(params.adProduct);
@@ -2678,6 +2686,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 	initSlot: initSlot,
 	isFanTakeoverLoaded: isFanTakeoverLoaded,
+	getCreativeId: getCreativeId,
 	getType: getType,
 	getUapId: getUapId,
 	isVideoEnabled: function isVideoEnabled(params) {
@@ -2689,8 +2698,7 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 	loadVideoAd: loadVideoAd,
 	loadTwitchAd: loadTwitchAd,
 	reset: universal_ad_package_reset,
-	setType: setType,
-	setUapId: setUapId
+	setType: setType
 });
 // CONCATENATED MODULE: ./src/ad-products/templates/sticky-tlb.js
 
@@ -4991,10 +4999,6 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 				_this.updateCreativeData();
 			});
 
-			player.on('adError', function () {
-				_this.updateCreativeData();
-			});
-
 			player.on('adRequest', function (event) {
 				var currentAd = ad_engine_["vastParser"].getAdInfo(event.ima && event.ima.ad);
 
@@ -5026,6 +5030,10 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 						_this.ctp = false;
 					}
 				});
+			});
+
+			player.on('adError', function () {
+				_this.updateCreativeData();
 			});
 		}
 

@@ -10,9 +10,17 @@ import { ProjectsHandler } from './projects-handler';
  * @property {function} on_*
  */
 
+/**
+ * @typedef {Object} PredictionDefinition
+ * @property {string} modelName
+ * @property {result} number
+ * @property {(number|string)} callId
+ */
+
 const logGroup = 'bill-the-lizard';
 
 events.registerEvent('BILL_THE_LIZARD_REQUEST');
+events.registerEvent('BILL_THE_LIZARD_RESPONSE');
 
 /**
  * Builds query parameters for url
@@ -46,14 +54,18 @@ function buildUrl(host, endpoint, query) {
  * @param {string} endpoint
  * @param {Object} queryParameters (key-value pairs for query parameters)
  * @param {number} timeout
+ * @param {number|string} callId
  * @returns {Promise}
  */
-function httpRequest(host, endpoint, queryParameters = {}, timeout = 0) {
+function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) {
 	const request = new window.XMLHttpRequest();
 	const query = buildQueryUrl(queryParameters);
 	const url = buildUrl(host, endpoint, query);
 
-	events.emit(events.BILL_THE_LIZARD_REQUEST, query);
+	events.emit(events.BILL_THE_LIZARD_REQUEST, {
+		query,
+		callId,
+	});
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
@@ -117,7 +129,7 @@ function overridePredictions(response) {
 /**
  * Bill the Lizard service handler
  */
-class BillTheLizard {
+export class BillTheLizard {
 	static FAILURE = 'failure';
 	static NOT_USED = 'not_used';
 	static ON_TIME = 'on_time';
@@ -127,19 +139,32 @@ class BillTheLizard {
 	constructor() {
 		this.executor = new Executor();
 		this.projectsHandler = new ProjectsHandler();
-		this.predictions = {};
-		this.status = null;
+		this.statuses = {};
+		this.predictions = [];
+		this.callCounter = 0;
+		this.targetedModelNames = new Set();
 	}
 
 	/**
 	 * Requests service, executes defined methods and parses response
+	 *
+	 * Supply callKey if you need to access status for this specific request.
+	 * DO NOT use an integer as callKey as it's the default value.
+	 * Good key example: "incontent_boxad1".
+	 *
 	 * @param {string[]} projectNames
+	 * @param {string} callId key for this call
 	 * @returns {Promise}
 	 */
-	call(projectNames) {
+	call(projectNames, callId) {
 		if (!context.get('services.billTheLizard.enabled')) {
 			utils.logger(logGroup, 'disabled');
 			return new Promise((resolve, reject) => reject(new Error('Disabled')));
+		}
+
+		if (!callId) {
+			this.callCounter += 1;
+			callId = this.callCounter;
 		}
 
 		const host = context.get('services.billTheLizard.host');
@@ -149,104 +174,179 @@ class BillTheLizard {
 
 		if (!models || models.length < 1) {
 			utils.logger(logGroup, 'no models to predict');
-			this.status = BillTheLizard.NOT_USED;
+			this.statuses[callId] = BillTheLizard.NOT_USED;
 
 			return Promise.resolve({});
 		}
 
+		// update names of GAM targeted models
+		models
+			.filter(model => model.dfp_targeting)
+			.forEach(model => this.targetedModelNames.add(model.name));
+
 		const queryParameters = getQueryParameters(models, parameters);
-		utils.logger(logGroup, 'calling service', host, endpoint, queryParameters);
+		utils.logger(logGroup, 'calling service', host, endpoint, queryParameters, `callId: ${callId}`);
 
-		this.status = BillTheLizard.TOO_LATE;
+		this.statuses[callId] = BillTheLizard.TOO_LATE;
 
-		return httpRequest(host, endpoint, queryParameters, timeout)
+		return httpRequest(host, endpoint, queryParameters, timeout, callId)
 			.catch((error) => {
 				if (error.message === 'timeout') {
-					this.status = BillTheLizard.TIMEOUT;
+					this.statuses[callId] = BillTheLizard.TIMEOUT;
 				} else {
-					this.status = BillTheLizard.FAILURE;
+					this.statuses[callId] = BillTheLizard.FAILURE;
 				}
 				return Promise.reject(error);
 			})
 			.then(response => overridePredictions(response))
 			.then((response) => {
-				const predictions = this.parsePredictions(models, response);
-				this.status = BillTheLizard.ON_TIME;
+				utils.logger(logGroup, 'service response OK', `callId: ${callId}`);
+
+				this.statuses[callId] = BillTheLizard.ON_TIME;
+
+				const modelToResultMap = this.getModelToResultMap(response);
+				utils.logger(logGroup, 'predictions', modelToResultMap, `callId: ${callId}`);
+
+				const predictions = this.buildPredictions(models, modelToResultMap, callId);
+				this.predictions.push(...predictions);
+
+				this.setTargeting();
+
+				events.emit(events.BILL_THE_LIZARD_RESPONSE, {
+					callId,
+					response: this.serialize(callId),
+				});
 
 				this.executor.executeMethods(models, response);
 
-				return predictions;
+				return modelToResultMap;
 			})
 			.catch((error) => {
-				utils.logger(logGroup, 'service response', error.message);
+				utils.logger(logGroup, 'service response', error.message, `callId: ${callId}`);
 				return {};
 			});
 	}
 
 	/**
-	 * Parses predictions based on response
+	 *
 	 * @param {ModelDefinition[]} models
-	 * @param {Object} response
-	 * @returns {Object}
+	 * @param {Object.<string, number>} modelToResultMap
+	 * @param {number|string} callId
+	 * @returns {PredictionDefinition[]}
 	 */
-	parsePredictions(models, response) {
-		const targeting = [];
-		this.predictions = {};
+	buildPredictions(models, modelToResultMap, callId) {
+		return models
+			.map(model => model.name)
+			.filter(modelName => modelToResultMap[modelName] !== undefined)
+			.map(modelName => ({ modelName, callId, result: modelToResultMap[modelName] }));
+	}
 
-		Object.keys(response).forEach((key) => {
-			const model = models.find(definition => definition.name === key);
-			const { result, version } = response[key];
-			const suffix = key.indexOf(version) > 0 ? '' : `:${version}`;
+	/**
+	 * Converts response to predictions
+	 * @param {Object} response
+	 * @returns {PredictionDefinition}
+	 */
+	getModelToResultMap(response) {
+		const modelToResultMap = {};
+		Object.keys(response).forEach((modelName) => {
+			const { result } = response[modelName];
 
 			if (typeof result !== 'undefined') {
-				this.predictions[`${key}${suffix}`] = result;
-
-				if (model && model.dfp_targeting) {
-					targeting.push(`${key}${suffix}_${result}`);
-				}
+				modelToResultMap[modelName] = result;
 			}
 		});
+		return modelToResultMap;
+	}
 
-		if (targeting.length > 0) {
-			context.set('targeting.btl', targeting);
+	/**
+	 * Sets DFP targeting in context.
+	 *
+	 * @returns string
+	 */
+	setTargeting() {
+		const targeting = this.getTargeting();
+		if (Object.keys(targeting).length > 0) {
+			const serializedTargeting = Object.entries(targeting)
+				.map(([modelName, result]) => `${modelName}_${result}`);
+			context.set('targeting.btl', serializedTargeting);
+			return serializedTargeting;
 		}
-
-		utils.logger(logGroup, 'predictions', this.predictions);
-
-		return this.predictions;
+		return '';
 	}
 
 	/**
-	 * Returns prediction for given model name
+	 * Returns map of targeted models to their results.
+	 *
+	 * For each model, it takes the latest result.
+	 *
+	 * @returns {Object.<string, number>}
+	 */
+	getTargeting() {
+		const latestResults = {};
+		this.predictions
+			.filter(pred => this.targetedModelNames.has(pred.modelName))
+			.forEach((pred) => {
+				latestResults[pred.modelName] = pred.result;
+			});
+		return latestResults;
+	}
+
+	/**
+	 * Get prediction by modelName and callId.
+	 *
 	 * @param {string} modelName
-	 * @returns {number|undefined}
+	 * @param {(number|string)} callId
+	 * @returns {PredictionDefinition}
 	 */
-	getPrediction(modelName) {
-		return this.predictions[modelName];
+	getPrediction(modelName, callId) {
+		return this.getPredictions(modelName).find(pred => pred.callId === callId);
 	}
 
 	/**
-	 * Returns all (parsed) predictions
-	 * @returns {Object}
+	 * Returns predictions optionally filtered by model name.
+	 *
+	 * If model name is given, it returns all predictions with models matching.
+	 * Model matches when raw name (without version) is matched.
+	 *
+	 * @param {string} [modelName]
+	 * @returns {PredictionDefinition[]}
 	 */
-	getPredictions() {
+	getPredictions(modelName) {
+		const separator = ':';
+		if (modelName) {
+			return this.predictions.filter(
+				pred => pred.modelName.split(separator)[0] === modelName.split(separator)[0]
+			);
+		}
 		return this.predictions;
 	}
 
 	/**
-	 * Returns response status (one of: failure, not_used, on_time, timeout, too_late)
-	 * @returns {null|string}
+	 * Returns response status (one of: failure, not_used, on_time, timeout, too_late or undefined);
+	 *
+	 * If callId is not supplied, the latest response without a specific key is returned.
+	 *
+	 * @param {number|string} [callId] value passed as key for call
+	 * @returns {string}
 	 */
-	getResponseStatus() {
-		return this.status;
+	getResponseStatus(callId) {
+		callId = callId || this.callCounter;
+		return this.statuses[callId];
 	}
 
 	/**
 	 * Serializes all predictions
+	 * @param {number|string} [callId]
 	 * @returns {string}
 	 */
-	serialize() {
-		return Object.keys(this.predictions).map(key => `${key}=${this.predictions[key]}`).join(';');
+	serialize(callId) {
+		let { predictions } = this;
+		if (callId !== undefined) {
+			predictions = predictions.filter(pred => pred.callId === callId);
+		}
+		return predictions
+			.map(pred => `${pred.modelName}|${pred.callId}=${pred.result}`)
+			.join(';');
 	}
 }
 
