@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -108,10 +108,50 @@ module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/set");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/toConsumableArray");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/entries");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/slicedToArray");
+
+/***/ }),
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
+var slicedToArray_ = __webpack_require__(9);
+var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/entries"
+var entries_ = __webpack_require__(8);
+var entries_default = /*#__PURE__*/__webpack_require__.n(entries_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
+var toConsumableArray_ = __webpack_require__(7);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/set"
+var set_ = __webpack_require__(6);
+var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
 var classCallCheck_ = __webpack_require__(2);
@@ -322,6 +362,10 @@ var projects_handler_ProjectsHandler = function () {
 
 
 
+
+
+
+
 /**
  * @typedef {Object} ModelDefinition
  * @property {boolean|undefined} executable
@@ -330,9 +374,17 @@ var projects_handler_ProjectsHandler = function () {
  * @property {function} on_*
  */
 
+/**
+ * @typedef {Object} PredictionDefinition
+ * @property {string} modelName
+ * @property {result} number
+ * @property {(number|string)} callId
+ */
+
 var bill_the_lizard_logGroup = 'bill-the-lizard';
 
 ad_engine_["events"].registerEvent('BILL_THE_LIZARD_REQUEST');
+ad_engine_["events"].registerEvent('BILL_THE_LIZARD_RESPONSE');
 
 /**
  * Builds query parameters for url
@@ -366,17 +418,22 @@ function buildUrl(host, endpoint, query) {
  * @param {string} endpoint
  * @param {Object} queryParameters (key-value pairs for query parameters)
  * @param {number} timeout
+ * @param {number|string} callId
  * @returns {Promise}
  */
 function httpRequest(host, endpoint) {
 	var queryParameters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 	var timeout = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+	var callId = arguments[4];
 
 	var request = new window.XMLHttpRequest();
 	var query = buildQueryUrl(queryParameters);
 	var url = buildUrl(host, endpoint, query);
 
-	ad_engine_["events"].emit(ad_engine_["events"].BILL_THE_LIZARD_REQUEST, query);
+	ad_engine_["events"].emit(ad_engine_["events"].BILL_THE_LIZARD_REQUEST, {
+		query: query,
+		callId: callId
+	});
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
@@ -442,27 +499,34 @@ function overridePredictions(response) {
 /**
  * Bill the Lizard service handler
  */
-
 var bill_the_lizard_BillTheLizard = function () {
 	function BillTheLizard() {
 		classCallCheck_default()(this, BillTheLizard);
 
 		this.executor = new executor_Executor();
 		this.projectsHandler = new projects_handler_ProjectsHandler();
-		this.predictions = {};
-		this.status = null;
+		this.statuses = {};
+		this.predictions = [];
+		this.callCounter = 0;
+		this.targetedModelNames = new set_default.a();
 	}
 
 	/**
   * Requests service, executes defined methods and parses response
+  *
+  * Supply callKey if you need to access status for this specific request.
+  * DO NOT use an integer as callKey as it's the default value.
+  * Good key example: "incontent_boxad1".
+  *
   * @param {string[]} projectNames
+  * @param {string} callId key for this call
   * @returns {Promise}
   */
 
 
 	createClass_default()(BillTheLizard, [{
 		key: 'call',
-		value: function call(projectNames) {
+		value: function call(projectNames, callId) {
 			var _this = this;
 
 			if (!ad_engine_["context"].get('services.billTheLizard.enabled')) {
@@ -470,6 +534,11 @@ var bill_the_lizard_BillTheLizard = function () {
 				return new promise_default.a(function (resolve, reject) {
 					return reject(new Error('Disabled'));
 				});
+			}
+
+			if (!callId) {
+				this.callCounter += 1;
+				callId = this.callCounter;
 			}
 
 			var host = ad_engine_["context"].get('services.billTheLizard.host');
@@ -482,127 +551,220 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			if (!models || models.length < 1) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'no models to predict');
-				this.status = BillTheLizard.NOT_USED;
+				this.statuses[callId] = BillTheLizard.NOT_USED;
 
 				return promise_default.a.resolve({});
 			}
 
+			// update names of GAM targeted models
+			models.filter(function (model) {
+				return model.dfp_targeting;
+			}).forEach(function (model) {
+				return _this.targetedModelNames.add(model.name);
+			});
+
 			var queryParameters = getQueryParameters(models, parameters);
-			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'calling service', host, endpoint, queryParameters);
+			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'calling service', host, endpoint, queryParameters, 'callId: ' + callId);
 
-			this.status = BillTheLizard.TOO_LATE;
+			this.statuses[callId] = BillTheLizard.TOO_LATE;
 
-			return httpRequest(host, endpoint, queryParameters, timeout).catch(function (error) {
+			return httpRequest(host, endpoint, queryParameters, timeout, callId).catch(function (error) {
 				if (error.message === 'timeout') {
-					_this.status = BillTheLizard.TIMEOUT;
+					_this.statuses[callId] = BillTheLizard.TIMEOUT;
 				} else {
-					_this.status = BillTheLizard.FAILURE;
+					_this.statuses[callId] = BillTheLizard.FAILURE;
 				}
 				return promise_default.a.reject(error);
 			}).then(function (response) {
 				return overridePredictions(response);
 			}).then(function (response) {
-				var predictions = _this.parsePredictions(models, response);
-				_this.status = BillTheLizard.ON_TIME;
+				var _predictions;
+
+				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'service response OK', 'callId: ' + callId);
+
+				_this.statuses[callId] = BillTheLizard.ON_TIME;
+
+				var modelToResultMap = _this.getModelToResultMap(response);
+				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'predictions', modelToResultMap, 'callId: ' + callId);
+
+				var predictions = _this.buildPredictions(models, modelToResultMap, callId);
+				(_predictions = _this.predictions).push.apply(_predictions, toConsumableArray_default()(predictions));
+
+				_this.setTargeting();
+
+				ad_engine_["events"].emit(ad_engine_["events"].BILL_THE_LIZARD_RESPONSE, {
+					callId: callId,
+					response: _this.serialize(callId)
+				});
 
 				_this.executor.executeMethods(models, response);
 
-				return predictions;
+				return modelToResultMap;
 			}).catch(function (error) {
-				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'service response', error.message);
+				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'service response', error.message, 'callId: ' + callId);
 				return {};
 			});
 		}
 
 		/**
-   * Parses predictions based on response
+   *
    * @param {ModelDefinition[]} models
-   * @param {Object} response
-   * @returns {Object}
+   * @param {Object.<string, number>} modelToResultMap
+   * @param {number|string} callId
+   * @returns {PredictionDefinition[]}
    */
 
 	}, {
-		key: 'parsePredictions',
-		value: function parsePredictions(models, response) {
-			var _this2 = this;
-
-			var targeting = [];
-			this.predictions = {};
-
-			keys_default()(response).forEach(function (key) {
-				var model = models.find(function (definition) {
-					return definition.name === key;
-				});
-				var _response$key = response[key],
-				    result = _response$key.result,
-				    version = _response$key.version;
-
-				var suffix = key.indexOf(version) > 0 ? '' : ':' + version;
-
-				if (typeof result !== 'undefined') {
-					_this2.predictions['' + key + suffix] = result;
-
-					if (model && model.dfp_targeting) {
-						targeting.push('' + key + suffix + '_' + result);
-					}
-				}
+		key: 'buildPredictions',
+		value: function buildPredictions(models, modelToResultMap, callId) {
+			return models.map(function (model) {
+				return model.name;
+			}).filter(function (modelName) {
+				return modelToResultMap[modelName] !== undefined;
+			}).map(function (modelName) {
+				return { modelName: modelName, callId: callId, result: modelToResultMap[modelName] };
 			});
-
-			if (targeting.length > 0) {
-				ad_engine_["context"].set('targeting.btl', targeting);
-			}
-
-			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'predictions', this.predictions);
-
-			return this.predictions;
 		}
 
 		/**
-   * Returns prediction for given model name
+   * Converts response to predictions
+   * @param {Object} response
+   * @returns {PredictionDefinition}
+   */
+
+	}, {
+		key: 'getModelToResultMap',
+		value: function getModelToResultMap(response) {
+			var modelToResultMap = {};
+			keys_default()(response).forEach(function (modelName) {
+				var result = response[modelName].result;
+
+
+				if (typeof result !== 'undefined') {
+					modelToResultMap[modelName] = result;
+				}
+			});
+			return modelToResultMap;
+		}
+
+		/**
+   * Sets DFP targeting in context.
+   *
+   * @returns string
+   */
+
+	}, {
+		key: 'setTargeting',
+		value: function setTargeting() {
+			var targeting = this.getTargeting();
+			if (keys_default()(targeting).length > 0) {
+				var serializedTargeting = entries_default()(targeting).map(function (_ref) {
+					var _ref2 = slicedToArray_default()(_ref, 2),
+					    modelName = _ref2[0],
+					    result = _ref2[1];
+
+					return modelName + '_' + result;
+				});
+				ad_engine_["context"].set('targeting.btl', serializedTargeting);
+				return serializedTargeting;
+			}
+			return '';
+		}
+
+		/**
+   * Returns map of targeted models to their results.
+   *
+   * For each model, it takes the latest result.
+   *
+   * @returns {Object.<string, number>}
+   */
+
+	}, {
+		key: 'getTargeting',
+		value: function getTargeting() {
+			var _this2 = this;
+
+			var latestResults = {};
+			this.predictions.filter(function (pred) {
+				return _this2.targetedModelNames.has(pred.modelName);
+			}).forEach(function (pred) {
+				latestResults[pred.modelName] = pred.result;
+			});
+			return latestResults;
+		}
+
+		/**
+   * Get prediction by modelName and callId.
+   *
    * @param {string} modelName
-   * @returns {number|undefined}
+   * @param {(number|string)} callId
+   * @returns {PredictionDefinition}
    */
 
 	}, {
 		key: 'getPrediction',
-		value: function getPrediction(modelName) {
-			return this.predictions[modelName];
+		value: function getPrediction(modelName, callId) {
+			return this.getPredictions(modelName).find(function (pred) {
+				return pred.callId === callId;
+			});
 		}
 
 		/**
-   * Returns all (parsed) predictions
-   * @returns {Object}
+   * Returns predictions optionally filtered by model name.
+   *
+   * If model name is given, it returns all predictions with models matching.
+   * Model matches when raw name (without version) is matched.
+   *
+   * @param {string} [modelName]
+   * @returns {PredictionDefinition[]}
    */
 
 	}, {
 		key: 'getPredictions',
-		value: function getPredictions() {
+		value: function getPredictions(modelName) {
+			var separator = ':';
+			if (modelName) {
+				return this.predictions.filter(function (pred) {
+					return pred.modelName.split(separator)[0] === modelName.split(separator)[0];
+				});
+			}
 			return this.predictions;
 		}
 
 		/**
-   * Returns response status (one of: failure, not_used, on_time, timeout, too_late)
-   * @returns {null|string}
+   * Returns response status (one of: failure, not_used, on_time, timeout, too_late or undefined);
+   *
+   * If callId is not supplied, the latest response without a specific key is returned.
+   *
+   * @param {number|string} [callId] value passed as key for call
+   * @returns {string}
    */
 
 	}, {
 		key: 'getResponseStatus',
-		value: function getResponseStatus() {
-			return this.status;
+		value: function getResponseStatus(callId) {
+			callId = callId || this.callCounter;
+			return this.statuses[callId];
 		}
 
 		/**
    * Serializes all predictions
+   * @param {number|string} [callId]
    * @returns {string}
    */
 
 	}, {
 		key: 'serialize',
-		value: function serialize() {
-			var _this3 = this;
+		value: function serialize(callId) {
+			var predictions = this.predictions;
 
-			return keys_default()(this.predictions).map(function (key) {
-				return key + '=' + _this3.predictions[key];
+			if (callId !== undefined) {
+				predictions = predictions.filter(function (pred) {
+					return pred.callId === callId;
+				});
+			}
+			return predictions.map(function (pred) {
+				return pred.modelName + '|' + pred.callId + '=' + pred.result;
 			}).join(';');
 		}
 	}]);
@@ -615,8 +777,6 @@ bill_the_lizard_BillTheLizard.NOT_USED = 'not_used';
 bill_the_lizard_BillTheLizard.ON_TIME = 'on_time';
 bill_the_lizard_BillTheLizard.TIMEOUT = 'timeout';
 bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
-
-
 var billTheLizard = new bill_the_lizard_BillTheLizard();
 // CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
 
@@ -655,6 +815,7 @@ var geo_edge_GeoEdge = function () {
    */
 		value: function call() {
 			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
+			var geoEdgeConfig = ad_engine_["context"].get('services.geoEdge.config');
 
 			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
@@ -664,13 +825,7 @@ var geo_edge_GeoEdge = function () {
 
 			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
 			window.grumi = {
-				/* ToDo: advertiser ids
-    cfg: {
-    	advs: {
-    		'12345': true,
-    		'67890': true
-    	}
-    }, */
+				cfg: geoEdgeConfig,
 				key: geoEdgeKey
 			};
 
@@ -909,6 +1064,7 @@ var moat_yi_MoatYi = function () {
 
 var moatYi = new moat_yi_MoatYi();
 // CONCATENATED MODULE: ./src/ad-services/index.js
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });

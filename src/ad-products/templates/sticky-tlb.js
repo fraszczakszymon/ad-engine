@@ -1,4 +1,4 @@
-import { AdSlot, context, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+import { AdSlot, context, scrollListener, utils } from '@wikia/ad-engine';
 
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
@@ -11,6 +11,8 @@ import {
 	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME,
 	CSS_CLASSNAME_STICKY_IAB,
 } from './uap/constants';
+
+const logGroup = 'sticky-tlb';
 
 export class StickyTLB {
 	static DEFAULT_UNSTICK_DELAY = 2000;
@@ -63,13 +65,16 @@ export class StickyTLB {
 			return;
 		}
 
-		if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
+		if (!(StickyTLB.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
 
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
+			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		});
 
 		this.addStickinessPlugin();
 
@@ -86,6 +91,7 @@ export class StickyTLB {
 		this.addUnstickButton();
 		this.addUnstickEvents();
 		this.stickiness.run();
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
 	addUnstickLogic() {
@@ -148,11 +154,10 @@ export class StickyTLB {
 		}
 
 		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	async onAdReady() {
-		slotTweaker.makeResponsive(this.adSlot, null, false);
-
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
 
@@ -169,6 +174,8 @@ export class StickyTLB {
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
+
+		utils.logger(logGroup, 'ad ready');
 	}
 
 	unstickImmediately() {
@@ -181,6 +188,7 @@ export class StickyTLB {
 		this.removeUnstickButton();
 		this.config.mainContainer.style.paddingTop = '0';
 		this.adSlot.getElement().classList.add('hide');
+		utils.logger(logGroup, 'unstick immediately');
 	}
 
 	static isEnabled() {

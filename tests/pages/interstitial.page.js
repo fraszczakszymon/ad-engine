@@ -8,4 +8,4 @@ class Interstitial {
 	}
 }
 
-export default new Interstitial();
+export const interstitial = new Interstitial();

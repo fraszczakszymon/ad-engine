@@ -1,9 +1,8 @@
-import hiviUapJwp from '../../pages/hivi-uap-jwp-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { hiviUapJwp } from '../../pages/hivi-uap-jwp-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Desktop HiVi UAP JWP ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -82,7 +81,7 @@ describe('Desktop HiVi UAP JWP ads page: top boxad (ads loaded after clicking th
 	});
 
 	it('Check if slot was viewed', () => {
-		helpers.waitForViewed(adSlots.topBoxad);
+		adSlots.waitForSlotViewed(adSlots.topBoxad);
 		expect(browser.element(adSlots.topBoxad).getAttribute(adSlots.resultAttribute))
 			.to
 			.equal(adSlots.adLoaded, 'Top boxad slot failed to load');
@@ -154,7 +153,7 @@ describe('Desktop HiVi UAP JWP ads page: incontent boxad (ads loaded after click
 	});
 
 	it('Check if slot was viewed', () => {
-		helpers.waitForViewed(adSlots.incontentBoxad);
+		adSlots.waitForSlotViewed(adSlots.incontentBoxad);
 		expect(browser.element(adSlots.incontentBoxad).getAttribute(adSlots.resultAttribute))
 			.to
 			.equal(adSlots.adLoaded, 'Incontent boxad slot failed to load');

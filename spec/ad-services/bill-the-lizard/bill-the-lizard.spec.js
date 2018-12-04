@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/index';
-import { billTheLizard } from '../../../src/ad-services/bill-the-lizard';
+import { billTheLizard, BillTheLizard } from '../../../src/ad-services/bill-the-lizard';
 
 describe('Bill the Lizard service', () => {
 	let requests = [];
@@ -27,7 +27,20 @@ describe('Bill the Lizard service', () => {
 					{
 						name: 'queen_of_hearts:0.0.1',
 						countries: ['XX'],
+						on_1: ['logResult'],
+						dfp_targeting: true
+					},
+					{
+						name: 'queen_of_hearts',
+						countries: ['XX'],
 						on_1: ['logResult']
+					}
+				],
+				cheshirecat: [
+					{
+						name: 'cheshirecat:1.0.0',
+						countries: ['XX'],
+						dfp_targeting: true,
 					}
 				]
 			},
@@ -36,7 +49,12 @@ describe('Bill the Lizard service', () => {
 					foo: 1,
 					bar: 'test',
 					echo: ['one', 'two']
-				}
+				},
+				cheshirecat: {
+					foo: 1,
+					bar: 'test',
+					echo: ['one', 'two']
+				},
 			},
 			timeout: 2000
 		});
@@ -46,64 +64,177 @@ describe('Bill the Lizard service', () => {
 		window.XMLHttpRequest.restore();
 	});
 
-	it('should return empty array of predictions if nothing was parsed', () => {
-		billTheLizard.parsePredictions({}, {});
+	describe('buildPredictions', () => {
+		it('build predictions for supplied models', () => {
+			const models = [
+				{ name: 'a' }, { name: 'b' },
+			];
+			const callId = 'foo';
+			const modelToResultMap = { a: 5 };
 
-		expect(JSON.stringify(billTheLizard.getPredictions())).to.equal('{}');
-		expect(billTheLizard.serialize()).to.equal('');
+			const result = billTheLizard.buildPredictions(models, modelToResultMap, callId);
+			expect(result.length).to.equal(1);
+			expect(result[0]).to.deep.equal(
+				{ callId, modelName: 'a', result: 5 },
+			);
+		});
 	});
 
-	it('should return parsed prediction', () => {
-		billTheLizard.parsePredictions([], {
-			foo: {
-				result: 1,
-				version: '1.0.0'
-			}
+	describe('getModelToResultMap', () => {
+		it('should return empty object if response is empty', () => {
+			expect(billTheLizard.getModelToResultMap({})).to.deep.equal({});
 		});
 
-		expect(billTheLizard.getPredictions()['foo:1.0.0']).to.equal(1);
-		expect(billTheLizard.getPrediction('foo:1.0.0')).to.equal(1);
-		expect(billTheLizard.serialize()).to.equal('foo:1.0.0=1');
+		it('should return model to result map', () => {
+			const response = {
+				a: { result: 1 },
+				b: { result: 0 },
+			};
+			expect(billTheLizard.getModelToResultMap(response)).to.deep.equal({ a: 1, b: 0 });
+		});
+
+		it('should skip entries without result', () => {
+			const response = {
+				a: { result: 1 },
+				b: { },
+			};
+			expect(billTheLizard.getModelToResultMap(response)).to.deep.equal({ a: 1 });
+		});
 	});
 
-	it('should return parsed predictions', () => {
-		billTheLizard.parsePredictions([], {
-			foo: {
-				result: 1,
-				version: '1.0.0'
-			},
-			bar: {
-				result: 0,
-				version: '0.0.0'
-			}
+	describe('setTargeting', () => {
+		before(() => {
+			sinon.stub(billTheLizard, 'getTargeting').callsFake(() => ({ a: 5 }));
 		});
 
-		expect(billTheLizard.getPredictions()['foo:1.0.0']).to.equal(1);
-		expect(billTheLizard.getPrediction('foo:1.0.0')).to.equal(1);
-		expect(billTheLizard.getPredictions()['bar:0.0.0']).to.equal(0);
-		expect(billTheLizard.getPrediction('bar:0.0.0')).to.equal(0);
-		expect(billTheLizard.serialize()).to.equal('foo:1.0.0=1;bar:0.0.0=0');
+		after(() => {
+			billTheLizard.getTargeting.restore();
+		});
+
+		it('should set the value of targeting in context (key: "targeting.btl")', () => {
+			const key = 'targeting.btl';
+			expect(context.get(key)).to.be.undefined;
+
+			billTheLizard.setTargeting();
+			expect(context.get(key)).to.deep.equal(['a_5']);
+		});
 	});
 
-	it('dfp targeting should be set after parsing predictions', () => {
-		billTheLizard.parsePredictions([
-			{
-				name: 'foo',
-				dfp_targeting: true
-			}
-		], {
-			foo: {
-				result: 1,
-				version: '1.0.0'
-			},
-			bar: {
-				result: 0,
-				version: '0.0.0'
-			}
+	describe('getTargeting', () => {
+		before(() => {
+			billTheLizard.predictions = [
+				{ modelName: 'a', callId: 1, result: 1 },
+				{ modelName: 'a', callId: 2, result: 2 },
+				{ modelName: 'b', callId: 2, result: 3 },
+				{ modelName: 'c', callId: 3, result: 4 },
+				{ modelName: 'a', callId: 4, result: 5 },
+				{ modelName: 'c', callId: 4, result: 6 },
+			];
+			billTheLizard.targetedModelNames = new Set(['a', 'b']);
 		});
 
-		expect(context.get('targeting.btl').length).to.equal(1);
-		expect(context.get('targeting.btl.0')).to.equal('foo:1.0.0_1');
+		after(() => {
+			billTheLizard.predictions = [];
+			billTheLizard.targetedModelNames = new Set();
+		});
+
+		it('should get latest predictions', () => {
+			expect(billTheLizard.getTargeting()).to.deep.equal({ a: 5, b: 3 });
+		});
+	});
+
+	describe('getPrediction', () => {
+		before(() => {
+			billTheLizard.predictions = [
+				{ modelName: 'a', callId: 1, result: 1 },
+				{ modelName: 'a:0.0.1', callId: 2, result: 2 },
+				{ modelName: 'b', callId: 2, result: 3 },
+			];
+		});
+
+		after(() => {
+			billTheLizard.predictions = [];
+		});
+
+		it('should return the first prediction matching model name ignoring version', () => {
+			expect(billTheLizard.getPrediction('a', 1)).to.deep.equal(billTheLizard.predictions[0]);
+		});
+
+		it('should return undefined if no prediction is matching', () => {
+			expect(billTheLizard.getPrediction('a', 3)).to.be.undefined;
+			expect(billTheLizard.getPrediction('x', 1)).to.be.undefined;
+		});
+	});
+
+	describe('getPredictions', () => {
+		before(() => {
+			billTheLizard.predictions = [
+				{ modelName: 'a', callId: 1, result: 1 },
+				{ modelName: 'a:0.0.1', callId: 2, result: 2 },
+				{ modelName: 'b', callId: 2, result: 3 },
+			];
+		});
+
+		after(() => {
+			billTheLizard.predictions = [];
+		});
+
+		it('should return the all predictions matching model name ignoring version', () => {
+			expect(billTheLizard.getPredictions('a')).to.deep.equal([
+				billTheLizard.predictions[0], billTheLizard.predictions[1],
+			]);
+		});
+	});
+
+	describe('getResponseStatus', () => {
+		before(() => {
+			billTheLizard.statuses = {
+				1: BillTheLizard.ON_TIME,
+				2: BillTheLizard.FAILURE,
+				3: BillTheLizard.TOO_LATE,
+				foo: BillTheLizard.TOO_LATE,
+			};
+			billTheLizard.callCounter = 3;
+		});
+
+		after(() => {
+			billTheLizard.statuses = {};
+			billTheLizard.callCounter = 0;
+		});
+
+		it('should return status for the supplied callId', () => {
+			expect(billTheLizard.getResponseStatus('foo')).to.equal(BillTheLizard.TOO_LATE);
+			expect(billTheLizard.getResponseStatus('bar')).to.be.undefined;
+
+			expect(billTheLizard.getResponseStatus('2')).to.equal(BillTheLizard.FAILURE);
+			expect(billTheLizard.getResponseStatus(2)).to.equal(BillTheLizard.FAILURE);
+		});
+
+		it('should return the status for last anonymous call if callId is not supplied', () => {
+			expect(billTheLizard.getResponseStatus()).to.equal(BillTheLizard.TOO_LATE);
+		});
+	});
+
+	describe('serialize', () => {
+		before(() => {
+			billTheLizard.predictions = [
+				{ modelName: 'a', callId: 0, result: 1 },
+				{ modelName: 'a:0.0.1', callId: 1, result: 2 },
+				{ modelName: 'b', callId: 'foo', result: 3 },
+			];
+		});
+
+		after(() => {
+			billTheLizard.predictions = [];
+		});
+
+		it('should serialize all predictions if no callId is supplied', () => {
+			expect(billTheLizard.serialize()).to.equal('a|0=1;a:0.0.1|1=2;b|foo=3');
+		});
+
+		it('should serialize only predictions with callId matching the supplied one', () => {
+			expect(billTheLizard.serialize(0)).to.equal('a|0=1');
+		});
 	});
 
 	it('should not call service if it is disabled in context', () => {

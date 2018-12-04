@@ -3163,6 +3163,13 @@ var slot_listener_SlotListener = function () {
 			slot_listener_dispatch('onRenderEnded', adSlot, { adType: adType, event: event });
 		}
 	}, {
+		key: 'emitLoadedEvent',
+		value: function emitLoadedEvent(event, adSlot) {
+			adSlot.emit(ad_slot_AdSlot.SLOT_LOADED_EVENT);
+			slot_listener_dispatch('onLoaded', adSlot);
+			slotTweaker.setDataParam(adSlot, 'slotLoaded', true);
+		}
+	}, {
 		key: 'emitImpressionViewable',
 		value: function emitImpressionViewable(event, adSlot) {
 			adSlot.emit(ad_slot_AdSlot.SLOT_VIEWED_EVENT);
@@ -3203,6 +3210,7 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
+
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits_default()(AdSlot, _EventEmitter);
 
@@ -3228,6 +3236,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 		_this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
 			_this.viewed = true;
+		});
+
+		_this.onLoadPromise = new promise_default.a(function (resolve) {
+			_this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
 		return _this;
 	}
@@ -3372,6 +3384,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			context.set('slots.' + this.config.slotName + '.' + key, value);
 		}
 	}, {
+		key: 'onLoad',
+		value: function onLoad() {
+			return this.onLoadPromise;
+		}
+	}, {
 		key: 'success',
 		value: function success() {
 			var _this2 = this;
@@ -3421,6 +3438,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	return AdSlot;
 }(external_eventemitter3_default.a);
 ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
+ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
@@ -4256,6 +4274,12 @@ var gptLazyMethod = function gptLazyMethod(method) {
 var definedSlots = [];
 var initialized = false;
 
+function getAdSlotFromEvent(event) {
+	var id = event.slot.getSlotElementId();
+
+	return slotService.get(id);
+}
+
 function configure() {
 	var tag = window.googletag.pubads();
 
@@ -4263,22 +4287,21 @@ function configure() {
 		tag.enableSingleRequest();
 	}
 	tag.disableInitialLoad();
-	tag.addEventListener('slotRenderEnded', function (event) {
-		var id = event.slot.getSlotElementId();
-		var slot = slotService.get(id);
 
+	tag.addEventListener('slotOnload', function (event) {
+		slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
+	});
+
+	tag.addEventListener('slotRenderEnded', function (event) {
 		// IE doesn't allow us to inspect GPT iframe at this point.
 		// Let's launch our callback in a setTimeout instead.
 		flow_control_defer(function () {
-			return slotListener.emitRenderEnded(event, slot);
+			return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
 		});
 	});
 
 	tag.addEventListener('impressionViewable', function (event) {
-		var id = event.slot.getSlotElementId(),
-		    slot = slotService.get(id);
-
-		slotListener.emitImpressionViewable(event, slot);
+		slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
 	});
 	window.googletag.enableServices();
 }
@@ -4542,6 +4565,10 @@ var slot_tweaker_SlotTweaker = function () {
 	}, {
 		key: 'onReady',
 		value: function onReady(adSlot) {
+			if (adSlot.getConfigProperty('useGptOnloadEvent')) {
+				return adSlot.onLoad();
+			}
+
 			var container = this.getContainer(adSlot),
 			    iframe = container.querySelector('div[id*="_container_"] iframe');
 
@@ -4550,7 +4577,14 @@ var slot_tweaker_SlotTweaker = function () {
 					reject(new Error('Cannot find iframe element'));
 				}
 
-				if (iframe.contentWindow.document.readyState === 'complete') {
+				var iframeDocument = null;
+				try {
+					iframeDocument = iframe.contentWindow.document;
+				} catch (ignore) {
+					logger(slot_tweaker_logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
+				}
+
+				if (iframeDocument && iframeDocument.readyState === 'complete') {
 					resolve(iframe);
 				} else {
 					iframe.addEventListener('load', function () {
@@ -5406,8 +5440,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v20.1.1');
-logger('ad-engine', 'v20.1.1');
+set_default()(window, versionField, 'v20.5.2');
+logger('ad-engine', 'v20.5.2');
 
 
 
