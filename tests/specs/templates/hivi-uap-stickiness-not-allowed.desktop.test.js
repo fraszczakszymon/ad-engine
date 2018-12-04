@@ -51,7 +51,6 @@ describe('Desktop HiVi UAP sticky ads page: incontent boxad', () => {
 describe('Desktop HiVi UAP sticky ads page: bottom leaderboard', () => {
 	let adStatus;
 	let refreshDimensions;
-	let videoFinishedDimensions;
 
 	before(() => {
 		hiviUapStickinessNotAllowed.openUapWithState(true, hiviUapStickinessNotAllowed.pageLink, adSlots.topLeaderboard);
@@ -68,9 +67,6 @@ describe('Desktop HiVi UAP sticky ads page: bottom leaderboard', () => {
 		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.scroll(adSlots.bottomLeaderboard);
 		helpers.waitForVideoAdToFinish(hiviUapStickinessNotAllowed.videoLength);
-
-		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
-			adSlots.resolvedDesktopRatio);
 	});
 
 	beforeEach(() => {
@@ -88,15 +84,8 @@ describe('Desktop HiVi UAP sticky ads page: bottom leaderboard', () => {
 			.true;
 	});
 
-	it('Check if resolved dimensions after refresh are correct', () => {
+	it('Check if slot dimensions are correct', () => {
 		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
-	});
-
-	it('Check if resolved dimensions after video finished are correct', () => {
-		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors)
 			.to
 			.be
 			.true;
