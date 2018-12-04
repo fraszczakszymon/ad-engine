@@ -815,7 +815,7 @@ var geo_edge_GeoEdge = function () {
    */
 		value: function call() {
 			var geoEdgeKey = ad_engine_["context"].get('services.geoEdge.id');
-			var geoEdgeAdvertisers = ad_engine_["context"].get('services.geoEdge.advs');
+			var geoEdgeConfig = ad_engine_["context"].get('services.geoEdge.config');
 
 			if (!ad_engine_["context"].get('services.geoEdge.enabled') || !geoEdgeKey) {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'disabled');
@@ -825,7 +825,7 @@ var geo_edge_GeoEdge = function () {
 
 			ad_engine_["utils"].logger(geo_edge_logGroup, 'loading');
 			window.grumi = {
-				cfg: geoEdgeAdvertisers,
+				cfg: geoEdgeConfig,
 				key: geoEdgeKey
 			};
 
