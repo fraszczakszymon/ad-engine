@@ -111,15 +111,16 @@ export class A9 extends BaseBidder {
 	}
 
 	getBidTargetingWithKeys(bid) {
-		return this.bidderConfig.dealsEnabled
-			? {
+		if (this.bidderConfig.dealsEnabled) {
+			return {
 				keys: bid.helpers.targetingKeys,
 				bidTargeting: bid.targeting
-			}
-			: {
-				keys: this.apstag.targetingKeys(),
-				bidTargeting: bid
 			};
+		}
+		return {
+			keys: this.apstag.targetingKeys(),
+			bidTargeting: bid
+		};
 	}
 
 	updateBidSlot(slotName, keys, bidTargeting) {
