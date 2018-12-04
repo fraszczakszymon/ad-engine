@@ -4964,10 +4964,6 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 				_this.updateCreativeData();
 			});
 
-			player.on('adError', function () {
-				_this.updateCreativeData();
-			});
-
 			player.on('adRequest', function (event) {
 				var currentAd = ad_engine_["vastParser"].getAdInfo(event.ima && event.ima.ad);
 
@@ -4999,6 +4995,10 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 						_this.ctp = false;
 					}
 				});
+			});
+
+			player.on('adError', function () {
+				_this.updateCreativeData();
 			});
 		}
 
