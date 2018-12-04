@@ -6,10 +6,11 @@ export class BaseBidder {
 		this.logGroup = `${name}-bidder`;
 		this.bidderConfig = bidderConfig;
 		this.timeout = timeout;
+		this.utils = utils;
 
 		this.resetState();
 
-		utils.logger(this.logGroup, 'created');
+		this.utils.logger(this.logGroup, 'created');
 	}
 
 	resetState() {
@@ -17,7 +18,7 @@ export class BaseBidder {
 		this.response = false;
 		this.onResponseCallbacks = [];
 
-		utils.makeLazyQueue(this.onResponseCallbacks, (callback) => {
+		this.utils.makeLazyQueue(this.onResponseCallbacks, (callback) => {
 			callback(this.name);
 		});
 	}
@@ -28,7 +29,7 @@ export class BaseBidder {
 
 		this.callBids(() => this.onBidResponse());
 
-		utils.logger(this.logGroup, 'called');
+		this.utils.logger(this.logGroup, 'called');
 	}
 
 	onBidResponse() {
@@ -37,11 +38,11 @@ export class BaseBidder {
 		this.calculatePrices();
 		this.onResponseCallbacks.start();
 
-		utils.logger(this.logGroup, 'respond');
+		this.utils.logger(this.logGroup, 'respond');
 	}
 
 	createWithTimeout(func, msToTimeout = 2000) {
-		return Promise.race([new Promise(func), utils.timeoutReject(msToTimeout)]);
+		return Promise.race([new Promise(func), this.utils.timeoutReject(msToTimeout)]);
 	}
 
 	getSlotBestPrice(slotName) {
