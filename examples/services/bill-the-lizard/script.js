@@ -2,21 +2,29 @@ import { AdEngine, context, events, utils } from '@wikia/ad-engine';
 import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
 
+const allPredictionsElement = document.getElementById('predictions-all');
+const allStatusesElement = document.getElementById('status-all');
 const predictionsElement = document.getElementById('predictions');
 const serializedElement = document.getElementById('serialized');
 const statusElement = document.getElementById('status');
+const targetingElement = document.getElementById('targeting');
+
 const enabledProjects = utils.queryString.get('enabled-project');
 
-function makeCall(lazyCallProject = null) {
-	billTheLizard.call(lazyCallProject)
+function makeCall(lazyCallProject = null, callId) {
+	billTheLizard.call(lazyCallProject, callId)
 		.then((predictions) => {
+			allPredictionsElement.innerText = JSON.stringify(billTheLizard.getPredictions(), null, 2);
+			allStatusesElement.innerText = JSON.stringify(billTheLizard.statuses, null, 2);
 			predictionsElement.innerText = 'Model name\t\tPrediction\n';
 			predictionsElement.innerText += Object.keys(predictions).map(key => `${key}\t\t${predictions[key]}`).join('\n');
 			serializedElement.innerText = billTheLizard.serialize();
 			statusElement.innerText = billTheLizard.getResponseStatus();
+			targetingElement.innerText = billTheLizard.setTargeting();
 		}, (response) => {
-			predictionsElement.innerText = '';
 			console.error(`❗ Error : ${response.message}`);
+
+			predictionsElement.innerText = '';
 			serializedElement.innerText = billTheLizard.serialize();
 			statusElement.innerText = billTheLizard.getResponseStatus();
 		});
@@ -45,5 +53,10 @@ setTimeout(() => {
 }, 1000);
 
 document.getElementById('lazyCallCat').addEventListener('click', () => {
-	makeCall('cheshirecat');
+	makeCall(['cheshirecat']);
 });
+
+document.getElementById('lazyCallCatWithId').addEventListener('click', () => {
+	makeCall(['cheshirecat'], 'catCall');
+});
+

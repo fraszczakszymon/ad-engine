@@ -3,13 +3,12 @@ import { slotService, utils } from '@wikia/ad-engine';
 const disabledSlots = utils.queryString.get('disabled-slots');
 
 if (disabledSlots) {
-	disabledSlots.split(',').forEach((slotName) => slotService.disable(slotName));
+	disabledSlots.split(',').forEach(slotName => slotService.disable(slotName));
 }
 
 export default {
 	src: 'test',
-	adUnitId:
-		'/5441/wka.life/_project43//{custom.namespace}/{slotConfig.targeting.src}/{slotConfig.slotName}',
+	adUnitId: '/5441/wka.life/_project43//{custom.namespace}/{slotConfig.targeting.src}/{slotConfig.slotName}',
 	bidders: {
 		timeout: 2000,
 		a9: {
@@ -20,17 +19,17 @@ export default {
 			slots: {
 				top_leaderboard: {
 					sizes: [[728, 90]],
-					slotId: 'TOP_LEADERBOARD',
+					slotId: 'TOP_LEADERBOARD'
 				},
 				top_boxad: {
 					sizes: [[300, 250]],
-					slotId: 'TOP_BOXAD',
+					slotId: 'TOP_BOXAD'
 				},
 				featured: {
 					type: 'video',
-					slotId: 'FEATURED',
-				},
-			},
+					slotId: 'FEATURED'
+				}
+			}
 		},
 		prebid: {
 			enabled: true,
@@ -38,61 +37,71 @@ export default {
 			lazyLoadingEnabled: false,
 			bidsRefreshing: {
 				enabled: true,
-				slots: ['top_boxad'],
+				slots: ['top_boxad']
 			},
 			wikia: {
 				enabled: true,
 				slots: {
 					top_leaderboard: {
-						sizes: [[728, 90]],
+						sizes: [
+							[728, 90]
+						]
 					},
 					top_boxad: {
-						sizes: [[300, 250]],
+						sizes: [
+							[300, 250]
+						]
 					},
 					bottom_leaderboard: {
-						sizes: [[728, 90]],
-					},
-				},
+						sizes: [
+							[728, 90]
+						]
+					}
+				}
 			},
 			wikiaVideo: {
 				enabled: true,
 				slots: {
 					incontent_player: {
 						videoAdUnitId: '/5441/wka.life/_project43//article/test/outstream',
-						customParams:
-							's1=_project43&artid=402&src=test&pos=incontent_player&passback=wikiaVideo',
+						customParams: 's1=_project43&artid=402&src=test&pos=incontent_player&passback=wikiaVideo'
 					},
 					featured: {
 						videoAdUnitId: '/5441/wka.life/_project43//article/test/featured',
-						customParams: 's1=_project43&artid=402&src=test&pos=featured&passback=wikiaVideo',
-					},
-				},
-			},
-		},
+						customParams: 's1=_project43&artid=402&src=test&pos=featured&passback=wikiaVideo'
+					}
+				}
+			}
+		}
 	},
 	custom: {
-		namespace: 'article',
+		namespace: 'article'
 	},
 	events: {
 		pushOnScroll: {
-			ids: ['incontent_boxad', 'bottom_leaderboard'],
-			threshold: 100,
+			ids: [
+				'incontent_boxad',
+				'bottom_leaderboard'
+			],
+			threshold: 100
 		},
 		pushAfterRendered: {
-			repeatable_boxad_1: ['incontent_player'],
-		},
+			repeatable_boxad_1: [
+				'incontent_player'
+			]
+		}
 	},
 	options: {
 		customAdLoader: {
-			globalMethodName: 'loadCustomAd',
+			globalMethodName: 'loadCustomAd'
 		},
 		maxDelayTimeout: 2000,
 		porvata: {
 			audio: {
 				exposeToSlot: true,
 				segment: '-audio',
-				key: 'audio',
-			},
+				key: 'audio'
+			}
 		},
 		featuredVideo15sEnabled: false,
 		video: {
@@ -105,26 +114,26 @@ export default {
 				enabledForArticleVideos: true,
 				jwplayerPluginUrl: 'https://z.moatads.com/jwplayerplugin0938452/moatplugin.js',
 				partnerCode: 'wikiaimajsint377461931603',
-				sampling: 1,
-			},
+				sampling: 1
+			}
 		},
 		slotRepeater: true,
-		trackingOptIn: false,
+		trackingOptIn: false
 	},
 	listeners: {
 		twitch: [
 			{
 				onEvent(eventName, params, data) {
 					console.log('🗣 Twitch listener: onEvent', eventName, data);
-				},
-			},
+				}
+			}
 		],
 		porvata: [
 			{
 				onEvent(eventName, params, data) {
 					console.log('🗣 Custom listener: onEvent', eventName, data);
-				},
-			},
+				}
+			}
 		],
 		slot: [
 			{
@@ -136,9 +145,9 @@ export default {
 				},
 				onCustomEvent(adSlot, data) {
 					console.log('👁 Custom listener: onCustomEvent', adSlot.getSlotName(), data.status);
-				},
-			},
-		],
+				}
+			}
+		]
 	},
 	networkId: '5441',
 	slots: {
@@ -148,64 +157,64 @@ export default {
 			sizes: [
 				{
 					viewportSize: [728, 0],
-					sizes: [[728, 90], [3, 3]],
-				},
+					sizes: [[728, 90], [3, 3]]
+				}
 			],
 			defaultSizes: [[300, 250], [2, 2]],
 			targeting: {
-				loc: 'top',
-			},
+				loc: 'top'
+			}
 		},
 		top_boxad: {
 			aboveTheFold: true,
 			sizes: [
 				{
 					viewportSize: [768, 0],
-					sizes: [[300, 250], [300, 600]],
-				},
+					sizes: [[300, 250], [300, 600]]
+				}
 			],
 			defaultSizes: [[300, 250]],
 			targeting: {
 				loc() {
 					return window.innerWidth < 800 ? 'middle' : 'top';
-				},
-			},
+				}
+			}
 		},
 		incontent_boxad: {
 			sizes: [
 				{
 					viewportSize: [768, 0],
-					sizes: [[300, 250], [300, 600]],
-				},
+					sizes: [[300, 250], [300, 600]]
+				}
 			],
 			defaultSizes: [[300, 250]],
 			defaultTemplates: ['floating-ad'],
 			targeting: {
-				loc: 'hivi',
-			},
+				loc: 'hivi'
+			}
 		},
 		incontent_player: {
 			avoidConflictWith: '.repeatable-boxad',
 			defaultSizes: [[1, 1]],
 			insertBeforeSelector: '.main p',
 			targeting: {
-				loc: 'hivi',
-			},
+				loc: 'hivi'
+			}
 		},
 		invisible_skin: {
 			sizes: [
 				{
 					viewportSize: [768, 0],
-					sizes: [[1000, 1000]],
-				},
+					sizes: [[1000, 1000]]
+				}
 			],
-			defaultSizes: [[1000, 1000]],
+			defaultSizes: [[1000, 1000]]
 		},
 		invisible_high_impact_2: {
 			outOfPage: true,
 			targeting: {
-				loc: 'hivi',
-			},
+				loc: 'hivi'
+			}
 		},
 		repeatable_boxad_1: {
 			bidderAlias: 'top_boxad',
@@ -218,55 +227,55 @@ export default {
 				limit: null,
 				slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 				updateProperties: {
-					'targeting.rv': '{slotConfig.repeat.index}',
-				},
+					'targeting.rv': '{slotConfig.repeat.index}'
+				}
 			},
 			sizes: [
 				{
 					viewportSize: [768, 0],
-					sizes: [[300, 250], [300, 600]],
-				},
+					sizes: [[300, 250], [300, 600]]
+				}
 			],
 			targeting: {
 				loc: 'hivi',
 				pos: 'repeatable_boxad',
-				rv: 1,
-			},
+				rv: 1
+			}
 		},
 		bottom_leaderboard: {
 			disabled: true,
 			sizes: [
 				{
 					viewportSize: [728, 0],
-					sizes: [[728, 90], [3, 3]],
-				},
+					sizes: [[728, 90], [3, 3]]
+				}
 			],
 			defaultSizes: [[300, 250], [2, 2]],
 			targeting: {
 				loc: 'footer',
-				pos: ['bottom_leaderboard', 'mobile_prefooter'],
+				pos: ['bottom_leaderboard', 'mobile_prefooter']
 			},
-			viewportConflicts: ['top_boxad'],
+			viewportConflicts: [
+				'top_boxad'
+			]
 		},
 		outstream: {
 			lowerSlotName: 'outstream',
 			slotGroup: 'VIDEO',
 			targeting: {},
-			videoAdUnit:
-				'/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
-				'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example',
+			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+			'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example'
 		},
 		featured: {
 			lowerSlotName: 'featured',
 			slotGroup: 'VIDEO',
 			targeting: {
-				wsi: 'xxx1',
+				wsi: 'xxx1'
 			},
 			trackingKey: 'featured-video',
-			videoAdUnit:
-				'/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
-				'/{custom.device}/ae-{custom.adLayout}/_example',
-		},
+			videoAdUnit: '/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+			'/{custom.device}/ae-{custom.adLayout}/_example'
+		}
 	},
 	services: {
 		billTheLizard: {
@@ -279,23 +288,30 @@ export default {
 						name: 'ctp_desktop:1.0.0',
 						countries: ['XX/50'],
 						on_0: ['logResult'],
-						on_1: ['logResult'],
+						on_1: ['logResult']
 					},
 					{
 						name: 'queen_of_hearts:0.0.1',
 						countries: ['XX'],
 						dfp_targeting: true,
-						on_1: ['logResult'],
+						on_1: ['logResult']
 					},
+					{
+						name: 'queen_of_hearts',
+						countries: ['XX'],
+						dfp_targeting: true,
+						on_1: ['logResult']
+					}
 				],
 				cheshirecat: [
 					{
 						name: 'cheshirecat:0.0.1',
+						dfp_targeting: true,
 						countries: ['XX'],
 						on_0: ['logResult'],
-						on_1: ['catlapse', 'logResult'],
-					},
-				],
+						on_1: ['catlapse', 'logResult']
+					}
+				]
 			},
 			parameters: {
 				queen_of_hearts: {
@@ -312,33 +328,32 @@ export default {
 				},
 				cheshirecat: {
 					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(';'),
-				},
+				}
 			},
-			timeout: 2000,
+			timeout: 2000
 		},
 		krux: {
 			enabled: true,
-			id: 'KPSUiAKl',
+			id: 'KPSUiAKl'
 		},
 		moatYi: {
 			enabled: true,
-			partnerCode: 'wikiaprebidheader490634422386',
-		},
+			partnerCode: 'wikiaprebidheader490634422386'
+		}
 	},
 	state: {
 		adStack: window.adsQueue,
-		isMobile: false,
+		isMobile: false
 	},
 	targeting: {
 		ae3: '1',
 		outstream: 'none',
 		s1: '_project43',
-		uap: 'none',
+		uap: 'none'
 	},
 	vast: {
 		size: [640, 480],
-		adUnitId:
-			'/{networkId}/wka.life/_project43//{custom.namespace}/' +
-			'{slotConfig.targeting.src}/{slotConfig.slotName}',
-	},
+		adUnitId: '/{networkId}/wka.life/_project43//{custom.namespace}/' +
+		'{slotConfig.targeting.src}/{slotConfig.slotName}'
+	}
 };

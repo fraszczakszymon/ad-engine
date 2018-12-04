@@ -23,7 +23,7 @@ class GeoEdge {
 	 */
 	call() {
 		const geoEdgeKey = context.get('services.geoEdge.id');
-		const geoEdgeAdvertisers = context.get('services.geoEdge.advs');
+		const geoEdgeConfig = context.get('services.geoEdge.config');
 
 		if (!context.get('services.geoEdge.enabled') || !geoEdgeKey) {
 			utils.logger(logGroup, 'disabled');
@@ -33,8 +33,8 @@ class GeoEdge {
 
 		utils.logger(logGroup, 'loading');
 		window.grumi = {
-			cfg: geoEdgeAdvertisers,
-			key: geoEdgeKey,
+			cfg: geoEdgeConfig,
+			key: geoEdgeKey
 		};
 
 		return loadScript().then(() => {

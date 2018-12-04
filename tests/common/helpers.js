@@ -121,6 +121,16 @@ class Helpers {
 	}
 
 	/**
+	 * Returns creative ID of the given slot.
+	 * @param adSlot slot to get line item ID from
+	 * @returns {string}
+	 */
+	getCreativeId(adSlot) {
+		return browser.element(adSlot)
+			.getAttribute(adSlots.creativeIdAttribute);
+	}
+
+	/**
 	 * It checks redirect on click and returns result.
 	 * @param adSlot slot to click
 	 * @param url expected url
