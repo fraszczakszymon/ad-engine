@@ -1,10 +1,10 @@
 import { context, slotService, utils, apstag, cmp } from '@wikia/ad-engine';
 import { BaseBidder } from '../base-bidder';
 
-let loaded = false;
-
-// DISCUSS: GodClass? SR?
 export class A9 extends BaseBidder {
+	/** @private */
+	loaded = false;
+
 	constructor(bidderConfig, timeout = 2000) {
 		super('a9', bidderConfig, timeout);
 
@@ -17,6 +17,8 @@ export class A9 extends BaseBidder {
 		this.targetingKeys = [];
 		this.apstag = apstag;
 		this.cmp = cmp;
+		this.utils = utils;
+		this.slotService = slotService;
 	}
 
 	init(onResponse, consentData = {}) {
@@ -29,15 +31,15 @@ export class A9 extends BaseBidder {
 	}
 
 	initIfNotLoaded(consentData) {
-		if (!loaded) {
+		if (!this.loaded) {
 			this.insertScript();
 			this.apstag.init(this.getApstagConfig(consentData));
-			loaded = true;
+			this.loaded = true;
 		}
 	}
 
 	insertScript() {
-		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
+		this.utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 	}
 
 	getApstagConfig(consentData) {
@@ -87,7 +89,7 @@ export class A9 extends BaseBidder {
 	}
 
 	createSlotDefinition(slotName, config) {
-		if (!slotService.getState(slotName)) {
+		if (!this.slotService.getState(slotName)) {
 			return null;
 		}
 
@@ -162,7 +164,6 @@ export class A9 extends BaseBidder {
 		return !!this.slots[slotName];
 	}
 
-	// Should mark external methods, so that we know they cannot be easily renamed
 	getPrices() {
 		return this.priceMap;
 	}
