@@ -45,19 +45,21 @@ export class A9 extends BaseBidder {
 			pubID: this.amazonId,
 			videoAdServer: 'DFP',
 			deals: !!this.bidderConfig.dealsEnabled,
-			gdpr: this.getGdprIfApplicable(consentData)
+			...this.getGdprIfApplicable(consentData)
 		};
 	}
 
 	getGdprIfApplicable(consentData) {
 		if (this.isCMPEnabled && consentData && consentData.consentData) {
 			return {
-				enabled: consentData.gdprApplies,
-				consent: consentData.consentData,
-				cmpTimeout: 5000
+				gdpr: {
+					enabled: consentData.gdprApplies,
+					consent: consentData.consentData,
+					cmpTimeout: 5000
+				}
 			};
 		}
-		return undefined;
+		return {};
 	}
 
 	async fetchBids(onResponse) {
