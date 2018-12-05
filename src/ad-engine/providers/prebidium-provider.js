@@ -8,21 +8,39 @@ export class PrebidiumProvider {
 	iframeBuilder = new IframeBuilder();
 
 	fillIn(adSlot) {
-		const winning = context.get(`slots.${adSlot.config.slotName}.targeting`);
-		const adId = winning.hb_adid;
-
-		const iframe = this.iframeBuilder.create(adSlot);
-		const doc = iframe.contentWindow.document;
+		const doc = this.getIframeDoc(adSlot);
+		const adId = this.getAdId(adSlot);
 
 		window.pbjs.renderAd(doc, adId);
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
 
+		this.forceWrappedFillInCallback(adSlot);
+	}
+
+	/**
+	 * This method causes wrappedFillInCallback method in BtfBlockerService["push"] to fire.
+	 * This is a workaround to simulate real event from google tag used in GptProvider.
+	 * @private
+	 * @param adSlot
+	 */
+	forceWrappedFillInCallback(adSlot) {
 		const slot = slotService.get(adSlot.config.slotName);
 		slotListener.emitRenderEnded(() => {}, slot);
 	}
 
-	flush() {
+	/** @private */
+	getIframeDoc(adSlot) {
+		const iframe = this.iframeBuilder.create(adSlot);
+		return iframe.contentWindow.document;
 	}
+
+	/** @private */
+	getAdId(adSlot) {
+		const winning = context.get(`slots.${adSlot.config.slotName}.targeting`);
+		return winning.hb_adid;
+	}
+
+	flush() {}
 }
 
 class IframeBuilder {
