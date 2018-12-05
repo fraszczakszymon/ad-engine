@@ -1,12 +1,22 @@
+import { decorate } from 'core-decorators';
 import { slotListener } from '../listeners';
 import { logger } from '../utils';
 import { context, slotService } from '../services';
 
 const logGroup = 'prebidium-provider';
 
+// TODO: Duplicate from ad-bidders/prebid/index.js
+// Perhaps create PBJS wrapper, or at least place to share this kind of functions
+function postponeExecutionUntilPbjsLoads(method) {
+	return function (...args) {
+		return window.pbjs.que.push(() => method.apply(this, args));
+	};
+}
+
 export class PrebidiumProvider {
 	iframeBuilder = new IframeBuilder();
 
+	@decorate(postponeExecutionUntilPbjsLoads)
 	fillIn(adSlot) {
 		const doc = this.getIframeDoc(adSlot);
 		const adId = this.getAdId(adSlot);
@@ -40,7 +50,10 @@ export class PrebidiumProvider {
 		return winning.hb_adid;
 	}
 
-	flush() {}
+	@decorate(postponeExecutionUntilPbjsLoads)
+	flush() {
+		// TODO: Something should be here
+	}
 }
 
 class IframeBuilder {

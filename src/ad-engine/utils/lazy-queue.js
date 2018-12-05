@@ -18,7 +18,7 @@ export function makeLazyQueue(queue, callback) {
 // TODO: Proposal
 // example: https://stackblitz.com/edit/wikia-lazy-queue
 export class LazyQueue {
-	itemFlushed = {}; // TODO: RxJs Subject
+	// itemFlushed = {}; // RxJs Subject
 	/** @private */
 	itemFlushCallbacks = [];
 	/** @private */
