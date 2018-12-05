@@ -33,6 +33,7 @@ function getAdType(event, adSlot) {
 }
 
 function getData(adSlot, { adType, status }) {
+	const now = new Date();
 	return {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
@@ -41,8 +42,9 @@ function getData(adSlot, { adType, status }) {
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
-		time_bucket: (new Date()).getHours(),
-		timestamp: new Date().getTime(),
+		time_bucket: now.getHours(),
+		timestamp: now.getTime(),
+		tz_offset: now.getTimezoneOffset(),
 		viewport_height: window.innerHeight || 0
 	};
 }

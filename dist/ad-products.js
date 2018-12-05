@@ -4832,6 +4832,7 @@ ad_engine_["events"].registerEvent('VIDEO_PLAYER_TRACKING_EVENT');
 			price: '',
 			skin: ad_engine_["context"].get('targeting.skin'),
 			timestamp: now.getTime(),
+			tz_offset: now.getTimezoneOffset(),
 			user_block_autoplay: videoData.user_block_autoplay || '',
 			video_id: videoData.video_id || '',
 			wsi: slot.targeting.wsi || ''
