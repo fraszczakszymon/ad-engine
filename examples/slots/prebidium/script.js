@@ -1,4 +1,4 @@
-import { AdEngine, context, events, utils as adEngineUtils } from '@wikia/ad-engine';
+import { AdEngine, context, events } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { utils as adProductsUtils } from '@wikia/ad-products';
 import customContext from '../../context';
@@ -36,30 +36,19 @@ bidders.requestBids({
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {
-	adEngineUtils.timer.log(
-		'script updateSlotTargeting',
-		slot.getSlotName(),
-	);
 	bidders.updateSlotTargeting(slot.getSlotName());
 });
 
-function renderBids() {
-	const bids = window.pbjs.getBidResponses();
-	Object.keys(bids)
-		.forEach((key) => {
-			const bid = bids[key].bids[0];
-			const doc = document.getElementById(`${bid.adUnitCode}`);
-			const iframe = doc.appendChild(document.createElement('iframe'));
-			const adId = bid.adId;
-			adEngineUtils.timer.log(
-				'script pbjs',
-				{
-					doc,
-					adId,
-				},
-			);
-			window.pbjs.renderAd(iframe.contentWindow.document, adId);
-		});
-}
+// function renderBids() {
+// // 	const bids = window.pbjs.getBidResponses();
+// // 	Object.keys(bids)
+// // 		.forEach((key) => {
+// // 			const bid = bids[key].bids[0];
+// // 			const doc = document.getElementById(`${bid.adUnitCode}`);
+// // 			const iframe = doc.appendChild(document.createElement('iframe'));
+// // 			const adId = bid.adId;
+// // 			window.pbjs.renderAd(iframe.contentWindow.document, adId);
+// // 		});
+// // }
 
 new AdEngine().init();

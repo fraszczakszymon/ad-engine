@@ -1,18 +1,18 @@
-import { logger, makeLazyQueue, timer } from './utils';
+import { logger, makeLazyQueue } from './utils';
 import { AdSlot } from './models';
 import { FloatingAd } from './templates';
 import { GptProvider, PrebidiumProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
-	events,
-	slotRepeater,
-	slotTweaker,
-	slotService,
-	templateService,
-	registerCustomAdLoader,
 	context,
-	messageBus
+	events,
+	messageBus,
+	registerCustomAdLoader,
+	slotRepeater,
+	slotService,
+	slotTweaker,
+	templateService,
 } from './services';
 
 const logGroup = 'ad-engine';
@@ -20,10 +20,6 @@ const logGroup = 'ad-engine';
 // TODO: Move to BaseProvider class
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
-	timer.log(
-		'fillInUsingProvider',
-		adSlot.config.slotName,
-	);
 
 	slotService.add(adSlot);
 
@@ -73,10 +69,6 @@ export class AdEngine {
 
 	setupQueue() {
 		this.adStack = context.get('state.adStack');
-		timer.log(
-			'setupQueue',
-			{ ...this.adStack },
-		);
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
 				fillInUsingProvider(ad, this.provider);

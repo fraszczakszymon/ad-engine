@@ -1,4 +1,4 @@
-import { logger, makeLazyQueue, timer } from '../utils';
+import { logger, makeLazyQueue } from '../utils';
 import { context } from './context-service';
 import { slotService } from './slot-service';
 import { events } from './events';
@@ -85,11 +85,6 @@ class BtfBlockerService {
 			fillInCallback(adSlot);
 		}
 
-		timer.log(
-			'push',
-			this.firstCallEnded,
-			adSlot.isFirstCall(),
-		);
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
 			this.slotsQueue.push({ adSlot, fillInCallback: (...args) => wrappedFillInCallback(...args) });
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');

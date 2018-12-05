@@ -1,9 +1,9 @@
 import { decorate } from 'core-decorators';
-import { logger, defer, timer } from '../utils';
+import { defer, logger } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
+import { context, events, slotDataParamsUpdater, slotService, trackingOptIn } from '../services';
 
 const logGroup = 'gpt-provider';
 
@@ -24,11 +24,6 @@ function configure() {
 	}
 	tag.disableInitialLoad();
 	tag.addEventListener('slotRenderEnded', (event) => {
-		timer.log(
-			'slotRenderEnded',
-			event,
-		);
-
 		const id = event.slot.getSlotElementId();
 		const slot = slotService.get(id);
 
