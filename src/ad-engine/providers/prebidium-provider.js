@@ -1,37 +1,43 @@
-import { logger, timer } from '../utils';
-import { context } from '../services';
+import { slotListener } from '../listeners';
+import { logger } from '../utils';
+import { context, slotService } from '../services';
 
-const logGroup = 'gpt-provider';
+const logGroup = 'prebidium-provider';
 
 export class PrebidiumProvider {
+	iframeBuilder = new IframeBuilder();
+
 	fillIn(adSlot) {
 		const winning = context.get(`slots.${adSlot.config.slotName}.targeting`);
+		const adId = winning.hb_adid;
 
-		timer.log(
-			'PrebidiumProvider fillIn',
-			winning,
-		);
+		const iframe = this.iframeBuilder.create(adSlot);
+		const doc = iframe.contentWindow.document;
 
-		const doc = document.getElementById(`${adSlot.config.slotName}`);
-		const iframe = doc.appendChild(document.createElement('iframe'));
-		iframe.frameBorder = 0;
-
-		window.pbjs.renderAd(iframe.contentWindow.document, winning.hb_adid);
-
+		window.pbjs.renderAd(doc, adId);
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
+
+		const slot = slotService.get(adSlot.config.slotName);
+		slotListener.emitRenderEnded(() => {}, slot);
 	}
 
 	flush() {
+	}
+}
 
+class IframeBuilder {
+	create(adSlot) {
+		const doc = document.getElementById(`${adSlot.config.slotName}`);
+		const iframe = doc.appendChild(document.createElement('iframe'));
+		iframe.frameBorder = 0;
+		iframe.onload = () => this.removeBodyMargin(iframe);
+		return iframe;
 	}
 
 	/** @private */
-	createCss() {
-		const style = document.createElement('style');
-		style.type = 'text/css';
-		style.innerHTML = `body {
-			margin: 0;
-		}`;
-		return style;
+	removeBodyMargin(iframe) {
+		// eslint-disable-next-line prefer-destructuring
+		const body = iframe.contentDocument.body;
+		body.style.margin = 0;
 	}
 }
