@@ -7,6 +7,8 @@ import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } fr
 
 const logGroup = 'gpt-provider';
 
+export const ADX = 'AdX';
+
 export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) {
 	return window.googletag.cmd.push(() => method.apply(this, args));
 };

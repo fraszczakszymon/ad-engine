@@ -1,6 +1,6 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
+import { context, slotTweaker, slotInjector } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -38,7 +38,9 @@ function getData(adSlot, { adType, status }) {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size: adSlot.creativeSize,
+		creative_size: (Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length)
+			? adSlot.creativeSize.join('x')
+			: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
@@ -70,21 +72,7 @@ class SlotListener {
 	emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
-		if (event) {
-			if (event.slot) {
-				const response = event.slot.getResponseInformation();
-
-				if (response) {
-					adSlot.creativeId = response.creativeId;
-					adSlot.lineItemId = response.lineItemId;
-				}
-			}
-
-			if (event.size && event.size.length) {
-				adSlot.creativeSize = event.size.join('x');
-			}
-		}
+		adSlot.updateOnRenderEnd(event);
 
 		switch (adType) {
 			case 'collapse':

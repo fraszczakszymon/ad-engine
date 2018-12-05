@@ -1,4 +1,5 @@
-import { AdSlot, context, scrollListener, utils } from '@wikia/ad-engine';
+import { AdSlot, scrollListener, utils } from '@wikia/ad-engine';
+import { StickyBase } from './sticky-base';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
@@ -13,15 +14,7 @@ import CloseButton from './interface/close-button';
 
 const logGroup = 'sticky-ad';
 
-export class StickyAd {
-	static DEFAULT_UNSTICK_DELAY = 2000;
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-
-	static getName() {
-		return 'stickyAd';
-	}
-
+export class StickyAd extends StickyBase {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
@@ -35,37 +28,18 @@ export class StickyAd {
 	}
 
 	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyAd.getName()}`);
-		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
-		this.stickiness = null;
+		super(adSlot);
 		this.scrollListener = null;
 		this.topOffset = 0;
 		this.leftOffset = 0;
 	}
 
-	static isEnabled() {
-		return context.get(`templates.${StickyAd.getName()}.enabled`);
+	static getName() {
+		return 'stickyAd';
 	}
 
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
-
-		let found = false;
-		lineId = lineId.toString();
-
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-
-		return found;
+	getName() {
+		return StickyAd.getName();
 	}
 
 	adjustAdSlot() {
@@ -75,7 +49,7 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
@@ -117,18 +91,6 @@ export class StickyAd {
 
 		window.addEventListener('resize', this.adjustAdSlot.bind(this));
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
-	}
-
-	addUnstickLogic() {
-		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
-		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
-			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
 	}
 
 	addUnstickButton() {
