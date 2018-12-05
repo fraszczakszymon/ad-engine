@@ -1,11 +1,10 @@
 export class Timer {
-	/** @private */
-	start = 0;
-	/** @private */
-	// eslint-disable-next-line no-undef
-	clock = performance;
-
 	constructor() {
+		this.start = 0;
+		// this.clock = performance;
+		this.clock = {
+			now: () => 0
+		};
 		this.reset();
 	}
 
