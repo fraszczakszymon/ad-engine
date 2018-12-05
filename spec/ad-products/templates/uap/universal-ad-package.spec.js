@@ -5,6 +5,7 @@ import { universalAdPackage } from '../../../../src/ad-products/templates/uap/un
 
 describe('UniversalAdPackage', () => {
 	const UAP_ID = 666;
+	const UAP_CREATIVE_ID = 333;
 	let sandbox;
 
 	beforeEach(() => {
@@ -23,12 +24,15 @@ describe('UniversalAdPackage', () => {
 		context.get.withArgs('slots.top_boxad.nonUapSlot').returns(undefined);
 
 		universalAdPackage.init({
-			uap: UAP_ID
+			uap: UAP_ID,
+			creativeId: UAP_CREATIVE_ID
 		});
 
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID)).to.equal(true);
+		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_boxad.targeting.uap', UAP_ID)).to.equal(true);
-		expect(context.set.calledTwice);
+		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
+		expect(context.set.callCount).to.equal(4);
 	});
 
 	it('should not update slot with blocked uap parameter', () => {
@@ -41,12 +45,15 @@ describe('UniversalAdPackage', () => {
 		});
 
 		universalAdPackage.init({
-			uap: UAP_ID
+			uap: UAP_ID,
+			creativeId: UAP_CREATIVE_ID
 		});
 
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID)).to.equal(true);
+		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_boxad.targeting.uap', UAP_ID)).to.equal(true);
+		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.neverCalledWith('slots.NON_UAP_SLOT.targeting.uap', UAP_ID)).to.equal(true);
-		expect(context.set.calledTwice).to.equal(true);
+		expect(context.set.callCount).to.equal(4);
 	});
 });
