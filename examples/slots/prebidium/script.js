@@ -26,7 +26,6 @@ context.push('delayModules', biddersDelay);
 bidders.requestBids({
 	responseListener: () => {
 		if (bidders.hasAllResponses()) {
-			// renderBids();
 			if (resolveBidders) {
 				resolveBidders();
 				resolveBidders = null;
@@ -38,17 +37,5 @@ bidders.requestBids({
 events.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());
 });
-
-// function renderBids() {
-// // 	const bids = window.pbjs.getBidResponses();
-// // 	Object.keys(bids)
-// // 		.forEach((key) => {
-// // 			const bid = bids[key].bids[0];
-// // 			const doc = document.getElementById(`${bid.adUnitCode}`);
-// // 			const iframe = doc.appendChild(document.createElement('iframe'));
-// // 			const adId = bid.adId;
-// // 			window.pbjs.renderAd(iframe.contentWindow.document, adId);
-// // 		});
-// // }
 
 new AdEngine().init();

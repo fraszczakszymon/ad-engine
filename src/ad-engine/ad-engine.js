@@ -17,7 +17,6 @@ import {
 
 const logGroup = 'ad-engine';
 
-// TODO: Move to BaseProvider class
 function fillInUsingProvider(ad, provider) {
 	const adSlot = new AdSlot(ad);
 
@@ -39,7 +38,6 @@ function getPromises() {
 export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
-		this.providers = new Map();
 		this.started = false;
 
 		window.ads = window.ads || {};
@@ -111,16 +109,15 @@ export class AdEngine {
 	}
 
 	/**
-	 * Returns GptProvider if it is set in context
-	 * @deprecated
-	 * @param name
+	 * Returns GptProvider if it is set in context.
+	 * @param name - deprecated, works only for gpt
 	 * @returns {any}
 	 */
-	getProvider(name) {
-		if (name === 'gpt') {
-			return this.provider;
+	getProvider(name = undefined) {
+		if (!!name && name !== 'gpt') {
+			throw new Error('Deprecated parameter, supports only gpt');
 		}
-		throw new Error('Deprecated method, supports only Gpt');
+		return this.provider;
 	}
 
 	init() {
