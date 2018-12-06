@@ -67,8 +67,7 @@ class IframeBuilder {
 
 	/** @private */
 	removeBodyMargin(iframe) {
-		// eslint-disable-next-line prefer-destructuring
-		const body = iframe.contentDocument.body;
+		const { body } = iframe.contentDocument;
 		body.style.margin = 0;
 	}
 }
