@@ -12,7 +12,8 @@ class QueryStrings {
 			contentLength: 'content_length',
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
-			sessionId: 'sessionid'
+			sessionId: 'sessionid',
+			enabledGeo: 'enabled-geo'
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -123,6 +124,10 @@ class QueryStrings {
 
 	constructInstantGlobal(wg, country = 'XX', percent = null, additional = null) {
 		return `${wg}=${this.getIGParameters(country, percent, additional)}`;
+	}
+
+	constructSingleGeoInstantGlobal(country = 'XX', percent = null) {
+		return `${this.utils.enabledGeo}=${country}/${percent}`;
 	}
 }
 
