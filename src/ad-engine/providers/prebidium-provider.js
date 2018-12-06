@@ -58,7 +58,7 @@ export class PrebidiumProvider {
 
 class IframeBuilder {
 	create(adSlot) {
-		const doc = document.getElementById(`${adSlot.config.slotName}`);
+		const doc = adSlot.getElement();
 		const iframe = doc.appendChild(document.createElement('iframe'));
 		iframe.frameBorder = 0;
 		iframe.onload = () => this.removeBodyMargin(iframe);
