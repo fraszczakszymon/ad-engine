@@ -5,8 +5,6 @@ const logGroup = 'sticky-base';
 
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 
 	/**
 	 * Base class for sticky ads
