@@ -61,7 +61,7 @@ export class AdEngine {
 				this.provider = new PrebidiumProvider();
 				break;
 			default:
-				throw new Error('Not implemented provider');
+				this.provider = new GptProvider();
 		}
 	}
 
