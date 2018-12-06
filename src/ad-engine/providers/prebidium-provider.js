@@ -46,8 +46,7 @@ export class PrebidiumProvider {
 
 	/** @private */
 	getAdId(adSlot) {
-		const winning = context.get(`slots.${adSlot.config.slotName}.targeting`);
-		return winning.hb_adid;
+		return context.get(`slots.${adSlot.getSlotName()}.targeting.hb_adid`);
 	}
 
 	@decorate(postponeExecutionUntilPbjsLoads)
