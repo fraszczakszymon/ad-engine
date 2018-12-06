@@ -80,7 +80,11 @@ class Helpers {
 		browser.waitForVisible(adSlot, timeout);
 	}
 
-	waitForVideoAdToFinish(videoLength) {
+	waitForVideoAdToFinish(adLength) {
+		browser.pause(adLength);
+	}
+
+	waitForVideoToProgress(videoLength) {
 		browser.pause(videoLength);
 	}
 

@@ -14,7 +14,10 @@ class JWPlayer {
 		this.videoIdle = '.jw-state-idle';
 		this.playerAdContainer = '#playerContainer_googima';
 
-		this.adLength = 30000;
+		this.prerollDuration = 30000;
+		this.midrollDuration = 30000;
+		this.postrollDuration = 30000;
+		this.f15nDuration = 15000;
 		this.videoLength = 75000;
 		this.playerWidth = 628;
 		this.playerHeight = 353;

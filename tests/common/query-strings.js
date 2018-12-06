@@ -13,7 +13,9 @@ class QueryStrings {
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
 			sessionId: 'sessionid',
-			enabledGeo: 'enabled-geo'
+			enabledGeo: 'enabled-geo',
+			forceEmptyResponse: 'force-empty-response',
+			disableFloating: 'floating'
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -21,7 +23,8 @@ class QueryStrings {
 			autoplay: 'autoplay',
 			mute: 'mute',
 			capping: 'capping',
-			f15n: 'f15s=eHnTdMot'
+			f15n: 'f15s=eHnTdMot',
+			videoAdapter: 'wikia_video_adapter'
 		};
 	}
 

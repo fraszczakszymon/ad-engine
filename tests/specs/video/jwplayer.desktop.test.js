@@ -47,7 +47,8 @@ describe('jwPlayer player', () => {
 	});
 
 	it('Check if unmuting the video works', () => {
-		browser.moveToObject(jwPlayer.player).pause(500);
+		browser.moveToObject(jwPlayer.player)
+			.pause(500);
 		browser.waitForVisible(jwPlayer.soundToggle, timeouts.standard);
 		browser.click(jwPlayer.soundToggle);
 		browser.waitForExist(`${jwPlayer.soundToggle}${jwPlayer.soundToggleOn}`, timeouts.standard);
@@ -55,7 +56,8 @@ describe('jwPlayer player', () => {
 	});
 
 	it('Check if opening full screen and redirect on fullscreen player works', () => {
-		browser.moveToObject(jwPlayer.player).pause(500);
+		browser.moveToObject(jwPlayer.player)
+			.pause(500);
 		browser.waitForVisible(jwPlayer.fullscreenButton, timeouts.standard);
 		browser.click(jwPlayer.fullscreenButton);
 		browser.waitForVisible(jwPlayer.fullscreenPlayer, timeouts.standard);
@@ -68,29 +70,39 @@ describe('jwPlayer player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('Check if preroll the video works', () => {
+	it('Check if preroll works', () => {
 		browser.waitForExist(jwPlayer.player, timeouts.standard);
 		expect(jwPlayer.isAdVisible()).to.be.true;
 	});
 
-	it('Check if midroll the video works', () => {
+	it('Check if midroll works', () => {
 		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getMidroll(true));
 		browser.waitForExist(jwPlayer.player, timeouts.standard);
 		jwPlayer.waitForAdToChangeState(true);
-		helpers.waitForVideoAdToFinish(30000);
+		helpers.waitForVideoAdToFinish(jwPlayer.prerollDuration);
 		jwPlayer.waitForAdToChangeState(false);
-		helpers.waitForVideoAdToFinish(40000);
+		helpers.waitForVideoToProgress(40000);
 		jwPlayer.waitForAdToChangeState(true);
 	});
 
-	it('Check if postroll the video works', () => {
+	it('Check if postroll works', () => {
 		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getPostroll(true));
 		browser.waitForExist(jwPlayer.player, timeouts.standard);
 		jwPlayer.waitForAdToChangeState(true);
-		helpers.waitForVideoAdToFinish(30000);
+		helpers.waitForVideoAdToFinish(jwPlayer.prerollDuration);
 		jwPlayer.waitForAdToChangeState(false);
-		helpers.waitForVideoAdToFinish(80000);
+		helpers.waitForVideoToProgress(80000);
 		jwPlayer.waitForAdToChangeState(true);
+	});
+
+	it('Check if f15n works', () => {
+		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getF15n());
+		browser.waitForExist(jwPlayer.player, timeouts.standard);
+		jwPlayer.waitForAdToChangeState(false);
+		helpers.waitForVideoToProgress(10000);
+		jwPlayer.waitForAdToChangeState(true);
+		helpers.waitForVideoAdToFinish(jwPlayer.f15nDuration);
+		jwPlayer.waitForAdToChangeState(false);
 	});
 
 	it('Check if autoplay is disabled upon entering the page', () => {
