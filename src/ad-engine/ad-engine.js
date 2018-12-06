@@ -108,17 +108,6 @@ export class AdEngine {
 		}
 	}
 
-	/**
-	 * @param name - deprecated, works only for gpt
-	 * @returns {any}
-	 */
-	getProvider(name = undefined) {
-		if (!!name && name !== 'gpt') {
-			throw new Error('Deprecated parameter, supports only gpt');
-		}
-		return this.provider;
-	}
-
 	init() {
 		this.setupProviders();
 		this.setupQueue();
