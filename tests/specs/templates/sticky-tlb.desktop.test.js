@@ -7,7 +7,7 @@ import { queryStrings } from '../../common/query-strings';
 
 describe('sticky-ad template', () => {
 	beforeEach(() => {
-		helpers.navigateToUrl(stickyTlb.pageLink, queryStrings.constructSingleGeoInstantGlobal('XX', 99));
+		helpers.navigateToUrl(stickyTlb.pageLink, queryStrings.constructSingleGeoInstantGlobal('XX', 100));
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
@@ -24,6 +24,13 @@ describe('sticky-ad template', () => {
 	});
 
 	it('should not stick if viewability is counted', () => {
+		helpers.waitForViewabillityCounted(timeouts.unstickTime);
+		helpers.slowScroll(500);
+		expect(stickyTlb.isAdSticked()).to.be.false;
+	});
+
+	it('should not stick if geo is set to 0', () => {
+		helpers.navigateToUrl(stickyTlb.pageLink, queryStrings.constructSingleGeoInstantGlobal('XX', 0.00000001));
 		helpers.waitForViewabillityCounted(timeouts.unstickTime);
 		helpers.slowScroll(500);
 		expect(stickyTlb.isAdSticked()).to.be.false;
