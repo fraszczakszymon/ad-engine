@@ -109,7 +109,6 @@ export class AdEngine {
 	}
 
 	/**
-	 * Returns GptProvider if it is set in context.
 	 * @param name - deprecated, works only for gpt
 	 * @returns {any}
 	 */
