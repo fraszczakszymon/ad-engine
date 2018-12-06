@@ -738,55 +738,6 @@ var appnexus_ast_AppnexusAst = function (_BaseAdapter) {
 
 	return AppnexusAst;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/appnexus-webads.js
-
-
-
-
-
-
-
-var appnexus_webads_AppnexusWebads = function (_BaseAdapter) {
-	inherits_default()(AppnexusWebads, _BaseAdapter);
-
-	function AppnexusWebads(options) {
-		classCallCheck_default()(this, AppnexusWebads);
-
-		var _this = possibleConstructorReturn_default()(this, (AppnexusWebads.__proto__ || get_prototype_of_default()(AppnexusWebads)).call(this, options));
-
-		_this.bidderName = 'appnexusWebAds';
-		_this.aliases = {
-			appnexus: [_this.bidderName]
-		};
-		_this.priority = 0;
-		return _this;
-	}
-
-	createClass_default()(AppnexusWebads, [{
-		key: 'prepareConfigForAdUnit',
-		value: function prepareConfigForAdUnit(code, _ref) {
-			var placementId = _ref.placementId,
-			    sizes = _ref.sizes;
-
-			return {
-				code: code,
-				mediaTypes: {
-					banner: {
-						sizes: sizes
-					}
-				},
-				bids: [{
-					bidder: this.bidderName,
-					params: {
-						placementId: placementId
-					}
-				}]
-			};
-		}
-	}]);
-
-	return AppnexusWebads;
-}(base_adapter_BaseAdapter);
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/audience-network.js
 
 
@@ -1657,14 +1608,12 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 
 
 
-
 var adapters_registry_adapters = [];
 var customAdapters = [];
 var availableAdapters = {
 	aol: aol_Aol,
 	appnexus: appnexus_Appnexus,
 	appnexusAst: appnexus_ast_AppnexusAst,
-	appnexusWebads: appnexus_webads_AppnexusWebads,
 	audienceNetwork: audience_network_AudienceNetwork,
 	beachfront: beachfront_Beachfront,
 	indexExchange: index_exchange_IndexExchange,
