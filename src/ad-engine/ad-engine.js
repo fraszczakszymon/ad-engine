@@ -22,7 +22,7 @@ function fillInUsingProvider(ad, provider) {
 
 	slotService.add(adSlot);
 
-	btfBlockerService.push(adSlot, arg => provider.fillIn(arg));
+	btfBlockerService.push(adSlot, (...args) => provider.fillIn(...args));
 }
 
 function getPromises() {
