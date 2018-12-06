@@ -43,7 +43,13 @@ export class LazyQueue {
 		this.pushCommand(...items);
 	}
 
+	/**
+	 * @param {function} callback
+	 */
 	onItemFlush(callback) {
+		if (typeof callback !== 'function') {
+			throw new Error('onItemFlush used with callback not being a function');
+		}
 		this.itemFlushCallbacks.push(callback);
 	}
 
