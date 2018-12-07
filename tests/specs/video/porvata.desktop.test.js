@@ -66,7 +66,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if replaying the video works', () => {
-		helpers.waitForVideoAdToFinish(porvata.videoLength);
+		helpers.waitForVideoAdToFinish(porvata.videoDuration);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 		browser.click(porvata.player);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);

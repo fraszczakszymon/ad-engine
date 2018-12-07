@@ -76,7 +76,7 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 		browser.scroll(0, 3000);
 		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.scroll(adSlots.bottomLeaderboard);
-		helpers.waitForVideoAdToFinish(hiviUapStickyBfab.videoLength);
+		helpers.waitForVideoAdToFinish(hiviUapStickyBfab.videoDuration);
 
 		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
 			adSlots.resolvedDesktopRatio);

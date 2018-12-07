@@ -66,7 +66,7 @@ describe('Desktop HiVi UAP sticky ads page: bottom leaderboard', () => {
 		browser.scroll(0, 3000);
 		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
 		browser.scroll(adSlots.bottomLeaderboard);
-		helpers.waitForVideoAdToFinish(hiviUapStickinessNotAllowed.videoLength);
+		helpers.waitForVideoAdToFinish(hiviUapStickinessNotAllowed.videoDuration);
 	});
 
 	beforeEach(() => {
