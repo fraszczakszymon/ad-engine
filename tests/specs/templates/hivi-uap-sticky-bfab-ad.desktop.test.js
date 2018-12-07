@@ -131,7 +131,8 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	it('Check if slot is sticked', () => {
 		browser.refresh();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.waitToStartPlaying(); // TODO will not stick if scrolled earlier - problems with viewabillity counted?
+		// TODO will not stick if scrolled earlier - problems with viewabillity counted?
+		helpers.waitToStartPlaying();
 		helpers.slowScroll(2500);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
 		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard)).to.be.true;
