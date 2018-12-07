@@ -1,9 +1,10 @@
 import { decorate } from 'core-decorators';
+import { AdSlot } from '../models';
 import { defer, logger } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { context, events, slotDataParamsUpdater, slotService, trackingOptIn } from '../services';
+import { btfBlockerService, context, events, slotDataParamsUpdater, slotService, trackingOptIn } from '../services';
 
 const logGroup = 'gpt-provider';
 
@@ -75,18 +76,18 @@ export class GptProvider {
 
 	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
-	fillIn(adSlot) {
+	fillIn(ad) {
+		const adSlot = new AdSlot(ad);
+
+		slotService.add(adSlot);
+		btfBlockerService.push(adSlot, (...args) => this.fillInCallback(...args));
+	}
+
+	/** @private */
+	fillInCallback(adSlot) {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
-
-		let gptSlot = null;
-
-		if (adSlot.isOutOfPage()) {
-			gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-		} else {
-			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
-				.defineSizeMapping(sizeMap.build());
-		}
+		const gptSlot = this.createGptSlot(adSlot, sizeMap);
 
 		gptSlot
 			.addService(window.googletag.pubads())
@@ -103,6 +104,20 @@ export class GptProvider {
 		}
 
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
+	}
+
+	/** @private */
+	createGptSlot(adSlot, sizeMap) {
+		if (adSlot.isOutOfPage()) {
+			return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+		}
+		return window.googletag
+			.defineSlot(
+				adSlot.getAdUnit(),
+				adSlot.getDefaultSizes(),
+				adSlot.getSlotName()
+			)
+			.defineSizeMapping(sizeMap.build());
 	}
 
 	applyTargetingParams(gptSlot, targeting) {

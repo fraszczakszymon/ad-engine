@@ -1,5 +1,4 @@
 import { logger, makeLazyQueue } from './utils';
-import { AdSlot } from './models';
 import { FloatingAd } from './templates';
 import { GptProvider, PrebidiumProvider } from './providers';
 import { scrollListener } from './listeners';
@@ -10,20 +9,11 @@ import {
 	messageBus,
 	registerCustomAdLoader,
 	slotRepeater,
-	slotService,
 	slotTweaker,
 	templateService,
 } from './services';
 
 const logGroup = 'ad-engine';
-
-function fillInUsingProvider(ad, provider) {
-	const adSlot = new AdSlot(ad);
-
-	slotService.add(adSlot);
-
-	btfBlockerService.push(adSlot, (...args) => provider.fillIn(...args));
-}
 
 function getPromises() {
 	return (context.get('delayModules') || [])
@@ -69,7 +59,7 @@ export class AdEngine {
 		this.adStack = context.get('state.adStack');
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
-				fillInUsingProvider(ad, this.provider);
+				this.provider.fillIn(ad);
 
 				if (this.adStack.length === 0) {
 					this.provider.flush();

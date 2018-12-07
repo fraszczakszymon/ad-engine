@@ -1,5 +1,5 @@
 import { decorate } from 'core-decorators';
-import { slotListener } from '../listeners';
+import { AdSlot } from '../models';
 import { logger } from '../utils';
 import { context, slotService } from '../services';
 
@@ -17,25 +17,16 @@ export class PrebidiumProvider {
 	iframeBuilder = new IframeBuilder();
 
 	@decorate(postponeExecutionUntilPbjsLoads)
-	fillIn(adSlot) {
+	fillIn(ad) {
+		const adSlot = new AdSlot(ad);
+
+		slotService.add(adSlot);
+
 		const doc = this.getIframeDoc(adSlot);
 		const adId = this.getAdId(adSlot);
 
 		window.pbjs.renderAd(doc, adId);
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
-
-		this.forceWrappedFillInCallback(adSlot);
-	}
-
-	/**
-	 * This method causes wrappedFillInCallback method in BtfBlockerService["push"] to fire.
-	 * This is a workaround to simulate real event from google tag used in GptProvider.
-	 * @private
-	 * @param adSlot
-	 */
-	forceWrappedFillInCallback(adSlot) {
-		const slot = slotService.get(adSlot.config.slotName);
-		slotListener.emitRenderEnded(() => {}, slot);
 	}
 
 	/** @private */
