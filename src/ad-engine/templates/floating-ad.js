@@ -24,7 +24,8 @@ export class FloatingAd {
 		}
 
 		scrollListener.addCallback(() => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			container = slotNode.parentNode;
 			containerOffset = getTopOffset(container);
@@ -33,13 +34,16 @@ export class FloatingAd {
 
 			start = containerOffset;
 			if (slotNode.previousElementSibling) {
-				start = getTopOffset(slotNode.previousElementSibling) + slotNode.previousElementSibling.offsetHeight;
+				start =
+					getTopOffset(slotNode.previousElementSibling) +
+					slotNode.previousElementSibling.offsetHeight;
 			}
 
 			space = end - start;
 			if (space <= slotHeight) {
 				slotNode.classList.add('pinned-top');
 				slotNode.classList.remove('pinned-bottom');
+
 				return;
 			}
 

@@ -34,9 +34,9 @@ export class StickyBase {
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
 		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
+			await (stickyUntilSlotViewed && !this.adSlot.isViewed()
+				? utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT)
+				: Promise.resolve());
 			await utils.wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
@@ -61,6 +61,7 @@ export class StickyBase {
 		}
 
 		let found = false;
+
 		lineId = lineId.toString();
 
 		lines.forEach((line) => {

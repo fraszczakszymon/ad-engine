@@ -4,7 +4,7 @@ import { Onemobile } from '../../../../src/ad-bidders/prebid/adapters/onemobile'
 describe('Onemobile bidder adapter', () => {
 	it('can be enabled', () => {
 		const onemobile = new Onemobile({
-			enabled: true
+			enabled: true,
 		});
 
 		expect(onemobile.enabled).to.equal(true);
@@ -17,9 +17,9 @@ describe('Onemobile bidder adapter', () => {
 			slots: {
 				mobile_in_content: {
 					size: [300, 250],
-					pos: 'wikia_incontent_ab'
-				}
-			}
+					pos: 'wikia_incontent_ab',
+				},
+			},
 		});
 
 		expect(onemobile.prepareAdUnits()).to.deep.equal([
@@ -27,21 +27,19 @@ describe('Onemobile bidder adapter', () => {
 				code: 'mobile_in_content',
 				mediaTypes: {
 					banner: {
-						sizes: [
-							[300, 250]
-						]
-					}
+						sizes: [[300, 250]],
+					},
 				},
 				bids: [
 					{
 						bidder: 'onemobile',
 						params: {
 							dcn: '1122a3344b5566c778899d00',
-							pos: 'wikia_incontent_ab'
-						}
-					}
-				]
-			}
+							pos: 'wikia_incontent_ab',
+						},
+					},
+				],
+			},
 		]);
 	});
 });

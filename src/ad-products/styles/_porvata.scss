@@ -16,9 +16,9 @@ $vpaid-z-index: 10;
 		&::before {
 			content: attr(data-label);
 			display: block;
-			font-size: .625rem;
+			font-size: 0.625rem;
 			font-weight: 700;
-			line-height: .75rem;
+			line-height: 0.75rem;
 			margin: 0;
 			padding-bottom: 6px;
 			padding-top: 6px;
@@ -37,12 +37,14 @@ $vpaid-z-index: 10;
 			position: relative;
 			width: 100%;
 
-			video, &.vpaid-enabled > div {
+			video,
+			&.vpaid-enabled > div {
 				@include absolute-fill();
 			}
 
 			&.vpaid-enabled {
-				video, > div:last-child {
+				video,
+				> div:last-child {
 					z-index: $vpaid-z-index;
 				}
 			}

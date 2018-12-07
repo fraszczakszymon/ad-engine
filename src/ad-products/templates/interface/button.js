@@ -8,8 +8,8 @@ export default class Button extends UiComponent {
 	render() {
 		const buttonElement = document.createElement('button');
 
-		this.classNames.forEach(className => buttonElement.classList.add(className));
-		buttonElement.addEventListener('click', event => this.onClick(event));
+		this.classNames.forEach((className) => buttonElement.classList.add(className));
+		buttonElement.addEventListener('click', (event) => this.onClick(event));
 
 		return buttonElement;
 	}

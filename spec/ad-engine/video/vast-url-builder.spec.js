@@ -9,21 +9,21 @@ describe('vast-url-builder', () => {
 		context.extend({
 			src: 'test',
 			vast: {
-				adUnitId: '/5441/wka.fandom/{src}/{slotConfig.slotName}'
+				adUnitId: '/5441/wka.fandom/{src}/{slotConfig.slotName}',
 			},
 			slots: {
-				top_leaderboard: {}
+				top_leaderboard: {},
 			},
 			targeting: {
 				uno: 'foo',
 				due: 15,
 				tre: ['bar', 'zero'],
 				quattro: null,
-				wsi: 'xxxx'
+				wsi: 'xxxx',
 			},
 			options: {
-				trackingOptIn: false
-			}
+				trackingOptIn: false,
+			},
 		});
 		slotService.add(new AdSlot({ id: 'top_leaderboard' }));
 	});
@@ -77,14 +77,14 @@ describe('vast-url-builder', () => {
 	it('build URL with page level targeting anp default wsi param', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard');
 
-		expect(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx/g)).to.be.ok;
+		expect(vastUrl.match(/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx/g)).to
+			.be.ok;
 	});
 
 	it('build URL with page, slotName level targeting and default wsi param', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard');
 
-		const custParams =
-			/&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx%26src%3Dtest%26pos%3Dtop_leaderboard/;
+		const custParams = /&cust_params=uno%3Dfoo%26due%3D15%26tre%3Dbar%2Czero%26wsi%3Dxxxx%26src%3Dtest%26pos%3Dtop_leaderboard/;
 
 		expect(vastUrl.match(custParams)).to.be.ok;
 	});
@@ -100,7 +100,7 @@ describe('vast-url-builder', () => {
 	it('build URL with content source and video ids', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
 			contentSourceId: '123',
-			videoId: 'abc'
+			videoId: 'abc',
 		});
 
 		const custParams = /&cmsid=123&vid=abc/;
@@ -110,7 +110,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL without content source and video ids when at least one is missing', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			contentSourceId: '123'
+			contentSourceId: '123',
 		});
 
 		const custParams = /&cmsid=123/;
@@ -120,7 +120,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL without content source and video ids when at least one is missing', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			videoId: 'abc'
+			videoId: 'abc',
 		});
 
 		const custParams = /&vid=abc/;
@@ -130,7 +130,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL with preroll video position', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			vpos: 'preroll'
+			vpos: 'preroll',
 		});
 
 		const custParams = /&vpos=preroll/;
@@ -140,7 +140,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL with midroll video position', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			vpos: 'midroll'
+			vpos: 'midroll',
 		});
 
 		const custParams = /&vpos=midroll/;
@@ -150,7 +150,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL with postroll video position', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			vpos: 'postroll'
+			vpos: 'postroll',
 		});
 
 		const custParams = /&vpos=postroll/;
@@ -160,7 +160,7 @@ describe('vast-url-builder', () => {
 
 	it('build URL without video position', () => {
 		const vastUrl = buildVastUrl(1, 'top_leaderboard', {
-			vpos: 'invalid'
+			vpos: 'invalid',
 		});
 
 		const custParams = /&vpos=/;

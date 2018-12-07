@@ -6,7 +6,7 @@ export class IndexExchange extends BaseAdapter {
 
 		this.bidderName = 'indexExchange';
 		this.aliases = {
-			ix: [this.bidderName]
+			ix: [this.bidderName],
 		};
 	}
 
@@ -15,16 +15,16 @@ export class IndexExchange extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes
-				}
+					sizes,
+				},
 			},
-			bids: sizes.map(size => ({
+			bids: sizes.map((size) => ({
 				bidder: this.bidderName,
 				params: {
 					siteId,
-					size
-				}
-			}))
+					size,
+				},
+			})),
 		};
 	}
 }

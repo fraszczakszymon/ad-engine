@@ -16,23 +16,23 @@ describe('Bill the Lizard projects handler', () => {
 			foo: [
 				{
 					name: 'bar:1.0.0',
-					countries: ['ZZ']
+					countries: ['ZZ'],
 				},
 				{
 					name: 'bar:0.0.1',
-					countries: ['XX']
-				}
+					countries: ['XX'],
+				},
 			],
 			second: [
 				{
 					name: 'buzz:1.0.0',
-					countries: ['XX']
+					countries: ['XX'],
 				},
 				{
 					name: 'buzz:0.0.1',
-					countries: ['XX']
-				}
-			]
+					countries: ['XX'],
+				},
+			],
 		});
 
 		sandbox = sinon.sandbox.create();
@@ -72,27 +72,30 @@ describe('Bill the Lizard projects handler', () => {
 		sinon.spy(executor.methods, 'onBarFailure');
 		sinon.spy(executor.methods, 'onBarSuccess');
 
-		executor.executeMethods([
+		executor.executeMethods(
+			[
+				{
+					name: 'foo',
+					executable: true,
+					on_0: ['onFooFailure'],
+					on_1: ['onFooSuccess'],
+				},
+				{
+					name: 'bar',
+					executable: false,
+					on_0: ['onBarFailure'],
+					on_1: ['onBarSuccess'],
+				},
+			],
 			{
-				name: 'foo',
-				executable: true,
-				on_0: ['onFooFailure'],
-				on_1: ['onFooSuccess']
+				foo: {
+					result: 0,
+				},
+				bar: {
+					result: 1,
+				},
 			},
-			{
-				name: 'bar',
-				executable: false,
-				on_0: ['onBarFailure'],
-				on_1: ['onBarSuccess']
-			}
-		], {
-			foo: {
-				result: 0
-			},
-			bar: {
-				result: 1
-			},
-		});
+		);
 
 		expect(executor.methods.onFooFailure.calledOnce).to.equal(true);
 		expect(executor.methods.onFooSuccess.calledOnce).to.equal(false);

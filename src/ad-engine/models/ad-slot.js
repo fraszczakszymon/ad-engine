@@ -190,8 +190,10 @@ export class AdSlot extends EventEmitter {
 		}
 
 		let { creativeId, lineItemId } = event;
+
 		if (event.slot) {
 			const resp = event.slot.getResponseInformation();
+
 			if (resp) {
 				if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
 					creativeId = ADX;

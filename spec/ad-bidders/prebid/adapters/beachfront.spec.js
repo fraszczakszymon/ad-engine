@@ -4,7 +4,7 @@ import { Beachfront } from '../../../../src/ad-bidders/prebid/adapters/beachfron
 describe('Beachfront bidder adapter', () => {
 	it('can be enabled', () => {
 		const beachfront = new Beachfront({
-			enabled: true
+			enabled: true,
 		});
 
 		expect(beachfront.enabled).to.equal(true);
@@ -15,9 +15,9 @@ describe('Beachfront bidder adapter', () => {
 			enabled: true,
 			slots: {
 				mobile_in_content: {
-					appId: '1122-3344-556677-8899-0000'
-				}
-			}
+					appId: '1122-3344-556677-8899-0000',
+				},
+			},
 		});
 
 		expect(beachfront.prepareAdUnits()).to.deep.equal([
@@ -25,19 +25,19 @@ describe('Beachfront bidder adapter', () => {
 				code: 'mobile_in_content',
 				mediaTypes: {
 					video: {
-						playerSize: [640, 480]
-					}
+						playerSize: [640, 480],
+					},
 				},
 				bids: [
 					{
 						bidder: 'beachfront',
 						params: {
 							bidfloor: 0.01,
-							appId: '1122-3344-556677-8899-0000'
-						}
-					}
-				]
-			}
+							appId: '1122-3344-556677-8899-0000',
+						},
+					},
+				],
+			},
 		]);
 	});
 });

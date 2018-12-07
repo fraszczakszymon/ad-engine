@@ -12,7 +12,7 @@ import {
 	templateService,
 	registerCustomAdLoader,
 	context,
-	messageBus
+	messageBus,
 } from './services';
 
 const logGroup = 'ad-engine';
@@ -26,13 +26,15 @@ function fillInUsingProvider(ad, provider) {
 }
 
 function getPromises() {
-	return (context.get('delayModules') || [])
-		.filter(module => module.isEnabled())
-		.map((module) => {
-			logger(logGroup, 'Register delay module', module.getName());
+	return (
+		(context.get('delayModules') || [])
+			.filter((module) => module.isEnabled())
+			.map((module) => {
+				logger(logGroup, 'Register delay module', module.getName());
 
-			return module.getPromise();
-		}) || [];
+				return module.getPromise();
+			}) || []
+	);
 }
 
 export class AdEngine {

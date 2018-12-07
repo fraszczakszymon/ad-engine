@@ -25,31 +25,20 @@ const createBottomPanel = ({ fullscreenAllowed = true, theme = null }) => {
 	return new Panel(panelClassName, [
 		isHiVi ? PauseControl : null,
 		VolumeControl,
-		isHiVi && fullscreenAllowed ? ToggleFullscreen : null
+		isHiVi && fullscreenAllowed ? ToggleFullscreen : null,
 	]);
 };
 
 const getTemplates = (params, videoSettings) => ({
-	'auto-play': [
-		ProgressBar,
-		PauseOverlay,
-		createBottomPanel(params),
-		ToggleAnimation
-	],
-	default: [
-		ProgressBar,
-		PauseOverlay,
-		createBottomPanel(params),
-		CloseButton,
-		ToggleAnimation
-	],
+	'auto-play': [ProgressBar, PauseOverlay, createBottomPanel(params), ToggleAnimation],
+	default: [ProgressBar, PauseOverlay, createBottomPanel(params), CloseButton, ToggleAnimation],
 	'split-left': [
 		ProgressBar,
 		PauseOverlay,
 		createBottomPanel(params),
 		ToggleVideo,
 		ReplayOverlay,
-		!videoSettings.isAutoPlay() ? CloseButton : null
+		!videoSettings.isAutoPlay() ? CloseButton : null,
 	],
 	'split-right': [
 		ProgressBar,
@@ -57,7 +46,7 @@ const getTemplates = (params, videoSettings) => ({
 		createBottomPanel(params),
 		ToggleVideo,
 		ReplayOverlay,
-		!videoSettings.isAutoPlay() ? CloseButton : null
+		!videoSettings.isAutoPlay() ? CloseButton : null,
 	],
 	hivi: [
 		ProgressBar,
@@ -66,14 +55,9 @@ const getTemplates = (params, videoSettings) => ({
 		ToggleThumbnail,
 		ToggleUI,
 		LearnMore,
-		params.videoPlaceholderElement ? ReplayOverlay : null
+		params.videoPlaceholderElement ? ReplayOverlay : null,
 	],
-	'outstream-incontent': [
-		DynamicReveal,
-		Floating,
-		ProgressBar,
-		VolumeControl
-	]
+	'outstream-incontent': [DynamicReveal, Floating, ProgressBar, VolumeControl],
 });
 
 export function selectTemplate(videoSettings) {

@@ -9,9 +9,9 @@ function getCustomParameters(slot, extraTargeting = {}) {
 
 	return encodeURIComponent(
 		Object.keys(params)
-			.filter(key => params[key])
-			.map(key => `${key}=${params[key]}`)
-			.join('&')
+			.filter((key) => params[key])
+			.map((key) => `${key}=${params[key]}`)
+			.join('&'),
 	);
 }
 

@@ -15,7 +15,7 @@ export class FloatingRail {
 			enabled: true,
 			railSelector: '#rail',
 			wrapperSelector: '#rail-wrapper',
-			startOffset: 0
+			startOffset: 0,
 		};
 	}
 
@@ -68,7 +68,7 @@ export class FloatingRail {
 			const childrenHeight = children.offsetTop + children.offsetHeight;
 			const space = this.railWrapper.offsetHeight;
 
-			availableSpace = Math.max(0, space - childrenHeight - (adsInRail * biggestAdSize));
+			availableSpace = Math.max(0, space - childrenHeight - adsInRail * biggestAdSize);
 		}
 
 		return availableSpace;

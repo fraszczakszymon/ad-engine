@@ -97,6 +97,7 @@ class AdSlots {
 			result = false;
 			error += `Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
+
 		return {
 			status: result,
 			capturedErrors: error,
@@ -111,6 +112,7 @@ class AdSlots {
 	 */
 	calculateHeightWithRatio(adSlot, heightRatio) {
 		const slotSize = browser.getElementSize(adSlot);
+
 		return slotSize.width / heightRatio;
 	}
 
@@ -143,6 +145,7 @@ class AdSlots {
 				slotSize.height
 			}\n`;
 		}
+
 		return {
 			status: result,
 			capturedErrors: error,
@@ -195,6 +198,7 @@ class AdSlots {
 	 */
 	checkUAPSizeSlotRatio(adSlot, heightRatio) {
 		this.waitForSlotExpanded(adSlot);
+
 		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
 	}
 
@@ -216,6 +220,7 @@ class AdSlots {
 		if (withScroll) {
 			browser.scroll(adSlot);
 		}
+
 		return {
 			visible: browser.isVisible(adSlot),
 			inViewport: browser.isVisibleWithinViewport(adSlot),

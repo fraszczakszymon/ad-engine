@@ -1,15 +1,17 @@
 import { AdSlot, context, scrollListener, slotService, slotTweaker, utils } from '@wikia/ad-engine';
 import { mapValues } from 'lodash';
-
-import { BigFancyAdHiviTheme } from './hivi-theme';
-import { Stickiness } from './stickiness';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
 import {
-	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-	CSS_CLASSNAME_STICKY_BFAB, SLIDE_OUT_TIME, FADE_IN_TIME
+	CSS_CLASSNAME_FADE_IN_ANIMATION,
+	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+	CSS_CLASSNAME_STICKY_BFAB,
+	SLIDE_OUT_TIME,
+	FADE_IN_TIME,
 } from '../../constants';
 import { animate } from '../../../interface/animate';
+import { BigFancyAdHiviTheme } from './hivi-theme';
+import { Stickiness } from './stickiness';
 
 export class BfabTheme extends BigFancyAdHiviTheme {
 	constructor(adSlot, params) {
@@ -91,7 +93,10 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 	setThumbnailStyle(state = 'default') {
 		const { thumbnail } = this.params;
-		const style = mapValues(this.params.config.state, styleProperty => `${styleProperty[state]}%`);
+		const style = mapValues(
+			this.params.config.state,
+			(styleProperty) => `${styleProperty[state]}%`,
+		);
 
 		Object.assign(thumbnail.style, style);
 
@@ -111,6 +116,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 		scrollListener.addCallback((event, id) => {
 			if (this.adSlot.isViewed()) {
 				scrollListener.removeCallback(id);
+
 				return;
 			}
 
@@ -142,7 +148,8 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 			this.stickiness.run();
 
 			scrollListener.addCallback((event, id) => {
-				const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+				const scrollPosition =
+					window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
 					this.adSlot.emitEvent('top-conflict');
@@ -163,6 +170,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 	async onStickinessChange(isSticky) {
 		const element = this.adSlot.getElement();
+
 		if (!isSticky) {
 			if (this.adSlot.getStatus() !== 'top-conflict') {
 				await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);

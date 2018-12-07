@@ -17,6 +17,7 @@ function clearSlotServiceState() {
 describe('slot-service', () => {
 	beforeEach(() => {
 		const originalGet = context.get;
+
 		sinon.stub(context, 'get').callsFake((key) => {
 			if (key === 'slots') {
 				return slotConfigs;
@@ -35,20 +36,23 @@ describe('slot-service', () => {
 		elementProperties = {
 			offsetParent: {
 				offsetTop: 0,
-				offsetParent: null
-			}
+				offsetParent: null,
+			},
 		};
 		slotConfigs = {};
 
-		sinon.stub(document, 'getElementById').withArgs('foo-container').returns({
-			classList: {
-				contains: () => {}
-			},
-			offsetHeight: 300,
-			offsetTop: 100,
-			offsetParent: elementProperties.offsetParent,
-			ownerDocument: {}
-		});
+		sinon
+			.stub(document, 'getElementById')
+			.withArgs('foo-container')
+			.returns({
+				classList: {
+					contains: () => {},
+				},
+				offsetHeight: 300,
+				offsetTop: 100,
+				offsetParent: elementProperties.offsetParent,
+				ownerDocument: {},
+			});
 
 		adSlot = Object.assign({}, adSlotFake);
 		adSlot.getViewportConflicts = () => ['foo-container'];
@@ -144,6 +148,7 @@ describe('slot-service', () => {
 
 		it('should return only slots with aboveTheFold prop set to true', () => {
 			const expectedConfig = { name: 'ooz', aboveTheFold: true };
+
 			slotConfigs = {
 				slot_1: { name: 'foo' },
 				slot_2: { name: 'bar', aboveTheFold: false },

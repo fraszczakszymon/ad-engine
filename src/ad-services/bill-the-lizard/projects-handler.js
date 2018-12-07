@@ -36,8 +36,9 @@ export class ProjectsHandler {
 	getEnabledModelsWithParams(projectNames) {
 		const projects = context.get('services.billTheLizard.projects');
 		const projectParameters = context.get('services.billTheLizard.parameters');
-		const enabledProjectNames = Object.keys(projects)
-			.filter(name => (this.isEnabled(name) && projectNames.includes(name)));
+		const enabledProjectNames = Object.keys(projects).filter(
+			(name) => this.isEnabled(name) && projectNames.includes(name),
+		);
 		const models = [];
 		const parameters = {};
 
@@ -59,7 +60,7 @@ export class ProjectsHandler {
 
 		return {
 			models,
-			parameters
+			parameters,
 		};
 	}
 }
