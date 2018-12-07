@@ -140,8 +140,9 @@ export const googleImaPlayerFactory = {
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings),
-				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
+			const	adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+
 			player.setAdsManager(adsManager);
 
 			if (videoSettings.isMoatTrackingEnabled()) {
