@@ -1,6 +1,6 @@
 import { logger, client } from '../utils';
 import { AdSlot } from '../models';
-import { context, slotTweaker, slotDataParamsUpdater, slotInjector } from '../services';
+import { context, slotTweaker, slotInjector } from '../services';
 
 const logGroup = 'slot-listener';
 
@@ -33,25 +33,27 @@ function getAdType(event, adSlot) {
 }
 
 function getData(adSlot, { adType, status }) {
+	const now = new Date();
 	return {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size: adSlot.creativeSize,
+		creative_size: (Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length)
+			? adSlot.creativeSize.join('x')
+			: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
-		time_bucket: new Date().getHours(),
-		timestamp: new Date().getTime(),
-		viewport_height: window.innerHeight || 0,
+		time_bucket: now.getHours(),
+		timestamp: now.getTime(),
+		tz_offset: now.getTimezoneOffset(),
+		viewport_height: window.innerHeight || 0
 	};
 }
 
 function dispatch(methodName, adSlot, adInfo = {}) {
 	if (!listeners) {
-		listeners = context
-			.get('listeners.slot')
-			.filter((listener) => !listener.isEnabled || listener.isEnabled());
+		listeners = context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
 
 	const data = getData(adSlot, adInfo);
@@ -70,32 +72,18 @@ class SlotListener {
 	emitRenderEnded(event, adSlot) {
 		const adType = getAdType(event, adSlot);
 
-		slotDataParamsUpdater.updateOnRenderEnd(adSlot, event);
-		if (event) {
-			if (event.slot) {
-				const response = event.slot.getResponseInformation();
-
-				if (response) {
-					adSlot.creativeId = response.creativeId;
-					adSlot.lineItemId = response.lineItemId;
-				}
-			}
-
-			if (event.size && event.size.length) {
-				adSlot.creativeSize = event.size.join('x');
-			}
-		}
+		adSlot.updateOnRenderEnd(event);
 
 		switch (adType) {
-		case 'collapse':
-			adSlot.collapse();
-			break;
-		case 'manual':
-			adSlot.setStatus(adType);
-			break;
-		default:
-			adSlot.success();
-			break;
+			case 'collapse':
+				adSlot.collapse();
+				break;
+			case 'manual':
+				adSlot.setStatus(adType);
+				break;
+			default:
+				adSlot.success();
+				break;
 		}
 
 		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
