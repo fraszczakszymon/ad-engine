@@ -1,6 +1,6 @@
-import { googleImaSetup } from './google-ima-setup';
 import { moatVideoTracker } from '../moat/moat-video-tracker';
 import { vastDebugger } from '../../../vast-debugger';
+import { googleImaSetup } from './google-ima-setup';
 
 function getVideoElement() {
 	const videoElement = document.createElement('video');
@@ -36,6 +36,7 @@ class GoogleImaPlayer {
 		if (eventName.indexOf('wikia') !== -1) {
 			this.eventListeners[eventName] = this.eventListeners[eventName] || [];
 			this.eventListeners[eventName].push(callback);
+
 			return;
 		}
 
@@ -49,8 +50,9 @@ class GoogleImaPlayer {
 	}
 
 	setVastAttributes(status) {
-		const currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
-			playerElement = this.params.container.querySelector('.video-player');
+		const currentAd =
+			this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd();
+		const playerElement = this.params.container.querySelector('.video-player');
 
 		vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 	}
@@ -68,7 +70,11 @@ class GoogleImaPlayer {
 			this.dispatchEvent('wikiaAdPlayTriggered');
 			// https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize
 			this.adDisplayContainer.initialize();
-			this.adsManager.init(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
+			this.adsManager.init(
+				Math.round(width),
+				Math.round(height),
+				window.google.ima.ViewMode.NORMAL,
+			);
 			this.adsManager.start();
 			this.adsLoader.removeEventListener('adsManagerLoaded', callback);
 		};
@@ -99,7 +105,7 @@ class GoogleImaPlayer {
 			this.adsManager.resize(
 				Math.round(width),
 				Math.round(height),
-				isFullscreen ? viewMode.FULLSCREEN : viewMode.NORMAL
+				isFullscreen ? viewMode.FULLSCREEN : viewMode.NORMAL,
 			);
 		}
 	}
@@ -129,40 +135,48 @@ class GoogleImaPlayer {
 
 export const googleImaPlayerFactory = {
 	create(adDisplayContainer, adsLoader, videoSettings) {
-		const adRequest = googleImaSetup.createRequest(videoSettings.getParams()),
-			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
-			videoElement = getVideoElement();
+		const adRequest = googleImaSetup.createRequest(videoSettings.getParams());
+		const player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams());
+		const videoElement = getVideoElement();
 
 		if (player.videoAd) {
 			player.videoAd.classList.add('porvata-video');
 			videoSettings.getContainer().classList.add('porvata');
 		}
 
-		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings),
-				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
-			player.setAdsManager(adsManager);
+		adsLoader.addEventListener(
+			'adsManagerLoaded',
+			(adsManagerLoadedEvent) => {
+				const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
+				const adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
 
-			if (videoSettings.isMoatTrackingEnabled()) {
-				moatVideoTracker.init(
-					adsManager,
-					videoSettings.getContainer(),
-					window.google.ima.ViewMode.NORMAL,
-					videoSettings.get('src'),
-					`${videoSettings.get('adProduct')}/${videoSettings.get('slotName')}`
-				);
-			}
+				player.setAdsManager(adsManager);
 
-			player.dispatchEvent('wikiaAdsManagerLoaded');
+				if (videoSettings.isMoatTrackingEnabled()) {
+					moatVideoTracker.init(
+						adsManager,
+						videoSettings.getContainer(),
+						window.google.ima.ViewMode.NORMAL,
+						videoSettings.get('src'),
+						`${videoSettings.get('adProduct')}/${videoSettings.get('slotName')}`,
+					);
+				}
 
-			adsManager.addEventListener('loaded', () => player.setVastAttributes('success'));
-			adsManager.addEventListener('adError', () => player.setVastAttributes('error'));
-		}, false);
+				player.dispatchEvent('wikiaAdsManagerLoaded');
+
+				adsManager.addEventListener('loaded', () => player.setVastAttributes('success'));
+				adsManager.addEventListener('adError', () => player.setVastAttributes('error'));
+			},
+			false,
+		);
 
 		adsLoader.addEventListener('adError', (event) => {
 			const emptyVastErrorCode = window.google.ima.AdError.ErrorCode.VAST_EMPTY_RESPONSE;
 
-			if (typeof event.getError === 'function' && event.getError().getErrorCode() === emptyVastErrorCode) {
+			if (
+				typeof event.getError === 'function' &&
+				event.getError().getErrorCode() === emptyVastErrorCode
+			) {
 				player.dispatchEvent('wikiaEmptyAd');
 			}
 
@@ -182,5 +196,5 @@ export const googleImaPlayerFactory = {
 		player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
 
 		return player;
-	}
+	},
 };

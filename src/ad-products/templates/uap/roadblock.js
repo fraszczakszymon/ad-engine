@@ -1,5 +1,4 @@
 import { context } from '@wikia/ad-engine';
-
 import { universalAdPackage } from './universal-ad-package';
 
 export class Roadblock {
@@ -11,7 +10,7 @@ export class Roadblock {
 		return {
 			slotsToEnable: [],
 			slotsToDisable: [],
-			onInit: () => {}
+			onInit: () => {},
 		};
 	}
 

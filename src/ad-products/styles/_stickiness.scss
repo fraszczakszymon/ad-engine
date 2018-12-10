@@ -4,7 +4,7 @@ $stickiness-animation-long-duration: 0.6s;
 $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
 .gpt-ad.bfaa-template.sticky-bfaa {
-	background: #FFF;
+	background: #fff;
 	padding: 0;
 	position: fixed;
 	width: 100%;
@@ -17,13 +17,21 @@ $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 	position: relative;
 
 	@keyframes slideOut {
-		from { transform: translateY(0); }
-		to { transform: translateY(-100%); }
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-100%);
+		}
 	}
 
 	@keyframes fadeIn {
-		from { opacity: 0; }
-		to { opacity: 1; }
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	.slide-out {
@@ -60,8 +68,8 @@ $ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 		.icon {
 			width: 16px;
 			height: 16px;
-			color: #FFF;
-			fill: #FFF;
+			color: #fff;
+			fill: #fff;
 			opacity: 1;
 			filter: drop-shadow(0px 0px 2px #000);
 		}

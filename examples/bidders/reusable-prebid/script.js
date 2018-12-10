@@ -38,16 +38,17 @@ context.push('listeners.slot', {
 		}
 
 		const price = transformBidderPrice('wikia');
+
 		if (price) {
 			console.log(`⛳ ${slotName}: wikia adapter price is %c$${price}`, 'font-weight: bold');
 		} else {
 			console.log(`⛳ ${slotName}: wikia adapter responded %ctoo late`, 'font-weight: bold');
 		}
-	}
+	},
 });
 
 if (enabledProjects) {
-	enabledProjects.split(',').forEach(name => billTheLizard.projectsHandler.enable(name));
+	enabledProjects.split(',').forEach((name) => billTheLizard.projectsHandler.enable(name));
 
 	billTheLizard.executor.register('logResult', (model, prediction) => {
 		console.log(`🦎 %c${model.name}`, 'font-weight: bold', `predicted ${prediction}`);
@@ -58,6 +59,7 @@ if (enabledProjects) {
 
 		if (slots.length > 0) {
 			const slot = slots[slots.length - 1];
+
 			slotService.disable(slot.id, 'catlapsed');
 		}
 	});
@@ -76,9 +78,10 @@ let resolveBidders;
 const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
-	getPromise: () => new Promise((resolve) => {
-		resolveBidders = resolve;
-	})
+	getPromise: () =>
+		new Promise((resolve) => {
+			resolveBidders = resolve;
+		}),
 };
 
 context.set('targeting.artid', '266');
@@ -93,7 +96,7 @@ bidders.requestBids({
 				resolveBidders = null;
 			}
 		}
-	}
+	},
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {
@@ -105,7 +108,7 @@ new AdEngine().init();
 btfBlockerService.finishFirstCall();
 
 window.adsQueue.push({
-	id: 'repeatable_boxad_1'
+	id: 'repeatable_boxad_1',
 });
 
 document.getElementById('requestBids').addEventListener('click', () => {

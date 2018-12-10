@@ -1,7 +1,7 @@
 import { logger } from '../utils';
 
-const callbacks = [],
-	logGroup = 'message-bus';
+const callbacks = [];
+const logGroup = 'message-bus';
 
 function isAdEngineMessage(message) {
 	try {
@@ -16,6 +16,7 @@ function messageMatch(match, message) {
 
 	if (match.keys) {
 		const data = JSON.parse(message.data).AdEngine;
+
 		match.keys.forEach((key) => {
 			matching = matching && data[key];
 		});
@@ -25,8 +26,8 @@ function messageMatch(match, message) {
 }
 
 function onMessage(message) {
-	let i = 0,
-		callback;
+	let i = 0;
+	let callback;
 
 	if (isAdEngineMessage(message)) {
 		logger(logGroup, 'Message received', message);
@@ -41,6 +42,7 @@ function onMessage(message) {
 				if (!callback.match.infinite) {
 					callbacks.splice(i, 1);
 				}
+
 				return;
 			}
 		}
@@ -56,7 +58,7 @@ class MessageBus {
 	register(match, callback) {
 		callbacks.push({
 			match,
-			fn: callback
+			fn: callback,
 		});
 	}
 }

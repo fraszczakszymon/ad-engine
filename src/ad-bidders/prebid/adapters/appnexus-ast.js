@@ -7,7 +7,7 @@ export class AppnexusAst extends BaseAdapter {
 
 		this.bidderName = 'appnexusAst';
 		this.aliases = {
-			appnexus: [this.bidderName]
+			appnexus: [this.bidderName],
 		};
 		this.debugPlacementId = options.debugPlacementId;
 		this.isDebugMode = utils.queryString.get('appnexusast_debug_mode') === '1';
@@ -19,8 +19,8 @@ export class AppnexusAst extends BaseAdapter {
 			mediaTypes: {
 				video: {
 					context: 'instream',
-					playerSize: [640, 480]
-				}
+					playerSize: [640, 480],
+				},
 			},
 			bids: [
 				{
@@ -29,11 +29,11 @@ export class AppnexusAst extends BaseAdapter {
 						placementId: this.isDebugMode ? this.debugPlacementId : placementId,
 						video: {
 							skippable: false,
-							playback_method: ['auto_play_sound_off']
-						}
-					}
-				}
-			]
+							playback_method: ['auto_play_sound_off'],
+						},
+					},
+				},
+			],
 		};
 	}
 }

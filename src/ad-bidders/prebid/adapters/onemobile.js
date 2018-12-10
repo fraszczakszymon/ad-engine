@@ -13,18 +13,18 @@ export class Onemobile extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes: [size]
-				}
+					sizes: [size],
+				},
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
 						dcn: this.siteId,
-						pos
-					}
-				}
-			]
+						pos,
+					},
+				},
+			],
 		};
 	}
 }

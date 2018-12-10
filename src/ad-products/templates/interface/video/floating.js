@@ -20,30 +20,36 @@ function add(video, container, params) {
 	const videoWrapper = slotElement.querySelector('.video-display-wrapper');
 
 	video.addEventListener('wikiaSlotExpanded', () => {
-		const observer = utils.viewportObserver.addListener(videoOverlay, (inViewport) => {
-			if (inViewport) {
-				slotElement.classList.remove(FLOATING_CLASS_NAME);
-			} else {
-				slotElement.classList.add(FLOATING_CLASS_NAME);
-			}
+		const observer = utils.viewportObserver.addListener(
+			videoOverlay,
+			(inViewport) => {
+				if (inViewport) {
+					slotElement.classList.remove(FLOATING_CLASS_NAME);
+				} else {
+					slotElement.classList.add(FLOATING_CLASS_NAME);
+				}
 
-			video.isFloating = !inViewport;
-			const width = videoWrapper.offsetWidth;
-			video.resize(width, width / DEFAULT_VIDEO_ASPECT_RATIO);
-		}, {
-			offsetTop: params.inViewportOffsetTop,
-			offsetBottom: params.inViewportOffsetBottom,
-			areaThreshold: 1
-		});
+				video.isFloating = !inViewport;
+				const width = videoWrapper.offsetWidth;
+
+				video.resize(width, width / DEFAULT_VIDEO_ASPECT_RATIO);
+			},
+			{
+				offsetTop: params.inViewportOffsetTop,
+				offsetBottom: params.inViewportOffsetBottom,
+				areaThreshold: 1,
+			},
+		);
 		const disableFloating = () => {
 			video.isFloating = false;
 			slotElement.classList.remove(FLOATING_CLASS_NAME);
 			utils.viewportObserver.removeListener(observer);
 			const width = videoWrapper.offsetWidth;
+
 			video.resize(width, width / DEFAULT_VIDEO_ASPECT_RATIO);
 		};
 		const closeButton = new CloseButton({
-			onClick: disableFloating
+			onClick: disableFloating,
 		});
 
 		videoWrapper.appendChild(closeButton.render());
@@ -52,5 +58,5 @@ function add(video, container, params) {
 }
 
 export default {
-	add
+	add,
 };

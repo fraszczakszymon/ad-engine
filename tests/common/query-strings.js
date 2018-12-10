@@ -1,7 +1,7 @@
 class QueryStrings {
 	constructor() {
 		this.instantGlobals = {
-			labradorTestVariableAlpha: 'InstantGlobals.wgTestVariableAlpha'
+			labradorTestVariableAlpha: 'InstantGlobals.wgTestVariableAlpha',
 		};
 		this.utils = {
 			resolved: 'resolved_state',
@@ -12,7 +12,7 @@ class QueryStrings {
 			contentLength: 'content_length',
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
-			sessionId: 'sessionid'
+			sessionId: 'sessionid',
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -20,7 +20,7 @@ class QueryStrings {
 			autoplay: 'autoplay',
 			mute: 'mute',
 			capping: 'capping',
-			f15n: 'f15s=eHnTdMot'
+			f15n: 'f15s=eHnTdMot',
 		};
 	}
 
@@ -39,8 +39,10 @@ class QueryStrings {
 			if (additional) {
 				return `[${country}/${percent}${additional}]`;
 			}
+
 			return `[${country}/${percent}]`;
 		}
+
 		return `[${country}]`;
 	}
 
@@ -109,11 +111,13 @@ class QueryStrings {
 
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
+
 		return `${this.utils.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
 		const on = resolved ? '1' : '0';
+
 		return `${this.utils.resolved}=${on}`;
 	}
 

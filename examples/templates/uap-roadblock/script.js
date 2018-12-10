@@ -1,6 +1,5 @@
 import { AdEngine, context, templateService } from '@wikia/ad-engine';
 import { Roadblock, Skin, utils } from '@wikia/ad-products';
-
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -18,13 +17,8 @@ utils.setupNpaContext();
 
 templateService.register(Skin);
 templateService.register(Roadblock, {
-	slotsToDisable: [
-	],
-	slotsToEnable: [
-		'top_leaderboard',
-		'top_boxad',
-		'invisible_skin'
-	]
+	slotsToDisable: [],
+	slotsToEnable: ['top_leaderboard', 'top_boxad', 'invisible_skin'],
 });
 
 new AdEngine().init();

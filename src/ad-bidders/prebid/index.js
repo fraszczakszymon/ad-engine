@@ -6,7 +6,8 @@ import { getPrebidBestPrice } from './price-helper';
 import { getSettings } from './prebid-settings';
 import { getAvailableBidsByAdUnitCode, setupAdUnits } from './prebid-helper';
 
-export const prebidLazyRun = method => (...args) => window.pbjs.que.push(() => method.apply(this, args));
+export const prebidLazyRun = (method) => (...args) =>
+	window.pbjs.que.push(() => method.apply(this, args));
 
 const logGroup = 'prebid';
 
@@ -29,25 +30,27 @@ export class Prebid extends BaseBidder {
 		this.adUnits = setupAdUnits(this.bidderConfig, this.isLazyLoadingEnabled ? 'pre' : 'off');
 		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
 		this.prebidConfig = {
-			debug: utils.queryString.get('pbjs_debug') === '1' || utils.queryString.get('pbjs_debug') === 'true',
+			debug:
+				utils.queryString.get('pbjs_debug') === '1' ||
+				utils.queryString.get('pbjs_debug') === 'true',
 			enableSendAllBids: true,
 			bidderSequence: 'random',
 			bidderTimeout: this.timeout,
 			cache: {
-				url: 'https://prebid.adnxs.com/pbc/v1/cache'
+				url: 'https://prebid.adnxs.com/pbc/v1/cache',
 			},
 			userSync: {
 				iframeEnabled: true,
 				enabledBidders: [],
-				syncDelay: 6000
-			}
+				syncDelay: 6000,
+			},
 		};
 
 		if (this.isCMPEnabled) {
 			this.prebidConfig.consentManagement = {
 				cmpApi: 'iab',
 				timeout: this.timeout,
-				allowAuctionWithoutConsent: false
+				allowAuctionWithoutConsent: false,
 			};
 		}
 
@@ -99,7 +102,11 @@ export class Prebid extends BaseBidder {
 		const libraryUrl = context.get('bidders.prebid.libraryUrl');
 
 		if (!libraryUrl) {
-			utils.logger(logGroup, 'Prebid library URL not defined. Assuming that window.pbjs will be loaded.');
+			utils.logger(
+				logGroup,
+				'Prebid library URL not defined. Assuming that window.pbjs will be loaded.',
+			);
+
 			return;
 		}
 
@@ -134,13 +141,7 @@ export class Prebid extends BaseBidder {
 	}
 
 	getTargetingKeysToReset() {
-		return [
-			'hb_bidder',
-			'hb_adid',
-			'hb_pb',
-			'hb_size',
-			'hb_uuid'
-		];
+		return ['hb_bidder', 'hb_adid', 'hb_pb', 'hb_size', 'hb_uuid'];
 	}
 
 	getTargetingParams(slotName) {
@@ -171,7 +172,8 @@ export class Prebid extends BaseBidder {
 				slotParams = bidParams.adserverTargeting;
 			}
 
-			// ADEN-7436: AppNexus hb_uuid fix (adserverTargeting params are being set before cache key is returned)
+			// ADEN-7436: AppNexus hb_uuid fix
+			// (adserverTargeting params are being set before cache key is returned)
 			slotParams.hb_uuid = slotParams.hb_uuid || bidParams.videoCacheKey || 'disabled';
 		}
 
@@ -181,9 +183,7 @@ export class Prebid extends BaseBidder {
 	isSupported(slotName) {
 		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
 
-		return this.adUnits && this.adUnits.some(
-			adUnit => adUnit.code === slotAlias
-		);
+		return this.adUnits && this.adUnits.some((adUnit) => adUnit.code === slotAlias);
 	}
 
 	registerBidsRefreshing() {
@@ -192,12 +192,11 @@ export class Prebid extends BaseBidder {
 				if (this.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
 					events.emit(events.BIDS_REFRESH);
 					const adUnitsToRefresh = this.adUnits.filter(
-						adUnit => (
+						(adUnit) =>
 							adUnit.code === winningBid.adUnitCode &&
 							adUnit.bids &&
 							adUnit.bids[0] &&
-							adUnit.bids[0].bidder === winningBid.bidderCode
-						)
+							adUnit.bids[0].bidder === winningBid.bidderCode,
 					);
 
 					this.requestBids(adUnitsToRefresh, this.bidsRefreshing.bidsBackHandler);
@@ -214,7 +213,7 @@ export class Prebid extends BaseBidder {
 
 		window.pbjs.requestBids({
 			adUnits,
-			bidsBackHandler
+			bidsBackHandler,
 		});
 	}
 }

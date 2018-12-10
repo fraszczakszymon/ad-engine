@@ -1,5 +1,4 @@
 import { scrollListener, utils } from '@wikia/ad-engine';
-
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
@@ -7,8 +6,11 @@ import { Stickiness } from './uap/themes/hivi/stickiness';
 import { StickyBase } from './sticky-base';
 import { universalAdPackage } from './uap/universal-ad-package';
 import {
-	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME,
+	CSS_CLASSNAME_FADE_IN_ANIMATION,
+	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+	CSS_CLASSNAME_STICKY_BFAA,
+	SLIDE_OUT_TIME,
+	FADE_IN_TIME,
 	CSS_CLASSNAME_STICKY_IAB,
 } from './uap/constants';
 
@@ -34,12 +36,12 @@ export class StickyTLB extends StickyBase {
 				const navbarElement = document.querySelector('body > nav.navigation');
 
 				if (navbarElement) {
-					navbarElement.style.transition = (
-						offset ? '' : `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`
-					);
-					navbarElement.style.top = (offset ? `${offset}px` : '');
+					navbarElement.style.transition = offset
+						? ''
+						: `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`;
+					navbarElement.style.top = offset ? `${offset}px` : '';
 				}
-			}
+			},
 		};
 	}
 
@@ -65,6 +67,7 @@ export class StickyTLB extends StickyBase {
 
 		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
+
 			return;
 		}
 
@@ -101,7 +104,7 @@ export class StickyTLB extends StickyBase {
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close()
+			onClick: () => this.stickiness.close(),
 		}).render();
 
 		this.container.appendChild(this.closeButton);
@@ -112,18 +115,20 @@ export class StickyTLB extends StickyBase {
 	}
 
 	addUnstickEvents() {
-		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
+		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
+			this.onStickinessChange(isSticky),
+		);
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
 
 	async onStickinessChange(isSticky) {
-		const stickinessBeforeCallback = isSticky ?
-			this.config.onBeforeStickBfaaCallback :
-			this.config.onBeforeUnstickBfaaCallback;
-		const stickinessAfterCallback = isSticky ?
-			this.config.onAfterStickBfaaCallback :
-			this.config.onAfterUnstickBfaaCallback;
+		const stickinessBeforeCallback = isSticky
+			? this.config.onBeforeStickBfaaCallback
+			: this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky
+			? this.config.onAfterStickBfaaCallback
+			: this.config.onAfterUnstickBfaaCallback;
 
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
@@ -149,7 +154,6 @@ export class StickyTLB extends StickyBase {
 
 		this.config.mainContainer.style.paddingTop = `${this.container.scrollHeight}px`;
 		this.config.mainContainer.classList.add('has-bfaa');
-
 
 		if (this.config.handleNavbar) {
 			this.setupNavbar();
@@ -181,7 +185,8 @@ export class StickyTLB extends StickyBase {
 		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
 		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
 		const slotParent = this.container.parentNode;
-		const sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
+		const sibling =
+			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
 
 		if (mobileNavbarWrapper) {
 			slotParent.insertBefore(mobileNavbarWrapper, sibling);

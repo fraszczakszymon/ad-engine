@@ -39,12 +39,9 @@ export class AdSlot extends EventEmitter {
 
 	getAdUnit() {
 		if (!this.adUnit) {
-			this.adUnit = stringBuilder.build(
-				this.config.adUnit || context.get('adUnitId'),
-				{
-					slotConfig: this.config
-				}
-			);
+			this.adUnit = stringBuilder.build(this.config.adUnit || context.get('adUnitId'), {
+				slotConfig: this.config,
+			});
 		}
 
 		return this.adUnit;
@@ -52,7 +49,7 @@ export class AdSlot extends EventEmitter {
 
 	getVideoAdUnit() {
 		return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-			slotConfig: this.config
+			slotConfig: this.config,
 		});
 	}
 
@@ -169,7 +166,7 @@ export class AdSlot extends EventEmitter {
 		const templates = this.getConfigProperty('defaultTemplates');
 
 		if (templates && templates.length) {
-			templates.forEach(template => templateService.init(template, this));
+			templates.forEach((template) => templateService.init(template, this));
 		}
 	}
 
@@ -190,8 +187,10 @@ export class AdSlot extends EventEmitter {
 		}
 
 		let { creativeId, lineItemId } = event;
+
 		if (event.slot) {
 			const resp = event.slot.getResponseInformation();
+
 			if (resp) {
 				if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
 					creativeId = ADX;

@@ -5,15 +5,15 @@ const overlayTimeout = 5000;
 function add(video, container, params) {
 	let timeout = null;
 
-	const isMobile = utils.client.isSmartphone() || utils.client.isTablet(),
-		overlay = document.createElement('div'),
-		setAutomaticToggle = () => {
-			timeout = setTimeout(() => {
-				if (video.isPlaying()) {
-					video.container.classList.remove('ui-visible');
-				}
-			}, overlayTimeout);
-		};
+	const isMobile = utils.client.isSmartphone() || utils.client.isTablet();
+	const overlay = document.createElement('div');
+	const setAutomaticToggle = () => {
+		timeout = setTimeout(() => {
+			if (video.isPlaying()) {
+				video.container.classList.remove('ui-visible');
+			}
+		}, overlayTimeout);
+	};
 
 	overlay.classList.add('toggle-ui-overlay');
 	if (isMobile) {
@@ -40,5 +40,5 @@ function add(video, container, params) {
 }
 
 export default {
-	add
+	add,
 };

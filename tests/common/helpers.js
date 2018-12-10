@@ -1,5 +1,5 @@
-import { timeouts } from '../common/timeouts';
-import { queryStrings } from '../common/query-strings';
+import { timeouts } from './timeouts';
+import { queryStrings } from './query-strings';
 import { adSlots } from './ad-slots';
 
 const valueToDivideBy = 10;
@@ -22,8 +22,7 @@ class Helpers {
 	 */
 	waitForUrl(newUrl) {
 		browser.waitUntil(
-			() => RegExp(newUrl)
-				.test(browser.getUrl()),
+			() => RegExp(newUrl).test(browser.getUrl()),
 			timeouts.newUrlTimeout,
 			'expected new page after 10 seconds',
 			timeouts.interval,
@@ -105,11 +104,11 @@ class Helpers {
 	waitForLineItemIdAttribute(adSlot) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(adSlots.lineItemIdAttribute) !== null,
+			() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null,
 			timeouts.standard,
 			'No line item id attribute',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -118,8 +117,7 @@ class Helpers {
 	 * @returns {string}
 	 */
 	getLineItemId(adSlot) {
-		return browser.element(adSlot)
-			.getAttribute(adSlots.lineItemIdAttribute);
+		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
 	}
 
 	/**
@@ -128,8 +126,7 @@ class Helpers {
 	 * @returns {string}
 	 */
 	getCreativeId(adSlot) {
-		return browser.element(adSlot)
-			.getAttribute(adSlots.creativeIdAttribute);
+		return browser.element(adSlot).getAttribute(adSlots.creativeIdAttribute);
 	}
 
 	/**
@@ -144,23 +141,25 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
+		// TODO remove this workaround after chromedriver update for opening new pages
+		browser.pause(timeouts.standard);
 
 		const tabIds = browser.getTabIds();
 
 		browser.switchTab(tabIds[1]);
 		this.waitForUrl(url);
 
-		if (browser.getUrl()
-			.includes(url)) {
+		if (browser.getUrl().includes(url)) {
 			result = true;
 		}
 		this.closeNewTabs();
+
 		return result;
 	}
 
 	/**
-	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame() instead.
+	 * Switches focus to a given frame.
+	 * If you want to go back to default frame,use browser.frame() instead.
 	 * @param frameID name of the frame to change focus to
 	 */
 	switchToFrame(frameID) {
@@ -176,7 +175,7 @@ class Helpers {
 	setDefaultWindowSize(width = 1600, height = 900) {
 		browser.windowHandleSize({
 			width,
-			height
+			height,
 		});
 	}
 }

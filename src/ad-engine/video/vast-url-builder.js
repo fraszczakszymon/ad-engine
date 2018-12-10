@@ -1,39 +1,39 @@
 import { context, slotService, trackingOptIn } from '../services';
 
-const availableVideoPositions = ['preroll', 'midroll', 'postroll'],
-	baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
-	correlator = Math.round(Math.random() * 10000000000);
+const availableVideoPositions = ['preroll', 'midroll', 'postroll'];
+const baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?';
+const correlator = Math.round(Math.random() * 10000000000);
 
 function getCustomParameters(slot, extraTargeting = {}) {
 	const params = Object.assign({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
 	return encodeURIComponent(
 		Object.keys(params)
-			.filter(key => params[key])
-			.map(key => `${key}=${params[key]}`)
-			.join('&')
+			.filter((key) => params[key])
+			.map((key) => `${key}=${params[key]}`)
+			.join('&'),
 	);
 }
 
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
-			'output=vast',
-			'env=vp',
-			'gdfp_req=1',
-			'impl=s',
-			'unviewed_position_start=1',
-			'sz=640x480',
-			`url=${encodeURIComponent(window.location.href)}`,
-			`description_url=${encodeURIComponent(window.location.href)}`,
-			`correlator=${correlator}`
-		],
-		slot = slotService.get(slotName);
+		'output=vast',
+		'env=vp',
+		'gdfp_req=1',
+		'impl=s',
+		'unviewed_position_start=1',
+		'sz=640x480',
+		`url=${encodeURIComponent(window.location.href)}`,
+		`description_url=${encodeURIComponent(window.location.href)}`,
+		`correlator=${correlator}`,
+	];
+	const slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push(`iu=${slot.getVideoAdUnit()}`);
 		params.push(`cust_params=${getCustomParameters(slot, options.targeting)}`);
 	} else if (options.videoAdUnitId && options.customParams) {
-	// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
+		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push(`iu=${options.videoAdUnitId}`);
 		params.push(`cust_params=${encodeURIComponent(options.customParams)}`);
 	} else {
