@@ -1,7 +1,6 @@
 import { AdEngine, context, templateService, utils, events } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { PorvataTemplate, porvataTracker } from '@wikia/ad-products';
-
 import customContext from '../../context';
 import '../../styles.scss';
 

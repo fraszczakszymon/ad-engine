@@ -20,6 +20,7 @@ export class UtilsDetectors {
 	getDetectorResponse() {
 		browser.waitForExist(this.messageField, timeouts.standard);
 		this.waitForDetectorToLoad();
+
 		return browser.getText(this.messageField);
 	}
 }

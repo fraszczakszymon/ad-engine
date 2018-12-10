@@ -38,6 +38,7 @@ context.push('listeners.slot', {
 		}
 
 		const price = transformBidderPrice('wikia');
+
 		if (price) {
 			console.log(`⛳ ${slotName}: wikia adapter price is %c$${price}`, 'font-weight: bold');
 		} else {
@@ -58,6 +59,7 @@ if (enabledProjects) {
 
 		if (slots.length > 0) {
 			const slot = slots[slots.length - 1];
+
 			slotService.disable(slot.id, 'catlapsed');
 		}
 	});

@@ -1,5 +1,4 @@
 import { AdEngine, context } from '@wikia/ad-engine';
-
 import customContext from '../../context';
 import '../../styles.scss';
 

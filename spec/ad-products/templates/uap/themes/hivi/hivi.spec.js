@@ -129,6 +129,7 @@ describe('UAP:HiVi template', () => {
 	it('should left padding empty for default state (BFAA handles it)', () => {
 		const adSlot = getAdSlotObject();
 		const theme = new hiviTheme.BfaaTheme(adSlot, getParams());
+
 		resolvedState.isResolvedState.returns(false);
 
 		theme.onAdReady();
@@ -138,6 +139,7 @@ describe('UAP:HiVi template', () => {
 	it('should set correct padding for resolved state', () => {
 		const adSlot = getAdSlotObject();
 		const theme = new hiviTheme.BfaaTheme(adSlot, getParams());
+
 		resolvedState.isResolvedState.returns(true);
 
 		theme.onAdReady();

@@ -1,5 +1,5 @@
-import { timeouts } from '../common/timeouts';
-import { queryStrings } from '../common/query-strings';
+import { timeouts } from './timeouts';
+import { queryStrings } from './query-strings';
 import { adSlots } from './ad-slots';
 
 const valueToDivideBy = 10;
@@ -92,6 +92,7 @@ class Helpers {
 		if (field) {
 			return browser.waitUntil(() => browser.getText(field) !== 'Waiting...', timeouts.standard);
 		}
+
 		return browser.waitUntil(() => browser.getText(this.main) !== 'Waiting...', timeouts.standard);
 	}
 
@@ -154,11 +155,13 @@ class Helpers {
 			result = true;
 		}
 		this.closeNewTabs();
+
 		return result;
 	}
 
 	/**
-	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame() instead.
+	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame()
+	 * instead.
 	 * @param frameID name of the frame to change focus to
 	 */
 	switchToFrame(frameID) {
@@ -168,7 +171,8 @@ class Helpers {
 	}
 
 	switchToTab(tabId = 1) {
-		browser.pause(timeouts.standard); // TODO remove this workaround after chromedriver update for opening new pages
+		// TODO remove this workaround after chromedriver update for opening new pages
+		browser.pause(timeouts.standard);
 
 		const tabIds = browser.getTabIds();
 

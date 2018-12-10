@@ -26,6 +26,7 @@ class MoatYi {
 	call() {
 		if (!context.get('services.moatYi.enabled') || !context.get('services.moatYi.partnerCode')) {
 			utils.logger(logGroup, 'disabled');
+
 			return Promise.resolve();
 		}
 
@@ -33,6 +34,7 @@ class MoatYi {
 		const promise = new Promise((resolve) => {
 			moatYeildReadyResolve = resolve;
 		});
+
 		utils.logger(logGroup, 'loading');
 		window.moatYieldReady = () => {
 			this.importPageParams();

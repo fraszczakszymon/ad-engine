@@ -115,6 +115,7 @@ export class JWPlayerTracker {
 					this.isCtpAudioUpdateEnabled
 				) {
 					const slot = slotService.get(this.slotName);
+
 					this.updatePlayerState(slot);
 				}
 
@@ -149,6 +150,7 @@ export class JWPlayerTracker {
 		this.userBlockAutoplay = -1;
 
 		const featuredVideoAutoplayCookie = Cookies.get('featuredVideoAutoplay');
+
 		if (['0', '1'].indexOf(featuredVideoAutoplayCookie) > -1) {
 			this.userBlockAutoplay = featuredVideoAutoplayCookie === '0' ? 1 : 0;
 		}

@@ -1,5 +1,5 @@
-import { Prebid } from './index';
 import { getAdapters } from './adapters-registry';
+import { Prebid } from './index';
 
 function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === Prebid.validResponseStatusCode;

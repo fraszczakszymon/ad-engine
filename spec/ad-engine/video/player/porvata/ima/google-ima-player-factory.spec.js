@@ -58,7 +58,7 @@ describe('google-ima-player', () => {
 		};
 		window.google = {
 			ima: {
-				AdsRequest: function() {},
+				AdsRequest: function () {},
 				ViewMode: {
 					NORMAL: 0,
 				},
@@ -101,6 +101,7 @@ describe('google-ima-player', () => {
 			mocks.adsLoader,
 			mocks.videoSettings,
 		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.reload();
@@ -119,6 +120,7 @@ describe('google-ima-player', () => {
 			mocks.adsLoader,
 			mocks.videoSettings,
 		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.playVideo();
@@ -135,6 +137,7 @@ describe('google-ima-player', () => {
 			mocks.adsLoader,
 			mocks.videoSettings,
 		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.resize();

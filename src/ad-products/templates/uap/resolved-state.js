@@ -87,11 +87,13 @@ export const resolvedState = {
 			if (videoSettings.isResolvedState()) {
 				return setResolvedState(params).then(([updatedParams, ...args]) => {
 					videoSettings.updateParams(updatedParams);
+
 					return [updatedParams, ...args];
 				});
 			}
 
 			resolvedStateSwitch.updateInformationAboutSeenDefaultStateAd();
+
 			return setDefaultState(params);
 		}
 

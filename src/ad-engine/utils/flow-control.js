@@ -2,6 +2,7 @@ export const wait = (milliseconds = 0) =>
 	new Promise((resolve, reject) => {
 		if (typeof milliseconds !== 'number') {
 			reject(new Error('Delay value must be a number.'));
+
 			return;
 		}
 
@@ -12,6 +13,7 @@ export const defer = (fn, ...args) =>
 	new Promise((resolve, reject) => {
 		if (typeof fn !== 'function') {
 			reject(new Error('Expected a function.'));
+
 			return;
 		}
 

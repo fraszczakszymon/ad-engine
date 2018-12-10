@@ -49,13 +49,13 @@ describe('google-ima', () => {
 		};
 		window.google = {
 			ima: {
-				AdDisplayContainer: function() {
+				AdDisplayContainer: function () {
 					return mocks.adDisplayContainer;
 				},
-				AdsLoader: function() {
+				AdsLoader: function () {
 					return mocks.adsLoader;
 				},
-				AdsRequest: function() {},
+				AdsRequest: function () {},
 			},
 		};
 	});

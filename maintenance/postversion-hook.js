@@ -10,6 +10,7 @@ const webhookUrl = process.env.SLACK_INCOMING_WEBHOOK;
 
 if (!webhookUrl) {
 	console.warn('Missing slack incoming webhook url. Message will not be sent.');
+
 	return;
 }
 

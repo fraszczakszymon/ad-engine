@@ -71,6 +71,7 @@ describe('Bill the Lizard service', () => {
 			const modelToResultMap = { a: 5 };
 
 			const result = billTheLizard.buildPredictions(models, modelToResultMap, callId);
+
 			expect(result.length).to.equal(1);
 			expect(result[0]).to.deep.equal({ callId, modelName: 'a', result: 5 });
 		});
@@ -86,6 +87,7 @@ describe('Bill the Lizard service', () => {
 				a: { result: 1 },
 				b: { result: 0 },
 			};
+
 			expect(billTheLizard.getModelToResultMap(response)).to.deep.equal({ a: 1, b: 0 });
 		});
 
@@ -94,6 +96,7 @@ describe('Bill the Lizard service', () => {
 				a: { result: 1 },
 				b: {},
 			};
+
 			expect(billTheLizard.getModelToResultMap(response)).to.deep.equal({ a: 1 });
 		});
 	});
@@ -109,6 +112,7 @@ describe('Bill the Lizard service', () => {
 
 		it('should set the value of targeting in context (key: "targeting.btl")', () => {
 			const key = 'targeting.btl';
+
 			expect(context.get(key)).to.be.undefined;
 
 			billTheLizard.setTargeting();

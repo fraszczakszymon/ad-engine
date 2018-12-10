@@ -17,13 +17,13 @@ function getMocks() {
 		},
 		fakeVastUrl: 'https://fake-vast-url',
 		fakePrice: 20,
-		done: function() {},
-		setTimeout: function(cb) {
+		done: function () {},
+		setTimeout: function (cb) {
 			cb();
 		},
 		pbjs: {
 			que: [],
-			createBid: function() {
+			createBid: function () {
 				return {};
 			},
 		},

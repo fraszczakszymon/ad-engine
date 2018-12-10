@@ -1,5 +1,4 @@
 import { context, utils } from '@wikia/ad-engine';
-
 import { universalAdPackage } from './universal-ad-package';
 import { VideoSettings } from './video-settings';
 import * as classicTheme from './themes/classic';

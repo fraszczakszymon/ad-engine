@@ -47,11 +47,13 @@ export class Executor {
 			const { result } = response[modelName];
 
 			const executableModel = models.find((model) => model.name === modelName && model.executable);
+
 			if (!executableModel) {
 				return;
 			}
 
 			const definedMethods = executableModel[`on_${result}`];
+
 			if (!definedMethods) {
 				return;
 			}

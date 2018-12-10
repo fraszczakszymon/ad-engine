@@ -5,7 +5,7 @@ const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
 
 function getScreenshotName(basePath) {
-	return function(context) {
+	return function (context) {
 		const hash = md5(context.test.parent + context.test.title);
 
 		return path.join(basePath, `${hash}.png`);

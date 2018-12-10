@@ -36,7 +36,7 @@ export class Skin {
 		document.body.classList.add(this.config.bodyAdClass);
 		this.setAdSkinStyle(params.skinImage, params.backgroundColor);
 
-		this.adSkin.onclick = function() {
+		this.adSkin.onclick = function () {
 			window.open(params.destUrl);
 		};
 
@@ -73,8 +73,10 @@ export class Skin {
 	setTrackingPixels(pixels) {
 		for (let i = 0, len = pixels.length; i < len; i += 1) {
 			const pixelUrl = pixels[i];
+
 			if (pixelUrl) {
 				const pixelElement = document.createElement('img');
+
 				pixelElement.src = pixelUrl;
 				pixelElement.width = 1;
 				pixelElement.height = 1;

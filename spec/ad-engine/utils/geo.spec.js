@@ -356,12 +356,14 @@ describe('Geo', () => {
 
 	it('returns empty string if argument is undefined', () => {
 		const result = geo.mapSamplingResults();
+
 		assert(Array.isArray(result));
 		assert.equal(result.length, 0);
 	});
 
 	it('returns empty string if argument is an empty array', () => {
 		const result = geo.mapSamplingResults([]);
+
 		assert(Array.isArray(result));
 		assert.equal(result.length, 0);
 	});
@@ -375,6 +377,7 @@ describe('Geo', () => {
 			'OOZ_A_1:ooz_a',
 			'OOZ_B_99:ooz_b',
 		];
+
 		sinon.stub(geo.default, 'getSamplingResults').returns(['FOO_A_1', 'BAR_B_99']);
 		assert.equal(geo.mapSamplingResults(wfKeyVals), 'foo_a,bar_b');
 	});

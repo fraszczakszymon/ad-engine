@@ -73,6 +73,7 @@ export class PorvataTemplate {
 		window.addEventListener('resize', () => {
 			if (!video.isFloating) {
 				const slotWidth = slotElement.clientWidth;
+
 				video.resize(slotWidth, slotWidth / DEFAULT_VIDEO_ASPECT_RATIO);
 			}
 		});
@@ -108,6 +109,7 @@ export class PorvataTemplate {
 		video.addEventListener('wikiaFirstTimeInViewport', () => {
 			statusPromise.then(() => {
 				const eventSuffix = this.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+
 				video.ima.dispatchEvent(`wikiaInViewport${eventSuffix}`);
 			});
 		});

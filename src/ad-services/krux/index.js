@@ -23,7 +23,8 @@ function loadScript() {
 function getKruxData(key) {
 	if (window.localStorage) {
 		return window.localStorage[key];
-	} else if (window.navigator.cookieEnabled) {
+	}
+	if (window.navigator.cookieEnabled) {
 		const match = document.cookie.match(`${key}=([^;]*)`);
 
 		return (match && decodeURI(match[1])) || '';
@@ -34,7 +35,7 @@ function getKruxData(key) {
 
 window.Krux =
 	window.Krux ||
-	function(...args) {
+	function (...args) {
 		window.Krux.q.push(args);
 	};
 window.Krux.q = window.Krux.q || [];
@@ -50,10 +51,12 @@ class Krux {
 	call() {
 		if (!context.get('services.krux.enabled') || !context.get('options.trackingOptIn')) {
 			utils.logger(logGroup, 'disabled');
+
 			return Promise.resolve();
 		}
 
 		utils.logger(logGroup, 'loading');
+
 		return loadScript().then(() => {
 			this.exportPageParams();
 			this.importUserData();

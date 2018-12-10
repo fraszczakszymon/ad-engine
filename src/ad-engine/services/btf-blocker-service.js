@@ -7,6 +7,7 @@ const logGroup = 'btf-blocker';
 
 function disableSecondCall(unblockedSlots) {
 	const slots = context.get('slots');
+
 	logger(logGroup, 'second call queue disabled');
 
 	Object.keys(slots).forEach((adSlotKey) => {
@@ -75,6 +76,7 @@ class BtfBlockerService {
 
 			if (!adSlot.isEnabled()) {
 				logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+
 				return;
 			}
 
@@ -85,6 +87,7 @@ class BtfBlockerService {
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
 			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
+
 			return;
 		}
 

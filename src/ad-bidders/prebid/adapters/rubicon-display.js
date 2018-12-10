@@ -1,5 +1,5 @@
-import { BaseAdapter } from './base-adapter';
 import { getTargeting } from '../prebid-helper';
+import { BaseAdapter } from './base-adapter';
 
 export class RubiconDisplay extends BaseAdapter {
 	constructor(options) {

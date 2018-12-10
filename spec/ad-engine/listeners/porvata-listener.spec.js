@@ -82,6 +82,7 @@ describe('porvata-listener', () => {
 
 	it('dispatch Porvata event with video data', () => {
 		const listener = new PorvataListener({ adProduct: 'test-video' });
+
 		listener.video = mockImaVideo();
 		listener.init();
 

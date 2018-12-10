@@ -54,8 +54,10 @@ class QueryStrings {
 			if (additional) {
 				return `[${country}/${percent}${additional}]`;
 			}
+
 			return `[${country}/${percent}]`;
 		}
+
 		return `[${country}]`;
 	}
 
@@ -124,26 +126,31 @@ class QueryStrings {
 
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
+
 		return `${this.prebid.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
 		const on = resolved ? '1' : '0';
+
 		return `${this.utils.resolved}=${on}`;
 	}
 
 	getKrux(enabled) {
 		const on = enabled ? '0' : '1';
+
 		return `${this.services.krux}=${on}`;
 	}
 
 	getTrackingOptIn(enabled) {
 		const on = enabled ? '1' : '0';
+
 		return `${this.services.trackingOptIn}=${on}`;
 	}
 
 	getMoat(enabled) {
 		const on = enabled ? '0' : '1';
+
 		return `${this.services.moat}=${on}`;
 	}
 
@@ -153,6 +160,7 @@ class QueryStrings {
 
 	getEmptyResponse(empty) {
 		const on = empty ? '1' : '0';
+
 		return `${this.utils.forceEmptyResponse}=${on}`;
 	}
 

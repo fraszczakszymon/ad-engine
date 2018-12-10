@@ -1,6 +1,5 @@
 import { AdEngine, context, templateService } from '@wikia/ad-engine';
 import { Roadblock, Skin, utils } from '@wikia/ad-products';
-
 import customContext from '../../context';
 import '../../styles.scss';
 

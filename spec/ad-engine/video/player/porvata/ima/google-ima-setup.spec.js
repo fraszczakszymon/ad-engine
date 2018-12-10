@@ -9,8 +9,8 @@ describe('google-ima-setup', () => {
 	beforeEach(() => {
 		window.google = {
 			ima: {
-				AdsRenderingSettings: function() {},
-				AdsRequest: function() {},
+				AdsRenderingSettings: function () {},
+				AdsRequest: function () {},
 				ViewMode: {
 					NORMAL: 0,
 				},

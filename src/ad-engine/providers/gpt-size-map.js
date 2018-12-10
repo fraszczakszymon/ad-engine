@@ -22,6 +22,7 @@ export class GptSizeMap {
 
 		if (!builder) {
 			logger(logGroup, 'cannot create GPT size mapping builder');
+
 			return null;
 		}
 

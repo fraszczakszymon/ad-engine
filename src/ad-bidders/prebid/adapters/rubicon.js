@@ -1,6 +1,6 @@
 import { context } from '@wikia/ad-engine';
-import { BaseAdapter } from './base-adapter';
 import { getTargeting } from '../prebid-helper';
+import { BaseAdapter } from './base-adapter';
 
 export class Rubicon extends BaseAdapter {
 	constructor(options) {

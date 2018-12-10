@@ -131,7 +131,8 @@ export class A9 extends BaseBidder {
 
 		if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 			return null;
-		} else if (config.type === 'video') {
+		}
+		if (config.type === 'video') {
 			definition.mediaType = 'video';
 		} else {
 			definition.sizes = config.sizes;

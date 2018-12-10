@@ -20,9 +20,11 @@ export function getSettings() {
 					key: 'hb_pb',
 					val: (bidResponse) => {
 						let maxCpm = DEFAULT_MAX_CPM;
+
 						if (videoBiddersCap50.includes(bidResponse.bidderCode)) {
 							maxCpm = 50;
 						}
+
 						return transformPriceFromCpm(bidResponse.cpm, maxCpm);
 					},
 				},

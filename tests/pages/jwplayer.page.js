@@ -29,6 +29,7 @@ class JWPlayer {
 			return true;
 		}
 		browser.waitForExist(`${this.soundToggle}${this.soundToggleOff}`, timeouts.standard);
+
 		return false;
 	}
 
@@ -36,11 +37,11 @@ class JWPlayer {
 		browser.waitForExist(this.playerAdContainer, timeouts.standard);
 		if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: visible')) {
 			return true;
-		} else if (
-			browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: hidden')
-		) {
+		}
+		if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: hidden')) {
 			return false;
 		}
+
 		return undefined;
 	}
 

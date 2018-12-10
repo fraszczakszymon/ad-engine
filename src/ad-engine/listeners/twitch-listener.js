@@ -50,6 +50,7 @@ export class TwitchListener {
 
 		if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
 			const adSlot = slotService.get(this.params.position);
+
 			adSlot.emit(AdSlot.VIDEO_VIEWED_EVENT);
 		}
 	}

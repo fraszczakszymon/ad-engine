@@ -1,7 +1,7 @@
-import { context } from './context-service';
-import { slotInjector } from './slot-injector';
 import { logger } from '../utils';
 import { stringBuilder } from '../utils/string-builder';
+import { context } from './context-service';
+import { slotInjector } from './slot-injector';
 
 const logGroup = 'slot-repeater';
 
@@ -18,6 +18,7 @@ function repeatSlot(adSlot) {
 	repeatConfig.index += 1;
 
 	const slotName = buildString(repeatConfig.slotNamePattern, newSlotDefinition);
+
 	newSlotDefinition.slotName = slotName;
 
 	if (repeatConfig.limit !== null && repeatConfig.index > repeatConfig.limit) {
@@ -44,6 +45,7 @@ function repeatSlot(adSlot) {
 
 	if (container !== null) {
 		container.className = `${adSlot.getElement().className} ${additionalClasses}`;
+
 		return true;
 	}
 

@@ -12,16 +12,19 @@ const get = require('lodash/get');
 const pkg = require('./package.json');
 
 const examplePages = {};
+
 function findExamplePages(startPath, filter) {
 	const files = fs.readdirSync(startPath);
 
 	files.forEach((file) => {
 		const filename = path.join(startPath, file);
 		const stat = fs.lstatSync(filename);
+
 		if (stat.isDirectory()) {
 			findExamplePages(filename, filter);
 		} else if (filename.indexOf(filter) >= 0) {
 			const shortName = filename.replace('examples/', '').replace('/script.js', '');
+
 			examplePages[shortName] = `./${filename}`;
 		}
 	});
@@ -289,7 +292,7 @@ const adServices = {
 	},
 };
 
-module.exports = function(env) {
+module.exports = function (env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
 	const isTest = env && env.test;
 
@@ -304,7 +307,8 @@ module.exports = function(env) {
 			merge(common, adServices.config, adServices.targets.commonjs),
 			merge(common, adServices.config, adServices.targets.window),
 		];
-	} else if (isTest) {
+	}
+	if (isTest) {
 		return merge(common, test);
 	}
 

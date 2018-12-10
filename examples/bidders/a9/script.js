@@ -1,13 +1,12 @@
 import { AdEngine, context, events, utils } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { utils as adProductsUtils } from '@wikia/ad-products';
-
 import customContext from '../../context';
 import '../../styles.scss';
 
 const optIn = utils.queryString.get('tracking-opt-in-status') !== '0';
 
-window.__cmp = function(cmd, param, cb) {
+window.__cmp = function (cmd, param, cb) {
 	if (cmd === 'getConsentData') {
 		cb(
 			{
@@ -25,10 +24,12 @@ window.__cmp = function(cmd, param, cb) {
 				metadata: 'BOQu5naOQu5naCNABAAABRAAAAAAAA',
 				purposeConsents: Array.from({ length: 5 }).reduce((map, val, i) => {
 					map[i + 1] = optIn;
+
 					return map;
 				}, {}),
 				vendorConsents: Array.from({ length: 500 }).reduce((map, val, i) => {
 					map[i + 1] = optIn;
+
 					return map;
 				}, {}),
 			},

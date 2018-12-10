@@ -10,7 +10,7 @@ const logGroup = 'gpt-provider';
 export const ADX = 'AdX';
 
 export const gptLazyMethod = (method) =>
-	function(...args) {
+	function (...args) {
 		return window.googletag.cmd.push(() => method.apply(this, args));
 	};
 
@@ -166,15 +166,15 @@ export class GptProvider {
 		const slotsToDestroy =
 			slotNames && slotNames.length
 				? allSlots.filter((slot) => {
-						const slotId = slot.getSlotElementId();
+					const slotId = slot.getSlotElementId();
 
-						if (!slotId) {
-							logger(logGroup, 'destroySlots', "slot doesn't return element id", slot);
-						} else if (slotNames.indexOf(slotId) > -1) {
-							return true;
-						}
+					if (!slotId) {
+						logger(logGroup, 'destroySlots', "slot doesn't return element id", slot);
+					} else if (slotNames.indexOf(slotId) > -1) {
+						return true;
+					}
 
-						return false;
+					return false;
 				  })
 				: allSlots;
 

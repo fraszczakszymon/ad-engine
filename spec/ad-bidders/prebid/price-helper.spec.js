@@ -28,6 +28,7 @@ describe('transformPriceFromCpm', () => {
 			[50.0, '50.00'],
 			[51.0, '50.00'],
 		];
+
 		testVectors.forEach((vector) => {
 			expect(transformPriceFromCpm(vector[0], 50)).to.equal(vector[1]);
 		});

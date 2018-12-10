@@ -46,6 +46,7 @@ describe('slot-repeater', () => {
 		};
 
 		const querySelectorAll = sinon.stub(document, 'querySelectorAll');
+
 		querySelectorAll.withArgs('.foo').returns([conflictingElement]);
 		querySelectorAll.withArgs('.main p').returns([placeholder]);
 

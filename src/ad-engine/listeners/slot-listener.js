@@ -34,6 +34,7 @@ function getAdType(event, adSlot) {
 
 function getData(adSlot, { adType, status }) {
 	const now = new Date();
+
 	return {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
@@ -90,6 +91,7 @@ class SlotListener {
 		}
 
 		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
+
 		if (slotsToPush) {
 			slotsToPush.forEach((slotName) => {
 				slotInjector.inject(slotName);

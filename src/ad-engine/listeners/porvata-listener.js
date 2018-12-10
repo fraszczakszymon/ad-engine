@@ -67,6 +67,7 @@ export class PorvataListener {
 
 		if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
 			const adSlot = slotService.get(this.params.position);
+
 			adSlot.emit(AdSlot.VIDEO_VIEWED_EVENT);
 		}
 	}
@@ -83,6 +84,7 @@ export class PorvataListener {
 		}
 
 		const now = new Date();
+
 		return {
 			ad_error_code: errorCode,
 			ad_product: this.params.adProduct,

@@ -11,6 +11,7 @@ export const VISIBILITY_STATUS = {
  */
 export function getDocumentVisibilityStatus() {
 	let status;
+
 	switch (document.hidden) {
 		case true:
 			status = VISIBILITY_STATUS.hidden;
@@ -21,5 +22,6 @@ export function getDocumentVisibilityStatus() {
 		default:
 			status = VISIBILITY_STATUS.notImplemented;
 	}
+
 	return status;
 }

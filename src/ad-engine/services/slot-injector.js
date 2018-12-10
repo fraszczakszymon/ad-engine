@@ -1,11 +1,12 @@
-import { context } from './context-service';
 import { logger } from '../utils';
 import { isInTheSameViewport } from '../utils/dimensions';
+import { context } from './context-service';
 
 const logGroup = 'slot-repeater';
 
 function findNextSuitablePlace(anchorElements = [], conflictingElements = []) {
 	let i;
+
 	for (i = 0; i < anchorElements.length; i += 1) {
 		if (!isInTheSameViewport(anchorElements[i], conflictingElements)) {
 			return anchorElements[i];
@@ -38,6 +39,7 @@ class SlotInjector {
 
 		if (insertBelowScrollPosition) {
 			const scrollPos = window.scrollY;
+
 			anchorElements = anchorElements.filter((el) => el.offsetTop > scrollPos);
 		}
 
@@ -50,6 +52,7 @@ class SlotInjector {
 		}
 
 		const container = insertNewSlot(slotName, nextSibling);
+
 		logger(logGroup, 'Inject slot', slotName);
 
 		return container;
