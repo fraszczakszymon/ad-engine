@@ -496,7 +496,8 @@ var a9_A9 = function (_BaseBidder) {
 
 			if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 				return null;
-			} else if (config.type === 'video') {
+			}
+			if (config.type === 'video') {
 				definition.mediaType = 'video';
 			} else {
 				definition.sizes = config.sizes;
@@ -1563,12 +1564,13 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 						return;
 					}
 
-					var bidResponse = window.pbjs.createBid(1),
-					    _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
-					    width = _bid$sizes$[0],
-					    height = _bid$sizes$[1],
-					    slotName = bid.adUnitCode;
+					var bidResponse = window.pbjs.createBid(1);
 
+					var _bid$sizes$ = slicedToArray_default()(bid.sizes[0], 2),
+					    width = _bid$sizes$[0],
+					    height = _bid$sizes$[1];
+
+					var slotName = bid.adUnitCode;
 
 					bidResponse.bidderCode = bidRequest.bidderCode;
 					bidResponse.cpm = _this3.getPrice();
@@ -1736,11 +1738,11 @@ function transformPriceFromCpm(cpm, maxCpm) {
 		result = '0.00';
 	} else if (cpm < 0.05) {
 		result = '0.01';
-	} else if (cpm < 5.00) {
+	} else if (cpm < 5.0) {
 		result = (Math.floor(cpm * 20) / 20).toFixed(2);
-	} else if (cpm < 10.00) {
+	} else if (cpm < 10.0) {
 		result = (Math.floor(cpm * 10) / 10).toFixed(2);
-	} else if (cpm < 20.00) {
+	} else if (cpm < 20.0) {
 		result = (Math.floor(cpm * 2) / 2).toFixed(2);
 	} else if (cpm < maxCpm) {
 		result = Math.floor(cpm).toFixed(2);
@@ -1774,9 +1776,11 @@ function getSettings() {
 				key: 'hb_pb',
 				val: function val(bidResponse) {
 					var maxCpm = DEFAULT_MAX_CPM;
+
 					if (videoBiddersCap50.includes(bidResponse.bidderCode)) {
 						maxCpm = 50;
 					}
+
 					return transformPriceFromCpm(bidResponse.cpm, maxCpm);
 				}
 			}, {
@@ -1960,6 +1964,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 
 			if (!libraryUrl) {
 				ad_engine_["utils"].logger(logGroup, 'Prebid library URL not defined. Assuming that window.pbjs will be loaded.');
+
 				return;
 			}
 
@@ -2030,7 +2035,8 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 					slotParams = bidParams.adserverTargeting;
 				}
 
-				// ADEN-7436: AppNexus hb_uuid fix (adserverTargeting params are being set before cache key is returned)
+				// ADEN-7436: AppNexus hb_uuid fix
+				// (adserverTargeting params are being set before cache key is returned)
 				slotParams.hb_uuid = slotParams.hb_uuid || bidParams.videoCacheKey || 'disabled';
 			}
 
