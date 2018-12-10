@@ -6,16 +6,20 @@ class QueryStrings {
 		this.utils = {
 			resolved: 'resolved_state',
 			cb: 'cb',
-			price: 'wikia_adapter',
-			limit: 'wikia_adapter_limit',
-			limitSlots: 'limit',
 			contentLength: 'content_length',
-			randomness: 'wikia_adapter_random',
-			timeout: 'wikia_adapter_timeout',
 			sessionId: 'sessionid',
 			enabledGeo: 'enabled-geo',
 			forceEmptyResponse: 'force-empty-response',
-			disableFloating: 'floating'
+			disableFloating: 'floating',
+		};
+		this.prebid = {
+			price: 'wikia_adapter',
+			limit: 'wikia_adapter_limit',
+			limitSlots: 'limit',
+			randomness: 'wikia_adapter_random',
+			timeout: 'wikia_adapter_timeout',
+			pbjs_debug: 'pbjs_debug',
+			disableSlots: 'disabled-slots'
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -99,19 +103,19 @@ class QueryStrings {
 	}
 
 	getPrice(price) {
-		return `${this.utils.price}=${price}`;
+		return `${this.prebid.price}=${price}`;
 	}
 
 	getLimit(limit) {
-		return `${this.utils.limit}=${limit}`;
+		return `${this.prebid.limit}=${limit}`;
 	}
 
 	getLimitOfSlots(limit = 3) {
-		return `${this.utils.limitSlots}=${limit}`;
+		return `${this.prebid.limitSlots}=${limit}`;
 	}
 
 	getTimeout(timeout) {
-		return `${this.utils.timeout}=${timeout}`;
+		return `${this.prebid.timeout}=${timeout}`;
 	}
 
 	getLengthOfContent(lengthNumber = 5) {
@@ -120,7 +124,7 @@ class QueryStrings {
 
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
-		return `${this.utils.randomness}=${on}`;
+		return `${this.prebid.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
@@ -158,6 +162,10 @@ class QueryStrings {
 
 	getProjects(...projects) {
 		return `${this.services.enabledProjects}=${projects.join(',')}`;
+	}
+
+	getTurnedOffSlots(...slots) {
+		return `${this.services.enabledProjects}=${slots.join(',')}`;
 	}
 
 	constructInstantGlobal(wg, country = 'XX', percent = null, additional = null) {

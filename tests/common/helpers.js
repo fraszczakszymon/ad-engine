@@ -96,6 +96,7 @@ class Helpers {
 		return browser.waitUntil(() => browser.getText(this.main) !== 'Waiting...', timeouts.standard);
 	}
 
+
 	/**
 	 * Waits until the ad slot to receive its line item id parameter.
 	 * @param adSlot ad slot that should receive the parameter
@@ -103,8 +104,7 @@ class Helpers {
 	waitForLineItemIdAttribute(adSlot) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(adSlots.lineItemIdAttribute) !== null,
+			() => this.isLineItemExisitng(adSlot),
 			timeouts.standard,
 			'No line item id attribute',
 			timeouts.interval);
@@ -120,6 +120,10 @@ class Helpers {
 			.getAttribute(adSlots.lineItemIdAttribute);
 	}
 
+	isLineItemExisitng(adSlot) {
+		return !!this.getLineItemId(adSlot);
+	}
+
 	/**
 	 * Returns creative ID of the given slot.
 	 * @param adSlot slot to get line item ID from
@@ -129,6 +133,11 @@ class Helpers {
 		return browser.element(adSlot)
 			.getAttribute(adSlots.creativeIdAttribute);
 	}
+
+	isCreativeIdExisitng(adSlot) {
+		return !!this.getCreativeId(adSlot);
+	}
+
 
 	/**
 	 * It checks redirect on click and returns result.
