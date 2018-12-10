@@ -49,6 +49,7 @@ function runCallbacks(trigger, key, newValue) {
 
 function triggerOnChange(key, segments, newValue) {
 	let trigger = '';
+
 	segments.forEach((seg) => {
 		trigger += (trigger === '' ? '' : '.') + seg;
 		runCallbacks(trigger, key, newValue);
@@ -71,6 +72,7 @@ function segment(key, newValue, remove = false) {
 
 	if (remove) {
 		delete seg[lastKey];
+
 		return null;
 	}
 

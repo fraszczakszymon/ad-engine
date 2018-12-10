@@ -5,7 +5,8 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lato:400,300,700');
 
-html, body {
+html,
+body {
 	background: #eee;
 	color: #444;
 	font-family: Lato, sans-serif;
@@ -39,7 +40,8 @@ pre {
 	flex: 1 100%;
 }
 
-.main, .bottom-content {
+.main,
+.bottom-content {
 	text-align: justify;
 	padding: 0 2em;
 }
@@ -58,16 +60,20 @@ pre {
 	padding: 0.8em;
 	cursor: default;
 	color: #eee;
-	background: linear-gradient(0, rgba(216, 112, 147, .94), #d87093);
+	background: linear-gradient(0, rgba(216, 112, 147, 0.94), #d87093);
 	text-align: center;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 	font-size: 1.3em;
-	letter-spacing: .5em;
+	letter-spacing: 0.5em;
 	z-index: 5000100;
 }
 
-.top-leaderboard, .top-boxad, .repeatable-boxad, .incontent-boxad, .rail-module {
-	background: #1976D2;
+.top-leaderboard,
+.top-boxad,
+.repeatable-boxad,
+.incontent-boxad,
+.rail-module {
+	background: #1976d2;
 	color: #eee;
 	font-size: 1.3em;
 	height: 250px;

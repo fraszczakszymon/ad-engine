@@ -1,5 +1,5 @@
-import { BaseAdapter } from './base-adapter';
 import { getTargeting } from '../prebid-helper';
+import { BaseAdapter } from './base-adapter';
 
 export class RubiconDisplay extends BaseAdapter {
 	constructor(options) {
@@ -7,28 +7,24 @@ export class RubiconDisplay extends BaseAdapter {
 
 		this.bidderName = 'rubicon_display';
 		this.aliases = {
-			rubicon: [this.bidderName]
+			rubicon: [this.bidderName],
 		};
 		this.accountId = options.accountId;
 	}
 
-	prepareConfigForAdUnit(code, {
-		siteId, zoneId, sizes, position, targeting
-	}) {
+	prepareConfigForAdUnit(code, { siteId, zoneId, sizes, position, targeting }) {
 		const pageTargeting = getTargeting(code);
 
-		Object
-			.keys(targeting || {})
-			.forEach((key) => {
-				pageTargeting[key] = targeting[key];
-			});
+		Object.keys(targeting || {}).forEach((key) => {
+			pageTargeting[key] = targeting[key];
+		});
 
 		return {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes
-				}
+					sizes,
+				},
 			},
 			bids: [
 				{
@@ -40,10 +36,10 @@ export class RubiconDisplay extends BaseAdapter {
 						name: code,
 						position,
 						keywords: ['rp.fastlane'],
-						inventory: pageTargeting
-					}
-				}
-			]
+						inventory: pageTargeting,
+					},
+				},
+			],
 		};
 	}
 }

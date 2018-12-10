@@ -16,6 +16,7 @@ function messageMatch(match, message) {
 
 	if (match.keys) {
 		const data = JSON.parse(message.data).AdEngine;
+
 		match.keys.forEach((key) => {
 			matching = matching && data[key];
 		});
@@ -41,6 +42,7 @@ function onMessage(message) {
 				if (!callback.match.infinite) {
 					callbacks.splice(i, 1);
 				}
+
 				return;
 			}
 		}
@@ -56,7 +58,7 @@ class MessageBus {
 	register(match, callback) {
 		callbacks.push({
 			match,
-			fn: callback
+			fn: callback,
 		});
 	}
 }

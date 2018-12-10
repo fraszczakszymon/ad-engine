@@ -110,10 +110,12 @@ export class JWPlayerTracker {
 			player.on(playerEvent, (event) => {
 				let errorCode;
 
-				if ([
-					'adRequest', 'adError', 'ready', 'videoStart',
-				].indexOf(playerEvent) !== -1 && this.isCtpAudioUpdateEnabled) {
+				if (
+					['adRequest', 'adError', 'ready', 'videoStart'].indexOf(playerEvent) !== -1 &&
+					this.isCtpAudioUpdateEnabled
+				) {
 					const slot = slotService.get(this.slotName);
+
 					this.updatePlayerState(slot);
 				}
 
@@ -148,6 +150,7 @@ export class JWPlayerTracker {
 		this.userBlockAutoplay = -1;
 
 		const featuredVideoAutoplayCookie = Cookies.get('featuredVideoAutoplay');
+
 		if (['0', '1'].indexOf(featuredVideoAutoplayCookie) > -1) {
 			this.userBlockAutoplay = featuredVideoAutoplayCookie === '0' ? 1 : 0;
 		}
@@ -164,7 +167,7 @@ export class JWPlayerTracker {
 			player: JWPlayerTracker.PLAYER_NAME,
 			position: this.slotName,
 			user_block_autoplay: this.userBlockAutoplay,
-			video_id: this.videoId
+			video_id: this.videoId,
 		});
 
 		playerEventEmitter.emit(eventInfo);

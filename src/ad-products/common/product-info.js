@@ -24,6 +24,6 @@ export function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 
 	return {
 		adGroup: getGroup(product),
-		adProduct: product.toLowerCase()
+		adProduct: product.toLowerCase(),
 	};
 }

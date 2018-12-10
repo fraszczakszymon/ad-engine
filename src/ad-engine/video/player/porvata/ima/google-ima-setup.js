@@ -7,6 +7,7 @@ const logGroup = 'google-ima-setup';
 function getOverriddenVast() {
 	if (queryString.get('porvata_override_vast') === '1') {
 		const vastXML = window.localStorage.getItem('porvata_vast');
+
 		logger(logGroup, 'Overridden VAST', vastXML);
 
 		return vastXML;
@@ -26,6 +27,7 @@ function createRequest(params) {
 
 	// DEPRECATED: options.porvata.audio.segment
 	const segment = context.get('options.porvata.audio.segment');
+
 	if (segment) {
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
 	}
@@ -35,9 +37,11 @@ function createRequest(params) {
 	adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
 	adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
 
-	adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
-		targeting: params.vastTargeting
-	});
+	adsRequest.adTagUrl =
+		params.vastUrl ||
+		buildVastUrl(params.width / params.height, params.slotName, {
+			targeting: params.vastTargeting,
+		});
 	adsRequest.linearAdSlotWidth = params.width;
 	adsRequest.linearAdSlotHeight = params.height;
 
@@ -61,5 +65,5 @@ function getRenderingSettings(params = {}) {
 
 export const googleImaSetup = {
 	createRequest,
-	getRenderingSettings
+	getRenderingSettings,
 };

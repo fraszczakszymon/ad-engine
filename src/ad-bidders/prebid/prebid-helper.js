@@ -1,9 +1,7 @@
 import { context, slotService } from '@wikia/ad-engine';
 import { getAdapters } from './adapters-registry';
 
-const lazyLoadSlots = [
-	'bottom_leaderboard'
-];
+const lazyLoadSlots = ['bottom_leaderboard'];
 
 function isSlotApplicable(code, lazyLoad) {
 	const isSlotLazy = lazyLoadSlots.indexOf(code) !== -1;
@@ -12,7 +10,10 @@ function isSlotApplicable(code, lazyLoad) {
 		return false;
 	}
 
-	if (lazyLoad !== 'off' && ((lazyLoad === 'pre' && isSlotLazy) || (lazyLoad === 'post' && !isSlotLazy))) {
+	if (
+		lazyLoad !== 'off' &&
+		((lazyLoad === 'pre' && isSlotLazy) || (lazyLoad === 'post' && !isSlotLazy))
+	) {
 		return false;
 	}
 
@@ -43,18 +44,16 @@ export function getBidByAdId(adId) {
 		return null;
 	}
 
-	let bids = window.pbjs.getAllPrebidWinningBids().filter(bid => adId === bid.adId);
+	let bids = window.pbjs.getAllPrebidWinningBids().filter((bid) => adId === bid.adId);
 
 	if (!bids.length) {
 		const responses = window.pbjs.getBidResponses();
 
-		Object
-			.keys(responses)
-			.forEach((adUnit) => {
-				const adUnitsBids = responses[adUnit].bids.filter(bid => adId === bid.adId);
+		Object.keys(responses).forEach((adUnit) => {
+			const adUnitsBids = responses[adUnit].bids.filter((bid) => adId === bid.adId);
 
-				bids = bids.concat(adUnitsBids);
-			});
+			bids = bids.concat(adUnitsBids);
+		});
 	}
 
 	return bids.length ? bids[0] : null;
@@ -65,7 +64,7 @@ export function getAvailableBidsByAdUnitCode(adUnitCode) {
 
 	if (window.pbjs && typeof window.pbjs.getBidResponsesForAdUnitCode === 'function') {
 		bids = window.pbjs.getBidResponsesForAdUnitCode(adUnitCode).bids || [];
-		bids = bids.filter(bid => bid.status !== 'rendered');
+		bids = bids.filter((bid) => bid.status !== 'rendered');
 	}
 
 	return bids;
@@ -76,9 +75,12 @@ export function getPrebid() {
 }
 
 export function getTargeting(slotName) {
-	return Object.assign({
-		pos: [slotName]
-	}, context.get('bidders.prebid.targeting') || {});
+	return Object.assign(
+		{
+			pos: [slotName],
+		},
+		context.get('bidders.prebid.targeting') || {},
+	);
 }
 
 export function getWinningVideoBidBySlotName(slotName, allowedBidders) {

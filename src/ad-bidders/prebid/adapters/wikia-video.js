@@ -6,7 +6,7 @@ export class WikiaVideo extends BaseAdapter {
 		super(options);
 
 		this.bidderName = 'wikiaVideo';
-		this.enabled = !!(utils.queryString.get('wikia_video_adapter'));
+		this.enabled = !!utils.queryString.get('wikia_video_adapter');
 		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
 		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
 		this.limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
@@ -20,21 +20,21 @@ export class WikiaVideo extends BaseAdapter {
 			mediaTypes: {
 				video: {
 					context: 'outstream',
-					playerSize: [640, 480]
-				}
+					playerSize: [640, 480],
+				},
 			},
 			bids: [
 				{
-					bidder: this.bidderName
-				}
-			]
+					bidder: this.bidderName,
+				},
+			],
 		};
 	}
 
 	getSpec() {
 		return {
 			code: this.bidderName,
-			supportedMediaTypes: ['video']
+			supportedMediaTypes: ['video'],
 		};
 	}
 
@@ -51,7 +51,7 @@ export class WikiaVideo extends BaseAdapter {
 	getVastUrl(width, height, slotName) {
 		return buildVastUrl(width / height, slotName, {
 			videoAdUnitId: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.videoAdUnitId`),
-			customParams: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.customParams`)
+			customParams: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.customParams`),
 		});
 	}
 

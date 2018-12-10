@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/services/context-service';
 import { vastParser } from '../../../src/ad-engine/video/vast-parser';
 
-const dummyVast = 'dummy.vast?sz=640x480&foo=bar&cust_params=foo1%3Dbar1%26foo2%3Dbar2' +
+const dummyVast =
+	'dummy.vast?sz=640x480&foo=bar&cust_params=foo1%3Dbar1%26foo2%3Dbar2' +
 	'%26customTitle%3D100%25%20Orange%20Juice%3Dbar2&vpos=preroll';
 
 function getImaAd(wrapperIds = [], wrapperCreativeIds = []) {
@@ -11,7 +12,7 @@ function getImaAd(wrapperIds = [], wrapperCreativeIds = []) {
 		getContentType: () => 'text/javascript',
 		getCreativeId: () => '999',
 		getWrapperAdIds: () => wrapperIds,
-		getWrapperCreativeIds: () => wrapperCreativeIds
+		getWrapperCreativeIds: () => wrapperCreativeIds,
 	};
 }
 
@@ -19,7 +20,7 @@ describe('vast-parser', () => {
 	beforeEach(() => {
 		context.extend({
 			vast: {
-				adUnitId: '/5441/wka.fandom/{src}/{pos}'
+				adUnitId: '/5441/wka.fandom/{src}/{pos}',
 			},
 			targeting: {
 				uno: 'foo',
@@ -27,7 +28,7 @@ describe('vast-parser', () => {
 				tre: ['bar', 'zero'],
 				quattro: null,
 				wsi: 'xxxx',
-			}
+			},
 		});
 	});
 
@@ -63,7 +64,7 @@ describe('vast-parser', () => {
 		const adInfo = vastParser.parse(dummyVast, {
 			contentType: 'video/mp4',
 			creativeId: '123',
-			lineItemId: '456'
+			lineItemId: '456',
 		});
 
 		expect(adInfo.contentType).to.equal('video/mp4');
@@ -76,7 +77,7 @@ describe('vast-parser', () => {
 			contentType: 'video/mp4',
 			creativeId: '123',
 			imaAd: getImaAd(),
-			lineItemId: '456'
+			lineItemId: '456',
 		});
 
 		expect(adInfo.contentType).to.equal('text/javascript');
@@ -89,7 +90,7 @@ describe('vast-parser', () => {
 			contentType: 'video/mp4',
 			creativeId: '123',
 			imaAd: getImaAd(['222', '333'], ['555', '666']),
-			lineItemId: '456'
+			lineItemId: '456',
 		});
 
 		expect(adInfo.contentType).to.equal('text/javascript');

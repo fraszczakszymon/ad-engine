@@ -34,14 +34,14 @@ $out-of-page-z-index: 5000101;
 }
 
 .floor-adhesion {
-	background: rgba(0, 0, 0, .8);
+	background: rgba(0, 0, 0, 0.8);
 	bottom: 0;
 	// needed for Safari 9 - it doesn't position elements from the left by default
 	left: 0;
 }
 
 .interstitial {
-	background: rgba(0, 0, 0, .9);
+	background: rgba(0, 0, 0, 0.9);
 	bottom: 0;
 	height: 100vh;
 	left: 0;
@@ -56,7 +56,7 @@ $out-of-page-z-index: 5000101;
 
 	& > .advertisement-label {
 		align-items: center;
-		background-color: rgba(0, 0, 0, .5);
+		background-color: rgba(0, 0, 0, 0.5);
 		color: #d5d4d4;
 		display: flex;
 		font-size: 17px;

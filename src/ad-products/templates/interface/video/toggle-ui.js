@@ -40,5 +40,5 @@ function add(video, container, params) {
 }
 
 export default {
-	add
+	add,
 };

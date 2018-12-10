@@ -1,7 +1,7 @@
-import { context } from './context-service';
-import { events } from './events';
 import { AdSlot } from '../models';
 import { getTopOffset, logger } from '../utils';
+import { context } from './context-service';
+import { events } from './events';
 
 const groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
@@ -30,6 +30,7 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 
 function setState(slotName, state, status = null) {
 	const slot = slotService.get(slotName);
+
 	slotStates[slotName] = state;
 	slotStatuses[slotName] = status;
 
@@ -82,6 +83,7 @@ class SlotService {
 	 */
 	get(id) {
 		const [singleSlotName] = id.split(',');
+
 		if (slots[singleSlotName]) {
 			return slots[singleSlotName];
 		}
@@ -95,6 +97,7 @@ class SlotService {
 			}
 
 			const position = slot.getConfigProperty('targeting.pos') || [];
+
 			if (position === singleSlotName || position[0] === singleSlotName) {
 				slotByPos = slot;
 			}
@@ -160,6 +163,7 @@ class SlotService {
 			.some((elementId) =>
 				isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId),
 			);
+
 		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 		return hasConflict;
@@ -171,8 +175,8 @@ class SlotService {
 	 */
 	getAtfSlotConfigs() {
 		const slotConfigs = context.get('slots');
-		return Object.values(slotConfigs)
-			.filter(config => AdSlot.isAboveTheFold(config));
+
+		return Object.values(slotConfigs).filter((config) => AdSlot.isAboveTheFold(config));
 	}
 }
 

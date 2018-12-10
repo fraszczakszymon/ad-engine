@@ -12,37 +12,37 @@ describe('google-ima-player', () => {
 	beforeEach(() => {
 		mocks = {
 			adDisplayContainer: {
-				initialize: () => {}
+				initialize: () => {},
 			},
 			adsLoader: {
 				addEventListener: () => {},
 				contentComplete: () => {},
 				removeEventListener: () => {},
-				requestAds: () => {}
+				requestAds: () => {},
 			},
 			adsManager: {
 				destroy: () => {},
 				dispatchEvent: () => {},
 				init: () => {},
 				start: () => {},
-				resize: () => {}
+				resize: () => {},
 			},
 			domElement: {
 				style: {},
 				classList: {
-					add: () => {}
-				}
+					add: () => {},
+				},
 			},
 			videoParams: {
 				container: {
 					classList: {
-						add: () => {}
+						add: () => {},
 					},
-					querySelector: () => mocks.domElement
+					querySelector: () => mocks.domElement,
 				},
 				height: 100,
 				slotName: 'top_leaderboard',
-				width: 100
+				width: 100,
 			},
 			videoSettings: {
 				get(key) {
@@ -53,16 +53,16 @@ describe('google-ima-player', () => {
 				},
 				getContainer() {
 					return mocks.videoParams.container;
-				}
-			}
+				},
+			},
 		};
 		window.google = {
 			ima: {
 				AdsRequest: function () {},
 				ViewMode: {
-					NORMAL: 0
-				}
-			}
+					NORMAL: 0,
+				},
+			},
 		};
 
 		context.extend(ConfigMock);
@@ -81,7 +81,11 @@ describe('google-ima-player', () => {
 		sinon.spy(mocks.adsLoader, 'requestAds');
 
 		mocks.videoParams.autoPlay = true;
-		const player = googleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		const player = googleImaPlayerFactory.create(
+			mocks.adDisplayContainer,
+			mocks.adsLoader,
+			mocks.videoSettings,
+		);
 
 		expect(player.videoAd.autoplay).to.be.ok;
 		expect(player.videoAd.muted).to.be.ok;
@@ -92,7 +96,12 @@ describe('google-ima-player', () => {
 		sinon.spy(mocks.adsLoader, 'contentComplete');
 		sinon.spy(mocks.adsLoader, 'requestAds');
 
-		const player = googleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		const player = googleImaPlayerFactory.create(
+			mocks.adDisplayContainer,
+			mocks.adsLoader,
+			mocks.videoSettings,
+		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.reload();
@@ -106,7 +115,12 @@ describe('google-ima-player', () => {
 		sinon.spy(mocks.adsManager, 'init');
 		sinon.spy(mocks.adsManager, 'start');
 
-		const player = googleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		const player = googleImaPlayerFactory.create(
+			mocks.adDisplayContainer,
+			mocks.adsLoader,
+			mocks.videoSettings,
+		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.playVideo();
@@ -118,7 +132,12 @@ describe('google-ima-player', () => {
 	it('resize player using adsManager', () => {
 		sinon.spy(mocks.adsManager, 'resize');
 
-		const player = googleImaPlayerFactory.create(mocks.adDisplayContainer, mocks.adsLoader, mocks.videoSettings);
+		const player = googleImaPlayerFactory.create(
+			mocks.adDisplayContainer,
+			mocks.adsLoader,
+			mocks.videoSettings,
+		);
+
 		player.setAdsManager(mocks.adsManager);
 
 		player.resize();

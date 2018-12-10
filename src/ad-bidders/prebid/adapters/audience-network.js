@@ -14,18 +14,18 @@ export class AudienceNetwork extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes
-				}
+					sizes,
+				},
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
 						testMode: this.testMode,
-						placementId
-					}
-				}
-			]
+						placementId,
+					},
+				},
+			],
 		};
 	}
 }

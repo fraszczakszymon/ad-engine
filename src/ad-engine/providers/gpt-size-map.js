@@ -12,7 +12,7 @@ export class GptSizeMap {
 		logger(logGroup, viewportSize, sizes, 'adding new size mapping');
 		this.sizeMap.push({
 			viewportSize,
-			sizes
+			sizes,
 		});
 	}
 
@@ -22,6 +22,7 @@ export class GptSizeMap {
 
 		if (!builder) {
 			logger(logGroup, 'cannot create GPT size mapping builder');
+
 			return null;
 		}
 
@@ -37,22 +38,18 @@ export class GptSizeMap {
 	}
 
 	mapAllSizes(callback) {
-		return new GptSizeMap(this.sizeMap.map(({ viewportSize, sizes }, index) => {
-			const mappedSizes = callback(sizes, viewportSize, index);
+		return new GptSizeMap(
+			this.sizeMap.map(({ viewportSize, sizes }, index) => {
+				const mappedSizes = callback(sizes, viewportSize, index);
 
-			logger(
-				logGroup,
-				viewportSize,
-				sizes,
-				mappedSizes,
-				'mapping viewport sizes'
-			);
+				logger(logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
 
-			return {
-				viewportSize,
-				sizes: mappedSizes
-			};
-		}));
+				return {
+					viewportSize,
+					sizes: mappedSizes,
+				};
+			}),
+		);
 	}
 
 	toString() {

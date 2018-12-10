@@ -12,16 +12,19 @@ const get = require('lodash/get');
 const pkg = require('./package.json');
 
 const examplePages = {};
+
 function findExamplePages(startPath, filter) {
 	const files = fs.readdirSync(startPath);
 
 	files.forEach((file) => {
 		const filename = path.join(startPath, file);
 		const stat = fs.lstatSync(filename);
+
 		if (stat.isDirectory()) {
 			findExamplePages(filename, filter);
 		} else if (filename.indexOf(filter) >= 0) {
 			const shortName = filename.replace('examples/', '').replace('/script.js', '');
+
 			examplePages[shortName] = `./${filename}`;
 		}
 	});
@@ -37,34 +40,32 @@ const common = {
 			{
 				test: /.js$/,
 				use: 'babel-loader',
-				include: path.resolve(__dirname, 'src')
+				include: path.resolve(__dirname, 'src'),
 			},
 			{
 				test: /\.json$/,
 				loader: 'json-loader',
 				type: 'javascript/auto',
-				exclude: /node_modules/
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.s?css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-					'sass-loader'
-				],
-				exclude: /node_modules/
+				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+				exclude: /node_modules/,
 			},
 			{
 				test: path.resolve(__dirname, 'src/ad-engine/index.js'),
 				loader: StringReplacePlugin.replace({
-					replacements: [{
-						pattern: /<\?=[ \t]*PACKAGE\(([\w\-_.]*?)\)[ \t]*\?>/ig,
-						replacement: (match, p1) => get(pkg, p1)
-					}]
-				})
-			}
-		]
-	}
+					replacements: [
+						{
+							pattern: /<\?=[ \t]*PACKAGE\(([\w\-_.]*?)\)[ \t]*\?>/gi,
+							replacement: (match, p1) => get(pkg, p1),
+						},
+					],
+				}),
+			},
+		],
+	},
 };
 
 const development = {
@@ -76,46 +77,46 @@ const development = {
 				commons: {
 					name: 'vendor',
 					filename: '[name]/dist/vendor.js',
-					chunks: 'all'
-				}
-			}
-		}
+					chunks: 'all',
+				},
+			},
+		},
 	},
 	output: {
 		path: path.resolve(__dirname, 'examples'),
-		filename: '[name]/dist/bundle.js'
+		filename: '[name]/dist/bundle.js',
 	},
 	plugins: [
 		new MiniCssExtractPlugin({ filename: '[name]/dist/styles.css' }),
 		new StringReplacePlugin(),
 		new CopyWebpackPlugin([
-			{ from: path.resolve(__dirname, 'lib/prebid.min.js'), to: 'vendor/dist/prebid.min.js' }
-		])
+			{ from: path.resolve(__dirname, 'lib/prebid.min.js'), to: 'vendor/dist/prebid.min.js' },
+		]),
 	],
 	resolve: {
 		alias: {
 			[pkg.name]: path.join(__dirname, 'src/ad-engine'),
 			'@wikia/ad-bidders': path.join(__dirname, 'src/ad-bidders'),
 			'@wikia/ad-products': path.join(__dirname, 'src/ad-products'),
-			'@wikia/ad-services': path.join(__dirname, 'src/ad-services')
-		}
-	}
+			'@wikia/ad-services': path.join(__dirname, 'src/ad-services'),
+		},
+	},
 };
 
 const test = {
 	resolve: {
 		alias: {
 			[pkg.name]: path.join(__dirname, 'src/ad-engine'),
-			'@wikia/ad-products': path.join(__dirname, 'src/ad-products')
-		}
-	}
+			'@wikia/ad-products': path.join(__dirname, 'src/ad-products'),
+		},
+	},
 };
 
 const adEngine = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-engine': './src/ad-engine/index.js'
+			'ad-engine': './src/ad-engine/index.js',
 		},
 		devtool: 'source-map',
 		output: {
@@ -123,32 +124,32 @@ const adEngine = {
 		},
 		plugins: [
 			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production')
+				'process.env.NODE_ENV': JSON.stringify('production'),
 			}),
 			new StringReplacePlugin(),
-			new webpack.optimize.ModuleConcatenationPlugin()
-		]
+			new webpack.optimize.ModuleConcatenationPlugin(),
+		],
 	},
 	targets: {
 		commonjs: {
-			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)),
+			externals: Object.keys(pkg.dependencies).map((key) => new RegExp(`^${key}`)),
 			output: {
 				filename: '[name].js',
 				library: 'adEngine',
-				libraryTarget: 'commonjs2'
+				libraryTarget: 'commonjs2',
 			},
 			optimization: {
-				minimize: false
+				minimize: false,
 			},
 		},
 		window: {
 			output: {
 				filename: '[name].global.js',
 				library: ['Wikia', 'adEngine'],
-				libraryTarget: 'window'
-			}
-		}
-	}
+				libraryTarget: 'window',
+			},
+		},
+	},
 };
 
 const adProducts = {
@@ -163,40 +164,40 @@ const adProducts = {
 		},
 		plugins: [
 			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production')
+				'process.env.NODE_ENV': JSON.stringify('production'),
 			}),
 			new MiniCssExtractPlugin({ filename: '[name].css' }),
 			new StringReplacePlugin(),
-			new webpack.optimize.ModuleConcatenationPlugin()
-		]
+			new webpack.optimize.ModuleConcatenationPlugin(),
+		],
 	},
 	targets: {
 		commonjs: {
-			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)).concat([
-				/^@wikia\/ad-engine/
-			]),
+			externals: Object.keys(pkg.dependencies)
+				.map((key) => new RegExp(`^${key}`))
+				.concat([/^@wikia\/ad-engine/]),
 			output: {
 				filename: '[name].js',
 				library: 'adEngine',
-				libraryTarget: 'commonjs2'
+				libraryTarget: 'commonjs2',
 			},
 			optimization: {
-				minimize: false
-			}
+				minimize: false,
+			},
 		},
 		window: {
 			externals: {
 				'@wikia/ad-engine': {
-					window: ['Wikia', 'adEngine']
-				}
+					window: ['Wikia', 'adEngine'],
+				},
 			},
 			output: {
 				filename: '[name].global.js',
 				library: ['Wikia', 'adProducts'],
-				libraryTarget: 'window'
-			}
-		}
-	}
+				libraryTarget: 'window',
+			},
+		},
+	},
 };
 
 const adBidders = {
@@ -211,38 +212,38 @@ const adBidders = {
 		},
 		plugins: [
 			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production')
+				'process.env.NODE_ENV': JSON.stringify('production'),
 			}),
-			new webpack.optimize.ModuleConcatenationPlugin()
-		]
+			new webpack.optimize.ModuleConcatenationPlugin(),
+		],
 	},
 	targets: {
 		commonjs: {
-			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)).concat([
-				/^@wikia\/ad-engine/
-			]),
+			externals: Object.keys(pkg.dependencies)
+				.map((key) => new RegExp(`^${key}`))
+				.concat([/^@wikia\/ad-engine/]),
 			output: {
 				filename: '[name].js',
 				library: 'adEngine',
-				libraryTarget: 'commonjs2'
+				libraryTarget: 'commonjs2',
 			},
 			optimization: {
-				minimize: false
-			}
+				minimize: false,
+			},
 		},
 		window: {
 			externals: {
 				'@wikia/ad-engine': {
-					window: ['Wikia', 'adEngine']
-				}
+					window: ['Wikia', 'adEngine'],
+				},
 			},
 			output: {
 				filename: '[name].global.js',
 				library: ['Wikia', 'adBidders'],
-				libraryTarget: 'window'
-			}
-		}
-	}
+				libraryTarget: 'window',
+			},
+		},
+	},
 };
 
 const adServices = {
@@ -257,43 +258,43 @@ const adServices = {
 		},
 		plugins: [
 			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production')
+				'process.env.NODE_ENV': JSON.stringify('production'),
 			}),
-			new webpack.optimize.ModuleConcatenationPlugin()
-		]
+			new webpack.optimize.ModuleConcatenationPlugin(),
+		],
 	},
 	targets: {
 		commonjs: {
-			externals: Object.keys(pkg.dependencies).map(key => new RegExp(`^${key}`)).concat([
-				/^@wikia\/ad-engine/
-			]),
+			externals: Object.keys(pkg.dependencies)
+				.map((key) => new RegExp(`^${key}`))
+				.concat([/^@wikia\/ad-engine/]),
 			output: {
 				filename: '[name].js',
 				library: 'adEngine',
-				libraryTarget: 'commonjs2'
+				libraryTarget: 'commonjs2',
 			},
 			optimization: {
-				minimize: false
-			}
+				minimize: false,
+			},
 		},
 		window: {
 			externals: {
 				'@wikia/ad-engine': {
-					window: ['Wikia', 'adEngine']
-				}
+					window: ['Wikia', 'adEngine'],
+				},
 			},
 			output: {
 				filename: '[name].global.js',
 				library: ['Wikia', 'adServices'],
-				libraryTarget: 'window'
-			}
-		}
-	}
+				libraryTarget: 'window',
+			},
+		},
+	},
 };
 
 module.exports = function (env) {
-	const isProduction = (process.env.NODE_ENV === 'production') || (env && env.production);
-	const isTest = (env && env.test);
+	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
+	const isTest = env && env.test;
 
 	if (isProduction) {
 		return [
@@ -304,9 +305,10 @@ module.exports = function (env) {
 			merge(common, adBidders.config, adBidders.targets.commonjs),
 			merge(common, adBidders.config, adBidders.targets.window),
 			merge(common, adServices.config, adServices.targets.commonjs),
-			merge(common, adServices.config, adServices.targets.window)
+			merge(common, adServices.config, adServices.targets.window),
 		];
-	} else if (isTest) {
+	}
+	if (isTest) {
 		return merge(common, test);
 	}
 
