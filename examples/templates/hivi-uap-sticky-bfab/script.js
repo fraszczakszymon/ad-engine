@@ -1,5 +1,6 @@
 import { AdEngine, context, templateService } from '@wikia/ad-engine';
 import { BigFancyAdAbove, BigFancyAdBelow, FloatingRail, utils } from '@wikia/ad-products';
+
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -20,12 +21,12 @@ context.push('listeners.slot', {
 	},
 	onImpressionViewable: (adSlot) => {
 		console.log(`⛳ ${adSlot.getSlotName()}: %cviewed`, 'font-weight: bold');
-	},
+	}
 });
 
 templateService.register(BigFancyAdAbove);
 templateService.register(BigFancyAdBelow, {
-	stickinessAllowed: true,
+	stickinessAllowed: true
 });
 templateService.register(FloatingRail);
 

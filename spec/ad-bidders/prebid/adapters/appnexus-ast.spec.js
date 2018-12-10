@@ -4,7 +4,7 @@ import { AppnexusAst } from '../../../../src/ad-bidders/prebid/adapters/appnexus
 describe('AppnexusAst bidder adapter', () => {
 	it('can be enabled', () => {
 		const appnexusAst = new AppnexusAst({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(appnexusAst.enabled).to.equal(true);
@@ -15,9 +15,9 @@ describe('AppnexusAst bidder adapter', () => {
 			enabled: true,
 			slots: {
 				mobile_in_content: {
-					placementId: '11223344',
-				},
-			},
+					placementId: '11223344'
+				}
+			}
 		});
 
 		expect(appnexusAst.prepareAdUnits()).to.deep.equal([
@@ -26,8 +26,8 @@ describe('AppnexusAst bidder adapter', () => {
 				mediaTypes: {
 					video: {
 						context: 'instream',
-						playerSize: [640, 480],
-					},
+						playerSize: [640, 480]
+					}
 				},
 				bids: [
 					{
@@ -36,12 +36,12 @@ describe('AppnexusAst bidder adapter', () => {
 							placementId: '11223344',
 							video: {
 								skippable: false,
-								playback_method: ['auto_play_sound_off'],
-							},
-						},
-					},
-				],
-			},
+								playback_method: ['auto_play_sound_off']
+							}
+						}
+					}
+				]
+			}
 		]);
 	});
 });

@@ -356,44 +356,36 @@ describe('Geo', () => {
 
 	it('returns empty string if argument is undefined', () => {
 		const result = geo.mapSamplingResults();
-
 		assert(Array.isArray(result));
 		assert.equal(result.length, 0);
 	});
 
 	it('returns empty string if argument is an empty array', () => {
 		const result = geo.mapSamplingResults([]);
-
 		assert(Array.isArray(result));
 		assert.equal(result.length, 0);
 	});
 
 	it('selects dfp labrador keyvals', () => {
 		const wfKeyVals = [
-			'FOO_A_1:foo_a',
-			'FOO_B_99:foo_b',
-			'BAR_A_1:bar_a',
-			'BAR_B_99:bar_b',
-			'OOZ_A_1:ooz_a',
-			'OOZ_B_99:ooz_b',
+			'FOO_A_1:foo_a', 'FOO_B_99:foo_b',
+			'BAR_A_1:bar_a', 'BAR_B_99:bar_b',
+			'OOZ_A_1:ooz_a', 'OOZ_B_99:ooz_b',
 		];
-
 		sinon.stub(geo.default, 'getSamplingResults').returns(['FOO_A_1', 'BAR_B_99']);
 		assert.equal(geo.mapSamplingResults(wfKeyVals), 'foo_a,bar_b');
 	});
 
 	it('returns proper cached basset variables', () => {
-		Cookies.get.returns(
-			JSON.stringify({
-				basset: {
-					name: 'basset',
-					group: 'B',
-					limit: 50,
-					result: true,
-					withCookie: true,
-				},
-			}),
-		);
+		Cookies.get.returns(JSON.stringify({
+			basset: {
+				name: 'basset',
+				group: 'B',
+				limit: 50,
+				result: true,
+				withCookie: true
+			}
+		}));
 
 		geo.setSessionId('test');
 		Random.getRandom.returns(1);

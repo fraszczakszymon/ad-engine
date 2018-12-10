@@ -11,7 +11,7 @@ const getMockObject = () => {
 		},
 		runCallback: (...args) => {
 			eventCallback(...args);
-		},
+		}
 	};
 };
 let object;

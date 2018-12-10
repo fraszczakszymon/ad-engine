@@ -13,7 +13,7 @@ export class FloorAdhesion {
 
 	static getDefaultConfig() {
 		return {
-			onInit: () => {},
+			onInit: () => {}
 		};
 	}
 
@@ -23,7 +23,7 @@ export class FloorAdhesion {
 			onClick: () => {
 				slotTweaker.hide(this.adSlot);
 				utils.logger(FloorAdhesion.getName(), 'closed');
-			},
+			}
 		});
 
 		this.config.onInit();

@@ -65,7 +65,7 @@ describe('ad-slot', () => {
 		expect(context.get('slots.top_boxad.foo.bar')).to.equal('test');
 		expect(adSlot.getConfigProperty('foo.bar')).to.equal('test');
 		expect(adSlot.getConfigProperty('foo')).to.deep.equal({
-			bar: 'test',
+			bar: 'test'
 		});
 	});
 

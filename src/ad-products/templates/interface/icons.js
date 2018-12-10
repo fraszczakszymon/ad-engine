@@ -17,6 +17,5 @@ export function createIcon(iconName, classNames = []) {
 
 export const icons = Object.keys(svgs).reduce((map, name) => {
 	map[name] = name;
-
 	return map;
 }, {});

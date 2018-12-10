@@ -12,34 +12,34 @@ describe('Bill the Lizard projects handler', () => {
 			foo: [
 				{
 					name: 'bar:1.0.0',
-					countries: ['ZZ'],
+					countries: ['ZZ']
 				},
 				{
 					name: 'bar:0.0.1',
-					countries: ['XX'],
-				},
+					countries: ['XX']
+				}
 			],
 			second: [
 				{
 					name: 'buzz:1.0.0',
-					countries: ['XX'],
+					countries: ['XX']
 				},
 				{
 					name: 'buzz:0.0.1',
-					countries: ['XX'],
-				},
-			],
+					countries: ['XX']
+				}
+			]
 		});
 
 		context.set('services.billTheLizard.parameters', {
 			foo: {
 				one: '111',
-				two: '222',
+				two: '222'
 			},
 			second: {
 				three: '333',
-				four: '444',
-			},
+				four: '444'
+			}
 		});
 	});
 
@@ -78,9 +78,7 @@ describe('Bill the Lizard projects handler', () => {
 		projects.enable('second');
 
 		expect(projects.getEnabledModelsWithParams(['foo', 'second']).models.length).to.equal(3);
-		expect(
-			Object.keys(projects.getEnabledModelsWithParams(['foo', 'second']).parameters).length,
-		).to.equal(4);
+		expect(Object.keys(projects.getEnabledModelsWithParams(['foo', 'second']).parameters).length).to.equal(4);
 
 		expect(context.get('services.billTheLizard.projects.second.0.executable')).to.equal(true);
 		expect(context.get('services.billTheLizard.projects.second.1.executable')).to.equal(false);
@@ -91,9 +89,7 @@ describe('Bill the Lizard projects handler', () => {
 		projects.enable('second');
 
 		expect(projects.getEnabledModelsWithParams(['second']).models.length).to.equal(2);
-		expect(Object.keys(projects.getEnabledModelsWithParams(['second']).parameters).length).to.equal(
-			2,
-		);
+		expect(Object.keys(projects.getEnabledModelsWithParams(['second']).parameters).length).to.equal(2);
 
 		expect(context.get('services.billTheLizard.projects.second.0.executable')).to.equal(true);
 		expect(context.get('services.billTheLizard.projects.second.1.executable')).to.equal(false);

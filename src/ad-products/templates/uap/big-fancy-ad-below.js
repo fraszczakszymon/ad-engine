@@ -1,4 +1,5 @@
 import { context, utils } from '@wikia/ad-engine';
+
 import { universalAdPackage } from './universal-ad-package';
 import { VideoSettings } from './video-settings';
 import * as classicTheme from './themes/classic';
@@ -18,7 +19,7 @@ export class BigFancyAdBelow {
 			bfaaSlotName: 'top_leaderboard',
 			unstickInstantlyBelowPosition: 500,
 			topThreshold: 58,
-			onInit: () => {},
+			onInit: () => {}
 		};
 	}
 
@@ -53,7 +54,7 @@ export class BigFancyAdBelow {
 		this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 		// TODO: End of hack
 
-		const uapTheme = this.params.theme === 'hivi' ? hiviTheme : classicTheme;
+		const uapTheme = (this.params.theme === 'hivi') ? hiviTheme : classicTheme;
 
 		universalAdPackage.initSlot(params);
 
@@ -61,13 +62,11 @@ export class BigFancyAdBelow {
 		this.videoSettings = new VideoSettings(params);
 		this.theme = new uapTheme.BfabTheme(this.adSlot, this.params);
 
-		uapTheme
-			.adIsReady({
-				adSlot: this.adSlot,
-				videoSettings: this.videoSettings,
-				params: this.params,
-			})
-			.then((iframe) => this.onAdReady(iframe));
+		uapTheme.adIsReady({
+			adSlot: this.adSlot,
+			videoSettings: this.videoSettings,
+			params: this.params
+		}).then(iframe => this.onAdReady(iframe));
 
 		this.config.onInit(this.adSlot, this.params, this.config);
 	}
@@ -80,7 +79,10 @@ export class BigFancyAdBelow {
 		this.theme.onAdReady(iframe);
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
-			const video = await utils.defer(universalAdPackage.loadVideoAd, this.videoSettings);
+			const video = await utils.defer(
+				universalAdPackage.loadVideoAd,
+				this.videoSettings
+			);
 
 			this.theme.onVideoReady(video);
 		}

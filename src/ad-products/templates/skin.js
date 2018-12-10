@@ -10,7 +10,7 @@ export class Skin {
 			bodyAdClass: 'has-background-ad',
 			onInit: () => {},
 			wrapperSelector: '#ad-skin',
-			zIndex: 1,
+			zIndex: 1
 		};
 	}
 
@@ -73,10 +73,8 @@ export class Skin {
 	setTrackingPixels(pixels) {
 		for (let i = 0, len = pixels.length; i < len; i += 1) {
 			const pixelUrl = pixels[i];
-
 			if (pixelUrl) {
 				const pixelElement = document.createElement('img');
-
 				pixelElement.src = pixelUrl;
 				pixelElement.width = 1;
 				pixelElement.height = 1;

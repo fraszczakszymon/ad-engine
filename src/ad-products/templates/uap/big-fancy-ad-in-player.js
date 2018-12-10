@@ -1,4 +1,5 @@
 import { context } from '@wikia/ad-engine';
+
 import { universalAdPackage } from './universal-ad-package';
 
 export class BigFancyAdInPlayer {
@@ -9,7 +10,7 @@ export class BigFancyAdInPlayer {
 	static getDefaultConfig() {
 		return {
 			slotsToDisable: [],
-			slotsToEnable: [],
+			slotsToEnable: []
 		};
 	}
 

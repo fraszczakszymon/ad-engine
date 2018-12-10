@@ -4,7 +4,7 @@ import { Wikia } from '../../../../src/ad-bidders/prebid/adapters/wikia';
 describe('Wikia bidder adapter', () => {
 	it('can be enabled', () => {
 		const wikia = new Wikia({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(wikia.enabled).to.equal(false);
@@ -15,9 +15,11 @@ describe('Wikia bidder adapter', () => {
 			enabled: true,
 			slots: {
 				mobile_top_leaderboard: {
-					sizes: [[320, 50]],
-				},
-			},
+					sizes: [
+						[320, 50]
+					]
+				}
+			}
 		});
 
 		expect(wikia.prepareAdUnits()).to.deep.equal([
@@ -25,15 +27,17 @@ describe('Wikia bidder adapter', () => {
 				code: 'mobile_top_leaderboard',
 				mediaTypes: {
 					banner: {
-						sizes: [[320, 50]],
-					},
+						sizes: [
+							[320, 50]
+						]
+					}
 				},
 				bids: [
 					{
-						bidder: 'wikia',
-					},
-				],
-			},
+						bidder: 'wikia'
+					}
+				]
+			}
 		]);
 	});
 });

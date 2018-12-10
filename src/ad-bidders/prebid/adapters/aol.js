@@ -8,13 +8,15 @@ export class Aol extends BaseAdapter {
 		this.network = options.network;
 	}
 
-	prepareConfigForAdUnit(code, { sizes, placement, alias, sizeId }) {
+	prepareConfigForAdUnit(code, {
+		sizes, placement, alias, sizeId
+	}) {
 		return {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes,
-				},
+					sizes
+				}
 			},
 			bids: [
 				{
@@ -23,10 +25,10 @@ export class Aol extends BaseAdapter {
 						placement,
 						network: this.network,
 						alias,
-						sizeId,
-					},
-				},
-			],
+						sizeId
+					}
+				}
+			]
 		};
 	}
 }

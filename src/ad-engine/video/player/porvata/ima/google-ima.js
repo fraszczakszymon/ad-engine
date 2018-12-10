@@ -1,5 +1,5 @@
-import { scriptLoader } from '../../../../utils';
 import { googleImaPlayerFactory } from './google-ima-player-factory';
+import { scriptLoader } from '../../../../utils';
 
 const imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
 
@@ -21,11 +21,8 @@ function getPlayer(videoSettings) {
 	// player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
-	if (
-		window.performance &&
-		window.performance.navigation &&
-		window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD
-	) {
+	if (window.performance && window.performance.navigation
+		&& window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
 		iframe.contentWindow.location.href = iframe.src;
 	}
 
@@ -36,5 +33,5 @@ function getPlayer(videoSettings) {
 
 export const googleIma = {
 	load,
-	getPlayer,
+	getPlayer
 };

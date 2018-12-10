@@ -25,17 +25,13 @@ describe('UniversalAdPackage', () => {
 
 		universalAdPackage.init({
 			uap: UAP_ID,
-			creativeId: UAP_CREATIVE_ID,
+			creativeId: UAP_CREATIVE_ID
 		});
 
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID)).to.equal(true);
-		expect(
-			context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID),
-		).to.equal(true);
+		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_boxad.targeting.uap', UAP_ID)).to.equal(true);
-		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(
-			true,
-		);
+		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.callCount).to.equal(4);
 	});
 
@@ -43,24 +39,20 @@ describe('UniversalAdPackage', () => {
 		context.get.withArgs('slots').returns({
 			top_leaderboard: {},
 			NON_UAP_SLOT: {
-				nonUapSlot: true,
+				nonUapSlot: true
 			},
-			top_boxad: {},
+			top_boxad: {}
 		});
 
 		universalAdPackage.init({
 			uap: UAP_ID,
-			creativeId: UAP_CREATIVE_ID,
+			creativeId: UAP_CREATIVE_ID
 		});
 
 		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap', UAP_ID)).to.equal(true);
-		expect(
-			context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID),
-		).to.equal(true);
+		expect(context.set.calledWith('slots.top_leaderboard.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.calledWith('slots.top_boxad.targeting.uap', UAP_ID)).to.equal(true);
-		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(
-			true,
-		);
+		expect(context.set.calledWith('slots.top_boxad.targeting.uap_c', UAP_CREATIVE_ID)).to.equal(true);
 		expect(context.set.neverCalledWith('slots.NON_UAP_SLOT.targeting.uap', UAP_ID)).to.equal(true);
 		expect(context.set.callCount).to.equal(4);
 	});

@@ -23,7 +23,7 @@ class PorvataTracker {
 				const eventInfo = videoEventDataProvider.getEventData(data);
 
 				playerEventEmitter.emit(eventInfo);
-			},
+			}
 		};
 
 		context.push('listeners.porvata', listener);

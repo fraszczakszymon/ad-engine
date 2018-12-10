@@ -16,18 +16,18 @@ export class Beachfront extends BaseAdapter {
 			code,
 			mediaTypes: {
 				video: {
-					playerSize: [640, 480],
-				},
+					playerSize: [640, 480]
+				}
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
 						bidfloor: this.bidfloor,
-						appId: this.isDebugMode ? this.debugAppId : appId,
-					},
-				},
-			],
+						appId: this.isDebugMode ? this.debugAppId : appId
+					}
+				}
+			]
 		};
 	}
 }

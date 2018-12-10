@@ -1,11 +1,4 @@
-import {
-	btfBlockerService,
-	context,
-	Porvata,
-	slotService,
-	TwitchPlayer,
-	utils,
-} from '@wikia/ad-engine';
+import { btfBlockerService, context, Porvata, slotService, TwitchPlayer, utils } from '@wikia/ad-engine';
 import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
@@ -15,14 +8,12 @@ let uapId = constants.DEFAULT_UAP_ID;
 let uapType = constants.DEFAULT_UAP_TYPE;
 
 function getVideoSize(slot, params, videoSettings) {
-	const width = videoSettings.isSplitLayout()
-		? params.videoPlaceholderElement.offsetWidth
-		: slot.clientWidth;
+	const width = videoSettings.isSplitLayout() ? params.videoPlaceholderElement.offsetWidth : slot.clientWidth;
 	const height = width / params.videoAspectRatio;
 
 	return {
 		width,
-		height,
+		height
 	};
 }
 
@@ -53,7 +44,7 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 		aspectRatio: params.aspectRatio,
 		videoAspectRatio: params.videoAspectRatio,
 		hideWhenPlaying: params.videoPlaceholderElement || params.image,
-		splitLayoutVideoPosition: params.splitLayoutVideoPosition,
+		splitLayoutVideoPosition: params.splitLayoutVideoPosition
 	});
 
 	video.addEventListener('wikiaAdCompleted', () => {
@@ -67,8 +58,9 @@ async function loadPorvata(videoSettings, slotContainer, imageContainer) {
 
 function recalculateTwitchSize(params) {
 	return () => {
-		const { adContainer, clickArea, player, twitchAspectRatio } = params;
-
+		const {
+			adContainer, clickArea, player, twitchAspectRatio
+		} = params;
 		player.style.height = `${adContainer.clientHeight}px`;
 		player.style.width = `${player.clientHeight * twitchAspectRatio}px`;
 		clickArea.style.width = `${params.adContainer.clientWidth - player.clientWidth}px`;
@@ -86,7 +78,6 @@ async function loadTwitchPlayer(iframe, params) {
 	iframe.parentNode.insertBefore(player, iframe);
 
 	const twitchPlayer = new TwitchPlayer(player, options, params);
-
 	await twitchPlayer.getPlayer();
 
 	recalculateTwitchSize(params)();
@@ -96,7 +87,6 @@ async function loadTwitchPlayer(iframe, params) {
 
 async function loadTwitchAd(iframe, params) {
 	const { player } = params;
-
 	await loadTwitchPlayer(iframe, params);
 	window.addEventListener('resize', throttle(recalculateTwitchSize(params), 250));
 	player.firstChild.id = 'twitchPlayerContainer';
@@ -108,7 +98,7 @@ async function loadVideoAd(videoSettings) {
 	const size = getVideoSize(params.container, params, videoSettings);
 
 	params.vastTargeting = {
-		passback: getType(),
+		passback: getType()
 	};
 	params.width = size.width;
 	params.height = size.height;
@@ -117,13 +107,11 @@ async function loadVideoAd(videoSettings) {
 	function recalculateVideoSize(video) {
 		return () => {
 			const currentSize = getVideoSize(params.container, params, videoSettings);
-
 			video.resize(currentSize.width, currentSize.height);
 		};
 	}
 
 	const video = await loadPorvata(videoSettings, params.container, imageContainer);
-
 	window.addEventListener('resize', throttle(recalculateVideoSize(video), 250));
 
 	if (params.videoTriggerElement) {
@@ -162,7 +150,6 @@ function setType(type) {
 
 function updateSlotsTargeting(lineItemId, creativeId) {
 	const slots = context.get('slots');
-
 	Object.keys(slots).forEach((slotId) => {
 		if (!slots[slotId].nonUapSlot) {
 			context.set(`slots.${slotId}.targeting.uap`, lineItemId);
@@ -187,7 +174,6 @@ function disableSlots(slotsToDisable) {
 
 function initSlot(params) {
 	const adSlot = slotService.get(params.slotName);
-
 	params.container = adSlot.getElement();
 
 	if (params.isDarkTheme) {
@@ -207,10 +193,7 @@ function reset() {
 }
 
 function isFanTakeoverLoaded() {
-	return (
-		getUapId() !== constants.DEFAULT_UAP_ID &&
-		constants.FAN_TAKEOVER_TYPES.indexOf(getType()) !== -1
-	);
+	return getUapId() !== constants.DEFAULT_UAP_ID && constants.FAN_TAKEOVER_TYPES.indexOf(getType()) !== -1;
 }
 
 export const universalAdPackage = {
@@ -239,13 +222,12 @@ export const universalAdPackage = {
 	getType,
 	getUapId,
 	isVideoEnabled(params) {
-		const triggersArrayIsNotEmpty =
-			Array.isArray(params.videoTriggers) && params.videoTriggers.length > 0;
+		const triggersArrayIsNotEmpty = Array.isArray(params.videoTriggers) && params.videoTriggers.length > 0;
 
 		return !!params.videoAspectRatio && (params.videoPlaceholderElement || triggersArrayIsNotEmpty);
 	},
 	loadVideoAd,
 	loadTwitchAd,
 	reset,
-	setType,
+	setType
 };

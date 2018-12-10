@@ -18,5 +18,5 @@ export default {
 		}
 
 		events.emit(events.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
-	},
+	}
 };

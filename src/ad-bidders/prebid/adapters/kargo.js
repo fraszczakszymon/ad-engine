@@ -1,5 +1,6 @@
 import { BaseAdapter } from './base-adapter';
 
+
 export class Kargo extends BaseAdapter {
 	constructor(options) {
 		super(options);
@@ -15,10 +16,10 @@ export class Kargo extends BaseAdapter {
 				{
 					bidder: this.bidderName,
 					params: {
-						placementId,
-					},
-				},
-			],
+						placementId
+					}
+				}
+			]
 		};
 	}
 }

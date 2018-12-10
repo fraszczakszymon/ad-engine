@@ -18,9 +18,11 @@ export class A9 extends BaseBidder {
 	}
 
 	calculatePrices() {
-		Object.keys(this.bids).forEach((slotName) => {
-			this.priceMap[slotName] = this.bids[slotName].amznbid;
-		});
+		Object
+			.keys(this.bids)
+			.forEach((slotName) => {
+				this.priceMap[slotName] = this.bids[slotName].amznbid;
+			});
 	}
 
 	callBids(onResponse) {
@@ -41,14 +43,14 @@ export class A9 extends BaseBidder {
 			const apsConfig = {
 				pubID: this.amazonId,
 				videoAdServer: 'DFP',
-				deals: !!this.bidderConfig.dealsEnabled,
+				deals: !!this.bidderConfig.dealsEnabled
 			};
 
 			if (this.isCMPEnabled && consentData && consentData.consentData) {
 				apsConfig.gdpr = {
 					enabled: consentData.gdprApplies,
 					consent: consentData.consentData,
-					cmpTimeout: 5000,
+					cmpTimeout: 5000
 				};
 			}
 
@@ -60,39 +62,37 @@ export class A9 extends BaseBidder {
 		this.bids = {};
 		this.priceMap = {};
 
-		const a9Slots = Object.keys(this.slots)
-			.map((key) => this.createSlotDefinition(key, this.slots[key]))
-			.filter((slot) => slot !== null);
+		const a9Slots = Object
+			.keys(this.slots)
+			.map(key => this.createSlotDefinition(key, this.slots[key]))
+			.filter(slot => slot !== null);
 
-		window.apstag.fetchBids(
-			{
-				slots: a9Slots,
-				timeout: this.timeout,
-			},
-			(currentBids) => {
-				currentBids.forEach((bid) => {
-					const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
+		window.apstag.fetchBids({
+			slots: a9Slots,
+			timeout: this.timeout
+		}, (currentBids) => {
+			currentBids.forEach((bid) => {
+				const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
 
-					let bidTargeting = bid;
-					let keys = window.apstag.targetingKeys();
+				let bidTargeting = bid;
+				let keys = window.apstag.targetingKeys();
 
-					if (this.bidderConfig.dealsEnabled) {
-						keys = bid.helpers.targetingKeys;
-						bidTargeting = bid.targeting;
+				if (this.bidderConfig.dealsEnabled) {
+					keys = bid.helpers.targetingKeys;
+					bidTargeting = bid.targeting;
+				}
+
+				this.bids[slotName] = {};
+				keys.forEach((key) => {
+					if (this.targetingKeys.indexOf(key) === -1) {
+						this.targetingKeys.push(key);
 					}
-
-					this.bids[slotName] = {};
-					keys.forEach((key) => {
-						if (this.targetingKeys.indexOf(key) === -1) {
-							this.targetingKeys.push(key);
-						}
-						this.bids[slotName][key] = bidTargeting[key];
-					});
+					this.bids[slotName][key] = bidTargeting[key];
 				});
+			});
 
-				onResponse();
-			},
-		);
+			onResponse();
+		});
 	}
 
 	configureApstag() {
@@ -124,15 +124,14 @@ export class A9 extends BaseBidder {
 		const slotID = config.slotId || slotName;
 		const definition = {
 			slotID,
-			slotName: slotID,
+			slotName: slotID
 		};
 
 		this.slotNamesMap[slotID] = slotName;
 
 		if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 			return null;
-		}
-		if (config.type === 'video') {
+		} else if (config.type === 'video') {
 			definition.mediaType = 'video';
 		} else {
 			definition.sizes = config.sizes;
@@ -158,12 +157,7 @@ export class A9 extends BaseBidder {
 	}
 
 	insertScript() {
-		utils.scriptLoader.loadScript(
-			'//c.amazon-adsystem.com/aax2/apstag.js',
-			'text/javascript',
-			true,
-			'first',
-		);
+		utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 	}
 
 	isSupported(slotName) {

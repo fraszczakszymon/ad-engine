@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import { getDocumentVisibilityStatus, VISIBILITY_STATUS } from '@wikia/ad-engine/utils';
 
 describe('document utils', () => {

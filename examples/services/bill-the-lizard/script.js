@@ -12,26 +12,22 @@ const targetingElement = document.getElementById('targeting');
 const enabledProjects = utils.queryString.get('enabled-project');
 
 function makeCall(lazyCallProject = null, callId) {
-	billTheLizard.call(lazyCallProject, callId).then(
-		(predictions) => {
+	billTheLizard.call(lazyCallProject, callId)
+		.then((predictions) => {
 			allPredictionsElement.innerText = JSON.stringify(billTheLizard.getPredictions(), null, 2);
 			allStatusesElement.innerText = JSON.stringify(billTheLizard.statuses, null, 2);
 			predictionsElement.innerText = 'Model name\t\tPrediction\n';
-			predictionsElement.innerText += Object.keys(predictions)
-				.map((key) => `${key}\t\t${predictions[key]}`)
-				.join('\n');
+			predictionsElement.innerText += Object.keys(predictions).map(key => `${key}\t\t${predictions[key]}`).join('\n');
 			serializedElement.innerText = billTheLizard.serialize();
 			statusElement.innerText = billTheLizard.getResponseStatus();
 			targetingElement.innerText = billTheLizard.setTargeting();
-		},
-		(response) => {
+		}, (response) => {
 			console.error(`❗ Error : ${response.message}`);
 
 			predictionsElement.innerText = '';
 			serializedElement.innerText = billTheLizard.serialize();
 			statusElement.innerText = billTheLizard.getResponseStatus();
-		},
-	);
+		});
 }
 
 events.on(events.BILL_THE_LIZARD_REQUEST, (query) => {
@@ -41,7 +37,7 @@ events.on(events.BILL_THE_LIZARD_REQUEST, (query) => {
 context.extend(adContext);
 
 if (enabledProjects) {
-	enabledProjects.split(',').forEach((name) => billTheLizard.projectsHandler.enable(name));
+	enabledProjects.split(',').forEach(name => billTheLizard.projectsHandler.enable(name));
 } else {
 	billTheLizard.projectsHandler.enable('queen_of_hearts');
 }
@@ -63,3 +59,4 @@ document.getElementById('lazyCallCat').addEventListener('click', () => {
 document.getElementById('lazyCallCatWithId').addEventListener('click', () => {
 	makeCall(['cheshirecat'], 'catCall');
 });
+

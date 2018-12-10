@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { context, slotInjector, slotRepeater } from '../../../src/ad-engine/services';
 
+
 describe('slot-repeater', () => {
 	let adSlot;
 	let injectedContainer;
@@ -61,8 +62,8 @@ describe('slot-repeater', () => {
 			limit: null,
 			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeat.index}',
-			},
+				'targeting.rv': '{slotConfig.repeat.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;
@@ -80,8 +81,8 @@ describe('slot-repeater', () => {
 			limit: 2,
 			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeat.index}',
-			},
+				'targeting.rv': '{slotConfig.repeat.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.false;
@@ -99,8 +100,8 @@ describe('slot-repeater', () => {
 			limit: null,
 			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeat.index}',
-			},
+				'targeting.rv': '{slotConfig.repeat.index}'
+			}
 		};
 		injectedContainer = null;
 
@@ -119,8 +120,8 @@ describe('slot-repeater', () => {
 			limit: null,
 			slotNamePattern: 'repeatable_boxad_{slotConfig.repeat.index}',
 			updateProperties: {
-				'targeting.rv': '{slotConfig.repeat.index}',
-			},
+				'targeting.rv': '{slotConfig.repeat.index}'
+			}
 		};
 
 		expect(repeater.onRenderEnded(adSlot)).to.be.true;

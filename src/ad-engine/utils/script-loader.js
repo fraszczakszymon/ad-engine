@@ -11,10 +11,7 @@ class ScriptLoader {
 	createScript(src, type = 'text/javascript', isAsync = true, node = null, parameters = {}) {
 		const script = document.createElement('script');
 
-		node =
-			node === 'first'
-				? document.getElementsByTagName('script')[0]
-				: node || document.body.lastChild;
+		node = node === 'first' ? document.getElementsByTagName('script')[0] : (node || document.body.lastChild);
 		script.async = isAsync;
 		script.type = type;
 		script.src = src;

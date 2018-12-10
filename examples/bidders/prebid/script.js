@@ -1,6 +1,7 @@
 import { AdEngine, context, events } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { utils as adProductsUtils } from '@wikia/ad-products';
+
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -14,10 +15,9 @@ let resolveBidders;
 const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
-	getPromise: () =>
-		new Promise((resolve) => {
-			resolveBidders = resolve;
-		}),
+	getPromise: () => new Promise((resolve) => {
+		resolveBidders = resolve;
+	})
 };
 
 context.set('options.maxDelayTimeout', 1000);
@@ -31,7 +31,7 @@ bidders.requestBids({
 				resolveBidders = null;
 			}
 		}
-	},
+	}
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {

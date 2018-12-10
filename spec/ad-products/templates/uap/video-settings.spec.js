@@ -4,7 +4,6 @@ import { VideoSettings } from '../../../../src/ad-products/templates/uap/video-s
 describe('VideoSettings', () => {
 	it('returns correct autoplay value', () => {
 		const settings = new VideoSettings({ autoPlay: true });
-
 		expect(settings.isAutoPlay()).to.equal(true);
 	});
 });

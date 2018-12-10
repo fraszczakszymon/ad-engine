@@ -13,16 +13,16 @@ export class Pubmatic extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes,
-				},
+					sizes
+				}
 			},
-			bids: ids.map((adSlot) => ({
+			bids: ids.map(adSlot => ({
 				bidder: this.bidderName,
 				params: {
 					adSlot,
-					publisherId: this.publisherId,
-				},
-			})),
+					publisherId: this.publisherId
+				}
+			}))
 		};
 	}
 }

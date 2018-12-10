@@ -4,7 +4,7 @@ import { RubiconDisplay } from '../../../../src/ad-bidders/prebid/adapters/rubic
 describe('RubiconDisplay bidder adapter', () => {
 	it('can be enabled', () => {
 		const rubiconDisplay = new RubiconDisplay({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(rubiconDisplay.enabled).to.equal(true);
@@ -16,15 +16,18 @@ describe('RubiconDisplay bidder adapter', () => {
 			accountId: 1234,
 			slots: {
 				bottom_leaderboard: {
-					sizes: [[300, 250], [320, 50]],
+					sizes: [
+						[300, 250],
+						[320, 50]
+					],
 					targeting: {
-						loc: ['top'],
+						loc: ['top']
 					},
 					position: 'btf',
 					siteId: '55111',
-					zoneId: '88888',
-				},
-			},
+					zoneId: '88888'
+				}
+			}
 		});
 
 		expect(rubiconDisplay.prepareAdUnits()).to.deep.equal([
@@ -32,8 +35,11 @@ describe('RubiconDisplay bidder adapter', () => {
 				code: 'bottom_leaderboard',
 				mediaTypes: {
 					banner: {
-						sizes: [[300, 250], [320, 50]],
-					},
+						sizes: [
+							[300, 250],
+							[320, 50]
+						]
+					}
 				},
 				bids: [
 					{
@@ -47,12 +53,12 @@ describe('RubiconDisplay bidder adapter', () => {
 							keywords: ['rp.fastlane'],
 							inventory: {
 								pos: ['bottom_leaderboard'],
-								loc: ['top'],
-							},
-						},
-					},
-				],
-			},
+								loc: ['top']
+							}
+						}
+					}
+				]
+			}
 		]);
 	});
 });

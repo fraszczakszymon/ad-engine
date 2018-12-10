@@ -14,7 +14,7 @@ export class Interstitial {
 
 	static getDefaultConfig() {
 		return {
-			onInit: () => {},
+			onInit: () => {}
 		};
 	}
 
@@ -25,7 +25,7 @@ export class Interstitial {
 				document.documentElement.classList.remove('stop-scrolling');
 				slotTweaker.hide(this.adSlot);
 				utils.logger(Interstitial.getName(), 'closed');
-			},
+			}
 		});
 		const label = new AdvertisementLabel();
 

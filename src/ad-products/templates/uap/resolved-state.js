@@ -28,15 +28,17 @@ function setState(state, params) {
 
 	promises.push(Promise.resolve(params));
 	image1.element.src = image1[srcPropertyName];
-	promises.push(
-		Promise.race([utils.once(image1.element, 'load'), utils.once(image1.element, 'error')]),
-	);
+	promises.push(Promise.race([
+		utils.once(image1.element, 'load'),
+		utils.once(image1.element, 'error')
+	]));
 
 	if (image2 && image2[srcPropertyName]) {
 		image2.element.src = image2[srcPropertyName];
-		promises.push(
-			Promise.race([utils.once(image2.element, 'load'), utils.once(image2.element, 'error')]),
-		);
+		promises.push(Promise.race([
+			utils.once(image2.element, 'load'),
+			utils.once(image2.element, 'error')
+		]));
 	}
 
 	return Promise.all(promises);
@@ -87,17 +89,15 @@ export const resolvedState = {
 			if (videoSettings.isResolvedState()) {
 				return setResolvedState(params).then(([updatedParams, ...args]) => {
 					videoSettings.updateParams(updatedParams);
-
 					return [updatedParams, ...args];
 				});
 			}
 
 			resolvedStateSwitch.updateInformationAboutSeenDefaultStateAd();
-
 			return setDefaultState(params);
 		}
 
 		return Promise.resolve();
 	},
-	isResolvedState,
+	isResolvedState
 };

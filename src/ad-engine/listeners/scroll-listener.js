@@ -9,7 +9,7 @@ function getUniqueId() {
 
 function pushSlot(adStack, node) {
 	adStack.push({
-		id: node.id,
+		id: node.id
 	});
 }
 
@@ -57,7 +57,6 @@ class ScrollListener {
 
 	addCallback(callback) {
 		const id = getUniqueId();
-
 		callbacks[id] = callback;
 
 		events.once(events.BEFORE_PAGE_CHANGE_EVENT, () => this.removeCallback(id));

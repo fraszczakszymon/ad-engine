@@ -6,14 +6,7 @@ describe('client', () => {
 		let blocker = false;
 		let notBlocked = false;
 
-		client.checkBlocking(
-			() => {
-				blocker = true;
-			},
-			() => {
-				notBlocked = true;
-			},
-		);
+		client.checkBlocking(() => { blocker = true; }, () => { notBlocked = true; });
 
 		// Failed to load plugin because lack of window = simulate blocking extension
 		// by disabling import

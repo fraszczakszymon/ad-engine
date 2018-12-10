@@ -21,7 +21,7 @@ class VastDebugger {
 
 	setVastAttributes(element, vastUrl, status, imaAd) {
 		const vastParams = vastParser.parse(vastUrl, {
-			imaAd,
+			imaAd
 		});
 
 		this.setVastAttributesFromVastParams(element, status, vastParams);

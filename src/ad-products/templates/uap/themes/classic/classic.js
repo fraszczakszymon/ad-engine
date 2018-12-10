@@ -11,10 +11,9 @@ class BigFancyAdClassicTheme extends BigFancyAdTheme {
 			const videoSettings = new VideoSettings(this.params);
 
 			if (videoSettings.isSplitLayout()) {
-				const theme =
-					videoSettings.getParams().splitLayoutVideoPosition === 'right'
-						? 'theme-split-right'
-						: 'theme-split-left';
+				const theme = videoSettings.getParams().splitLayoutVideoPosition === 'right' ?
+					'theme-split-right' :
+					'theme-split-left';
 
 				this.params.container.classList.add(theme);
 			} else if (!videoSettings.isAutoPlay()) {
@@ -51,4 +50,6 @@ export class BfaaTheme extends BigFancyAdClassicTheme {
 	}
 }
 
-export class BfabTheme extends BigFancyAdClassicTheme {}
+export class BfabTheme extends BigFancyAdClassicTheme {
+
+}

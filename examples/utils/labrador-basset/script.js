@@ -11,10 +11,7 @@ utils.setSessionId(sessionId || 't3st4d3ng1n3s3ss1on1d');
 Object.keys(instantGlobals).forEach((variable) => {
 	if (variable.substr(0, 14) === 'InstantGlobals') {
 		const name = variable.replace('InstantGlobals.', '');
-		const value = instantGlobals[variable]
-			.replace('[', '')
-			.replace(']', '')
-			.split(',');
+		const value = instantGlobals[variable].replace('[', '').replace(']', '').split(',');
 
 		statuses.push(`${name}: ${utils.isProperGeo(value, name) ? 'enabled' : 'disabled'}`);
 	}

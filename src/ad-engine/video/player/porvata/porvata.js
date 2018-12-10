@@ -1,7 +1,7 @@
-import { PorvataListener } from '../../../listeners';
-import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils';
 import { googleIma } from './ima/google-ima';
+import { PorvataListener } from '../../../listeners';
 import { VideoSettings } from './video-settings';
+import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils';
 
 const VIDEO_FULLSCREEN_CLASS_NAME = 'video-player-fullscreen';
 const STOP_SCROLLING_CLASS_NAME = 'stop-scrolling';
@@ -20,27 +20,24 @@ const nativeFullscreenOnElement = (element) => {
 		'webkitRequestFullscreen',
 		'mozRequestFullScreen',
 		'msRequestFullscreen',
-		'requestFullscreen',
+		'requestFullscreen'
 	]);
 	const exit = tryProperty(document, [
 		'webkitExitFullscreen',
 		'mozCancelFullScreen',
 		'msExitFullscreen',
-		'exitFullscreen',
+		'exitFullscreen'
 	]);
-	const fullscreenChangeEvent = (
-		whichProperty(document, [
-			'onwebkitfullscreenchange',
-			'onmozfullscreenchange',
-			'onmsfullscreenchange',
-			'onfullscreenchange',
-		]) || ''
-	)
+	const fullscreenChangeEvent = (whichProperty(document, [
+		'onwebkitfullscreenchange',
+		'onmozfullscreenchange',
+		'onmsfullscreenchange',
+		'onfullscreenchange'
+	]) || '')
 		.replace(/^on/, '')
 		.replace('msfullscreenchange', 'MSFullscreenChange');
 	const addChangeListener = (...args) => document.addEventListener(fullscreenChangeEvent, ...args);
-	const removeChangeListener = (...args) =>
-		document.removeEventListener(fullscreenChangeEvent, ...args);
+	const removeChangeListener = (...args) => document.removeEventListener(fullscreenChangeEvent, ...args);
 	const isSupported = () => Boolean(enter && exit);
 
 	return {
@@ -48,7 +45,7 @@ const nativeFullscreenOnElement = (element) => {
 		exit,
 		addChangeListener,
 		removeChangeListener,
-		isSupported,
+		isSupported
 	};
 };
 
@@ -93,7 +90,6 @@ export class PorvataPlayer {
 
 	isMobilePlayerMuted() {
 		const mobileVideoAd = this.container.querySelector('video');
-
 		return mobileVideoAd && mobileVideoAd.autoplay && mobileVideoAd.muted;
 	}
 
@@ -166,7 +162,6 @@ export class PorvataPlayer {
 
 		if (nativeFullscreen.isSupported()) {
 			const toggleNativeFullscreen = isFullscreen ? nativeFullscreen.exit : nativeFullscreen.enter;
-
 			toggleNativeFullscreen();
 		} else {
 			this.onFullscreenChange();
@@ -237,7 +232,7 @@ export class Porvata {
 	static addOnViewportChangeListener(params, listener) {
 		return viewportObserver.addListener(params.viewportHookElement || params.container, listener, {
 			offsetTop: params.viewportOffsetTop || 0,
-			offsetBottom: params.viewportOffsetBottom || 0,
+			offsetBottom: params.viewportOffsetBottom || 0
 		});
 	}
 
@@ -264,17 +259,16 @@ export class Porvata {
 		}
 
 		params.vastTargeting = params.vastTargeting || {
-			passback: 'porvata',
+			passback: 'porvata'
 		};
 
 		const videoSettings = new VideoSettings(params);
 
 		porvataListener.init();
 
-		return googleIma
-			.load()
+		return googleIma.load()
 			.then(() => googleIma.getPlayer(videoSettings))
-			.then((ima) => new PorvataPlayer(ima, params, videoSettings))
+			.then(ima => new PorvataPlayer(ima, params, videoSettings))
 			.then((video) => {
 				function inViewportCallback(isVisible) {
 					// Play video automatically only for the first time
@@ -282,7 +276,7 @@ export class Porvata {
 						video.ima.dispatchEvent('wikiaFirstTimeInViewport');
 						video.play();
 						autoPlayed = true;
-						// Don't resume when video was paused manually
+					// Don't resume when video was paused manually
 					} else if (isVisible && autoPaused) {
 						video.resume();
 						// Pause video once it's out of viewport and set autoPaused to distinguish manual
@@ -370,8 +364,7 @@ export class Porvata {
 	static isVideoAutoplaySupported() {
 		const isAndroid = client.getOperatingSystem() === 'Android';
 		const browser = client.getBrowser().split(' ');
-		const isCompatibleChrome =
-			browser[0].indexOf('Chrome') !== -1 && parseInt(browser[1], 10) >= 54;
+		const isCompatibleChrome = browser[0].indexOf('Chrome') !== -1 && parseInt(browser[1], 10) >= 54;
 
 		return !isAndroid || isCompatibleChrome;
 	}

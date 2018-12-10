@@ -17,16 +17,16 @@ function getMockElement(params, frameElement = null, hidden = false) {
 		classList: {
 			add: () => {},
 			contains: () => hidden,
-			remove: () => {},
+			remove: () => {}
 		},
 		offsetParent,
 		offsetTop,
 		offsetHeight,
 		ownerDocument: {
 			defaultView: {
-				frameElement,
-			},
-		},
+				frameElement
+			}
+		}
 	};
 }
 

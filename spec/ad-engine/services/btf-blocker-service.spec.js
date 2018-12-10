@@ -16,7 +16,7 @@ describe('btf-blocker-service', () => {
 			onRenderEndedCallback = callbacks.onRenderEnded;
 		});
 		window.ads = {
-			runtime: {},
+			runtime: {}
 		};
 
 		btfBlockerService.init();

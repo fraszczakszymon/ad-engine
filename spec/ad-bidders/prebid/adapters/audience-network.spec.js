@@ -4,7 +4,7 @@ import { AudienceNetwork } from '../../../../src/ad-bidders/prebid/adapters/audi
 describe('AudienceNetwork bidder adapter', () => {
 	it('can be enabled', () => {
 		const audienceNetwork = new AudienceNetwork({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(audienceNetwork.enabled).to.equal(true);
@@ -15,10 +15,12 @@ describe('AudienceNetwork bidder adapter', () => {
 			enabled: true,
 			slots: {
 				mobile_in_content: {
-					sizes: [[300, 250]],
-					placementId: '112233445566_77889900',
-				},
-			},
+					sizes: [
+						[300, 250]
+					],
+					placementId: '112233445566_77889900'
+				}
+			}
 		});
 
 		expect(audienceNetwork.prepareAdUnits()).to.deep.equal([
@@ -26,19 +28,21 @@ describe('AudienceNetwork bidder adapter', () => {
 				code: 'mobile_in_content',
 				mediaTypes: {
 					banner: {
-						sizes: [[300, 250]],
-					},
+						sizes: [
+							[300, 250]
+						]
+					}
 				},
 				bids: [
 					{
 						bidder: 'audienceNetwork',
 						params: {
 							testMode: false,
-							placementId: '112233445566_77889900',
-						},
-					},
-				],
-			},
+							placementId: '112233445566_77889900'
+						}
+					}
+				]
+			}
 		]);
 	});
 });

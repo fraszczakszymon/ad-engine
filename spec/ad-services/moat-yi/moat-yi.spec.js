@@ -8,7 +8,7 @@ describe('MOAT YI service', () => {
 	beforeEach(() => {
 		context.set('targeting.m_data', 'waiting');
 		window.moatPrebidApi = {
-			getMoatTargetingForPage: () => moatPageLevelData,
+			getMoatTargetingForPage: () => moatPageLevelData
 		};
 	});
 

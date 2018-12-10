@@ -34,30 +34,26 @@ function getAdType(event, adSlot) {
 
 function getData(adSlot, { adType, status }) {
 	const now = new Date();
-
 	return {
 		browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 		adType: adType || '',
 		creative_id: adSlot.creativeId,
-		creative_size:
-			Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length
-				? adSlot.creativeSize.join('x')
-				: adSlot.creativeSize,
+		creative_size: (Array.isArray(adSlot.creativeSize) && adSlot.creativeSize.length)
+			? adSlot.creativeSize.join('x')
+			: adSlot.creativeSize,
 		line_item_id: adSlot.lineItemId,
 		status: status || adSlot.getStatus(),
 		page_width: window.document.body.scrollWidth || '',
 		time_bucket: now.getHours(),
 		timestamp: now.getTime(),
 		tz_offset: now.getTimezoneOffset(),
-		viewport_height: window.innerHeight || 0,
+		viewport_height: window.innerHeight || 0
 	};
 }
 
 function dispatch(methodName, adSlot, adInfo = {}) {
 	if (!listeners) {
-		listeners = context
-			.get('listeners.slot')
-			.filter((listener) => !listener.isEnabled || listener.isEnabled());
+		listeners = context.get('listeners.slot').filter(listener => !listener.isEnabled || listener.isEnabled());
 	}
 
 	const data = getData(adSlot, adInfo);
@@ -91,7 +87,6 @@ class SlotListener {
 		}
 
 		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
-
 		if (slotsToPush) {
 			slotsToPush.forEach((slotName) => {
 				slotInjector.inject(slotName);

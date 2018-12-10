@@ -4,7 +4,7 @@ import { Kargo } from '../../../../src/ad-bidders/prebid/adapters/kargo';
 describe('Kargo bidder adapter', () => {
 	it('can be enabled', () => {
 		const kargo = new Kargo({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(kargo.enabled).to.equal(true);
@@ -15,25 +15,29 @@ describe('Kargo bidder adapter', () => {
 			enabled: true,
 			slots: {
 				mobile_in_content: {
-					sizes: [[300, 250]],
-					placementId: '11223344',
-				},
-			},
+					sizes: [
+						[300, 250]
+					],
+					placementId: '11223344'
+				}
+			}
 		});
 
 		expect(kargo.prepareAdUnits()).to.deep.equal([
 			{
 				code: 'mobile_in_content',
-				sizes: [[300, 250]],
+				sizes: [
+					[300, 250]
+				],
 				bids: [
 					{
 						bidder: 'kargo',
 						params: {
-							placementId: '11223344',
-						},
-					},
-				],
-			},
+							placementId: '11223344'
+						}
+					}
+				]
+			}
 		]);
 	});
 });

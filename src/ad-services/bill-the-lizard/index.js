@@ -102,15 +102,11 @@ function getQueryParameters(models, parameters) {
 	const now = new Date();
 	const day = now.getDay() - 1;
 
-	return Object.assign(
-		{},
-		{
-			models: models.map((model) => model.name),
-			h: now.getHours(),
-			dow: day === -1 ? 6 : day,
-		},
-		parameters,
-	);
+	return Object.assign({}, {
+		models: models.map(model => model.name),
+		h: now.getHours(),
+		dow: day === -1 ? 6 : day
+	}, parameters);
 }
 
 /**
@@ -163,7 +159,6 @@ export class BillTheLizard {
 	call(projectNames, callId) {
 		if (!context.get('services.billTheLizard.enabled')) {
 			utils.logger(logGroup, 'disabled');
-
 			return new Promise((resolve, reject) => reject(new Error('Disabled')));
 		}
 
@@ -186,11 +181,10 @@ export class BillTheLizard {
 
 		// update names of GAM targeted models
 		models
-			.filter((model) => model.dfp_targeting)
-			.forEach((model) => this.targetedModelNames.add(model.name));
+			.filter(model => model.dfp_targeting)
+			.forEach(model => this.targetedModelNames.add(model.name));
 
 		const queryParameters = getQueryParameters(models, parameters);
-
 		utils.logger(logGroup, 'calling service', host, endpoint, queryParameters, `callId: ${callId}`);
 
 		this.statuses[callId] = BillTheLizard.TOO_LATE;
@@ -202,21 +196,18 @@ export class BillTheLizard {
 				} else {
 					this.statuses[callId] = BillTheLizard.FAILURE;
 				}
-
 				return Promise.reject(error);
 			})
-			.then((response) => overridePredictions(response))
+			.then(response => overridePredictions(response))
 			.then((response) => {
 				utils.logger(logGroup, 'service response OK', `callId: ${callId}`);
 
 				this.statuses[callId] = BillTheLizard.ON_TIME;
 
 				const modelToResultMap = this.getModelToResultMap(response);
-
 				utils.logger(logGroup, 'predictions', modelToResultMap, `callId: ${callId}`);
 
 				const predictions = this.buildPredictions(models, modelToResultMap, callId);
-
 				this.predictions.push(...predictions);
 
 				this.setTargeting();
@@ -232,7 +223,6 @@ export class BillTheLizard {
 			})
 			.catch((error) => {
 				utils.logger(logGroup, 'service response', error.message, `callId: ${callId}`);
-
 				return {};
 			});
 	}
@@ -246,9 +236,9 @@ export class BillTheLizard {
 	 */
 	buildPredictions(models, modelToResultMap, callId) {
 		return models
-			.map((model) => model.name)
-			.filter((modelName) => modelToResultMap[modelName] !== undefined)
-			.map((modelName) => ({ modelName, callId, result: modelToResultMap[modelName] }));
+			.map(model => model.name)
+			.filter(modelName => modelToResultMap[modelName] !== undefined)
+			.map(modelName => ({ modelName, callId, result: modelToResultMap[modelName] }));
 	}
 
 	/**
@@ -258,7 +248,6 @@ export class BillTheLizard {
 	 */
 	getModelToResultMap(response) {
 		const modelToResultMap = {};
-
 		Object.keys(response).forEach((modelName) => {
 			const { result } = response[modelName];
 
@@ -266,7 +255,6 @@ export class BillTheLizard {
 				modelToResultMap[modelName] = result;
 			}
 		});
-
 		return modelToResultMap;
 	}
 
@@ -277,17 +265,12 @@ export class BillTheLizard {
 	 */
 	setTargeting() {
 		const targeting = this.getTargeting();
-
 		if (Object.keys(targeting).length > 0) {
-			const serializedTargeting = Object.entries(targeting).map(
-				([modelName, result]) => `${modelName}_${result}`,
-			);
-
+			const serializedTargeting = Object.entries(targeting)
+				.map(([modelName, result]) => `${modelName}_${result}`);
 			context.set('targeting.btl', serializedTargeting);
-
 			return serializedTargeting;
 		}
-
 		return '';
 	}
 
@@ -300,13 +283,11 @@ export class BillTheLizard {
 	 */
 	getTargeting() {
 		const latestResults = {};
-
 		this.predictions
-			.filter((pred) => this.targetedModelNames.has(pred.modelName))
+			.filter(pred => this.targetedModelNames.has(pred.modelName))
 			.forEach((pred) => {
 				latestResults[pred.modelName] = pred.result;
 			});
-
 		return latestResults;
 	}
 
@@ -318,7 +299,7 @@ export class BillTheLizard {
 	 * @returns {PredictionDefinition}
 	 */
 	getPrediction(modelName, callId) {
-		return this.getPredictions(modelName).find((pred) => pred.callId === callId);
+		return this.getPredictions(modelName).find(pred => pred.callId === callId);
 	}
 
 	/**
@@ -332,13 +313,11 @@ export class BillTheLizard {
 	 */
 	getPredictions(modelName) {
 		const separator = ':';
-
 		if (modelName) {
 			return this.predictions.filter(
-				(pred) => pred.modelName.split(separator)[0] === modelName.split(separator)[0],
+				pred => pred.modelName.split(separator)[0] === modelName.split(separator)[0]
 			);
 		}
-
 		return this.predictions;
 	}
 
@@ -352,7 +331,6 @@ export class BillTheLizard {
 	 */
 	getResponseStatus(callId) {
 		callId = callId || this.callCounter;
-
 		return this.statuses[callId];
 	}
 
@@ -363,12 +341,12 @@ export class BillTheLizard {
 	 */
 	serialize(callId) {
 		let { predictions } = this;
-
 		if (callId !== undefined) {
-			predictions = predictions.filter((pred) => pred.callId === callId);
+			predictions = predictions.filter(pred => pred.callId === callId);
 		}
-
-		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(';');
+		return predictions
+			.map(pred => `${pred.modelName}|${pred.callId}=${pred.result}`)
+			.join(';');
 	}
 }
 

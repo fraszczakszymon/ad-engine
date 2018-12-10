@@ -34,7 +34,7 @@ class GeoEdge {
 		utils.logger(logGroup, 'loading');
 		window.grumi = {
 			cfg: geoEdgeConfig,
-			key: geoEdgeKey,
+			key: geoEdgeKey
 		};
 
 		return loadScript().then(() => {

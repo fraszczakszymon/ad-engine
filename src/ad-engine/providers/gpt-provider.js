@@ -1,9 +1,9 @@
 import { decorate } from 'core-decorators';
 import { logger, defer } from '../utils';
-import { slotListener } from '../listeners';
-import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
+import { slotListener } from '../listeners';
+import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
 
 const logGroup = 'gpt-provider';
 

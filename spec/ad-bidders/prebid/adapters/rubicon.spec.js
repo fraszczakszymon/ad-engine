@@ -4,7 +4,7 @@ import { Rubicon } from '../../../../src/ad-bidders/prebid/adapters/rubicon';
 describe('Rubicon bidder adapter', () => {
 	it('can be enabled', () => {
 		const rubicon = new Rubicon({
-			enabled: true,
+			enabled: true
 		});
 
 		expect(rubicon.enabled).to.equal(true);
@@ -19,9 +19,9 @@ describe('Rubicon bidder adapter', () => {
 					siteId: '55111',
 					sizeId: '101',
 					zoneId: '88888',
-					position: 'btf',
-				},
-			},
+					position: 'btf'
+				}
+			}
 		});
 
 		expect(rubicon.prepareAdUnits()).to.deep.equal([
@@ -30,8 +30,8 @@ describe('Rubicon bidder adapter', () => {
 				mediaType: 'video',
 				mediaTypes: {
 					video: {
-						playerSize: [640, 480],
-					},
+						playerSize: [640, 480]
+					}
 				},
 				bids: [
 					{
@@ -43,18 +43,18 @@ describe('Rubicon bidder adapter', () => {
 							name: 'mobile_in_content',
 							position: 'btf',
 							inventory: {
-								pos: ['mobile_in_content'],
+								pos: ['mobile_in_content']
 							},
 							video: {
 								playerWidth: '640',
 								playerHeight: '480',
 								size_id: '101',
-								language: 'en',
-							},
-						},
-					},
-				],
-			},
+								language: 'en'
+							}
+						}
+					}
+				]
+			}
 		]);
 	});
 });

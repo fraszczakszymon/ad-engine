@@ -6,7 +6,7 @@ export class AppnexusWebads extends BaseAdapter {
 
 		this.bidderName = 'appnexusWebAds';
 		this.aliases = {
-			appnexus: [this.bidderName],
+			appnexus: [this.bidderName]
 		};
 		this.priority = 0;
 	}
@@ -16,17 +16,17 @@ export class AppnexusWebads extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes,
-				},
+					sizes
+				}
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
-						placementId,
-					},
-				},
-			],
+						placementId
+					}
+				}
+			]
 		};
 	}
 }

@@ -10,7 +10,7 @@ function add(video, container) {
 	progressBar.appendChild(currentTime);
 
 	progressBar.pause = () => {
-		currentTime.style.width = `${(currentTime.offsetWidth / progressBar.offsetWidth) * 100}%`;
+		currentTime.style.width = `${(currentTime.offsetWidth / progressBar.offsetWidth * 100)}%`;
 	};
 	progressBar.reset = () => {
 		currentTime.style.transitionDuration = '';
@@ -46,5 +46,5 @@ function add(video, container) {
 }
 
 export default {
-	add,
+	add
 };

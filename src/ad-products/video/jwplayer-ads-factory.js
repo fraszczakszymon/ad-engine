@@ -161,7 +161,6 @@ function create(options) {
 
 			if (featuredVideo15s.isEnabled(currentMedia.mediaid)) {
 				prerollPositionReached = true;
-
 				return;
 			}
 

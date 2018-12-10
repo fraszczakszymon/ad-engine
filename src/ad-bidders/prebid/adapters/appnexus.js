@@ -14,17 +14,17 @@ export class Appnexus extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes,
-				},
+					sizes
+				}
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
-						placementId: this.getPlacement(position),
-					},
-				},
-			],
+						placementId: this.getPlacement(position)
+					}
+				}
+			]
 		};
 	}
 

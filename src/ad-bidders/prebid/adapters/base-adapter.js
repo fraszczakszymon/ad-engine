@@ -5,8 +5,10 @@ export class BaseAdapter {
 	}
 
 	prepareAdUnits() {
-		return Object.keys(this.slots).map((slotName) =>
-			this.prepareConfigForAdUnit(slotName, this.slots[slotName]),
-		);
+		return Object
+			.keys(this.slots)
+			.map(
+				slotName => this.prepareConfigForAdUnit(slotName, this.slots[slotName])
+			);
 	}
 }

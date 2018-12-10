@@ -29,33 +29,37 @@ const availableAdapters = {
 	openx: Openx,
 	pubmatic: Pubmatic,
 	rubicon: Rubicon,
-	rubiconDisplay: RubiconDisplay,
+	rubiconDisplay: RubiconDisplay
 };
 
 function registerAliases() {
 	adapters
-		.filter((adapter) => adapter.aliases)
+		.filter(adapter => adapter.aliases)
 		.forEach((adapter) => {
 			window.pbjs.que.push(() => {
 				const aliasMap = adapter.aliases;
 
-				Object.keys(aliasMap).forEach((bidderName) => {
-					aliasMap[bidderName].forEach((alias) => {
-						window.pbjs.aliasBidder(bidderName, alias);
+				Object
+					.keys(aliasMap)
+					.forEach((bidderName) => {
+						aliasMap[bidderName].forEach((alias) => {
+							window.pbjs.aliasBidder(bidderName, alias);
+						});
 					});
-				});
 			});
 		});
 }
 
 function setupAdapters(bidders) {
-	Object.keys(availableAdapters).forEach((key) => {
-		if (bidders[key]) {
-			const adapter = new availableAdapters[key](bidders[key]);
+	Object
+		.keys(availableAdapters)
+		.forEach((key) => {
+			if (bidders[key]) {
+				const adapter = new availableAdapters[key](bidders[key]);
 
-			adapters.push(adapter);
-		}
-	});
+				adapters.push(adapter);
+			}
+		});
 
 	setupCustomAdapters(bidders);
 }

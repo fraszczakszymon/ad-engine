@@ -6,13 +6,13 @@ describe('prebid helper', () => {
 	it('should return page level targeting with pos=slotName', () => {
 		context.set('bidders.prebid.targeting', {
 			foo: 1,
-			bar: 'test',
+			bar: 'test'
 		});
 
 		expect(getTargeting('slot_name')).to.deep.equal({
 			foo: 1,
 			bar: 'test',
-			pos: ['slot_name'],
+			pos: ['slot_name']
 		});
 	});
 });

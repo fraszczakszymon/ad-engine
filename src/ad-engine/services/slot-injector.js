@@ -1,12 +1,11 @@
+import { context } from './context-service';
 import { logger } from '../utils';
 import { isInTheSameViewport } from '../utils/dimensions';
-import { context } from './context-service';
 
 const logGroup = 'slot-repeater';
 
 function findNextSuitablePlace(anchorElements = [], conflictingElements = []) {
 	let i;
-
 	for (i = 0; i < anchorElements.length; i += 1) {
 		if (!isInTheSameViewport(anchorElements[i], conflictingElements)) {
 			return anchorElements[i];
@@ -30,17 +29,12 @@ function insertNewSlot(slotName, nextSibling) {
 class SlotInjector {
 	inject(slotName, insertBelowScrollPosition = false) {
 		const config = context.get(`slots.${slotName}`);
-		let anchorElements = Array.prototype.slice.call(
-			document.querySelectorAll(config.insertBeforeSelector),
-		);
-		const conflictingElements = Array.prototype.slice.call(
-			document.querySelectorAll(config.avoidConflictWith),
-		);
+		let anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
+		const conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
 
 		if (insertBelowScrollPosition) {
 			const scrollPos = window.scrollY;
-
-			anchorElements = anchorElements.filter((el) => el.offsetTop > scrollPos);
+			anchorElements = anchorElements.filter(el => el.offsetTop > scrollPos);
 		}
 
 		const nextSibling = findNextSuitablePlace(anchorElements, conflictingElements);
@@ -52,7 +46,6 @@ class SlotInjector {
 		}
 
 		const container = insertNewSlot(slotName, nextSibling);
-
 		logger(logGroup, 'Inject slot', slotName);
 
 		return container;

@@ -2,154 +2,154 @@ export const TRANSLATIONS = {
 	labels: {
 		en: {
 			advertisement: 'Advertisement',
-			'learn-more': 'Learn More',
+			'learn-more': 'Learn More'
 		},
 		ar: {
-			advertisement: 'إعلان',
+			advertisement: 'إعلان'
 		},
 		bn: {
-			advertisement: 'বিজ্ঞাপন',
+			advertisement: 'বিজ্ঞাপন'
 		},
 		br: {
-			advertisement: 'Bomm bruderezh',
+			advertisement: 'Bomm bruderezh'
 		},
 		ca: {
-			advertisement: 'Anunci',
+			advertisement: 'Anunci'
 		},
 		cs: {
-			advertisement: 'Reklama',
+			advertisement: 'Reklama'
 		},
 		de: {
 			advertisement: 'Anzeige',
-			'learn-more': 'Erfahre mehr',
+			'learn-more': 'Erfahre mehr'
 		},
 		es: {
 			advertisement: 'Anuncio',
-			'learn-more': 'Conoce más',
+			'learn-more': 'Conoce más'
 		},
 		eu: {
-			advertisement: 'Iragarkia',
+			advertisement: 'Iragarkia'
 		},
 		fa: {
-			advertisement: 'تبلیغات',
+			advertisement: 'تبلیغات'
 		},
 		fo: {
-			advertisement: 'Lýsing',
+			advertisement: 'Lýsing'
 		},
 		fr: {
 			advertisement: 'Publicité',
-			'learn-more': 'En savoir plus',
+			'learn-more': 'En savoir plus'
 		},
 		fy: {
-			advertisement: 'Advertinsje',
+			advertisement: 'Advertinsje'
 		},
 		gl: {
-			advertisement: 'Anuncio',
+			advertisement: 'Anuncio'
 		},
 		gv: {
-			advertisement: 'Soilsheen',
+			advertisement: 'Soilsheen'
 		},
 		he: {
-			advertisement: 'פרסומת',
+			advertisement: 'פרסומת'
 		},
 		hu: {
-			advertisement: 'Hirdetés',
+			advertisement: 'Hirdetés'
 		},
 		id: {
 			advertisement: 'Iklan',
-			'learn-more': 'Baca Selengkapnya',
+			'learn-more': 'Baca Selengkapnya'
 		},
 		inh: {
-			advertisement: 'дебат',
+			advertisement: 'дебат'
 		},
 		it: {
 			advertisement: 'Pubblicità',
-			'learn-more': 'Ulteriori informazioni',
+			'learn-more': 'Ulteriori informazioni'
 		},
 		ja: {
 			advertisement: '広告',
-			'learn-more': 'もっと見る',
+			'learn-more': 'もっと見る'
 		},
 		ko: {
-			advertisement: '광고',
+			advertisement: '광고'
 		},
 		krc: {
-			advertisement: 'Pеклама',
+			advertisement: 'Pеклама'
 		},
 		lb: {
-			advertisement: 'Reklamm',
+			advertisement: 'Reklamm'
 		},
 		mk: {
-			advertisement: 'Pеклама',
+			advertisement: 'Pеклама'
 		},
 		mr: {
-			advertisement: 'जाहिरात',
+			advertisement: 'जाहिरात'
 		},
 		ms: {
-			advertisement: 'Iklan',
+			advertisement: 'Iklan'
 		},
 		nl: {
 			advertisement: 'Advertentie',
-			'learn-more': 'Meer te weten komen',
+			'learn-more': 'Meer te weten komen'
 		},
 		no: {
-			advertisement: 'Reklame',
+			advertisement: 'Reklame'
 		},
 		pl: {
 			advertisement: 'Reklama',
-			'learn-more': 'Czytaj więcej',
+			'learn-more': 'Czytaj więcej'
 		},
 		ps: {
-			advertisement: 'خبرتيا',
+			advertisement: 'خبرتيا'
 		},
 		pt: {
 			advertisement: 'Anúncio',
-			'learn-more': 'Saiba Mais',
+			'learn-more': 'Saiba Mais'
 		},
 		'roa-tara': {
-			advertisement: 'Pubblecetà',
+			advertisement: 'Pubblecetà'
 		},
 		ru: {
 			advertisement: 'Pеклама',
-			'learn-more': 'Узнать больше',
+			'learn-more': 'Узнать больше'
 		},
 		si: {
-			advertisement: 'ප්‍රචාරක දැන්වීම',
+			advertisement: 'ප්‍රචාරක දැන්වීම'
 		},
 		sl: {
-			advertisement: 'Oglas',
+			advertisement: 'Oglas'
 		},
 		'sr-ec': {
-			advertisement: 'Pеклама',
+			advertisement: 'Pеклама'
 		},
 		sv: {
-			advertisement: 'Annons',
+			advertisement: 'Annons'
 		},
 		te: {
-			advertisement: 'వాణిజ్య ప్రకటన',
+			advertisement: 'వాణిజ్య ప్రకటన'
 		},
 		th: {
-			advertisement: 'การโฆษณา',
+			advertisement: 'การโฆษณา'
 		},
 		tr: {
-			advertisement: 'Reklam',
+			advertisement: 'Reklam'
 		},
 		'tt-cyrl': {
-			advertisement: 'Pеклама',
+			advertisement: 'Pеклама'
 		},
 		uk: {
-			advertisement: 'Pеклама',
+			advertisement: 'Pеклама'
 		},
 		vi: {
-			advertisement: 'Quảng cáo',
+			advertisement: 'Quảng cáo'
 		},
 		'zh-hans': {
 			advertisement: '广告',
-			'learn-more': '了解更多',
+			'learn-more': '了解更多'
 		},
 		'zh-hant': {
 			advertisement: '廣告',
-			'learn-more': '閱讀更多',
-		},
-	},
+			'learn-more': '閱讀更多'
+		}
+	}
 };

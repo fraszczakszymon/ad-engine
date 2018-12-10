@@ -72,7 +72,6 @@ class LocalCache {
 			// Check if item has expired
 			if (this.isExpired(cacheItem)) {
 				this.delete(key);
-
 				return false;
 			}
 
@@ -92,7 +91,7 @@ class LocalCache {
 
 		if (!isNaN(expiresValue)) {
 			// Set expiration as a JS timestamp
-			cacheItem.expires = expiresValue * 1000 + Date.now();
+			cacheItem.expires = (expiresValue * 1000) + Date.now();
 		}
 
 		try {

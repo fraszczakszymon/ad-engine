@@ -40,12 +40,12 @@ export default {
 	getElement() {
 		return {
 			classList: {
-				contains: () => {},
+				contains: () => {}
 			},
 			offsetHeight: 300,
 			offsetTop,
 			offsetParent: null,
-			ownerDocument: {},
+			ownerDocument: {}
 		};
 	},
 
@@ -56,7 +56,7 @@ export default {
 	config: {
 		targeting: {
 			wsi: 'yyyy',
-			rv: 1,
-		},
-	},
+			rv: 1
+		}
+	}
 };

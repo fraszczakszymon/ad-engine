@@ -10,13 +10,11 @@ class VastParser {
 			adInfo.contentType = imaAd.getContentType();
 
 			const [lineItemId] = imaAd.getWrapperAdIds() || [];
-
 			if (lineItemId !== undefined) {
 				adInfo.lineItemId = lineItemId;
 			}
 
 			const [creativeId] = imaAd.getWrapperCreativeIds() || [];
-
 			if (creativeId !== undefined) {
 				adInfo.creativeId = creativeId;
 			}
@@ -36,7 +34,7 @@ class VastParser {
 			customParams,
 			lineItemId: currentAd.lineItemId || extra.lineItemId,
 			position: vastParams.vpos,
-			size: vastParams.sz,
+			size: vastParams.sz
 		};
 	}
 }

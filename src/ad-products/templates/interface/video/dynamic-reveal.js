@@ -26,7 +26,6 @@ function add(video, container, params) {
 
 		if (!video.isFloating) {
 			const slotWidth = slot.getElement().scrollWidth;
-
 			video.resize(slotWidth, slotWidth / DEFAULT_VIDEO_ASPECT_RATIO);
 		}
 	});
@@ -38,5 +37,5 @@ function add(video, container, params) {
 }
 
 export default {
-	add,
+	add
 };

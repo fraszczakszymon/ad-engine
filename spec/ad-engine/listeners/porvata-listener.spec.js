@@ -10,9 +10,9 @@ function getListener() {
 		onEvent(eventName, params, data) {
 			this.dispatchedEvents.push({
 				eventName,
-				data,
+				data
 			});
-		},
+		}
 	};
 }
 
@@ -33,12 +33,12 @@ function mockImaVideo() {
 								return 'video/mp4';
 							},
 							getWrapperAdIds() {},
-							getWrapperCreativeIds() {},
+							getWrapperCreativeIds() {}
 						};
-					},
+					}
 				};
-			},
-		},
+			}
+		}
 	};
 }
 
@@ -51,8 +51,10 @@ describe('porvata-listener', () => {
 		customListener = getListener();
 		context.extend({
 			listeners: {
-				porvata: [customListener],
-			},
+				porvata: [
+					customListener
+				]
+			}
 		});
 	});
 
@@ -82,7 +84,6 @@ describe('porvata-listener', () => {
 
 	it('dispatch Porvata event with video data', () => {
 		const listener = new PorvataListener({ adProduct: 'test-video' });
-
 		listener.video = mockImaVideo();
 		listener.init();
 

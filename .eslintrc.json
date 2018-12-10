@@ -33,8 +33,8 @@
 		],
 		"padding-line-between-statements": [
 			"error",
-			{ "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
-			{ "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+			{ "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+			{ "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
 			{ "blankLine": "always", "prev": "*", "next": "return" }
 		],
 		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
@@ -52,7 +52,7 @@
 				"asyncArrow": "always"
 			}
 		],
-		"prefer-arrow-callback": ["error", { "allowUnboundThis": false }],
+		"prefer-arrow-callback": [ "error", { "allowUnboundThis": false } ],
 		"no-extra-bind": "error",
 		"no-tabs": ["off"],
 		"indent": ["error", "tab", { "SwitchCase": 1 }],

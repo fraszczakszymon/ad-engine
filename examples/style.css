@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,300,700');
 
-html,
-body {
+html, body {
 	background: #eee;
 	color: #444;
 	font-family: Lato, sans-serif;
@@ -48,12 +47,8 @@ pre {
 	height: auto;
 }
 
-.top-leaderboard,
-.top-boxad,
-.incontent-boxad,
-.repeatable-boxad,
-.bottom-leaderboard {
-	background: #1976d2;
+.top-leaderboard, .top-boxad, .incontent-boxad, .repeatable-boxad, .bottom-leaderboard {
+	background: #1976D2;
 	color: #eee;
 	font-size: 1.3em;
 	height: 250px;
@@ -149,9 +144,9 @@ pre {
 #incontent_player::before {
 	content: 'Dynamic placeholder for incontent_player';
 	display: block;
-	font-size: 0.625rem;
+	font-size: .625rem;
 	font-weight: 700;
-	line-height: 0.75rem;
+	line-height: .75rem;
 	margin: 0;
 	padding-bottom: 6px;
 	padding-top: 6px;
@@ -176,8 +171,7 @@ pre {
 		order: 2;
 		max-width: 300px;
 	}
-	.top-leaderboard,
-	.bottom-leaderboard {
+	.top-leaderboard, .bottom-leaderboard {
 		height: 90px;
 		line-height: 90px;
 		width: 728px;

@@ -26,7 +26,6 @@ class AnimationsAd {
 				const leaderboardStyle = browser
 					.element(adSlots.topLeaderboard)
 					.getAttribute(this.topLeaderboardStyle);
-
 				return leaderboardStyle === this.collapsedAdMaxHeight;
 			},
 			this.waitForAnimationsTime,

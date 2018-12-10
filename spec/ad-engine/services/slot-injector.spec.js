@@ -15,38 +15,37 @@ describe('slot-repeater', () => {
 		elementProperties = {
 			offsetParent: {
 				offsetTop: 0,
-				offsetParent: null,
-			},
+				offsetParent: null
+			}
 		};
 
 		conflictingElement = {
 			classList: {
-				contains: () => {},
+				contains: () => {}
 			},
 			offsetHeight: 300,
 			offsetTop: 1400,
 			offsetParent: elementProperties.offsetParent,
 			ownerDocument: {},
 			parentNode: {
-				insertBefore: () => {},
-			},
+				insertBefore: () => {}
+			}
 		};
 
 		placeholder = {
 			classList: {
-				contains: () => {},
+				contains: () => {}
 			},
 			offsetHeight: 300,
 			offsetTop: 1500,
 			offsetParent: elementProperties.offsetParent,
 			ownerDocument: {},
 			parentNode: {
-				insertBefore: () => {},
-			},
+				insertBefore: () => {}
+			}
 		};
 
 		const querySelectorAll = sinon.stub(document, 'querySelectorAll');
-
 		querySelectorAll.withArgs('.foo').returns([conflictingElement]);
 		querySelectorAll.withArgs('.main p').returns([placeholder]);
 
@@ -56,8 +55,8 @@ describe('slot-repeater', () => {
 			defaultSizes: [[1, 1]],
 			insertBeforeSelector: '.main p',
 			targeting: {
-				loc: 'hivi',
-			},
+				loc: 'hivi'
+			}
 		});
 	});
 
