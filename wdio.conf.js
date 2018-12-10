@@ -49,7 +49,7 @@ exports.config = {
 			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),
 			screenshotName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/current')),
 			diffName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/diff')),
-			misMatchTolerance: 0.01,
+			misMatchTolerance: 5,
 		}),
 		viewportChangePause: 300,
 		viewports: [{ width: 1600, height: 900 }],

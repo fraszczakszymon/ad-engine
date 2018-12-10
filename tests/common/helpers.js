@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { timeouts } from './timeouts';
 import { queryStrings } from './query-strings';
 import { adSlots } from './ad-slots';
@@ -203,6 +204,10 @@ class Helpers {
 			width,
 			height,
 		});
+	}
+
+	checkVisualRegression(results) {
+		results.forEach((result) => expect(result.isWithinMisMatchTolerance).to.be.ok);
 	}
 }
 
