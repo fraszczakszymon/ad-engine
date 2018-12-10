@@ -10,6 +10,7 @@ class AdSlots {
 		this.topBoxad = '#top_boxad';
 		this.incontentBoxad = '#incontent_boxad';
 		this.repeatableBoxad = '#repeatable_boxad_';
+		this.incontentPlayer = '#incontent_player';
 		this.invisibleHighImpact = '#invisible_high_impact_2';
 		this.railModule = '.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards; fixed value

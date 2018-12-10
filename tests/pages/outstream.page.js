@@ -1,15 +1,11 @@
 class Outstream {
 	constructor() {
 		this.pageLink = 'templates/outstream/';
-		this.player = '#player';
+		this.player = '.porvata-outstream';
+		this.floatingPlayer = '.outstream-floating';
 		this.playerWidth = 300;
 		this.playerHeight = 250;
-		this.unmuteButton = '#player-unmute';
-		this.fullscreenButton = '#player-fullscreen';
 		this.closePlayerButton = '#player-close';
-		this.fullscreenPlayer = '.video-player-fullscreen';
-		this.videoPlayerHidden = '.video-player.hide';
-		this.iconHidden = '.icon.hide';
 		this.videoDuration = 45000;
 		this.pageLength = 3800;
 	}

@@ -26,6 +26,13 @@ class QueryStrings {
 			f15n: 'f15s=eHnTdMot',
 			videoAdapter: 'wikia_video_adapter'
 		};
+		this.services = {
+			krux: 'krux-disabled',
+			trackingOptIn: 'tracking-opt-in',
+			moat: 'moat-yi-disabled',
+			adEngineDelay: 'adengine-delay',
+			enabledProjects: 'enabled-project'
+		};
 	}
 
 	/**
@@ -119,6 +126,30 @@ class QueryStrings {
 	getResolvedState(resolved) {
 		const on = resolved ? '1' : '0';
 		return `${this.utils.resolved}=${on}`;
+	}
+
+	getKrux(enabled) {
+		const on = enabled ? '0' : '1';
+		return `${this.services.krux}=${on}`;
+	}
+
+	getTrackingOptIn(enabled) {
+		const on = enabled ? '1' : '0';
+		return `${this.services.trackingOptIn}=${on}`;
+	}
+
+	getMoat(enabled) {
+		const on = enabled ? '0' : '1';
+		return `${this.services.moat}=${on}`;
+	}
+
+	getAdEngineDelay(timeout) {
+		return `${this.services.adEngineDelay}=${timeout}`;
+	}
+
+	getEmptyResponse(empty) {
+		const on = empty ? '1' : '0';
+		return `${this.utils.forceEmptyResponse}=${on}`;
 	}
 
 	getSessionIdParam(parameter) {
