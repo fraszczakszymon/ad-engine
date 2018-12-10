@@ -9,6 +9,7 @@ describe('It will test krux page', () => {
 	it('will test if cached value is stored', () => {
 		browser.url(moat.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.waitForValuesLoaded();
 		expect(moat.getPageLevelParams()).to.equal('{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}');
 	});
 
@@ -23,6 +24,7 @@ describe('It will test krux page', () => {
 		helpers.navigateToUrl(moat.pageLink, queryStrings.getAdEngineDelay(1000));
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitForViewabillityCounted();
+		helpers.waitForValuesLoaded();
 		expect(moat.getPageLevelParams()).to.equal('{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}');
 	});
 });

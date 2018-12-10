@@ -10,6 +10,7 @@ class Helpers {
 	constructor() {
 		this.classHidden = '.hide';
 		this.classProperty = 'class';
+		this.main = '.main';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
 		this.wrapper = '.wrapper:first-of-type';
@@ -86,6 +87,13 @@ class Helpers {
 
 	waitForVideoToProgress(videoDuration) {
 		browser.pause(videoDuration);
+	}
+
+	waitForValuesLoaded(field = false) {
+		if (field) {
+			return browser.waitUntil(() => browser.getText(field) !== 'Waiting...', timeouts.standard);
+		}
+		return browser.waitUntil(() => browser.getText(this.main) !== 'Waiting...', timeouts.standard);
 	}
 
 	/**

@@ -156,6 +156,10 @@ class QueryStrings {
 		return `${this.utils.sessionId}=${parameter}`;
 	}
 
+	getProjects(...projects) {
+		return `${this.services.enabledProjects}=${projects.join(',')}`;
+	}
+
 	constructInstantGlobal(wg, country = 'XX', percent = null, additional = null) {
 		return `${wg}=${this.getIGParameters(country, percent, additional)}`;
 	}
