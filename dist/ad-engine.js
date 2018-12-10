@@ -176,13 +176,13 @@ module.exports = require("babel-runtime/helpers/inherits");
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 19 */
@@ -304,9 +304,9 @@ var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_
 
 
 
-var bab = null,
-    client_browser = null,
-    operatingSystem = null;
+var bab = null;
+var client_browser = null;
+var operatingSystem = null;
 
 var client_Client = function () {
 	function Client() {
@@ -359,7 +359,8 @@ var client_Client = function () {
 		value: function getDeviceType() {
 			if (this.isTablet()) {
 				return 'tablet';
-			} else if (this.isSmartphone()) {
+			}
+			if (this.isSmartphone()) {
 				return 'smartphone';
 			}
 
@@ -406,19 +407,20 @@ var client_Client = function () {
 			    appVersion = _window$navigator.appVersion,
 			    userAgent = _window$navigator.userAgent;
 
-
-			var temp = void 0,
-			    matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+			var temp = void 0;
+			var matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 
 			if (/trident/i.test(matches[1])) {
 				temp = /\brv[ :]+(\d+)/g.exec(userAgent) || [];
 				client_browser = 'IE ' + (temp[1] || '');
+
 				return client_browser;
 			}
 			if (matches[1] === 'Chrome') {
 				temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/);
 				if (temp !== null) {
 					client_browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
+
 					return client_browser;
 				}
 			}
@@ -447,10 +449,9 @@ var client = new client_Client();
  */
 function getElementOffset(element, offsetParameter) {
 	var elementWindow = element.ownerDocument.defaultView;
-
-	var currentElement = element,
-	    hideAgain = false,
-	    topPos = 0;
+	var currentElement = element;
+	var hideAgain = false;
+	var topPos = 0;
 
 	if (element.classList.contains('hide')) {
 		hideAgain = true;
@@ -504,7 +505,8 @@ function getViewportHeight() {
  * @param element DOM element that is going to be checked
  * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
  * @param bottomOffset bottom offset that defines bottom margin of viewport
- * @param areaThreshold element area that needs to be in/outside viewport to decide whether element is in the viewport
+ * @param areaThreshold element area that needs to be in/outside viewport to decide whether element
+ * is in the viewport
  * @returns {boolean}
  */
 function isInViewport(element) {
@@ -512,21 +514,21 @@ function isInViewport(element) {
 	var bottomOffset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 	var areaThreshold = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.5;
 
-	var alwaysInViewportPositions = ['fixed', 'sticky'],
-	    elementPosition = window.getComputedStyle(element).position;
+	var alwaysInViewportPositions = ['fixed', 'sticky'];
+	var elementPosition = window.getComputedStyle(element).position;
 
 	if (alwaysInViewportPositions.includes(elementPosition)) {
 		return true;
 	}
 
-	var elementHeight = element.offsetHeight,
-	    elementTop = getTopOffset(element),
-	    elementBottom = elementTop + elementHeight,
-	    scrollPosition = window.scrollY,
-	    viewportHeight = getViewportHeight(),
-	    viewportTop = topOffset + scrollPosition,
-	    viewportBottom = bottomOffset + scrollPosition + viewportHeight,
-	    minimumElementArea = areaThreshold * elementHeight;
+	var elementHeight = element.offsetHeight;
+	var elementTop = getTopOffset(element);
+	var elementBottom = elementTop + elementHeight;
+	var scrollPosition = window.scrollY;
+	var viewportHeight = getViewportHeight();
+	var viewportTop = topOffset + scrollPosition;
+	var viewportBottom = bottomOffset + scrollPosition + viewportHeight;
+	var minimumElementArea = areaThreshold * elementHeight;
 
 	return elementTop >= viewportTop - minimumElementArea && elementBottom <= viewportBottom + minimumElementArea;
 }
@@ -574,6 +576,7 @@ var VISIBILITY_STATUS = {
  */
 function getDocumentVisibilityStatus() {
 	var status = void 0;
+
 	switch (document.hidden) {
 		case true:
 			status = VISIBILITY_STATUS.hidden;
@@ -584,6 +587,7 @@ function getDocumentVisibilityStatus() {
 		default:
 			status = VISIBILITY_STATUS.notImplemented;
 	}
+
 	return status;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
@@ -607,6 +611,7 @@ var flow_control_wait = function wait() {
 	return new promise_default.a(function (resolve, reject) {
 		if (typeof milliseconds !== 'number') {
 			reject(new Error('Delay value must be a number.'));
+
 			return;
 		}
 
@@ -622,6 +627,7 @@ var flow_control_defer = function defer(fn) {
 	return new promise_default.a(function (resolve, reject) {
 		if (typeof fn !== 'function') {
 			reject(new Error('Expected a function.'));
+
 			return;
 		}
 
@@ -668,18 +674,6 @@ var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 var external_js_cookie_ = __webpack_require__(14);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
-// CONCATENATED MODULE: ./src/ad-engine/utils/random.js
-// TODO remove this module
-// It is a workaround for issue with mocking Math.random in our environment
-// https://github.com/babel/babel/issues/5426#issuecomment-284839994
-
-function getRandom() {
-	return Math.random();
-}
-
-/* harmony default export */ var random = ({
-	getRandom: getRandom
-});
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
 
 
@@ -720,8 +714,9 @@ var contextObject = {
 		size: [640, 480],
 		adUnitId: ''
 	}
-},
-    onChangeCallbacks = {};
+};
+
+var onChangeCallbacks = {};
 
 function runCallbacks(trigger, key, newValue) {
 	if (!onChangeCallbacks[trigger]) {
@@ -735,6 +730,7 @@ function runCallbacks(trigger, key, newValue) {
 
 function triggerOnChange(key, segments, newValue) {
 	var trigger = '';
+
 	segments.forEach(function (seg) {
 		trigger += (trigger === '' ? '' : '.') + seg;
 		runCallbacks(trigger, key, newValue);
@@ -744,10 +740,10 @@ function triggerOnChange(key, segments, newValue) {
 function context_service_segment(key, newValue) {
 	var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-	var segments = key.split('.'),
-	    segmentsCount = segments.length;
-	var seg = contextObject,
-	    lastKey = null;
+	var segments = key.split('.');
+	var segmentsCount = segments.length;
+	var seg = contextObject;
+	var lastKey = null;
 
 	for (var i = 0; i < segmentsCount; i += 1) {
 		lastKey = segments[i];
@@ -759,6 +755,7 @@ function context_service_segment(key, newValue) {
 
 	if (remove) {
 		delete seg[lastKey];
+
 		return null;
 	}
 
@@ -827,6 +824,18 @@ var context_service_Context = function () {
 }();
 
 var context = new context_service_Context();
+// CONCATENATED MODULE: ./src/ad-engine/utils/random.js
+// TODO remove this module
+// It is a workaround for issue with mocking Math.random in our environment
+// https://github.com/babel/babel/issues/5426#issuecomment-284839994
+
+function getRandom() {
+	return Math.random();
+}
+
+/* harmony default export */ var random = ({
+	getRandom: getRandom
+});
 // CONCATENATED MODULE: ./src/ad-engine/utils/geo.js
 
 
@@ -835,18 +844,17 @@ var context = new context_service_Context();
 
 
 
-var cacheMarker = '-cached',
-    cacheMaxAge = 30 * 60 * 1000,
-    earth = 'XX',
-    negativePrefix = 'non-',
-    precision = Math.pow(10, 6),
-    // precision to 0.00000001 (or 0.000001%) of traffic
-samplingSeparator = '/',
-    sessionCookieDefault = 'tracking_session_id';
-
-var cache = {},
-    cookieLoaded = false,
-    geoData = null;
+var cacheMarker = '-cached';
+var cacheMaxAge = 30 * 60 * 1000;
+var earth = 'XX';
+var negativePrefix = 'non-';
+// precision to 0.00000001 (or 0.000001%) of traffic
+var precision = Math.pow(10, 6);
+var samplingSeparator = '/';
+var sessionCookieDefault = 'tracking_session_id';
+var cache = {};
+var cookieLoaded = false;
+var geoData = null;
 
 function hasCache(countryList) {
 	return countryList.some(function (country) {
@@ -934,9 +942,9 @@ function setCookie(value) {
 }
 
 function getResult(samplingLimits, name, withCookie) {
-	var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0,
-	    // eslint-disable-line no-bitwise
-	result = samplingLimits.some(function (value) {
+	// eslint-disable-next-line no-bitwise
+	var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0;
+	var result = samplingLimits.some(function (value) {
 		return randomValue < value;
 	});
 
@@ -948,8 +956,8 @@ function getResult(samplingLimits, name, withCookie) {
 }
 
 function isSampledForGeo(countryList, geo, name) {
-	var countryListWithSampling = countryList.filter(hasSampling(geo)),
-	    cachedWithCookie = hasCache(countryList);
+	var countryListWithSampling = countryList.filter(hasSampling(geo));
+	var cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;
@@ -1037,6 +1045,7 @@ function isProperRegion() {
 	var name = arguments[1];
 
 	var code = getCountryCode() + '-' + getRegionCode();
+
 	return !!(countryList && countryList.indexOf && (countryList.indexOf(code) > -1 || isSampledForGeo(countryList, code, name)));
 }
 
@@ -1045,6 +1054,7 @@ function containsContinent() {
 	var name = arguments[1];
 
 	var geo = earth + '-' + getContinentCode();
+
 	return countryList.indexOf(geo) > -1 || isSampledForGeo(countryList, geo, name);
 }
 
@@ -1116,6 +1126,7 @@ function isProperGeo() {
 	if (name !== undefined && typeof cache[name] !== 'undefined') {
 		return cache[name].result;
 	}
+
 	return !!(countryList && countryList.indexOf && !isGeoExcluded(countryList) && (isProperContinent(countryList, name) || isProperCountry(countryList, name) || isProperRegion(countryList, name)));
 }
 
@@ -1186,9 +1197,9 @@ var query_string_QueryString = function () {
 		value: function getValues() {
 			var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-			var path = input || window.location.search.substr(1),
-			    queryParameters = {},
-			    queryString = path.split('&');
+			var path = input || window.location.search.substr(1);
+			var queryParameters = {};
+			var queryString = path.split('&');
 
 			if (queryString === '') {
 				return null;
@@ -1223,8 +1234,8 @@ var query_string_queryString = new query_string_QueryString();
 // CONCATENATED MODULE: ./src/ad-engine/utils/logger.js
 
 
-var debugGroup = query_string_queryString.get('adengine_debug') || '',
-    groups = debugGroup.split(',');
+var debugGroup = query_string_queryString.get('adengine_debug') || '';
+var groups = debugGroup.split(',');
 
 if (debugGroup !== '') {
 	window.console.info('AdEngine debug mode - groups:', debugGroup === '1' ? 'all' : groups);
@@ -1363,14 +1374,6 @@ var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableA
 var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(18);
-var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
-
-// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(8);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
-
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
 var get_prototype_of_ = __webpack_require__(7);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
@@ -1378,10 +1381,6 @@ var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
 var possibleConstructorReturn_ = __webpack_require__(11);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(13);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
 var inherits_ = __webpack_require__(16);
@@ -1391,165 +1390,6 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 var external_eventemitter3_ = __webpack_require__(15);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
-// CONCATENATED MODULE: ./src/ad-engine/services/events.js
-
-
-
-
-
-
-
-
-
-
-
-
-var groupName = 'events';
-
-var events_EventService = function (_EventEmitter) {
-	inherits_default()(EventService, _EventEmitter);
-
-	function EventService() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		classCallCheck_default()(this, EventService);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _temp), possibleConstructorReturn_default()(_this, _ret);
-	}
-
-	createClass_default()(EventService, [{
-		key: 'beforePageChange',
-		value: function beforePageChange() {
-			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-				args[_key2] = arguments[_key2];
-			}
-
-			this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
-		}
-	}, {
-		key: 'pageChange',
-		value: function pageChange() {
-			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-				args[_key3] = arguments[_key3];
-			}
-
-			this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
-		}
-	}, {
-		key: 'pageRender',
-		value: function pageRender() {
-			for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-				args[_key4] = arguments[_key4];
-			}
-
-			this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
-		}
-	}, {
-		key: 'hasEvent',
-		value: function hasEvent(event) {
-			var _this2 = this;
-
-			return get_own_property_names_default()(this).some(function (name) {
-				return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
-			});
-		}
-	}, {
-		key: 'emit',
-		value: function emit(event) {
-			var _get2;
-
-			if (!this.hasEvent(event)) {
-				throw new Error('Event "' + event + '" is not registered. Please register an event first.');
-			}
-
-			for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-				args[_key5 - 1] = arguments[_key5];
-			}
-
-			(_get2 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'emit', this)).call.apply(_get2, [this, event].concat(args));
-			logger.apply(undefined, [groupName, 'emit', event].concat(args));
-		}
-	}, {
-		key: 'on',
-		value: function on(event) {
-			var _get3;
-
-			if (!this.hasEvent(event)) {
-				throw new Error('You can\'t listen for an event which is not registered yet.');
-			}
-
-			for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-				args[_key6 - 1] = arguments[_key6];
-			}
-
-			(_get3 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'on', this)).call.apply(_get3, [this, event].concat(args));
-		}
-	}, {
-		key: 'addListener',
-		value: function addListener(event) {
-			var _get4;
-
-			if (!this.hasEvent(event)) {
-				throw new Error('You can\'t listen for an event which is not registered yet.');
-			}
-
-			for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-				args[_key7 - 1] = arguments[_key7];
-			}
-
-			(_get4 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'addListener', this)).call.apply(_get4, [this, event].concat(args));
-		}
-	}, {
-		key: 'once',
-		value: function once(event) {
-			var _get5;
-
-			if (!this.hasEvent(event)) {
-				throw new Error('You can\'t listen for an event which is not registered yet.');
-			}
-
-			for (var _len8 = arguments.length, args = Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-				args[_key8 - 1] = arguments[_key8];
-			}
-
-			(_get5 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'once', this)).call.apply(_get5, [this, event].concat(args));
-		}
-	}, {
-		key: 'registerEvent',
-		value: function registerEvent(name) {
-			if (typeof name !== 'string') {
-				throw new Error('Event name must be a string.');
-			}
-
-			if (this[name] !== undefined) {
-				throw new Error('Event or property "' + name + '" already exists.');
-			}
-
-			this[name] = symbol_default()(name);
-
-			return this[name];
-		}
-	}, {
-		key: 'getRegisteredEventNames',
-		value: function getRegisteredEventNames() {
-			var _this3 = this;
-
-			return get_own_property_names_default()(this).filter(function (name) {
-				return typeof_default()(_this3[name]) === 'symbol';
-			});
-		}
-	}]);
-
-	return EventService;
-}(external_eventemitter3_default.a);
-
-var events = new events_EventService();
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
 
 
@@ -1595,9 +1435,9 @@ var vast_parser_VastParser = function () {
 		value: function parse(vastUrl) {
 			var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-			var currentAd = this.getAdInfo(extra.imaAd),
-			    vastParams = query_string_queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			    customParams = query_string_queryString.getValues(encodeURI(vastParams.cust_params));
+			var currentAd = this.getAdInfo(extra.imaAd);
+			var vastParams = query_string_queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?')));
+			var customParams = query_string_queryString.getValues(encodeURI(vastParams.cust_params));
 
 			return {
 				contentType: currentAd.contentType || extra.contentType,
@@ -1664,9 +1504,9 @@ var vastDebugger = new vast_debugger_VastDebugger();
 
 
 
-var availableVideoPositions = ['preroll', 'midroll', 'postroll'],
-    baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?',
-    correlator = Math.round(Math.random() * 10000000000);
+var availableVideoPositions = ['preroll', 'midroll', 'postroll'];
+var baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?';
+var correlator = Math.round(Math.random() * 10000000000);
 
 function getCustomParameters(slot) {
 	var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1683,8 +1523,8 @@ function getCustomParameters(slot) {
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator],
-	    slot = slotService.get(slotName);
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
+	var slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push('iu=' + slot.getVideoAdUnit());
@@ -1714,17 +1554,85 @@ function buildVastUrl(aspectRatio, slotName) {
 
 	return baseUrl + params.join('&');
 }
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
+// Fixes for MOAT script incompatibility
+var eventMapping = {};
+var listeners = [];
+var moatapi = {};
+
+// MOAT CODE START
+/* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
+// eslint-disable-next-line
+function initMoatTracking(a, f, c) {
+  if (!1 === f.hasOwnProperty("partnerCode")) return !1;var g = document.createElement("script");c = c || a && ("undefined" !== typeof a.O ? a.O.parentNode : document.body) || document.body;listeners = [];moatapi = { adsManager: a, ids: f, imaSDK: !0, events: [] };eventMapping = { complete: "AdVideoComplete", firstquartile: "AdVideoFirstQuartile", impression: "AdImpression", loaded: "AdLoaded", midpoint: "AdVideoMidpoint", pause: "AdPaused", skip: "AdSkipped", start: "AdVideoStart", thirdquartile: "AdVideoThirdQuartile", volumeChange: "AdVolumeChange" };if (google && google.ima && a) {
+    var d = "_moatApi" + Math.floor(1E8 * Math.random()),
+        h;for (h in google.ima.AdEvent.Type) {
+      var l = function l(b) {
+        if (moatapi.sendEvent) {
+          for (b = listeners.length - 1; 0 <= b; b--) {
+            a.removeEventListener(listeners[b].type, listeners[b].func);
+          }moatapi.sendEvent(moatapi.events);
+        } else moatapi.events.push({ type: eventMapping[b.type] || b.type, adVolume: a.getVolume() });
+      };a.addEventListener(google.ima.AdEvent.Type[h], l);listeners.push({ type: google.ima.AdEvent.Type[h], func: l });
+    }
+  }var d = "undefined" !== typeof d ? d : "",
+      e,
+      k;try {
+    e = c.ownerDocument, k = e.defaultView || e.parentWindow;
+  } catch (m) {
+    e = document, k = window;
+  }k[d] = moatapi;g.type = "text/javascript";c && c.appendChild(g);g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
+};
+// MOAT CODE END
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.js
+
+
+
+
+
+
+var logGroup = 'moat-video-tracker';
+
+var moat_video_tracker_MoatVideoTracker = function () {
+	function MoatVideoTracker() {
+		classCallCheck_default()(this, MoatVideoTracker);
+	}
+
+	createClass_default()(MoatVideoTracker, [{
+		key: 'init',
+		value: function init(adsManager, container, viewMode, slicer1, slicer2) {
+			var ids = {
+				partnerCode: context.get('options.video.moatTracking.partnerCode'),
+				viewMode: viewMode,
+				slicer1: slicer1,
+				slicer2: slicer2
+			};
+
+			try {
+				initMoatTracking(adsManager, ids, container);
+				logger(logGroup, 'MOAT video tracking initialized');
+			} catch (error) {
+				logger(logGroup, 'MOAT video tracking initalization error', error);
+			}
+		}
+	}]);
+
+	return MoatVideoTracker;
+}();
+
+var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-setup.js
 
 
 
 
-var logGroup = 'google-ima-setup';
+var google_ima_setup_logGroup = 'google-ima-setup';
 
 function getOverriddenVast() {
 	if (query_string_queryString.get('porvata_override_vast') === '1') {
 		var vastXML = window.localStorage.getItem('porvata_vast');
-		logger(logGroup, 'Overridden VAST', vastXML);
+
+		logger(google_ima_setup_logGroup, 'Overridden VAST', vastXML);
 
 		return vastXML;
 	}
@@ -1733,9 +1641,9 @@ function getOverriddenVast() {
 }
 
 function createRequest(params) {
-	var adSlot = slotService.get(params.slotName),
-	    adsRequest = new window.google.ima.AdsRequest(),
-	    overriddenVast = getOverriddenVast();
+	var adSlot = slotService.get(params.slotName);
+	var adsRequest = new window.google.ima.AdsRequest();
+	var overriddenVast = getOverriddenVast();
 
 	if (params.vastResponse || overriddenVast) {
 		adsRequest.adsResponse = overriddenVast || params.vastResponse;
@@ -1743,6 +1651,7 @@ function createRequest(params) {
 
 	// DEPRECATED: options.porvata.audio.segment
 	var segment = context.get('options.porvata.audio.segment');
+
 	if (segment) {
 		adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
 	}
@@ -1764,8 +1673,8 @@ function createRequest(params) {
 function getRenderingSettings() {
 	var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-	var adsRenderingSettings = new window.google.ima.AdsRenderingSettings(),
-	    maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
+	var adsRenderingSettings = new window.google.ima.AdsRenderingSettings();
+	var maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
 
 	if (!context.get('state.isMobile')) {
 		adsRenderingSettings.bitrate = maximumRecommendedBitrate;
@@ -1782,73 +1691,6 @@ var googleImaSetup = {
 	createRequest: createRequest,
 	getRenderingSettings: getRenderingSettings
 };
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
-// Fixes for MOAT script incompatibility
-var eventMapping = {},
-    listeners = [],
-    moatapi = {};
-
-// MOAT CODE START
-/* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
-// eslint-disable-next-line
-function initMoatTracking(a, f, c) {
-	if (!1 === f.hasOwnProperty("partnerCode")) return !1;var g = document.createElement("script");c = c || a && ("undefined" !== typeof a.O ? a.O.parentNode : document.body) || document.body;listeners = [];moatapi = { adsManager: a, ids: f, imaSDK: !0, events: [] };eventMapping = { complete: "AdVideoComplete", firstquartile: "AdVideoFirstQuartile", impression: "AdImpression", loaded: "AdLoaded", midpoint: "AdVideoMidpoint", pause: "AdPaused", skip: "AdSkipped", start: "AdVideoStart", thirdquartile: "AdVideoThirdQuartile", volumeChange: "AdVolumeChange" };if (google && google.ima && a) {
-		var d = "_moatApi" + Math.floor(1E8 * Math.random()),
-		    h;for (h in google.ima.AdEvent.Type) {
-			var l = function l(b) {
-				if (moatapi.sendEvent) {
-					for (b = listeners.length - 1; 0 <= b; b--) {
-						a.removeEventListener(listeners[b].type, listeners[b].func);
-					}moatapi.sendEvent(moatapi.events);
-				} else moatapi.events.push({ type: eventMapping[b.type] || b.type, adVolume: a.getVolume() });
-			};a.addEventListener(google.ima.AdEvent.Type[h], l);listeners.push({ type: google.ima.AdEvent.Type[h], func: l });
-		}
-	}var d = "undefined" !== typeof d ? d : "",
-	    e,
-	    k;try {
-		e = c.ownerDocument, k = e.defaultView || e.parentWindow;
-	} catch (m) {
-		e = document, k = window;
-	}k[d] = moatapi;g.type = "text/javascript";c && c.appendChild(g);g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
-};
-// MOAT CODE END
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.js
-
-
-
-
-
-
-var moat_video_tracker_logGroup = 'moat-video-tracker';
-
-var moat_video_tracker_MoatVideoTracker = function () {
-	function MoatVideoTracker() {
-		classCallCheck_default()(this, MoatVideoTracker);
-	}
-
-	createClass_default()(MoatVideoTracker, [{
-		key: 'init',
-		value: function init(adsManager, container, viewMode, slicer1, slicer2) {
-			var ids = {
-				partnerCode: context.get('options.video.moatTracking.partnerCode'),
-				viewMode: viewMode,
-				slicer1: slicer1,
-				slicer2: slicer2
-			};
-
-			try {
-				initMoatTracking(adsManager, ids, container);
-				logger(moat_video_tracker_logGroup, 'MOAT video tracking initialized');
-			} catch (error) {
-				logger(moat_video_tracker_logGroup, 'MOAT video tracking initalization error', error);
-			}
-		}
-	}]);
-
-	return MoatVideoTracker;
-}();
-
-var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-player-factory.js
 
 
@@ -1898,6 +1740,7 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 			if (eventName.indexOf('wikia') !== -1) {
 				this.eventListeners[eventName] = this.eventListeners[eventName] || [];
 				this.eventListeners[eventName].push(callback);
+
 				return;
 			}
 
@@ -1912,8 +1755,8 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 	}, {
 		key: 'setVastAttributes',
 		value: function setVastAttributes(status) {
-			var currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
-			    playerElement = this.params.container.querySelector('.video-player');
+			var currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd();
+			var playerElement = this.params.container.querySelector('.video-player');
 
 			vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 		}
@@ -2005,9 +1848,9 @@ var google_ima_player_factory_GoogleImaPlayer = function () {
 
 var googleImaPlayerFactory = {
 	create: function create(adDisplayContainer, adsLoader, videoSettings) {
-		var adRequest = googleImaSetup.createRequest(videoSettings.getParams()),
-		    player = new google_ima_player_factory_GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
-		    videoElement = getVideoElement();
+		var adRequest = googleImaSetup.createRequest(videoSettings.getParams());
+		var player = new google_ima_player_factory_GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams());
+		var videoElement = getVideoElement();
 
 		if (player.videoAd) {
 			player.videoAd.classList.add('porvata-video');
@@ -2015,8 +1858,9 @@ var googleImaPlayerFactory = {
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', function (adsManagerLoadedEvent) {
-			var renderingSettings = googleImaSetup.getRenderingSettings(videoSettings),
-			    adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+			var renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
+			var adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+
 			player.setAdsManager(adsManager);
 
 			if (videoSettings.isMoatTrackingEnabled()) {
@@ -2076,10 +1920,11 @@ function load() {
 }
 
 function google_ima_getPlayer(videoSettings) {
-	var adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer()),
-	    iframe = videoSettings.getContainer().querySelector('div > iframe');
+	var adDisplayContainer = new window.google.ima.AdDisplayContainer(videoSettings.getContainer());
+	var iframe = videoSettings.getContainer().querySelector('div > iframe');
 
-	// Reload iframe in order to make IMA work when user is moving back/forward to the page with player
+	// Reload iframe in order to make IMA work when user is moving back/forward to the page with
+	// player
 	// https://groups.google.com/forum/#!topic/ima-sdk/Q6Y56CcXkpk
 	// https://github.com/googleads/videojs-ima/issues/110
 	if (window.performance && window.performance.navigation && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
@@ -2270,6 +2115,7 @@ var porvata_PorvataPlayer = function () {
 		key: 'isMobilePlayerMuted',
 		value: function isMobilePlayerMuted() {
 			var mobileVideoAd = this.container.querySelector('video');
+
 			return mobileVideoAd && mobileVideoAd.autoplay && mobileVideoAd.muted;
 		}
 	}, {
@@ -2353,6 +2199,7 @@ var porvata_PorvataPlayer = function () {
 
 			if (nativeFullscreen.isSupported()) {
 				var toggleNativeFullscreen = isFullscreen ? nativeFullscreen.exit : nativeFullscreen.enter;
+
 				toggleNativeFullscreen();
 			} else {
 				this.onFullscreenChange();
@@ -2453,10 +2300,10 @@ var porvata_Porvata = function () {
 				withCtp: !params.autoPlay
 			});
 
-			var isFirstPlay = true,
-			    autoPaused = false,
-			    autoPlayed = false,
-			    viewportListenerId = null;
+			var isFirstPlay = true;
+			var autoPaused = false;
+			var autoPlayed = false;
+			var viewportListenerId = null;
 
 			function muteFirstPlay(video) {
 				video.addEventListener('loaded', function () {
@@ -2488,7 +2335,8 @@ var porvata_Porvata = function () {
 						// Don't resume when video was paused manually
 					} else if (isVisible && autoPaused) {
 						video.resume();
-						// Pause video once it's out of viewport and set autoPaused to distinguish manual and auto pause
+						// Pause video once it's out of viewport and set autoPaused to distinguish manual
+						// and auto pause
 					} else if (!isVisible && video.isPlaying() && !params.blockOutOfViewportPausing) {
 						video.pause();
 						autoPaused = true;
@@ -2588,7 +2436,7 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(17);
+var regenerator_ = __webpack_require__(18);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
@@ -2654,6 +2502,7 @@ var twitch_listener_TwitchListener = function () {
 
 			if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
 				var adSlot = slotService.get(this.params.position);
+
 				adSlot.emit(ad_slot_AdSlot.VIDEO_VIEWED_EVENT);
 			}
 		}
@@ -2787,7 +2636,9 @@ var twitch_Twitch = function () {
 		key: 'inject',
 		value: function inject(identifier, videoSettings, params) {
 			var twitchListener = new twitch_listener_TwitchListener(params);
+
 			twitchListener.init();
+
 			return twitchEmbed.load().then(function () {
 				return twitchEmbed.getPlayer(identifier, videoSettings);
 			}).then(function (player) {
@@ -2875,6 +2726,7 @@ var porvata_listener_PorvataListener = function () {
 
 			if (this.params.position && eventName === PorvataListener.EVENTS.viewable_impression) {
 				var adSlot = slotService.get(this.params.position);
+
 				adSlot.emit(ad_slot_AdSlot.VIDEO_VIEWED_EVENT);
 			}
 		}
@@ -2895,6 +2747,7 @@ var porvata_listener_PorvataListener = function () {
 			}
 
 			var now = new Date();
+
 			return {
 				ad_error_code: errorCode,
 				ad_product: this.params.adProduct,
@@ -2939,6 +2792,177 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
+var get_own_property_names_ = __webpack_require__(17);
+var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
+var symbol_ = __webpack_require__(8);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/get"
+var helpers_get_ = __webpack_require__(13);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
+
+// CONCATENATED MODULE: ./src/ad-engine/services/events.js
+
+
+
+
+
+
+
+
+
+
+
+
+var groupName = 'events';
+
+var events_EventService = function (_EventEmitter) {
+	inherits_default()(EventService, _EventEmitter);
+
+	function EventService() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		classCallCheck_default()(this, EventService);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _temp), possibleConstructorReturn_default()(_this, _ret);
+	}
+
+	createClass_default()(EventService, [{
+		key: 'beforePageChange',
+		value: function beforePageChange() {
+			for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+				args[_key2] = arguments[_key2];
+			}
+
+			this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
+		}
+	}, {
+		key: 'pageChange',
+		value: function pageChange() {
+			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+				args[_key3] = arguments[_key3];
+			}
+
+			this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
+		}
+	}, {
+		key: 'pageRender',
+		value: function pageRender() {
+			for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+				args[_key4] = arguments[_key4];
+			}
+
+			this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
+		}
+	}, {
+		key: 'hasEvent',
+		value: function hasEvent(event) {
+			var _this2 = this;
+
+			return get_own_property_names_default()(this).some(function (name) {
+				return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
+			});
+		}
+	}, {
+		key: 'emit',
+		value: function emit(event) {
+			var _get2;
+
+			if (!this.hasEvent(event)) {
+				throw new Error('Event "' + event + '" is not registered. Please register an event first.');
+			}
+
+			for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+				args[_key5 - 1] = arguments[_key5];
+			}
+
+			(_get2 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'emit', this)).call.apply(_get2, [this, event].concat(args));
+			logger.apply(undefined, [groupName, 'emit', event].concat(args));
+		}
+	}, {
+		key: 'on',
+		value: function on(event) {
+			var _get3;
+
+			if (!this.hasEvent(event)) {
+				throw new Error("You can't listen for an event which is not registered yet.");
+			}
+
+			for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+				args[_key6 - 1] = arguments[_key6];
+			}
+
+			(_get3 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'on', this)).call.apply(_get3, [this, event].concat(args));
+		}
+	}, {
+		key: 'addListener',
+		value: function addListener(event) {
+			var _get4;
+
+			if (!this.hasEvent(event)) {
+				throw new Error("You can't listen for an event which is not registered yet.");
+			}
+
+			for (var _len7 = arguments.length, args = Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+				args[_key7 - 1] = arguments[_key7];
+			}
+
+			(_get4 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'addListener', this)).call.apply(_get4, [this, event].concat(args));
+		}
+	}, {
+		key: 'once',
+		value: function once(event) {
+			var _get5;
+
+			if (!this.hasEvent(event)) {
+				throw new Error("You can't listen for an event which is not registered yet.");
+			}
+
+			for (var _len8 = arguments.length, args = Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
+				args[_key8 - 1] = arguments[_key8];
+			}
+
+			(_get5 = helpers_get_default()(EventService.prototype.__proto__ || get_prototype_of_default()(EventService.prototype), 'once', this)).call.apply(_get5, [this, event].concat(args));
+		}
+	}, {
+		key: 'registerEvent',
+		value: function registerEvent(name) {
+			if (typeof name !== 'string') {
+				throw new Error('Event name must be a string.');
+			}
+
+			if (this[name] !== undefined) {
+				throw new Error('Event or property "' + name + '" already exists.');
+			}
+
+			this[name] = symbol_default()(name);
+
+			return this[name];
+		}
+	}, {
+		key: 'getRegisteredEventNames',
+		value: function getRegisteredEventNames() {
+			var _this3 = this;
+
+			return get_own_property_names_default()(this).filter(function (name) {
+				return typeof_default()(_this3[name]) === 'symbol';
+			});
+		}
+	}]);
+
+	return EventService;
+}(external_eventemitter3_default.a);
+
+var events = new events_EventService();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.js
 
 
@@ -2996,9 +3020,9 @@ var scroll_listener_ScrollListener = function () {
 			}
 
 			this.addCallback(function (event, callbackId) {
-				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
-				    slotPosition = getTopOffset(node),
-				    viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+				var slotPosition = getTopOffset(node);
+				var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 				if (scrollPosition + viewPortHeight > slotPosition - threshold) {
 					_this.removeCallback(callbackId);
@@ -3012,6 +3036,7 @@ var scroll_listener_ScrollListener = function () {
 			var _this2 = this;
 
 			var id = getUniqueId();
+
 			callbacks[id] = callback;
 
 			events.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
@@ -3073,6 +3098,7 @@ function slot_listener_getData(adSlot, _ref) {
 	    status = _ref.status;
 
 	var now = new Date();
+
 	return {
 		browser: client.getOperatingSystem() + ' ' + client.getBrowser(),
 		adType: adType || '',
@@ -3134,6 +3160,7 @@ var slot_listener_SlotListener = function () {
 			}
 
 			var slotsToPush = context.get('events.pushAfterRendered.' + adSlot.getSlotName());
+
 			if (slotsToPush) {
 				slotsToPush.forEach(function (slotName) {
 					slotInjector.inject(slotName);
@@ -3218,6 +3245,7 @@ var gpt_size_map_GptSizeMap = function () {
 
 			if (!builder) {
 				logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
+
 				return null;
 			}
 
@@ -3276,8 +3304,8 @@ var gpt_size_map_GptSizeMap = function () {
 
 
 function setupGptTargeting() {
-	var tag = window.googletag.pubads(),
-	    targeting = context.get('targeting');
+	var tag = window.googletag.pubads();
+	var targeting = context.get('targeting');
 
 	function setTargetingValue(key, value) {
 		if (typeof value === 'function') {
@@ -3292,8 +3320,8 @@ function setupGptTargeting() {
 	});
 
 	context.onChange('targeting', function (trigger, value) {
-		var segments = trigger.split('.'),
-		    key = segments[segments.length - 1];
+		var segments = trigger.split('.');
+		var key = segments[segments.length - 1];
 
 		setTargetingValue(key, value);
 	});
@@ -3347,7 +3375,7 @@ var gpt_provider_logGroup = 'gpt-provider';
 var ADX = 'AdX';
 
 var gptLazyMethod = function gptLazyMethod(method) {
-	return function decoratedGptLazyMethod() {
+	return function () {
 		var _this = this;
 
 		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -3531,7 +3559,7 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 				var slotId = slot.getSlotElementId();
 
 				if (!slotId) {
-					logger(gpt_provider_logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
+					logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
 				} else if (slotNames.indexOf(slotId) > -1) {
 					return true;
 				}
@@ -3789,8 +3817,10 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			var creativeId = event.creativeId,
 			    lineItemId = event.lineItemId;
 
+
 			if (event.slot) {
 				var resp = event.slot.getResponseInformation();
+
 				if (resp) {
 					if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
 						creativeId = ADX;
@@ -3854,10 +3884,10 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 		return false;
 	}
 
-	var elementHeight = element.offsetHeight,
-	    elementOffset = getTopOffset(element),
-	    isFirst = elementOffset < slotOffset,
-	    distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
+	var elementHeight = element.offsetHeight;
+	var elementOffset = getTopOffset(element);
+	var isFirst = elementOffset < slotOffset;
+	var distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
 
 	return distance < viewportHeight;
 }
@@ -3866,6 +3896,7 @@ function setState(slotName, state) {
 	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 	var slot = slotService.get(slotName);
+
 	slotStates[slotName] = state;
 	slotStatuses[slotName] = status;
 
@@ -3947,6 +3978,7 @@ var slot_service_SlotService = function () {
 				}
 
 				var position = slot.getConfigProperty('targeting.pos') || [];
+
 				if (position === singleSlotName || position[0] === singleSlotName) {
 					slotByPos = slot;
 				}
@@ -4020,13 +4052,13 @@ var slot_service_SlotService = function () {
 				return false;
 			}
 
-			var slotHeight = adSlot.getElement().offsetHeight,
-			    slotOffset = getTopOffset(adSlot.getElement()),
-			    viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
+			var slotHeight = adSlot.getElement().offsetHeight;
+			var slotOffset = getTopOffset(adSlot.getElement());
+			var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 			var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
 				return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
 			});
+
 			logger(slot_service_groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 			return hasConflict;
@@ -4041,6 +4073,7 @@ var slot_service_SlotService = function () {
 		key: 'getAtfSlotConfigs',
 		value: function getAtfSlotConfigs() {
 			var slotConfigs = context.get('slots');
+
 			return values_default()(slotConfigs).filter(function (config) {
 				return ad_slot_AdSlot.isAboveTheFold(config);
 			});
@@ -4065,6 +4098,7 @@ var btf_blocker_service_logGroup = 'btf-blocker';
 
 function disableSecondCall(unblockedSlots) {
 	var slots = context.get('slots');
+
 	logger(btf_blocker_service_logGroup, 'second call queue disabled');
 
 	keys_default()(slots).forEach(function (adSlotKey) {
@@ -4144,6 +4178,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 				if (!adSlot.isEnabled()) {
 					logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+
 					return;
 				}
 
@@ -4154,6 +4189,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 			if (!this.firstCallEnded && !adSlot.isFirstCall()) {
 				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: wrappedFillInCallback });
 				logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
+
 				return;
 			}
 
@@ -4180,8 +4216,8 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 
-var template_service_logGroup = 'template-service',
-    template_service_templates = {};
+var template_service_logGroup = 'template-service';
+var template_service_templates = {};
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -4296,19 +4332,19 @@ var local_cache_LocalCache = function () {
 			logger(local_cache_logGroup, 'Local Storage polyfill being created');
 			Storage.prototype.data = {};
 
-			Storage.prototype.setItem = function setItem(id, val) {
+			Storage.prototype.setItem = function (id, val) {
 				this.data[id] = String(val);
 			};
 
-			Storage.prototype.getItem = function getItem(id) {
+			Storage.prototype.getItem = function (id) {
 				return this.data[id] ? this.data[id] : null;
 			};
 
-			Storage.prototype.removeItem = function removeItem(id) {
+			Storage.prototype.removeItem = function (id) {
 				delete this.data[id];
 			};
 
-			Storage.prototype.clear = function clear() {
+			Storage.prototype.clear = function () {
 				this.data = {};
 			};
 		}
@@ -4328,6 +4364,7 @@ var local_cache_LocalCache = function () {
 				// Check if item has expired
 				if (this.isExpired(cacheItem)) {
 					this.delete(key);
+
 					return false;
 				}
 
@@ -4402,8 +4439,8 @@ var localCache = new local_cache_LocalCache();
 
 
 
-var message_bus_callbacks = [],
-    message_bus_logGroup = 'message-bus';
+var message_bus_callbacks = [];
+var message_bus_logGroup = 'message-bus';
 
 function isAdEngineMessage(message) {
 	try {
@@ -4418,6 +4455,7 @@ function messageMatch(match, message) {
 
 	if (match.keys) {
 		var data = JSON.parse(message.data).AdEngine;
+
 		match.keys.forEach(function (key) {
 			matching = matching && data[key];
 		});
@@ -4427,8 +4465,8 @@ function messageMatch(match, message) {
 }
 
 function onMessage(message) {
-	var i = 0,
-	    callback = void 0;
+	var i = 0;
+	var callback = void 0;
 
 	if (isAdEngineMessage(message)) {
 		logger(message_bus_logGroup, 'Message received', message);
@@ -4443,6 +4481,7 @@ function onMessage(message) {
 				if (!callback.match.infinite) {
 					message_bus_callbacks.splice(i, 1);
 				}
+
 				return;
 			}
 		}
@@ -4558,9 +4597,10 @@ var slot_tweaker_SlotTweaker = function () {
 
 			return this.onReady(adSlot).then(function (iframe) {
 				var container = iframe.parentElement;
+
 				if (!aspectRatio) {
-					var height = iframe.contentWindow.document.body.scrollHeight,
-					    width = iframe.contentWindow.document.body.scrollWidth;
+					var height = iframe.contentWindow.document.body.scrollHeight;
+					var width = iframe.contentWindow.document.body.scrollWidth;
 
 					aspectRatio = width / height;
 				}
@@ -4569,6 +4609,7 @@ var slot_tweaker_SlotTweaker = function () {
 				if (paddingBottom) {
 					container.style.paddingBottom = 100 / aspectRatio + '%';
 				}
+
 				return iframe;
 			});
 		}
@@ -4579,8 +4620,8 @@ var slot_tweaker_SlotTweaker = function () {
 				return adSlot.onLoad();
 			}
 
-			var container = this.getContainer(adSlot),
-			    iframe = container.querySelector('div[id*="_container_"] iframe');
+			var container = this.getContainer(adSlot);
+			var iframe = container.querySelector('div[id*="_container_"] iframe');
 
 			return new promise_default.a(function (resolve, reject) {
 				if (!iframe) {
@@ -4588,6 +4629,7 @@ var slot_tweaker_SlotTweaker = function () {
 				}
 
 				var iframeDocument = null;
+
 				try {
 					iframeDocument = iframe.contentWindow.document;
 				} catch (ignore) {
@@ -4627,6 +4669,7 @@ var slot_tweaker_SlotTweaker = function () {
 			}, function (data) {
 				if (!data.slotName) {
 					logger(slot_tweaker_logGroup, 'Missing slot name');
+
 					return;
 				}
 
@@ -4714,6 +4757,7 @@ function findNextSuitablePlace() {
 	var conflictingElements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
 	var i = void 0;
+
 	for (i = 0; i < anchorElements.length; i += 1) {
 		if (!isInTheSameViewport(anchorElements[i], conflictingElements)) {
 			return anchorElements[i];
@@ -4750,6 +4794,7 @@ var slot_injector_SlotInjector = function () {
 
 			if (insertBelowScrollPosition) {
 				var scrollPos = window.scrollY;
+
 				anchorElements = anchorElements.filter(function (el) {
 					return el.offsetTop > scrollPos;
 				});
@@ -4764,6 +4809,7 @@ var slot_injector_SlotInjector = function () {
 			}
 
 			var container = insertNewSlot(slotName, nextSibling);
+
 			logger(slot_injector_logGroup, 'Inject slot', slotName);
 
 			return container;
@@ -4798,6 +4844,7 @@ function repeatSlot(adSlot) {
 	repeatConfig.index += 1;
 
 	var slotName = buildString(repeatConfig.slotNamePattern, newSlotDefinition);
+
 	newSlotDefinition.slotName = slotName;
 
 	if (repeatConfig.limit !== null && repeatConfig.index > repeatConfig.limit) {
@@ -4821,6 +4868,7 @@ function repeatSlot(adSlot) {
 
 	if (container !== null) {
 		container.className = adSlot.getElement().className + ' ' + additionalClasses;
+
 		return true;
 	}
 
@@ -4899,13 +4947,12 @@ var string_builder_StringBuilder = function () {
 
 			if (matches) {
 				matches.forEach(function (match) {
-					var key = match.replace('{', '').replace('}', ''),
-					    fallbackValue = context.get(key),
-					    keySegments = key.split('.');
-
-					var index = void 0,
-					    segment = void 0,
-					    value = parameters[keySegments[0]];
+					var key = match.replace('{', '').replace('}', '');
+					var fallbackValue = context.get(key);
+					var keySegments = key.split('.');
+					var index = void 0;
+					var segment = void 0;
+					var value = parameters[keySegments[0]];
 
 					if (value) {
 						for (index = 1; index < keySegments.length; index += 1) {
@@ -4961,6 +5008,7 @@ function tryProperty(obj) {
 
 	if (property !== null) {
 		var propertyValue = obj[property];
+
 		return typeof propertyValue === 'function' ? propertyValue.bind(obj) : propertyValue;
 	}
 
@@ -4989,8 +5037,8 @@ function viewport_observer_addListener(element, callback) {
 		offsetBottom: params.offsetBottom || 0,
 		areaThreshold: params.areaThreshold,
 		inViewport: false
-	},
-	    updateCallback = function updateCallback() {
+	};
+	var updateCallback = function updateCallback() {
 		updateInViewport(listener);
 	};
 
@@ -5050,13 +5098,12 @@ var floating_ad_FloatingAd = function () {
 		key: 'init',
 		value: function init() {
 			var slotNode = document.getElementById(this.adSlot.getSlotName());
-
-			var container = void 0,
-			    containerOffset = void 0,
-			    end = void 0,
-			    slotHeight = void 0,
-			    space = void 0,
-			    start = 0;
+			var container = void 0;
+			var containerOffset = void 0;
+			var end = void 0;
+			var slotHeight = void 0;
+			var space = void 0;
+			var start = 0;
 
 			if (!slotNode || !slotNode.classList.contains('floating')) {
 				return;
@@ -5079,6 +5126,7 @@ var floating_ad_FloatingAd = function () {
 				if (space <= slotHeight) {
 					slotNode.classList.add('pinned-top');
 					slotNode.classList.remove('pinned-bottom');
+
 					return;
 				}
 
@@ -5186,16 +5234,17 @@ var ad_engine_AdEngine = function () {
 
 			var timeout = null;
 
-			var promises = getPromises(),
-			    startAdQueue = function startAdQueue() {
+			var promises = getPromises();
+			var startAdQueue = function startAdQueue() {
 				if (!_this3.started) {
 					events.emit(events.AD_STACK_START);
 					_this3.started = true;
 					clearTimeout(timeout);
 					_this3.adStack.start();
 				}
-			},
-			    maxTimeout = context.get('options.maxDelayTimeout');
+			};
+
+			var maxTimeout = context.get('options.maxDelayTimeout');
 
 			logger(ad_engine_logGroup, 'Delay by ' + promises.length + ' modules (' + maxTimeout + 'ms timeout)');
 
@@ -5294,8 +5343,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v20.7.0');
-logger('ad-engine', 'v20.7.0');
+set_default()(window, versionField, 'v21.0.0');
+logger('ad-engine', 'v21.0.0');
 
 
 
