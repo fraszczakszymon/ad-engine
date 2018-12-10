@@ -1,7 +1,6 @@
 import { Aol } from './adapters/aol';
 import { Appnexus } from './adapters/appnexus';
 import { AppnexusAst } from './adapters/appnexus-ast';
-import { AppnexusWebads } from './adapters/appnexus-webads';
 import { AudienceNetwork } from './adapters/audience-network';
 import { Beachfront } from './adapters/beachfront';
 import { IndexExchange } from './adapters/index-exchange';
@@ -20,7 +19,6 @@ const availableAdapters = {
 	aol: Aol,
 	appnexus: Appnexus,
 	appnexusAst: AppnexusAst,
-	appnexusWebads: AppnexusWebads,
 	audienceNetwork: AudienceNetwork,
 	beachfront: Beachfront,
 	indexExchange: IndexExchange,
