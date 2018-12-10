@@ -1,4 +1,4 @@
-import { AdSlot, context, scrollListener, slotService, slotTweaker, utils } from '@wikia/ad-engine';
+import { context, scrollListener, slotService, slotTweaker, utils } from '@wikia/ad-engine';
 import { mapValues } from 'lodash';
 
 import { BigFancyAdHiviTheme } from './hivi-theme';
@@ -167,13 +167,13 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 			if (this.adSlot.getStatus() !== 'top-conflict') {
 				await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			}
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			element.style.top = null;
 			element.parentNode.style.height = null;
 			element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			element.parentNode.style.height = `${element.offsetHeight}px`;
 			element.classList.add(CSS_CLASSNAME_STICKY_BFAB);
 			element.style.top = `${this.config.topThreshold}px`;
@@ -190,6 +190,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 	unstickImmediately(stopVideo = true) {
 		if (this.stickiness) {
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {

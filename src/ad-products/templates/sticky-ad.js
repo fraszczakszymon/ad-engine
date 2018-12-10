@@ -1,4 +1,4 @@
-import { AdSlot, scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, utils } from '@wikia/ad-engine';
 import { StickyBase } from './sticky-base';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
@@ -57,7 +57,7 @@ export class StickyAd extends StickyBase {
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 		this.adSlot.onLoad().then(() => {
 			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
-			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
 		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
@@ -121,14 +121,14 @@ export class StickyAd extends StickyBase {
 
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.removeStickyParameters();
 			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
 			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
@@ -141,7 +141,7 @@ export class StickyAd extends StickyBase {
 
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();

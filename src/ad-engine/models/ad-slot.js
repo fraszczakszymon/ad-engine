@@ -10,9 +10,6 @@ export class AdSlot extends EventEmitter {
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
-	static SLOT_STICKED_STATE = 'sticked';
-	static SLOT_UNSTICKED_STATE = 'unsticked';
-
 	constructor(ad) {
 		super();
 
