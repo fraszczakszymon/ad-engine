@@ -20,13 +20,19 @@ describe('Prebid', () => {
 
 	it('Check disabling top leaderboard', () => {
 		browser.url(prebid.pageLink);
-		helpers.navigateToUrl(prebid.pageLink, queryStrings.getTurnedOffSlots(prebid.availableSlots.topLeaderboard));
+		helpers.navigateToUrl(
+			prebid.pageLink,
+			queryStrings.getTurnedOffSlots(prebid.availableSlots.topLeaderboard),
+		);
 		expect(helpers.isLineItemExisitng(adSlots.topLeaderboard)).to.be.false;
 	});
 
 	it('Check disabling top boxad', () => {
 		browser.url(prebid.pageLink);
-		helpers.navigateToUrl(prebid.pageLink, queryStrings.getTurnedOffSlots(prebid.availableSlots.topBoxad));
+		helpers.navigateToUrl(
+			prebid.pageLink,
+			queryStrings.getTurnedOffSlots(prebid.availableSlots.topBoxad),
+		);
 		expect(helpers.isLineItemExisitng(adSlots.topBoxad)).to.be.false;
 	});
 });

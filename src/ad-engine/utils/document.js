@@ -1,7 +1,7 @@
 export const VISIBILITY_STATUS = {
 	visible: 'visible',
 	hidden: 'hidden',
-	notImplemented: 'not_implemented'
+	notImplemented: 'not_implemented',
 };
 
 /**

@@ -10,9 +10,7 @@ export class Rubicon extends BaseAdapter {
 		this.accountId = options.accountId;
 	}
 
-	prepareConfigForAdUnit(code, {
-		siteId, zoneId, sizeId, position
-	}) {
+	prepareConfigForAdUnit(code, { siteId, zoneId, sizeId, position }) {
 		if (code === 'featured' && !context.get('custom.rubiconInFV')) {
 			return null;
 		}
@@ -24,8 +22,8 @@ export class Rubicon extends BaseAdapter {
 			mediaType: 'video',
 			mediaTypes: {
 				video: {
-					playerSize: [640, 480]
-				}
+					playerSize: [640, 480],
+				},
 			},
 			bids: [
 				{
@@ -41,11 +39,11 @@ export class Rubicon extends BaseAdapter {
 							playerWidth: '640',
 							playerHeight: '480',
 							size_id: sizeId,
-							language: targeting.lang ? targeting.lang[0] : 'en'
-						}
-					}
-				}
-			]
+							language: targeting.lang ? targeting.lang[0] : 'en',
+						},
+					},
+				},
+			],
 		};
 	}
 }

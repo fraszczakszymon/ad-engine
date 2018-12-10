@@ -38,30 +38,33 @@ if (failed) {
 				{
 					type: 'button',
 					text: 'app',
-					url: `${jenkinsUrl}/job/update_dependencies_app/parambuild/?adengine_version=v${version}`
+					url: `${jenkinsUrl}/job/update_dependencies_app/parambuild/?adengine_version=v${version}`,
 				},
 				{
 					type: 'button',
 					text: 'f2',
-					url: `${jenkinsUrl}/job/update_dependencies_f2/parambuild/?adengine_version=v${version}`
+					url: `${jenkinsUrl}/job/update_dependencies_f2/parambuild/?adengine_version=v${version}`,
 				},
 				{
 					type: 'button',
 					text: 'mobile-wiki',
-					url: `${jenkinsUrl}/job/update_dependencies_mobilewiki/parambuild/?adengine_version=v${version}`
-				}
-			]
-		}
+					url: `${jenkinsUrl}/job/update_dependencies_mobilewiki/parambuild/?adengine_version=v${version}`,
+				},
+			],
+		},
 	];
 }
 
-webhook.send({
-	text,
-	attachments
-}, (error, response) => {
-	if (error) {
-		console.error(error);
-	} else {
-		console.log('Message successfully sent.', response);
-	}
-});
+webhook.send(
+	{
+		text,
+		attachments,
+	},
+	(error, response) => {
+		if (error) {
+			console.error(error);
+		} else {
+			console.log('Message successfully sent.', response);
+		}
+	},
+);

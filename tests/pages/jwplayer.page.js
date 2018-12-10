@@ -36,7 +36,9 @@ class JWPlayer {
 		browser.waitForExist(this.playerAdContainer, timeouts.standard);
 		if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: visible')) {
 			return true;
-		} else if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: hidden')) {
+		} else if (
+			browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: hidden')
+		) {
 			return false;
 		}
 		return undefined;

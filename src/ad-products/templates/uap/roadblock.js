@@ -11,7 +11,7 @@ export class Roadblock {
 		return {
 			slotsToEnable: [],
 			slotsToDisable: [],
-			onInit: () => {}
+			onInit: () => {},
 		};
 	}
 

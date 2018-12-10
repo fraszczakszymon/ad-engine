@@ -7,11 +7,14 @@ export class UtilsDetectors {
 	}
 
 	checkIfMessageLoaded(message) {
-		return !(message).includes('Waiting');
+		return !message.includes('Waiting');
 	}
 
 	waitForDetectorToLoad() {
-		browser.waitUntil(() => this.checkIfMessageLoaded(browser.getText(this.messageField)), timeouts.standard);
+		browser.waitUntil(
+			() => this.checkIfMessageLoaded(browser.getText(this.messageField)),
+			timeouts.standard,
+		);
 	}
 
 	getDetectorResponse() {

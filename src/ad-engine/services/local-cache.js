@@ -41,19 +41,19 @@ class LocalCache {
 		logger(logGroup, 'Local Storage polyfill being created');
 		Storage.prototype.data = {};
 
-		Storage.prototype.setItem = function (id, val) {
+		Storage.prototype.setItem = function(id, val) {
 			this.data[id] = String(val);
 		};
 
-		Storage.prototype.getItem = function (id) {
+		Storage.prototype.getItem = function(id) {
 			return this.data[id] ? this.data[id] : null;
 		};
 
-		Storage.prototype.removeItem = function (id) {
+		Storage.prototype.removeItem = function(id) {
 			delete this.data[id];
 		};
 
-		Storage.prototype.clear = function () {
+		Storage.prototype.clear = function() {
 			this.data = {};
 		};
 	}

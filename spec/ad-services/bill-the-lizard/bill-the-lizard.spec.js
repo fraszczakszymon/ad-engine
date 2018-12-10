@@ -22,41 +22,41 @@ describe('Bill the Lizard service', () => {
 						name: 'ctp_desktop:1.0.0',
 						countries: ['XX'],
 						on_0: ['logResult'],
-						on_1: ['logResult']
+						on_1: ['logResult'],
 					},
 					{
 						name: 'queen_of_hearts:0.0.1',
 						countries: ['XX'],
 						on_1: ['logResult'],
-						dfp_targeting: true
+						dfp_targeting: true,
 					},
 					{
 						name: 'queen_of_hearts',
 						countries: ['XX'],
-						on_1: ['logResult']
-					}
+						on_1: ['logResult'],
+					},
 				],
 				cheshirecat: [
 					{
 						name: 'cheshirecat:1.0.0',
 						countries: ['XX'],
 						dfp_targeting: true,
-					}
-				]
+					},
+				],
 			},
 			parameters: {
 				queen_of_hearts: {
 					foo: 1,
 					bar: 'test',
-					echo: ['one', 'two']
+					echo: ['one', 'two'],
 				},
 				cheshirecat: {
 					foo: 1,
 					bar: 'test',
-					echo: ['one', 'two']
+					echo: ['one', 'two'],
 				},
 			},
-			timeout: 2000
+			timeout: 2000,
 		});
 	});
 
@@ -66,17 +66,13 @@ describe('Bill the Lizard service', () => {
 
 	describe('buildPredictions', () => {
 		it('build predictions for supplied models', () => {
-			const models = [
-				{ name: 'a' }, { name: 'b' },
-			];
+			const models = [{ name: 'a' }, { name: 'b' }];
 			const callId = 'foo';
 			const modelToResultMap = { a: 5 };
 
 			const result = billTheLizard.buildPredictions(models, modelToResultMap, callId);
 			expect(result.length).to.equal(1);
-			expect(result[0]).to.deep.equal(
-				{ callId, modelName: 'a', result: 5 },
-			);
+			expect(result[0]).to.deep.equal({ callId, modelName: 'a', result: 5 });
 		});
 	});
 
@@ -96,7 +92,7 @@ describe('Bill the Lizard service', () => {
 		it('should skip entries without result', () => {
 			const response = {
 				a: { result: 1 },
-				b: { },
+				b: {},
 			};
 			expect(billTheLizard.getModelToResultMap(response)).to.deep.equal({ a: 1 });
 		});
@@ -181,7 +177,8 @@ describe('Bill the Lizard service', () => {
 
 		it('should return the all predictions matching model name ignoring version', () => {
 			expect(billTheLizard.getPredictions('a')).to.deep.equal([
-				billTheLizard.predictions[0], billTheLizard.predictions[1],
+				billTheLizard.predictions[0],
+				billTheLizard.predictions[1],
 			]);
 		});
 	});

@@ -19,7 +19,7 @@ export function tryProperty(obj, properties = []) {
 
 	if (property !== null) {
 		const propertyValue = obj[property];
-		return (typeof propertyValue === 'function') ? propertyValue.bind(obj) : propertyValue;
+		return typeof propertyValue === 'function' ? propertyValue.bind(obj) : propertyValue;
 	}
 
 	return null;

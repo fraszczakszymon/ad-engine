@@ -2,11 +2,11 @@ export function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
 	} else if (queue instanceof Array) {
-		queue.start = function () {
+		queue.start = function() {
 			while (queue.length > 0) {
 				callback(queue.shift());
 			}
-			queue.push = function (item) {
+			queue.push = function(item) {
 				callback(item);
 			};
 		};

@@ -23,7 +23,7 @@ export class TwitchTracker {
 				const eventInfo = videoEventDataProvider.getEventData(data);
 
 				playerEventEmitter.emit(eventInfo);
-			}
+			},
 		};
 
 		context.push('listeners.twitch', listener);

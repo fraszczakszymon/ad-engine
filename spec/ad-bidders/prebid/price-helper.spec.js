@@ -9,7 +9,7 @@ describe('transformPriceFromCpm', () => {
 			[0.05, '0.05'],
 
 			[0.07, '0.05'],
-			[0.10, '0.10'],
+			[0.1, '0.10'],
 			[1.17, '1.15'],
 			[4.99, '4.95'],
 
@@ -25,8 +25,8 @@ describe('transformPriceFromCpm', () => {
 
 			[20.99, '20.00'],
 			[49.99, '49.00'],
-			[50.00, '50.00'],
-			[51.00, '50.00'],
+			[50.0, '50.00'],
+			[51.0, '50.00'],
 		];
 		testVectors.forEach((vector) => {
 			expect(transformPriceFromCpm(vector[0], 50)).to.equal(vector[1]);

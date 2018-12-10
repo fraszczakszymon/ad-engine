@@ -35,20 +35,23 @@ describe('slot-service', () => {
 		elementProperties = {
 			offsetParent: {
 				offsetTop: 0,
-				offsetParent: null
-			}
+				offsetParent: null,
+			},
 		};
 		slotConfigs = {};
 
-		sinon.stub(document, 'getElementById').withArgs('foo-container').returns({
-			classList: {
-				contains: () => {}
-			},
-			offsetHeight: 300,
-			offsetTop: 100,
-			offsetParent: elementProperties.offsetParent,
-			ownerDocument: {}
-		});
+		sinon
+			.stub(document, 'getElementById')
+			.withArgs('foo-container')
+			.returns({
+				classList: {
+					contains: () => {},
+				},
+				offsetHeight: 300,
+				offsetTop: 100,
+				offsetParent: elementProperties.offsetParent,
+				ownerDocument: {},
+			});
 
 		adSlot = Object.assign({}, adSlotFake);
 		adSlot.getViewportConflicts = () => ['foo-container'];

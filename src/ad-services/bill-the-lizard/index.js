@@ -82,7 +82,7 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 			reject(new Error('error'));
 			utils.logger(logGroup, 'errored');
 		});
-		request.onreadystatechange = function () {
+		request.onreadystatechange = function() {
 			if (this.readyState === 4 && this.status === 200) {
 				utils.logger(logGroup, 'has response');
 				resolve(this.response);
@@ -102,11 +102,15 @@ function getQueryParameters(models, parameters) {
 	const now = new Date();
 	const day = now.getDay() - 1;
 
-	return Object.assign({}, {
-		models: models.map(model => model.name),
-		h: now.getHours(),
-		dow: day === -1 ? 6 : day
-	}, parameters);
+	return Object.assign(
+		{},
+		{
+			models: models.map((model) => model.name),
+			h: now.getHours(),
+			dow: day === -1 ? 6 : day,
+		},
+		parameters,
+	);
 }
 
 /**
@@ -181,8 +185,8 @@ export class BillTheLizard {
 
 		// update names of GAM targeted models
 		models
-			.filter(model => model.dfp_targeting)
-			.forEach(model => this.targetedModelNames.add(model.name));
+			.filter((model) => model.dfp_targeting)
+			.forEach((model) => this.targetedModelNames.add(model.name));
 
 		const queryParameters = getQueryParameters(models, parameters);
 		utils.logger(logGroup, 'calling service', host, endpoint, queryParameters, `callId: ${callId}`);
@@ -198,7 +202,7 @@ export class BillTheLizard {
 				}
 				return Promise.reject(error);
 			})
-			.then(response => overridePredictions(response))
+			.then((response) => overridePredictions(response))
 			.then((response) => {
 				utils.logger(logGroup, 'service response OK', `callId: ${callId}`);
 
@@ -236,9 +240,9 @@ export class BillTheLizard {
 	 */
 	buildPredictions(models, modelToResultMap, callId) {
 		return models
-			.map(model => model.name)
-			.filter(modelName => modelToResultMap[modelName] !== undefined)
-			.map(modelName => ({ modelName, callId, result: modelToResultMap[modelName] }));
+			.map((model) => model.name)
+			.filter((modelName) => modelToResultMap[modelName] !== undefined)
+			.map((modelName) => ({ modelName, callId, result: modelToResultMap[modelName] }));
 	}
 
 	/**
@@ -266,8 +270,9 @@ export class BillTheLizard {
 	setTargeting() {
 		const targeting = this.getTargeting();
 		if (Object.keys(targeting).length > 0) {
-			const serializedTargeting = Object.entries(targeting)
-				.map(([modelName, result]) => `${modelName}_${result}`);
+			const serializedTargeting = Object.entries(targeting).map(
+				([modelName, result]) => `${modelName}_${result}`,
+			);
 			context.set('targeting.btl', serializedTargeting);
 			return serializedTargeting;
 		}
@@ -284,7 +289,7 @@ export class BillTheLizard {
 	getTargeting() {
 		const latestResults = {};
 		this.predictions
-			.filter(pred => this.targetedModelNames.has(pred.modelName))
+			.filter((pred) => this.targetedModelNames.has(pred.modelName))
 			.forEach((pred) => {
 				latestResults[pred.modelName] = pred.result;
 			});
@@ -299,7 +304,7 @@ export class BillTheLizard {
 	 * @returns {PredictionDefinition}
 	 */
 	getPrediction(modelName, callId) {
-		return this.getPredictions(modelName).find(pred => pred.callId === callId);
+		return this.getPredictions(modelName).find((pred) => pred.callId === callId);
 	}
 
 	/**
@@ -315,7 +320,7 @@ export class BillTheLizard {
 		const separator = ':';
 		if (modelName) {
 			return this.predictions.filter(
-				pred => pred.modelName.split(separator)[0] === modelName.split(separator)[0]
+				(pred) => pred.modelName.split(separator)[0] === modelName.split(separator)[0],
 			);
 		}
 		return this.predictions;
@@ -342,11 +347,9 @@ export class BillTheLizard {
 	serialize(callId) {
 		let { predictions } = this;
 		if (callId !== undefined) {
-			predictions = predictions.filter(pred => pred.callId === callId);
+			predictions = predictions.filter((pred) => pred.callId === callId);
 		}
-		return predictions
-			.map(pred => `${pred.modelName}|${pred.callId}=${pred.result}`)
-			.join(';');
+		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(';');
 	}
 }
 

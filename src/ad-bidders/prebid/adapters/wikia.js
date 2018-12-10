@@ -6,7 +6,7 @@ export class Wikia extends BaseAdapter {
 		super(options);
 
 		this.bidderName = 'wikia';
-		this.enabled = !!(utils.queryString.get('wikia_adapter'));
+		this.enabled = !!utils.queryString.get('wikia_adapter');
 		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
 		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
 		this.limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
@@ -19,21 +19,21 @@ export class Wikia extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes
-				}
+					sizes,
+				},
 			},
 			bids: [
 				{
-					bidder: this.bidderName
-				}
-			]
+					bidder: this.bidderName,
+				},
+			],
 		};
 	}
 
 	getSpec() {
 		return {
 			code: this.bidderName,
-			supportedMediaTypes: ['banner']
+			supportedMediaTypes: ['banner'],
 		};
 	}
 

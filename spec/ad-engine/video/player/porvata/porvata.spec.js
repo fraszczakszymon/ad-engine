@@ -10,17 +10,17 @@ describe('porvata', () => {
 			domElement: {
 				style: {},
 				classList: {
-					add: () => {}
-				}
+					add: () => {},
+				},
 			},
 			params: {
 				width: 100,
 				height: 100,
 				container: {
-					querySelector: () => mocks.domElement
+					querySelector: () => mocks.domElement,
 				},
 				viewportOffsetTop: 0,
-				viewportOffsetBottom: 0
+				viewportOffsetBottom: 0,
 			},
 			ima: {
 				addEventListener: () => {},
@@ -29,7 +29,7 @@ describe('porvata', () => {
 				getStatus: () => {},
 				playVideo: () => {},
 				reload: () => {},
-				resize: () => {}
+				resize: () => {},
 			},
 			adsManager: {
 				getRemainingTime: () => {},
@@ -37,8 +37,8 @@ describe('porvata', () => {
 				pause: () => {},
 				resume: () => {},
 				setVolume: () => {},
-				stop: () => {}
-			}
+				stop: () => {},
+			},
 		};
 	});
 

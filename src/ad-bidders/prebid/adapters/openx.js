@@ -13,18 +13,18 @@ export class Openx extends BaseAdapter {
 			code,
 			mediaTypes: {
 				banner: {
-					sizes
-				}
+					sizes,
+				},
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
 						unit,
-						delDomain: this.delDomain
-					}
-				}
-			]
+						delDomain: this.delDomain,
+					},
+				},
+			],
 		};
 	}
 }

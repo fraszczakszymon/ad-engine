@@ -27,14 +27,16 @@ export class PorvataListener {
 		wikiaAdMute: 'mute',
 		wikiaAdUnmute: 'unmute',
 		wikiaInViewportWithOffer: 'in_viewport_with_offer',
-		wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
+		wikiaInViewportWithoutOffer: 'in_viewport_without_offer',
 	};
 	static LOG_GROUP = 'porvata-listener';
 	static PLAYER_NAME = 'porvata';
 
 	constructor(params) {
 		this.params = params;
-		this.listeners = getListeners().filter(listener => !listener.isEnabled || listener.isEnabled());
+		this.listeners = getListeners().filter(
+			(listener) => !listener.isEnabled || listener.isEnabled(),
+		);
 		this.logger = (...args) => logger(PorvataListener.LOG_GROUP, ...args);
 	}
 
@@ -70,7 +72,8 @@ export class PorvataListener {
 	}
 
 	getData(eventName, errorCode) {
-		const imaAd = this.video && this.video.ima.getAdsManager() && this.video.ima.getAdsManager().getCurrentAd();
+		const imaAd =
+			this.video && this.video.ima.getAdsManager() && this.video.ima.getAdsManager().getCurrentAd();
 		let { contentType, creativeId, lineItemId } = vastParser.getAdInfo(imaAd);
 
 		if (!imaAd && this.video && this.video.container) {
@@ -94,7 +97,7 @@ export class PorvataListener {
 			// @DEPRECATED
 			browser: `${client.getOperatingSystem()} ${client.getBrowser()}`,
 			timestamp: now.getTime(),
-			tz_offset: now.getTimezoneOffset()
+			tz_offset: now.getTimezoneOffset(),
 		};
 	}
 }

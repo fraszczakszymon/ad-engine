@@ -11,7 +11,7 @@ function loadScript() {
 	const kruxLibraryUrl = `//cdn.krxd.net/controltag?confid=${kruxId}`;
 
 	return utils.scriptLoader.loadScript(kruxLibraryUrl, 'text/javascript', true, 'first', {
-		id: 'krux-control-tag'
+		id: 'krux-control-tag',
 	});
 }
 
@@ -32,9 +32,11 @@ function getKruxData(key) {
 	return '';
 }
 
-window.Krux = window.Krux || function (...args) {
-	window.Krux.q.push(args);
-};
+window.Krux =
+	window.Krux ||
+	function(...args) {
+		window.Krux.q.push(args);
+	};
 window.Krux.q = window.Krux.q || [];
 
 /**

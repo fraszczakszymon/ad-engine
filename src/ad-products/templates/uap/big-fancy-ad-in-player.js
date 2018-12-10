@@ -10,7 +10,7 @@ export class BigFancyAdInPlayer {
 	static getDefaultConfig() {
 		return {
 			slotsToDisable: [],
-			slotsToEnable: []
+			slotsToEnable: [],
 		};
 	}
 

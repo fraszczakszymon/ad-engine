@@ -1,7 +1,7 @@
 class QueryStrings {
 	constructor() {
 		this.instantGlobals = {
-			labradorTestVariableAlpha: 'InstantGlobals.wgTestVariableAlpha'
+			labradorTestVariableAlpha: 'InstantGlobals.wgTestVariableAlpha',
 		};
 		this.utils = {
 			resolved: 'resolved_state',
@@ -19,7 +19,7 @@ class QueryStrings {
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
 			pbjs_debug: 'pbjs_debug',
-			disableSlots: 'disabled-slots'
+			disableSlots: 'disabled-slots',
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -28,14 +28,14 @@ class QueryStrings {
 			mute: 'mute',
 			capping: 'capping',
 			f15n: 'f15s=eHnTdMot',
-			videoAdapter: 'wikia_video_adapter'
+			videoAdapter: 'wikia_video_adapter',
 		};
 		this.services = {
 			krux: 'krux-disabled',
 			trackingOptIn: 'tracking-opt-in',
 			moat: 'moat-yi-disabled',
 			adEngineDelay: 'adengine-delay',
-			enabledProjects: 'enabled-project'
+			enabledProjects: 'enabled-project',
 		};
 	}
 

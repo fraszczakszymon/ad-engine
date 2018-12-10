@@ -110,9 +110,10 @@ export class JWPlayerTracker {
 			player.on(playerEvent, (event) => {
 				let errorCode;
 
-				if ([
-					'adRequest', 'adError', 'ready', 'videoStart',
-				].indexOf(playerEvent) !== -1 && this.isCtpAudioUpdateEnabled) {
+				if (
+					['adRequest', 'adError', 'ready', 'videoStart'].indexOf(playerEvent) !== -1 &&
+					this.isCtpAudioUpdateEnabled
+				) {
 					const slot = slotService.get(this.slotName);
 					this.updatePlayerState(slot);
 				}
@@ -164,7 +165,7 @@ export class JWPlayerTracker {
 			player: JWPlayerTracker.PLAYER_NAME,
 			position: this.slotName,
 			user_block_autoplay: this.userBlockAutoplay,
-			video_id: this.videoId
+			video_id: this.videoId,
 		});
 
 		playerEventEmitter.emit(eventInfo);

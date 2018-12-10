@@ -14,7 +14,7 @@ context.set('options.tracking.kikimora.player', true);
 context.push('listeners.slot', {
 	onStatusChanged: (adSlot) => {
 		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');
-	}
+	},
 });
 context.push('listeners.porvata', {
 	onEvent: (eventName) => {
@@ -22,7 +22,7 @@ context.push('listeners.porvata', {
 		if (utils.queryString.get('force-empty-response') === '1') {
 			context.remove('targeting.artid');
 		}
-	}
+	},
 });
 
 let resolveBidders;
@@ -30,9 +30,10 @@ let resolveBidders;
 const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
-	getPromise: () => new Promise((resolve) => {
-		resolveBidders = resolve;
-	})
+	getPromise: () =>
+		new Promise((resolve) => {
+			resolveBidders = resolve;
+		}),
 };
 
 context.set('options.maxDelayTimeout', 1000);
@@ -46,12 +47,12 @@ bidders.requestBids({
 				resolveBidders = null;
 			}
 		}
-	}
+	},
 });
 
 templateService.register(PorvataTemplate, {
 	isFloatingEnabled: utils.queryString.get('floating') !== '0',
-	inViewportOffsetTop: 58
+	inViewportOffsetTop: 58,
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {
@@ -60,7 +61,9 @@ events.on(events.AD_SLOT_CREATED, (slot) => {
 
 events.on(events.VIDEO_PLAYER_TRACKING_EVENT, (eventInfo) => {
 	const request = new window.XMLHttpRequest();
-	const queryUrl = Object.keys(eventInfo).map(key => `${key}=${eventInfo[key]}`).join('&');
+	const queryUrl = Object.keys(eventInfo)
+		.map((key) => `${key}=${eventInfo[key]}`)
+		.join('&');
 
 	request.open('GET', `http://example.com?${queryUrl}`);
 	request.send();

@@ -7,33 +7,33 @@ describe('google-ima', () => {
 	beforeEach(() => {
 		mocks = {
 			adDisplayContainer: {
-				initialize: () => {}
+				initialize: () => {},
 			},
 			adsLoader: {
 				addEventListener: () => {},
 				contentComplete: () => {},
 				removeEventListener: () => {},
-				requestAds: () => {}
+				requestAds: () => {},
 			},
 			domElement: {
 				style: {},
 				classList: {
-					add: () => {}
+					add: () => {},
 				},
 				contentWindow: {
-					location: {}
-				}
+					location: {},
+				},
 			},
 			videoParams: {
 				container: {
 					classList: {
-						add: () => {}
+						add: () => {},
 					},
-					querySelector: () => mocks.domElement
+					querySelector: () => mocks.domElement,
 				},
 				height: 100,
 				slotName: 'top_leaderboard',
-				width: 100
+				width: 100,
 			},
 			videoSettings: {
 				get(key) {
@@ -44,15 +44,19 @@ describe('google-ima', () => {
 				},
 				getContainer() {
 					return mocks.videoParams.container;
-				}
-			}
+				},
+			},
 		};
 		window.google = {
 			ima: {
-				AdDisplayContainer: function () { return mocks.adDisplayContainer; },
-				AdsLoader: function () { return mocks.adsLoader; },
-				AdsRequest: function () {}
-			}
+				AdDisplayContainer: function() {
+					return mocks.adDisplayContainer;
+				},
+				AdsLoader: function() {
+					return mocks.adsLoader;
+				},
+				AdsRequest: function() {},
+			},
 		};
 	});
 

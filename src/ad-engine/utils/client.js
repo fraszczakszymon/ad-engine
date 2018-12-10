@@ -44,7 +44,8 @@ class Client {
 	getDeviceType() {
 		if (this.isTablet()) {
 			return 'tablet';
-		} if (this.isSmartphone()) {
+		}
+		if (this.isSmartphone()) {
 			return 'smartphone';
 		}
 

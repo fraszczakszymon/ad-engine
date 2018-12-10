@@ -8,5 +8,5 @@ function isOptedIn() {
 }
 
 export const trackingOptIn = {
-	isOptedIn
+	isOptedIn,
 };

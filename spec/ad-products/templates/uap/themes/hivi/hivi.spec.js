@@ -6,15 +6,13 @@ import { context, slotTweaker } from '../../../../../../src/ad-engine';
 
 function getSlotElement() {
 	return {
-		appendChild: () => {
-		},
+		appendChild: () => {},
 		classList: {
 			contains: () => false,
-			add: () => {
-			}
+			add: () => {},
 		},
 		style: {},
-		offsetWidth: 1920
+		offsetWidth: 1920,
 	};
 }
 
@@ -22,7 +20,7 @@ function getAdSlotObject() {
 	return {
 		getElement: () => getSlotElement(),
 		getSlotName: () => 'top_leaderboard',
-		isEnabled: () => true
+		isEnabled: () => true,
 	};
 }
 
@@ -36,22 +34,22 @@ function getParams() {
 		config: {
 			aspectRatio: {
 				default: 4,
-				resolved: 10
+				resolved: 10,
 			},
 			background: {
 				default: 'default-state-image.jpg',
-				resolved: 'resolved-state-image.jpg'
+				resolved: 'resolved-state-image.jpg',
 			},
 			state: {
 				height: {
 					default: 92,
-					resolved: 100
+					resolved: 100,
 				},
 				top: {
 					default: 4,
-					resolved: 0
-				}
-			}
+					resolved: 0,
+				},
+			},
 		},
 		slotName: 'top_leaderboard',
 		src: 'test',
@@ -67,25 +65,24 @@ function getParams() {
 		splitLayoutVideoPosition: 'right',
 		image1: {
 			element: {},
-			background: 'default-state-image.jpg'
+			background: 'default-state-image.jpg',
 		},
 		image2: {
 			element: {
 				classList: {
 					contains: () => false,
-					remove: () => {
-					}
-				}
+					remove: () => {},
+				},
 			},
-			background: 'resolved-state-image.jpg'
+			background: 'resolved-state-image.jpg',
 		},
 		adContainer: {
 			classList: {
-				contains: () => false
-			}
+				contains: () => false,
+			},
 		},
 		thumbnail: {
-			style: {}
+			style: {},
 		},
 		aspectRatio: 4,
 		resolvedStateAspectRatio: 10,
@@ -96,7 +93,7 @@ function getParams() {
 		fullscreenable: true,
 		loadMedrecFromBTF: false,
 		moatTracking: 1,
-		adProduct: 'vuap'
+		adProduct: 'vuap',
 	};
 }
 
@@ -106,9 +103,12 @@ describe('UAP:HiVi template', () => {
 	beforeEach(() => {
 		sandbox = sinon.sandbox.create();
 
-		sandbox.stub(context, 'get').withArgs('templates.bfaa').returns({
-			mainContainer: document.body
-		});
+		sandbox
+			.stub(context, 'get')
+			.withArgs('templates.bfaa')
+			.returns({
+				mainContainer: document.body,
+			});
 		sandbox.stub(slotTweaker, 'onReady').returns({ then: () => {} });
 		sandbox.stub(slotTweaker, 'makeResponsive');
 		sandbox.stub(resolvedState, 'isResolvedState');

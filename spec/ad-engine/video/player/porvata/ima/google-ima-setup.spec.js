@@ -9,12 +9,12 @@ describe('google-ima-setup', () => {
 	beforeEach(() => {
 		window.google = {
 			ima: {
-				AdsRenderingSettings: function () {},
-				AdsRequest: function () {},
+				AdsRenderingSettings: function() {},
+				AdsRequest: function() {},
 				ViewMode: {
-					NORMAL: 0
-				}
-			}
+					NORMAL: 0,
+				},
+			},
 		};
 		context.extend(ConfigMock);
 		slotService.add(new AdSlot({ id: 'top_leaderboard' }));
@@ -25,7 +25,7 @@ describe('google-ima-setup', () => {
 			vastUrl: '/foo/bar',
 			height: 25,
 			slotName: 'top_leaderboard',
-			width: 50
+			width: 50,
 		});
 
 		expect(request.adTagUrl).to.equal('/foo/bar');
@@ -44,7 +44,7 @@ describe('google-ima-setup', () => {
 
 	it('get rendering settings with different load timeout', () => {
 		const settings = googleImaSetup.getRenderingSettings({
-			loadVideoTimeout: 10000
+			loadVideoTimeout: 10000,
 		});
 
 		expect(settings.loadVideoTimeout).to.equal(10000);

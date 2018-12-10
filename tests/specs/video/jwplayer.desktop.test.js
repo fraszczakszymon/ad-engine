@@ -21,34 +21,32 @@ describe('jwPlayer player', () => {
 	});
 
 	it('Check if player is visible', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = adSlots.checkSlotSize(jwPlayer.player, jwPlayer.playerWidth, jwPlayer.playerHeight);
+		const dimensions = adSlots.checkSlotSize(
+			jwPlayer.player,
+			jwPlayer.playerWidth,
+			jwPlayer.playerHeight,
+		);
 
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(dimensions.status, dimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if redirect on click on default player works', () => {
 		browser.click(jwPlayer.player);
 		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		expect(browser.getUrl()).to.include(
+			helpers.clickThroughUrlDomain,
+			`Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`,
+		);
 		helpers.closeNewTabs();
 	});
 
 	it('Check if unmuting the video works', () => {
-		browser.moveToObject(jwPlayer.player)
-			.pause(500);
+		browser.moveToObject(jwPlayer.player).pause(500);
 		browser.waitForVisible(jwPlayer.soundToggle, timeouts.standard);
 		browser.click(jwPlayer.soundToggle);
 		browser.waitForExist(`${jwPlayer.soundToggle}${jwPlayer.soundToggleOn}`, timeouts.standard);
@@ -56,17 +54,17 @@ describe('jwPlayer player', () => {
 	});
 
 	it('Check if opening full screen and redirect on fullscreen player works', () => {
-		browser.moveToObject(jwPlayer.player)
-			.pause(500);
+		browser.moveToObject(jwPlayer.player).pause(500);
 		browser.waitForVisible(jwPlayer.fullscreenButton, timeouts.standard);
 		browser.click(jwPlayer.fullscreenButton);
 		browser.waitForVisible(jwPlayer.fullscreenPlayer, timeouts.standard);
 		browser.click(jwPlayer.player);
 		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
-		expect(browser.getUrl())
-			.to
-			.include(helpers.clickThroughUrlDomain, `Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`);
+		expect(browser.getUrl()).to.include(
+			helpers.clickThroughUrlDomain,
+			`Wrong page loaded: expected ${helpers.clickThroughUrlDomain}`,
+		);
 		helpers.closeNewTabs();
 	});
 

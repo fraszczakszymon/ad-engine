@@ -10,7 +10,9 @@ describe('It will test krux page', () => {
 		browser.url(moat.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitForValuesLoaded();
-		expect(moat.getPageLevelParams()).to.equal('{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}');
+		expect(moat.getPageLevelParams()).to.equal(
+			'{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}',
+		);
 	});
 
 	it('will test disabled moat', () => {
@@ -25,6 +27,8 @@ describe('It will test krux page', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		helpers.waitForViewabillityCounted();
 		helpers.waitForValuesLoaded();
-		expect(moat.getPageLevelParams()).to.equal('{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}');
+		expect(moat.getPageLevelParams()).to.equal(
+			'{"m_safety":"safe","m_categories":["moat_safe"],"m_data":"0"}',
+		);
 	});
 });

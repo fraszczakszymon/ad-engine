@@ -19,13 +19,15 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton).includes('Load UAP:JWP ('),
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		helpers.waitForVideoAdToFinish(this.videoDuration);
 		browser.waitUntil(
-			() => browser.getText(this.loadAdsButton) === ('Load UAP:JWP'),
+			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
 			timeouts.standard,
 			'Ads not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -60,7 +62,8 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		browser.scroll(adSlot);
 	}
@@ -76,7 +79,8 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlot, timeouts.standard);

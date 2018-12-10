@@ -18,13 +18,8 @@ utils.setupNpaContext();
 
 templateService.register(Skin);
 templateService.register(Roadblock, {
-	slotsToDisable: [
-	],
-	slotsToEnable: [
-		'top_leaderboard',
-		'top_boxad',
-		'invisible_skin'
-	]
+	slotsToDisable: [],
+	slotsToEnable: ['top_leaderboard', 'top_boxad', 'invisible_skin'],
 });
 
 new AdEngine().init();

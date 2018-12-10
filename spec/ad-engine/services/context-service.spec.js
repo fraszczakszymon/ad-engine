@@ -10,9 +10,9 @@ describe('context-service', () => {
 			foo: {
 				foo: 1,
 				bar: 15,
-				baz
+				baz,
 			},
-			array: []
+			array: [],
 		});
 	});
 
@@ -27,7 +27,7 @@ describe('context-service', () => {
 	it('get leaf - function from key chain', () => {
 		const value = context.get('foo.baz');
 
-		expect(typeof (value)).to.equal('function');
+		expect(typeof value).to.equal('function');
 	});
 
 	it('get not existing leaf from key chain', () => {
@@ -53,7 +53,7 @@ describe('context-service', () => {
 	it('execute onChange leaf and parent callbacks', () => {
 		const callbacks = {
 			foo: () => {},
-			fooBar: () => {}
+			fooBar: () => {},
 		};
 
 		sinon.spy(callbacks, 'foo');
@@ -78,7 +78,7 @@ describe('context-service', () => {
 	it('remove child event listener', () => {
 		const callbacks = {
 			foo: () => {},
-			fooBar: () => {}
+			fooBar: () => {},
 		};
 
 		sinon.spy(callbacks, 'foo');
@@ -97,7 +97,7 @@ describe('context-service', () => {
 	it('remove parent event listener', () => {
 		const callbacks = {
 			foo: () => {},
-			fooBar: () => {}
+			fooBar: () => {},
 		};
 
 		sinon.spy(callbacks, 'foo');

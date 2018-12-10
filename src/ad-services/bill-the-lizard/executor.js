@@ -46,7 +46,7 @@ export class Executor {
 		Object.keys(response).forEach((modelName) => {
 			const { result } = response[modelName];
 
-			const executableModel = models.find(model => model.name === modelName && model.executable);
+			const executableModel = models.find((model) => model.name === modelName && model.executable);
 			if (!executableModel) {
 				return;
 			}
@@ -56,7 +56,7 @@ export class Executor {
 				return;
 			}
 
-			definedMethods.forEach(methodName => this.execute(methodName, executableModel, result));
+			definedMethods.forEach((methodName) => this.execute(methodName, executableModel, result));
 		});
 	}
 }

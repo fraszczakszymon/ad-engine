@@ -7,5 +7,5 @@ function getRandom() {
 }
 
 export default {
-	getRandom
+	getRandom,
 };

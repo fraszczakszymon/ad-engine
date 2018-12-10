@@ -23,8 +23,7 @@ class Helpers {
 	 */
 	waitForUrl(newUrl) {
 		browser.waitUntil(
-			() => RegExp(newUrl)
-				.test(browser.getUrl()),
+			() => RegExp(newUrl).test(browser.getUrl()),
 			timeouts.newUrlTimeout,
 			'expected new page after 10 seconds',
 			timeouts.interval,
@@ -96,7 +95,6 @@ class Helpers {
 		return browser.waitUntil(() => browser.getText(this.main) !== 'Waiting...', timeouts.standard);
 	}
 
-
 	/**
 	 * Waits until the ad slot to receive its line item id parameter.
 	 * @param adSlot ad slot that should receive the parameter
@@ -107,7 +105,8 @@ class Helpers {
 			() => this.isLineItemExisitng(adSlot),
 			timeouts.standard,
 			'No line item id attribute',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -116,8 +115,7 @@ class Helpers {
 	 * @returns {string}
 	 */
 	getLineItemId(adSlot) {
-		return browser.element(adSlot)
-			.getAttribute(adSlots.lineItemIdAttribute);
+		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
 	}
 
 	isLineItemExisitng(adSlot) {
@@ -130,14 +128,12 @@ class Helpers {
 	 * @returns {string}
 	 */
 	getCreativeId(adSlot) {
-		return browser.element(adSlot)
-			.getAttribute(adSlots.creativeIdAttribute);
+		return browser.element(adSlot).getAttribute(adSlots.creativeIdAttribute);
 	}
 
 	isCreativeIdExisitng(adSlot) {
 		return !!this.getCreativeId(adSlot);
 	}
-
 
 	/**
 	 * It checks redirect on click and returns result.
@@ -154,8 +150,7 @@ class Helpers {
 		this.switchToTab(1);
 		this.waitForUrl(url);
 
-		if (browser.getUrl()
-			.includes(url)) {
+		if (browser.getUrl().includes(url)) {
 			result = true;
 		}
 		this.closeNewTabs();
@@ -202,7 +197,7 @@ class Helpers {
 	setDefaultWindowSize(width = 1600, height = 900) {
 		browser.windowHandleSize({
 			width,
-			height
+			height,
 		});
 	}
 }

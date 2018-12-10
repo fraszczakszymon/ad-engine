@@ -52,7 +52,10 @@ class MoatYi {
 	 * @returns {void}
 	 */
 	importPageParams() {
-		if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
+		if (
+			window.moatPrebidApi &&
+			typeof window.moatPrebidApi.getMoatTargetingForPage === 'function'
+		) {
 			const pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
 
 			context.set('targeting.m_data', pageParams.m_data);

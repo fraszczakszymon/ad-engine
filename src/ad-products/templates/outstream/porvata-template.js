@@ -15,7 +15,7 @@ export class PorvataTemplate {
 			isFloatingEnabled: true,
 			inViewportOffsetTop: 0,
 			inViewportOffsetBottom: 0,
-			onInit: () => {}
+			onInit: () => {},
 		};
 	}
 
@@ -50,8 +50,9 @@ export class PorvataTemplate {
 
 		this.config.onInit(this.adSlot, params, this.config);
 
-		return slotTweaker.makeResponsive(this.adSlot, DEFAULT_VIDEO_ASPECT_RATIO)
-			.then(() => Porvata.inject(params).then(video => this.onReady(video, params)));
+		return slotTweaker
+			.makeResponsive(this.adSlot, DEFAULT_VIDEO_ASPECT_RATIO)
+			.then(() => Porvata.inject(params).then((video) => this.onReady(video, params)));
 	}
 
 	onReady(video, params) {
@@ -87,7 +88,7 @@ export class PorvataTemplate {
 			inViewportOffsetTop: this.config.inViewportOffsetTop,
 			inViewportOffsetBottom: this.config.inViewportOffsetBottom,
 			isFloatingEnabled: this.config.isFloatingEnabled && params.enableInContentFloating,
-			slotName: params.slotName
+			slotName: params.slotName,
 		});
 
 		return video;

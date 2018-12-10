@@ -8,23 +8,25 @@ function getMocks() {
 		bidsRequestMock: {
 			bidderCode: 'fake-wikia-video-bidder',
 			auctionId: 'fake-id',
-			bids: [{
-				adUnitCode: 'fake-ad-unit',
-				sizes: [[640, 480]]
-			}]
+			bids: [
+				{
+					adUnitCode: 'fake-ad-unit',
+					sizes: [[640, 480]],
+				},
+			],
 		},
 		fakeVastUrl: 'https://fake-vast-url',
 		fakePrice: 20,
-		done: function () {},
-		setTimeout: function (cb) {
+		done: function() {},
+		setTimeout: function(cb) {
 			cb();
 		},
 		pbjs: {
 			que: [],
-			createBid: function () {
+			createBid: function() {
 				return {};
-			}
-		}
+			},
+		},
 	};
 
 	return mocks;
@@ -46,7 +48,7 @@ describe('WikiaVideo bidder adapter', () => {
 
 	it('can be enabled', () => {
 		const wikiaVideo = new WikiaVideo({
-			enabled: true
+			enabled: true,
 		});
 
 		expect(wikiaVideo.enabled).to.equal(false);
@@ -56,8 +58,8 @@ describe('WikiaVideo bidder adapter', () => {
 		const wikiaVideo = new WikiaVideo({
 			enabled: true,
 			slots: {
-				featured: {}
-			}
+				featured: {},
+			},
 		});
 
 		expect(wikiaVideo.prepareAdUnits()).to.deep.equal([
@@ -66,15 +68,15 @@ describe('WikiaVideo bidder adapter', () => {
 				mediaTypes: {
 					video: {
 						context: 'outstream',
-						playerSize: [640, 480]
-					}
+						playerSize: [640, 480],
+					},
 				},
 				bids: [
 					{
-						bidder: 'wikiaVideo'
-					}
-				]
-			}
+						bidder: 'wikiaVideo',
+					},
+				],
+			},
 		]);
 	});
 
@@ -82,8 +84,8 @@ describe('WikiaVideo bidder adapter', () => {
 		const wikiaVideo = new WikiaVideo({
 			enabled: true,
 			slots: {
-				featured: {}
-			}
+				featured: {},
+			},
 		});
 		const mocks = getMocks();
 
@@ -105,7 +107,7 @@ describe('WikiaVideo bidder adapter', () => {
 				height: 480,
 				vastUrl: 'https://fake-vast-url',
 				videoCacheKey: '123foo_wikiaVideoCacheKey',
-			}
+			},
 		]);
 	});
 });

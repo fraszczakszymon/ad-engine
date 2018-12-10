@@ -10,7 +10,7 @@ export class Skin {
 			bodyAdClass: 'has-background-ad',
 			onInit: () => {},
 			wrapperSelector: '#ad-skin',
-			zIndex: 1
+			zIndex: 1,
 		};
 	}
 
@@ -36,7 +36,7 @@ export class Skin {
 		document.body.classList.add(this.config.bodyAdClass);
 		this.setAdSkinStyle(params.skinImage, params.backgroundColor);
 
-		this.adSkin.onclick = function () {
+		this.adSkin.onclick = function() {
 			window.open(params.destUrl);
 		};
 
