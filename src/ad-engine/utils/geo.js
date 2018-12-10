@@ -1,25 +1,26 @@
 import Cookies from 'js-cookie';
-import Random from './random';
 import { context } from '../services/context-service';
+import Random from './random';
 
-const cacheMarker = '-cached',
-	cacheMaxAge = 30 * 60 * 1000,
-	earth = 'XX',
-	negativePrefix = 'non-',
-	precision = 10 ** 6, // precision to 0.00000001 (or 0.000001%) of traffic
-	samplingSeparator = '/',
-	sessionCookieDefault = 'tracking_session_id';
-
-let cache = {},
-	cookieLoaded = false,
-	geoData = null;
+const cacheMarker = '-cached';
+const cacheMaxAge = 30 * 60 * 1000;
+const earth = 'XX';
+const negativePrefix = 'non-';
+// precision to 0.00000001 (or 0.000001%) of traffic
+const precision = 10 ** 6;
+const samplingSeparator = '/';
+const sessionCookieDefault = 'tracking_session_id';
+let cache = {};
+let cookieLoaded = false;
+let geoData = null;
 
 function hasCache(countryList) {
-	return countryList.some(country => country.indexOf(cacheMarker) !== -1);
+	return countryList.some((country) => country.indexOf(cacheMarker) !== -1);
 }
 
 function hasSampling(geo) {
-	return value => value.indexOf(negativePrefix) !== 0 && value.indexOf(geo + samplingSeparator) > -1;
+	return (value) =>
+		value.indexOf(negativePrefix) !== 0 && value.indexOf(geo + samplingSeparator) > -1;
 }
 
 function getSamplingLimits(value) {
@@ -36,9 +37,9 @@ function addResultToCache(name, result, samplingLimits, withCookie) {
 	cache[name] = {
 		name,
 		group: result ? 'B' : 'A',
-		limit: (result ? limitValue : (precision * 100) - limitValue) / precision,
+		limit: (result ? limitValue : precision * 100 - limitValue) / precision,
 		result,
-		withCookie
+		withCookie,
 	};
 
 	if (withCookie) {
@@ -47,9 +48,11 @@ function addResultToCache(name, result, samplingLimits, withCookie) {
 }
 
 function getCookieDomain() {
-	const domain = (window.location.hostname).split('.');
+	const domain = window.location.hostname.split('.');
 
-	return domain.length > 1 ? `.${domain[domain.length - 2]}.${domain[domain.length - 1]}` : undefined;
+	return domain.length > 1
+		? `.${domain[domain.length - 2]}.${domain[domain.length - 1]}`
+		: undefined;
 }
 
 function loadCookie() {
@@ -88,13 +91,14 @@ function setCookie(value) {
 		expires: new Date(new Date().getTime() + cacheMaxAge),
 		path: '/',
 		domain: getCookieDomain(),
-		overwrite: true
+		overwrite: true,
 	});
 }
 
 function getResult(samplingLimits, name, withCookie) {
-	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0, // eslint-disable-line no-bitwise
-		result = samplingLimits.some(value => randomValue < value);
+	// eslint-disable-next-line no-bitwise
+	const randomValue = Math.round(Random.getRandom() * (precision * 100)) | 0;
+	const result = samplingLimits.some((value) => randomValue < value);
 
 	if (name) {
 		addResultToCache(name, result, samplingLimits, withCookie);
@@ -104,8 +108,8 @@ function getResult(samplingLimits, name, withCookie) {
 }
 
 function isSampledForGeo(countryList, geo, name) {
-	const countryListWithSampling = countryList.filter(hasSampling(geo)),
-		cachedWithCookie = hasCache(countryList);
+	const countryListWithSampling = countryList.filter(hasSampling(geo));
+	const cachedWithCookie = hasCache(countryList);
 
 	if (countryListWithSampling.length === 0) {
 		return false;
@@ -179,7 +183,8 @@ export function isProperCountry(countryList = [], name) {
 	return !!(
 		countryList &&
 		countryList.indexOf &&
-		(countryList.indexOf(getCountryCode()) > -1 || isSampledForGeo(countryList, getCountryCode(), name))
+		(countryList.indexOf(getCountryCode()) > -1 ||
+			isSampledForGeo(countryList, getCountryCode(), name))
 	);
 }
 
@@ -191,6 +196,7 @@ export function isProperCountry(countryList = [], name) {
  */
 export function isProperRegion(countryList = [], name) {
 	const code = `${getCountryCode()}-${getRegionCode()}`;
+
 	return !!(
 		countryList &&
 		countryList.indexOf &&
@@ -200,6 +206,7 @@ export function isProperRegion(countryList = [], name) {
 
 function containsContinent(countryList = [], name) {
 	const geo = `${earth}-${getContinentCode()}`;
+
 	return countryList.indexOf(geo) > -1 || isSampledForGeo(countryList, geo, name);
 }
 
@@ -271,11 +278,14 @@ export function isProperGeo(countryList = [], name = undefined) {
 	if (name !== undefined && typeof cache[name] !== 'undefined') {
 		return cache[name].result;
 	}
+
 	return !!(
 		countryList &&
 		countryList.indexOf &&
 		!isGeoExcluded(countryList) &&
-		(isProperContinent(countryList, name) || isProperCountry(countryList, name) || isProperRegion(countryList, name))
+		(isProperContinent(countryList, name) ||
+			isProperCountry(countryList, name) ||
+			isProperRegion(countryList, name))
 	);
 }
 
@@ -293,9 +303,9 @@ export function mapSamplingResults(keyVals) {
 	const labradorVariables = module.getSamplingResults();
 
 	return keyVals
-		.map(keyVal => keyVal.split(':'))
-		.filter(keyVal => labradorVariables.indexOf(keyVal[0]) !== -1)
-		.map(keyVal => keyVal[1]);
+		.map((keyVal) => keyVal.split(':'))
+		.filter((keyVal) => labradorVariables.indexOf(keyVal[0]) !== -1)
+		.map((keyVal) => keyVal[1]);
 }
 
 const module = {

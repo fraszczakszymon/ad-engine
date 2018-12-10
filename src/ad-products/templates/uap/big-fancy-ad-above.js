@@ -21,11 +21,7 @@ export class BigFancyAdAbove {
 			fullscreenAllowed: true,
 			stickinessAllowed: true,
 			slotSibling: '.topic-header',
-			slotsToEnable: [
-				'bottom_leaderboard',
-				'incontent_boxad',
-				'top_boxad',
-			],
+			slotsToEnable: ['bottom_leaderboard', 'incontent_boxad', 'top_boxad'],
 			onInit: () => {},
 			onBeforeStickBfaaCallback: () => {},
 			onAfterStickBfaaCallback: () => {},
@@ -35,12 +31,12 @@ export class BigFancyAdAbove {
 				const navbarElement = document.querySelector('body > nav.navigation');
 
 				if (navbarElement) {
-					navbarElement.style.transition = (
-						offset ? '' : `top ${time}ms ${CSS_TIMING_EASE_IN_CUBIC}`
-					);
-					navbarElement.style.top = (offset ? `${offset}px` : '');
+					navbarElement.style.transition = offset
+						? ''
+						: `top ${time}ms ${CSS_TIMING_EASE_IN_CUBIC}`;
+					navbarElement.style.top = offset ? `${offset}px` : '';
 				}
-			}
+			},
 		};
 	}
 
@@ -75,7 +71,7 @@ export class BigFancyAdAbove {
 		this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 		// TODO: End of hack
 
-		const uapTheme = (this.params.theme === 'hivi') ? hiviTheme : classicTheme;
+		const uapTheme = this.params.theme === 'hivi' ? hiviTheme : classicTheme;
 
 		universalAdPackage.init(this.params, this.config.slotsToEnable);
 		this.videoSettings = new VideoSettings(this.params);
@@ -83,11 +79,13 @@ export class BigFancyAdAbove {
 		this.container.classList.add('bfaa-template');
 		this.theme = new uapTheme.BfaaTheme(this.adSlot, this.params);
 
-		uapTheme.adIsReady({
-			adSlot: this.adSlot,
-			videoSettings: this.videoSettings,
-			params: this.params
-		}).then(iframe => this.onAdReady(iframe));
+		uapTheme
+			.adIsReady({
+				adSlot: this.adSlot,
+				videoSettings: this.videoSettings,
+				params: this.params,
+			})
+			.then((iframe) => this.onAdReady(iframe));
 
 		this.config.onInit(this.adSlot, this.params, this.config);
 	}
@@ -96,7 +94,8 @@ export class BigFancyAdAbove {
 		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
 		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
 		const slotParent = this.container.parentNode;
-		const sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
+		const sibling =
+			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
 
 		if (mobileNavbarWrapper) {
 			slotParent.insertBefore(mobileNavbarWrapper, sibling);
@@ -128,18 +127,13 @@ export class BigFancyAdAbove {
 		this.theme.onAdReady(iframe);
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
-			const video = await utils.defer(
-				universalAdPackage.loadVideoAd,
-				this.videoSettings
-			); // defers for proper rendering
+			// defers for proper rendering
+			const video = await utils.defer(universalAdPackage.loadVideoAd, this.videoSettings);
 
 			this.theme.onVideoReady(video);
 		} else if (this.params.channelName) {
-			await utils.defer(
-				universalAdPackage.loadTwitchAd,
-				iframe,
-				this.params
-			); // defers for proper rendering
+			// defers for proper rendering
+			await utils.defer(universalAdPackage.loadTwitchAd, iframe, this.params);
 		}
 	}
 }

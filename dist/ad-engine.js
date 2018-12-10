@@ -3826,8 +3826,6 @@ ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
-ad_slot_AdSlot.SLOT_STICKED_STATE = 'sticked';
-ad_slot_AdSlot.SLOT_UNSTICKED_STATE = 'unsticked';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
@@ -5296,8 +5294,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v20.6.0');
-logger('ad-engine', 'v20.6.0');
+set_default()(window, versionField, 'v20.7.0');
+logger('ad-engine', 'v20.7.0');
 
 
 

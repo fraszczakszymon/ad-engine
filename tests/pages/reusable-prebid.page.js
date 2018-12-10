@@ -19,7 +19,7 @@ class ReusablePrebid {
 			queryStrings.getPrice(price),
 			queryStrings.getLimit(limit),
 			queryStrings.getRandom(randomness),
-			queryStrings.getTimeout(timeout)
+			queryStrings.getTimeout(timeout),
 		);
 	}
 }

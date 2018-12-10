@@ -784,6 +784,10 @@ stickiness_Stickiness.LOG_GROUP = 'stickiness';
 stickiness_Stickiness.STICKINESS_CHANGE_EVENT = symbol_default()('stickinessChange');
 stickiness_Stickiness.CLOSE_CLICKED_EVENT = symbol_default()('closeClicked');
 stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT = symbol_default()('unstickImmediately');
+stickiness_Stickiness.SLOT_STICKED_STATE = 'sticked';
+stickiness_Stickiness.SLOT_UNSTICKED_STATE = 'unsticked';
+stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
+stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 // CONCATENATED MODULE: ./src/ad-products/templates/sticky-base.js
 
 
@@ -905,8 +909,6 @@ var sticky_base_StickyBase = function () {
 	return StickyBase;
 }();
 sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
-sticky_base_StickyBase.SLOT_STICKY_READY_STATE = 'sticky-ready';
-sticky_base_StickyBase.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
 var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
 var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
@@ -1197,7 +1199,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 			this.adSlot.onLoad().then(function () {
 				ad_engine_["utils"].logger(sticky_ad_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this2.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+				_this2.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKY_READY_STATE);
 			});
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
@@ -1283,7 +1285,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 									break;
 								}
 
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
 								_context.next = 4;
 								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
@@ -1296,7 +1298,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 								break;
 
 							case 9:
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
 								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
@@ -1325,7 +1327,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
-				this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
@@ -2719,7 +2721,6 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 
 
 
-
 var sticky_tlb_logGroup = 'sticky-tlb';
 
 var sticky_tlb_StickyTLB = function (_StickyBase) {
@@ -2790,7 +2791,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 			this.adSlot.onLoad().then(function () {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this2.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_STICKY_READY_STATE);
+				_this2.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKY_READY_STATE);
 			});
 
 			this.addStickinessPlugin();
@@ -2868,7 +2869,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 									break;
 								}
 
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
 								_context.next = 8;
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
@@ -2881,7 +2882,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 								break;
 
 							case 13:
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 
 							case 15:
@@ -2952,7 +2953,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
-			this.adSlot.emitEvent(sticky_ad_StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.config.moveNavbar(0, 0);
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
@@ -3609,28 +3610,30 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 								if (isSticky) {
-									_context2.next = 11;
+									_context2.next = 12;
 									break;
 								}
 
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
 								this.config.moveNavbar(0, SLIDE_OUT_TIME);
-								_context2.next = 7;
+								_context2.next = 8;
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
-							case 7:
+							case 8:
 								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-								_context2.next = 12;
+								_context2.next = 14;
 								break;
 
-							case 11:
+							case 12:
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
 								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 
-							case 12:
+							case 14:
 
 								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
 
-							case 13:
+							case 15:
 							case 'end':
 								return _context2.stop();
 						}
@@ -3660,6 +3663,7 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
+			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {
@@ -4147,7 +4151,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 
 							case 5:
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_UNSTICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
 								element.style.top = null;
 								element.parentNode.style.height = null;
 								element.classList.remove(CSS_CLASSNAME_STICKY_BFAB);
@@ -4156,7 +4160,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 								break;
 
 							case 12:
-								this.adSlot.emitEvent(ad_engine_["AdSlot"].SLOT_STICKED_STATE);
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
 								element.parentNode.style.height = element.offsetHeight + 'px';
 								element.classList.add(CSS_CLASSNAME_STICKY_BFAB);
 								element.style.top = this.config.topThreshold + 'px';
@@ -4190,6 +4194,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			if (this.stickiness) {
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 				if (stopVideo && this.video && this.video.ima.getAdsManager()) {

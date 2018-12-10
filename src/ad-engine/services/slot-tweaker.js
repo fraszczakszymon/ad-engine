@@ -1,6 +1,6 @@
+import { logger } from '../utils';
 import { messageBus } from './message-bus';
 import { slotService } from './slot-service';
-import { logger } from '../utils';
 
 const logGroup = 'slot-tweaker';
 
@@ -60,22 +60,23 @@ class SlotTweaker {
 
 		slotContainer.classList.add('slot-responsive');
 
-		return this.onReady(adSlot)
-			.then((iframe) => {
-				const container = iframe.parentElement;
-				if (!aspectRatio) {
-					const height = iframe.contentWindow.document.body.scrollHeight,
-						width = iframe.contentWindow.document.body.scrollWidth;
+		return this.onReady(adSlot).then((iframe) => {
+			const container = iframe.parentElement;
 
-					aspectRatio = width / height;
-				}
+			if (!aspectRatio) {
+				const height = iframe.contentWindow.document.body.scrollHeight;
+				const width = iframe.contentWindow.document.body.scrollWidth;
 
-				logger(logGroup, 'make responsive', adSlot.getSlotName());
-				if (paddingBottom) {
-					container.style.paddingBottom = `${100 / aspectRatio}%`;
-				}
-				return iframe;
-			});
+				aspectRatio = width / height;
+			}
+
+			logger(logGroup, 'make responsive', adSlot.getSlotName());
+			if (paddingBottom) {
+				container.style.paddingBottom = `${100 / aspectRatio}%`;
+			}
+
+			return iframe;
+		});
 	}
 
 	onReady(adSlot) {
@@ -83,8 +84,8 @@ class SlotTweaker {
 			return adSlot.onLoad();
 		}
 
-		const container = this.getContainer(adSlot),
-			iframe = container.querySelector('div[id*="_container_"] iframe');
+		const container = this.getContainer(adSlot);
+		const iframe = container.querySelector('div[id*="_container_"] iframe');
 
 		return new Promise((resolve, reject) => {
 			if (!iframe) {
@@ -92,6 +93,7 @@ class SlotTweaker {
 			}
 
 			let iframeDocument = null;
+
 			try {
 				iframeDocument = iframe.contentWindow.document;
 			} catch (ignore) {
@@ -119,45 +121,47 @@ class SlotTweaker {
 	}
 
 	registerMessageListener() {
-		messageBus.register({
-			keys: ['action', 'slotName'],
-			infinite: true
-		}, (data) => {
-			if (!data.slotName) {
-				logger(logGroup, 'Missing slot name');
-				return;
-			}
+		messageBus.register(
+			{
+				keys: ['action', 'slotName'],
+				infinite: true,
+			},
+			(data) => {
+				if (!data.slotName) {
+					logger(logGroup, 'Missing slot name');
 
-			const adSlot = slotService.get(data.slotName);
+					return;
+				}
 
-			switch (data.action) {
-				case 'expand':
-					this.expand(adSlot);
-					break;
-				case 'collapse':
-					this.collapse(adSlot);
-					break;
-				case 'hide':
-					this.hide(adSlot);
-					break;
-				case 'show':
-					this.show(adSlot);
-					break;
-				case 'make-responsive':
-					this.makeResponsive(adSlot, data.aspectRatio);
-					break;
-				default:
-					logger(logGroup, 'Unknown action', data.action);
-			}
-		});
+				const adSlot = slotService.get(data.slotName);
+
+				switch (data.action) {
+					case 'expand':
+						this.expand(adSlot);
+						break;
+					case 'collapse':
+						this.collapse(adSlot);
+						break;
+					case 'hide':
+						this.hide(adSlot);
+						break;
+					case 'show':
+						this.show(adSlot);
+						break;
+					case 'make-responsive':
+						this.makeResponsive(adSlot, data.aspectRatio);
+						break;
+					default:
+						logger(logGroup, 'Unknown action', data.action);
+				}
+			},
+		);
 	}
 
 	setDataParam(adSlot, attrName, data) {
 		const container = this.getContainer(adSlot);
 
-		container.dataset[attrName] = typeof data === 'string' ?
-			data :
-			JSON.stringify(data);
+		container.dataset[attrName] = typeof data === 'string' ? data : JSON.stringify(data);
 	}
 }
 

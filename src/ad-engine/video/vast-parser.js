@@ -10,11 +10,13 @@ class VastParser {
 			adInfo.contentType = imaAd.getContentType();
 
 			const [lineItemId] = imaAd.getWrapperAdIds() || [];
+
 			if (lineItemId !== undefined) {
 				adInfo.lineItemId = lineItemId;
 			}
 
 			const [creativeId] = imaAd.getWrapperCreativeIds() || [];
+
 			if (creativeId !== undefined) {
 				adInfo.creativeId = creativeId;
 			}
@@ -24,9 +26,9 @@ class VastParser {
 	}
 
 	parse(vastUrl, extra = {}) {
-		const currentAd = this.getAdInfo(extra.imaAd),
-			vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?'))),
-			customParams = queryString.getValues(encodeURI(vastParams.cust_params));
+		const currentAd = this.getAdInfo(extra.imaAd);
+		const vastParams = queryString.getValues(vastUrl.substr(1 + vastUrl.indexOf('?')));
+		const customParams = queryString.getValues(encodeURI(vastParams.cust_params));
 
 		return {
 			contentType: currentAd.contentType || extra.contentType,
@@ -34,7 +36,7 @@ class VastParser {
 			customParams,
 			lineItemId: currentAd.lineItemId || extra.lineItemId,
 			position: vastParams.vpos,
-			size: vastParams.sz
+			size: vastParams.sz,
 		};
 	}
 }

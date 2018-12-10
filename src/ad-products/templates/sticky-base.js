@@ -5,8 +5,6 @@ const logGroup = 'sticky-base';
 
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 
 	/**
 	 * Base class for sticky ads
@@ -34,9 +32,9 @@ export class StickyBase {
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
 		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
+			await (stickyUntilSlotViewed && !this.adSlot.isViewed()
+				? utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT)
+				: Promise.resolve());
 			await utils.wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
@@ -61,6 +59,7 @@ export class StickyBase {
 		}
 
 		let found = false;
+
 		lineId = lineId.toString();
 
 		lines.forEach((line) => {

@@ -1,16 +1,18 @@
 import EventEmitter from 'eventemitter3';
 import { AdSlot, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
 import { debounce, mapValues, isUndefined, toPlainObject } from 'lodash';
-
-import { BigFancyAdHiviTheme } from './hivi-theme';
-import { Stickiness } from './stickiness';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
 import {
-	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME
+	CSS_CLASSNAME_FADE_IN_ANIMATION,
+	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+	CSS_CLASSNAME_STICKY_BFAA,
+	SLIDE_OUT_TIME,
+	FADE_IN_TIME,
 } from '../../constants';
 import { animate } from '../../../interface/animate';
+import { BigFancyAdHiviTheme } from './hivi-theme';
+import { Stickiness } from './stickiness';
 
 const HIVI_RESOLVED_THRESHOLD = 0.995;
 
@@ -48,14 +50,12 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 		const whenResolvedAndVideoViewed = async () => {
 			await Promise.all([
 				utils.once(this, BfaaTheme.RESOLVED_STATE_EVENT),
-				stickyUntilVideoViewed ?
-					utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT) :
-					Promise.resolve()
+				stickyUntilVideoViewed
+					? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
+					: Promise.resolve(),
 			]);
 			await utils.wait(
-				isUndefined(stickyAdditionalTime) ?
-					BfaaTheme.DEFAULT_UNSTICK_DELAY :
-					stickyAdditionalTime
+				isUndefined(stickyAdditionalTime) ? BfaaTheme.DEFAULT_UNSTICK_DELAY : stickyAdditionalTime,
 			);
 		};
 
@@ -104,21 +104,23 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 	}
 
 	async onStickinessChange(isSticky) {
-		const stickinessBeforeCallback = isSticky ?
-			this.config.onBeforeStickBfaaCallback :
-			this.config.onBeforeUnstickBfaaCallback;
-		const stickinessAfterCallback = isSticky ?
-			this.config.onAfterStickBfaaCallback :
-			this.config.onAfterUnstickBfaaCallback;
+		const stickinessBeforeCallback = isSticky
+			? this.config.onBeforeStickBfaaCallback
+			: this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky
+			? this.config.onAfterStickBfaaCallback
+			: this.config.onAfterUnstickBfaaCallback;
 
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 		if (!isSticky) {
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			this.config.moveNavbar(0, SLIDE_OUT_TIME);
 			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}
 
@@ -136,6 +138,7 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 
 	unstickImmediately(stopVideo = true) {
 		scrollListener.removeCallback(this.scrollListener);
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 
 		if (stopVideo && this.video && this.video.ima.getAdsManager()) {
@@ -148,18 +151,20 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 
 	updateAdSizes() {
 		const { aspectRatio, state } = this.params.config;
-		const { mainContainer: { offsetWidth: currentWidth } } = this.config;
+		const {
+			mainContainer: { offsetWidth: currentWidth },
+		} = this.config;
 		const isResolved = this.container.classList.contains('theme-resolved');
 		const maxHeight = currentWidth / aspectRatio.default;
 		const minHeight = currentWidth / aspectRatio.resolved;
-		const scrollY = (window.scrollY || window.pageYOffset || 0);
+		const scrollY = window.scrollY || window.pageYOffset || 0;
 		const aspectScroll = this.isLocked ? minHeight : Math.max(minHeight, maxHeight - scrollY);
 		const currentAspectRatio = currentWidth / aspectScroll;
 		const aspectRatioDiff = aspectRatio.default - aspectRatio.resolved;
 		const currentDiff = aspectRatio.default - currentAspectRatio;
-		const currentState = 1 - ((aspectRatioDiff - currentDiff) / aspectRatioDiff);
+		const currentState = 1 - (aspectRatioDiff - currentDiff) / aspectRatioDiff;
 		const heightDiff = state.height.default - state.height.resolved;
-		const heightFactor = (state.height.default - (heightDiff * currentState)) / 100;
+		const heightFactor = (state.height.default - heightDiff * currentState) / 100;
 		const relativeHeight = aspectScroll * heightFactor;
 
 		this.adjustVideoSize(relativeHeight);
@@ -187,7 +192,8 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 	setThumbnailStyle(state) {
 		const style = mapValues(this.params.config.state, (styleProperty) => {
 			const diff = styleProperty.default - styleProperty.resolved;
-			return `${(styleProperty.default - diff * state)}%`;
+
+			return `${styleProperty.default - diff * state}%`;
 		});
 
 		Object.assign(this.params.thumbnail.style, style);

@@ -1,9 +1,9 @@
 import { createIcon, icons } from '../icons';
 
 function add(video, container) {
-	const pauseButton = document.createElement('div'),
-		pauseIcon = createIcon(icons.PAUSE, ['play-off-icon', 'porvata-icon', 'porvata-off-icon']),
-		playIcon = createIcon(icons.PLAY, ['play-on-icon', 'porvata-icon', 'porvata-on-icon']);
+	const pauseButton = document.createElement('div');
+	const pauseIcon = createIcon(icons.PAUSE, ['play-off-icon', 'porvata-icon', 'porvata-off-icon']);
+	const playIcon = createIcon(icons.PLAY, ['play-on-icon', 'porvata-icon', 'porvata-on-icon']);
 
 	pauseButton.appendChild(playIcon);
 	pauseButton.appendChild(pauseIcon);
@@ -30,5 +30,5 @@ function add(video, container) {
 }
 
 export default {
-	add
+	add,
 };

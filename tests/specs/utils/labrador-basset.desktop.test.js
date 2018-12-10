@@ -12,9 +12,9 @@ describe('It will test labrador-basset page', () => {
 				queryStrings.instantGlobals.labradorTestVariableAlpha,
 				'XX',
 				50,
-				labradorBasset.instantGlobalCached
+				labradorBasset.instantGlobalCached,
 			),
-			queryStrings.getSessionIdParam('cachedSession')
+			queryStrings.getSessionIdParam('cachedSession'),
 		);
 
 		browser.waitForVisible(labradorBasset.wgVariablesStatuses, timeouts.standard);
@@ -25,14 +25,18 @@ describe('It will test labrador-basset page', () => {
 			queryStrings.constructInstantGlobal(
 				queryStrings.instantGlobals.labradorTestVariableAlpha,
 				'XX',
-				50
+				50,
 			),
-			queryStrings.getSessionIdParam('cachedSession'));
+			queryStrings.getSessionIdParam('cachedSession'),
+		);
 
 		for (let i = 0; i < 50; i += 1) {
 			browser.url(nonCachedLink);
 			browser.waitForVisible(labradorBasset.wgVariablesStatuses, timeouts.standard);
-			expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal(currentValue, 'Incorrect Value');
+			expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal(
+				currentValue,
+				'Incorrect Value',
+			);
 		}
 	});
 
@@ -43,13 +47,16 @@ describe('It will test labrador-basset page', () => {
 				queryStrings.instantGlobals.labradorTestVariableAlpha,
 				'XX',
 				100,
-				labradorBasset.instantGlobalCached
+				labradorBasset.instantGlobalCached,
 			),
-			queryStrings.getSessionIdParam('enabled')
+			queryStrings.getSessionIdParam('enabled'),
 		);
 
 		browser.waitForVisible(labradorBasset.wgVariablesStatuses, timeouts.standard);
-		expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal('wgTestVariableAlpha: enabled', 'Incorrect Value');
+		expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal(
+			'wgTestVariableAlpha: enabled',
+			'Incorrect Value',
+		);
 	});
 
 	it('will check disabled state', () => {
@@ -59,12 +66,15 @@ describe('It will test labrador-basset page', () => {
 				queryStrings.instantGlobals.labradorTestVariableAlpha,
 				'XX',
 				0.000001,
-				labradorBasset.instantGlobalCached
+				labradorBasset.instantGlobalCached,
 			),
-			queryStrings.getSessionIdParam('disabled')
+			queryStrings.getSessionIdParam('disabled'),
 		);
 
 		browser.waitForVisible(labradorBasset.wgVariablesStatuses, timeouts.standard);
-		expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal('wgTestVariableAlpha: disabled', 'Incorrect Value');
+		expect(browser.getText(labradorBasset.wgVariablesStatuses)).to.equal(
+			'wgTestVariableAlpha: disabled',
+			'Incorrect Value',
+		);
 	});
 });

@@ -1,8 +1,8 @@
 import { slotTweaker } from '@wikia/ad-engine';
 
 function add(video, container) {
-	const progressBar = document.createElement('div'),
-		currentTime = document.createElement('div');
+	const progressBar = document.createElement('div');
+	const currentTime = document.createElement('div');
 
 	progressBar.classList.add('progress-bar');
 	currentTime.classList.add('current-time');
@@ -10,7 +10,7 @@ function add(video, container) {
 	progressBar.appendChild(currentTime);
 
 	progressBar.pause = () => {
-		currentTime.style.width = `${(currentTime.offsetWidth / progressBar.offsetWidth * 100)}%`;
+		currentTime.style.width = `${(currentTime.offsetWidth / progressBar.offsetWidth) * 100}%`;
 	};
 	progressBar.reset = () => {
 		currentTime.style.transitionDuration = '';
@@ -46,5 +46,5 @@ function add(video, container) {
 }
 
 export default {
-	add
+	add,
 };

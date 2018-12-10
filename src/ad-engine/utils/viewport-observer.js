@@ -6,7 +6,7 @@ function updateInViewport(listener) {
 		listener.element,
 		listener.offsetTop,
 		listener.offsetBottom,
-		listener.areaThreshold
+		listener.areaThreshold,
 	);
 
 	if (newInViewport !== listener.inViewport) {
@@ -17,16 +17,16 @@ function updateInViewport(listener) {
 
 function addListener(element, callback, params = {}) {
 	const listener = {
-			element,
-			callback,
-			offsetTop: params.offsetTop || 0,
-			offsetBottom: params.offsetBottom || 0,
-			areaThreshold: params.areaThreshold,
-			inViewport: false
-		},
-		updateCallback = () => {
-			updateInViewport(listener);
-		};
+		element,
+		callback,
+		offsetTop: params.offsetTop || 0,
+		offsetBottom: params.offsetBottom || 0,
+		areaThreshold: params.areaThreshold,
+		inViewport: false,
+	};
+	const updateCallback = () => {
+		updateInViewport(listener);
+	};
 
 	listener.id = scrollListener.addCallback(updateCallback);
 	updateCallback();
@@ -40,5 +40,5 @@ function removeListener(listenerId) {
 
 export const viewportObserver = {
 	addListener,
-	removeListener
+	removeListener,
 };

@@ -41,7 +41,8 @@ class AdSlots {
 			() => browser.getElementSize(adSlot, 'height') > 0,
 			timeouts.standard,
 			'Element not expanded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	waitForSlotCollapsed(adSlot) {
@@ -49,16 +50,17 @@ class AdSlots {
 			() => browser.getAttribute(adSlot, this.resultAttribute) === this.adCollapsed,
 			timeouts.standard,
 			'Slot did not collapse',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	waitForSlotViewed(adSlot) {
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(this.viewedAttribute) === this.adViewed,
+			() => browser.element(adSlot).getAttribute(this.viewedAttribute) === this.adViewed,
 			timeouts.standard,
 			'Slot has not been viewed',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -68,11 +70,11 @@ class AdSlots {
 	 */
 	waitForSlotResult(adSlot, result) {
 		browser.waitUntil(
-			() => browser.element(adSlot)
-				.getAttribute(this.resultAttribute) === result,
+			() => browser.element(adSlot).getAttribute(this.resultAttribute) === result,
 			timeouts.standard,
 			`Result mismatch: expected ${result}`,
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -96,6 +98,7 @@ class AdSlots {
 			result = false;
 			error += `Height incorrect: expected ${slotSize.height} to equal ${height}\n`;
 		}
+
 		return {
 			status: result,
 			capturedErrors: error,
@@ -110,6 +113,7 @@ class AdSlots {
 	 */
 	calculateHeightWithRatio(adSlot, heightRatio) {
 		const slotSize = browser.getElementSize(adSlot);
+
 		return slotSize.width / heightRatio;
 	}
 
@@ -133,10 +137,16 @@ class AdSlots {
 			error += `Slot width incorrect - expected ${expectedWidth} - actual ${slotSize.width}\n`;
 		}
 
-		if (Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) > aspectRatioDelta) {
+		if (
+			Math.abs(slotSize.height - this.calculateHeightWithRatio(adSlot, heightRatio)) >
+			aspectRatioDelta
+		) {
 			result = false;
-			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${slotSize.height}\n`;
+			error += `Slot height incorrect - expected ${expectedWidth / heightRatio} - actual ${
+				slotSize.height
+			}\n`;
 		}
+
 		return {
 			status: result,
 			capturedErrors: error,
@@ -147,7 +157,7 @@ class AdSlots {
 		const slotActualHeight = browser.getElementSize(adSlot, 'height');
 		const slotExpectedHeight = this.calculateHeightWithRatio(adSlot, ratio);
 
-		return slotActualHeight >= (slotExpectedHeight - comparisonOffsetPx);
+		return slotActualHeight >= slotExpectedHeight - comparisonOffsetPx;
 	}
 
 	/**
@@ -160,7 +170,7 @@ class AdSlots {
 			() => this.isSlotHeightRatioCorrect(adSlot, ratio),
 			timeouts.standard,
 			'Dimensions not changed',
-			timeouts.interval
+			timeouts.interval,
 		);
 	}
 
@@ -173,7 +183,11 @@ class AdSlots {
 	 * else returns true. captured errors: returns string with errors
 	 */
 	checkDerivativeSizeSlotRatio(adSlot, sizeDeterminant, heightRatio) {
-		return this.checkSlotRatio(adSlot, browser.getElementSize(sizeDeterminant, 'width'), heightRatio);
+		return this.checkSlotRatio(
+			adSlot,
+			browser.getElementSize(sizeDeterminant, 'width'),
+			heightRatio,
+		);
 	}
 
 	/**
@@ -185,25 +199,33 @@ class AdSlots {
 	 */
 	checkUAPSizeSlotRatio(adSlot, heightRatio) {
 		this.waitForSlotExpanded(adSlot);
+
 		return this.checkSlotRatio(adSlot, browser.getViewportSize('width'), heightRatio);
 	}
 
 	/**
 	 * Checks slot\'s status after making sure it exists in the code.
-	 * Returns information about visibility in general, visibility in viewport and about being enabled.
+	 * Returns information about visibility in general, visibility in viewport and about being
+	 * enabled.
 	 * @param adSlot slot to wait for
 	 * @param withScroll optional scroll to element
-	 * @returns {{visible: (Boolean|Boolean[]), inViewport: (Boolean|Boolean[]), enabled: (Boolean|Boolean[])}} slot statuses
+	 * @returns {{
+	 * visible: (Boolean|Boolean[]),
+	 * inViewport: (Boolean|Boolean[]),
+	 * enabled: (Boolean|Boolean[]),
+	 * }}
+	 * slot statuses
 	 */
 	getSlotStatus(adSlot, withScroll = false) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		if (withScroll) {
 			browser.scroll(adSlot);
 		}
+
 		return {
 			visible: browser.isVisible(adSlot),
 			inViewport: browser.isVisibleWithinViewport(adSlot),
-			enabled: browser.isEnabled(adSlot)
+			enabled: browser.isEnabled(adSlot),
 		};
 	}
 }

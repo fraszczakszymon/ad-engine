@@ -1,15 +1,16 @@
-import { AdSlot, scrollListener, utils } from '@wikia/ad-engine';
-
+import { scrollListener, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 import { Stickiness } from './uap/themes/hivi/stickiness';
-import { StickyAd } from './sticky-ad';
 import { StickyBase } from './sticky-base';
 import { universalAdPackage } from './uap/universal-ad-package';
 import {
-	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-	CSS_CLASSNAME_STICKY_BFAA, SLIDE_OUT_TIME, FADE_IN_TIME,
+	CSS_CLASSNAME_FADE_IN_ANIMATION,
+	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
+	CSS_CLASSNAME_STICKY_BFAA,
+	SLIDE_OUT_TIME,
+	FADE_IN_TIME,
 	CSS_CLASSNAME_STICKY_IAB,
 } from './uap/constants';
 
@@ -35,12 +36,12 @@ export class StickyTLB extends StickyBase {
 				const navbarElement = document.querySelector('body > nav.navigation');
 
 				if (navbarElement) {
-					navbarElement.style.transition = (
-						offset ? '' : `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`
-					);
-					navbarElement.style.top = (offset ? `${offset}px` : '');
+					navbarElement.style.transition = offset
+						? ''
+						: `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`;
+					navbarElement.style.top = offset ? `${offset}px` : '';
 				}
-			}
+			},
 		};
 	}
 
@@ -66,13 +67,14 @@ export class StickyTLB extends StickyBase {
 
 		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
+
 			return;
 		}
 
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 		this.adSlot.onLoad().then(() => {
 			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
-			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
 		});
 
 		this.addStickinessPlugin();
@@ -102,7 +104,7 @@ export class StickyTLB extends StickyBase {
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close()
+			onClick: () => this.stickiness.close(),
 		}).render();
 
 		this.container.appendChild(this.closeButton);
@@ -113,30 +115,32 @@ export class StickyTLB extends StickyBase {
 	}
 
 	addUnstickEvents() {
-		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, isSticky => this.onStickinessChange(isSticky));
+		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
+			this.onStickinessChange(isSticky),
+		);
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
 
 	async onStickinessChange(isSticky) {
-		const stickinessBeforeCallback = isSticky ?
-			this.config.onBeforeStickBfaaCallback :
-			this.config.onBeforeUnstickBfaaCallback;
-		const stickinessAfterCallback = isSticky ?
-			this.config.onAfterStickBfaaCallback :
-			this.config.onAfterUnstickBfaaCallback;
+		const stickinessBeforeCallback = isSticky
+			? this.config.onBeforeStickBfaaCallback
+			: this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky
+			? this.config.onAfterStickBfaaCallback
+			: this.config.onAfterUnstickBfaaCallback;
 
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 		if (!isSticky) {
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			this.config.moveNavbar(0, SLIDE_OUT_TIME);
 			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 			this.adSlot.getElement().classList.add('theme-resolved');
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}
 
@@ -150,7 +154,6 @@ export class StickyTLB extends StickyBase {
 
 		this.config.mainContainer.style.paddingTop = `${this.container.scrollHeight}px`;
 		this.config.mainContainer.classList.add('has-bfaa');
-
 
 		if (this.config.handleNavbar) {
 			this.setupNavbar();
@@ -166,7 +169,7 @@ export class StickyTLB extends StickyBase {
 	}
 
 	unstickImmediately() {
-		this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
 		scrollListener.removeCallback(this.scrollListener);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
@@ -182,7 +185,8 @@ export class StickyTLB extends StickyBase {
 		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
 		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
 		const slotParent = this.container.parentNode;
-		const sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
+		const sibling =
+			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
 
 		if (mobileNavbarWrapper) {
 			slotParent.insertBefore(mobileNavbarWrapper, sibling);

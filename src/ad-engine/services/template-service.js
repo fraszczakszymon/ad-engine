@@ -1,8 +1,8 @@
 import { logger } from '../utils/logger';
 import { context } from './context-service';
 
-const logGroup = 'template-service',
-	templates = {};
+const logGroup = 'template-service';
+const templates = {};
 
 class TemplateService {
 	register(template, customConfig = null) {

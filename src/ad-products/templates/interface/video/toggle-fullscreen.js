@@ -1,9 +1,17 @@
 import { createIcon, icons } from '../icons';
 
 function add(video, container) {
-	const toggleFullscreenButton = document.createElement('div'),
-		offIcon = createIcon(icons.FULLSCREEN_OFF, ['fullscreen-off-icon', 'porvata-icon', 'porvata-off-icon']),
-		onIcon = createIcon(icons.FULLSCREEN_ON, ['fullscreen-on-icon', 'porvata-icon', 'porvata-on-icon']);
+	const toggleFullscreenButton = document.createElement('div');
+	const offIcon = createIcon(icons.FULLSCREEN_OFF, [
+		'fullscreen-off-icon',
+		'porvata-icon',
+		'porvata-off-icon',
+	]);
+	const onIcon = createIcon(icons.FULLSCREEN_ON, [
+		'fullscreen-on-icon',
+		'porvata-icon',
+		'porvata-on-icon',
+	]);
 
 	toggleFullscreenButton.appendChild(offIcon);
 	toggleFullscreenButton.appendChild(onIcon);
@@ -29,5 +37,5 @@ function add(video, container) {
 }
 
 export default {
-	add
+	add,
 };

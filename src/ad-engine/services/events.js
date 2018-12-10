@@ -25,7 +25,7 @@ class EventService extends EventEmitter {
 
 	hasEvent(event) {
 		return Object.getOwnPropertyNames(this).some(
-			name => (typeof this[name] === 'symbol' && this[name] === event)
+			(name) => typeof this[name] === 'symbol' && this[name] === event,
 		);
 	}
 
@@ -40,7 +40,7 @@ class EventService extends EventEmitter {
 
 	on(event, ...args) {
 		if (!this.hasEvent(event)) {
-			throw new Error('You can\'t listen for an event which is not registered yet.');
+			throw new Error("You can't listen for an event which is not registered yet.");
 		}
 
 		super.on(event, ...args);
@@ -48,7 +48,7 @@ class EventService extends EventEmitter {
 
 	addListener(event, ...args) {
 		if (!this.hasEvent(event)) {
-			throw new Error('You can\'t listen for an event which is not registered yet.');
+			throw new Error("You can't listen for an event which is not registered yet.");
 		}
 
 		super.addListener(event, ...args);
@@ -56,7 +56,7 @@ class EventService extends EventEmitter {
 
 	once(event, ...args) {
 		if (!this.hasEvent(event)) {
-			throw new Error('You can\'t listen for an event which is not registered yet.');
+			throw new Error("You can't listen for an event which is not registered yet.");
 		}
 
 		super.once(event, ...args);
@@ -77,7 +77,7 @@ class EventService extends EventEmitter {
 	}
 
 	getRegisteredEventNames() {
-		return Object.getOwnPropertyNames(this).filter(name => typeof this[name] === 'symbol');
+		return Object.getOwnPropertyNames(this).filter((name) => typeof this[name] === 'symbol');
 	}
 }
 

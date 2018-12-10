@@ -14,40 +14,32 @@ describe('Twitch ads page: top leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, twitchAd.twitchLeaderboardRatio);
+		const dimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			twitchAd.twitchLeaderboardRatio,
+		);
 
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(dimensions.status, dimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the correct campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(twitchAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			twitchAd.topLeaderboardLineItemId,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if navbar is visible in viewport', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible').to.be.true;
 	});
 
 	it('Check if redirect on click works', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 });
 
@@ -65,28 +57,25 @@ describe('Twitch ads page: player', () => {
 	});
 
 	it('Check if Twitch player is visible', () => {
-		expect(browser.isVisibleWithinViewport(twitchAd.twitchPlayer), 'Player not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(twitchAd.twitchPlayer), 'Player not visible').to.be.true;
 	});
 
 	it('Check if playing the stream works', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.waitForEnabled(twitchAd.playPauseButton, timeouts.standard);
 		browser.click(twitchAd.playPauseButton);
-		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
-			.to
-			.include(twitchAd.playPauseButton.substring(1), 'Stream not playing');
+		expect(
+			browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute),
+		).to.include(twitchAd.playPauseButton.substring(1), 'Stream not playing');
 	});
 
 	it('Check if unmuting the stream works', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.waitForEnabled(twitchAd.unmuteButton, timeouts.standard);
 		browser.click(twitchAd.unmuteButton);
-		expect(browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute))
-			.to
-			.include(twitchAd.unmuteButton.substring(1), 'Stream not unmuted');
+		expect(
+			browser.element(twitchAd.playerClass).getAttribute(twitchAd.buttonPressedAttribute),
+		).to.include(twitchAd.unmuteButton.substring(1), 'Stream not unmuted');
 	});
 
 	it('Check if clicking on Twitch button redirects to Twitch account with that stream', () => {
@@ -95,9 +84,10 @@ describe('Twitch ads page: player', () => {
 		browser.click(twitchAd.twitchButton);
 		helpers.switchToTab(1);
 		helpers.waitForUrl(twitchAd.twitchWord);
-		expect(browser.getUrl())
-			.to
-			.include(twitchAd.twitchWord, `Wrong page loaded: expected ${twitchAd.twitchWord}`);
+		expect(browser.getUrl()).to.include(
+			twitchAd.twitchWord,
+			`Wrong page loaded: expected ${twitchAd.twitchWord}`,
+		);
 		helpers.closeNewTabs();
 	});
 });

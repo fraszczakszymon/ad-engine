@@ -9,7 +9,7 @@ function getUniqueId() {
 
 function pushSlot(adStack, node) {
 	adStack.push({
-		id: node.id
+		id: node.id,
 	});
 }
 
@@ -40,9 +40,13 @@ class ScrollListener {
 		}
 
 		this.addCallback((event, callbackId) => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
-				slotPosition = getTopOffset(node),
-				viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const slotPosition = getTopOffset(node);
+			const viewPortHeight = Math.max(
+				document.documentElement.clientHeight,
+				window.innerHeight || 0,
+			);
 
 			if (scrollPosition + viewPortHeight > slotPosition - threshold) {
 				this.removeCallback(callbackId);
@@ -53,6 +57,7 @@ class ScrollListener {
 
 	addCallback(callback) {
 		const id = getUniqueId();
+
 		callbacks[id] = callback;
 
 		events.once(events.BEFORE_PAGE_CHANGE_EVENT, () => this.removeCallback(id));
