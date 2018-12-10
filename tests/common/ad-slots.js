@@ -28,6 +28,7 @@ class AdSlots {
 		this.adCollapsed = 'collapse';
 		this.inhouseLineItemId = '271491732';
 		this.wikiaAdapterLineItemId = '321546972';
+		this.amazonLineItemId = '4397742201';
 		this.defaultDesktopRatio = 4;
 		this.resolvedDesktopRatio = 10;
 		this.defaultMobileRatio = 1.77;

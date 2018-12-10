@@ -15,6 +15,9 @@ class Asserts {
 	assertWikiaAdapterCampaign(slotName) {
 		this.assertSlotLineItemId(slotName, adSlots.wikiaAdapterLineItemId);
 	}
+	assertAmazonCampaign(slotName) {
+		this.assertSlotLineItemId(slotName, adSlots.amazonLineItemId);
+	}
 }
 
 export const asserts = new Asserts();

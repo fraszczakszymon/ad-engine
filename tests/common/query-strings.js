@@ -12,7 +12,7 @@ class QueryStrings {
 			forceEmptyResponse: 'force-empty-response',
 			disableFloating: 'floating',
 		};
-		this.prebid = {
+		this.bidders = {
 			price: 'wikia_adapter',
 			limit: 'wikia_adapter_limit',
 			limitSlots: 'limit',
@@ -20,6 +20,7 @@ class QueryStrings {
 			timeout: 'wikia_adapter_timeout',
 			pbjs_debug: 'pbjs_debug',
 			disableSlots: 'disabled-slots',
+			deals: 'deals',
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -105,19 +106,19 @@ class QueryStrings {
 	}
 
 	getPrice(price) {
-		return `${this.prebid.price}=${price}`;
+		return `${this.bidders.price}=${price}`;
 	}
 
 	getLimit(limit) {
-		return `${this.prebid.limit}=${limit}`;
+		return `${this.bidders.limit}=${limit}`;
 	}
 
 	getLimitOfSlots(limit = 3) {
-		return `${this.prebid.limitSlots}=${limit}`;
+		return `${this.bidders.limitSlots}=${limit}`;
 	}
 
 	getTimeout(timeout) {
-		return `${this.prebid.timeout}=${timeout}`;
+		return `${this.bidders.timeout}=${timeout}`;
 	}
 
 	getLengthOfContent(lengthNumber = 5) {
@@ -127,7 +128,7 @@ class QueryStrings {
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
 
-		return `${this.prebid.randomness}=${on}`;
+		return `${this.bidders.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
@@ -162,6 +163,12 @@ class QueryStrings {
 		const on = empty ? '1' : '0';
 
 		return `${this.utils.forceEmptyResponse}=${on}`;
+	}
+
+	getDeals(enabled) {
+		const on = enabled ? '1' : '0';
+
+		return `${this.bidders.deals}=${on}`;
 	}
 
 	getSessionIdParam(parameter) {
