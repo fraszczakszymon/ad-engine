@@ -6,23 +6,24 @@ export class VideoSettings {
 
 		Object.defineProperty(this, 'resolvedState', {
 			value: resolvedState.isResolvedState(this.params),
-			writable: false
+			writable: false,
 		});
 
 		Object.defineProperty(this, 'autoPlay', {
 			value: this.detectAutoPlay(),
-			writable: false
+			writable: false,
 		});
 
 		Object.defineProperty(this, 'splitLayout', {
 			value: Boolean(params.splitLayoutVideoPosition),
-			writable: false
+			writable: false,
 		});
 	}
 
 	detectAutoPlay() {
-		const defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState,
-			resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
+		const defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState;
+		const resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
+
 		return Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
 	}
 

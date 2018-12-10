@@ -21,5 +21,5 @@ function getPlayer(identifier, videoSettings) {
 export const twitchEmbed = {
 	load,
 	getLibrary,
-	getPlayer
+	getPlayer,
 };

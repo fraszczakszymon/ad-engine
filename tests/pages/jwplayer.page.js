@@ -22,6 +22,7 @@ class JWPlayer {
 			return true;
 		}
 		browser.waitForExist(`${this.soundToggle}${this.soundToggleOff}`, timeouts.standard);
+
 		return false;
 	}
 }

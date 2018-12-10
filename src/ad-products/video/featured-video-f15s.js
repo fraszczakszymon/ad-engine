@@ -29,5 +29,5 @@ export default {
 	 */
 	getTime(videoId) {
 		return context.get(`options.featuredVideo15sMap.${videoId}`);
-	}
+	},
 };

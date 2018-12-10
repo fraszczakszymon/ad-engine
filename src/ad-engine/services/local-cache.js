@@ -41,19 +41,19 @@ class LocalCache {
 		logger(logGroup, 'Local Storage polyfill being created');
 		Storage.prototype.data = {};
 
-		Storage.prototype.setItem = function setItem(id, val) {
+		Storage.prototype.setItem = function (id, val) {
 			this.data[id] = String(val);
 		};
 
-		Storage.prototype.getItem = function getItem(id) {
+		Storage.prototype.getItem = function (id) {
 			return this.data[id] ? this.data[id] : null;
 		};
 
-		Storage.prototype.removeItem = function removeItem(id) {
+		Storage.prototype.removeItem = function (id) {
 			delete this.data[id];
 		};
 
-		Storage.prototype.clear = function clear() {
+		Storage.prototype.clear = function () {
 			this.data = {};
 		};
 	}
@@ -72,6 +72,7 @@ class LocalCache {
 			// Check if item has expired
 			if (this.isExpired(cacheItem)) {
 				this.delete(key);
+
 				return false;
 			}
 
@@ -91,7 +92,7 @@ class LocalCache {
 
 		if (!isNaN(expiresValue)) {
 			// Set expiration as a JS timestamp
-			cacheItem.expires = (expiresValue * 1000) + Date.now();
+			cacheItem.expires = expiresValue * 1000 + Date.now();
 		}
 
 		try {

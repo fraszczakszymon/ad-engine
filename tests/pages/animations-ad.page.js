@@ -9,7 +9,8 @@ class AnimationsAd {
 		this.topLeaderboardHeightWhenHidden = 0;
 		this.topLeaderboardStyle = 'style';
 		this.collapsedAdMaxHeight = 'max-height: 0px;';
-		this.waitForAnimationsTime = 10000; // currently added only for animations ad, as top leaderboard hides after 6 seconds
+		// currently added only for animations ad, as top leaderboard hides after 6 seconds
+		this.waitForAnimationsTime = 10000;
 	}
 
 	/**
@@ -25,11 +26,13 @@ class AnimationsAd {
 				const leaderboardStyle = browser
 					.element(adSlots.topLeaderboard)
 					.getAttribute(this.topLeaderboardStyle);
+
 				return leaderboardStyle === this.collapsedAdMaxHeight;
 			},
 			this.waitForAnimationsTime,
 			'Top leaderboard ad did not collapse',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 }
 

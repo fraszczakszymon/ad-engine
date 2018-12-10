@@ -1,40 +1,41 @@
 const contextObject = {
-		adUnitId: '',
-		events: {},
-		delayModules: [],
-		listeners: {
-			twitch: [],
-			porvata: [],
-			slot: []
-		},
-		options: {
-			customAdLoader: {
-				globalMethodName: 'loadCustomAd'
-			},
-			maxDelayTimeout: 2000,
-			video: {
-				moatTracking: {
-					enabled: true,
-					partnerCode: 'wikiaimajsint377461931603',
-					sampling: 1
-				}
-			},
-			slotRepeater: false,
-			trackingOptIn: false
-		},
-		slots: {},
-		src: 'gpt',
-		state: {
-			adStack: [],
-			isMobile: false
-		},
-		targeting: {},
-		vast: {
-			size: [640, 480],
-			adUnitId: ''
-		}
+	adUnitId: '',
+	events: {},
+	delayModules: [],
+	listeners: {
+		twitch: [],
+		porvata: [],
+		slot: [],
 	},
-	onChangeCallbacks = {};
+	options: {
+		customAdLoader: {
+			globalMethodName: 'loadCustomAd',
+		},
+		maxDelayTimeout: 2000,
+		video: {
+			moatTracking: {
+				enabled: true,
+				partnerCode: 'wikiaimajsint377461931603',
+				sampling: 1,
+			},
+		},
+		slotRepeater: false,
+		trackingOptIn: false,
+	},
+	slots: {},
+	src: 'gpt',
+	state: {
+		adStack: [],
+		isMobile: false,
+	},
+	targeting: {},
+	vast: {
+		size: [640, 480],
+		adUnitId: '',
+	},
+};
+
+const onChangeCallbacks = {};
 
 function runCallbacks(trigger, key, newValue) {
 	if (!onChangeCallbacks[trigger]) {
@@ -48,6 +49,7 @@ function runCallbacks(trigger, key, newValue) {
 
 function triggerOnChange(key, segments, newValue) {
 	let trigger = '';
+
 	segments.forEach((seg) => {
 		trigger += (trigger === '' ? '' : '.') + seg;
 		runCallbacks(trigger, key, newValue);
@@ -55,10 +57,10 @@ function triggerOnChange(key, segments, newValue) {
 }
 
 function segment(key, newValue, remove = false) {
-	const segments = key.split('.'),
-		segmentsCount = segments.length;
-	let seg = contextObject,
-		lastKey = null;
+	const segments = key.split('.');
+	const segmentsCount = segments.length;
+	let seg = contextObject;
+	let lastKey = null;
 
 	for (let i = 0; i < segmentsCount; i += 1) {
 		lastKey = segments[i];
@@ -70,6 +72,7 @@ function segment(key, newValue, remove = false) {
 
 	if (remove) {
 		delete seg[lastKey];
+
 		return null;
 	}
 

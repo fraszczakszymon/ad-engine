@@ -15,9 +15,9 @@ describe('Animations ad page: top leaderboard', () => {
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 
-		expect(topLeaderboardSize.height)
-			.to
-			.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
+		expect(topLeaderboardSize.height).to.equal(
+			animationsAd.topLeaderboardHeightWhenHidden,
+			'Top leaderboard was not hidden',
+		);
 	});
 });
-

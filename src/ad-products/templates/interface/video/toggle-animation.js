@@ -1,5 +1,5 @@
-const duration = 400,
-	onAnimationClassName = 'on-animation';
+const duration = 400;
+const onAnimationClassName = 'on-animation';
 
 function resizeContainer(container, finalAspectRatio) {
 	container.style.height = `${container.offsetHeight}px`;
@@ -41,5 +41,5 @@ function add(video, container, params) {
 
 export default {
 	add,
-	duration
+	duration,
 };

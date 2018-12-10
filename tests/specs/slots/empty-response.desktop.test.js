@@ -14,10 +14,7 @@ describe('Empty response page: top leaderboard', () => {
 
 	it('Check if slot is not visible', () => {
 		adSlots.waitForSlotResult(adSlots.topLeaderboard, adSlots.adCollapsed);
-		expect(adStatus.inViewport, 'Slot in viewport')
-			.to
-			.be
-			.false;
+		expect(adStatus.inViewport, 'Slot in viewport').to.be.false;
 	});
 });
 
@@ -32,9 +29,6 @@ describe('Empty response page: top boxad', () => {
 	});
 
 	it('Check if slot is not visible', () => {
-		expect(adStatus.inViewport, 'Slot in viewport')
-			.to
-			.be
-			.false;
+		expect(adStatus.inViewport, 'Slot in viewport').to.be.false;
 	});
 });

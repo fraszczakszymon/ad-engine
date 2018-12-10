@@ -25,12 +25,12 @@ describe('gpt-provider', () => {
 			disableInitialLoad: spy(),
 			enableSingleRequest: spy(),
 			setRequestNonPersonalizedAds: spy(),
-			setTargeting: spy()
+			setTargeting: spy(),
 		};
 
 		window.googletag = {
 			pubads: () => pubads,
-			enableServices: spy()
+			enableServices: spy(),
 		};
 
 		window.googletag.cmd = window.googletag.cmd || [];

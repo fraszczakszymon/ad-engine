@@ -12,20 +12,20 @@ export class FloatingAd {
 
 	init() {
 		const slotNode = document.getElementById(this.adSlot.getSlotName());
-
-		let container,
-			containerOffset,
-			end,
-			slotHeight,
-			space,
-			start = 0;
+		let container;
+		let containerOffset;
+		let end;
+		let slotHeight;
+		let space;
+		let start = 0;
 
 		if (!slotNode || !slotNode.classList.contains('floating')) {
 			return;
 		}
 
 		scrollListener.addCallback(() => {
-			const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+			const scrollPosition =
+				window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 			container = slotNode.parentNode;
 			containerOffset = getTopOffset(container);
@@ -34,13 +34,16 @@ export class FloatingAd {
 
 			start = containerOffset;
 			if (slotNode.previousElementSibling) {
-				start = getTopOffset(slotNode.previousElementSibling) + slotNode.previousElementSibling.offsetHeight;
+				start =
+					getTopOffset(slotNode.previousElementSibling) +
+					slotNode.previousElementSibling.offsetHeight;
 			}
 
 			space = end - start;
 			if (space <= slotHeight) {
 				slotNode.classList.add('pinned-top');
 				slotNode.classList.remove('pinned-bottom');
+
 				return;
 			}
 

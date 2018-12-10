@@ -17,40 +17,32 @@ describe('ABCD ads page: top leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if dimensions are correct', () => {
-		const dimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, abcdAd.abcdLeaderboardRatio);
+		const dimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			abcdAd.abcdLeaderboardRatio,
+		);
 
-		expect(dimensions.status, dimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(dimensions.status, dimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the proper campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(abcdAd.topLeaderboardLineItemId, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			abcdAd.topLeaderboardLineItemId,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if navbar is visible in viewport', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible').to.be.true;
 	});
 
 	it('Check if redirect on click works', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 });
 
@@ -67,15 +59,16 @@ describe('ABCD ads page: video player in leaderboard', () => {
 	});
 
 	it('Check if player is visible', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if unmuting the video works properly', () => {
 		browser.moveToObject(`${adSlots.topLeaderboard} ${abcdAd.videoPlayer}`).pause(timeouts.hover);
 		browser.click(abcdAd.unmuteButton);
-		browser.waitForExist(`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`, timeouts.standard, true);
+		browser.waitForExist(
+			`${abcdAd.unmuteButton}${abcdAd.buttonIsOnClass}`,
+			timeouts.standard,
+			true,
+		);
 	});
 });

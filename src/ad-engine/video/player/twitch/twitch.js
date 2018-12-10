@@ -1,4 +1,4 @@
-import { TwitchListener } from './../../../listeners/twitch-listener';
+import { TwitchListener } from '../../../listeners/twitch-listener';
 import { twitchEmbed } from './embed/twitch-embed';
 
 export class TwitchPlayer {
@@ -30,8 +30,11 @@ export class TwitchPlayer {
 export class Twitch {
 	static inject(identifier, videoSettings, params) {
 		const twitchListener = new TwitchListener(params);
+
 		twitchListener.init();
-		return twitchEmbed.load()
+
+		return twitchEmbed
+			.load()
 			.then(() => twitchEmbed.getPlayer(identifier, videoSettings))
 			.then((player) => {
 				twitchListener.registerTwitchEvents(player);

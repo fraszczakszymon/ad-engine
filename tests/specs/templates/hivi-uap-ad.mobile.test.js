@@ -15,22 +15,34 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 		browser.url(hiviUap.pageLink);
 		adSlots.waitForSlotExpanded(adSlots.topLeaderboard);
 
-		defaultDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.defaultMobileRatio);
+		defaultDimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.defaultMobileRatio,
+		);
 
 		helpers.slowScroll(500);
 
-		scrollDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		scrollDimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedMobileRatio,
+		);
 
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.refreshPageAndWaitForSlot(adSlots.topLeaderboard);
 
-		refreshDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		refreshDimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedMobileRatio,
+		);
 
 		helpers.reloadPageAndWaitForSlot(adSlots.topLeaderboard);
 		helpers.waitForVideoAdToFinish(hiviUap.videoLength);
 		adSlots.waitForSlotResolved(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
 
-		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(adSlots.topLeaderboard, adSlots.resolvedMobileRatio);
+		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedMobileRatio,
+		);
 	});
 
 	beforeEach(() => {
@@ -46,59 +58,39 @@ describe('Mobile HiVi UAP ads page: top leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after scroll are correct', () => {
-		expect(scrollDimensions.status, scrollDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(scrollDimensions.status, scrollDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after video finished playing are correct', () => {
-		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if navbar is visible in viewport', () => {
-		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible')
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(helpers.navbar), 'Navbar not visible').to.be.true;
 	});
 
 	it('Check redirect to new page', () => {
-		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.topLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check if the line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(hiviUap.firstCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			hiviUap.firstCall,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check closing top leaderboard after clicking the button', () => {
@@ -117,24 +109,35 @@ describe('Mobile HiVi UAP ads page: video player in top leaderboard', () => {
 	});
 
 	it('Check if opening the full screen player works', () => {
-		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`,
-			timeouts.standard);
+		browser.waitForEnabled(
+			`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`,
+			timeouts.standard,
+		);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playerFullscreenButton}`);
 		browser.waitForExist(hiviUap.fullScreen, timeouts.standard);
 	});
 
 	it('Check if pausing the video works', () => {
-		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`, timeouts.standard);
+		browser.waitForEnabled(
+			`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`,
+			timeouts.standard,
+		);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
-			timeouts.standard, true);
+		browser.waitForExist(
+			`${adSlots.topLeaderboard} ${hiviUap.playPauseButton}${hiviUap.buttonIsOn}`,
+			timeouts.standard,
+			true,
+		);
 	});
 
 	it('Check if unmuting the video works', () => {
 		browser.waitForEnabled(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`, timeouts.standard);
 		browser.click(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}`);
-		browser.waitForExist(`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
-			timeouts.standard, true);
+		browser.waitForExist(
+			`${adSlots.topLeaderboard} ${hiviUap.volumeButton}${hiviUap.buttonIsOn}`,
+			timeouts.standard,
+			true,
+		);
 	});
 
 	it('Check if replaying the video works', () => {
@@ -157,9 +160,10 @@ describe('Mobile HiVi UAP ads page: top boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topBoxad))
-			.to
-			.equal(hiviUap.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topBoxad)).to.equal(
+			hiviUap.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -173,8 +177,9 @@ describe('Mobile HiVi UAP ads page: incontent boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUap.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUap.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });

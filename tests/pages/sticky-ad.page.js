@@ -6,7 +6,9 @@ class StickyAd {
 		this.classStickyTemplate = '.sticky-template';
 		this.classStickySlot = '.sticky-slot';
 		this.classUnstickButton = '.button-unstick';
-		this.stickedSlot = `${adSlots.topLeaderboard}${this.classStickyTemplate}${this.classStickySlot}`;
+		this.stickedSlot = `${adSlots.topLeaderboard}${this.classStickyTemplate}${
+			this.classStickySlot
+		}`;
 	}
 }
 

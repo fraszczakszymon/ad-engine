@@ -1,17 +1,18 @@
 import { decorate } from 'core-decorators';
 import { logger, defer } from '../utils';
-import { GptSizeMap } from './gpt-size-map';
-import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
 import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
+import { GptSizeMap } from './gpt-size-map';
+import { setupGptTargeting } from './gpt-targeting';
 
 const logGroup = 'gpt-provider';
 
 export const ADX = 'AdX';
 
-export const gptLazyMethod = method => function decoratedGptLazyMethod(...args) {
-	return window.googletag.cmd.push(() => method.apply(this, args));
-};
+export const gptLazyMethod = (method) =>
+	function (...args) {
+		return window.googletag.cmd.push(() => method.apply(this, args));
+	};
 
 let definedSlots = [];
 let initialized = false;
@@ -88,13 +89,12 @@ export class GptProvider {
 		if (adSlot.isOutOfPage()) {
 			gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
 		} else {
-			gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
+			gptSlot = window.googletag
+				.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
 				.defineSizeMapping(sizeMap.build());
 		}
 
-		gptSlot
-			.addService(window.googletag.pubads())
-			.setCollapseEmptyDiv(true);
+		gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
 		this.applyTargetingParams(gptSlot, targeting);
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
@@ -110,7 +110,7 @@ export class GptProvider {
 	}
 
 	applyTargetingParams(gptSlot, targeting) {
-		Object.keys(targeting).forEach(key => gptSlot.setTargeting(key, targeting[key]));
+		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
 	}
 
 	parseTargetingParams(targeting) {
@@ -119,7 +119,7 @@ export class GptProvider {
 		Object.keys(targeting).forEach((key) => {
 			let value = targeting[key];
 
-			if (typeof (value) === 'function') {
+			if (typeof value === 'function') {
 				value = value();
 			}
 
@@ -139,10 +139,7 @@ export class GptProvider {
 	@decorate(gptLazyMethod)
 	flush() {
 		if (definedSlots.length) {
-			window.googletag.pubads().refresh(
-				definedSlots,
-				{ changeCorrelator: false }
-			);
+			window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
 			definedSlots = [];
 		}
 	}
@@ -166,17 +163,20 @@ export class GptProvider {
 
 	destroySlots(slotNames) {
 		const allSlots = window.googletag.pubads().getSlots();
-		const slotsToDestroy = (slotNames && slotNames.length) ? allSlots.filter((slot) => {
-			const slotId = slot.getSlotElementId();
+		const slotsToDestroy =
+			slotNames && slotNames.length
+				? allSlots.filter((slot) => {
+					const slotId = slot.getSlotElementId();
 
-			if (!slotId) {
-				logger(logGroup, 'destroySlots', 'slot doesn\'t return element id', slot);
-			} else if (slotNames.indexOf(slotId) > -1) {
-				return true;
-			}
+					if (!slotId) {
+						logger(logGroup, 'destroySlots', "slot doesn't return element id", slot);
+					} else if (slotNames.indexOf(slotId) > -1) {
+						return true;
+					}
 
-			return false;
-		}) : allSlots;
+					return false;
+				  })
+				: allSlots;
 
 		if (slotsToDestroy.length) {
 			this.destroyGptSlots(slotsToDestroy);

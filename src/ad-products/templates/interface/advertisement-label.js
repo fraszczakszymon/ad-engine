@@ -1,5 +1,5 @@
-import UiComponent from './ui-component';
 import { getTranslation } from '../../common/i18n';
+import UiComponent from './ui-component';
 
 export default class AdvertisementLabel extends UiComponent {
 	render() {

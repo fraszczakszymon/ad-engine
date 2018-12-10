@@ -1,7 +1,7 @@
-import { context } from './context-service';
-import { events } from './events';
 import { AdSlot } from '../models';
 import { getTopOffset, logger } from '../utils';
+import { context } from './context-service';
+import { events } from './events';
 
 const groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
@@ -18,17 +18,19 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 		return false;
 	}
 
-	const elementHeight = element.offsetHeight,
-		elementOffset = getTopOffset(element),
-		isFirst = elementOffset < slotOffset,
-		distance = isFirst ? slotOffset - elementOffset - elementHeight :
-			elementOffset - slotOffset - slotHeight;
+	const elementHeight = element.offsetHeight;
+	const elementOffset = getTopOffset(element);
+	const isFirst = elementOffset < slotOffset;
+	const distance = isFirst
+		? slotOffset - elementOffset - elementHeight
+		: elementOffset - slotOffset - slotHeight;
 
 	return distance < viewportHeight;
 }
 
 function setState(slotName, state, status = null) {
 	const slot = slotService.get(slotName);
+
 	slotStates[slotName] = state;
 	slotStatuses[slotName] = status;
 
@@ -81,6 +83,7 @@ class SlotService {
 	 */
 	get(id) {
 		const [singleSlotName] = id.split(',');
+
 		if (slots[singleSlotName]) {
 			return slots[singleSlotName];
 		}
@@ -94,6 +97,7 @@ class SlotService {
 			}
 
 			const position = slot.getConfigProperty('targeting.pos') || [];
+
 			if (position === singleSlotName || position[0] === singleSlotName) {
 				slotByPos = slot;
 			}
@@ -150,13 +154,16 @@ class SlotService {
 			return false;
 		}
 
-		const slotHeight = adSlot.getElement().offsetHeight,
-			slotOffset = getTopOffset(adSlot.getElement()),
-			viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		const slotHeight = adSlot.getElement().offsetHeight;
+		const slotOffset = getTopOffset(adSlot.getElement());
+		const viewportHeight =
+			window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		const hasConflict = adSlot
+			.getViewportConflicts()
+			.some((elementId) =>
+				isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId),
+			);
 
-		const hasConflict = adSlot.getViewportConflicts().some(
-			elementId => isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId)
-		);
 		logger(groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
 
 		return hasConflict;
@@ -168,8 +175,8 @@ class SlotService {
 	 */
 	getAtfSlotConfigs() {
 		const slotConfigs = context.get('slots');
-		return Object.values(slotConfigs)
-			.filter(config => AdSlot.isAboveTheFold(config));
+
+		return Object.values(slotConfigs).filter((config) => AdSlot.isAboveTheFold(config));
 	}
 }
 

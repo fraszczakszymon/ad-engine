@@ -1,8 +1,8 @@
 import { context } from '@wikia/ad-engine';
 
 function findSlotGroup(product) {
-	const slotGroups = context.get('slotGroups'),
-		result = Object.keys(slotGroups).filter(name => slotGroups[name].indexOf(product) !== -1);
+	const slotGroups = context.get('slotGroups');
+	const result = Object.keys(slotGroups).filter((name) => slotGroups[name].indexOf(product) !== -1);
 
 	return result.length === 1 ? result[0] : null;
 }
@@ -24,6 +24,6 @@ export function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 
 	return {
 		adGroup: getGroup(product),
-		adProduct: product.toLowerCase()
+		adProduct: product.toLowerCase(),
 	};
 }

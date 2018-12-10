@@ -5,9 +5,7 @@ import { helpers } from './helpers';
 class Asserts {
 	assertSlotLineItemId(slotName, expectedLineItemId) {
 		helpers.waitForLineItemIdAttribute(slotName);
-		expect(helpers.getLineItemId(slotName))
-			.to
-			.equal(expectedLineItemId, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(slotName)).to.equal(expectedLineItemId, 'Line item ID mismatch');
 	}
 
 	assertInhouseCampaign(slotName) {

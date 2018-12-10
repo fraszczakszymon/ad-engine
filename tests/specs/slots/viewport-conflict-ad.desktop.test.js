@@ -14,14 +14,8 @@ describe('Viewport conflict ads page: top boxad', () => {
 		browser.waitForVisible(viewportConflictAd.hideBoxadButton, timeouts.standard);
 		browser.click(viewportConflictAd.hideBoxadButton);
 		adSlots.waitForSlotResult(adSlots.topBoxad, adSlots.adCollapsed);
-		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`))
-			.to
-			.be
-			.true;
-		expect(browser.isVisibleWithinViewport(adSlots.topBoxad))
-			.to
-			.be
-			.false;
+		expect(browser.isExisting(`${adSlots.topBoxad}${helpers.classHidden}`)).to.be.true;
+		expect(browser.isVisibleWithinViewport(adSlots.topBoxad)).to.be.false;
 	});
 });
 
@@ -37,9 +31,6 @@ describe('Viewport conflict ads page: bottom leaderboard', () => {
 		viewportConflictAd.addParagraphs(5);
 		browser.scroll(0, 2800);
 		adSlots.waitForSlotResult(adSlots.bottomLeaderboard, adSlots.adLoaded);
-		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard)).to.be.true;
 	});
 });
