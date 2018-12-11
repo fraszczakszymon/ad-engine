@@ -276,8 +276,8 @@ var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 
 function findSlotGroup(product) {
-	var slotGroups = ad_engine_["context"].get('slotGroups'),
-	    result = keys_default()(slotGroups).filter(function (name) {
+	var slotGroups = ad_engine_["context"].get('slotGroups');
+	var result = keys_default()(slotGroups).filter(function (name) {
 		return slotGroups[name].indexOf(product) !== -1;
 	});
 
@@ -366,9 +366,9 @@ var floating_rail_FloatingRail = function () {
 			var floatingSpace = Math.min(offset, this.getAvailableSpace());
 
 			ad_engine_["scrollListener"].addCallback(function () {
-				var start = _this.config.startOffset + ad_engine_["utils"].getTopOffset(_this.railWrapper),
-				    end = start + floatingSpace,
-				    scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+				var start = _this.config.startOffset + ad_engine_["utils"].getTopOffset(_this.railWrapper);
+				var end = start + floatingSpace;
+				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 				if (scrollPosition <= start) {
 					_this.rail.style.paddingTop = '';
@@ -389,9 +389,9 @@ var floating_rail_FloatingRail = function () {
 		key: 'getAvailableSpace',
 		value: function getAvailableSpace() {
 			if (availableSpace === null) {
-				var children = this.railWrapper.lastElementChild,
-				    childrenHeight = children.offsetTop + children.offsetHeight,
-				    space = this.railWrapper.offsetHeight;
+				var children = this.railWrapper.lastElementChild;
+				var childrenHeight = children.offsetTop + children.offsetHeight;
+				var space = this.railWrapper.offsetHeight;
 
 				availableSpace = Math.max(0, space - childrenHeight - adsInRail * biggestAdSize);
 			}
@@ -501,8 +501,10 @@ var skin_Skin = function () {
 		value: function setTrackingPixels(pixels) {
 			for (var i = 0, len = pixels.length; i < len; i += 1) {
 				var pixelUrl = pixels[i];
+
 				if (pixelUrl) {
 					var pixelElement = document.createElement('img');
+
 					pixelElement.src = pixelUrl;
 					pixelElement.width = 1;
 					pixelElement.height = 1;
@@ -889,6 +891,7 @@ var sticky_base_StickyBase = function () {
 			}
 
 			var found = false;
+
 			lineId = lineId.toString();
 
 			lines.forEach(function (line) {
@@ -1081,6 +1084,7 @@ function createIcon(iconName) {
 
 var icons_icons = keys_default()(icons_default.a).reduce(function (map, name) {
 	map[name] = name;
+
 	return map;
 }, {});
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/close-button.js
@@ -1193,6 +1197,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness rejected');
+
 				return;
 			}
 
@@ -1506,8 +1511,8 @@ var TRANSLATIONS = {
 var defaultLanguage = 'en';
 
 function getTranslation(category, key) {
-	var lang = ad_engine_["context"].get('options.contentLanguage'),
-	    language = lang && typeof TRANSLATIONS[category][lang] !== 'undefined' ? lang : defaultLanguage;
+	var lang = ad_engine_["context"].get('options.contentLanguage');
+	var language = lang && typeof TRANSLATIONS[category][lang] !== 'undefined' ? lang : defaultLanguage;
 
 	return TRANSLATIONS[category][language][key] || TRANSLATIONS[category][defaultLanguage][key];
 }
@@ -1661,6 +1666,7 @@ var porvata_template_PorvataTemplate = function () {
 			window.addEventListener('resize', function () {
 				if (!video.isFloating) {
 					var slotWidth = slotElement.clientWidth;
+
 					video.resize(slotWidth, slotWidth / DEFAULT_VIDEO_ASPECT_RATIO);
 				}
 			});
@@ -1699,6 +1705,7 @@ var porvata_template_PorvataTemplate = function () {
 			video.addEventListener('wikiaFirstTimeInViewport', function () {
 				statusPromise.then(function () {
 					var eventSuffix = _this2.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+
 					video.ima.dispatchEvent('wikiaInViewport' + eventSuffix);
 				});
 			});
@@ -1773,6 +1780,7 @@ function dynamic_reveal_add(video, container, params) {
 
 		if (!video.isFloating) {
 			var slotWidth = slot.getElement().scrollWidth;
+
 			video.resize(slotWidth, slotWidth / DEFAULT_VIDEO_ASPECT_RATIO);
 		}
 	});
@@ -1818,6 +1826,7 @@ function floating_add(video, container, params) {
 
 			video.isFloating = !inViewport;
 			var width = videoWrapper.offsetWidth;
+
 			video.resize(width, width / DEFAULT_VIDEO_ASPECT_RATIO);
 		}, {
 			offsetTop: params.inViewportOffsetTop,
@@ -1829,6 +1838,7 @@ function floating_add(video, container, params) {
 			slotElement.classList.remove(FLOATING_CLASS_NAME);
 			ad_engine_["utils"].viewportObserver.removeListener(observer);
 			var width = videoWrapper.offsetWidth;
+
 			video.resize(width, width / DEFAULT_VIDEO_ASPECT_RATIO);
 		};
 		var closeButton = new close_button_CloseButton({
@@ -1848,9 +1858,9 @@ function floating_add(video, container, params) {
 
 
 function learn_more_add(video, container, params) {
-	var learnMore = document.createElement('div'),
-	    icon = createIcon(icons_icons.LEARN_MORE, ['learn-more-icon', 'porvata-icon']),
-	    label = document.createElement('div');
+	var learnMore = document.createElement('div');
+	var icon = createIcon(icons_icons.LEARN_MORE, ['learn-more-icon', 'porvata-icon']);
+	var label = document.createElement('div');
 
 	label.innerText = getTranslation('labels', 'learn-more');
 	learnMore.appendChild(label);
@@ -1871,9 +1881,9 @@ function learn_more_add(video, container, params) {
 
 
 function pause_control_add(video, container) {
-	var pauseButton = document.createElement('div'),
-	    pauseIcon = createIcon(icons_icons.PAUSE, ['play-off-icon', 'porvata-icon', 'porvata-off-icon']),
-	    playIcon = createIcon(icons_icons.PLAY, ['play-on-icon', 'porvata-icon', 'porvata-on-icon']);
+	var pauseButton = document.createElement('div');
+	var pauseIcon = createIcon(icons_icons.PAUSE, ['play-off-icon', 'porvata-icon', 'porvata-off-icon']);
+	var playIcon = createIcon(icons_icons.PLAY, ['play-on-icon', 'porvata-icon', 'porvata-on-icon']);
 
 	pauseButton.appendChild(playIcon);
 	pauseButton.appendChild(pauseIcon);
@@ -1925,8 +1935,8 @@ function pause_overlay_add(video, container) {
 
 
 function progress_bar_add(video, container) {
-	var progressBar = document.createElement('div'),
-	    currentTime = document.createElement('div');
+	var progressBar = document.createElement('div');
+	var currentTime = document.createElement('div');
 
 	progressBar.classList.add('progress-bar');
 	currentTime.classList.add('current-time');
@@ -1998,6 +2008,7 @@ function replay_overlay_add(video, container, params) {
 
 		if (!params.autoPlay) {
 			var playIcon = addPlayIcon(overlay);
+
 			replayIcon.style.display = 'none';
 
 			video.addEventListener('start', function () {
@@ -2029,14 +2040,15 @@ function showOverlay(overlay, params) {
  * @return string in form '55%'
  */
 function getOverlayWidth(params) {
-	var adWidth = params.container.offsetWidth,
-	    videoWidth = params.hideWhenPlaying.offsetWidth;
+	var adWidth = params.container.offsetWidth;
+	var videoWidth = params.hideWhenPlaying.offsetWidth;
 
 	return 100 * videoWidth / adWidth + '%';
 }
 
 function addReplayIcon(overlay) {
 	var replayIcon = createIcon(icons_icons.REPLAY, ['replay-icon', 'overlay-icon']);
+
 	overlay.appendChild(replayIcon);
 
 	return replayIcon;
@@ -2044,6 +2056,7 @@ function addReplayIcon(overlay) {
 
 function addPlayIcon(overlay) {
 	var playIcon = createIcon(icons_icons.PLAY, ['play-icon', 'overlay-icon']);
+
 	overlay.appendChild(playIcon);
 
 	return playIcon;
@@ -2053,8 +2066,8 @@ function addPlayIcon(overlay) {
 	add: replay_overlay_add
 });
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/video/toggle-animation.js
-var toggle_animation_duration = 400,
-    onAnimationClassName = 'on-animation';
+var toggle_animation_duration = 400;
+var onAnimationClassName = 'on-animation';
 
 function resizeContainer(container, finalAspectRatio) {
 	container.style.height = container.offsetHeight + 'px';
@@ -2102,9 +2115,9 @@ function toggle_animation_add(video, container, params) {
 
 
 function toggle_fullscreen_add(video, container) {
-	var toggleFullscreenButton = document.createElement('div'),
-	    offIcon = createIcon(icons_icons.FULLSCREEN_OFF, ['fullscreen-off-icon', 'porvata-icon', 'porvata-off-icon']),
-	    onIcon = createIcon(icons_icons.FULLSCREEN_ON, ['fullscreen-on-icon', 'porvata-icon', 'porvata-on-icon']);
+	var toggleFullscreenButton = document.createElement('div');
+	var offIcon = createIcon(icons_icons.FULLSCREEN_OFF, ['fullscreen-off-icon', 'porvata-icon', 'porvata-off-icon']);
+	var onIcon = createIcon(icons_icons.FULLSCREEN_ON, ['fullscreen-on-icon', 'porvata-icon', 'porvata-on-icon']);
 
 	toggleFullscreenButton.appendChild(offIcon);
 	toggleFullscreenButton.appendChild(onIcon);
@@ -2154,9 +2167,9 @@ var overlayTimeout = 5000;
 function toggle_ui_add(video, container, params) {
 	var timeout = null;
 
-	var isMobile = ad_engine_["utils"].client.isSmartphone() || ad_engine_["utils"].client.isTablet(),
-	    overlay = document.createElement('div'),
-	    setAutomaticToggle = function setAutomaticToggle() {
+	var isMobile = ad_engine_["utils"].client.isSmartphone() || ad_engine_["utils"].client.isTablet();
+	var overlay = document.createElement('div');
+	var setAutomaticToggle = function setAutomaticToggle() {
 		timeout = setTimeout(function () {
 			if (video.isPlaying()) {
 				video.container.classList.remove('ui-visible');
@@ -2209,10 +2222,10 @@ function toggle_video_add(video, container) {
 
 
 function createVolumeControl(params) {
-	var iconPrefix = params.theme === 'hivi' ? 'HIVI_' : '',
-	    volume = document.createElement('div'),
-	    offIcon = createIcon(icons_icons[iconPrefix + 'VOLUME_OFF'], ['volume-off-icon', 'porvata-icon', 'porvata-off-icon']),
-	    onIcon = createIcon(icons_icons[iconPrefix + 'VOLUME_ON'], ['volume-on-icon', 'porvata-icon', 'porvata-on-icon']);
+	var iconPrefix = params.theme === 'hivi' ? 'HIVI_' : '';
+	var volume = document.createElement('div');
+	var offIcon = createIcon(icons_icons[iconPrefix + 'VOLUME_OFF'], ['volume-off-icon', 'porvata-icon', 'porvata-off-icon']);
+	var onIcon = createIcon(icons_icons[iconPrefix + 'VOLUME_ON'], ['volume-on-icon', 'porvata-icon', 'porvata-on-icon']);
 
 	volume.className = 'volume-button porvata-switchable-icon hidden';
 	volume.appendChild(offIcon);
@@ -2334,9 +2347,8 @@ var ui_template_getTemplates = function getTemplates(params, videoSettings) {
 };
 
 function selectTemplate(videoSettings) {
-	var params = videoSettings.getParams(),
-	    templates = ui_template_getTemplates(params, videoSettings);
-
+	var params = videoSettings.getParams();
+	var templates = ui_template_getTemplates(params, videoSettings);
 	var template = 'default';
 
 	if (params.type && params.type.indexOf('porvata') === 0) {
@@ -2431,7 +2443,8 @@ var loadTwitchPlayer = function () {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
 					case 0:
-						channelName = params.channelName, player = params.player, options = {
+						channelName = params.channelName, player = params.player;
+						options = {
 							height: '100%',
 							width: '100%',
 							channel: channelName
@@ -2441,16 +2454,16 @@ var loadTwitchPlayer = function () {
 						iframe.parentNode.insertBefore(player, iframe);
 
 						twitchPlayer = new ad_engine_["TwitchPlayer"](player, options, params);
-						_context2.next = 5;
+						_context2.next = 6;
 						return twitchPlayer.getPlayer();
 
-					case 5:
+					case 6:
 
 						recalculateTwitchSize(params)();
 
 						return _context2.abrupt('return', twitchPlayer);
 
-					case 7:
+					case 8:
 					case 'end':
 						return _context2.stop();
 				}
@@ -2501,6 +2514,7 @@ var loadVideoAd = function () {
 						recalculateVideoSize = function recalculateVideoSize(video) {
 							return function () {
 								var currentSize = getVideoSize(params.container, params, videoSettings);
+
 								video.resize(currentSize.width, currentSize.height);
 							};
 						};
@@ -2522,6 +2536,7 @@ var loadVideoAd = function () {
 
 					case 10:
 						video = _context4.sent;
+
 
 						window.addEventListener('resize', throttle_default()(recalculateVideoSize(video), 250));
 
@@ -2586,6 +2601,7 @@ function recalculateTwitchSize(params) {
 		    player = params.player,
 		    twitchAspectRatio = params.twitchAspectRatio;
 
+
 		player.style.height = adContainer.clientHeight + 'px';
 		player.style.width = player.clientHeight * twitchAspectRatio + 'px';
 		clickArea.style.width = params.adContainer.clientWidth - player.clientWidth + 'px';
@@ -2617,6 +2633,7 @@ function setType(type) {
 
 function updateSlotsTargeting(lineItemId, creativeId) {
 	var slots = ad_engine_["context"].get('slots');
+
 	keys_default()(slots).forEach(function (slotId) {
 		if (!slots[slotId].nonUapSlot) {
 			ad_engine_["context"].set('slots.' + slotId + '.targeting.uap', lineItemId);
@@ -2641,6 +2658,7 @@ function disableSlots(slotsToDisable) {
 
 function initSlot(params) {
 	var adSlot = ad_engine_["slotService"].get(params.slotName);
+
 	params.container = adSlot.getElement();
 
 	if (params.isDarkTheme) {
@@ -2703,7 +2721,6 @@ var universalAdPackage = extends_default()({}, constants_namespaceObject, {
 	setType: setType
 });
 // CONCATENATED MODULE: ./src/ad-products/templates/sticky-tlb.js
-
 
 
 
@@ -2785,6 +2802,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
+
 				return;
 			}
 
@@ -3127,11 +3145,13 @@ var resolvedState = {
 					    args = _ref2.slice(1);
 
 					videoSettings.updateParams(updatedParams);
+
 					return [updatedParams].concat(toConsumableArray_default()(args));
 				});
 			}
 
 			resolvedStateSwitch.updateInformationAboutSeenDefaultStateAd();
+
 			return setDefaultState(params);
 		}
 
@@ -3171,8 +3191,9 @@ var video_settings_VideoSettings = function () {
 	createClass_default()(VideoSettings, [{
 		key: 'detectAutoPlay',
 		value: function detectAutoPlay() {
-			var defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState,
-			    resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
+			var defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState;
+			var resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
+
 			return Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
 		}
 	}, {
@@ -3471,7 +3492,6 @@ hivi_theme_BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY = 3000;
 
 
 
-
 var HIVI_RESOLVED_THRESHOLD = 0.995;
 
 var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
@@ -3721,6 +3741,7 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 		value: function setThumbnailStyle(state) {
 			var style = mapValues_default()(this.params.config.state, function (styleProperty) {
 				var diff = styleProperty.default - styleProperty.resolved;
+
 				return styleProperty.default - diff * state + '%';
 			});
 
@@ -3861,7 +3882,6 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 }(hivi_theme_BigFancyAdHiviTheme);
 hivi_bfaa_BfaaTheme.RESOLVED_STATE_EVENT = symbol_default()('RESOLVED_STATE_EVENT');
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-bfab.js
-
 
 
 
@@ -4032,13 +4052,14 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 			ad_engine_["scrollListener"].addCallback(function (event, id) {
 				if (_this3.adSlot.isViewed()) {
 					ad_engine_["scrollListener"].removeCallback(id);
+
 					return;
 				}
 
-				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
-				    slotPosition = ad_engine_["utils"].getTopOffset(_this3.adSlot.getElement()),
-				    isBfaaSticky = bfaa.getElement().classList.contains('sticky-bfaa'),
-				    bfaaHeight = bfaa.getElement().offsetHeight;
+				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+				var slotPosition = ad_engine_["utils"].getTopOffset(_this3.adSlot.getElement());
+				var isBfaaSticky = bfaa.getElement().classList.contains('sticky-bfaa');
+				var bfaaHeight = bfaa.getElement().offsetHeight;
 
 				if (isBfaaSticky && scrollPosition >= slotPosition - _this3.config.topThreshold - bfaaHeight) {
 					ad_engine_["scrollListener"].removeCallback(id);
@@ -4392,7 +4413,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 
 							case 10:
 								video = _context.sent;
-								// defers for proper rendering
+
 
 								this.theme.onVideoReady(video);
 								_context.next = 17;
@@ -4426,7 +4447,6 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 	return BigFancyAdAbove;
 }();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/big-fancy-ad-below.js
-
 
 
 
@@ -4577,7 +4597,6 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 
 
 
-
 var big_fancy_ad_in_player_BigFancyAdInPlayer = function () {
 	createClass_default()(BigFancyAdInPlayer, null, [{
 		key: 'getName',
@@ -4617,7 +4636,6 @@ var big_fancy_ad_in_player_BigFancyAdInPlayer = function () {
 	return BigFancyAdInPlayer;
 }();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/roadblock.js
-
 
 
 
@@ -5019,6 +5037,7 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 
 					if (['adRequest', 'adError', 'ready', 'videoStart'].indexOf(playerEvent) !== -1 && _this.isCtpAudioUpdateEnabled) {
 						var slot = ad_engine_["slotService"].get(_this.slotName);
+
 						_this.updatePlayerState(slot);
 					}
 
@@ -5058,6 +5077,7 @@ var jwplayer_tracker_JWPlayerTracker = function () {
 			this.userBlockAutoplay = -1;
 
 			var featuredVideoAutoplayCookie = external_js_cookie_default.a.get('featuredVideoAutoplay');
+
 			if (['0', '1'].indexOf(featuredVideoAutoplayCookie) > -1) {
 				this.userBlockAutoplay = featuredVideoAutoplayCookie === '0' ? 1 : 0;
 			}
@@ -5396,6 +5416,7 @@ function create(options) {
 
 			if (featured_video_f15s.isEnabled(currentMedia.mediaid)) {
 				prerollPositionReached = true;
+
 				return;
 			}
 
