@@ -4,4 +4,4 @@ class BlockBtfAd {
 	}
 }
 
-export default new BlockBtfAd();
+export const blockBtfAd = new BlockBtfAd();

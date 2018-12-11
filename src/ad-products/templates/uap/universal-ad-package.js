@@ -3,6 +3,7 @@ import { throttle } from 'lodash';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
 
+let uapCreativeId = constants.DEFAULT_UAP_ID;
 let uapId = constants.DEFAULT_UAP_ID;
 let uapType = constants.DEFAULT_UAP_TYPE;
 
@@ -67,14 +68,12 @@ function recalculateTwitchSize(params) {
 }
 
 async function loadTwitchPlayer(iframe, params) {
-	const {
-			channelName, player
-		} = params,
-		options = {
-			height: '100%',
-			width: '100%',
-			channel: channelName,
-		};
+	const { channelName, player } = params;
+	const options = {
+		height: '100%',
+		width: '100%',
+		channel: channelName,
+	};
 
 	iframe.parentNode.insertBefore(player, iframe);
 
@@ -130,9 +129,15 @@ function getUapId() {
 	return uapId;
 }
 
-function setUapId(id) {
-	uapId = id;
-	updateSlotsTargeting(id);
+function getCreativeId() {
+	return uapCreativeId;
+}
+
+function setIds(lineItemId, creativeId) {
+	uapId = lineItemId || constants.DEFAULT_UAP_ID;
+	uapCreativeId = creativeId || constants.DEFAULT_UAP_ID;
+
+	updateSlotsTargeting(uapId, uapCreativeId);
 }
 
 function getType() {
@@ -143,11 +148,12 @@ function setType(type) {
 	uapType = type;
 }
 
-function updateSlotsTargeting(id) {
+function updateSlotsTargeting(lineItemId, creativeId) {
 	const slots = context.get('slots');
 	Object.keys(slots).forEach((slotId) => {
 		if (!slots[slotId].nonUapSlot) {
-			context.set(`slots.${slotId}.targeting.uap`, id);
+			context.set(`slots.${slotId}.targeting.uap`, lineItemId);
+			context.set(`slots.${slotId}.targeting.uap_c`, creativeId);
 		}
 	});
 }
@@ -183,7 +189,7 @@ function initSlot(params) {
 
 function reset() {
 	setType(constants.DEFAULT_UAP_TYPE);
-	setUapId(constants.DEFAULT_UAP_ID);
+	setIds(constants.DEFAULT_UAP_ID, constants.DEFAULT_UAP_ID);
 }
 
 function isFanTakeoverLoaded() {
@@ -201,7 +207,7 @@ export const universalAdPackage = {
 
 		params.adProduct = params.adProduct || adProduct;
 
-		setUapId(params.uap);
+		setIds(params.uap, params.creativeId);
 		disableSlots(slotsToDisable);
 		enableSlots(slotsToEnable);
 		setType(params.adProduct);
@@ -212,6 +218,7 @@ export const universalAdPackage = {
 	},
 	initSlot,
 	isFanTakeoverLoaded,
+	getCreativeId,
 	getType,
 	getUapId,
 	isVideoEnabled(params) {
@@ -222,6 +229,5 @@ export const universalAdPackage = {
 	loadVideoAd,
 	loadTwitchAd,
 	reset,
-	setType,
-	setUapId
+	setType
 };

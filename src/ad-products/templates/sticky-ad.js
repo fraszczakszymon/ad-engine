@@ -1,4 +1,5 @@
-import { AdSlot, context, scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, utils } from '@wikia/ad-engine';
+import { StickyBase } from './sticky-base';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
@@ -11,15 +12,9 @@ import {
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 
-export class StickyAd {
-	static DEFAULT_UNSTICK_DELAY = 2000;
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+const logGroup = 'sticky-ad';
 
-	static getName() {
-		return 'stickyAd';
-	}
-
+export class StickyAd extends StickyBase {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
@@ -33,18 +28,18 @@ export class StickyAd {
 	}
 
 	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyAd.getName()}`);
-		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
-		this.stickiness = null;
+		super(adSlot);
 		this.scrollListener = null;
 		this.topOffset = 0;
 		this.leftOffset = 0;
 	}
 
-	static isEnabled() {
-		return context.get(`templates.${StickyAd.getName()}.enabled`);
+	static getName() {
+		return 'stickyAd';
+	}
+
+	getName() {
+		return StickyAd.getName();
 	}
 
 	adjustAdSlot() {
@@ -54,13 +49,16 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!StickyAd.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
+		if (!this.isEnabled()) {
+			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
 
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
+		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
 		this.addUnstickLogic();
@@ -92,18 +90,7 @@ export class StickyAd {
 		});
 
 		window.addEventListener('resize', this.adjustAdSlot.bind(this));
-	}
-
-	addUnstickLogic() {
-		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
-		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
-			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
 	addUnstickButton() {
@@ -134,14 +121,14 @@ export class StickyAd {
 
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.removeStickyParameters();
 			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
 			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
@@ -149,14 +136,16 @@ export class StickyAd {
 
 			this.addUnstickButton();
 		}
+		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();
+			utils.logger(logGroup, 'unstick immediately');
 		}
 	}
 }

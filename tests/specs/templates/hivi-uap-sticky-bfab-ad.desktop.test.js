@@ -1,9 +1,8 @@
-import hiviUapStickyBfab from '../../pages/hivi-uap-sticky-bfab-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { hiviUapStickyBfab } from '../../pages/hivi-uap-sticky-bfab-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-import helpers from '../../common/helpers';
-
-const { expect } = require('chai');
+import { helpers } from '../../common/helpers';
 
 describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 	beforeEach(() => {
@@ -13,9 +12,10 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top leaderboard', () => {
 
 	it('Check if the line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topLeaderboard);
-		expect(helpers.getLineItemId(adSlots.topLeaderboard))
-			.to
-			.equal(hiviUapStickyBfab.firstCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topLeaderboard)).to.equal(
+			hiviUapStickyBfab.firstCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -27,24 +27,27 @@ describe('Desktop HiVi UAP sticky BFAB ads page: top boxad', () => {
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.topBoxad);
-		expect(helpers.getLineItemId(adSlots.topBoxad))
-			.to
-			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.topBoxad)).to.equal(
+			hiviUapStickyBfab.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
 describe('Desktop HiVi UAP sticky BFAB ads page: incontent boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapStickyBfab.pageLink);
+		browser.waitForVisible(adSlots.topLeaderboard);
 		browser.scroll(0, 1000);
 		browser.waitForVisible(adSlots.incontentBoxad, timeouts.standard);
 	});
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.incontentBoxad);
-		expect(helpers.getLineItemId(adSlots.incontentBoxad))
-			.to
-			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.incontentBoxad)).to.equal(
+			hiviUapStickyBfab.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 });
 
@@ -57,31 +60,39 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	before(() => {
 		hiviUapStickyBfab.openUapWithState(false, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
-		helpers.waitForExpanded(adSlots.bottomLeaderboard);
+		adSlots.waitForSlotExpanded(adSlots.bottomLeaderboard);
 
-		defaultDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard,
+		defaultDimensions = adSlots.checkDerivativeSizeSlotRatio(
+			adSlots.bottomLeaderboard,
 			helpers.wrapper,
-			adSlots.defaultDesktopRatio);
+			adSlots.defaultDesktopRatio,
+		);
 
 		hiviUapStickyBfab.openUapWithState(true, hiviUapStickyBfab.pageLink, adSlots.topLeaderboard);
 		browser.scroll(0, 3000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.scroll(adSlots.bottomLeaderboard);
 
-		refreshDimensions = helpers.checkDerivativeSizeSlotRatio(adSlots.bottomLeaderboard,
+		refreshDimensions = adSlots.checkDerivativeSizeSlotRatio(
+			adSlots.bottomLeaderboard,
 			helpers.wrapper,
-			adSlots.resolvedDesktopRatio);
+			adSlots.resolvedDesktopRatio,
+		);
 		browser.url(hiviUapStickyBfab.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 		browser.scroll(0, 3000);
-		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-		hiviUapStickyBfab.waitForVideoToFinish();
+		browser.waitForExist(adSlots.bottomLeaderboard, timeouts.standard);
+		browser.scroll(adSlots.bottomLeaderboard);
+		helpers.waitForVideoAdToFinish(hiviUapStickyBfab.videoLength);
 
-		videoFinishedDimensions = helpers.checkUAPSizeSlotRatio(adSlots.topLeaderboard,
-			adSlots.resolvedDesktopRatio);
+		videoFinishedDimensions = adSlots.checkUAPSizeSlotRatio(
+			adSlots.topLeaderboard,
+			adSlots.resolvedDesktopRatio,
+		);
 	});
 
 	beforeEach(() => {
-		adStatus = helpers.getSlotStatus(adSlots.bottomLeaderboard, true);
+		adStatus = adSlots.getSlotStatus(adSlots.bottomLeaderboard, true);
 	});
 
 	afterEach(() => {
@@ -89,62 +100,43 @@ describe('Desktop HiVi UAP sticky BFAB ads page: bottom leaderboard', () => {
 	});
 
 	it('Check if slot is visible in viewport', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
 	it('Check if default dimensions are correct', () => {
-		expect(defaultDimensions.status, defaultDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(defaultDimensions.status, defaultDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after refresh are correct', () => {
-		expect(refreshDimensions.status, refreshDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(refreshDimensions.status, refreshDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if resolved dimensions after video finished are correct', () => {
-		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors)
-			.to
-			.be
-			.true;
+		expect(videoFinishedDimensions.status, videoFinishedDimensions.capturedErrors).to.be.true;
 	});
 
 	it('Check if line item id is from the same campaign', () => {
 		helpers.waitForLineItemIdAttribute(adSlots.bottomLeaderboard);
-		expect(helpers.getLineItemId(adSlots.bottomLeaderboard))
-			.to
-			.equal(hiviUapStickyBfab.secondCall, 'Line item ID mismatch');
+		expect(helpers.getLineItemId(adSlots.bottomLeaderboard)).to.equal(
+			hiviUapStickyBfab.secondCall,
+			'Line item ID mismatch',
+		);
 	});
 
 	it('Check if redirect on click works properly', () => {
 		browser.scroll(0, 1000);
-		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect')
-			.to
-			.be
-			.true;
+		expect(helpers.adRedirect(adSlots.bottomLeaderboard), 'Wrong link after redirect').to.be.true;
 	});
 
 	it('Check if slot is sticked', () => {
 		browser.refresh();
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		helpers.waitToStartPlaying(); // will not stick if scrolled earlier
+		// TODO will not stick if scrolled earlier - problems with viewabillity counted?
+		helpers.waitToStartPlaying();
 		helpers.slowScroll(2500);
 		browser.waitForVisible(adSlots.bottomLeaderboard, timeouts.standard);
-		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard))
-			.to
-			.be
-			.true;
+		expect(browser.isVisibleWithinViewport(adSlots.bottomLeaderboard)).to.be.true;
 		helpers.slowScroll(500, adSlots.bottomLeaderboard);
-		expect(browser.isVisible(adSlots.bottomLeaderboard))
-			.to
-			.be
-			.true;
+		expect(browser.isVisible(adSlots.bottomLeaderboard)).to.be.true;
 	});
 });

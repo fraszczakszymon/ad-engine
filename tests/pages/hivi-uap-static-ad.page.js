@@ -9,4 +9,4 @@ class HiviUapStatic extends HiviUap {
 	}
 }
 
-export default new HiviUapStatic();
+export const hiviUapStatic = new HiviUapStatic();

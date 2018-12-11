@@ -11,6 +11,7 @@
 		"transform-class-properties",
 		"transform-object-rest-spread",
 		"transform-decorators-legacy",
+		"syntax-trailing-function-commas",
 		["transform-runtime", {
 			"helpers": true,
 			"polyfill": true,

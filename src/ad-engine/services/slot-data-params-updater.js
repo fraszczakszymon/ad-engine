@@ -11,12 +11,10 @@ class SlotDataParamsUpdater {
 		slotTweaker.setDataParam(adSlot, 'sizes', sizes);
 	}
 
-	updateOnRenderEnd(adSlot, event) {
-		if (event) {
-			slotTweaker.setDataParam(adSlot, 'gptLineItemId', event.lineItemId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeId', event.creativeId);
-			slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.isOutOfPage() ? 'out-of-page' : event.size);
-		}
+	updateOnRenderEnd(adSlot) {
+		slotTweaker.setDataParam(adSlot, 'gptCreativeId', adSlot.creativeId);
+		slotTweaker.setDataParam(adSlot, 'gptLineItemId', adSlot.lineItemId);
+		slotTweaker.setDataParam(adSlot, 'gptCreativeSize', adSlot.creativeSize);
 	}
 }
 

@@ -1,4 +1,4 @@
-import adSlots from '../common/ad-slots';
+import { adSlots } from '../common/ad-slots';
 import { timeouts } from '../common/timeouts';
 
 const scrollWaitTime = 500;
@@ -9,7 +9,8 @@ class AnimationsAd {
 		this.topLeaderboardHeightWhenHidden = 0;
 		this.topLeaderboardStyle = 'style';
 		this.collapsedAdMaxHeight = 'max-height: 0px;';
-		this.waitForAnimationsTime = 10000; // currently added only for animations ad, as top leaderboard hides after 6 seconds
+		// currently added only for animations ad, as top leaderboard hides after 6 seconds
+		this.waitForAnimationsTime = 10000;
 	}
 
 	/**
@@ -29,8 +30,9 @@ class AnimationsAd {
 			},
 			this.waitForAnimationsTime,
 			'Top leaderboard ad did not collapse',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 }
 
-export default new AnimationsAd();
+export const animationsAd = new AnimationsAd();

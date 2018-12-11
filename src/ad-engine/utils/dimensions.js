@@ -6,10 +6,9 @@
  */
 function getElementOffset(element, offsetParameter) {
 	const elementWindow = element.ownerDocument.defaultView;
-
-	let currentElement = element,
-		hideAgain = false,
-		topPos = 0;
+	let currentElement = element;
+	let hideAgain = false;
+	let topPos = 0;
 
 	if (element.classList.contains('hide')) {
 		hideAgain = true;
@@ -63,28 +62,31 @@ export function getViewportHeight() {
  * @param element DOM element that is going to be checked
  * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
  * @param bottomOffset bottom offset that defines bottom margin of viewport
- * @param areaThreshold element area that needs to be in/outside viewport to decide whether element is in the viewport
+ * @param areaThreshold element area that needs to be in/outside viewport to decide whether element
+ * is in the viewport
  * @returns {boolean}
  */
 export function isInViewport(element, topOffset = 0, bottomOffset = 0, areaThreshold = 0.5) {
-	const alwaysInViewportPositions = ['fixed', 'sticky'],
-		elementPosition = window.getComputedStyle(element).position;
+	const alwaysInViewportPositions = ['fixed', 'sticky'];
+	const elementPosition = window.getComputedStyle(element).position;
 
 	if (alwaysInViewportPositions.includes(elementPosition)) {
 		return true;
 	}
 
-	const elementHeight = element.offsetHeight,
-		elementTop = getTopOffset(element),
-		elementBottom = elementTop + elementHeight,
-		scrollPosition = window.scrollY,
-		viewportHeight = getViewportHeight(),
-		viewportTop = topOffset + scrollPosition,
-		viewportBottom = bottomOffset + scrollPosition + viewportHeight,
-		minimumElementArea = areaThreshold * elementHeight;
+	const elementHeight = element.offsetHeight;
+	const elementTop = getTopOffset(element);
+	const elementBottom = elementTop + elementHeight;
+	const scrollPosition = window.scrollY;
+	const viewportHeight = getViewportHeight();
+	const viewportTop = topOffset + scrollPosition;
+	const viewportBottom = bottomOffset + scrollPosition + viewportHeight;
+	const minimumElementArea = areaThreshold * elementHeight;
 
-	return elementTop >= (viewportTop - minimumElementArea) &&
-		elementBottom <= (viewportBottom + minimumElementArea);
+	return (
+		elementTop >= viewportTop - minimumElementArea &&
+		elementBottom <= viewportBottom + minimumElementArea
+	);
 }
 
 export function isInTheSameViewport(element, elementsToCompare = []) {

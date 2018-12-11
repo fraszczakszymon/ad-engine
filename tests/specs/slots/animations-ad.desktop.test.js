@@ -1,8 +1,7 @@
-import animationsAd from '../../pages/animations-ad.page';
-import adSlots from '../../common/ad-slots';
+import { expect } from 'chai';
+import { animationsAd } from '../../pages/animations-ad.page';
+import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
-
-const { expect } = require('chai');
 
 describe('Animations ad page: top leaderboard', () => {
 	before(() => {
@@ -16,9 +15,9 @@ describe('Animations ad page: top leaderboard', () => {
 
 		const topLeaderboardSize = browser.getElementSize(adSlots.topLeaderboard);
 
-		expect(topLeaderboardSize.height)
-			.to
-			.equal(animationsAd.topLeaderboardHeightWhenHidden, 'Top leaderboard was not hidden');
+		expect(topLeaderboardSize.height).to.equal(
+			animationsAd.topLeaderboardHeightWhenHidden,
+			'Top leaderboard was not hidden',
+		);
 	});
 });
-

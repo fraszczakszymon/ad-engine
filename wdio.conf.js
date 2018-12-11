@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const networkCapture = require('./tests/common/networkCapture');
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 const md5 = require('js-md5');
+const networkCapture = require('./tests/common/network-capture');
 
 function getScreenshotName(basePath) {
 	return function (context) {
@@ -18,7 +18,7 @@ exports.config = {
 		slots: ['./tests/specs/slots/*.test.js'],
 		templates: ['./tests/specs/templates/*.test.js'],
 		utils: ['./tests/specs/utils/*.test.js'],
-		video: ['./tests/specs/video/*.test.js']
+		video: ['./tests/specs/video/*.test.js'],
 	},
 	maxInstances: 5,
 	sync: true,
@@ -36,13 +36,13 @@ exports.config = {
 	reporters: ['dot', 'allure'],
 	reporterOptions: {
 		allure: {
-			outputDir: 'tests/allure-results'
-		}
+			outputDir: 'tests/allure-results',
+		},
 	},
 	mochaOpts: {
 		ui: 'bdd',
 		compilers: ['js:babel-core/register'],
-		timeout: 120000
+		timeout: 120000,
 	},
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
@@ -54,5 +54,5 @@ exports.config = {
 		viewportChangePause: 300,
 		viewports: [{ width: 1600, height: 900 }],
 		orientations: ['landscape'],
-	}
+	},
 };

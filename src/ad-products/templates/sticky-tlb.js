@@ -1,10 +1,10 @@
-import { AdSlot, context, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+import { scrollListener, utils } from '@wikia/ad-engine';
 
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
 import { Stickiness } from './uap/themes/hivi/stickiness';
-import { StickyAd } from './sticky-ad';
+import { StickyBase } from './sticky-base';
 import { universalAdPackage } from './uap/universal-ad-package';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION, CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
@@ -12,22 +12,9 @@ import {
 	CSS_CLASSNAME_STICKY_IAB,
 } from './uap/constants';
 
-export class StickyTLB {
-	static DEFAULT_UNSTICK_DELAY = 2000;
+const logGroup = 'sticky-tlb';
 
-	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyTLB.getName()}`);
-		this.lines = context.get(`templates.${StickyTLB.getName()}.lineItemIds`);
-		this.container = document.getElementById(this.adSlot.getSlotName());
-		this.stickiness = null;
-	}
-
-	static getName() {
-		return 'stickyTLB';
-	}
-
+export class StickyTLB extends StickyBase {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
@@ -56,20 +43,36 @@ export class StickyTLB {
 		};
 	}
 
+	constructor(adSlot) {
+		super(adSlot);
+		this.container = this.adSlot.getElement();
+	}
+
+	static getName() {
+		return 'stickyTLB';
+	}
+
+	getName() {
+		return StickyTLB.getName();
+	}
+
+	isEnabled() {
+		return super.isEnabled() && this.container;
+	}
+
 	init(params) {
 		this.params = params;
 
-		if (!this.container) {
+		if (!this.isEnabled()) {
+			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
 
-		if (!StickyTLB.isEnabled() || !this.lines || !this.lines.length || !this.lineId ||
-			(this.lines.indexOf(this.lineId.toString()) === -1 && this.lines.indexOf(this.lineId) === -1)
-		) {
-			return;
-		}
-
-		this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
+		});
 
 		this.addStickinessPlugin();
 
@@ -86,18 +89,7 @@ export class StickyTLB {
 		this.addUnstickButton();
 		this.addUnstickEvents();
 		this.stickiness.run();
-	}
-
-	addUnstickLogic() {
-		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
-		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
-			await utils.wait(StickyTLB.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
 	addAdvertisementLabel() {
@@ -136,23 +128,22 @@ export class StickyTLB {
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 		if (!isSticky) {
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			this.config.moveNavbar(0, SLIDE_OUT_TIME);
 			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 			this.adSlot.getElement().classList.add('theme-resolved');
 			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
 		}
 
 		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	async onAdReady() {
-		slotTweaker.makeResponsive(this.adSlot, null, false);
-
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
 
@@ -169,10 +160,12 @@ export class StickyTLB {
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
+
+		utils.logger(logGroup, 'ad ready');
 	}
 
 	unstickImmediately() {
-		this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
 		scrollListener.removeCallback(this.scrollListener);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
@@ -181,10 +174,7 @@ export class StickyTLB {
 		this.removeUnstickButton();
 		this.config.mainContainer.style.paddingTop = '0';
 		this.adSlot.getElement().classList.add('hide');
-	}
-
-	static isEnabled() {
-		return context.get(`templates.${StickyTLB.getName()}.enabled`);
+		utils.logger(logGroup, 'unstick immediately');
 	}
 
 	setupNavbar() {

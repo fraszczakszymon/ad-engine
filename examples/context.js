@@ -295,11 +295,18 @@ export default {
 						countries: ['XX'],
 						dfp_targeting: true,
 						on_1: ['logResult']
+					},
+					{
+						name: 'queen_of_hearts',
+						countries: ['XX'],
+						dfp_targeting: true,
+						on_1: ['logResult']
 					}
 				],
 				cheshirecat: [
 					{
 						name: 'cheshirecat:0.0.1',
+						dfp_targeting: true,
 						countries: ['XX'],
 						on_0: ['logResult'],
 						on_1: ['catlapse', 'logResult']

@@ -12,13 +12,12 @@ export class FloatingAd {
 
 	init() {
 		const slotNode = document.getElementById(this.adSlot.getSlotName());
-
-		let container,
-			containerOffset,
-			end,
-			slotHeight,
-			space,
-			start = 0;
+		let container;
+		let containerOffset;
+		let end;
+		let slotHeight;
+		let space;
+		let start = 0;
 
 		if (!slotNode || !slotNode.classList.contains('floating')) {
 			return;

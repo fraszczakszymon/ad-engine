@@ -7,7 +7,7 @@ import {
 	slotService,
 	utils,
 	vastDebugger,
-	vastParser
+	vastParser,
 } from '@wikia/ad-engine';
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
 import featuredVideo15s from './featured-video-f15s';
@@ -21,7 +21,7 @@ import featuredVideo15s from './featured-video-f15s';
 function calculateRV(depth) {
 	const capping = context.get('options.video.adsOnNextVideoFrequency');
 
-	return (depth < 2 || !capping) ? 1 : (Math.floor((depth - 1) / capping) + 1);
+	return depth < 2 || !capping ? 1 : Math.floor((depth - 1) / capping) + 1;
 }
 
 /**
@@ -31,7 +31,9 @@ function calculateRV(depth) {
 function shouldPlayAdOnNextVideo(depth) {
 	const capping = context.get('options.video.adsOnNextVideoFrequency');
 
-	return context.get('options.video.playAdsOnNextVideo') && capping > 0 && (depth - 1) % capping === 0;
+	return (
+		context.get('options.video.playAdsOnNextVideo') && capping > 0 && (depth - 1) % capping === 0
+	);
 }
 
 /**
@@ -80,10 +82,13 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 	return buildVastUrl(16 / 9, slot.getSlotName(), {
 		correlator,
 		vpos: position,
-		targeting: Object.assign({
-			passback: 'jwplayer',
-			rv: calculateRV(depth),
-		}, slotTargeting),
+		targeting: Object.assign(
+			{
+				passback: 'jwplayer',
+				rv: calculateRV(depth),
+			},
+			slotTargeting,
+		),
 	});
 }
 
@@ -120,7 +125,8 @@ function create(options) {
 		slot.setConfigProperty('autoplay', player.getConfig().autostart);
 
 		if (context.get('options.video.moatTracking.enabledForArticleVideos')) {
-			const partnerCode = context.get('options.video.moatTracking.articleVideosPartnerCode') ||
+			const partnerCode =
+				context.get('options.video.moatTracking.articleVideosPartnerCode') ||
 				context.get('options.video.moatTracking.partnerCode');
 
 			player.on('adImpression', (event) => {
@@ -128,7 +134,7 @@ function create(options) {
 					window.moatjw.add({
 						adImpressionEvent: event,
 						partnerCode,
-						player
+						player,
 					});
 				}
 			});
@@ -276,11 +282,11 @@ function create(options) {
 		audio: options.audio,
 		ctp: !options.autoplay,
 		slotName,
-		videoId: options.videoId
+		videoId: options.videoId,
 	});
 
 	return {
-		register
+		register,
 	};
 }
 
@@ -290,5 +296,5 @@ function loadMoatPlugin() {
 
 export const jwplayerAdsFactory = {
 	create,
-	loadMoatPlugin
+	loadMoatPlugin,
 };

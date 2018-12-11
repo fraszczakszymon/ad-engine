@@ -21,8 +21,8 @@ export class VideoSettings {
 	}
 
 	detectAutoPlay() {
-		const defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState,
-			resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
+		const defaultStateAutoPlay = this.params.autoPlay && !this.resolvedState;
+		const resolvedStateAutoPlay = this.params.resolvedStateAutoPlay && this.resolvedState;
 		return Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
 	}
 

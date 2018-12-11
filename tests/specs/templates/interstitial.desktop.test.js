@@ -1,8 +1,7 @@
-import interstitial from '../../pages/interstitial.page';
+import { expect } from 'chai';
+import { interstitial } from '../../pages/interstitial.page';
 import { timeouts } from '../../common/timeouts';
-import adSlots from '../../common/ad-slots';
-
-const { expect } = require('chai');
+import { adSlots } from '../../common/ad-slots';
 
 describe('Interstitial page: interstitial', () => {
 	before(() => {
@@ -14,24 +13,30 @@ describe('Interstitial page: interstitial', () => {
 		browser.waitForVisible(interstitial.closeButton, timeouts.standard);
 		browser.waitForVisible(interstitial.advertisementLabel, timeouts.standard);
 
-		expect(browser.isVisibleWithinViewport(adSlots.invisibleHighImpact, 'Interstitial not in the viewport'))
-			.to
-			.be
-			.true;
+		expect(
+			browser.isVisibleWithinViewport(
+				adSlots.invisibleHighImpact,
+				'Interstitial not in the viewport',
+			),
+		).to.be.true;
 	});
 
 	it('Check if interstitial disappears after clicking close button', () => {
-		expect(browser.isVisibleWithinViewport(adSlots.invisibleHighImpact, 'Interstitial not in the viewport'))
-			.to
-			.be
-			.true;
+		expect(
+			browser.isVisibleWithinViewport(
+				adSlots.invisibleHighImpact,
+				'Interstitial not in the viewport',
+			),
+		).to.be.true;
 		browser.waitForExist(interstitial.stopScrolling, timeouts.standard);
 
 		browser.click(interstitial.closeButton);
-		expect(browser.isVisibleWithinViewport(adSlots.invisibleHighImpact, 'Interstitial is in the viewport'))
-			.to
-			.be
-			.false;
+		expect(
+			browser.isVisibleWithinViewport(
+				adSlots.invisibleHighImpact,
+				'Interstitial is in the viewport',
+			),
+		).to.be.false;
 		browser.waitForExist(interstitial.stopScrolling, timeouts.standard, true);
 	});
 });

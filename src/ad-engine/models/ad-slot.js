@@ -1,15 +1,14 @@
 import EventEmitter from 'eventemitter3';
-import { context, slotTweaker, templateService } from '../services';
+import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
 import { stringBuilder } from '../utils';
 import { slotListener } from '../listeners';
+import { ADX } from '../providers';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
+	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
-
-	static SLOT_STICKED_STATE = 'sticked';
-	static SLOT_UNSTICKED_STATE = 'unsticked';
 
 	constructor(ad) {
 		super();
@@ -32,16 +31,17 @@ export class AdSlot extends EventEmitter {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
 		});
+
+		this.onLoadPromise = new Promise((resolve) => {
+			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
+		});
 	}
 
 	getAdUnit() {
 		if (!this.adUnit) {
-			this.adUnit = stringBuilder.build(
-				this.config.adUnit || context.get('adUnitId'),
-				{
-					slotConfig: this.config
-				}
-			);
+			this.adUnit = stringBuilder.build(this.config.adUnit || context.get('adUnitId'), {
+				slotConfig: this.config,
+			});
 		}
 
 		return this.adUnit;
@@ -49,7 +49,7 @@ export class AdSlot extends EventEmitter {
 
 	getVideoAdUnit() {
 		return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-			slotConfig: this.config
+			slotConfig: this.config,
 		});
 	}
 
@@ -155,6 +155,10 @@ export class AdSlot extends EventEmitter {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
 	}
 
+	onLoad() {
+		return this.onLoadPromise;
+	}
+
 	success(status = 'success') {
 		slotTweaker.show(this);
 		this.setStatus(status);
@@ -162,7 +166,7 @@ export class AdSlot extends EventEmitter {
 		const templates = this.getConfigProperty('defaultTemplates');
 
 		if (templates && templates.length) {
-			templates.forEach(template => templateService.init(template, this));
+			templates.forEach((template) => templateService.init(template, this));
 		}
 	}
 
@@ -175,5 +179,30 @@ export class AdSlot extends EventEmitter {
 		if (eventName !== null) {
 			slotListener.emitCustomEvent(eventName, this);
 		}
+	}
+
+	updateOnRenderEnd(event) {
+		if (!event) {
+			return;
+		}
+
+		let { creativeId, lineItemId } = event;
+		if (event.slot) {
+			const resp = event.slot.getResponseInformation();
+			if (resp) {
+				if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
+					creativeId = ADX;
+					lineItemId = ADX;
+				} else {
+					({ creativeId, lineItemId } = resp);
+				}
+			}
+		}
+		this.creativeId = creativeId;
+		this.lineItemId = lineItemId;
+
+		this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
+
+		slotDataParamsUpdater.updateOnRenderEnd(this);
 	}
 }

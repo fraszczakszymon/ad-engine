@@ -68,9 +68,9 @@ export class WikiaVideo extends BaseAdapter {
 					return;
 				}
 
-				const bidResponse = window.pbjs.createBid(1),
-					[width, height] = bid.sizes[0],
-					slotName = bid.adUnitCode;
+				const bidResponse = window.pbjs.createBid(1);
+				const [width, height] = bid.sizes[0];
+				const slotName = bid.adUnitCode;
 
 				bidResponse.bidderCode = bidRequest.bidderCode;
 				bidResponse.cpm = this.getPrice();

@@ -1,7 +1,5 @@
 import { timeouts } from '../common/timeouts';
-import helpers from '../common/helpers';
-
-const loadAdTime = 10000;
+import { helpers } from '../common/helpers';
 
 class HiviUapJwp {
 	constructor() {
@@ -10,11 +8,9 @@ class HiviUapJwp {
 		this.inHouseLineItemId = '271491732';
 		this.uapLineItemId = '4517824948';
 		this.staticFrame = '[name="google_osd_static_frame"]';
+		this.videoLength = 10000;
 	}
 
-	waitForJWPAdVideoToFinish() {
-		browser.pause(loadAdTime);
-	}
 	/**
 	 * Waits for the delay to pass so the ads load up.
 	 */
@@ -23,13 +19,15 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton).includes('Load UAP:JWP ('),
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
-		this.waitForJWPAdVideoToFinish();
+			timeouts.interval,
+		);
+		helpers.waitForVideoAdToFinish(this.videoLength);
 		browser.waitUntil(
-			() => browser.getText(this.loadAdsButton) === ('Load UAP:JWP'),
+			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
 			timeouts.standard,
 			'Ads not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 	}
 
 	/**
@@ -64,7 +62,8 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		browser.scroll(adSlot);
 	}
@@ -80,7 +79,8 @@ class HiviUapJwp {
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP (7s)',
 			timeouts.standard,
 			'Button not loaded',
-			timeouts.interval);
+			timeouts.interval,
+		);
 		browser.click(this.loadAdsButton);
 		helpers.slowScroll(1000);
 		browser.waitForVisible(adSlot, timeouts.standard);
@@ -88,4 +88,4 @@ class HiviUapJwp {
 	}
 }
 
-export default new HiviUapJwp();
+export const hiviUapJwp = new HiviUapJwp();

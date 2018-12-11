@@ -49,8 +49,9 @@ class GoogleImaPlayer {
 	}
 
 	setVastAttributes(status) {
-		const currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd(),
-			playerElement = this.params.container.querySelector('.video-player');
+		const currentAd =
+			this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd();
+		const playerElement = this.params.container.querySelector('.video-player');
 
 		vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
 	}
@@ -129,9 +130,9 @@ class GoogleImaPlayer {
 
 export const googleImaPlayerFactory = {
 	create(adDisplayContainer, adsLoader, videoSettings) {
-		const adRequest = googleImaSetup.createRequest(videoSettings.getParams()),
-			player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams()),
-			videoElement = getVideoElement();
+		const adRequest = googleImaSetup.createRequest(videoSettings.getParams());
+		const player = new GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams());
+		const videoElement = getVideoElement();
 
 		if (player.videoAd) {
 			player.videoAd.classList.add('porvata-video');
@@ -139,8 +140,9 @@ export const googleImaPlayerFactory = {
 		}
 
 		adsLoader.addEventListener('adsManagerLoaded', (adsManagerLoadedEvent) => {
-			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings),
-				adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+			const renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
+			const	adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+
 			player.setAdsManager(adsManager);
 
 			if (videoSettings.isMoatTrackingEnabled()) {

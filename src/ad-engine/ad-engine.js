@@ -69,16 +69,17 @@ export class AdEngine {
 	runAdQueue() {
 		let timeout = null;
 
-		const promises = getPromises(),
-			startAdQueue = () => {
-				if (!this.started) {
-					events.emit(events.AD_STACK_START);
-					this.started = true;
-					clearTimeout(timeout);
-					this.adStack.start();
-				}
-			},
-			maxTimeout = context.get('options.maxDelayTimeout');
+		const promises = getPromises();
+		const startAdQueue = () => {
+			if (!this.started) {
+				events.emit(events.AD_STACK_START);
+				this.started = true;
+				clearTimeout(timeout);
+				this.adStack.start();
+			}
+		};
+
+		const maxTimeout = context.get('options.maxDelayTimeout');
 
 		logger(logGroup, `Delay by ${promises.length} modules (${maxTimeout}ms timeout)`);
 

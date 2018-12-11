@@ -1,7 +1,7 @@
 // Fixes for MOAT script incompatibility
-let eventMapping = {},
-	listeners = [],
-	moatapi = {};
+let eventMapping = {};
+let listeners = [];
+let moatapi = {};
 
 // MOAT CODE START
 /* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
