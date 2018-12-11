@@ -90,14 +90,9 @@ export class GptProvider {
 	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
-		this.adStack = context.get('state.adStack');
-
 		slotService.add(adSlot);
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);
-			if (this.adStack.length === 0) {
-				this.flush();
-			}
 		});
 	}
 
@@ -106,6 +101,7 @@ export class GptProvider {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
 		const gptSlot = this.createGptSlot(adSlot, sizeMap);
+		const adStack = context.get('state.adStack');
 
 		gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
@@ -115,7 +111,7 @@ export class GptProvider {
 		window.googletag.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);
 
-		if (!adSlot.isFirstCall()) {
+		if (!adSlot.isFirstCall() || adStack.length === 0) {
 			this.flush();
 		}
 
