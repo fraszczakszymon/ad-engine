@@ -95,7 +95,9 @@ export class GptProvider {
 		slotService.add(adSlot);
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);
-			this.flush();
+			if (this.adStack.length === 0) {
+				this.flush();
+			}
 		});
 	}
 
@@ -159,7 +161,6 @@ export class GptProvider {
 	}
 
 	/** @private */
-	@decorate(postponeExecutionUntilGptLoads)
 	flush() {
 		if (definedSlots.length) {
 			window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
