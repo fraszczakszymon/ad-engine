@@ -1,14 +1,26 @@
 import sinon from 'sinon';
 import { assert } from 'chai';
-import { PrebidiumProvider } from '../../../src/ad-engine/providers/prebidium-provider';
+import { context, PrebidiumProvider, slotService } from '@wikia/ad-engine';
 
 describe('PrebidiumProvider', () => {
 	let sandbox;
+	let prebidiumProvider;
 	let quePush;
 	let renderAd;
 
 	beforeEach(() => {
 		sandbox = sinon.sandbox.create();
+
+		prebidiumProvider = new PrebidiumProvider();
+		sandbox.stub(prebidiumProvider.iframeBuilder, 'create').returns({
+			contentWindow: {
+				document: {},
+			},
+		});
+
+		sandbox.stub(slotService, 'add');
+		sandbox.stub(context, 'get').returns('test_ad_id');
+
 		window.pbjs = {
 			renderAd: () => {},
 			que: [],
@@ -18,11 +30,13 @@ describe('PrebidiumProvider', () => {
 	});
 
 	it('should call renderAd', () => {
-		const prebidiumProvider = new PrebidiumProvider();
+		const adSlot = {
+			getSlotName: () => 'test_slot_name',
+		};
 
-		prebidiumProvider.fillIn();
-		assert(quePush.called);
-		assert(renderAd.called);
+		prebidiumProvider.fillIn(adSlot);
+		assert(quePush.called, `Function did not wait for pbjs to load`);
+		assert(renderAd.called, 'Function did not call render add');
 	});
 
 	afterEach(() => {
