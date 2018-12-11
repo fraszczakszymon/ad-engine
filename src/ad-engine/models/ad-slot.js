@@ -188,21 +188,17 @@ export class AdSlot extends EventEmitter {
 
 		let { creativeId, lineItemId } = event;
 
-		if (event.slot) {
+		if (!event.isEmpty && event.slot) {
 			const resp = event.slot.getResponseInformation();
 
-			if (resp) {
-				if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
-					creativeId = ADX;
-					lineItemId = ADX;
-				} else {
-					({ creativeId, lineItemId } = resp);
-				}
+			if (resp && resp.creativeId === null && resp.lineItemId === null) {
+				creativeId = ADX;
+				lineItemId = ADX;
 			}
 		}
+
 		this.creativeId = creativeId;
 		this.lineItemId = lineItemId;
-
 		this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
 
 		slotDataParamsUpdater.updateOnRenderEnd(this);
