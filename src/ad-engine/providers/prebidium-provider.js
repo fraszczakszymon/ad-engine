@@ -1,5 +1,4 @@
 import { decorate } from 'core-decorators';
-import { AdSlot } from '../models';
 import { logger } from '../utils';
 import { context, slotService } from '../services';
 
@@ -17,9 +16,7 @@ export class PrebidiumProvider {
 	iframeBuilder = new IframeBuilder();
 
 	@decorate(postponeExecutionUntilPbjsLoads)
-	fillIn(ad) {
-		const adSlot = new AdSlot(ad);
-
+	fillIn(adSlot) {
 		slotService.add(adSlot);
 
 		const doc = this.getIframeDoc(adSlot);
@@ -38,11 +35,6 @@ export class PrebidiumProvider {
 	/** @private */
 	getAdId(adSlot) {
 		return context.get(`slots.${adSlot.getSlotName()}.targeting.hb_adid`);
-	}
-
-	@decorate(postponeExecutionUntilPbjsLoads)
-	flush() {
-		// TODO: Something should be here
 	}
 }
 

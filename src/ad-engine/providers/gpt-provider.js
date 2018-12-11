@@ -1,10 +1,16 @@
 import { decorate } from 'core-decorators';
-import { AdSlot } from '../models';
 import { defer, logger } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
-import { btfBlockerService, context, events, slotDataParamsUpdater, slotService, trackingOptIn } from '../services';
+import {
+	btfBlockerService,
+	context,
+	events,
+	slotDataParamsUpdater,
+	slotService,
+	trackingOptIn,
+} from '../services';
 
 const logGroup = 'gpt-provider';
 
@@ -76,11 +82,14 @@ export class GptProvider {
 
 	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
-	fillIn(ad) {
-		const adSlot = new AdSlot(ad);
+	fillIn(adSlot) {
+		this.adStack = context.get('state.adStack');
 
 		slotService.add(adSlot);
-		btfBlockerService.push(adSlot, (...args) => this.fillInCallback(...args));
+		btfBlockerService.push(adSlot, (...args) => {
+			this.fillInCallback(...args);
+			this.flush();
+		});
 	}
 
 	/** @private */
@@ -147,6 +156,7 @@ export class GptProvider {
 		window.googletag.pubads().updateCorrelator();
 	}
 
+	/** @private */
 	@decorate(postponeExecutionUntilGptLoads)
 	flush() {
 		if (definedSlots.length) {

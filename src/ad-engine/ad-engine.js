@@ -12,6 +12,7 @@ import {
 	slotTweaker,
 	templateService,
 } from './services';
+import { AdSlot } from './models';
 
 const logGroup = 'ad-engine';
 
@@ -59,11 +60,8 @@ export class AdEngine {
 		this.adStack = context.get('state.adStack');
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
-				this.provider.fillIn(ad);
-
-				if (this.adStack.length === 0) {
-					this.provider.flush();
-				}
+				const adSlot = new AdSlot(ad);
+				this.provider.fillIn(adSlot);
 			});
 		}
 	}
