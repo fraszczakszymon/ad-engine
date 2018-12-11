@@ -87,7 +87,6 @@ export class GptProvider {
 		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
-	/** Renders ads */
 	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
 		const adStack = context.get('state.adStack');

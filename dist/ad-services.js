@@ -246,11 +246,13 @@ var executor_Executor = function () {
 				var executableModel = models.find(function (model) {
 					return model.name === modelName && model.executable;
 				});
+
 				if (!executableModel) {
 					return;
 				}
 
 				var definedMethods = executableModel['on_' + result];
+
 				if (!definedMethods) {
 					return;
 				}
@@ -531,6 +533,7 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			if (!ad_engine_["context"].get('services.billTheLizard.enabled')) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'disabled');
+
 				return new promise_default.a(function (resolve, reject) {
 					return reject(new Error('Disabled'));
 				});
@@ -564,6 +567,7 @@ var bill_the_lizard_BillTheLizard = function () {
 			});
 
 			var queryParameters = getQueryParameters(models, parameters);
+
 			ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'calling service', host, endpoint, queryParameters, 'callId: ' + callId);
 
 			this.statuses[callId] = BillTheLizard.TOO_LATE;
@@ -574,6 +578,7 @@ var bill_the_lizard_BillTheLizard = function () {
 				} else {
 					_this.statuses[callId] = BillTheLizard.FAILURE;
 				}
+
 				return promise_default.a.reject(error);
 			}).then(function (response) {
 				return overridePredictions(response);
@@ -585,9 +590,11 @@ var bill_the_lizard_BillTheLizard = function () {
 				_this.statuses[callId] = BillTheLizard.ON_TIME;
 
 				var modelToResultMap = _this.getModelToResultMap(response);
+
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'predictions', modelToResultMap, 'callId: ' + callId);
 
 				var predictions = _this.buildPredictions(models, modelToResultMap, callId);
+
 				(_predictions = _this.predictions).push.apply(_predictions, toConsumableArray_default()(predictions));
 
 				_this.setTargeting();
@@ -602,6 +609,7 @@ var bill_the_lizard_BillTheLizard = function () {
 				return modelToResultMap;
 			}).catch(function (error) {
 				ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'service response', error.message, 'callId: ' + callId);
+
 				return {};
 			});
 		}
@@ -636,6 +644,7 @@ var bill_the_lizard_BillTheLizard = function () {
 		key: 'getModelToResultMap',
 		value: function getModelToResultMap(response) {
 			var modelToResultMap = {};
+
 			keys_default()(response).forEach(function (modelName) {
 				var result = response[modelName].result;
 
@@ -644,6 +653,7 @@ var bill_the_lizard_BillTheLizard = function () {
 					modelToResultMap[modelName] = result;
 				}
 			});
+
 			return modelToResultMap;
 		}
 
@@ -657,6 +667,7 @@ var bill_the_lizard_BillTheLizard = function () {
 		key: 'setTargeting',
 		value: function setTargeting() {
 			var targeting = this.getTargeting();
+
 			if (keys_default()(targeting).length > 0) {
 				var serializedTargeting = entries_default()(targeting).map(function (_ref) {
 					var _ref2 = slicedToArray_default()(_ref, 2),
@@ -665,9 +676,12 @@ var bill_the_lizard_BillTheLizard = function () {
 
 					return modelName + '_' + result;
 				});
+
 				ad_engine_["context"].set('targeting.btl', serializedTargeting);
+
 				return serializedTargeting;
 			}
+
 			return '';
 		}
 
@@ -685,11 +699,13 @@ var bill_the_lizard_BillTheLizard = function () {
 			var _this2 = this;
 
 			var latestResults = {};
+
 			this.predictions.filter(function (pred) {
 				return _this2.targetedModelNames.has(pred.modelName);
 			}).forEach(function (pred) {
 				latestResults[pred.modelName] = pred.result;
 			});
+
 			return latestResults;
 		}
 
@@ -723,11 +739,13 @@ var bill_the_lizard_BillTheLizard = function () {
 		key: 'getPredictions',
 		value: function getPredictions(modelName) {
 			var separator = ':';
+
 			if (modelName) {
 				return this.predictions.filter(function (pred) {
 					return pred.modelName.split(separator)[0] === modelName.split(separator)[0];
 				});
 			}
+
 			return this.predictions;
 		}
 
@@ -744,6 +762,7 @@ var bill_the_lizard_BillTheLizard = function () {
 		key: 'getResponseStatus',
 		value: function getResponseStatus(callId) {
 			callId = callId || this.callCounter;
+
 			return this.statuses[callId];
 		}
 
@@ -758,11 +777,13 @@ var bill_the_lizard_BillTheLizard = function () {
 		value: function serialize(callId) {
 			var predictions = this.predictions;
 
+
 			if (callId !== undefined) {
 				predictions = predictions.filter(function (pred) {
 					return pred.callId === callId;
 				});
 			}
+
 			return predictions.map(function (pred) {
 				return pred.modelName + '|' + pred.callId + '=' + pred.result;
 			}).join(';');
@@ -869,7 +890,8 @@ function krux_loadScript() {
 function getKruxData(key) {
 	if (window.localStorage) {
 		return window.localStorage[key];
-	} else if (window.navigator.cookieEnabled) {
+	}
+	if (window.navigator.cookieEnabled) {
 		var match = document.cookie.match(key + '=([^;]*)');
 
 		return match && decodeURI(match[1]) || '';
@@ -908,10 +930,12 @@ var krux_Krux = function () {
 
 			if (!ad_engine_["context"].get('services.krux.enabled') || !ad_engine_["context"].get('options.trackingOptIn')) {
 				ad_engine_["utils"].logger(krux_logGroup, 'disabled');
+
 				return promise_default.a.resolve();
 			}
 
 			ad_engine_["utils"].logger(krux_logGroup, 'loading');
+
 			return krux_loadScript().then(function () {
 				_this.exportPageParams();
 				_this.importUserData();
@@ -1020,6 +1044,7 @@ var moat_yi_MoatYi = function () {
 
 			if (!ad_engine_["context"].get('services.moatYi.enabled') || !ad_engine_["context"].get('services.moatYi.partnerCode')) {
 				ad_engine_["utils"].logger(moat_yi_logGroup, 'disabled');
+
 				return promise_default.a.resolve();
 			}
 
@@ -1027,6 +1052,7 @@ var moat_yi_MoatYi = function () {
 			var promise = new promise_default.a(function (resolve) {
 				moatYeildReadyResolve = resolve;
 			});
+
 			ad_engine_["utils"].logger(moat_yi_logGroup, 'loading');
 			window.moatYieldReady = function () {
 				_this.importPageParams();

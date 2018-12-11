@@ -8,15 +8,15 @@
 			content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
 		/>
 		<link rel="stylesheet" href="../../vendor/dist/styles.css" type="text/css" />
-		<script id="node" type="text/javascript" src="../../vendor/dist/vendor.js"></script>
+		<script type="text/javascript" src="../../vendor/dist/vendor.js"></script>
 		<script type="text/javascript">
 			var googletag = window.googletag || {};
 			googletag.cmd = googletag.cmd || [];
 
 			(function() {
 				const gads = document.createElement('script'),
-					useSSL = 'https:' === document.location.protocol,
-					node = document.getElementById('node');
+					useSSL = 'https:' == document.location.protocol,
+					node = document.getElementsByTagName('script')[0];
 
 				gads.async = true;
 				gads.type = 'text/javascript';
