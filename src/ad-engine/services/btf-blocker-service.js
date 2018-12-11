@@ -18,7 +18,7 @@ class BtfBlockerService {
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
-			this.disableConfictingSlot(adSlot);
+			this.disableAdSlotIfHasConflict(adSlot);
 			this.fillInSlotIfEnabled(adSlot, fillInCallback);
 		});
 
@@ -81,12 +81,12 @@ class BtfBlockerService {
 			return;
 		}
 
-		this.disableConfictingSlot(adSlot);
+		this.disableAdSlotIfHasConflict(adSlot);
 		this.fillInSlotIfEnabled(adSlot, fillInCallback);
 	}
 
 	/** @private */
-	disableConfictingSlot(adSlot) {
+	disableAdSlotIfHasConflict(adSlot) {
 		if (slotService.hasViewportConflict(adSlot)) {
 			slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
 		}
