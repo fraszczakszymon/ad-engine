@@ -26,6 +26,7 @@ class MoatYi {
 	call() {
 		if (!context.get('services.moatYi.enabled') || !context.get('services.moatYi.partnerCode')) {
 			utils.logger(logGroup, 'disabled');
+
 			return Promise.resolve();
 		}
 
@@ -33,6 +34,7 @@ class MoatYi {
 		const promise = new Promise((resolve) => {
 			moatYeildReadyResolve = resolve;
 		});
+
 		utils.logger(logGroup, 'loading');
 		window.moatYieldReady = () => {
 			this.importPageParams();
@@ -52,7 +54,10 @@ class MoatYi {
 	 * @returns {void}
 	 */
 	importPageParams() {
-		if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
+		if (
+			window.moatPrebidApi &&
+			typeof window.moatPrebidApi.getMoatTargetingForPage === 'function'
+		) {
 			const pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
 
 			context.set('targeting.m_data', pageParams.m_data);

@@ -1,7 +1,5 @@
 import { decorate } from 'core-decorators';
 import { defer, logger } from '../utils';
-import { GptSizeMap } from './gpt-size-map';
-import { setupGptTargeting } from './gpt-targeting';
 import { slotListener } from '../listeners';
 import {
 	btfBlockerService,
@@ -11,8 +9,11 @@ import {
 	slotService,
 	trackingOptIn,
 } from '../services';
+import { GptSizeMap } from './gpt-size-map';
+import { setupGptTargeting } from './gpt-targeting';
 
 const logGroup = 'gpt-provider';
+
 export const ADX = 'AdX';
 
 function postponeExecutionUntilGptLoads(method) {
@@ -124,12 +125,9 @@ export class GptProvider {
 		if (adSlot.isOutOfPage()) {
 			return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
 		}
+
 		return window.googletag
-			.defineSlot(
-				adSlot.getAdUnit(),
-				adSlot.getDefaultSizes(),
-				adSlot.getSlotName()
-			)
+			.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
 			.defineSizeMapping(sizeMap.build());
 	}
 

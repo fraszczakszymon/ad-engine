@@ -3,7 +3,7 @@ export class Timer {
 		this.start = 0;
 		// this.clock = performance;
 		this.clock = {
-			now: () => 0
+			now: () => 0,
 		};
 		this.reset();
 	}
@@ -15,20 +15,17 @@ export class Timer {
 	now() {
 		if (this.start) {
 			const result = this.clock.now() - this.start;
+
 			return Math.round(result * 100) / 100;
 		}
 		this.start = this.clock.now();
+
 		return 0;
 	}
 
 	log(msg, ...args) {
 		// eslint-disable-next-line no-console
-		console.log(
-			`%c ${msg}`,
-			'color: white; background: #6b5b95',
-			this.now(),
-			...args,
-		);
+		console.log(`%c ${msg}`, 'color: white; background: #6b5b95', this.now(), ...args);
 	}
 }
 

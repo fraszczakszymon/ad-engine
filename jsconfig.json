@@ -6,7 +6,5 @@
 			"*": ["src/*"]
 		}
 	},
-	"include": [
-		"src/**/*.js"
-	]
+	"include": ["src/**/*.js"]
 }

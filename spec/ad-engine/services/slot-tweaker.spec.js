@@ -5,9 +5,12 @@ import { slotTweaker } from '../../../src/ad-engine/services/slot-tweaker';
 
 describe('slot-tweaker', () => {
 	beforeEach(() => {
-		sinon.stub(document, 'getElementById').withArgs(adSlotFake.getSlotName()).returns({
-			dataset: {}
-		});
+		sinon
+			.stub(document, 'getElementById')
+			.withArgs(adSlotFake.getSlotName())
+			.returns({
+				dataset: {},
+			});
 	});
 
 	afterEach(() => {
@@ -25,12 +28,14 @@ describe('slot-tweaker', () => {
 	it('setDataParam accepts an object', () => {
 		const mockedValue = {
 			param1: 'value1',
-			param2: 'value2'
+			param2: 'value2',
 		};
 
 		slotTweaker.setDataParam(adSlotFake, 'qunitParam', mockedValue);
 
-		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal('{"param1":"value1","param2":"value2"}');
+		expect(slotTweaker.getContainer(adSlotFake).dataset.qunitParam).to.equal(
+			'{"param1":"value1","param2":"value2"}',
+		);
 	});
 
 	it('setDataParam accepts an array', () => {

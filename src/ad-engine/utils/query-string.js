@@ -10,6 +10,7 @@ class QueryString {
 
 		queryString.forEach((pair) => {
 			const [id, value] = pair.split('=');
+
 			if (value) {
 				queryParameters[id] = decodeURIComponent(value.replace(/\+/g, ' '));
 			}

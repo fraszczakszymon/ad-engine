@@ -16,6 +16,7 @@ const addEventListener = (name, callback) => {
 	const event = {
 		target: {},
 	};
+
 	setTimeout(() => callback(event), 0);
 };
 
@@ -43,11 +44,11 @@ function createCorrectParams() {
 		image1: {
 			element: {
 				src: DEFAULT_IMAGE,
-				addEventListener
+				addEventListener,
 			},
 			defaultStateSrc: BIG_IMAGE,
-			resolvedStateSrc: RESOLVED_IMAGE
-		}
+			resolvedStateSrc: RESOLVED_IMAGE,
+		},
 	};
 }
 
@@ -58,11 +59,11 @@ function createIncorrectParams() {
 		image1: {
 			element: {
 				src: DEFAULT_IMAGE,
-				addEventListener
+				addEventListener,
 			},
 			defaultStateSrc: BIG_IMAGE,
-			resolvedStateSrc: ''
-		}
+			resolvedStateSrc: '',
+		},
 	};
 }
 
@@ -73,19 +74,19 @@ function createCorrectParamsWithTwoAssets() {
 		image1: {
 			element: {
 				src: DEFAULT_IMAGE,
-				addEventListener
+				addEventListener,
 			},
 			defaultStateSrc: BIG_IMAGE,
-			resolvedStateSrc: RESOLVED_IMAGE
+			resolvedStateSrc: RESOLVED_IMAGE,
 		},
 		image2: {
 			element: {
 				src: DEFAULT_IMAGE,
-				addEventListener
+				addEventListener,
 			},
 			defaultStateSrc: BIG_IMAGE_2,
-			resolvedStateSrc: RESOLVED_IMAGE_2
-		}
+			resolvedStateSrc: RESOLVED_IMAGE_2,
+		},
 	};
 }
 
@@ -219,7 +220,7 @@ describe('ResolvedState', () => {
 		resolvedStateSwitch.wasDefaultStateSeen.returns(true);
 
 		const params = {
-			theme: 'hivi'
+			theme: 'hivi',
 		};
 
 		expect(resolvedState.isResolvedState(params)).to.equal(true);
@@ -231,7 +232,7 @@ describe('ResolvedState', () => {
 		resolvedStateSwitch.wasDefaultStateSeen.returns(true);
 
 		const params = {
-			theme: 'non-existing-template'
+			theme: 'non-existing-template',
 		};
 
 		expect(resolvedState.isResolvedState(params)).to.equal(false);

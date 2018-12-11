@@ -9,7 +9,9 @@ context.extend(adContext);
 context.set('services.moatYi.enabled', isMoatEnabled);
 
 moatYi.call().then(() => {
-	document.getElementById('pageParams').innerText = JSON.stringify(window.moatPrebidApi.getMoatTargetingForPage());
+	document.getElementById('pageParams').innerText = JSON.stringify(
+		window.moatPrebidApi.getMoatTargetingForPage(),
+	);
 });
 
 setTimeout(() => {

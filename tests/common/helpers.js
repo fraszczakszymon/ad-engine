@@ -1,5 +1,5 @@
-import { timeouts } from "./timeouts";
-import { queryStrings } from "./query-strings";
+import { timeouts } from './timeouts';
+import { queryStrings } from './query-strings';
 import { adSlots } from './ad-slots';
 
 const valueToDivideBy = 10;
@@ -126,8 +126,7 @@ class Helpers {
 	 * @returns {string}
 	 */
 	getCreativeId(adSlot) {
-		return browser.element(adSlot)
-			.getAttribute(adSlots.creativeIdAttribute);
+		return browser.element(adSlot).getAttribute(adSlots.creativeIdAttribute);
 	}
 
 	/**
@@ -154,6 +153,7 @@ class Helpers {
 			result = true;
 		}
 		this.closeNewTabs();
+
 		return result;
 	}
 

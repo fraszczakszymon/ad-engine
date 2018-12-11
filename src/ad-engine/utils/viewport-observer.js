@@ -6,7 +6,7 @@ function updateInViewport(listener) {
 		listener.element,
 		listener.offsetTop,
 		listener.offsetBottom,
-		listener.areaThreshold
+		listener.areaThreshold,
 	);
 
 	if (newInViewport !== listener.inViewport) {
@@ -40,5 +40,5 @@ function removeListener(listenerId) {
 
 export const viewportObserver = {
 	addListener,
-	removeListener
+	removeListener,
 };

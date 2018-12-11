@@ -15,9 +15,10 @@ let resolveBidders;
 const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
-	getPromise: () => new Promise((resolve) => {
-		resolveBidders = resolve;
-	}),
+	getPromise: () =>
+		new Promise((resolve) => {
+			resolveBidders = resolve;
+		}),
 };
 
 context.set('options.maxDelayTimeout', 1000);

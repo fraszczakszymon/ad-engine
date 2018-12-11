@@ -10,7 +10,7 @@ class MoatVideoTracker {
 			partnerCode: context.get('options.video.moatTracking.partnerCode'),
 			viewMode,
 			slicer1,
-			slicer2
+			slicer2,
 		};
 
 		try {

@@ -48,8 +48,7 @@ class BtfBlockerService {
 		if (window.ads.runtime.disableBtf) {
 			this.disableSecondCall([
 				...this.unblockedSlotNames,
-				...slotService.getAtfSlotConfigs()
-					.map(slot => slot.name),
+				...slotService.getAtfSlotConfigs().map((slot) => slot.name),
 			]);
 		}
 
@@ -59,16 +58,16 @@ class BtfBlockerService {
 	/** @private */
 	disableSecondCall(unblockedSlots) {
 		const slots = context.get('slots');
+
 		logger(logGroup, 'second call queue disabled');
 
-		Object.keys(slots)
-			.forEach((adSlotKey) => {
-				const slotConfig = slots[adSlotKey];
+		Object.keys(slots).forEach((adSlotKey) => {
+			const slotConfig = slots[adSlotKey];
 
-				if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
-					slotService.disable(adSlotKey, 'blocked');
-				}
-			});
+			if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
+				slotService.disable(adSlotKey, 'blocked');
+			}
+		});
 	}
 
 	push(adSlot, fillInCallback) {
@@ -78,6 +77,7 @@ class BtfBlockerService {
 				fillInCallback,
 			});
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
+
 			return;
 		}
 
@@ -96,6 +96,7 @@ class BtfBlockerService {
 	fillInSlotIfEnabled(adSlot, fillInCallback) {
 		if (!adSlot.isEnabled()) {
 			logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+
 			return;
 		}
 

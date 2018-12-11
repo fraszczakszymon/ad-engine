@@ -31,7 +31,7 @@ class Client {
 				checkOnLoad: false,
 				resetOnEnd: true,
 				loopCheckTime: 50,
-				loopMaxNumber: 5
+				loopMaxNumber: 5,
 			});
 		}
 
@@ -44,7 +44,8 @@ class Client {
 	getDeviceType() {
 		if (this.isTablet()) {
 			return 'tablet';
-		} else if (this.isSmartphone()) {
+		}
+		if (this.isSmartphone()) {
 			return 'smartphone';
 		}
 
@@ -90,13 +91,18 @@ class Client {
 
 		if (/trident/i.test(matches[1])) {
 			temp = /\brv[ :]+(\d+)/g.exec(userAgent) || [];
-			browser = `IE ${(temp[1] || '')}`;
+			browser = `IE ${temp[1] || ''}`;
+
 			return browser;
 		}
 		if (matches[1] === 'Chrome') {
 			temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/);
 			if (temp !== null) {
-				browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
+				browser = temp
+					.slice(1)
+					.join(' ')
+					.replace('OPR', 'Opera');
+
 				return browser;
 			}
 		}

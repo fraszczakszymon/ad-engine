@@ -101,8 +101,10 @@ export function isInTheSameViewport(element, elementsToCompare = []) {
 	const viewportHeight = getViewportHeight();
 
 	const conflicts = elementsToCompare.filter((conflictElement) => {
-		if ((element.previousSibling && element.previousSibling.isSameNode(conflictElement)) ||
-			(element.nextSibling && element.nextSibling.isSameNode(conflictElement))) {
+		if (
+			(element.previousSibling && element.previousSibling.isSameNode(conflictElement)) ||
+			(element.nextSibling && element.nextSibling.isSameNode(conflictElement))
+		) {
 			return true;
 		}
 
@@ -110,8 +112,9 @@ export function isInTheSameViewport(element, elementsToCompare = []) {
 		const conflictOffset = getTopOffset(conflictElement);
 		const isFirst = conflictOffset < elementOffset;
 
-		const distance = isFirst ? elementOffset - conflictOffset - conflictHeight :
-			conflictOffset - elementOffset - elementHeight;
+		const distance = isFirst
+			? elementOffset - conflictOffset - conflictHeight
+			: conflictOffset - elementOffset - elementHeight;
 
 		return distance < viewportHeight;
 	});

@@ -5,5 +5,4 @@ import '../../styles.scss';
 context.extend(customContext);
 context.set('slots.bottom_leaderboard.disabled', false);
 
-
 new AdEngine().init();

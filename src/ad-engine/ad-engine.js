@@ -17,13 +17,15 @@ import { AdSlot } from './models';
 const logGroup = 'ad-engine';
 
 function getPromises() {
-	return (context.get('delayModules') || [])
-		.filter(module => module.isEnabled())
-		.map((module) => {
-			logger(logGroup, 'Register delay module', module.getName());
+	return (
+		(context.get('delayModules') || [])
+			.filter((module) => module.isEnabled())
+			.map((module) => {
+				logger(logGroup, 'Register delay module', module.getName());
 
-			return module.getPromise();
-		}) || [];
+				return module.getPromise();
+			}) || []
+	);
 }
 
 export class AdEngine {
@@ -44,6 +46,7 @@ export class AdEngine {
 
 	setupProviders() {
 		const providerName = context.get('state.provider');
+
 		switch (providerName) {
 			case 'gpt':
 				this.provider = new GptProvider();
@@ -61,6 +64,7 @@ export class AdEngine {
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
 				const adSlot = new AdSlot(ad);
+
 				this.provider.fillIn(adSlot);
 			});
 		}
