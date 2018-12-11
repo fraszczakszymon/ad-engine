@@ -18,8 +18,8 @@ class BtfBlockerService {
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
-			// TODO: 'wrappedFillInCallback' doesn't take argument
-			fillInCallback(adSlot);
+			this.disableConfictingSlot(adSlot);
+			this.fillInSlotIfEnabled(adSlot, fillInCallback);
 		});
 
 		if (window.ads && window.ads.runtime) {
@@ -34,7 +34,7 @@ class BtfBlockerService {
 				if (!this.firstCallEnded && adSlot.isFirstCall()) {
 					this.finishFirstCall();
 				}
-			}
+			},
 		});
 		events.on(events.PAGE_CHANGE_EVENT, () => {
 			this.resetState();
@@ -48,7 +48,8 @@ class BtfBlockerService {
 		if (window.ads.runtime.disableBtf) {
 			this.disableSecondCall([
 				...this.unblockedSlotNames,
-				...slotService.getAtfSlotConfigs().map(slot => slot.name),
+				...slotService.getAtfSlotConfigs()
+					.map(slot => slot.name),
 			]);
 		}
 
@@ -71,28 +72,35 @@ class BtfBlockerService {
 	}
 
 	push(adSlot, fillInCallback) {
-		function wrappedFillInCallback() {
-			if (slotService.hasViewportConflict(adSlot)) {
-				slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
-			}
-
-			if (!adSlot.isEnabled()) {
-				logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
-				return;
-			}
-
-			logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
-			fillInCallback(adSlot);
-		}
-
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
-			this.slotsQueue.push({ adSlot, fillInCallback: (...args) => wrappedFillInCallback(...args) });
+			this.slotsQueue.push({
+				adSlot,
+				fillInCallback,
+			});
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
 			return;
 		}
 
-		// TODO: 'wrappedFillInCallback' doesn't take argument
-		wrappedFillInCallback(adSlot);
+		this.disableConfictingSlot(adSlot);
+		this.fillInSlotIfEnabled(adSlot, fillInCallback);
+	}
+
+	/** @private */
+	disableConfictingSlot(adSlot) {
+		if (slotService.hasViewportConflict(adSlot)) {
+			slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+		}
+	}
+
+	/** @private */
+	fillInSlotIfEnabled(adSlot, fillInCallback) {
+		if (!adSlot.isEnabled()) {
+			logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+			return;
+		}
+
+		logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
+		fillInCallback(adSlot);
 	}
 
 	unblock(slotName) {
