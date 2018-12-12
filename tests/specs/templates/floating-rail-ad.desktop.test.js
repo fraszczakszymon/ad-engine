@@ -21,7 +21,7 @@ describe('Floating rail ads page: floating rail', () => {
 	});
 
 	it('Check visual regression in top boxad', () => {
-		browser.checkElement(adSlots.topBoxad);
+		helpers.checkVisualRegression(browser.checkElement(adSlots.topBoxad));
 	});
 });
 
