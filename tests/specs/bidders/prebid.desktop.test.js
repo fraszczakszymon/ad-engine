@@ -21,7 +21,7 @@ describe('Prebid', () => {
 			prebid.pageLink,
 			queryStrings.getTurnedOffSlots(prebid.availableSlots.topLeaderboard),
 		);
-		expect(helpers.isLineItemExisitng(adSlots.topLeaderboard)).to.be.false;
+		expect(helpers.isLineItemExisting(adSlots.topLeaderboard)).to.be.false;
 	});
 
 	it('Check disabling top boxad', () => {
@@ -29,6 +29,6 @@ describe('Prebid', () => {
 			prebid.pageLink,
 			queryStrings.getTurnedOffSlots(prebid.availableSlots.topBoxad),
 		);
-		expect(helpers.isLineItemExisitng(adSlots.topBoxad)).to.be.false;
+		expect(helpers.isLineItemExisting(adSlots.topBoxad)).to.be.false;
 	});
 });

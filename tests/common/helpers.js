@@ -104,7 +104,7 @@ class Helpers {
 	waitForLineItemIdAttribute(adSlot) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
-			() => this.isLineItemExisitng(adSlot),
+			() => this.isLineItemExisting(adSlot),
 			timeouts.standard,
 			'No line item id attribute',
 			timeouts.interval,
@@ -120,7 +120,7 @@ class Helpers {
 		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
 	}
 
-	isLineItemExisitng(adSlot) {
+	isLineItemExisting(adSlot) {
 		return !!this.getLineItemId(adSlot);
 	}
 

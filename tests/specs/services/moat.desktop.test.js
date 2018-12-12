@@ -5,7 +5,7 @@ import { helpers } from '../../common/helpers';
 import { queryStrings } from '../../common/query-strings';
 import { adSlots } from '../../common/ad-slots';
 
-describe('It will test krux page', () => {
+describe('It will test moat page', () => {
 	it('will test if cached value is stored', () => {
 		browser.url(moat.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);

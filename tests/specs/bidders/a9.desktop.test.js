@@ -23,13 +23,13 @@ describe('A9', () => {
 			a9.pageLink,
 			queryStrings.getTurnedOffSlots(a9.availableSlots.topLeaderboard),
 		);
-		expect(helpers.isLineItemExisitng(adSlots.topLeaderboard)).to.be.false;
+		expect(helpers.isLineItemExisting(adSlots.topLeaderboard)).to.be.false;
 	});
 
 	it('Check disabling top boxad', () => {
 		browser.url(a9.pageLink);
 		helpers.navigateToUrl(a9.pageLink, queryStrings.getTurnedOffSlots(a9.availableSlots.topBoxad));
-		expect(helpers.isLineItemExisitng(adSlots.topBoxad)).to.be.false;
+		expect(helpers.isLineItemExisting(adSlots.topBoxad)).to.be.false;
 	});
 
 	it('Check if a9 bid is rendered', () => {

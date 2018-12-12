@@ -5,7 +5,7 @@ import { timeouts } from '../../common/timeouts';
 import { helpers } from '../../common/helpers';
 import { queryStrings } from '../../common/query-strings';
 
-describe('sticky-ad template', () => {
+describe('sticky-tlb template', () => {
 	beforeEach(() => {
 		helpers.navigateToUrl(
 			stickyTlb.pageLink,

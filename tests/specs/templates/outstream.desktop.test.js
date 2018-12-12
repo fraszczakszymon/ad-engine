@@ -1,4 +1,4 @@
-/**/ import { expect } from 'chai';
+import { expect } from 'chai';
 import { outstream } from '../../pages/outstream.page';
 import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';

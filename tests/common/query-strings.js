@@ -180,7 +180,7 @@ class QueryStrings {
 	}
 
 	getTurnedOffSlots(...slots) {
-		return `${this.services.enabledProjects}=${slots.join(',')}`;
+		return `${this.bidders.disableSlots}=${slots.join(',')}`;
 	}
 
 	constructInstantGlobal(wg, country = 'XX', percent = null, additional = null) {
