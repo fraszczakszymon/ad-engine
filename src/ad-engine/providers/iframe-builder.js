@@ -2,18 +2,31 @@
 export class IframeBuilder {
 	create(adSlot) {
 		const doc = adSlot.getElement();
-		const iframe = doc.appendChild(document.createElement('iframe'));
 
-		iframe.frameBorder = 0;
-		iframe.onload = () => this.removeBodyMargin(iframe);
-
-		return iframe;
+		return doc.appendChild(this.createEmptyIframe());
 	}
 
-	/** @private */
-	removeBodyMargin(iframe) {
-		const { body } = iframe.contentDocument;
+	/**
+	 * @private
+	 * Inspired by `createInvisibleIframe` method from Prebid.js
+	 */
+	createEmptyIframe() {
+		const f = document.createElement('iframe');
 
-		body.style.margin = 0;
+		f.height = 0;
+		f.width = 0;
+		f.border = '0px';
+		f.hspace = '0';
+		f.vspace = '0';
+		f.marginWidth = '0';
+		f.marginHeight = '0';
+		f.style.border = '0';
+		f.scrolling = 'no';
+		f.frameBorder = '0';
+		f.src = 'about:blank';
+		f.style.display = 'inline';
+		f.style.overflow = 'hidden';
+
+		return f;
 	}
 }
