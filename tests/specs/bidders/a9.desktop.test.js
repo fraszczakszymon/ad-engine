@@ -5,7 +5,7 @@ import { helpers } from '../../common/helpers';
 import { a9 } from '../../pages/a9.page';
 import { queryStrings } from '../../common/query-strings';
 
-describe('A9', () => {
+describe('Bidders: A9 template', () => {
 	it('Check if wikia adapter creative is not rendered when there are no bids', () => {
 		browser.url(a9.pageLink);
 		asserts.assertInhouseCampaign(adSlots.topLeaderboard);

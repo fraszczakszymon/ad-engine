@@ -5,7 +5,7 @@ import { helpers } from '../../common/helpers';
 import { prebid } from '../../pages/prebid.page';
 import { queryStrings } from '../../common/query-strings';
 
-describe('Prebid', () => {
+describe('Bidders: Prebid template', () => {
 	it('Check if wikia adapter creative is not rendered when there are no bids', () => {
 		browser.url(prebid.pageLink);
 		asserts.assertInhouseCampaign(adSlots.topLeaderboard);
