@@ -1,7 +1,6 @@
 import { decorate } from 'core-decorators';
-import { logger } from '../utils';
+import { IframeBuilder, logger } from '../utils';
 import { context, slotService } from '../services';
-import { IframeBuilder } from './iframe-builder';
 
 const logGroup = 'prebidium-provider';
 
