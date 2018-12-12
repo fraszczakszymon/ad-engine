@@ -6,13 +6,21 @@ class QueryStrings {
 		this.utils = {
 			resolved: 'resolved_state',
 			cb: 'cb',
+			contentLength: 'content_length',
+			sessionId: 'sessionid',
+			enabledGeo: 'enabled-geo',
+			forceEmptyResponse: 'force-empty-response',
+			disableFloating: 'floating',
+		};
+		this.bidders = {
 			price: 'wikia_adapter',
 			limit: 'wikia_adapter_limit',
 			limitSlots: 'limit',
-			contentLength: 'content_length',
 			randomness: 'wikia_adapter_random',
 			timeout: 'wikia_adapter_timeout',
-			sessionId: 'sessionid',
+			pbjs_debug: 'pbjs_debug',
+			disableSlots: 'disabled-slots',
+			deals: 'deals',
 		};
 		this.video = {
 			midroll: 'midroll',
@@ -21,6 +29,14 @@ class QueryStrings {
 			mute: 'mute',
 			capping: 'capping',
 			f15n: 'f15s=eHnTdMot',
+			videoAdapter: 'wikia_video_adapter',
+		};
+		this.services = {
+			krux: 'krux-disabled',
+			trackingOptIn: 'tracking-opt-in',
+			moat: 'moat-yi-disabled',
+			adEngineDelay: 'adengine-delay',
+			enabledProjects: 'enabled-project',
 		};
 	}
 
@@ -90,19 +106,19 @@ class QueryStrings {
 	}
 
 	getPrice(price) {
-		return `${this.utils.price}=${price}`;
+		return `${this.bidders.price}=${price}`;
 	}
 
 	getLimit(limit) {
-		return `${this.utils.limit}=${limit}`;
+		return `${this.bidders.limit}=${limit}`;
 	}
 
 	getLimitOfSlots(limit = 3) {
-		return `${this.utils.limitSlots}=${limit}`;
+		return `${this.bidders.limitSlots}=${limit}`;
 	}
 
 	getTimeout(timeout) {
-		return `${this.utils.timeout}=${timeout}`;
+		return `${this.bidders.timeout}=${timeout}`;
 	}
 
 	getLengthOfContent(lengthNumber = 5) {
@@ -112,7 +128,7 @@ class QueryStrings {
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
 
-		return `${this.utils.randomness}=${on}`;
+		return `${this.bidders.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
@@ -121,12 +137,58 @@ class QueryStrings {
 		return `${this.utils.resolved}=${on}`;
 	}
 
+	getKrux(enabled) {
+		const on = enabled ? '0' : '1';
+
+		return `${this.services.krux}=${on}`;
+	}
+
+	getTrackingOptIn(enabled) {
+		const on = enabled ? '1' : '0';
+
+		return `${this.services.trackingOptIn}=${on}`;
+	}
+
+	getMoat(enabled) {
+		const on = enabled ? '0' : '1';
+
+		return `${this.services.moat}=${on}`;
+	}
+
+	getAdEngineDelay(timeout) {
+		return `${this.services.adEngineDelay}=${timeout}`;
+	}
+
+	getEmptyResponse(empty) {
+		const on = empty ? '1' : '0';
+
+		return `${this.utils.forceEmptyResponse}=${on}`;
+	}
+
+	getDeals(enabled) {
+		const on = enabled ? '1' : '0';
+
+		return `${this.bidders.deals}=${on}`;
+	}
+
 	getSessionIdParam(parameter) {
 		return `${this.utils.sessionId}=${parameter}`;
 	}
 
+	getProjects(...projects) {
+		return `${this.services.enabledProjects}=${projects.join(',')}`;
+	}
+
+	getTurnedOffSlots(...slots) {
+		return `${this.bidders.disableSlots}=${slots.join(',')}`;
+	}
+
 	constructInstantGlobal(wg, country = 'XX', percent = null, additional = null) {
 		return `${wg}=${this.getIGParameters(country, percent, additional)}`;
+	}
+
+	constructSingleGeoInstantGlobal(country = 'XX', percent = null) {
+		return `${this.utils.enabledGeo}=${country}/${percent}`;
 	}
 }
 

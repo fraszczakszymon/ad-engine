@@ -398,7 +398,7 @@ npm run wdio -- --suite bidders
 Run single test file:
 
 ```bash
-npm run wdio -- --spec specs/bidders/prebid-wikia-adapter.desktop.test.js
+npm run wdio -- --spec specs/bidders/reusable-prebid.desktop.test.js
 ```
 
 ### Generate Allure report

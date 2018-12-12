@@ -11,9 +11,16 @@ class JWPlayer {
 		this.soundToggleOn = '.jw-full';
 		this.fullscreenButton = '.jw-icon-fullscreen';
 		this.fullscreenPlayer = '.jw-flag-fullscreen';
+		this.videoIdle = '.jw-state-idle';
+		this.playerAdContainer = '#playerContainer_googima';
 
-		this.adLength = 30000;
-		this.videoLength = 75000;
+		this.prerollDuration = 30000;
+		this.midrollDuration = 30000;
+		this.postrollDuration = 30000;
+		this.f15nDuration = 15000;
+		this.videoDuration = 75000;
+		this.playerWidth = 628;
+		this.playerHeight = 353;
 	}
 
 	isAudioOn() {
@@ -24,6 +31,22 @@ class JWPlayer {
 		browser.waitForExist(`${this.soundToggle}${this.soundToggleOff}`, timeouts.standard);
 
 		return false;
+	}
+
+	isAdVisible() {
+		browser.waitForExist(this.playerAdContainer, timeouts.standard);
+		if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: visible')) {
+			return true;
+		}
+		if (browser.getAttribute(this.playerAdContainer, 'style').includes('visibility: hidden')) {
+			return false;
+		}
+
+		return undefined;
+	}
+
+	waitForAdToChangeState(shouldAdBeVisible) {
+		browser.waitUntil(() => this.isAdVisible() === shouldAdBeVisible, timeouts.standard);
 	}
 }
 
