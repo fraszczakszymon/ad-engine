@@ -6,9 +6,6 @@ describe('PrebidiumProvider', () => {
 	let sandbox;
 	let prebidiumProvider;
 	const stub = {
-		// utils: {
-		// 	logger: undefined,
-		// },
 		slotService: {
 			add: undefined,
 		},
@@ -33,7 +30,6 @@ describe('PrebidiumProvider', () => {
 		stubIframeBuilder();
 		stub.slotService.add = sandbox.stub(slotService, 'add');
 		stub.context.get = sandbox.stub(context, 'get').returns(mock.adId);
-		// stub.utils.logger = sandbox.stub(utils, 'logger');
 		stubPbjs();
 	});
 
@@ -72,15 +68,6 @@ describe('PrebidiumProvider', () => {
 			assert(stub.context.get.calledOnce);
 			assert.equal(argument, `slots.${mock.slotName}.targeting.hb_adid`);
 		});
-
-		// it('should call logger', () => {
-		// 	const [logGroup, slotName, message] = stub.utils.logger.getCall(0).args;
-		//
-		// 	assert(stub.utils.logger.calledOnce);
-		// 	assert.equal(logGroup, 'prebidium-provider');
-		// 	assert.equal(slotName, mock.slotName);
-		// 	assert.equal(message, 'slot added');
-		// });
 	});
 
 	afterEach(() => {
