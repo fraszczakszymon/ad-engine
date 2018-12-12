@@ -13,12 +13,16 @@ describe('IFrameBuilder', () => {
 
 	describe('create', () => {
 		it('should run', () => {
+			const div = document.createElement('div');
 			const adSlot = {
-				getElement: () => document.createElement('div'),
+				getElement: () => div,
 			};
+			const iframe = iframeBuilder.create(adSlot);
 
-			iframeBuilder.create(adSlot);
-			assert(true);
+			assert.equal(iframe.tagName, 'IFRAME');
+			assert.equal(iframe.frameBorder, 0);
+			assert.equal(div.children[0], iframe);
+			assert.equal(iframe.contentDocument.body.style.margin, 0);
 		});
 	});
 
