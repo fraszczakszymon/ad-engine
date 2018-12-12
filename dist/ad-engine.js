@@ -3818,22 +3818,17 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			    lineItemId = event.lineItemId;
 
 
-			if (event.slot) {
+			if (!event.isEmpty && event.slot) {
 				var resp = event.slot.getResponseInformation();
 
-				if (resp) {
-					if (!resp.isEmpty && resp.creativeId === null && resp.lineItemId === null) {
-						creativeId = ADX;
-						lineItemId = ADX;
-					} else {
-						creativeId = resp.creativeId;
-						lineItemId = resp.lineItemId;
-					}
+				if (resp && resp.creativeId === null && resp.lineItemId === null) {
+					creativeId = ADX;
+					lineItemId = ADX;
 				}
 			}
+
 			this.creativeId = creativeId;
 			this.lineItemId = lineItemId;
-
 			this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
 
 			slotDataParamsUpdater.updateOnRenderEnd(this);
@@ -5343,8 +5338,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v21.1.0');
-logger('ad-engine', 'v21.1.0');
+set_default()(window, versionField, 'v21.1.1');
+logger('ad-engine', 'v21.1.1');
 
 
 
