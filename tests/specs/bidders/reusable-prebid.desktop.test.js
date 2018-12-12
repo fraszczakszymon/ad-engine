@@ -4,7 +4,7 @@ import { helpers } from '../../common/helpers';
 import { repeatableSlots } from '../../pages/repeatable-slots.page';
 import { reusablePrebid } from '../../pages/reusable-prebid.page';
 
-describe('Reusable prebid', () => {
+describe('Bidders: Reusable prebid template', () => {
 	it('Check if wikia adapter creative is not rendered when there are no bids', () => {
 		browser.url(reusablePrebid.getLinkWithWikiaAdapterParameters());
 

@@ -8,7 +8,7 @@ class HiviUapJwp {
 		this.inHouseLineItemId = '271491732';
 		this.uapLineItemId = '4517824948';
 		this.staticFrame = '[name="google_osd_static_frame"]';
-		this.videoLength = 10000;
+		this.videoDuration = 10000;
 	}
 
 	/**
@@ -21,7 +21,7 @@ class HiviUapJwp {
 			'Button not loaded',
 			timeouts.interval,
 		);
-		helpers.waitForVideoAdToFinish(this.videoLength);
+		helpers.waitForVideoAdToFinish(this.videoDuration);
 		browser.waitUntil(
 			() => browser.getText(this.loadAdsButton) === 'Load UAP:JWP',
 			timeouts.standard,

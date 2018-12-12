@@ -10,6 +10,7 @@ class AdSlots {
 		this.topBoxad = '#top_boxad';
 		this.incontentBoxad = '#incontent_boxad';
 		this.repeatableBoxad = '#repeatable_boxad_';
+		this.incontentPlayer = '#incontent_player';
 		this.invisibleHighImpact = '#invisible_high_impact_2';
 		this.railModule = '.rail-module';
 		this.leaderboardWidth = 728; // shared between leaderboards; fixed value
@@ -27,6 +28,7 @@ class AdSlots {
 		this.adCollapsed = 'collapse';
 		this.inhouseLineItemId = '271491732';
 		this.wikiaAdapterLineItemId = '321546972';
+		this.amazonLineItemId = '4397742201';
 		this.defaultDesktopRatio = 4;
 		this.resolvedDesktopRatio = 10;
 		this.defaultMobileRatio = 1.77;

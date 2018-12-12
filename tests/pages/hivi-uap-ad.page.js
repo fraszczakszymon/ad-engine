@@ -20,7 +20,7 @@ export class HiviUap {
 		this.fullScreen = '.stop-scrolling';
 		this.firstCall = '4466763538'; // applies only to top leaderboard
 		this.secondCall = '4511050296'; // top and incontent boxad and bottom leaderboard
-		this.videoLength = 45000;
+		this.videoDuration = 45000;
 	}
 
 	openUapWithState(resolved, url = browser.getUrl(), adSlot = null) {

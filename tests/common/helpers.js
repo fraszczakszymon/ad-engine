@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { timeouts } from './timeouts';
 import { queryStrings } from './query-strings';
 import { adSlots } from './ad-slots';
@@ -10,6 +11,7 @@ class Helpers {
 	constructor() {
 		this.classHidden = '.hide';
 		this.classProperty = 'class';
+		this.main = '.main';
 		this.navbar = 'nav';
 		this.clickThroughUrlDomain = 'fandom';
 		this.wrapper = '.wrapper:first-of-type';
@@ -59,20 +61,6 @@ class Helpers {
 		}
 	}
 
-	/**
-	 * Closes all the tabs but the first one and switches back to it.
-	 */
-	closeNewTabs() {
-		const tabIds = browser.getTabIds();
-
-		if (tabIds.length > 1) {
-			for (let i = 1; i <= tabIds.length - 1; i += 1) {
-				browser.close(i);
-			}
-		}
-		browser.switchTab(tabIds[0]);
-	}
-
 	waitToStartPlaying() {
 		browser.pause(timeToStartPlaying);
 	}
@@ -93,8 +81,20 @@ class Helpers {
 		browser.waitForVisible(adSlot, timeout);
 	}
 
-	waitForVideoAdToFinish(videoLength) {
-		browser.pause(videoLength);
+	waitForVideoAdToFinish(adDuration) {
+		browser.pause(adDuration);
+	}
+
+	waitForVideoToProgress(videoDuration) {
+		browser.pause(videoDuration);
+	}
+
+	waitForValuesLoaded(field = false) {
+		if (field) {
+			return browser.waitUntil(() => browser.getText(field) !== 'Waiting...', timeouts.standard);
+		}
+
+		return browser.waitUntil(() => browser.getText(this.main) !== 'Waiting...', timeouts.standard);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Helpers {
 	waitForLineItemIdAttribute(adSlot) {
 		browser.waitForExist(adSlot, timeouts.standard);
 		browser.waitUntil(
-			() => browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute) !== null,
+			() => this.isLineItemExisting(adSlot),
 			timeouts.standard,
 			'No line item id attribute',
 			timeouts.interval,
@@ -120,6 +120,10 @@ class Helpers {
 		return browser.element(adSlot).getAttribute(adSlots.lineItemIdAttribute);
 	}
 
+	isLineItemExisting(adSlot) {
+		return !!this.getLineItemId(adSlot);
+	}
+
 	/**
 	 * Returns creative ID of the given slot.
 	 * @param adSlot slot to get line item ID from
@@ -127,6 +131,10 @@ class Helpers {
 	 */
 	getCreativeId(adSlot) {
 		return browser.element(adSlot).getAttribute(adSlots.creativeIdAttribute);
+	}
+
+	isCreativeIdExisitng(adSlot) {
+		return !!this.getCreativeId(adSlot);
 	}
 
 	/**
@@ -141,12 +149,7 @@ class Helpers {
 		this.waitForLineItemIdAttribute(adSlot);
 		browser.waitForEnabled(adSlot, timeouts.standard);
 		browser.click(adSlot);
-		// TODO remove this workaround after chromedriver update for opening new pages
-		browser.pause(timeouts.standard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		this.switchToTab(1);
 		this.waitForUrl(url);
 
 		if (browser.getUrl().includes(url)) {
@@ -158,14 +161,38 @@ class Helpers {
 	}
 
 	/**
-	 * Switches focus to a given frame.
-	 * If you want to go back to default frame,use browser.frame() instead.
+	 * Switches focus to a given frame. If you want to go back to default frame, use browser.frame()
+	 * instead.
 	 * @param frameID name of the frame to change focus to
 	 */
 	switchToFrame(frameID) {
 		const frame = browser.element(frameID).value;
 
 		browser.frame(frame);
+	}
+
+	switchToTab(tabId = 1) {
+		// TODO remove this workaround after chromedriver update for opening new pages
+		browser.pause(timeouts.standard);
+
+		const tabIds = browser.getTabIds();
+
+		browser.switchTab(tabIds[tabId]);
+	}
+
+	/**
+	 * Closes all the tabs but the first one and switches back to it.
+	 */
+	closeNewTabs() {
+		const tabIds = browser.getTabIds();
+
+		if (tabIds.length > 1) {
+			for (let i = 1; i <= tabIds.length - 1; i += 1) {
+				browser.close(i);
+			}
+		}
+		browser.pause(timeouts.standard);
+		browser.switchTab(tabIds[0]);
 	}
 
 	/**
@@ -177,6 +204,10 @@ class Helpers {
 			width,
 			height,
 		});
+	}
+
+	checkVisualRegression(results) {
+		results.forEach((result) => expect(result.isWithinMisMatchTolerance).to.be.ok);
 	}
 }
 

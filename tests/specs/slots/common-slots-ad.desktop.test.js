@@ -41,7 +41,7 @@ describe('Common slots: top leaderboard', () => {
 
 	it('Check visual regression in top leaderboard', () => {
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
-		browser.checkElement(adSlots.topLeaderboard);
+		helpers.checkVisualRegression(browser.checkElement(adSlots.topLeaderboard));
 	});
 });
 
