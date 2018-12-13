@@ -4,8 +4,9 @@ import { context } from '../services';
 
 const logGroup = 'prebidium-provider';
 
-// TODO: Duplicate from ad-bidders/prebid/index.js
-// Perhaps create PBJS wrapper, or at least place to share this kind of functions
+// TODO: ADEN-8075
+//  Duplicate from ad-bidders/prebid/index.js
+//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
 function postponeExecutionUntilPbjsLoads(method) {
 	return function (...args) {
 		return window.pbjs.que.push(() => method.apply(this, args));
