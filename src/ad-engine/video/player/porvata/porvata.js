@@ -1,5 +1,11 @@
 import { PorvataListener } from '../../../listeners';
-import { client, viewportObserver, tryProperty, whichProperty } from '../../../utils';
+import {
+	client,
+	makeLazyQueue,
+	viewportObserver,
+	tryProperty,
+	whichProperty,
+} from '../../../utils';
 import { googleIma } from './ima/google-ima';
 import { VideoSettings } from './video-settings';
 
@@ -69,7 +75,9 @@ export class PorvataPlayer {
 		this.height = params.height;
 		this.muteProtect = false;
 		this.defaultVolume = 0.75;
+		this.destroyCallbacks = [];
 
+		makeLazyQueue(this.destroyCallbacks, (callback) => callback());
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(() => this.onFullscreenChange());
 		}
@@ -227,6 +235,14 @@ export class PorvataPlayer {
 		this.ima.getAdsManager().stop();
 		this.ima.dispatchEvent('wikiaAdStop');
 	}
+
+	addOnDestroyCallback(callback) {
+		this.destroyCallbacks.push(callback);
+	}
+
+	destroy() {
+		this.destroyCallbacks.start();
+	}
 }
 
 export class Porvata {
@@ -339,6 +355,12 @@ export class Porvata {
 				});
 				video.addEventListener('pause', () => {
 					video.ima.dispatchEvent('wikiaAdPause');
+				});
+				video.addOnDestroyCallback(() => {
+					if (viewportListenerId) {
+						viewportObserver.removeListener(viewportListenerId);
+						viewportListenerId = null;
+					}
 				});
 
 				if (params.autoPlay) {
