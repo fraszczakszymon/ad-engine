@@ -17,9 +17,12 @@ function createInstance(nielsenKey) {
 }
 
 /**
- * GeoEdge service handler
+ * Nielsen service handler
  */
 class Nielsen {
+	/**
+	 * Class constructor
+	 */
 	constructor() {
 		this.nlsnInstance = null;
 
@@ -29,8 +32,8 @@ class Nielsen {
 	}
 
 	/**
-	 * Requests service and injects script tag
-	 * @returns {Promise}
+	 * Create Nielsen Static Queue and make a call
+	 * @param {Object} nielsenMetadata
 	 */
 	call(nielsenMetadata) {
 		const nielsenKey =

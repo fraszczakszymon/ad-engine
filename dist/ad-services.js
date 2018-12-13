@@ -1124,10 +1124,13 @@ function createInstance(nielsenKey) {
 }
 
 /**
- * GeoEdge service handler
+ * Nielsen service handler
  */
 
 var nielsen_Nielsen = function () {
+	/**
+  * Class constructor
+  */
 	function Nielsen() {
 		classCallCheck_default()(this, Nielsen);
 
@@ -1139,8 +1142,8 @@ var nielsen_Nielsen = function () {
 	}
 
 	/**
-  * Requests service and injects script tag
-  * @returns {Promise}
+  * Create Nielsen Static Queue and make a call
+  * @param {Object} nielsenMetadata
   */
 
 
