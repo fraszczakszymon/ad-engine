@@ -9,6 +9,7 @@ import {
 	messageBus,
 	registerCustomAdLoader,
 	slotRepeater,
+	slotService,
 	slotTweaker,
 	templateService,
 } from './services';
@@ -48,12 +49,10 @@ export class AdEngine {
 		const providerName = context.get('state.provider');
 
 		switch (providerName) {
-			case 'gpt':
-				this.provider = new GptProvider();
-				break;
 			case 'prebidium':
 				this.provider = new PrebidiumProvider();
 				break;
+			case 'gpt':
 			default:
 				this.provider = new GptProvider();
 		}
@@ -65,6 +64,7 @@ export class AdEngine {
 			makeLazyQueue(this.adStack, (ad) => {
 				const adSlot = new AdSlot(ad);
 
+				slotService.add(adSlot);
 				this.provider.fillIn(adSlot);
 			});
 		}

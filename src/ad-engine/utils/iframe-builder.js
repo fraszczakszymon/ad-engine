@@ -10,22 +10,22 @@ export class IframeBuilder {
 	 * Inspired by `createInvisibleIframe` method from Prebid.js
 	 */
 	createEmptyIframe() {
-		const f = document.createElement('iframe');
+		const iframe = document.createElement('iframe');
 
-		f.height = 0;
-		f.width = 0;
-		f.border = '0px';
-		f.hspace = '0';
-		f.vspace = '0';
-		f.marginWidth = '0';
-		f.marginHeight = '0';
-		f.style.border = '0';
-		f.scrolling = 'no';
-		f.frameBorder = '0';
-		f.src = 'about:blank';
-		f.style.display = 'inline';
-		f.style.overflow = 'hidden';
+		iframe.height = 0;
+		iframe.width = 0;
+		iframe.border = '0px';
+		iframe.hspace = '0';
+		iframe.vspace = '0';
+		iframe.marginWidth = '0';
+		iframe.marginHeight = '0';
+		iframe.style.border = '0';
+		iframe.scrolling = 'no';
+		iframe.frameBorder = '0';
+		iframe.src = 'about:blank';
+		iframe.style.display = 'inline';
+		iframe.style.overflow = 'hidden';
 
-		return f;
+		return iframe;
 	}
 }

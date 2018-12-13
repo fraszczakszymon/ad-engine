@@ -1,6 +1,6 @@
 import { decorate } from 'core-decorators';
 import { IframeBuilder, logger } from '../utils';
-import { context, slotService } from '../services';
+import { context } from '../services';
 
 const logGroup = 'prebidium-provider';
 
@@ -13,12 +13,11 @@ function postponeExecutionUntilPbjsLoads(method) {
 }
 
 export class PrebidiumProvider {
+	/** @private */
 	iframeBuilder = new IframeBuilder();
 
 	@decorate(postponeExecutionUntilPbjsLoads)
 	fillIn(adSlot) {
-		slotService.add(adSlot);
-
 		const doc = this.getIframeDoc(adSlot);
 		const adId = this.getAdId(adSlot);
 

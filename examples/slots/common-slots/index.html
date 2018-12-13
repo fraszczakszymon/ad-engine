@@ -14,7 +14,7 @@
 			googletag.cmd = googletag.cmd || [];
 
 			(function() {
-				const gads = document.createElement('script'),
+				var gads = document.createElement('script'),
 					useSSL = 'https:' == document.location.protocol,
 					node = document.getElementsByTagName('script')[0];
 

@@ -91,7 +91,6 @@ export class GptProvider {
 	fillIn(adSlot) {
 		const adStack = context.get('state.adStack');
 
-		slotService.add(adSlot);
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);
 		});

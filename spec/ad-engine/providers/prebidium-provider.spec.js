@@ -1,14 +1,11 @@
 import sinon from 'sinon';
 import { assert } from 'chai';
-import { context, PrebidiumProvider, slotService } from '@wikia/ad-engine';
+import { context, PrebidiumProvider } from '@wikia/ad-engine';
 
 describe('PrebidiumProvider', () => {
 	let sandbox;
 	let prebidiumProvider;
 	const stub = {
-		slotService: {
-			add: undefined,
-		},
 		context: {
 			get: undefined,
 		},
@@ -28,7 +25,6 @@ describe('PrebidiumProvider', () => {
 		prebidiumProvider = new PrebidiumProvider();
 
 		stubIframeBuilder();
-		stub.slotService.add = sandbox.stub(slotService, 'add');
 		stub.context.get = sandbox.stub(context, 'get').returns(mock.adId);
 		stubPbjs();
 	});
@@ -53,13 +49,6 @@ describe('PrebidiumProvider', () => {
 
 		it('should be postponed until pbjs loads', () => {
 			assert(stub.que.push.calledOnce);
-		});
-
-		it('should call slotService add with correct argument', () => {
-			const argument = stub.slotService.add.getCall(0).args[0];
-
-			assert(stub.slotService.add.calledOnce);
-			assert.equal(argument, adSlot);
 		});
 
 		it('should call context get with correct argument', () => {
