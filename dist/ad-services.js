@@ -1089,12 +1089,94 @@ var moat_yi_MoatYi = function () {
 }();
 
 var moatYi = new moat_yi_MoatYi();
+// CONCATENATED MODULE: ./src/ad-services/nielsen/static-queue-script.js
+// NIELSEN CODE START
+// eslint-disable-next-line
+function initNielsenStaticQueue() {
+  !function (t, n) {
+    t[n] = t[n] || { nlsQ: function nlsQ(e, o, c, r, s, i) {
+        return s = t.document, r = s.createElement("script"), r.async = 1, r.src = ("http:" === t.location.protocol ? "http:" : "https:") + "//cdn-gl.imrworldwide.com/conf/" + e + ".js#name=" + o + "&ns=" + n, i = s.getElementsByTagName("script")[0], i.parentNode.insertBefore(r, i), t[n][o] = t[n][o] || { g: c || {}, ggPM: function ggPM(e, c, r, s, i) {
+            (t[n][o].q = t[n][o].q || []).push([e, c, r, s, i]);
+          } }, t[n][o];
+      } };
+  }(window, "NOLBUNDLE");
+}
+// NIELSEN CODE END
+// CONCATENATED MODULE: ./src/ad-services/nielsen/index.js
+
+
+/* global NOLBUNDLE */
+
+
+
+var nielsen_logGroup = 'nielsen-dcr';
+var nlsnConfig = {};
+
+/**
+ * Creates Nielsen Static Queue Snippet
+ */
+function createInstance(nielsenKey) {
+	ad_engine_["utils"].logger(nielsen_logGroup, 'loading');
+
+	initNielsenStaticQueue();
+
+	NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
+}
+
+/**
+ * GeoEdge service handler
+ */
+
+var nielsen_Nielsen = function () {
+	function Nielsen() {
+		classCallCheck_default()(this, Nielsen);
+
+		this.nlsnInstance = null;
+
+		if (ad_engine_["utils"].queryString.get('nielsen-dcr-debug') === '1') {
+			nlsnConfig.nol_sdkDebug = 'debug';
+		}
+	}
+
+	/**
+  * Requests service and injects script tag
+  * @returns {Promise}
+  */
+
+
+	createClass_default()(Nielsen, [{
+		key: 'call',
+		value: function call(nielsenMetadata) {
+			var nielsenKey = ad_engine_["utils"].queryString.get('nielsen-dcr-key') || ad_engine_["context"].get('services.nielsen.appId');
+
+			if (!ad_engine_["context"].get('services.nielsen.enabled') || !nielsenKey) {
+				ad_engine_["utils"].logger(nielsen_logGroup, 'disabled');
+			}
+
+			if (!this.nlsnInstance) {
+				this.nlsnInstance = createInstance(nielsenKey);
+			}
+
+			ad_engine_["utils"].logger(nielsen_logGroup, 'ready');
+
+			this.nlsnInstance.ggPM('staticstart', nielsenMetadata);
+
+			ad_engine_["utils"].logger(nielsen_logGroup, 'called', nielsenMetadata);
+		}
+	}]);
+
+	return Nielsen;
+}();
+
+var nielsen = new nielsen_Nielsen();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYi", function() { return moatYi; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "nielsen", function() { return nielsen; });
+
 
 
 
