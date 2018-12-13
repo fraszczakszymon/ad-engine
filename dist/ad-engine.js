@@ -2083,7 +2083,11 @@ var porvata_PorvataPlayer = function () {
 		this.height = params.height;
 		this.muteProtect = false;
 		this.defaultVolume = 0.75;
+		this.destroyCallbacks = [];
 
+		makeLazyQueue(this.destroyCallbacks, function (callback) {
+			return callback();
+		});
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
 				return _this.onFullscreenChange();
@@ -2266,6 +2270,16 @@ var porvata_PorvataPlayer = function () {
 			this.ima.getAdsManager().stop();
 			this.ima.dispatchEvent('wikiaAdStop');
 		}
+	}, {
+		key: 'addOnDestroyCallback',
+		value: function addOnDestroyCallback(callback) {
+			this.destroyCallbacks.push(callback);
+		}
+	}, {
+		key: 'destroy',
+		value: function destroy() {
+			this.destroyCallbacks.start();
+		}
 	}]);
 
 	return PorvataPlayer;
@@ -2389,6 +2403,12 @@ var porvata_Porvata = function () {
 				});
 				video.addEventListener('pause', function () {
 					video.ima.dispatchEvent('wikiaAdPause');
+				});
+				video.addOnDestroyCallback(function () {
+					if (viewportListenerId) {
+						viewportObserver.removeListener(viewportListenerId);
+						viewportListenerId = null;
+					}
 				});
 
 				if (params.autoPlay) {
@@ -5338,8 +5358,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v21.1.1');
-logger('ad-engine', 'v21.1.1');
+set_default()(window, versionField, 'v21.1.2');
+logger('ad-engine', 'v21.1.2');
 
 
 
