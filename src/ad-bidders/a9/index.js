@@ -1,4 +1,4 @@
-import { context, slotService, utils } from '@wikia/ad-engine';
+import { context, events, slotService, utils } from '@wikia/ad-engine';
 import { BaseBidder } from '../base-bidder';
 
 /**
@@ -82,7 +82,7 @@ export class A9 extends BaseBidder {
 	 *
 	 * @param {A9SlotDefinition[]} slots
 	 */
-	fetchBids(slots) {
+	fetchBids(slots, refresh = false) {
 		utils.logger(logGroup, 'fetching bids for slots', slots);
 		window.apstag.fetchBids(
 			{
@@ -112,6 +112,9 @@ export class A9 extends BaseBidder {
 				});
 
 				this.onResponse();
+				if (refresh) {
+					events.emit(events.BIDS_REFRESH);
+				}
 			},
 		);
 	}
@@ -235,7 +238,7 @@ export class A9 extends BaseBidder {
 
 		if (slotDef) {
 			utils.logger(logGroup, 'refresh bids for slot', slotDef);
-			this.fetchBids([slotDef]);
+			this.fetchBids([slotDef], true);
 		}
 	}
 
