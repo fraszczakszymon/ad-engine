@@ -457,6 +457,8 @@ var a9_A9 = function (_BaseBidder) {
 		value: function fetchBids(slots) {
 			var _this4 = this;
 
+			var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
 			ad_engine_["utils"].logger(logGroup, 'fetching bids for slots', slots);
 			window.apstag.fetchBids({
 				slots: slots,
@@ -484,6 +486,9 @@ var a9_A9 = function (_BaseBidder) {
 				});
 
 				_this4.onResponse();
+				if (refresh) {
+					ad_engine_["events"].emit(ad_engine_["events"].BIDS_REFRESH);
+				}
 			});
 		}
 	}, {
@@ -640,11 +645,11 @@ var a9_A9 = function (_BaseBidder) {
 				return;
 			}
 
-			var slotDef = this.createSlotDefinition(slot.getSlotName());
+			var slotDef = this.createSlotDefinition(this.getSlotAlias(slot.getSlotName()));
 
 			if (slotDef) {
 				ad_engine_["utils"].logger(logGroup, 'refresh bids for slot', slotDef);
-				this.fetchBids([slotDef]);
+				this.fetchBids([slotDef], true);
 			}
 		}
 
@@ -661,7 +666,9 @@ var a9_A9 = function (_BaseBidder) {
 			var _this8 = this;
 
 			return slotsNames.map(function (slotName) {
-				return _this8.createSlotDefinition(slotName);
+				return _this8.getSlotAlias(slotName);
+			}).map(function (slotAlias) {
+				return _this8.createSlotDefinition(slotAlias);
 			}).filter(function (slot) {
 				return slot !== null;
 			});
@@ -677,9 +684,8 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'createSlotDefinition',
 		value: function createSlotDefinition(slotName) {
-			var slotAlias = this.getSlotAlias(slotName);
-			var config = this.slots[slotAlias];
-			var slotID = config.slotId || this.slots[slotAlias];
+			var config = this.slots[slotName];
+			var slotID = config.slotId || slotName;
 			var definition = {
 				slotID: slotID,
 				slotName: slotID
@@ -689,9 +695,8 @@ var a9_A9 = function (_BaseBidder) {
 				return null;
 			}
 
-			this.slotNamesMap[slotID] = slotAlias;
+			this.slotNamesMap[slotID] = slotName;
 
-			// DISCUSS Do we enable A9 video bidder anywhere?
 			if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 				return null;
 			}
