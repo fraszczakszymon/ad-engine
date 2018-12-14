@@ -260,7 +260,7 @@ export class A9 extends BaseBidder {
 	createSlotDefinition(slotName) {
 		const slotAlias = this.getSlotAlias(slotName);
 		const config = this.slots[slotAlias];
-		const slotID = config.slotId || this.slots[slotAlias];
+		const slotID = config.slotId || slotAlias;
 		const definition = {
 			slotID,
 			slotName: slotID,
@@ -272,7 +272,6 @@ export class A9 extends BaseBidder {
 
 		this.slotNamesMap[slotID] = slotAlias;
 
-		// DISCUSS Do we enable A9 video bidder anywhere?
 		if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 			return null;
 		}
