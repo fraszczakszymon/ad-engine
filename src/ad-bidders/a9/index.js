@@ -158,21 +158,28 @@ export class A9 extends BaseBidder {
 	insertScript() {
 		utils.scriptLoader
 			.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first')
-			.then(() => {
-				if (window.apstag.renderImp && this.isBidsRefreshingEnabled) {
-					this.registerBidsRefreshing();
-				}
-			});
+			.then(() => this.overwriteRenderImp());
 	}
 
 	/**
-	 * Wraps apstag.renderImp by calling this.refreshBid() afterwards.
+	 * Wraps apstag.renderImp
+	 *
+	 * Calls this.refreshBid() if bids refreshing is enabled.
 	 */
-	registerBidsRefreshing() {
+	overwriteRenderImp() {
 		utils.logger(logGroup, 'overwriting window.apstag.renderImp');
 		window.apstag.renderImp = ((original) => (doc, impId) => {
 			original(doc, impId);
-			this.refreshBid(impId);
+
+			const slot = this.getRenderedSlot(impId);
+			const slotName = slot.getSlotName();
+
+			utils.logger(logGroup, `bid used for slot ${slotName}`);
+			delete this.bids[this.getSlotAlias(slotName)];
+
+			if (window.apstag.renderImp && this.isBidsRefreshingEnabled) {
+				this.refreshBid(slot);
+			}
 		})(window.apstag.renderImp);
 	}
 
@@ -190,35 +197,41 @@ export class A9 extends BaseBidder {
 	 * Checks if slot should be refreshed.
 	 *
 	 * @param {AdSlot} slot
-	 * @param {string | number} impId
 	 * @returns {boolean}
 	 */
-	shouldRefreshSlot(slot, impId) {
-		const isIdMatching = slot.getTargeting().amzniid === impId;
-		const isSlotRefreshable = this.bidsRefreshing.slots.includes(slot.getSlotName());
-
-		return isIdMatching && isSlotRefreshable;
+	shouldRefreshSlot(slot) {
+		return this.bidsRefreshing.slots.includes(this.getSlotAlias(slot.getSlotName()));
 	}
 
 	/**
-	 * Refreshes bid with given id.
+	 * Returns slot which used bid with given impression id.
 	 *
 	 * @param {string | number} impId
+	 * @returns {AdSlot | undefined }
 	 */
-	refreshBid(impId) {
-		let updatedSlotName;
+	getRenderedSlot(impId) {
+		let renderedSlot;
 
 		slotService.forEach((slot) => {
-			if (this.shouldRefreshSlot(slot, impId)) {
-				updatedSlotName = this.getSlotAlias(slot.getSlotName());
+			if (slot.getTargeting().amzniid === impId) {
+				renderedSlot = slot;
 			}
 		});
 
-		if (!updatedSlotName) {
+		return renderedSlot;
+	}
+
+	/**
+	 * Refreshes bid for given slot.
+	 *
+	 * @param {string | number} impId
+	 */
+	refreshBid(slot) {
+		if (!this.shouldRefreshSlot(slot)) {
 			return;
 		}
 
-		const slotDef = this.createSlotDefinition(updatedSlotName);
+		const slotDef = this.createSlotDefinition(slot.getSlotName());
 
 		if (slotDef) {
 			utils.logger(logGroup, 'refresh bids for slot', slotDef);

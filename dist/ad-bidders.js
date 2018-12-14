@@ -547,26 +547,35 @@ var a9_A9 = function (_BaseBidder) {
 			var _this6 = this;
 
 			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first').then(function () {
-				if (window.apstag.renderImp && _this6.isBidsRefreshingEnabled) {
-					_this6.registerBidsRefreshing();
-				}
+				return _this6.overwriteRenderImp();
 			});
 		}
 
 		/**
-   * Wraps apstag.renderImp by calling this.refreshBid() afterwards.
+   * Wraps apstag.renderImp
+   *
+   * Calls this.refreshBid() if bids refreshing is enabled.
    */
 
 	}, {
-		key: 'registerBidsRefreshing',
-		value: function registerBidsRefreshing() {
+		key: 'overwriteRenderImp',
+		value: function overwriteRenderImp() {
 			var _this7 = this;
 
 			ad_engine_["utils"].logger(logGroup, 'overwriting window.apstag.renderImp');
 			window.apstag.renderImp = function (original) {
 				return function (doc, impId) {
 					original(doc, impId);
-					_this7.refreshBid(impId);
+
+					var slot = _this7.getRenderedSlot(impId);
+					var slotName = slot.getSlotName();
+
+					ad_engine_["utils"].logger(logGroup, 'bid used for slot ' + slotName);
+					delete _this7.bids[_this7.getSlotAlias(slotName)];
+
+					if (window.apstag.renderImp && _this7.isBidsRefreshingEnabled) {
+						_this7.refreshBid(slot);
+					}
 				};
 			}(window.apstag.renderImp);
 		}
@@ -588,43 +597,50 @@ var a9_A9 = function (_BaseBidder) {
    * Checks if slot should be refreshed.
    *
    * @param {AdSlot} slot
-   * @param {string | number} impId
    * @returns {boolean}
    */
 
 	}, {
 		key: 'shouldRefreshSlot',
-		value: function shouldRefreshSlot(slot, impId) {
-			var isIdMatching = slot.getTargeting().amzniid === impId;
-			var isSlotRefreshable = this.bidsRefreshing.slots.includes(slot.getSlotName());
-
-			return isIdMatching && isSlotRefreshable;
+		value: function shouldRefreshSlot(slot) {
+			return this.bidsRefreshing.slots.includes(this.getSlotAlias(slot.getSlotName()));
 		}
 
 		/**
-   * Refreshes bid with given id.
+   * Returns slot which used bid with given impression id.
+   *
+   * @param {string | number} impId
+   * @returns {AdSlot | undefined }
+   */
+
+	}, {
+		key: 'getRenderedSlot',
+		value: function getRenderedSlot(impId) {
+			var renderedSlot = void 0;
+
+			ad_engine_["slotService"].forEach(function (slot) {
+				if (slot.getTargeting().amzniid === impId) {
+					renderedSlot = slot;
+				}
+			});
+
+			return renderedSlot;
+		}
+
+		/**
+   * Refreshes bid for given slot.
    *
    * @param {string | number} impId
    */
 
 	}, {
 		key: 'refreshBid',
-		value: function refreshBid(impId) {
-			var _this8 = this;
-
-			var updatedSlotName = void 0;
-
-			ad_engine_["slotService"].forEach(function (slot) {
-				if (_this8.shouldRefreshSlot(slot, impId)) {
-					updatedSlotName = _this8.getSlotAlias(slot.getSlotName());
-				}
-			});
-
-			if (!updatedSlotName) {
+		value: function refreshBid(slot) {
+			if (!this.shouldRefreshSlot(slot)) {
 				return;
 			}
 
-			var slotDef = this.createSlotDefinition(updatedSlotName);
+			var slotDef = this.createSlotDefinition(slot.getSlotName());
 
 			if (slotDef) {
 				ad_engine_["utils"].logger(logGroup, 'refresh bids for slot', slotDef);
@@ -642,10 +658,10 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'getA9SlotsDefinitions',
 		value: function getA9SlotsDefinitions(slotsNames) {
-			var _this9 = this;
+			var _this8 = this;
 
 			return slotsNames.map(function (slotName) {
-				return _this9.createSlotDefinition(slotName);
+				return _this8.createSlotDefinition(slotName);
 			}).filter(function (slot) {
 				return slot !== null;
 			});
