@@ -234,7 +234,7 @@ export class A9 extends BaseBidder {
 			return;
 		}
 
-		const slotDef = this.createSlotDefinition(slot.getSlotName());
+		const slotDef = this.createSlotDefinition(this.getSlotAlias(slot.getSlotName()));
 
 		if (slotDef) {
 			utils.logger(logGroup, 'refresh bids for slot', slotDef);
@@ -250,7 +250,8 @@ export class A9 extends BaseBidder {
 	 */
 	getA9SlotsDefinitions(slotsNames) {
 		return slotsNames
-			.map((slotName) => this.createSlotDefinition(slotName))
+			.map((slotName) => this.getSlotAlias(slotName))
+			.map((slotAlias) => this.createSlotDefinition(slotAlias))
 			.filter((slot) => slot !== null);
 	}
 
@@ -261,9 +262,8 @@ export class A9 extends BaseBidder {
 	 * @returns {A9SlotDefinition | null} Returns null i
 	 */
 	createSlotDefinition(slotName) {
-		const slotAlias = this.getSlotAlias(slotName);
-		const config = this.slots[slotAlias];
-		const slotID = config.slotId || slotAlias;
+		const config = this.slots[slotName];
+		const slotID = config.slotId || slotName;
 		const definition = {
 			slotID,
 			slotName: slotID,
@@ -273,7 +273,7 @@ export class A9 extends BaseBidder {
 			return null;
 		}
 
-		this.slotNamesMap[slotID] = slotAlias;
+		this.slotNamesMap[slotID] = slotName;
 
 		if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 			return null;
