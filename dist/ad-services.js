@@ -1120,7 +1120,7 @@ function createInstance(nielsenKey) {
 
 	initNielsenStaticQueue();
 
-	NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
+	return NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
 }
 
 /**
@@ -1150,7 +1150,7 @@ var nielsen_Nielsen = function () {
 	createClass_default()(Nielsen, [{
 		key: 'call',
 		value: function call(nielsenMetadata) {
-			var nielsenKey = ad_engine_["utils"].queryString.get('nielsen-dcr-key') || ad_engine_["context"].get('services.nielsen.appId');
+			var nielsenKey = ad_engine_["context"].get('services.nielsen.appId');
 
 			if (!ad_engine_["context"].get('services.nielsen.enabled') || !nielsenKey) {
 				ad_engine_["utils"].logger(nielsen_logGroup, 'disabled');
