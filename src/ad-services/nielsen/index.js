@@ -36,8 +36,7 @@ class Nielsen {
 	 * @param {Object} nielsenMetadata
 	 */
 	call(nielsenMetadata) {
-		const nielsenKey =
-			utils.queryString.get('nielsen-dcr-key') || context.get('services.nielsen.appId');
+		const nielsenKey = context.get('services.nielsen.appId');
 
 		if (!context.get('services.nielsen.enabled') || !nielsenKey) {
 			utils.logger(logGroup, 'disabled');
