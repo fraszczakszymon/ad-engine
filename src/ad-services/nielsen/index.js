@@ -13,7 +13,7 @@ function createInstance(nielsenKey) {
 
 	initNielsenStaticQueue();
 
-	NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
+	return NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
 }
 
 /**
