@@ -4,7 +4,7 @@ import { Pubmatic } from '../../../../src/ad-bidders/prebid/adapters/pubmatic';
 describe('Pubmatic bidder adapter', () => {
 	it('can be enabled', () => {
 		const pubmatic = new Pubmatic({
-			enabled: true
+			enabled: true,
 		});
 
 		expect(pubmatic.enabled).to.equal(true);
@@ -16,16 +16,13 @@ describe('Pubmatic bidder adapter', () => {
 			publisherId: '112233',
 			slots: {
 				mobile_in_content: {
-					sizes: [
-						[300, 250],
-						[320, 480]
-					],
+					sizes: [[300, 250], [320, 480]],
 					ids: [
 						'/1234/MOBILE_IN_CONTENT_300x250@300x250',
-						'/1234/MOBILE_IN_CONTENT_320x480@320x480'
-					]
-				}
-			}
+						'/1234/MOBILE_IN_CONTENT_320x480@320x480',
+					],
+				},
+			},
 		});
 
 		expect(pubmatic.prepareAdUnits()).to.deep.equal([
@@ -33,29 +30,26 @@ describe('Pubmatic bidder adapter', () => {
 				code: 'mobile_in_content',
 				mediaTypes: {
 					banner: {
-						sizes: [
-							[300, 250],
-							[320, 480]
-						]
-					}
+						sizes: [[300, 250], [320, 480]],
+					},
 				},
 				bids: [
 					{
 						bidder: 'pubmatic',
 						params: {
 							adSlot: '/1234/MOBILE_IN_CONTENT_300x250@300x250',
-							publisherId: '112233'
-						}
+							publisherId: '112233',
+						},
 					},
 					{
 						bidder: 'pubmatic',
 						params: {
 							adSlot: '/1234/MOBILE_IN_CONTENT_320x480@320x480',
-							publisherId: '112233'
-						}
-					}
-				]
-			}
+							publisherId: '112233',
+						},
+					},
+				],
+			},
 		]);
 	});
 });

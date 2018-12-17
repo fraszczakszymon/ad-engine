@@ -22,13 +22,17 @@ function wasDefaultStateSeen() {
 }
 
 function updateInformationAboutSeenDefaultStateAd() {
-	localCache.set(createCacheKey(), {
-		adId: universalAdPackage.getUapId(),
-		lastSeenDate: now.getTime()
-	}, cacheTtl);
+	localCache.set(
+		createCacheKey(),
+		{
+			adId: universalAdPackage.getUapId(),
+			lastSeenDate: now.getTime(),
+		},
+		cacheTtl,
+	);
 }
 
 export const resolvedStateSwitch = {
 	updateInformationAboutSeenDefaultStateAd,
-	wasDefaultStateSeen
+	wasDefaultStateSeen,
 };

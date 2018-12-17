@@ -13,11 +13,7 @@ export class Stickiness extends EventEmitter {
 	static SLOT_STICKY_READY_STATE = 'sticky-ready';
 	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 
-	constructor(
-		adSlot,
-		customWhen = Promise.resolve(),
-		unstickOnResize = false
-	) {
+	constructor(adSlot, customWhen = Promise.resolve(), unstickOnResize = false) {
 		super();
 
 		this.adSlot = adSlot;
@@ -82,11 +78,15 @@ export class Stickiness extends EventEmitter {
 
 	revertStickinessOnResize() {
 		if (this.unstickOnResize) {
-			window.addEventListener('resize', () => {
-				this.logger('Unsticking');
-				this.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
-				this.sticky = false;
-			}, { once: true });
+			window.addEventListener(
+				'resize',
+				() => {
+					this.logger('Unsticking');
+					this.emit(Stickiness.UNSTICK_IMMEDIATELY_EVENT);
+					this.sticky = false;
+				},
+				{ once: true },
+			);
 		}
 	}
 
@@ -122,10 +122,10 @@ export class Stickiness extends EventEmitter {
 		this.logger('waiting for viewability and custom condition');
 
 		await Promise.all([
-			!this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve(),
-			isFunction(this.customWhen) ? this.customWhen() : this.customWhen
+			!this.adSlot.isViewed()
+				? utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT)
+				: Promise.resolve(),
+			isFunction(this.customWhen) ? this.customWhen() : this.customWhen,
 		]);
 
 		this.registerRevertStickiness();

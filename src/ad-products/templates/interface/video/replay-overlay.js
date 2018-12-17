@@ -21,6 +21,7 @@ function add(video, container, params) {
 
 		if (!params.autoPlay) {
 			const playIcon = addPlayIcon(overlay);
+
 			replayIcon.style.display = 'none';
 
 			video.addEventListener('start', () => {
@@ -60,6 +61,7 @@ function getOverlayWidth(params) {
 
 function addReplayIcon(overlay) {
 	const replayIcon = createIcon(icons.REPLAY, ['replay-icon', 'overlay-icon']);
+
 	overlay.appendChild(replayIcon);
 
 	return replayIcon;
@@ -67,11 +69,12 @@ function addReplayIcon(overlay) {
 
 function addPlayIcon(overlay) {
 	const playIcon = createIcon(icons.PLAY, ['play-icon', 'overlay-icon']);
+
 	overlay.appendChild(playIcon);
 
 	return playIcon;
 }
 
 export default {
-	add
+	add,
 };

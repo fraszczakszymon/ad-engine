@@ -34,8 +34,10 @@ describe('Floating rail ads page: top boxad requests', () => {
 	before(async () => {
 		client = await networkCapture.getClient();
 		const pattern = RegExp(adSlots.floatingRailTopBoxadRequestPattern);
+
 		client.on('Network.responseReceived', (params) => {
 			const { url } = params.response;
+
 			if (pattern.test(url)) {
 				fetchedUrl = url.replace(adSlots.floatingRailTopBoxadReplaceRegexp, '');
 				gatheredUrls[i] = fetchedUrl;

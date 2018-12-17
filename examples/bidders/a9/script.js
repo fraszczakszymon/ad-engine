@@ -1,7 +1,6 @@
 import { AdEngine, context, events, utils, apstag, cmp } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
 import { utils as adProductsUtils } from '@wikia/ad-products';
-
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -9,23 +8,33 @@ const optIn = utils.queryString.get('tracking-opt-in-status') !== '0';
 
 cmp.override((cmd, param, cb) => {
 	if (cmd === 'getConsentData') {
-		cb({
-			consentData: optIn ? 'BOQu5jyOQu5jyCNABAPLBR-AAAAeCAFgAUABYAIAAaABFACY' : 'BOQu5naOQu5naCNABAPLBRAAAAAeCAAA',
-			gdprApplies: true,
-			hasGlobalScope: false
-		}, true);
+		cb(
+			{
+				consentData: optIn
+					? 'BOQu5jyOQu5jyCNABAPLBR-AAAAeCAFgAUABYAIAAaABFACY'
+					: 'BOQu5naOQu5naCNABAPLBRAAAAAeCAAA',
+				gdprApplies: true,
+				hasGlobalScope: false,
+			},
+			true,
+		);
 	} else if (cmd === 'getVendorConsents') {
-		cb({
-			metadata: 'BOQu5naOQu5naCNABAAABRAAAAAAAA',
-			purposeConsents: Array.from({ length: 5 }).reduce((map, val, i) => {
-				map[i + 1] = optIn;
-				return map;
-			}, {}),
-			vendorConsents: Array.from({ length: 500 }).reduce((map, val, i) => {
-				map[i + 1] = optIn;
-				return map;
-			}, {})
-		}, true);
+		cb(
+			{
+				metadata: 'BOQu5naOQu5naCNABAAABRAAAAAAAA',
+				purposeConsents: Array.from({ length: 5 }).reduce((map, val, i) => {
+					map[i + 1] = optIn;
+
+					return map;
+				}, {}),
+				vendorConsents: Array.from({ length: 500 }).reduce((map, val, i) => {
+					map[i + 1] = optIn;
+
+					return map;
+				}, {}),
+			},
+			true,
+		);
 	} else {
 		cb(null, false);
 	}
@@ -43,9 +52,10 @@ let resolveBidders;
 const biddersDelay = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
-	getPromise: () => new Promise((resolve) => {
-		resolveBidders = resolve;
-	})
+	getPromise: () =>
+		new Promise((resolve) => {
+			resolveBidders = resolve;
+		}),
 };
 
 context.set('options.maxDelayTimeout', 1000);
@@ -59,7 +69,7 @@ bidders.requestBids({
 				resolveBidders = null;
 			}
 		}
-	}
+	},
 });
 
 events.on(events.AD_SLOT_CREATED, (slot) => {

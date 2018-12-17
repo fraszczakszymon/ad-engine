@@ -4,7 +4,7 @@ import { AppnexusWebads } from '../../../../src/ad-bidders/prebid/adapters/appne
 describe('AppnexusWebAds bidder adapter', () => {
 	it('can be enabled', () => {
 		const appnexusWebads = new AppnexusWebads({
-			enabled: true
+			enabled: true,
 		});
 
 		expect(appnexusWebads.enabled).to.equal(true);
@@ -16,13 +16,9 @@ describe('AppnexusWebAds bidder adapter', () => {
 			slots: {
 				bottom_leaderboard: {
 					placementId: '11223344',
-					sizes: [
-						[300, 250],
-						[320, 100],
-						[320, 50]
-					]
-				}
-			}
+					sizes: [[300, 250], [320, 100], [320, 50]],
+				},
+			},
 		});
 
 		expect(appnexusWebads.prepareAdUnits()).to.deep.equal([
@@ -30,22 +26,18 @@ describe('AppnexusWebAds bidder adapter', () => {
 				code: 'bottom_leaderboard',
 				mediaTypes: {
 					banner: {
-						sizes: [
-							[300, 250],
-							[320, 100],
-							[320, 50]
-						]
-					}
+						sizes: [[300, 250], [320, 100], [320, 50]],
+					},
 				},
 				bids: [
 					{
 						bidder: 'appnexusWebAds',
 						params: {
-							placementId: '11223344'
-						}
-					}
-				]
-			}
+							placementId: '11223344',
+						},
+					},
+				],
+			},
 		]);
 	});
 });

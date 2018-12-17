@@ -17,7 +17,7 @@ function loadContent() {
 adContext.listeners.slot.push({
 	onStatusChanged: (adSlot, data) => {
 		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold', data);
-	}
+	},
 });
 
 context.extend(adContext);
@@ -33,5 +33,5 @@ new AdEngine().init();
 btfBlockerService.finishFirstCall();
 
 window.adsQueue.push({
-	id: 'repeatable_boxad_1'
+	id: 'repeatable_boxad_1',
 });

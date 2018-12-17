@@ -39,8 +39,10 @@ class QueryStrings {
 			if (additional) {
 				return `[${country}/${percent}${additional}]`;
 			}
+
 			return `[${country}/${percent}]`;
 		}
+
 		return `[${country}]`;
 	}
 
@@ -109,11 +111,13 @@ class QueryStrings {
 
 	getRandom(randomness) {
 		const on = randomness ? '1' : '0';
+
 		return `${this.utils.randomness}=${on}`;
 	}
 
 	getResolvedState(resolved) {
 		const on = resolved ? '1' : '0';
+
 		return `${this.utils.resolved}=${on}`;
 	}
 

@@ -35,9 +35,12 @@ export class Apstag {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	fetchBids(bidsConfig, cb = null) {
-		return bindCallback(cb, new Promise((resolve) => {
-			window.apstag.fetchBids(bidsConfig, currentBids => resolve(currentBids));
-		}));
+		return bindCallback(
+			cb,
+			new Promise((resolve) => {
+				window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
+			}),
+		);
 	}
 
 	targetingKeys() {

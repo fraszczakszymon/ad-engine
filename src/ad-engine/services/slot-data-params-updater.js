@@ -4,7 +4,9 @@ import { context } from './context-service';
 
 class SlotDataParamsUpdater {
 	updateOnCreate(adSlot, targeting) {
-		const sizes = adSlot.isOutOfPage() ? 'out-of-page' : new GptSizeMap(adSlot.getSizes()).toString();
+		const sizes = adSlot.isOutOfPage()
+			? 'out-of-page'
+			: new GptSizeMap(adSlot.getSizes()).toString();
 
 		slotTweaker.setDataParam(adSlot, 'gptPageParams', context.get('targeting'));
 		slotTweaker.setDataParam(adSlot, 'gptSlotParams', targeting);

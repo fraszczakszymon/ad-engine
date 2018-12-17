@@ -10,9 +10,12 @@ export class Cmp {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	getConsentData(param, cb = null) {
-		return bindCallback(cb, new Promise((resolve) => {
-			window.__cmp('getConsentData', param, consentData => resolve(consentData));
-		}));
+		return bindCallback(
+			cb,
+			new Promise((resolve) => {
+				window.__cmp('getConsentData', param, (consentData) => resolve(consentData));
+			}),
+		);
 	}
 
 	override(newCmp) {

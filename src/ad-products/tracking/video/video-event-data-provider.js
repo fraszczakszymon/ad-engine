@@ -43,7 +43,7 @@ export default {
 			tz_offset: now.getTimezoneOffset(),
 			user_block_autoplay: videoData.user_block_autoplay || '',
 			video_id: videoData.video_id || '',
-			wsi: slot.targeting.wsi || ''
+			wsi: slot.targeting.wsi || '',
 		};
-	}
+	},
 };

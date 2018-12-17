@@ -39,7 +39,12 @@ export class A9 extends BaseBidder {
 	}
 
 	insertScript() {
-		this.utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
+		this.utils.scriptLoader.loadScript(
+			'//c.amazon-adsystem.com/aax2/apstag.js',
+			'text/javascript',
+			true,
+			'first',
+		);
 	}
 
 	getApstagConfig(consentData) {
@@ -47,7 +52,7 @@ export class A9 extends BaseBidder {
 			pubID: this.amazonId,
 			videoAdServer: 'DFP',
 			deals: !!this.bidderConfig.dealsEnabled,
-			...this.getGdprIfApplicable(consentData)
+			...this.getGdprIfApplicable(consentData),
 		};
 	}
 
@@ -57,18 +62,21 @@ export class A9 extends BaseBidder {
 				gdpr: {
 					enabled: consentData.gdprApplies,
 					consent: consentData.consentData,
-					cmpTimeout: 5000
-				}
+					cmpTimeout: 5000,
+				},
 			};
 		}
+
 		return {};
 	}
 
 	async fetchBids(onResponse) {
 		const currentBids = await this.apstag.fetchBids(this.getBidsConfig());
+
 		currentBids.forEach((bid) => {
 			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
 			const { keys, bidTargeting } = this.getBidTargetingWithKeys(bid);
+
 			this.updateBidSlot(slotName, keys, bidTargeting);
 		});
 		onResponse();
@@ -77,15 +85,14 @@ export class A9 extends BaseBidder {
 	getBidsConfig() {
 		return {
 			slots: this.getA9Slots(),
-			timeout: this.timeout
+			timeout: this.timeout,
 		};
 	}
 
 	getA9Slots() {
-		return Object
-			.keys(this.slots)
-			.map(key => this.createSlotDefinition(key, this.slots[key]))
-			.filter(slot => slot !== null);
+		return Object.keys(this.slots)
+			.map((key) => this.createSlotDefinition(key, this.slots[key]))
+			.filter((slot) => slot !== null);
 	}
 
 	createSlotDefinition(slotName, config) {
@@ -96,14 +103,15 @@ export class A9 extends BaseBidder {
 		const slotID = config.slotId || slotName;
 		const definition = {
 			slotID,
-			slotName: slotID
+			slotName: slotID,
 		};
 
 		this.slotNamesMap[slotID] = slotName;
 
 		if (!this.bidderConfig.videoEnabled && config.type === 'video') {
 			return null;
-		} else if (config.type === 'video') {
+		}
+		if (config.type === 'video') {
 			definition.mediaType = 'video';
 		} else {
 			definition.sizes = config.sizes;
@@ -116,12 +124,13 @@ export class A9 extends BaseBidder {
 		if (this.bidderConfig.dealsEnabled) {
 			return {
 				keys: bid.helpers.targetingKeys,
-				bidTargeting: bid.targeting
+				bidTargeting: bid.targeting,
 			};
 		}
+
 		return {
 			keys: this.apstag.targetingKeys(),
-			bidTargeting: bid
+			bidTargeting: bid,
 		};
 	}
 
@@ -138,6 +147,7 @@ export class A9 extends BaseBidder {
 	async callBids(onResponse) {
 		if (this.cmp.exists) {
 			const consentData = await this.cmp.getConsentData(null);
+
 			this.init(onResponse, consentData);
 		} else {
 			this.init(onResponse);
@@ -145,11 +155,9 @@ export class A9 extends BaseBidder {
 	}
 
 	calculatePrices() {
-		return Object
-			.keys(this.bids)
-			.forEach((slotName) => {
-				this.priceMap[slotName] = this.bids[slotName].amznbid;
-			});
+		return Object.keys(this.bids).forEach((slotName) => {
+			this.priceMap[slotName] = this.bids[slotName].amznbid;
+		});
 	}
 
 	getBestPrice(slotName) {
