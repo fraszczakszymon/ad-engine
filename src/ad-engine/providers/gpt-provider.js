@@ -1,7 +1,14 @@
 import { decorate } from 'core-decorators';
-import { logger, defer } from '../utils';
+import { defer, logger } from '../utils';
 import { slotListener } from '../listeners';
-import { context, events, slotService, slotDataParamsUpdater, trackingOptIn } from '../services';
+import {
+	btfBlockerService,
+	context,
+	events,
+	slotDataParamsUpdater,
+	slotService,
+	trackingOptIn,
+} from '../services';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 
@@ -9,10 +16,11 @@ const logGroup = 'gpt-provider';
 
 export const ADX = 'AdX';
 
-export const gptLazyMethod = (method) =>
-	function (...args) {
+function postponeExecutionUntilGptLoads(method) {
+	return function (...args) {
 		return window.googletag.cmd.push(() => method.apply(this, args));
 	};
+}
 
 let definedSlots = [];
 let initialized = false;
@@ -59,7 +67,7 @@ export class GptProvider {
 		return initialized;
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	init() {
 		if (this.isInitialized()) {
 			return;
@@ -79,20 +87,23 @@ export class GptProvider {
 		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
+		const adStack = context.get('state.adStack');
+
+		btfBlockerService.push(adSlot, (...args) => {
+			this.fillInCallback(...args);
+		});
+		if (adStack.length === 0) {
+			this.flush();
+		}
+	}
+
+	/** @private */
+	fillInCallback(adSlot) {
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
-
-		let gptSlot = null;
-
-		if (adSlot.isOutOfPage()) {
-			gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-		} else {
-			gptSlot = window.googletag
-				.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
-				.defineSizeMapping(sizeMap.build());
-		}
+		const gptSlot = this.createGptSlot(adSlot, sizeMap);
 
 		gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
@@ -107,6 +118,17 @@ export class GptProvider {
 		}
 
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
+	}
+
+	/** @private */
+	createGptSlot(adSlot, sizeMap) {
+		if (adSlot.isOutOfPage()) {
+			return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+		}
+
+		return window.googletag
+			.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
+			.defineSizeMapping(sizeMap.build());
 	}
 
 	applyTargetingParams(gptSlot, targeting) {
@@ -131,12 +153,12 @@ export class GptProvider {
 		return result;
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	updateCorrelator() {
 		window.googletag.pubads().updateCorrelator();
 	}
 
-	@decorate(gptLazyMethod)
+	/** @private */
 	flush() {
 		if (definedSlots.length) {
 			window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
@@ -144,7 +166,7 @@ export class GptProvider {
 		}
 	}
 
-	@decorate(gptLazyMethod)
+	@decorate(postponeExecutionUntilGptLoads)
 	destroyGptSlots(gptSlots) {
 		logger(logGroup, 'destroySlots', gptSlots);
 
