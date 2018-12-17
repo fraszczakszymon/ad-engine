@@ -6,8 +6,11 @@ import { getPrebidBestPrice } from './price-helper';
 import { getSettings } from './prebid-settings';
 import { getAvailableBidsByAdUnitCode, setupAdUnits } from './prebid-helper';
 
-export const prebidLazyRun = (method) => (...args) =>
-	window.pbjs.que.push(() => method.apply(this, args));
+function postponeExecutionUntilPbjsLoads(method) {
+	return function (...args) {
+		return window.pbjs.que.push(() => method.apply(this, args));
+	};
+}
 
 const logGroup = 'prebid';
 
@@ -67,12 +70,12 @@ export class Prebid extends BaseBidder {
 	static validResponseStatusCode = 1;
 	static errorResponseStatusCode = 2;
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	applyConfig(config) {
 		window.pbjs.setConfig(config);
 	}
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	applySettings() {
 		window.pbjs.bidderSettings = getSettings();
 	}
@@ -115,16 +118,18 @@ export class Prebid extends BaseBidder {
 	}
 
 	lazyCall(bidsBackHandler) {
-		if (!this.lazyLoaded) {
-			this.lazyLoaded = true;
+		if (this.lazyLoaded) {
+			return;
+		}
 
-			const adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
+		this.lazyLoaded = true;
 
-			if (adUnitsLazy.length > 0) {
-				this.requestBids(adUnitsLazy, bidsBackHandler);
+		const adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
 
-				this.adUnits = this.adUnits.concat(adUnitsLazy);
-			}
+		if (adUnitsLazy.length > 0) {
+			this.requestBids(adUnitsLazy, bidsBackHandler);
+
+			this.adUnits = this.adUnits.concat(adUnitsLazy);
 		}
 	}
 
@@ -205,7 +210,7 @@ export class Prebid extends BaseBidder {
 		});
 	}
 
-	@decorate(prebidLazyRun)
+	@decorate(postponeExecutionUntilPbjsLoads)
 	requestBids(adUnits, bidsBackHandler, withRemove = undefined) {
 		if (withRemove) {
 			withRemove();

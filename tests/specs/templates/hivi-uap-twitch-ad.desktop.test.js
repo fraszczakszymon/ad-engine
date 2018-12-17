@@ -82,10 +82,7 @@ describe('Twitch ads page: player', () => {
 		helpers.switchToFrame(twitchAd.twitchFrame);
 		browser.waitForEnabled(twitchAd.twitchButton, timeouts.standard);
 		browser.click(twitchAd.twitchButton);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		helpers.switchToTab(1);
 		helpers.waitForUrl(twitchAd.twitchWord);
 		expect(browser.getUrl()).to.include(
 			twitchAd.twitchWord,

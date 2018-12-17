@@ -19,6 +19,7 @@ export class A9 extends BaseBidder {
 		this.cmp = cmp;
 		this.utils = utils;
 		this.slotService = slotService;
+		this.timeout = timeout;
 	}
 
 	init(onResponse, consentData = {}) {

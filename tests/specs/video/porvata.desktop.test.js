@@ -10,6 +10,7 @@ describe('Porvata player', () => {
 
 	before(() => {
 		browser.url(porvata.pageLink);
+		browser.waitForVisible(porvata.player, timeouts.standard);
 		browser.scroll(porvata.player);
 	});
 
@@ -35,12 +36,7 @@ describe('Porvata player', () => {
 
 	it('Check if redirect on click on default player works', () => {
 		browser.click(porvata.player);
-		// TODO remove this workaround after chromedriver update for opening new pages
-		browser.pause(timeouts.standard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl()).to.include(
 			helpers.clickThroughUrlDomain,
@@ -60,12 +56,7 @@ describe('Porvata player', () => {
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
 		browser.click(porvata.player);
-		// TODO remove this workaround after chromedriver update for opening new pages
-		browser.pause(timeouts.standard);
-
-		const tabIds = browser.getTabIds();
-
-		browser.switchTab(tabIds[1]);
+		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
 		expect(browser.getUrl()).to.include(
 			helpers.clickThroughUrlDomain,
@@ -75,7 +66,7 @@ describe('Porvata player', () => {
 	});
 
 	it('Check if replaying the video works', () => {
-		helpers.waitForVideoAdToFinish(porvata.videoLength);
+		helpers.waitForVideoAdToFinish(porvata.videoDuration);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 		browser.click(porvata.player);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);

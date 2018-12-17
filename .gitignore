@@ -12,7 +12,7 @@ tests/allure-results/*
 !tests/allure-results/environment.xml
 spec/build
 tests/config.json
-tests/.wdio
+tests/errorScreenshots
 tests/screenshots/*
 !tests/screenshots/reference
 allure-report
