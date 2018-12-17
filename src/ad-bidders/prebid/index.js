@@ -171,7 +171,8 @@ export class Prebid extends BaseBidder {
 				slotParams = bidParams.adserverTargeting;
 			}
 
-			// ADEN-7436: AppNexus hb_uuid fix (adserverTargeting params are being set before cache key is returned)
+			// ADEN-7436: AppNexus hb_uuid fix
+			// (adserverTargeting params are being set before cache key is returned)
 			slotParams.hb_uuid = slotParams.hb_uuid || bidParams.videoCacheKey || 'disabled';
 		}
 

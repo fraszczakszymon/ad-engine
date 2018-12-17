@@ -2,9 +2,9 @@
 import currentDevice from 'current-device';
 import AdBlockDetect from 'blockadblock';
 
-let bab = null,
-	browser = null,
-	operatingSystem = null;
+let bab = null;
+let browser = null;
+let operatingSystem = null;
 
 class Client {
 	isSmartphone() {
@@ -84,9 +84,9 @@ class Client {
 		}
 
 		const { appName, appVersion, userAgent } = window.navigator;
-
-		let temp,
-			matches = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+		let temp;
+		let matches =
+			userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 
 		if (/trident/i.test(matches[1])) {
 			temp = /\brv[ :]+(\d+)/g.exec(userAgent) || [];

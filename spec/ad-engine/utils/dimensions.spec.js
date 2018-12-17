@@ -3,9 +3,9 @@ import sinon from 'sinon';
 import { getTopOffset } from '../../../src/ad-engine/utils/dimensions';
 
 function getMockElement(params, frameElement = null, hidden = false) {
-	let offsetParent = null,
-		offsetTop = 50,
-		offsetHeight = 100;
+	let offsetParent = null;
+	let offsetTop = 50;
+	let offsetHeight = 100;
 
 	if (params) {
 		offsetParent = params.offsetParent === undefined ? offsetParent : params.offsetParent;
@@ -38,17 +38,17 @@ describe('dimensions', () => {
 	});
 
 	it('getTopOffset of nested element', () => {
-		const parent = getMockElement({ offsetTop: 100 }),
-			element = getMockElement({ offsetParent: parent });
+		const parent = getMockElement({ offsetTop: 100 });
+		const element = getMockElement({ offsetParent: parent });
 
 		expect(getTopOffset(element)).to.equal(150);
 	});
 
 	it('getTopOffset of nested iframe element', () => {
-		const iframeParent = getMockElement({ offsetTop: 30 }),
-			iframe = getMockElement({ offsetParent: iframeParent, offsetTop: 200 }),
-			parent = getMockElement({ offsetTop: 100 }),
-			element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
+		const iframeParent = getMockElement({ offsetTop: 30 });
+		const iframe = getMockElement({ offsetParent: iframeParent, offsetTop: 200 });
+		const parent = getMockElement({ offsetTop: 100 });
+		const element = getMockElement({ offsetParent: parent, offsetTop: 50 }, iframe);
 
 		expect(getTopOffset(element)).to.equal(380);
 	});

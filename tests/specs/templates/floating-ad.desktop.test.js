@@ -13,9 +13,6 @@ describe('Floating ad page: incontent boxad', () => {
 
 	it('Check if slot scrolls with the page', () => {
 		helpers.slowScroll(2500);
-		expect(browser.isExisting(`${adSlots.incontentBoxad}${floatingAd.pinnedTopClass}`))
-			.to
-			.be
-			.false;
+		expect(browser.isExisting(`${adSlots.incontentBoxad}${floatingAd.pinnedTopClass}`)).to.be.false;
 	});
 });

@@ -1,8 +1,8 @@
 import { slotTweaker } from '@wikia/ad-engine';
 
 function add(video, container) {
-	const progressBar = document.createElement('div'),
-		currentTime = document.createElement('div');
+	const progressBar = document.createElement('div');
+	const currentTime = document.createElement('div');
 
 	progressBar.classList.add('progress-bar');
 	currentTime.classList.add('current-time');

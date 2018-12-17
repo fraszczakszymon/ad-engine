@@ -77,9 +77,8 @@ const getTemplates = (params, videoSettings) => ({
 });
 
 export function selectTemplate(videoSettings) {
-	const params = videoSettings.getParams(),
-		templates = getTemplates(params, videoSettings);
-
+	const params = videoSettings.getParams();
+	const templates = getTemplates(params, videoSettings);
 	let template = 'default';
 
 	if (params.type && params.type.indexOf('porvata') === 0) {

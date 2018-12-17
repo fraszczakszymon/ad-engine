@@ -1,4 +1,5 @@
-import { AdSlot, context, scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, utils } from '@wikia/ad-engine';
+import { StickyBase } from './sticky-base';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
@@ -13,15 +14,7 @@ import CloseButton from './interface/close-button';
 
 const logGroup = 'sticky-ad';
 
-export class StickyAd {
-	static DEFAULT_UNSTICK_DELAY = 2000;
-	static SLOT_STICKY_READY_STATE = 'sticky-ready';
-	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-
-	static getName() {
-		return 'stickyAd';
-	}
-
+export class StickyAd extends StickyBase {
 	static getDefaultConfig() {
 		return {
 			enabled: true,
@@ -35,37 +28,18 @@ export class StickyAd {
 	}
 
 	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.config = context.get(`templates.${StickyAd.getName()}`);
-		this.lines = context.get(`templates.${StickyAd.getName()}.lineItemIds`);
-		this.stickiness = null;
+		super(adSlot);
 		this.scrollListener = null;
 		this.topOffset = 0;
 		this.leftOffset = 0;
 	}
 
-	static isEnabled() {
-		return context.get(`templates.${StickyAd.getName()}.enabled`);
+	static getName() {
+		return 'stickyAd';
 	}
 
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
-
-		let found = false;
-		lineId = lineId.toString();
-
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-
-		return found;
+	getName() {
+		return StickyAd.getName();
 	}
 
 	adjustAdSlot() {
@@ -75,7 +49,7 @@ export class StickyAd {
 	init(params) {
 		this.params = params;
 
-		if (!(StickyAd.isEnabled() && StickyAd.isLineAndGeo(this.lineId, this.lines))) {
+		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
 			return;
 		}
@@ -83,7 +57,7 @@ export class StickyAd {
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 		this.adSlot.onLoad().then(() => {
 			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
-			this.adSlot.emitEvent(StickyAd.SLOT_STICKY_READY_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
 		});
 		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 
@@ -119,18 +93,6 @@ export class StickyAd {
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
-	addUnstickLogic() {
-		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
-		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed() ?
-				utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT) :
-				Promise.resolve());
-			await utils.wait(StickyAd.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
-	}
-
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
@@ -159,14 +121,14 @@ export class StickyAd {
 
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
-			this.adSlot.emitEvent(AdSlot.SLOT_UNSTICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 			await animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 			this.removeStickyParameters();
 			animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 
 			this.removeUnstickButton();
 		} else {
-			this.adSlot.emitEvent(AdSlot.SLOT_STICKED_STATE);
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
 			this.adSlot.getElement().style.height = `${this.adSlot.getElement().querySelector('div').offsetHeight}px`;
 			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
@@ -179,7 +141,7 @@ export class StickyAd {
 
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(StickyAd.SLOT_UNSTICK_IMMEDIATELY);
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();

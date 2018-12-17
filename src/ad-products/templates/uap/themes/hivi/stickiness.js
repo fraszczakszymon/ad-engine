@@ -8,6 +8,11 @@ export class Stickiness extends EventEmitter {
 	static CLOSE_CLICKED_EVENT = Symbol('closeClicked');
 	static UNSTICK_IMMEDIATELY_EVENT = Symbol('unstickImmediately');
 
+	static SLOT_STICKED_STATE = 'sticked';
+	static SLOT_UNSTICKED_STATE = 'unsticked';
+	static SLOT_STICKY_READY_STATE = 'sticky-ready';
+	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+
 	constructor(
 		adSlot,
 		customWhen = Promise.resolve(),

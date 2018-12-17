@@ -17,10 +17,6 @@ describe('BTF Only ads page: incontent boxad', () => {
 	});
 
 	it('Check if boxad is visible and in viewport after clicking on the button', () => {
-		expect(adStatus.inViewport, 'Not in viewport')
-			.to
-			.be
-			.true;
+		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 });
-

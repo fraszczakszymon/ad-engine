@@ -60,22 +60,21 @@ class SlotTweaker {
 
 		slotContainer.classList.add('slot-responsive');
 
-		return this.onReady(adSlot)
-			.then((iframe) => {
-				const container = iframe.parentElement;
-				if (!aspectRatio) {
-					const height = iframe.contentWindow.document.body.scrollHeight,
-						width = iframe.contentWindow.document.body.scrollWidth;
+		return this.onReady(adSlot).then((iframe) => {
+			const container = iframe.parentElement;
+			if (!aspectRatio) {
+				const height = iframe.contentWindow.document.body.scrollHeight;
+				const width = iframe.contentWindow.document.body.scrollWidth;
 
-					aspectRatio = width / height;
-				}
+				aspectRatio = width / height;
+			}
 
-				logger(logGroup, 'make responsive', adSlot.getSlotName());
-				if (paddingBottom) {
-					container.style.paddingBottom = `${100 / aspectRatio}%`;
-				}
-				return iframe;
-			});
+			logger(logGroup, 'make responsive', adSlot.getSlotName());
+			if (paddingBottom) {
+				container.style.paddingBottom = `${100 / aspectRatio}%`;
+			}
+			return iframe;
+		});
 	}
 
 	onReady(adSlot) {
@@ -83,8 +82,8 @@ class SlotTweaker {
 			return adSlot.onLoad();
 		}
 
-		const container = this.getContainer(adSlot),
-			iframe = container.querySelector('div[id*="_container_"] iframe');
+		const container = this.getContainer(adSlot);
+		const iframe = container.querySelector('div[id*="_container_"] iframe');
 
 		return new Promise((resolve, reject) => {
 			if (!iframe) {
@@ -119,18 +118,20 @@ class SlotTweaker {
 	}
 
 	registerMessageListener() {
-		messageBus.register({
-			keys: ['action', 'slotName'],
-			infinite: true
-		}, (data) => {
-			if (!data.slotName) {
-				logger(logGroup, 'Missing slot name');
-				return;
-			}
+		messageBus.register(
+			{
+				keys: ['action', 'slotName'],
+				infinite: true,
+			},
+			(data) => {
+				if (!data.slotName) {
+					logger(logGroup, 'Missing slot name');
+					return;
+				}
 
-			const adSlot = slotService.get(data.slotName);
+				const adSlot = slotService.get(data.slotName);
 
-			switch (data.action) {
+				switch (data.action) {
 				case 'expand':
 					this.expand(adSlot);
 					break;
@@ -148,16 +149,15 @@ class SlotTweaker {
 					break;
 				default:
 					logger(logGroup, 'Unknown action', data.action);
-			}
-		});
+				}
+			},
+		);
 	}
 
 	setDataParam(adSlot, attrName, data) {
 		const container = this.getContainer(adSlot);
 
-		container.dataset[attrName] = typeof data === 'string' ?
-			data :
-			JSON.stringify(data);
+		container.dataset[attrName] = typeof data === 'string' ? data : JSON.stringify(data);
 	}
 }
 

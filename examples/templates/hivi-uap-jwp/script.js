@@ -7,9 +7,10 @@ import '../../styles.scss';
 let time = 10;
 
 const clickDelay = {
-		isEnabled: () => true,
-		getName: () => 'click-to-load',
-		getPromise: () => new Promise((resolve) => {
+	isEnabled: () => true,
+	getName: () => 'click-to-load',
+	getPromise: () =>
+		new Promise((resolve) => {
 			document.getElementById('clickDelay').addEventListener('click', () => {
 				btfBlockerService.finishFirstCall();
 				window.loadCustomAd({
@@ -20,18 +21,18 @@ const clickDelay = {
 				resolve();
 				time = 0;
 			});
-		})
-	},
-	interval = setInterval(() => {
-		time -= 1;
-		document.getElementById('clickDelay').innerText = 'Load UAP:JWP';
-		if (time > 0) {
-			document.getElementById('clickDelay').innerText += ` (${time}s)`;
-		}
-		if (time === 0) {
-			clearInterval(interval);
-		}
-	}, 1000);
+		}),
+};
+const interval = setInterval(() => {
+	time -= 1;
+	document.getElementById('clickDelay').innerText = 'Load UAP:JWP';
+	if (time > 0) {
+		document.getElementById('clickDelay').innerText += ` (${time}s)`;
+	}
+	if (time === 0) {
+		clearInterval(interval);
+	}
+}, 1000);
 
 customContext.targeting.artid = '496';
 customContext.slots.incontent_boxad = {

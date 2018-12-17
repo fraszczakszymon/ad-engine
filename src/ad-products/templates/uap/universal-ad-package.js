@@ -68,14 +68,12 @@ function recalculateTwitchSize(params) {
 }
 
 async function loadTwitchPlayer(iframe, params) {
-	const {
-			channelName, player
-		} = params,
-		options = {
-			height: '100%',
-			width: '100%',
-			channel: channelName,
-		};
+	const { channelName, player } = params;
+	const options = {
+		height: '100%',
+		width: '100%',
+		channel: channelName,
+	};
 
 	iframe.parentNode.insertBefore(player, iframe);
 
