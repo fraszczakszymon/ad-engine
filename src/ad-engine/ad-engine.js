@@ -1,29 +1,21 @@
 import { logger, makeLazyQueue } from './utils';
-import { AdSlot } from './models';
 import { FloatingAd } from './templates';
-import { GptProvider } from './providers';
+import { GptProvider, PrebidiumProvider } from './providers';
 import { scrollListener } from './listeners';
 import {
 	btfBlockerService,
-	events,
-	slotRepeater,
-	slotTweaker,
-	slotService,
-	templateService,
-	registerCustomAdLoader,
 	context,
+	events,
 	messageBus,
+	registerCustomAdLoader,
+	slotRepeater,
+	slotService,
+	slotTweaker,
+	templateService,
 } from './services';
+import { AdSlot } from './models';
 
 const logGroup = 'ad-engine';
-
-function fillInUsingProvider(ad, provider) {
-	const adSlot = new AdSlot(ad);
-
-	slotService.add(adSlot);
-
-	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
-}
 
 function getPromises() {
 	return (
@@ -40,7 +32,6 @@ function getPromises() {
 export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
-		this.providers = new Map();
 		this.started = false;
 
 		window.ads = window.ads || {};
@@ -55,21 +46,26 @@ export class AdEngine {
 	}
 
 	setupProviders() {
-		this.providers.set('gpt', new GptProvider());
+		const providerName = context.get('state.provider');
+
+		switch (providerName) {
+			case 'prebidium':
+				this.provider = new PrebidiumProvider();
+				break;
+			case 'gpt':
+			default:
+				this.provider = new GptProvider();
+		}
 	}
 
 	setupQueue() {
 		this.adStack = context.get('state.adStack');
-
 		if (!this.adStack.start) {
 			makeLazyQueue(this.adStack, (ad) => {
-				const gpt = this.providers.get('gpt');
+				const adSlot = new AdSlot(ad);
 
-				fillInUsingProvider(ad, gpt);
-
-				if (this.adStack.length === 0) {
-					gpt.flush();
-				}
+				slotService.add(adSlot);
+				this.provider.fillIn(adSlot);
 			});
 		}
 	}
@@ -103,10 +99,6 @@ export class AdEngine {
 		} else {
 			startAdQueue();
 		}
-	}
-
-	getProvider(name) {
-		return this.providers.get(name);
 	}
 
 	init() {

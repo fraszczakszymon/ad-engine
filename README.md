@@ -68,6 +68,7 @@ npm install github:Wikia/ad-engine#v14.0.0
 |`slots.{slot_name}.defaultSizes`|List of default sizes (if the smallest viewport is not matching)|array|✔|
 |`slots.{slot_name}.targeting`|List of DFP slot level key-values|object|✘|
 |`state.adStack`|Main queue where ad slots are pushed|array|✔|
+|`state.provider`|Which provider should be used ('gpt', 'prebidium')|string|✔|
 |`targeting`|List of DFP page level key-values|object|✔|
 |`vast.adUnitId`|Ad unit id for video ads|string|✔|
 

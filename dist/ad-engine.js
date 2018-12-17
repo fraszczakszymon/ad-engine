@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -200,40 +200,34 @@ module.exports = require("current-device");
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/map");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("babel-runtime/core-js/object/values");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/values");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
 module.exports = require("lodash/set");
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -263,22 +257,25 @@ __webpack_require__.d(utils_namespaceObject, "setSessionId", function() { return
 __webpack_require__.d(utils_namespaceObject, "getSamplingResults", function() { return getSamplingResults; });
 __webpack_require__.d(utils_namespaceObject, "isProperGeo", function() { return isProperGeo; });
 __webpack_require__.d(utils_namespaceObject, "mapSamplingResults", function() { return mapSamplingResults; });
+__webpack_require__.d(utils_namespaceObject, "IframeBuilder", function() { return iframe_builder_IframeBuilder; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
+__webpack_require__.d(utils_namespaceObject, "LazyQueue", function() { return lazy_queue_LazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
 __webpack_require__.d(utils_namespaceObject, "sampler", function() { return sampler; });
 __webpack_require__.d(utils_namespaceObject, "scriptLoader", function() { return scriptLoader; });
 __webpack_require__.d(utils_namespaceObject, "stringBuilder", function() { return stringBuilder; });
+__webpack_require__.d(utils_namespaceObject, "timer", function() { return timer; });
 __webpack_require__.d(utils_namespaceObject, "whichProperty", function() { return whichProperty; });
 __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return tryProperty; });
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(26);
+var set_ = __webpack_require__(25);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(25);
+var get_ = __webpack_require__(24);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -294,7 +291,7 @@ var external_current_device_ = __webpack_require__(20);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(24);
+var external_blockadblock_ = __webpack_require__(23);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.js
@@ -1165,7 +1162,55 @@ var geo_module = {
 };
 
 /* harmony default export */ var geo = (geo_module);
+// CONCATENATED MODULE: ./src/ad-engine/utils/iframe-builder.js
+
+
+var iframe_builder_IframeBuilder = function () {
+	function IframeBuilder() {
+		classCallCheck_default()(this, IframeBuilder);
+	}
+
+	createClass_default()(IframeBuilder, [{
+		key: 'create',
+		value: function create(adSlot) {
+			var doc = adSlot.getElement();
+
+			return doc.appendChild(this.createEmptyIframe());
+		}
+
+		/**
+   * @private
+   * Inspired by `createInvisibleIframe` method from Prebid.js
+   */
+
+	}, {
+		key: 'createEmptyIframe',
+		value: function createEmptyIframe() {
+			var iframe = document.createElement('iframe');
+
+			iframe.height = 0;
+			iframe.width = 0;
+			iframe.border = '0px';
+			iframe.hspace = '0';
+			iframe.vspace = '0';
+			iframe.marginWidth = '0';
+			iframe.marginHeight = '0';
+			iframe.style.border = '0';
+			iframe.scrolling = 'no';
+			iframe.frameBorder = '0';
+			iframe.src = 'about:blank';
+			iframe.style.display = 'inline';
+			iframe.style.overflow = 'hidden';
+
+			return iframe;
+		}
+	}]);
+
+	return IframeBuilder;
+}();
 // CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
+
+
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -1182,6 +1227,107 @@ function makeLazyQueue(queue, callback) {
 		throw new Error('LazyQueue requires an array as the first parameter');
 	}
 }
+
+// TODO: Proposal
+// example: https://stackblitz.com/edit/wikia-lazy-queue
+var lazy_queue_LazyQueue = function () {
+	/** @private */
+	function LazyQueue() {
+		classCallCheck_default()(this, LazyQueue);
+
+		this.itemFlushCallbacks = [];
+		this.pushCommand = undefined;
+		this.array = [];
+
+		for (var _len = arguments.length, items = Array(_len), _key = 0; _key < _len; _key++) {
+			items[_key] = arguments[_key];
+		}
+
+		this.array = [].concat(items);
+		this.setPreFlushPush();
+	}
+
+	// old start
+
+	/** @private */
+
+	// itemFlushed = {}; // RxJs Subject
+	/** @private */
+
+
+	createClass_default()(LazyQueue, [{
+		key: 'flush',
+		value: function flush() {
+			while (this.array.length > 0) {
+				this.emit(this.array.shift());
+			}
+			this.setPostFlushPush();
+		}
+	}, {
+		key: 'push',
+		value: function push() {
+			this.pushCommand.apply(this, arguments);
+		}
+
+		/**
+   * @param {function} callback
+   */
+
+	}, {
+		key: 'onItemFlush',
+		value: function onItemFlush(callback) {
+			if (typeof callback !== 'function') {
+				throw new Error('onItemFlush used with callback not being a function');
+			}
+			this.itemFlushCallbacks.push(callback);
+		}
+
+		/** @private */
+
+	}, {
+		key: 'setPreFlushPush',
+		value: function setPreFlushPush() {
+			var _this = this;
+
+			this.pushCommand = function () {
+				var _array;
+
+				(_array = _this.array).push.apply(_array, arguments);
+			};
+		}
+
+		/** @private */
+
+	}, {
+		key: 'setPostFlushPush',
+		value: function setPostFlushPush() {
+			var _this2 = this;
+
+			this.pushCommand = function () {
+				for (var _len2 = arguments.length, items = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+					items[_key2] = arguments[_key2];
+				}
+
+				items.forEach(function (item) {
+					_this2.emit(item);
+				});
+			};
+		}
+
+		/** @private */
+
+	}, {
+		key: 'emit',
+		value: function emit(item) {
+			// this.flushed.next(item);
+			this.itemFlushCallbacks.forEach(function (flushCallback) {
+				flushCallback(item);
+			});
+		}
+	}]);
+
+	return LazyQueue;
+}();
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.js
 
 
@@ -1371,7 +1517,7 @@ var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
-var values_ = __webpack_require__(23);
+var values_ = __webpack_require__(22);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
@@ -2460,7 +2606,7 @@ var regenerator_ = __webpack_require__(18);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(22);
+var asyncToGenerator_ = __webpack_require__(21);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.js
@@ -3352,7 +3498,7 @@ function setupGptTargeting() {
 
 
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _desc, _value, _class;
+var _dec, _dec2, _dec3, _dec4, _desc, _value, _class;
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
 	var desc = {};
@@ -3394,7 +3540,7 @@ var gpt_provider_logGroup = 'gpt-provider';
 
 var ADX = 'AdX';
 
-var gptLazyMethod = function gptLazyMethod(method) {
+function postponeExecutionUntilGptLoads(method) {
 	return function () {
 		var _this = this;
 
@@ -3406,7 +3552,7 @@ var gptLazyMethod = function gptLazyMethod(method) {
 			return method.apply(_this, args);
 		});
 	};
-};
+}
 
 var definedSlots = [];
 var initialized = false;
@@ -3443,7 +3589,7 @@ function configure() {
 	window.googletag.enableServices();
 }
 
-var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec2 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec3 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec4 = Object(external_core_decorators_["decorate"])(gptLazyMethod), _dec5 = Object(external_core_decorators_["decorate"])(gptLazyMethod), (_class = function () {
+var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec4 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), (_class = function () {
 	function GptProvider() {
 		var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -3490,16 +3636,26 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 	}, {
 		key: 'fillIn',
 		value: function fillIn(adSlot) {
+			var _this3 = this;
+
+			var adStack = context.get('state.adStack');
+
+			btfBlockerService.push(adSlot, function () {
+				_this3.fillInCallback.apply(_this3, arguments);
+			});
+			if (adStack.length === 0) {
+				this.flush();
+			}
+		}
+
+		/** @private */
+
+	}, {
+		key: 'fillInCallback',
+		value: function fillInCallback(adSlot) {
 			var targeting = this.parseTargetingParams(adSlot.getTargeting());
 			var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
-
-			var gptSlot = null;
-
-			if (adSlot.isOutOfPage()) {
-				gptSlot = window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-			} else {
-				gptSlot = window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
-			}
+			var gptSlot = this.createGptSlot(adSlot, sizeMap);
 
 			gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
 
@@ -3514,6 +3670,18 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 			}
 
 			logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
+		}
+
+		/** @private */
+
+	}, {
+		key: 'createGptSlot',
+		value: function createGptSlot(adSlot, sizeMap) {
+			if (adSlot.isOutOfPage()) {
+				return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+			}
+
+			return window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
 		}
 	}, {
 		key: 'applyTargetingParams',
@@ -3546,6 +3714,9 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 		value: function updateCorrelator() {
 			window.googletag.pubads().updateCorrelator();
 		}
+
+		/** @private */
+
 	}, {
 		key: 'flush',
 		value: function flush() {
@@ -3596,8 +3767,108 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 	}]);
 
 	return GptProvider;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flush', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'flush'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec5], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
+}(), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], get_own_property_descriptor_default()(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillIn', [_dec2], get_own_property_descriptor_default()(_class.prototype, 'fillIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateCorrelator', [_dec3], get_own_property_descriptor_default()(_class.prototype, 'updateCorrelator'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'destroyGptSlots', [_dec4], get_own_property_descriptor_default()(_class.prototype, 'destroyGptSlots'), _class.prototype)), _class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/prebidium-provider.js
+
+
+
+
+var prebidium_provider_dec, prebidium_provider_desc, prebidium_provider_value, prebidium_provider_class;
+
+function prebidium_provider_applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	var desc = {};
+	Object['ke' + 'ys'](descriptor).forEach(function (key) {
+		desc[key] = descriptor[key];
+	});
+	desc.enumerable = !!desc.enumerable;
+	desc.configurable = !!desc.configurable;
+
+	if ('value' in desc || desc.initializer) {
+		desc.writable = true;
+	}
+
+	desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+		return decorator(target, property, desc) || desc;
+	}, desc);
+
+	if (context && desc.initializer !== void 0) {
+		desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+		desc.initializer = undefined;
+	}
+
+	if (desc.initializer === void 0) {
+		Object['define' + 'Property'](target, property, desc);
+		desc = null;
+	}
+
+	return desc;
+}
+
+
+
+
+
+var prebidium_provider_logGroup = 'prebidium-provider';
+
+// TODO: ADEN-8075
+//  Duplicate from ad-bidders/prebid/index.js
+//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
+function postponeExecutionUntilPbjsLoads(method) {
+	return function () {
+		var _this = this;
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return window.pbjs.que.push(function () {
+			return method.apply(_this, args);
+		});
+	};
+}
+
+var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (prebidium_provider_class = function () {
+	function PrebidiumProvider() {
+		classCallCheck_default()(this, PrebidiumProvider);
+
+		this.iframeBuilder = new iframe_builder_IframeBuilder();
+	}
+	/** @private */
+
+
+	createClass_default()(PrebidiumProvider, [{
+		key: 'fillIn',
+		value: function fillIn(adSlot) {
+			var doc = this.getIframeDoc(adSlot);
+			var adId = this.getAdId(adSlot);
+
+			window.pbjs.renderAd(doc, adId);
+			logger(prebidium_provider_logGroup, adSlot.getSlotName(), 'slot added');
+		}
+
+		/** @private */
+
+	}, {
+		key: 'getIframeDoc',
+		value: function getIframeDoc(adSlot) {
+			var iframe = this.iframeBuilder.create(adSlot);
+
+			return iframe.contentWindow.document;
+		}
+
+		/** @private */
+
+	}, {
+		key: 'getAdId',
+		value: function getAdId(adSlot) {
+			return context.get('slots.' + adSlot.getSlotName() + '.targeting.hb_adid');
+		}
+	}]);
+
+	return PrebidiumProvider;
+}(), (prebidium_provider_applyDecoratedDescriptor(prebidium_provider_class.prototype, 'fillIn', [prebidium_provider_dec], get_own_property_descriptor_default()(prebidium_provider_class.prototype, 'fillIn'), prebidium_provider_class.prototype)), prebidium_provider_class));
 // CONCATENATED MODULE: ./src/ad-engine/providers/index.js
+
 
 
 
@@ -4111,20 +4382,6 @@ var slotService = new slot_service_SlotService();
 
 var btf_blocker_service_logGroup = 'btf-blocker';
 
-function disableSecondCall(unblockedSlots) {
-	var slots = context.get('slots');
-
-	logger(btf_blocker_service_logGroup, 'second call queue disabled');
-
-	keys_default()(slots).forEach(function (adSlotKey) {
-		var slotConfig = slots[adSlotKey];
-
-		if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
-			slotService.disable(adSlotKey, 'blocked');
-		}
-	});
-}
-
 var btf_blocker_service_BtfBlockerService = function () {
 	function BtfBlockerService() {
 		classCallCheck_default()(this, BtfBlockerService);
@@ -4135,6 +4392,8 @@ var btf_blocker_service_BtfBlockerService = function () {
 	createClass_default()(BtfBlockerService, [{
 		key: 'resetState',
 		value: function resetState() {
+			var _this = this;
+
 			this.slotsQueue = [];
 			this.firstCallEnded = false;
 			/** @type {string[]}  */
@@ -4145,7 +4404,8 @@ var btf_blocker_service_BtfBlockerService = function () {
 				    fillInCallback = _ref.fillInCallback;
 
 				logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
-				fillInCallback(adSlot);
+				_this.disableAdSlotIfHasConflict(adSlot);
+				_this.fillInSlotIfEnabled(adSlot, fillInCallback);
 			});
 
 			if (window.ads && window.ads.runtime) {
@@ -4155,18 +4415,18 @@ var btf_blocker_service_BtfBlockerService = function () {
 	}, {
 		key: 'init',
 		value: function init() {
-			var _this = this;
+			var _this2 = this;
 
 			context.push('listeners.slot', {
-				onRenderEnded: function onRenderEnded( /** AdSlot */adSlot) {
+				onRenderEnded: function onRenderEnded(adSlot) {
 					logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot rendered');
-					if (!_this.firstCallEnded && adSlot.isFirstCall()) {
-						_this.finishFirstCall();
+					if (!_this2.firstCallEnded && adSlot.isFirstCall()) {
+						_this2.finishFirstCall();
 					}
 				}
 			});
 			events.on(events.PAGE_CHANGE_EVENT, function () {
-				_this.resetState();
+				_this2.resetState();
 			});
 		}
 	}, {
@@ -4176,39 +4436,71 @@ var btf_blocker_service_BtfBlockerService = function () {
 			logger(btf_blocker_service_logGroup, 'first call queue finished');
 
 			if (window.ads.runtime.disableBtf) {
-				disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
+				this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
 					return slot.name;
 				}))));
 			}
 
 			this.slotsQueue.start();
 		}
+
+		/** @private */
+
+	}, {
+		key: 'disableSecondCall',
+		value: function disableSecondCall(unblockedSlots) {
+			var slots = context.get('slots');
+
+			logger(btf_blocker_service_logGroup, 'second call queue disabled');
+
+			keys_default()(slots).forEach(function (adSlotKey) {
+				var slotConfig = slots[adSlotKey];
+
+				if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
+					slotService.disable(adSlotKey, 'blocked');
+				}
+			});
+		}
 	}, {
 		key: 'push',
 		value: function push(adSlot, fillInCallback) {
-			function wrappedFillInCallback() {
-				if (slotService.hasViewportConflict(adSlot)) {
-					slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
-				}
-
-				if (!adSlot.isEnabled()) {
-					logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
-
-					return;
-				}
-
-				logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling in slot');
-				fillInCallback(adSlot);
-			}
-
 			if (!this.firstCallEnded && !adSlot.isFirstCall()) {
-				this.slotsQueue.push({ adSlot: adSlot, fillInCallback: wrappedFillInCallback });
+				this.slotsQueue.push({
+					adSlot: adSlot,
+					fillInCallback: fillInCallback
+				});
 				logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
 
 				return;
 			}
 
-			wrappedFillInCallback(adSlot);
+			this.disableAdSlotIfHasConflict(adSlot);
+			this.fillInSlotIfEnabled(adSlot, fillInCallback);
+		}
+
+		/** @private */
+
+	}, {
+		key: 'disableAdSlotIfHasConflict',
+		value: function disableAdSlotIfHasConflict(adSlot) {
+			if (slotService.hasViewportConflict(adSlot)) {
+				slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+			}
+		}
+
+		/** @private */
+
+	}, {
+		key: 'fillInSlotIfEnabled',
+		value: function fillInSlotIfEnabled(adSlot, fillInCallback) {
+			if (!adSlot.isEnabled()) {
+				logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+
+				return;
+			}
+
+			logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling in slot');
+			fillInCallback(adSlot);
 		}
 	}, {
 		key: 'unblock',
@@ -4997,6 +5289,59 @@ var string_builder_StringBuilder = function () {
 }();
 
 var stringBuilder = new string_builder_StringBuilder();
+// CONCATENATED MODULE: ./src/ad-engine/utils/timer.js
+
+
+
+var timer_Timer = function () {
+	function Timer() {
+		classCallCheck_default()(this, Timer);
+
+		this.start = 0;
+		// this.clock = performance;
+		this.clock = {
+			now: function now() {
+				return 0;
+			}
+		};
+		this.reset();
+	}
+
+	createClass_default()(Timer, [{
+		key: 'reset',
+		value: function reset() {
+			this.start = this.clock.now();
+		}
+	}, {
+		key: 'now',
+		value: function now() {
+			if (this.start) {
+				var result = this.clock.now() - this.start;
+
+				return Math.round(result * 100) / 100;
+			}
+			this.start = this.clock.now();
+
+			return 0;
+		}
+	}, {
+		key: 'log',
+		value: function log(msg) {
+			var _console;
+
+			for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+				args[_key - 1] = arguments[_key];
+			}
+
+			// eslint-disable-next-line no-console
+			(_console = console).log.apply(_console, ['%c ' + msg, 'color: white; background: #6b5b95', this.now()].concat(args));
+		}
+	}]);
+
+	return Timer;
+}();
+
+var timer = new timer_Timer();
 // CONCATENATED MODULE: ./src/ad-engine/utils/try-property.js
 function whichProperty(obj) {
 	var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -5085,9 +5430,7 @@ var viewportObserver = {
 
 
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/map"
-var map_ = __webpack_require__(21);
-var map_default = /*#__PURE__*/__webpack_require__.n(map_);
+
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
@@ -5174,16 +5517,7 @@ var floating_ad_FloatingAd = function () {
 
 
 
-
 var ad_engine_logGroup = 'ad-engine';
-
-function fillInUsingProvider(ad, provider) {
-	var adSlot = new ad_slot_AdSlot(ad);
-
-	slotService.add(adSlot);
-
-	btfBlockerService.push(adSlot, provider.fillIn.bind(provider));
-}
 
 function getPromises() {
 	return (context.get('delayModules') || []).filter(function (module) {
@@ -5204,7 +5538,6 @@ var ad_engine_AdEngine = function () {
 		classCallCheck_default()(this, AdEngine);
 
 		context.extend(config);
-		this.providers = new map_default.a();
 		this.started = false;
 
 		window.ads = window.ads || {};
@@ -5221,7 +5554,16 @@ var ad_engine_AdEngine = function () {
 	createClass_default()(AdEngine, [{
 		key: 'setupProviders',
 		value: function setupProviders() {
-			this.providers.set('gpt', new gpt_provider_GptProvider());
+			var providerName = context.get('state.provider');
+
+			switch (providerName) {
+				case 'prebidium':
+					this.provider = new prebidium_provider_PrebidiumProvider();
+					break;
+				case 'gpt':
+				default:
+					this.provider = new gpt_provider_GptProvider();
+			}
 		}
 	}, {
 		key: 'setupQueue',
@@ -5229,16 +5571,12 @@ var ad_engine_AdEngine = function () {
 			var _this2 = this;
 
 			this.adStack = context.get('state.adStack');
-
 			if (!this.adStack.start) {
 				makeLazyQueue(this.adStack, function (ad) {
-					var gpt = _this2.providers.get('gpt');
+					var adSlot = new ad_slot_AdSlot(ad);
 
-					fillInUsingProvider(ad, gpt);
-
-					if (_this2.adStack.length === 0) {
-						gpt.flush();
-					}
+					slotService.add(adSlot);
+					_this2.provider.fillIn(adSlot);
 				});
 			}
 		}
@@ -5275,11 +5613,6 @@ var ad_engine_AdEngine = function () {
 			} else {
 				startAdQueue();
 			}
-		}
-	}, {
-		key: 'getProvider',
-		value: function getProvider(name) {
-			return this.providers.get(name);
 		}
 	}, {
 		key: 'init',
@@ -5319,10 +5652,10 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchListener", function() { return twitch_listener_TwitchListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "ADX", function() { return ADX; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "gptLazyMethod", function() { return gptLazyMethod; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptSizeMap", function() { return gpt_size_map_GptSizeMap; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "setupGptTargeting", function() { return setupGptTargeting; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PrebidiumProvider", function() { return prebidium_provider_PrebidiumProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "btfBlockerService", function() { return btfBlockerService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "registerCustomAdLoader", function() { return registerCustomAdLoader; });
@@ -5358,8 +5691,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v21.1.2');
-logger('ad-engine', 'v21.1.2');
+set_default()(window, versionField, 'v22.0.0');
+logger('ad-engine', 'v22.0.0');
 
 
 

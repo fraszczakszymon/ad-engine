@@ -335,6 +335,7 @@ export default {
 	state: {
 		adStack: window.adsQueue,
 		isMobile: false,
+		provider: 'gpt',
 	},
 	targeting: {
 		ae3: '1',

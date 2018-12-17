@@ -1806,13 +1806,7 @@ function getSettings() {
 
 
 
-var prebid_this = undefined,
-    _dec,
-    _dec2,
-    _dec3,
-    _desc,
-    _value,
-    _class;
+var _dec, _dec2, _dec3, _desc, _value, _class;
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
 	var desc = {};
@@ -1851,17 +1845,19 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 
 
-var prebidLazyRun = function prebidLazyRun(method) {
+function postponeExecutionUntilPbjsLoads(method) {
 	return function () {
+		var _this = this;
+
 		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 			args[_key] = arguments[_key];
 		}
 
 		return window.pbjs.que.push(function () {
-			return method.apply(prebid_this, args);
+			return method.apply(_this, args);
 		});
 	};
-};
+}
 
 var logGroup = 'prebid';
 
@@ -1872,7 +1868,7 @@ window.pbjs.que = window.pbjs.que || [];
 
 ad_engine_["events"].registerEvent('BIDS_REFRESH');
 
-var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec2 = Object(external_core_decorators_["decorate"])(prebidLazyRun), _dec3 = Object(external_core_decorators_["decorate"])(prebidLazyRun), (_class = function (_BaseBidder) {
+var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (_class = function (_BaseBidder) {
 	inherits_default()(Prebid, _BaseBidder);
 
 	function Prebid(bidderConfig) {
@@ -1974,16 +1970,18 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(prebid
 	}, {
 		key: 'lazyCall',
 		value: function lazyCall(bidsBackHandler) {
-			if (!this.lazyLoaded) {
-				this.lazyLoaded = true;
+			if (this.lazyLoaded) {
+				return;
+			}
 
-				var adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
+			this.lazyLoaded = true;
 
-				if (adUnitsLazy.length > 0) {
-					this.requestBids(adUnitsLazy, bidsBackHandler);
+			var adUnitsLazy = setupAdUnits(this.bidderConfig, 'post');
 
-					this.adUnits = this.adUnits.concat(adUnitsLazy);
-				}
+			if (adUnitsLazy.length > 0) {
+				this.requestBids(adUnitsLazy, bidsBackHandler);
+
+				this.adUnits = this.adUnits.concat(adUnitsLazy);
 			}
 		}
 	}, {

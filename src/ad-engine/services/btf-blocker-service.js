@@ -5,20 +5,6 @@ import { events } from './events';
 
 const logGroup = 'btf-blocker';
 
-function disableSecondCall(unblockedSlots) {
-	const slots = context.get('slots');
-
-	logger(logGroup, 'second call queue disabled');
-
-	Object.keys(slots).forEach((adSlotKey) => {
-		const slotConfig = slots[adSlotKey];
-
-		if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
-			slotService.disable(adSlotKey, 'blocked');
-		}
-	});
-}
-
 class BtfBlockerService {
 	constructor() {
 		this.resetState();
@@ -32,7 +18,8 @@ class BtfBlockerService {
 
 		makeLazyQueue(this.slotsQueue, ({ adSlot, fillInCallback }) => {
 			logger(logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
-			fillInCallback(adSlot);
+			this.disableAdSlotIfHasConflict(adSlot);
+			this.fillInSlotIfEnabled(adSlot, fillInCallback);
 		});
 
 		if (window.ads && window.ads.runtime) {
@@ -42,7 +29,7 @@ class BtfBlockerService {
 
 	init() {
 		context.push('listeners.slot', {
-			onRenderEnded: (/** AdSlot */ adSlot) => {
+			onRenderEnded: (adSlot) => {
 				logger(logGroup, adSlot.getSlotName(), 'Slot rendered');
 				if (!this.firstCallEnded && adSlot.isFirstCall()) {
 					this.finishFirstCall();
@@ -59,7 +46,7 @@ class BtfBlockerService {
 		logger(logGroup, 'first call queue finished');
 
 		if (window.ads.runtime.disableBtf) {
-			disableSecondCall([
+			this.disableSecondCall([
 				...this.unblockedSlotNames,
 				...slotService.getAtfSlotConfigs().map((slot) => slot.name),
 			]);
@@ -68,30 +55,53 @@ class BtfBlockerService {
 		this.slotsQueue.start();
 	}
 
+	/** @private */
+	disableSecondCall(unblockedSlots) {
+		const slots = context.get('slots');
+
+		logger(logGroup, 'second call queue disabled');
+
+		Object.keys(slots).forEach((adSlotKey) => {
+			const slotConfig = slots[adSlotKey];
+
+			if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
+				slotService.disable(adSlotKey, 'blocked');
+			}
+		});
+	}
+
 	push(adSlot, fillInCallback) {
-		function wrappedFillInCallback() {
-			if (slotService.hasViewportConflict(adSlot)) {
-				slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
-			}
-
-			if (!adSlot.isEnabled()) {
-				logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
-
-				return;
-			}
-
-			logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
-			fillInCallback(adSlot);
-		}
-
 		if (!this.firstCallEnded && !adSlot.isFirstCall()) {
-			this.slotsQueue.push({ adSlot, fillInCallback: wrappedFillInCallback });
+			this.slotsQueue.push({
+				adSlot,
+				fillInCallback,
+			});
 			logger(logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
 
 			return;
 		}
 
-		wrappedFillInCallback(adSlot);
+		this.disableAdSlotIfHasConflict(adSlot);
+		this.fillInSlotIfEnabled(adSlot, fillInCallback);
+	}
+
+	/** @private */
+	disableAdSlotIfHasConflict(adSlot) {
+		if (slotService.hasViewportConflict(adSlot)) {
+			slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+		}
+	}
+
+	/** @private */
+	fillInSlotIfEnabled(adSlot, fillInCallback) {
+		if (!adSlot.isEnabled()) {
+			logger(logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+
+			return;
+		}
+
+		logger(logGroup, adSlot.getSlotName(), 'Filling in slot');
+		fillInCallback(adSlot);
 	}
 
 	unblock(slotName) {
