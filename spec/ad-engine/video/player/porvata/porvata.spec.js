@@ -59,6 +59,7 @@ describe('porvata', () => {
 		expect(typeof player.resume).to.equal('function');
 		expect(typeof player.setVolume).to.equal('function');
 		expect(typeof player.stop).to.equal('function');
+		expect(typeof player.destroy).to.equal('function');
 	});
 
 	it('player calls IMA API', () => {
@@ -105,5 +106,15 @@ describe('porvata', () => {
 
 		player.stop();
 		expect(mocks.adsManager.stop.calledOnce).to.be.ok;
+	});
+
+	it('destroy calls defined destroy callbacks', () => {
+		const destroyCallback = sinon.spy();
+		const player = new PorvataPlayer(mocks.ima, mocks.params);
+
+		player.addOnDestroyCallback(destroyCallback);
+		player.destroy();
+
+		expect(destroyCallback.calledOnce).to.be.true;
 	});
 });
