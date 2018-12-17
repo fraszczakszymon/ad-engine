@@ -461,16 +461,16 @@ var a9_A9 = function (_BaseBidder) {
 			var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 			ad_engine_["utils"].logger(logGroup, 'fetching bids for slots', slots);
-			// overwrite window.apstag.renderImp on the first fetch
-			if (!this.isRenderImpOverwritten) {
-				this.overwriteRenderImp();
-				this.isRenderImpOverwritten = true;
-			}
 			window.apstag.fetchBids({
 				slots: slots,
 				timeout: this.timeout
 			}, function (currentBids) {
 				ad_engine_["utils"].logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
+				// overwrite window.apstag.renderImp on the first fetch
+				if (!_this4.isRenderImpOverwritten) {
+					_this4.overwriteRenderImp();
+					_this4.isRenderImpOverwritten = true;
+				}
 				currentBids.forEach(function (bid) {
 					var slotName = _this4.slotNamesMap[bid.slotID] || bid.slotID;
 

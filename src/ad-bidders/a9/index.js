@@ -85,11 +85,6 @@ export class A9 extends BaseBidder {
 	 */
 	fetchBids(slots, refresh = false) {
 		utils.logger(logGroup, 'fetching bids for slots', slots);
-		// overwrite window.apstag.renderImp on the first fetch
-		if (!this.isRenderImpOverwritten) {
-			this.overwriteRenderImp();
-			this.isRenderImpOverwritten = true;
-		}
 		window.apstag.fetchBids(
 			{
 				slots,
@@ -97,6 +92,11 @@ export class A9 extends BaseBidder {
 			},
 			(currentBids) => {
 				utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
+				// overwrite window.apstag.renderImp on the first fetch
+				if (!this.isRenderImpOverwritten) {
+					this.overwriteRenderImp();
+					this.isRenderImpOverwritten = true;
+				}
 				currentBids.forEach((bid) => {
 					const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
 
