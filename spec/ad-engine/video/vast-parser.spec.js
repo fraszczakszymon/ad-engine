@@ -94,7 +94,7 @@ describe('vast-parser', () => {
 		});
 
 		expect(adInfo.contentType).to.equal('text/javascript');
-		expect(adInfo.creativeId).to.equal('555');
-		expect(adInfo.lineItemId).to.equal('222');
+		expect(adInfo.creativeId).to.equal('666');
+		expect(adInfo.lineItemId).to.equal('333');
 	});
 });
