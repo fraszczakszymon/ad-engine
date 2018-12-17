@@ -25,6 +25,7 @@ export class A9 extends BaseBidder {
 		this.timeout = timeout;
 		this.bidsRefreshing = context.get('bidders.a9.bidsRefreshing');
 		this.isBidsRefreshingEnabled = this.bidsRefreshing && this.bidsRefreshing.enabled;
+		this.isRenderImpOverwritten = false;
 	}
 
 	calculatePrices() {
@@ -84,6 +85,11 @@ export class A9 extends BaseBidder {
 	 */
 	fetchBids(slots, refresh = false) {
 		utils.logger(logGroup, 'fetching bids for slots', slots);
+		// overwrite window.apstag.renderImp on the first fetch
+		if (!this.isRenderImpOverwritten) {
+			this.overwriteRenderImp();
+			this.isRenderImpOverwritten = true;
+		}
 		window.apstag.fetchBids(
 			{
 				slots,
@@ -159,9 +165,12 @@ export class A9 extends BaseBidder {
 	}
 
 	insertScript() {
-		utils.scriptLoader
-			.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first')
-			.then(() => this.overwriteRenderImp());
+		utils.scriptLoader.loadScript(
+			'//c.amazon-adsystem.com/aax2/apstag.js',
+			'text/javascript',
+			true,
+			'first',
+		);
 	}
 
 	/**

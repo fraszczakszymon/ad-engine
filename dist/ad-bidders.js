@@ -383,6 +383,7 @@ var a9_A9 = function (_BaseBidder) {
 		_this.timeout = timeout;
 		_this.bidsRefreshing = ad_engine_["context"].get('bidders.a9.bidsRefreshing');
 		_this.isBidsRefreshingEnabled = _this.bidsRefreshing && _this.bidsRefreshing.enabled;
+		_this.isRenderImpOverwritten = false;
 		return _this;
 	}
 
@@ -460,6 +461,11 @@ var a9_A9 = function (_BaseBidder) {
 			var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 			ad_engine_["utils"].logger(logGroup, 'fetching bids for slots', slots);
+			// overwrite window.apstag.renderImp on the first fetch
+			if (!this.isRenderImpOverwritten) {
+				this.overwriteRenderImp();
+				this.isRenderImpOverwritten = true;
+			}
 			window.apstag.fetchBids({
 				slots: slots,
 				timeout: this.timeout
@@ -549,11 +555,7 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'insertScript',
 		value: function insertScript() {
-			var _this6 = this;
-
-			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first').then(function () {
-				return _this6.overwriteRenderImp();
-			});
+			ad_engine_["utils"].scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
 		}
 
 		/**
@@ -565,21 +567,21 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'overwriteRenderImp',
 		value: function overwriteRenderImp() {
-			var _this7 = this;
+			var _this6 = this;
 
 			ad_engine_["utils"].logger(logGroup, 'overwriting window.apstag.renderImp');
 			window.apstag.renderImp = function (original) {
 				return function (doc, impId) {
 					original(doc, impId);
 
-					var slot = _this7.getRenderedSlot(impId);
+					var slot = _this6.getRenderedSlot(impId);
 					var slotName = slot.getSlotName();
 
 					ad_engine_["utils"].logger(logGroup, 'bid used for slot ' + slotName);
-					delete _this7.bids[_this7.getSlotAlias(slotName)];
+					delete _this6.bids[_this6.getSlotAlias(slotName)];
 
-					if (window.apstag.renderImp && _this7.isBidsRefreshingEnabled) {
-						_this7.refreshBid(slot);
+					if (window.apstag.renderImp && _this6.isBidsRefreshingEnabled) {
+						_this6.refreshBid(slot);
 					}
 				};
 			}(window.apstag.renderImp);
@@ -663,12 +665,12 @@ var a9_A9 = function (_BaseBidder) {
 	}, {
 		key: 'getA9SlotsDefinitions',
 		value: function getA9SlotsDefinitions(slotsNames) {
-			var _this8 = this;
+			var _this7 = this;
 
 			return slotsNames.map(function (slotName) {
-				return _this8.getSlotAlias(slotName);
+				return _this7.getSlotAlias(slotName);
 			}).map(function (slotAlias) {
-				return _this8.createSlotDefinition(slotAlias);
+				return _this7.createSlotDefinition(slotAlias);
 			}).filter(function (slot) {
 				return slot !== null;
 			});
