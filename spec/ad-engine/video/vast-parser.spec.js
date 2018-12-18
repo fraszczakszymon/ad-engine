@@ -86,15 +86,17 @@ describe('vast-parser', () => {
 	});
 
 	it('current ad info from IMA object', () => {
-		const adInfo = vastParser.parse(dummyVast, {
-			contentType: 'video/mp4',
-			creativeId: '123',
-			imaAd: getImaAd(['222', '333'], ['555', '666']),
-			lineItemId: '456',
-		});
+		const adInfo = vastParser.getAdInfo(getImaAd(['222', '333'], ['555', '666']));
 
 		expect(adInfo.contentType).to.equal('text/javascript');
 		expect(adInfo.creativeId).to.equal('666');
 		expect(adInfo.lineItemId).to.equal('333');
+	});
+
+	it('current ad info from IMA object with incorrect wrapper ids', () => {
+		const adInfo = vastParser.getAdInfo(getImaAd(['foo', 'foo1'], ['bar2', 'bar']));
+
+		expect(adInfo.creativeId).to.equal('');
+		expect(adInfo.lineItemId).to.equal('');
 	});
 });

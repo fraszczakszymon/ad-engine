@@ -6,7 +6,7 @@ class VastParser {
 	 */
 	getLastNumber(possibleValues) {
 		let i;
-		let value = null;
+		let value = '';
 
 		for (i = 0; i < possibleValues.length; i += 1) {
 			if (!isNaN(possibleValues[i])) {
