@@ -30,6 +30,10 @@ export default {
 					type: 'video',
 					slotId: 'FEATURED',
 				},
+				mobile_in_content: {
+					slotId: 'MOBILE_IN_CONTENT',
+					sizes: [[300, 250]],
+				},
 			},
 		},
 		prebid: {
@@ -208,7 +212,7 @@ export default {
 			},
 		},
 		repeatable_boxad_1: {
-			bidderAlias: 'top_boxad',
+			bidderAlias: 'mobile_in_content',
 			defaultSizes: [[300, 250]],
 			avoidConflictWith: '.repeatable-boxad,#incontent_player',
 			insertBeforeSelector: '.main p',
