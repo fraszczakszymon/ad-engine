@@ -90,6 +90,7 @@
 	"scripts": {
 		"build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
 		"ci-check": "npm run test && npm run lint",
+		"dev": "npm run serve",
 		"lint": "eslint . && ./maintenance/detect-incorrect-usages.sh",
 		"lintf": "eslint . --fix && ./maintenance/detect-incorrect-usages.sh",
 		"prettier": "prettier --write '**/*.{js,json,css,scss,html}'",
