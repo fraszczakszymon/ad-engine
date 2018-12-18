@@ -6,29 +6,6 @@ const logGroup = 'sticky-base';
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
-
-		let found = false;
-
-		lineId = lineId.toString();
-
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-		if (found) {
-			utils.logger(logGroup, `line item ${lineId} enabled in geo`);
-		}
-
-		return found;
-	}
-
 	/**
 	 * Base class for sticky ads
 	 * @param {AdSlot} adSlot
@@ -68,13 +45,34 @@ export class StickyBase {
 
 	isEnabled() {
 		const isEnabledInContext = context.get(`templates.${this.getName()}.enabled`);
-		const isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
-		const isEnabled = isEnabledInContext && isLineAndGeo;
+		const isEnabled = isEnabledInContext && this.isLineAndGeo();
 
 		if (isEnabled) {
 			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
 		}
 
 		return isEnabled;
+	}
+
+	/** @private */
+	isLineAndGeo() {
+		if (!this.lineId || !this.lines || !this.lines.length) {
+			return false;
+		}
+
+		let found = false;
+
+		this.lines.forEach((line) => {
+			const [lineId, geo] = line.split(':', 2);
+
+			if (+lineId === this.lineId && (!geo || utils.isProperGeo([geo]))) {
+				found = true;
+			}
+		});
+		if (found) {
+			utils.logger(logGroup, `line item ${this.lineId} enabled in geo`);
+		}
+
+		return found;
 	}
 }
