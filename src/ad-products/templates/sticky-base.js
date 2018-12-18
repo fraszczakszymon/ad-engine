@@ -60,15 +60,12 @@ export class StickyBase {
 			return false;
 		}
 
-		let found = false;
-
-		this.lines.forEach((line) => {
+		const found = this.lines.some((line) => {
 			const [lineId, geo] = line.split(':', 2);
 
-			if (+lineId === this.lineId && (!geo || utils.isProperGeo([geo]))) {
-				found = true;
-			}
+			return +lineId === +this.lineId && (!geo || utils.isProperGeo([geo]));
 		});
+
 		if (found) {
 			utils.logger(logGroup, `line item ${this.lineId} enabled in geo`);
 		}
