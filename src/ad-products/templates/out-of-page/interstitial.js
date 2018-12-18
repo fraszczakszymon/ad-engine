@@ -1,4 +1,4 @@
-import { context, events, slotTweaker, utils } from '@wikia/ad-engine';
+import { context, events, SlotTweaker, slotTweaker, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from '../interface/advertisement-label';
 import CloseButton from '../interface/close-button';
 
@@ -24,6 +24,7 @@ export class Interstitial {
 			onClick: () => {
 				document.documentElement.classList.remove('stop-scrolling');
 				slotTweaker.hide(this.adSlot);
+				this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 				utils.logger(Interstitial.getName(), 'closed');
 			},
 		});
