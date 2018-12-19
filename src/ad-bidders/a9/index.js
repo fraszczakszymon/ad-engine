@@ -1,7 +1,14 @@
-import { context, slotService, utils } from '@wikia/ad-engine';
+import { context, events, slotService, utils } from '@wikia/ad-engine';
 import { BaseBidder } from '../base-bidder';
 
+/**
+ * @typedef {Object} A9SlotDefinition
+ * @property {string} slotID
+ * @property {string} slotName
+ */
+
 let loaded = false;
+const logGroup = 'A9';
 
 export class A9 extends BaseBidder {
 	constructor(bidderConfig, timeout = 2000) {
@@ -10,11 +17,15 @@ export class A9 extends BaseBidder {
 		this.isCMPEnabled = context.get('custom.isCMPEnabled');
 		this.amazonId = this.bidderConfig.amazonId;
 		this.slots = this.bidderConfig.slots;
+		this.slotsNames = Object.keys(this.slots);
 		this.bids = {};
 		this.priceMap = {};
 		this.slotNamesMap = {};
 		this.targetingKeys = [];
 		this.timeout = timeout;
+		this.bidsRefreshing = context.get('bidders.a9.bidsRefreshing');
+		this.isBidsRefreshingEnabled = this.bidsRefreshing && this.bidsRefreshing.enabled;
+		this.isRenderImpOverwritten = false;
 	}
 
 	calculatePrices() {
@@ -23,17 +34,17 @@ export class A9 extends BaseBidder {
 		});
 	}
 
-	callBids(onResponse) {
+	callBids() {
 		if (window.__cmp) {
 			window.__cmp('getConsentData', null, (consentData) => {
-				this.init(onResponse, consentData);
+				this.init(consentData);
 			});
 		} else {
-			this.init(onResponse);
+			this.init();
 		}
 	}
 
-	init(onResponse, consentData = {}) {
+	init(consentData = {}) {
 		if (!loaded) {
 			this.insertScript();
 			this.configureApstag();
@@ -60,16 +71,32 @@ export class A9 extends BaseBidder {
 		this.bids = {};
 		this.priceMap = {};
 
-		const a9Slots = Object.keys(this.slots)
-			.map((key) => this.createSlotDefinition(key, this.slots[key]))
-			.filter((slot) => slot !== null);
+		const a9Slots = this.getA9SlotsDefinitions(this.slotsNames);
 
+		this.fetchBids(a9Slots);
+	}
+
+	/**
+	 * Fetches bids from A9.
+	 *
+	 * Calls this.onResponse() upon success.
+	 *
+	 * @param {A9SlotDefinition[]} slots
+	 */
+	fetchBids(slots, refresh = false) {
+		utils.logger(logGroup, 'fetching bids for slots', slots);
 		window.apstag.fetchBids(
 			{
-				slots: a9Slots,
+				slots,
 				timeout: this.timeout,
 			},
 			(currentBids) => {
+				utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
+				// overwrite window.apstag.renderImp on the first fetch
+				if (!this.isRenderImpOverwritten) {
+					this.overwriteRenderImp();
+					this.isRenderImpOverwritten = true;
+				}
 				currentBids.forEach((bid) => {
 					const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
 
@@ -90,7 +117,10 @@ export class A9 extends BaseBidder {
 					});
 				});
 
-				onResponse();
+				this.onResponse();
+				if (refresh) {
+					events.emit(events.BIDS_REFRESH);
+				}
 			},
 		);
 	}
@@ -116,16 +146,141 @@ export class A9 extends BaseBidder {
 		window.apstag._Q.push([command, args]);
 	}
 
-	createSlotDefinition(slotName, config) {
-		if (!slotService.getState(slotName)) {
-			return null;
+	getBestPrice(slotName) {
+		const slotAlias = this.getSlotAlias(slotName);
+
+		return this.priceMap[slotAlias] ? { a9: this.priceMap[slotAlias] } : {};
+	}
+
+	getPrices() {
+		return this.priceMap;
+	}
+
+	getTargetingKeysToReset() {
+		return this.targetingKeys;
+	}
+
+	getTargetingParams(slotName) {
+		return this.bids[this.getSlotAlias(slotName)] || {};
+	}
+
+	insertScript() {
+		utils.scriptLoader.loadScript(
+			'//c.amazon-adsystem.com/aax2/apstag.js',
+			'text/javascript',
+			true,
+			'first',
+		);
+	}
+
+	/**
+	 * Wraps apstag.renderImp
+	 *
+	 * Calls this.refreshBid() if bids refreshing is enabled.
+	 */
+	overwriteRenderImp() {
+		utils.logger(logGroup, 'overwriting window.apstag.renderImp');
+		window.apstag.renderImp = ((original) => (doc, impId) => {
+			original(doc, impId);
+
+			const slot = this.getRenderedSlot(impId);
+			const slotName = slot.getSlotName();
+
+			utils.logger(logGroup, `bid used for slot ${slotName}`);
+			delete this.bids[this.getSlotAlias(slotName)];
+
+			if (window.apstag.renderImp && this.isBidsRefreshingEnabled) {
+				this.refreshBid(slot);
+			}
+		})(window.apstag.renderImp);
+	}
+
+	/**
+	 * Checks if slot with given name is supported by bidder.
+	 *
+	 * @param {string} slotName
+	 * @returns {boolean}
+	 */
+	isSupported(slotName) {
+		return !!this.slots[this.getSlotAlias(slotName)];
+	}
+
+	/**
+	 * Checks if slot should be refreshed.
+	 *
+	 * @param {AdSlot} slot
+	 * @returns {boolean}
+	 */
+	shouldRefreshSlot(slot) {
+		return this.bidsRefreshing.slots.includes(this.getSlotAlias(slot.getSlotName()));
+	}
+
+	/**
+	 * Returns slot which used bid with given impression id.
+	 *
+	 * @param {string | number} impId
+	 * @returns {AdSlot | undefined }
+	 */
+	getRenderedSlot(impId) {
+		let renderedSlot;
+
+		slotService.forEach((slot) => {
+			if (slot.getTargeting().amzniid === impId) {
+				renderedSlot = slot;
+			}
+		});
+
+		return renderedSlot;
+	}
+
+	/**
+	 * Refreshes bid for given slot.
+	 *
+	 * @param {string | number} impId
+	 */
+	refreshBid(slot) {
+		if (!this.shouldRefreshSlot(slot)) {
+			return;
 		}
 
+		const slotDef = this.createSlotDefinition(this.getSlotAlias(slot.getSlotName()));
+
+		if (slotDef) {
+			utils.logger(logGroup, 'refresh bids for slot', slotDef);
+			this.fetchBids([slotDef], true);
+		}
+	}
+
+	/**
+	 * Transforms slots names into A9 slot definitions.
+	 *
+	 * @param {string[]} slotsNames
+	 * @returns {A9SlotDefinition[]}
+	 */
+	getA9SlotsDefinitions(slotsNames) {
+		return slotsNames
+			.map((slotName) => this.getSlotAlias(slotName))
+			.map((slotAlias) => this.createSlotDefinition(slotAlias))
+			.filter((slot) => slot !== null);
+	}
+
+	/**
+	 * Creates A9 slot definition from slot name.
+	 *
+	 * @param {string} slotName
+	 * @returns {A9SlotDefinition | null} Returns null i
+	 */
+	createSlotDefinition(slotName) {
+		const config = this.slots[slotName];
 		const slotID = config.slotId || slotName;
 		const definition = {
 			slotID,
 			slotName: slotID,
 		};
+
+		if (!slotService.getState(slotID)) {
+			return null;
+		}
 
 		this.slotNamesMap[slotID] = slotName;
 
@@ -139,34 +294,5 @@ export class A9 extends BaseBidder {
 		}
 
 		return definition;
-	}
-
-	getBestPrice(slotName) {
-		return this.priceMap[slotName] ? { a9: this.priceMap[slotName] } : {};
-	}
-
-	getPrices() {
-		return this.priceMap;
-	}
-
-	getTargetingKeysToReset() {
-		return this.targetingKeys;
-	}
-
-	getTargetingParams(slotName) {
-		return this.bids[slotName] || {};
-	}
-
-	insertScript() {
-		utils.scriptLoader.loadScript(
-			'//c.amazon-adsystem.com/aax2/apstag.js',
-			'text/javascript',
-			true,
-			'first',
-		);
-	}
-
-	isSupported(slotName) {
-		return !!this.slots[slotName];
 	}
 }

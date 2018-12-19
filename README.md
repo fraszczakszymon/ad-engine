@@ -26,6 +26,8 @@ npm install github:Wikia/ad-engine#v14.0.0
 |`bidders.a9.slots.{slot_name}.sizes`|List of creative sizes to bid|array|✔|
 |`bidders.a9.slots.{slot_name}.type`|`video` type decides of "video" mediaType bid|string|✘|
 |`bidders.a9.videoEnabled`|Decides whether A9 video will be enabled|boolean|✘|
+|`bidders.a9.bidsRefreshing.enabled`|Decides whether A9 should refresh bids|boolean|✘|
+|`bidders.a9.bidsRefreshing.slots`|Decides which slots should be refreshed by A9|string[]|✘|
 |`bidders.prebid.enabled`|Decides whether Prebid.js will be enabled|boolean|✔|
 |`bidders.prebid.{bidder_name}`|Single bidder definitions|object|✔|
 |`bidders.prebid.{bidder_name}.enabled`|Decides whether given bidder will be requested on page|boolean|✔|

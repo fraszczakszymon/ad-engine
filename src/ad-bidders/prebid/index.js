@@ -31,7 +31,6 @@ export class Prebid extends BaseBidder {
 		this.isLazyLoadingEnabled = this.bidderConfig.lazyLoadingEnabled;
 		this.isCMPEnabled = context.get('custom.isCMPEnabled');
 		this.adUnits = setupAdUnits(this.bidderConfig, this.isLazyLoadingEnabled ? 'pre' : 'off');
-		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
 		this.prebidConfig = {
 			debug:
 				utils.queryString.get('pbjs_debug') === '1' ||
@@ -48,6 +47,7 @@ export class Prebid extends BaseBidder {
 				syncDelay: 6000,
 			},
 		};
+		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
 
 		if (this.isCMPEnabled) {
 			this.prebidConfig.consentManagement = {
@@ -140,7 +140,7 @@ export class Prebid extends BaseBidder {
 	}
 
 	getBestPrice(slotName) {
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 
 		return getPrebidBestPrice(slotAlias);
 	}
@@ -152,7 +152,7 @@ export class Prebid extends BaseBidder {
 	getTargetingParams(slotName) {
 		let slotParams = {};
 
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 		const bids = getAvailableBidsByAdUnitCode(slotAlias);
 
 		if (bids.length) {
@@ -186,7 +186,7 @@ export class Prebid extends BaseBidder {
 	}
 
 	isSupported(slotName) {
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 
 		return this.adUnits && this.adUnits.some((adUnit) => adUnit.code === slotAlias);
 	}

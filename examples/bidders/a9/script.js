@@ -44,6 +44,8 @@ context.extend(customContext);
 context.set('targeting.artid', '266');
 context.set('slots.incontent_boxad.disabled', false);
 context.set('bidders.a9.dealsEnabled', utils.queryString.get('deals') === '1');
+context.set('bidders.a9.bidsRefreshing.enabled', utils.queryString.get('refreshing') === '1');
+context.set('bidders.a9.bidsRefreshing.slots', ['incontent_boxad']);
 
 adProductsUtils.setupNpaContext();
 
@@ -89,3 +91,7 @@ document.getElementById('disableDebugMode').addEventListener('click', () => {
 });
 
 new AdEngine().init();
+
+window.adsQueue.push({
+	id: 'repeatable_boxad_1',
+});
