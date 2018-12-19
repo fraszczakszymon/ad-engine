@@ -42,7 +42,7 @@ export default {
 			lazyLoadingEnabled: false,
 			bidsRefreshing: {
 				enabled: true,
-				slots: ['top_boxad'],
+				slots: ['mobile_in_content'],
 			},
 			wikia: {
 				enabled: true,
@@ -55,6 +55,9 @@ export default {
 					},
 					bottom_leaderboard: {
 						sizes: [[728, 90]],
+					},
+					mobile_in_content: {
+						sizes: [[300, 250]],
 					},
 				},
 			},
@@ -173,6 +176,14 @@ export default {
 				loc() {
 					return window.innerWidth < 800 ? 'middle' : 'top';
 				},
+			},
+		},
+		mobile_in_content: {
+			defaultSizes: [[320, 50], [300, 250], [300, 50], [320, 480]],
+			targeting: {
+				loc: 'middle',
+				pos: ['mobile_in_content'],
+				rv: 1,
 			},
 		},
 		incontent_boxad: {
