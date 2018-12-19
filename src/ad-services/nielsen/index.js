@@ -40,6 +40,8 @@ class Nielsen {
 
 		if (!context.get('services.nielsen.enabled') || !nielsenKey) {
 			utils.logger(logGroup, 'disabled');
+
+			return;
 		}
 
 		if (!this.nlsnInstance) {
