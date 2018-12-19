@@ -104,25 +104,25 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 9 */
@@ -588,7 +588,7 @@ function getDocumentVisibilityStatus() {
 	return status;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(6);
+var assign_ = __webpack_require__(5);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -664,7 +664,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(5);
+var slicedToArray_ = __webpack_require__(8);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
@@ -1521,7 +1521,7 @@ var values_ = __webpack_require__(22);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(7);
+var get_prototype_of_ = __webpack_require__(6);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
@@ -1541,13 +1541,30 @@ var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 
-
 var vast_parser_VastParser = function () {
 	function VastParser() {
 		classCallCheck_default()(this, VastParser);
 	}
 
 	createClass_default()(VastParser, [{
+		key: 'getLastNumber',
+
+		/**
+   * @private
+   */
+		value: function getLastNumber(possibleValues) {
+			var i = void 0;
+			var value = '';
+
+			for (i = 0; i < possibleValues.length; i += 1) {
+				if (!isNaN(possibleValues[i])) {
+					value = possibleValues[i];
+				}
+			}
+
+			return value;
+		}
+	}, {
 		key: 'getAdInfo',
 		value: function getAdInfo(imaAd) {
 			var adInfo = {};
@@ -1557,20 +1574,16 @@ var vast_parser_VastParser = function () {
 				adInfo.creativeId = imaAd.getCreativeId();
 				adInfo.contentType = imaAd.getContentType();
 
-				var _ref = imaAd.getWrapperAdIds() || [],
-				    _ref2 = slicedToArray_default()(_ref, 1),
-				    lineItemId = _ref2[0];
+				var wrapperAdIds = imaAd.getWrapperAdIds() || [];
 
-				if (lineItemId !== undefined) {
-					adInfo.lineItemId = lineItemId;
+				if (wrapperAdIds && wrapperAdIds.length) {
+					adInfo.lineItemId = this.getLastNumber(wrapperAdIds);
 				}
 
-				var _ref3 = imaAd.getWrapperCreativeIds() || [],
-				    _ref4 = slicedToArray_default()(_ref3, 1),
-				    creativeId = _ref4[0];
+				var wrapperCreativeIds = imaAd.getWrapperCreativeIds() || [];
 
-				if (creativeId !== undefined) {
-					adInfo.creativeId = creativeId;
+				if (wrapperCreativeIds && wrapperCreativeIds.length) {
+					adInfo.creativeId = this.getLastNumber(wrapperCreativeIds);
 				}
 			}
 
@@ -2963,7 +2976,7 @@ var get_own_property_names_ = __webpack_require__(17);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(8);
+var symbol_ = __webpack_require__(7);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -5691,8 +5704,8 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.2.0');
-logger('ad-engine', 'v22.2.0');
+set_default()(window, versionField, 'v22.3.0');
+logger('ad-engine', 'v22.3.0');
 
 
 
