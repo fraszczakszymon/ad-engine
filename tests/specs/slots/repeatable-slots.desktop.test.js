@@ -21,8 +21,8 @@ describe('Repeatable slots ads', () => {
 		expect(adStatus.inViewport, 'Not in viewport').to.be.true;
 	});
 
-	it('Check if last slot is visible with a limit to 3', () => {
-		const numberOfSlots = 3;
+	it('Check if last slot is visible with a limit to 4', () => {
+		const numberOfSlots = 4;
 		const lengthOfContent = 5;
 
 		helpers.navigateToUrl(

@@ -30,7 +30,7 @@ export default {
 					type: 'video',
 					slotId: 'FEATURED',
 				},
-				mobile_in_content: {
+				incontent_boxad: {
 					slotId: 'MOBILE_IN_CONTENT',
 					sizes: [[300, 250]],
 				},
@@ -42,7 +42,7 @@ export default {
 			lazyLoadingEnabled: false,
 			bidsRefreshing: {
 				enabled: true,
-				slots: ['mobile_in_content'],
+				slots: ['incontent_boxad'],
 			},
 			wikia: {
 				enabled: true,
@@ -53,11 +53,11 @@ export default {
 					top_boxad: {
 						sizes: [[300, 250]],
 					},
+					incontent_boxad: {
+						sizes: [[300, 250]],
+					},
 					bottom_leaderboard: {
 						sizes: [[728, 90]],
-					},
-					mobile_in_content: {
-						sizes: [[300, 250]],
 					},
 				},
 			},
@@ -178,14 +178,6 @@ export default {
 				},
 			},
 		},
-		mobile_in_content: {
-			defaultSizes: [[320, 50], [300, 250], [300, 50], [320, 480]],
-			targeting: {
-				loc: 'middle',
-				pos: ['mobile_in_content'],
-				rv: 1,
-			},
-		},
 		incontent_boxad: {
 			sizes: [
 				{
@@ -223,7 +215,7 @@ export default {
 			},
 		},
 		repeatable_boxad_1: {
-			bidderAlias: 'mobile_in_content',
+			bidderAlias: 'incontent_boxad',
 			defaultSizes: [[300, 250]],
 			avoidConflictWith: '.repeatable-boxad,#incontent_player',
 			insertBeforeSelector: '.main p',
