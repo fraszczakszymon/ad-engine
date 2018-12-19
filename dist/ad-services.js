@@ -1154,6 +1154,8 @@ var nielsen_Nielsen = function () {
 
 			if (!ad_engine_["context"].get('services.nielsen.enabled') || !nielsenKey) {
 				ad_engine_["utils"].logger(nielsen_logGroup, 'disabled');
+
+				return;
 			}
 
 			if (!this.nlsnInstance) {

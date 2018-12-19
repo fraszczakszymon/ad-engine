@@ -91,7 +91,3 @@ document.getElementById('disableDebugMode').addEventListener('click', () => {
 });
 
 new AdEngine().init();
-
-window.adsQueue.push({
-	id: 'repeatable_boxad_1',
-});

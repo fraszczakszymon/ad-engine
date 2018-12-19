@@ -30,7 +30,9 @@ function getBidParameters(slotName) {
 		if (bidder && bidder.wasCalled()) {
 			const params = bidder.getSlotTargetingParams(slotName);
 
-			Object.assign(slotParams, params);
+			Object.keys(params).forEach((key) => {
+				slotParams[key] = params[key];
+			});
 		}
 	});
 
