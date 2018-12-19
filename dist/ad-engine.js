@@ -200,31 +200,31 @@ module.exports = require("current-device");
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/values");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("babel-runtime/core-js/object/values");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 26 */
@@ -271,11 +271,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(25);
+var set_ = __webpack_require__(21);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(24);
+var get_ = __webpack_require__(25);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
@@ -291,7 +291,7 @@ var external_current_device_ = __webpack_require__(20);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(23);
+var external_blockadblock_ = __webpack_require__(24);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.js
@@ -1517,7 +1517,7 @@ var toConsumableArray_ = __webpack_require__(19);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
-var values_ = __webpack_require__(22);
+var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
@@ -2619,7 +2619,7 @@ var regenerator_ = __webpack_require__(18);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_ = __webpack_require__(22);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.js
@@ -5699,13 +5699,15 @@ var ad_engine_AdEngine = function () {
 
 
 var versionField = 'ads.adEngineVersion';
+var commitField = 'ads.adEngineCommit';
 
 if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.3.0');
-logger('ad-engine', 'v22.3.0');
+set_default()(window, versionField, 'v22.3.1');
+set_default()(window, commitField, '0418dee');
+logger('ad-engine', 'v22.3.1 (0418dee)');
 
 
 
