@@ -1,4 +1,4 @@
-import { utils } from '@wikia/ad-engine';
+import { context, utils } from '@wikia/ad-engine';
 
 export class BaseBidder {
 	constructor(name, bidderConfig, timeout = 2000) {
@@ -56,12 +56,12 @@ export class BaseBidder {
 		return this.response;
 	}
 
-	isSlotSupported(slotName) {
-		if (this.isSupported) {
-			return this.isSupported(slotName);
-		}
-
+	isSupported() {
 		return false;
+	}
+
+	isSlotSupported(slotName) {
+		return this.isSupported(slotName);
 	}
 
 	onResponseCall() {
@@ -100,5 +100,15 @@ export class BaseBidder {
 
 	wasCalled() {
 		return this.called;
+	}
+
+	/**
+	 * Returns bidder slot alias if available, otherwise slot name.
+	 *
+	 * @param {string} slotName
+	 * @returns {string}
+	 */
+	getSlotAlias(slotName) {
+		return context.get(`slots.${slotName}.bidderAlias`) || slotName;
 	}
 }
