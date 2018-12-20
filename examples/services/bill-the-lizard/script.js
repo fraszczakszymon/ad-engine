@@ -63,3 +63,7 @@ document.getElementById('lazyCallCat').addEventListener('click', () => {
 document.getElementById('lazyCallCatWithId').addEventListener('click', () => {
 	makeCall(['cheshirecat'], 'catCall');
 });
+
+document.getElementById('reset').addEventListener('click', () => {
+	billTheLizard.reset();
+});
