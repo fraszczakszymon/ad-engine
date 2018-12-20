@@ -4423,6 +4423,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			if (window.ads && window.ads.runtime) {
 				window.ads.runtime.disableBtf = false;
+				window.ads.runtime.disableSecondCall = false;
 			}
 		}
 	}, {
@@ -4448,8 +4449,10 @@ var btf_blocker_service_BtfBlockerService = function () {
 			this.firstCallEnded = true;
 			logger(btf_blocker_service_logGroup, 'first call queue finished');
 
-			if (window.ads.runtime.disableBtf) {
-				this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
+			if (window.ads.runtime.disableSecondCall) {
+				disableSecondCall([]);
+			} else if (window.ads.runtime.disableBtf) {
+				disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
 					return slot.name;
 				}))));
 			}

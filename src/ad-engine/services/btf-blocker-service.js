@@ -24,6 +24,7 @@ class BtfBlockerService {
 
 		if (window.ads && window.ads.runtime) {
 			window.ads.runtime.disableBtf = false;
+			window.ads.runtime.disableSecondCall = false;
 		}
 	}
 
@@ -45,10 +46,12 @@ class BtfBlockerService {
 		this.firstCallEnded = true;
 		logger(logGroup, 'first call queue finished');
 
-		if (window.ads.runtime.disableBtf) {
+		if (window.ads.runtime.disableSecondCall) {
+			this.disableSecondCall([]);
+		} else if (window.ads.runtime.disableBtf) {
 			this.disableSecondCall([
 				...this.unblockedSlotNames,
-				...slotService.getAtfSlotConfigs().map((slot) => slot.name),
+				...slotService.getAtfSlotConfigs().map((slot) => slot.slotName),
 			]);
 		}
 
