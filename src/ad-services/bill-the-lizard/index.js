@@ -160,8 +160,6 @@ export class BillTheLizard {
 
 		openRequests.forEach((req) => req.abort());
 		openRequests = [];
-
-		this.resetTargeting();
 	}
 
 	/**
@@ -304,10 +302,6 @@ export class BillTheLizard {
 		}
 
 		return '';
-	}
-
-	resetTargeting() {
-		context.set('targeting.btl', []);
 	}
 
 	/**
