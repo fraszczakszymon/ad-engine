@@ -325,7 +325,7 @@ export default {
 					s2: 'article',
 				},
 				cheshirecat: {
-					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(';'),
+					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(','),
 				},
 			},
 			timeout: 2000,
