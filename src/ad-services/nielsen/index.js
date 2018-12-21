@@ -34,6 +34,7 @@ class Nielsen {
 	/**
 	 * Create Nielsen Static Queue and make a call
 	 * @param {Object} nielsenMetadata
+	 * @returns {Object}
 	 */
 	call(nielsenMetadata) {
 		const nielsenKey = context.get('services.nielsen.appId');
@@ -41,7 +42,7 @@ class Nielsen {
 		if (!context.get('services.nielsen.enabled') || !nielsenKey) {
 			utils.logger(logGroup, 'disabled');
 
-			return;
+			return null;
 		}
 
 		if (!this.nlsnInstance) {
@@ -53,6 +54,8 @@ class Nielsen {
 		this.nlsnInstance.ggPM('staticstart', nielsenMetadata);
 
 		utils.logger(logGroup, 'called', nielsenMetadata);
+
+		return this.nlsnInstance;
 	}
 }
 
