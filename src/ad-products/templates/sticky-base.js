@@ -12,8 +12,8 @@ export class StickyBase {
 	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.lines = context.get(`templates.${this.getName()}.lineItemIds`);
+		this.lineId = adSlot.lineItemId.toString() || '';
+		this.lines = context.get(`templates.${this.getName()}.lineItemIds`) || [];
 		this.stickiness = null;
 		this.config = context.get(`templates.${this.getName()}`);
 	}
@@ -56,14 +56,10 @@ export class StickyBase {
 
 	/** @private */
 	isLineAndGeo() {
-		if (!this.lineId || !this.lines || !this.lines.length) {
-			return false;
-		}
-
 		const found = this.lines.some((line) => {
 			const [lineId, geo] = line.split(':', 2);
 
-			return +lineId === +this.lineId && (!geo || utils.isProperGeo([geo]));
+			return lineId === this.lineId && (!geo || utils.isProperGeo([geo]));
 		});
 
 		if (found) {
