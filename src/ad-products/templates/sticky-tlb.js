@@ -1,7 +1,6 @@
 import { scrollListener, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
-import CloseButton from './interface/close-button';
 import { Stickiness } from './uap/themes/hivi/stickiness';
 import { StickyBase } from './sticky-base';
 import { universalAdPackage } from './uap/universal-ad-package';
@@ -49,109 +48,14 @@ export class StickyTLB extends StickyBase {
 		return 'stickyTLB';
 	}
 
-	constructor(adSlot) {
-		super(adSlot);
-		this.container = this.adSlot.getElement();
-	}
-
-	getName() {
-		return StickyTLB.getName();
-	}
-
-	isEnabled() {
-		return super.isEnabled() && this.container;
-	}
-
 	init(params) {
-		this.params = params;
-
-		if (!this.isEnabled()) {
-			utils.logger(logGroup, 'stickiness rejected');
-
-			return;
-		}
-
-		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
-		this.adSlot.onLoad().then(() => {
-			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
-			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
-		});
-
-		this.addStickinessPlugin();
+		this.initStickiness(params);
 
 		this.container.style.backgroundColor = '#000';
 		this.container.classList.add('bfaa-template');
 
 		this.config.onInit(this.adSlot, this.params, this.config);
 		this.onAdReady();
-	}
-
-	/** @private */
-	addStickinessPlugin() {
-		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
-		this.addUnstickLogic();
-		this.addUnstickButton();
-		this.addUnstickEvents();
-		this.stickiness.run();
-		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
-	}
-
-	/** @private */
-	addAdvertisementLabel() {
-		const advertisementLabel = new AdvertisementLabel();
-
-		this.adSlot.getElement().appendChild(advertisementLabel.render());
-	}
-
-	/** @private */
-	addUnstickButton() {
-		this.closeButton = new CloseButton({
-			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
-		}).render();
-
-		this.container.appendChild(this.closeButton);
-	}
-
-	/** @private */
-	removeUnstickButton() {
-		this.closeButton.remove();
-	}
-
-	/** @private */
-	addUnstickEvents() {
-		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
-			this.onStickinessChange(isSticky),
-		);
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.unstickImmediately());
-		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, () => this.unstickImmediately());
-	}
-
-	/** @private */
-	async onStickinessChange(isSticky) {
-		const stickinessBeforeCallback = isSticky
-			? this.config.onBeforeStickBfaaCallback
-			: this.config.onBeforeUnstickBfaaCallback;
-		const stickinessAfterCallback = isSticky
-			? this.config.onAfterStickBfaaCallback
-			: this.config.onAfterUnstickBfaaCallback;
-
-		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
-
-		if (!isSticky) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
-			this.config.moveNavbar(0, SLIDE_OUT_TIME);
-			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-			this.adSlot.getElement().classList.add('theme-resolved');
-			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-		} else {
-			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
-			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
-		}
-
-		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
-		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
 	/** @private */
@@ -166,7 +70,7 @@ export class StickyTLB extends StickyBase {
 			this.setupNavbar();
 		}
 
-		this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
+		this.config.moveNavbar(this.container.scrollHeight, SLIDE_OUT_TIME);
 
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
@@ -176,17 +80,10 @@ export class StickyTLB extends StickyBase {
 	}
 
 	/** @private */
-	unstickImmediately() {
-		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
-		this.config.moveNavbar(0, 0);
-		scrollListener.removeCallback(this.scrollListener);
-		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-		this.adSlot.getElement().classList.add('theme-resolved');
-		this.stickiness.sticky = false;
-		this.removeUnstickButton();
-		this.config.mainContainer.style.paddingTop = '0';
-		this.adSlot.getElement().classList.add('hide');
-		utils.logger(logGroup, 'unstick immediately');
+	addAdvertisementLabel() {
+		const advertisementLabel = new AdvertisementLabel();
+
+		this.container.appendChild(advertisementLabel.render());
 	}
 
 	/** @private */
@@ -204,5 +101,82 @@ export class StickyTLB extends StickyBase {
 		if (desktopNavbarWrapper) {
 			slotParent.insertBefore(desktopNavbarWrapper, sibling);
 		}
+	}
+
+	/** @protected */
+	async onStickinessChange(isSticky) {
+		const stickinessBeforeCallback = isSticky
+			? this.config.onBeforeStickBfaaCallback
+			: this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky
+			? this.config.onAfterStickBfaaCallback
+			: this.config.onAfterUnstickBfaaCallback;
+
+		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+
+		if (!isSticky) {
+			await this.onStick();
+		} else {
+			this.onUnstick();
+		}
+
+		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+		utils.logger(logGroup, 'stickiness changed', isSticky);
+	}
+
+	/** @protected */
+	async onStick() {
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
+		this.config.moveNavbar(0, SLIDE_OUT_TIME);
+		await animate(this.container, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+		this.container.classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+		this.container.classList.add('theme-resolved');
+		animate(this.container, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+	}
+
+	/** @protected */
+	onUnstick() {
+		this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
+		this.container.classList.add(CSS_CLASSNAME_STICKY_BFAA);
+	}
+
+	/** @protected */
+	unstickImmediately() {
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+		this.config.moveNavbar(0, 0);
+		scrollListener.removeCallback(this.scrollListener);
+		this.container.classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+		this.container.classList.add('theme-resolved');
+		this.stickiness.sticky = false;
+		this.removeUnstickButton();
+		this.config.mainContainer.style.paddingTop = '0';
+		this.container.classList.add('hide');
+		utils.logger(logGroup, 'unstick immediately');
+	}
+
+	/** @protected */
+	addStickinessPlugin() {
+		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
+		this.addUnstickLogic();
+		this.addUnstickButton(this.container);
+		this.addUnstickEvents();
+		this.stickiness.run();
+		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
+	}
+
+	/**
+	 * Returns template name.
+	 * @protected
+	 * @return {string}
+	 */
+	getName() {
+		return StickyTLB.getName();
+	}
+
+	/**
+	 * @protected
+	 */
+	isEnabled() {
+		return super.isEnabled() && this.container;
 	}
 }
