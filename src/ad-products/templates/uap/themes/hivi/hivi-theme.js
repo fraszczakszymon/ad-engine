@@ -3,6 +3,9 @@ import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
 import { Stickiness } from './stickiness';
 
+/**
+ * @abstract
+ */
 export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	static DEFAULT_UNSTICK_DELAY = 3000;
 
@@ -49,7 +52,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @param stopVideo {boolean}
 	 */
 	unstickImmediately(stopVideo) {
-		console.error('Attempting to call not implemented method with arg:', stopVideo);
+		console.error('Attempting to call not implemented method with arg:', { stopVideo });
 		throw new Error('Not Implemented Exception');
 	}
 }

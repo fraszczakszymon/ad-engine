@@ -49,7 +49,7 @@ export class StickyTLB extends StickyBase {
 	}
 
 	init(params) {
-		this.initStickiness(params);
+		this.setupStickiness(params);
 
 		this.container.style.backgroundColor = '#000';
 		this.container.classList.add('bfaa-template');
@@ -58,7 +58,9 @@ export class StickyTLB extends StickyBase {
 		this.onAdReady();
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	async onAdReady() {
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
@@ -79,14 +81,18 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, 'ad ready');
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	addAdvertisementLabel() {
 		const advertisementLabel = new AdvertisementLabel();
 
 		this.container.appendChild(advertisementLabel.render());
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	setupNavbar() {
 		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
 		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
@@ -103,7 +109,9 @@ export class StickyTLB extends StickyBase {
 		}
 	}
 
-	/** @protected */
+	/**
+	 * @protected
+	 */
 	async onStickinessChange(isSticky) {
 		const stickinessBeforeCallback = isSticky
 			? this.config.onBeforeStickBfaaCallback
@@ -114,17 +122,19 @@ export class StickyTLB extends StickyBase {
 
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
-		if (!isSticky) {
-			await this.onStick();
-		} else {
+		if (isSticky) {
 			this.onUnstick();
+		} else {
+			await this.onStick();
 		}
 
 		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
 		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
-	/** @protected */
+	/**
+	 * @protected
+	 */
 	async onStick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 		this.config.moveNavbar(0, SLIDE_OUT_TIME);
@@ -134,13 +144,17 @@ export class StickyTLB extends StickyBase {
 		animate(this.container, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
 	}
 
-	/** @protected */
+	/**
+	 * @protected
+	 */
 	onUnstick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 		this.container.classList.add(CSS_CLASSNAME_STICKY_BFAA);
 	}
 
-	/** @protected */
+	/**
+	 * @protected
+	 */
 	unstickImmediately() {
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
@@ -154,7 +168,9 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, 'unstick immediately');
 	}
 
-	/** @protected */
+	/**
+	 * @protected
+	 */
 	addStickinessPlugin() {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();

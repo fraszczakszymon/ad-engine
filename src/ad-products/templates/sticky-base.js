@@ -30,7 +30,7 @@ export class StickyBase {
 	/**
 	 * @protected
 	 */
-	initStickiness(params) {
+	setupStickiness(params) {
 		this.params = params;
 
 		if (!this.isEnabled()) {
@@ -145,7 +145,10 @@ export class StickyBase {
 	 * @abstract
 	 * @protected
 	 */
-	onStickinessChange() {}
+	onStickinessChange(isSticky) {
+		console.error('Attempting to call not implemented method with arg:', { isSticky });
+		throw new Error('Not Implemented Exception');
+	}
 
 	/**
 	 * @abstract

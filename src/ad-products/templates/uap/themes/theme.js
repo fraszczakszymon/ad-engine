@@ -1,6 +1,8 @@
 import { context } from '@wikia/ad-engine';
 
-/** @abstract */
+/**
+ * @abstract
+ */
 export class BigFancyAdTheme {
 	constructor(adSlot, params) {
 		this.adSlot = adSlot;
@@ -9,9 +11,13 @@ export class BigFancyAdTheme {
 		this.params = params;
 	}
 
-	/** @abstract */
+	/**
+	 @abstract
+	 */
 	onAdReady() {}
 
-	/** @abstract */
+	/**
+	 * @abstract
+	 */
 	onVideoReady() {}
 }

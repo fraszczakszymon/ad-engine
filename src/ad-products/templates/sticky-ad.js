@@ -45,7 +45,7 @@ export class StickyAd extends StickyBase {
 	}
 
 	init(params) {
-		this.initStickiness(params);
+		this.setupStickiness(params);
 		this.setTopOffset();
 		this.setLeftOffset();
 		this.setupScrollListener();
@@ -101,10 +101,10 @@ export class StickyAd extends StickyBase {
 	 * @protected
 	 */
 	async onStickinessChange(isSticky) {
-		if (!isSticky) {
-			await this.onStick();
-		} else {
+		if (isSticky) {
 			this.onUnstick();
+		} else {
+			await this.onStick();
 		}
 
 		utils.logger(logGroup, 'stickiness changed', isSticky);
