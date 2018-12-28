@@ -47,9 +47,9 @@ export class StickyAd extends StickyBase {
 	init(params) {
 		this.initStickiness(params);
 		this.setTopOffset();
-		this.adjustAdSlot();
+		this.setLeftOffset();
 		this.setupScrollListener();
-		window.addEventListener('resize', () => this.adjustAdSlot());
+		window.addEventListener('resize', () => this.setLeftOffset());
 	}
 
 	/**
@@ -75,7 +75,7 @@ export class StickyAd extends StickyBase {
 	/**
 	 * @private
 	 */
-	adjustAdSlot() {
+	setLeftOffset() {
 		this.leftOffset = utils.getLeftOffset(this.containerDiv.firstChild);
 	}
 
