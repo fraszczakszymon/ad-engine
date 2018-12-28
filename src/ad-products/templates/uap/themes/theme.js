@@ -17,6 +17,14 @@ export class BigFancyAdTheme {
 	onAdReady() {}
 
 	/**
+	 @abstract
+	 */
+	async adIsReady(videoSettings) {
+		console.error('Attempting to call not implemented method with arg:', { videoSettings });
+		throw new Error('Not Implemented Exception');
+	}
+
+	/**
 	 * @abstract
 	 */
 	onVideoReady() {}

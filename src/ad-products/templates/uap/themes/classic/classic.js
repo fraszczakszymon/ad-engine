@@ -1,9 +1,13 @@
+import { slotTweaker } from '@wikia/ad-engine';
+import { resolvedState } from '../../resolved-state';
 import ToggleAnimation from '../../../interface/video/toggle-animation';
 import { BigFancyAdTheme } from '../theme';
 import { universalAdPackage } from '../../universal-ad-package';
 import { VideoSettings } from '../../video-settings';
 
-/** @abstract */
+/**
+ * @abstract
+ */
 class BigFancyAdClassicTheme extends BigFancyAdTheme {
 	onAdReady(iframe) {
 		super.onAdReady(iframe);
@@ -23,6 +27,12 @@ class BigFancyAdClassicTheme extends BigFancyAdTheme {
 			}
 		}
 	}
+
+	async adIsReady(videoSettings) {
+		await resolvedState.setImage(videoSettings);
+
+		return slotTweaker.makeResponsive(this.adSlot, this.params.aspectRatio);
+	}
 }
 
 export class BfaaTheme extends BigFancyAdClassicTheme {
@@ -38,6 +48,10 @@ export class BfaaTheme extends BigFancyAdClassicTheme {
 		}
 	}
 
+	/**
+	 * @private
+	 * @param finalAspectRatio
+	 */
 	recalculatePaddingTop(finalAspectRatio) {
 		this.config.mainContainer.style.paddingTop = `${100 / finalAspectRatio}%`;
 

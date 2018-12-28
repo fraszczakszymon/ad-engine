@@ -16,7 +16,7 @@ import { Stickiness } from './stickiness';
 
 const HIVI_RESOLVED_THRESHOLD = 0.995;
 
-export class BfaaTheme extends BigFancyAdHiviTheme {
+export class HiviBfaaTheme extends BigFancyAdHiviTheme {
 	static RESOLVED_STATE_EVENT = Symbol('RESOLVED_STATE_EVENT');
 
 	constructor(adSlot, params) {
@@ -49,7 +49,7 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 		const { stickyAdditionalTime, stickyUntilVideoViewed } = this.params;
 		const whenResolvedAndVideoViewed = async () => {
 			await Promise.all([
-				utils.once(this, BfaaTheme.RESOLVED_STATE_EVENT),
+				utils.once(this, HiviBfaaTheme.RESOLVED_STATE_EVENT),
 				stickyUntilVideoViewed
 					? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
 					: Promise.resolve(),
@@ -226,7 +226,7 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 		this.container.classList.add('theme-locked');
 		scrollListener.removeCallback(this.scrollListener);
 		this.adjustSizesToResolved(offset);
-		this.emit(BfaaTheme.RESOLVED_STATE_EVENT);
+		this.emit(HiviBfaaTheme.RESOLVED_STATE_EVENT);
 	}
 
 	unlock() {

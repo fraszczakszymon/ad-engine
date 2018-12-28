@@ -1,8 +1,7 @@
 import { context, utils } from '@wikia/ad-engine';
 import { universalAdPackage } from './universal-ad-package';
 import { VideoSettings } from './video-settings';
-import * as classicTheme from './themes/classic';
-import * as hiviTheme from './themes/hivi';
+import { bfaThemeFactory } from './themes/factory';
 
 export class BigFancyAdBelow {
 	static getName() {
@@ -53,21 +52,13 @@ export class BigFancyAdBelow {
 		this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 		// TODO: End of hack
 
-		const uapTheme = this.params.theme === 'hivi' ? hiviTheme : classicTheme;
-
 		universalAdPackage.initSlot(params);
 
 		this.container.classList.add('bfab-template');
 		this.videoSettings = new VideoSettings(params);
-		this.theme = new uapTheme.BfabTheme(this.adSlot, this.params);
+		this.theme = bfaThemeFactory.makeBelowTheme(this.adSlot, this.params);
 
-		uapTheme
-			.adIsReady({
-				adSlot: this.adSlot,
-				videoSettings: this.videoSettings,
-				params: this.params,
-			})
-			.then((iframe) => this.onAdReady(iframe));
+		this.theme.adIsReady(this.videoSettings).then((iframe) => this.onAdReady(iframe));
 
 		this.config.onInit(this.adSlot, this.params, this.config);
 	}

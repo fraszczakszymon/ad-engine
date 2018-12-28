@@ -1,3 +1,4 @@
+import { slotTweaker } from '@wikia/ad-engine';
 import AdvertisementLabel from '../../../interface/advertisement-label';
 import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
@@ -13,6 +14,10 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		super.onAdReady();
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
+	}
+
+	async adIsReady() {
+		return slotTweaker.makeResponsive(this.adSlot, this.params.aspectRatio);
 	}
 
 	addAdvertisementLabel() {
