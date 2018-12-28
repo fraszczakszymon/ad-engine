@@ -46,7 +46,7 @@ export class StickyAd extends StickyBase {
 
 	init(params) {
 		this.initStickiness(params);
-		this.setupNavbar();
+		this.setTopOffset();
 		this.adjustAdSlot();
 		this.setupScrollListener();
 		window.addEventListener('resize', () => this.adjustAdSlot());
@@ -55,7 +55,7 @@ export class StickyAd extends StickyBase {
 	/**
 	 * @private
 	 */
-	setupNavbar() {
+	setTopOffset() {
 		if (
 			this.config.handleNavbar &&
 			this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1
