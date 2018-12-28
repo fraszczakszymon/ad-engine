@@ -55,7 +55,9 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 					: Promise.resolve(),
 			]);
 			await utils.wait(
-				isUndefined(stickyAdditionalTime) ? BfaaTheme.DEFAULT_UNSTICK_DELAY : stickyAdditionalTime,
+				isUndefined(stickyAdditionalTime)
+					? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
+					: stickyAdditionalTime,
 			);
 		};
 

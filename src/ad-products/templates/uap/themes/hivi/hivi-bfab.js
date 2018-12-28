@@ -162,7 +162,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 	addUnstickLogic() {
 		const whenResolvedAndVideoViewed = async () => {
-			await utils.wait(BfabTheme.DEFAULT_UNSTICK_DELAY);
+			await utils.wait(BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
 		};
 
 		this.stickiness = new Stickiness(this.adSlot, whenResolvedAndVideoViewed());
