@@ -1,4 +1,5 @@
 import { scrollListener, utils } from '@wikia/ad-engine';
+import { navbarManager } from '../utils';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import { Stickiness } from './uap/themes/hivi/stickiness';
@@ -8,9 +9,9 @@ import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
 	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
 	CSS_CLASSNAME_STICKY_BFAA,
-	SLIDE_OUT_TIME,
-	FADE_IN_TIME,
 	CSS_CLASSNAME_STICKY_IAB,
+	FADE_IN_TIME,
+	SLIDE_OUT_TIME,
 } from './uap/constants';
 
 const logGroup = 'sticky-tlb';
@@ -68,10 +69,7 @@ export class StickyTLB extends StickyBase {
 		this.config.mainContainer.style.paddingTop = `${this.container.scrollHeight}px`;
 		this.config.mainContainer.classList.add('has-bfaa');
 
-		if (this.config.handleNavbar) {
-			this.setupNavbar();
-		}
-
+		navbarManager.setup(this.config, this.container);
 		this.config.moveNavbar(this.container.scrollHeight, SLIDE_OUT_TIME);
 
 		if (document.hidden) {
@@ -88,25 +86,6 @@ export class StickyTLB extends StickyBase {
 		const advertisementLabel = new AdvertisementLabel();
 
 		this.container.appendChild(advertisementLabel.render());
-	}
-
-	/**
-	 * @private
-	 */
-	setupNavbar() {
-		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
-		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
-		const slotParent = this.container.parentNode;
-		const sibling =
-			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
-
-		if (mobileNavbarWrapper) {
-			slotParent.insertBefore(mobileNavbarWrapper, sibling);
-		}
-
-		if (desktopNavbarWrapper) {
-			slotParent.insertBefore(desktopNavbarWrapper, sibling);
-		}
 	}
 
 	/**

@@ -1,4 +1,5 @@
 import { context, utils } from '@wikia/ad-engine';
+import { navbarManager } from '../../utils';
 import { universalAdPackage } from './universal-ad-package';
 import { VideoSettings } from './video-settings';
 import { CSS_TIMING_EASE_IN_CUBIC, SLIDE_OUT_TIME } from './constants';
@@ -81,22 +82,6 @@ export class BigFancyAdAbove {
 		this.config.onInit(this.adSlot, this.params, this.config);
 	}
 
-	setupNavbar() {
-		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
-		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
-		const slotParent = this.container.parentNode;
-		const sibling =
-			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
-
-		if (mobileNavbarWrapper) {
-			slotParent.insertBefore(mobileNavbarWrapper, sibling);
-		}
-
-		if (desktopNavbarWrapper) {
-			slotParent.insertBefore(desktopNavbarWrapper, sibling);
-		}
-	}
-
 	getBackgroundColor() {
 		const color = `#${this.params.backgroundColor.replace('#', '')}`;
 
@@ -107,9 +92,7 @@ export class BigFancyAdAbove {
 		this.config.mainContainer.style.paddingTop = iframe.parentElement.style.paddingBottom;
 		this.config.mainContainer.classList.add('has-bfaa');
 
-		if (this.config.handleNavbar) {
-			this.setupNavbar();
-		}
+		navbarManager.setup(this.config, this.container);
 
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
