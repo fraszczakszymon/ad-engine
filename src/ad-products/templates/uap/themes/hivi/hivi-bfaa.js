@@ -49,25 +49,20 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	}
 
 	/**
-	 * @private
+	 * @protected
 	 */
-	addUnstickLogic() {
+	async getStateResolvedAndVideoViewed() {
 		const { stickyAdditionalTime, stickyUntilVideoViewed } = this.params;
-		const whenResolvedAndVideoViewed = async () => {
-			await Promise.all([
-				utils.once(this, BfaaHiviTheme.RESOLVED_STATE_EVENT),
-				stickyUntilVideoViewed
-					? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
-					: Promise.resolve(),
-			]);
-			await utils.wait(
-				isUndefined(stickyAdditionalTime)
-					? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
-					: stickyAdditionalTime,
-			);
-		};
+		const stateResolved = utils.once(this, BfaaHiviTheme.RESOLVED_STATE_EVENT);
+		const videoViewed = stickyUntilVideoViewed
+			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
+			: Promise.resolve();
+		const unstickDelay = isUndefined(stickyAdditionalTime)
+			? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
+			: stickyAdditionalTime;
 
-		this.stickiness = new Stickiness(this.adSlot, whenResolvedAndVideoViewed());
+		await Promise.all([stateResolved, videoViewed]);
+		await utils.wait(unstickDelay);
 	}
 
 	onAdReady() {

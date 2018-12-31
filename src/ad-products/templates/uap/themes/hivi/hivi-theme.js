@@ -29,6 +29,21 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	/**
 	 * @protected
 	 */
+	addUnstickLogic() {
+		const stateResolvedAndVideoViewed = this.getStateResolvedAndVideoViewed();
+
+		this.stickiness = new Stickiness(this.adSlot, stateResolvedAndVideoViewed);
+	}
+
+	/**
+	 * @abstract
+	 * @protected
+	 */
+	getStateResolvedAndVideoViewed() {}
+
+	/**
+	 * @protected
+	 */
 	addUnstickButton() {
 		const closeButton = new CloseButton({
 			classNames: ['button-unstick'],

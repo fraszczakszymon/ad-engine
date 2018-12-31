@@ -104,17 +104,6 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		return promise;
 	}
 
-	/**
-	 * @private
-	 */
-	addUnstickLogic() {
-		const whenResolvedAndVideoViewed = async () => {
-			await utils.wait(BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenResolvedAndVideoViewed());
-	}
-
 	onVideoReady(video) {
 		super.onVideoReady(video);
 
@@ -187,6 +176,13 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		if (this.video) {
 			Object.assign(this.video.container.style, style);
 		}
+	}
+
+	/**
+	 * @protected
+	 */
+	async getStateResolvedAndVideoViewed() {
+		await utils.wait(BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
 	}
 
 	/**

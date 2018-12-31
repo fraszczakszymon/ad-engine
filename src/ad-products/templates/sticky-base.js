@@ -126,19 +126,19 @@ export class StickyBase {
 	/**
 	 * @protected
 	 */
+	removeUnstickButton() {
+		this.closeButton.remove();
+	}
+
+	/**
+	 * @protected
+	 */
 	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
 			this.onStickinessChange(isSticky),
 		);
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.unstickImmediately());
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, () => this.unstickImmediately());
-	}
-
-	/**
-	 * @protected
-	 */
-	removeUnstickButton() {
-		this.closeButton.remove();
 	}
 
 	/**
