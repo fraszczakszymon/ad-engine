@@ -203,12 +203,18 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		return slotTweaker.makeResponsive(this.adSlot, currentAspectRatio);
 	}
 
+	/**
+	 * @private
+	 */
 	adjustVideoSize(relativeHeight) {
 		if (this.video && !this.video.isFullscreen()) {
 			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	setThumbnailStyle(state) {
 		const style = mapValues(this.params.config.state, (styleProperty) => {
 			const diff = styleProperty.default - styleProperty.resolved;
@@ -227,6 +233,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	switchImagesInAd(isResolved) {
 		if (isResolved) {
 			this.container.classList.add('theme-resolved');
@@ -237,6 +246,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	lock() {
 		const offset = this.getHeightDifferenceBetweenStates();
 
@@ -247,12 +259,18 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		this.emit(BfaaHiviTheme.RESOLVED_STATE_EVENT);
 	}
 
+	/**
+	 * @private
+	 */
 	unlock() {
 		this.isLocked = false;
 		this.container.classList.remove('theme-locked');
 		this.scrollListener = scrollListener.addCallback(() => this.updateAdSizes());
 	}
 
+	/**
+	 * @private
+	 */
 	setResolvedState(immediately) {
 		const isSticky = this.stickiness && this.stickiness.isSticky();
 		const width = this.container.offsetWidth;
@@ -294,6 +312,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		});
 	}
 
+	/**
+	 * @private
+	 */
 	resetResolvedState() {
 		const offset = this.getHeightDifferenceBetweenStates();
 
@@ -314,6 +335,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	getHeightDifferenceBetweenStates() {
 		const width = this.container.offsetWidth;
 		const { aspectRatio } = this.params.config;
@@ -321,6 +345,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		return Math.round(width / aspectRatio.default - width / aspectRatio.resolved);
 	}
 
+	/**
+	 * @private
+	 */
 	adjustSizesToResolved(offset) {
 		if (this.adSlot.isEnabled()) {
 			const aspectRatio = this.params.config.aspectRatio.resolved;
