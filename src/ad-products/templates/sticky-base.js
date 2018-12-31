@@ -9,18 +9,12 @@ export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
 	/**
-	 * @protected
-	 */
-	get container() {
-		return this.adSlot.getElement();
-	}
-
-	/**
 	 * Base class for sticky ads
 	 * @param {AdSlot} adSlot
 	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
+		this.container = this.adSlot.getElement();
 		this.lineId = adSlot.lineItemId.toString() || '';
 		this.lines = context.get(`templates.${this.getName()}.lineItemIds`) || [];
 		this.stickiness = null;
