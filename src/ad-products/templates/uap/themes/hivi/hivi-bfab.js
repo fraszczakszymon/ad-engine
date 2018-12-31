@@ -13,7 +13,7 @@ import { animate } from '../../../interface/animate';
 import { BigFancyAdHiviTheme } from './hivi-theme';
 import { Stickiness } from './stickiness';
 
-export class HiviBfabTheme extends BigFancyAdHiviTheme {
+export class BfabHiviTheme extends BigFancyAdHiviTheme {
 	constructor(adSlot, params) {
 		super(adSlot, params);
 
