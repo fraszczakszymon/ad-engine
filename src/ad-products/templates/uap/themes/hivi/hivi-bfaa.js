@@ -38,6 +38,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	addStickinessPlugin() {
 		this.addUnstickLogic();
 		this.addUnstickButton();
@@ -45,6 +48,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		this.stickiness.run();
 	}
 
+	/**
+	 * @private
+	 */
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilVideoViewed } = this.params;
 		const whenResolvedAndVideoViewed = async () => {
@@ -105,6 +111,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		});
 	}
 
+	/**
+	 * @protected
+	 */
 	async onStickinessChange(isSticky) {
 		const stickinessBeforeCallback = isSticky
 			? this.config.onBeforeStickBfaaCallback
@@ -129,6 +138,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
 	}
 
+	/**
+	 * @protected
+	 */
 	onCloseClicked() {
 		this.unstickImmediately();
 
@@ -138,6 +150,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		this.adSlot.collapse();
 	}
 
+	/**
+	 * @protected
+	 */
 	unstickImmediately(stopVideo = true) {
 		scrollListener.removeCallback(this.scrollListener);
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
@@ -151,6 +166,9 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		this.stickiness.sticky = false;
 	}
 
+	/**
+	 * @private
+	 */
 	updateAdSizes() {
 		const { aspectRatio, state } = this.params.config;
 		const {

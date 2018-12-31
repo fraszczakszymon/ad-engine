@@ -26,6 +26,9 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.container.appendChild(advertisementLabel.render());
 	}
 
+	/**
+	 * @protected
+	 */
 	addUnstickButton() {
 		const closeButton = new CloseButton({
 			classNames: ['button-unstick'],
@@ -35,12 +38,24 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.container.appendChild(closeButton.render());
 	}
 
+	/**
+	 * @protected
+	 */
 	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
 			this.onStickinessChange(isSticky),
 		);
 		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.onCloseClicked());
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, (arg) => this.unstickImmediately(arg));
+	}
+
+	/**
+	 * @abstract
+	 * @protected
+	 */
+	onStickinessChange(isSticky) {
+		console.error('Attempting to call not implemented method with arg:', { isSticky });
+		throw new Error('Not Implemented Exception');
 	}
 
 	/**

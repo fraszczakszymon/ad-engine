@@ -43,68 +43,34 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
-	onVideoReady(video) {
-		super.onVideoReady(video);
+	/**
+	 * @private
+	 */
+	async addStickinessPlugin() {
+		await this.waitForScrollAndUnstickedBfaa();
 
-		this.video = video;
-		video.addEventListener('wikiaAdStarted', () => this.updateAdSizes());
-		video.addEventListener('wikiaAdCompleted', () => this.setResolvedState());
-		video.addEventListener('wikiaFullscreenChange', () => {
-			if (video.isFullscreen()) {
-				this.stickiness.blockRevertStickiness();
-				this.container.classList.add('theme-video-fullscreen');
-			} else {
-				this.stickiness.unblockRevertStickiness();
-				this.container.classList.remove('theme-video-fullscreen');
-				this.updateAdSizes();
-			}
-		});
-	}
+		if (!this.adSlot.isViewed()) {
+			this.addUnstickLogic();
+			this.addUnstickButton();
+			this.addUnstickEvents();
+			this.stickiness.run();
 
-	updateAdSizes() {
-		const state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
-		const stateHeight = this.params.config.state.height[state];
-		const relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
+			scrollListener.addCallback((event, id) => {
+				const scrollPosition =
+					window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-		this.adjustVideoSize(relativeHeight);
-
-		if (this.params.thumbnail) {
-			this.setThumbnailStyle(state);
+				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
+					this.adSlot.emitEvent('top-conflict');
+					scrollListener.removeCallback(id);
+					this.stickiness.revertStickiness();
+				}
+			});
 		}
 	}
 
-	adjustVideoSize(relativeHeight) {
-		if (this.video && !this.video.isFullscreen()) {
-			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
-		}
-	}
-
-	async setResolvedState() {
-		const { config, image2 } = this.params;
-
-		this.container.classList.add('theme-resolved');
-		image2.element.classList.remove('hidden-state');
-		await slotTweaker.makeResponsive(this.adSlot, config.aspectRatio.resolved);
-
-		if (this.params.thumbnail) {
-			this.setThumbnailStyle('resolved');
-		}
-	}
-
-	setThumbnailStyle(state = 'default') {
-		const { thumbnail } = this.params;
-		const style = mapValues(
-			this.params.config.state,
-			(styleProperty) => `${styleProperty[state]}%`,
-		);
-
-		Object.assign(thumbnail.style, style);
-
-		if (this.video) {
-			Object.assign(this.video.container.style, style);
-		}
-	}
-
+	/**
+	 * @private
+	 */
 	waitForScrollAndUnstickedBfaa() {
 		let resolvePromise = null;
 
@@ -138,28 +104,9 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		return promise;
 	}
 
-	async addStickinessPlugin() {
-		await this.waitForScrollAndUnstickedBfaa();
-
-		if (!this.adSlot.isViewed()) {
-			this.addUnstickLogic();
-			this.addUnstickButton();
-			this.addUnstickEvents();
-			this.stickiness.run();
-
-			scrollListener.addCallback((event, id) => {
-				const scrollPosition =
-					window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-
-				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
-					this.adSlot.emitEvent('top-conflict');
-					scrollListener.removeCallback(id);
-					this.stickiness.revertStickiness();
-				}
-			});
-		}
-	}
-
+	/**
+	 * @private
+	 */
 	addUnstickLogic() {
 		const whenResolvedAndVideoViewed = async () => {
 			await utils.wait(BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
@@ -168,6 +115,83 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		this.stickiness = new Stickiness(this.adSlot, whenResolvedAndVideoViewed());
 	}
 
+	onVideoReady(video) {
+		super.onVideoReady(video);
+
+		this.video = video;
+		video.addEventListener('wikiaAdStarted', () => this.updateAdSizes());
+		video.addEventListener('wikiaAdCompleted', () => this.setResolvedState());
+		video.addEventListener('wikiaFullscreenChange', () => {
+			if (video.isFullscreen()) {
+				this.stickiness.blockRevertStickiness();
+				this.container.classList.add('theme-video-fullscreen');
+			} else {
+				this.stickiness.unblockRevertStickiness();
+				this.container.classList.remove('theme-video-fullscreen');
+				this.updateAdSizes();
+			}
+		});
+	}
+
+	/**
+	 * @private
+	 */
+	updateAdSizes() {
+		const state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
+		const stateHeight = this.params.config.state.height[state];
+		const relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
+
+		this.adjustVideoSize(relativeHeight);
+
+		if (this.params.thumbnail) {
+			this.setThumbnailStyle(state);
+		}
+	}
+
+	/**
+	 * @private
+	 */
+	adjustVideoSize(relativeHeight) {
+		if (this.video && !this.video.isFullscreen()) {
+			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
+		}
+	}
+
+	/**
+	 * @private
+	 */
+	async setResolvedState() {
+		const { config, image2 } = this.params;
+
+		this.container.classList.add('theme-resolved');
+		image2.element.classList.remove('hidden-state');
+		await slotTweaker.makeResponsive(this.adSlot, config.aspectRatio.resolved);
+
+		if (this.params.thumbnail) {
+			this.setThumbnailStyle('resolved');
+		}
+	}
+
+	/**
+	 * @private
+	 */
+	setThumbnailStyle(state = 'default') {
+		const { thumbnail } = this.params;
+		const style = mapValues(
+			this.params.config.state,
+			(styleProperty) => `${styleProperty[state]}%`,
+		);
+
+		Object.assign(thumbnail.style, style);
+
+		if (this.video) {
+			Object.assign(this.video.container.style, style);
+		}
+	}
+
+	/**
+	 * @protected
+	 */
 	async onStickinessChange(isSticky) {
 		const element = this.adSlot.getElement();
 
@@ -188,6 +212,9 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @protected
+	 */
 	onCloseClicked() {
 		this.unstickImmediately();
 
@@ -196,6 +223,9 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 		this.adSlot.collapse();
 	}
 
+	/**
+	 * @protected
+	 */
 	unstickImmediately(stopVideo = true) {
 		if (this.stickiness) {
 			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
