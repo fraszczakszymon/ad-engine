@@ -48,23 +48,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		this.stickiness.run();
 	}
 
-	/**
-	 * @protected
-	 */
-	async getStateResolvedAndVideoViewed() {
-		const { stickyAdditionalTime, stickyUntilVideoViewed } = this.params;
-		const stateResolved = utils.once(this, BfaaHiviTheme.RESOLVED_STATE_EVENT);
-		const videoViewed = stickyUntilVideoViewed
-			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
-			: Promise.resolve();
-		const unstickDelay = isUndefined(stickyAdditionalTime)
-			? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
-			: stickyAdditionalTime;
-
-		await Promise.all([stateResolved, videoViewed]);
-		await utils.wait(unstickDelay);
-	}
-
 	onAdReady() {
 		super.onAdReady();
 
@@ -107,58 +90,63 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	}
 
 	/**
-	 * @protected
+	 * @private
 	 */
-	async onStickinessChange(isSticky) {
-		const stickinessBeforeCallback = isSticky
-			? this.config.onBeforeStickBfaaCallback
-			: this.config.onBeforeUnstickBfaaCallback;
-		const stickinessAfterCallback = isSticky
-			? this.config.onAfterStickBfaaCallback
-			: this.config.onAfterUnstickBfaaCallback;
+	resetResolvedState() {
+		const offset = this.getHeightDifferenceBetweenStates();
 
-		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+		if (this.isLocked && this.config.defaultStateAllowed && window.scrollY < offset) {
+			const aspectRatio = this.params.config.aspectRatio.default;
 
-		if (!isSticky) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
-			this.config.moveNavbar(0, SLIDE_OUT_TIME);
-			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-		} else {
-			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
-			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
+			this.container.style.top = '';
+			this.config.mainContainer.style.paddingTop = `${100 / aspectRatio}%`;
+
+			if (this.params.isSticky && this.config.stickinessAllowed) {
+				this.unstickImmediately(false);
+			}
+
+			this.unlock();
+			this.switchImagesInAd(false);
+			this.setResolvedState(false);
+			this.updateAdSizes();
 		}
-
-		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
 	}
 
 	/**
-	 * @protected
+	 * @private
 	 */
-	onCloseClicked() {
-		this.unstickImmediately();
+	lock() {
+		const offset = this.getHeightDifferenceBetweenStates();
 
-		this.config.mainContainer.style.paddingTop = '0';
-
-		this.adSlot.disable();
-		this.adSlot.collapse();
-	}
-
-	/**
-	 * @protected
-	 */
-	unstickImmediately(stopVideo = true) {
+		this.isLocked = true;
+		this.container.classList.add('theme-locked');
 		scrollListener.removeCallback(this.scrollListener);
-		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
-		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+		this.adjustSizesToResolved(offset);
+		this.emit(BfaaHiviTheme.RESOLVED_STATE_EVENT);
+	}
 
-		if (stopVideo && this.video && this.video.ima.getAdsManager()) {
-			this.video.stop();
+	/**
+	 * @private
+	 */
+	unlock() {
+		this.isLocked = false;
+		this.container.classList.remove('theme-locked');
+		this.scrollListener = scrollListener.addCallback(() => this.updateAdSizes());
+	}
+
+	/**
+	 * @private
+	 */
+	adjustSizesToResolved(offset) {
+		if (this.adSlot.isEnabled()) {
+			const aspectRatio = this.params.config.aspectRatio.resolved;
+
+			this.container.style.top = '';
+			this.config.mainContainer.style.paddingTop = `${100 / aspectRatio}%`;
+			slotTweaker.makeResponsive(this.adSlot, aspectRatio);
+			window.scrollBy(0, -Math.min(offset, window.scrollY));
+			this.updateAdSizes();
 		}
-
-		this.config.moveNavbar(0, 0);
-		this.stickiness.sticky = false;
 	}
 
 	/**
@@ -231,41 +219,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	/**
 	 * @private
 	 */
-	switchImagesInAd(isResolved) {
-		if (isResolved) {
-			this.container.classList.add('theme-resolved');
-			this.params.image2.element.classList.remove('hidden-state');
-		} else {
-			this.container.classList.remove('theme-resolved');
-			this.params.image2.element.classList.add('hidden-state');
-		}
-	}
-
-	/**
-	 * @private
-	 */
-	lock() {
-		const offset = this.getHeightDifferenceBetweenStates();
-
-		this.isLocked = true;
-		this.container.classList.add('theme-locked');
-		scrollListener.removeCallback(this.scrollListener);
-		this.adjustSizesToResolved(offset);
-		this.emit(BfaaHiviTheme.RESOLVED_STATE_EVENT);
-	}
-
-	/**
-	 * @private
-	 */
-	unlock() {
-		this.isLocked = false;
-		this.container.classList.remove('theme-locked');
-		this.scrollListener = scrollListener.addCallback(() => this.updateAdSizes());
-	}
-
-	/**
-	 * @private
-	 */
 	setResolvedState(immediately) {
 		const isSticky = this.stickiness && this.stickiness.isSticky();
 		const width = this.container.offsetWidth;
@@ -310,29 +263,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	/**
 	 * @private
 	 */
-	resetResolvedState() {
-		const offset = this.getHeightDifferenceBetweenStates();
-
-		if (this.isLocked && this.config.defaultStateAllowed && window.scrollY < offset) {
-			const aspectRatio = this.params.config.aspectRatio.default;
-
-			this.container.style.top = '';
-			this.config.mainContainer.style.paddingTop = `${100 / aspectRatio}%`;
-
-			if (this.params.isSticky && this.config.stickinessAllowed) {
-				this.unstickImmediately(false);
-			}
-
-			this.unlock();
-			this.switchImagesInAd(false);
-			this.setResolvedState(false);
-			this.updateAdSizes();
-		}
-	}
-
-	/**
-	 * @private
-	 */
 	getHeightDifferenceBetweenStates() {
 		const width = this.container.offsetWidth;
 		const { aspectRatio } = this.params.config;
@@ -343,15 +273,85 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	/**
 	 * @private
 	 */
-	adjustSizesToResolved(offset) {
-		if (this.adSlot.isEnabled()) {
-			const aspectRatio = this.params.config.aspectRatio.resolved;
-
-			this.container.style.top = '';
-			this.config.mainContainer.style.paddingTop = `${100 / aspectRatio}%`;
-			slotTweaker.makeResponsive(this.adSlot, aspectRatio);
-			window.scrollBy(0, -Math.min(offset, window.scrollY));
-			this.updateAdSizes();
+	switchImagesInAd(isResolved) {
+		if (isResolved) {
+			this.container.classList.add('theme-resolved');
+			this.params.image2.element.classList.remove('hidden-state');
+		} else {
+			this.container.classList.remove('theme-resolved');
+			this.params.image2.element.classList.add('hidden-state');
 		}
+	}
+
+	/**
+	 * @protected
+	 */
+	async getStateResolvedAndVideoViewed() {
+		const { stickyAdditionalTime, stickyUntilVideoViewed } = this.params;
+		const stateResolved = utils.once(this, BfaaHiviTheme.RESOLVED_STATE_EVENT);
+		const videoViewed = stickyUntilVideoViewed
+			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
+			: Promise.resolve();
+		const unstickDelay = isUndefined(stickyAdditionalTime)
+			? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
+			: stickyAdditionalTime;
+
+		await Promise.all([stateResolved, videoViewed]);
+		await utils.wait(unstickDelay);
+	}
+
+	/**
+	 * @protected
+	 */
+	async onStickinessChange(isSticky) {
+		const stickinessBeforeCallback = isSticky
+			? this.config.onBeforeStickBfaaCallback
+			: this.config.onBeforeUnstickBfaaCallback;
+		const stickinessAfterCallback = isSticky
+			? this.config.onAfterStickBfaaCallback
+			: this.config.onAfterUnstickBfaaCallback;
+
+		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+
+		if (!isSticky) {
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
+			this.config.moveNavbar(0, SLIDE_OUT_TIME);
+			await animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+			animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+		} else {
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
+			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
+		}
+
+		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+	}
+
+	/**
+	 * @protected
+	 */
+	onCloseClicked() {
+		this.unstickImmediately();
+
+		this.config.mainContainer.style.paddingTop = '0';
+
+		this.adSlot.disable();
+		this.adSlot.collapse();
+	}
+
+	/**
+	 * @protected
+	 */
+	unstickImmediately(stopVideo = true) {
+		scrollListener.removeCallback(this.scrollListener);
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+
+		if (stopVideo && this.video && this.video.ima.getAdsManager()) {
+			this.video.stop();
+		}
+
+		this.config.moveNavbar(0, 0);
+		this.stickiness.sticky = false;
 	}
 }
