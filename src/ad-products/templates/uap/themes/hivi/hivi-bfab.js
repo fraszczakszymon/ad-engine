@@ -19,7 +19,6 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 
 		this.stickiness = null;
 		this.video = null;
-		this.isLocked = false;
 		this.config = context.get('templates.bfab');
 	}
 
