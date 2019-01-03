@@ -27,15 +27,15 @@ export class StickyAd extends StickyBase {
 		};
 	}
 
+	static getName() {
+		return 'stickyAd';
+	}
+
 	constructor(adSlot) {
 		super(adSlot);
 		this.scrollListener = null;
 		this.topOffset = 0;
 		this.leftOffset = 0;
-	}
-
-	static getName() {
-		return 'stickyAd';
 	}
 
 	getName() {

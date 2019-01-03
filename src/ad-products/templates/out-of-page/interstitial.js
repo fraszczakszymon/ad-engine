@@ -3,11 +3,6 @@ import AdvertisementLabel from '../interface/advertisement-label';
 import CloseButton from '../interface/close-button';
 
 export class Interstitial {
-	constructor(adSlot) {
-		this.adSlot = adSlot;
-		this.config = context.get('templates.interstitial');
-	}
-
 	static getName() {
 		return 'interstitial';
 	}
@@ -16,6 +11,11 @@ export class Interstitial {
 		return {
 			onInit: () => {},
 		};
+	}
+
+	constructor(adSlot) {
+		this.adSlot = adSlot;
+		this.config = context.get('templates.interstitial');
 	}
 
 	init() {

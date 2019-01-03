@@ -39,6 +39,7 @@
 		"eslint-config-airbnb": "17.1.0",
 		"eslint-config-prettier": "3.3.0",
 		"eslint-plugin-import": "2.14.0",
+		"eslint-plugin-sort-class-members": "1.4.0",
 		"husky": "1.1.4",
 		"js-md5": "0.7.3",
 		"jsdom": "11.11.0",
@@ -119,6 +120,10 @@
 				"prettier --write",
 				"eslint --fix",
 				"./maintenance/detect-incorrect-usages.sh",
+				"git add"
+			],
+			"*.{json,css,scss,html}": [
+				"prettier --write",
 				"git add"
 			]
 		},
