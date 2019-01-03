@@ -47,7 +47,9 @@ export class StickyBase {
 	 * @abstract
 	 * @return {string}
 	 */
-	getName() {}
+	getName() {
+		throw new utils.NotImplementedException();
+	}
 
 	/**
 	 * Runs logic which decides when to unstick the template.
