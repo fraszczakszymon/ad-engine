@@ -340,6 +340,11 @@ var floating_rail_FloatingRail = function () {
 				startOffset: 0
 			};
 		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
+		}
 	}]);
 
 	function FloatingRail() {
@@ -397,11 +402,6 @@ var floating_rail_FloatingRail = function () {
 			}
 
 			return availableSpace;
-		}
-	}], [{
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
 		}
 	}]);
 
@@ -802,11 +802,38 @@ stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 var logGroup = 'sticky-base';
 
 var sticky_base_StickyBase = function () {
+	createClass_default()(StickyBase, null, [{
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo(lineId, lines) {
+			if (!lineId || !lines || !lines.length) {
+				return false;
+			}
 
-	/**
-  * Base class for sticky ads
-  * @param {AdSlot} adSlot
-  */
+			var found = false;
+
+			lineId = lineId.toString();
+
+			lines.forEach(function (line) {
+				line = line.split(':', 2);
+
+				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
+					found = true;
+				}
+			});
+			if (found) {
+				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
+			}
+
+			return found;
+		}
+
+		/**
+   * Base class for sticky ads
+   * @param {AdSlot} adSlot
+   */
+
+	}]);
+
 	function StickyBase(adSlot) {
 		classCallCheck_default()(this, StickyBase);
 
@@ -882,30 +909,6 @@ var sticky_base_StickyBase = function () {
 			}
 
 			return isEnabled;
-		}
-	}], [{
-		key: 'isLineAndGeo',
-		value: function isLineAndGeo(lineId, lines) {
-			if (!lineId || !lines || !lines.length) {
-				return false;
-			}
-
-			var found = false;
-
-			lineId = lineId.toString();
-
-			lines.forEach(function (line) {
-				line = line.split(':', 2);
-
-				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
-					found = true;
-				}
-			});
-			if (found) {
-				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
-			}
-
-			return found;
 		}
 	}]);
 
@@ -1165,6 +1168,11 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 				slotsIgnoringNavbar: []
 			};
 		}
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return 'stickyAd';
+		}
 	}]);
 
 	function StickyAd(adSlot) {
@@ -1338,11 +1346,6 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 				this.removeUnstickButton();
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'unstick immediately');
 			}
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'stickyAd';
 		}
 	}]);
 
@@ -2772,6 +2775,11 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 				}
 			};
 		}
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return 'stickyTLB';
+		}
 	}]);
 
 	function StickyTLB(adSlot) {
@@ -2997,11 +3005,6 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			if (desktopNavbarWrapper) {
 				slotParent.insertBefore(desktopNavbarWrapper, sibling);
 			}
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'stickyTLB';
 		}
 	}]);
 
@@ -4699,6 +4702,20 @@ var roadblock_Roadblock = function () {
 
 
 var floor_adhesion_FloorAdhesion = function () {
+	createClass_default()(FloorAdhesion, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'floorAdhesion';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
 	function FloorAdhesion(adSlot) {
 		classCallCheck_default()(this, FloorAdhesion);
 
@@ -4729,18 +4746,6 @@ var floor_adhesion_FloorAdhesion = function () {
 
 			ad_engine_["utils"].logger(FloorAdhesion.getName(), 'init');
 		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'floorAdhesion';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
-		}
 	}]);
 
 	return FloorAdhesion;
@@ -4753,6 +4758,20 @@ var floor_adhesion_FloorAdhesion = function () {
 
 
 var interstitial_Interstitial = function () {
+	createClass_default()(Interstitial, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'interstitial';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
 	function Interstitial(adSlot) {
 		classCallCheck_default()(this, Interstitial);
 
@@ -4790,18 +4809,6 @@ var interstitial_Interstitial = function () {
 			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
 				document.documentElement.classList.remove('stop-scrolling');
 			});
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'interstitial';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
 		}
 	}]);
 

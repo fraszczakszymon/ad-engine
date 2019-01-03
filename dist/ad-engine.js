@@ -3902,6 +3902,21 @@ var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(exte
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits_default()(AdSlot, _EventEmitter);
 
+	createClass_default()(AdSlot, null, [{
+		key: 'isAboveTheFold',
+
+
+		/**
+   * Returns true if slot is ATF
+   *
+   * @param config slot config
+   * @returns {boolean} true if slot is ATF
+   */
+		value: function isAboveTheFold(config) {
+			return !!config.aboveTheFold;
+		}
+	}]);
+
 	function AdSlot(ad) {
 		classCallCheck_default()(this, AdSlot);
 
@@ -4010,14 +4025,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 				slotListener.emitStatusChanged(this);
 			}
 		}
-
-		/**
-   * Returns true if slot is ATF
-   *
-   * @param config slot config
-   * @returns {boolean} true if slot is ATF
-   */
-
 	}, {
 		key: 'isFirstCall',
 		value: function isFirstCall() {
@@ -4141,11 +4148,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		key: 'targeting',
 		get: function get() {
 			return this.config.targeting;
-		}
-	}], [{
-		key: 'isAboveTheFold',
-		value: function isAboveTheFold(config) {
-			return !!config.aboveTheFold;
 		}
 	}]);
 
@@ -5705,9 +5707,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.4.2');
-set_default()(window, commitField, '96fc0d2');
-logger('ad-engine', 'v22.4.2 (96fc0d2)');
+set_default()(window, versionField, 'v22.4.3');
+set_default()(window, commitField, '7fa2e8a');
+logger('ad-engine', 'v22.4.3 (7fa2e8a)');
 
 
 
