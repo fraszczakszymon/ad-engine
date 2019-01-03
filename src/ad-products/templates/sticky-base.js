@@ -4,7 +4,9 @@ import CloseButton from './interface/close-button';
 
 const logGroup = 'sticky-base';
 
-/** @abstract */
+/**
+ * @abstract
+ */
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
@@ -43,6 +45,14 @@ export class StickyBase {
 	}
 
 	/**
+	 * @abstract
+	 * @protected
+	 */
+	addStickinessPlugin() {
+		throw new utils.NotImplementedException();
+	}
+
+	/**
 	 * @protected
 	 */
 	isEnabled() {
@@ -54,6 +64,16 @@ export class StickyBase {
 		}
 
 		return isEnabled;
+	}
+
+	/**
+	 * Returns template name.
+	 * @abstract
+	 * @protected
+	 * @return {string}
+	 */
+	getName() {
+		throw new utils.NotImplementedException();
 	}
 
 	/**
@@ -71,22 +91,6 @@ export class StickyBase {
 		}
 
 		return found;
-	}
-
-	/**
-	 * @abstract
-	 * @protected
-	 */
-	addStickinessPlugin() {}
-
-	/**
-	 * Returns template name.
-	 * @abstract
-	 * @protected
-	 * @return {string}
-	 */
-	getName() {
-		throw new utils.NotImplementedException();
 	}
 
 	/**
@@ -140,13 +144,14 @@ export class StickyBase {
 	 * @protected
 	 */
 	onStickinessChange(isSticky) {
-		console.error('Attempting to call not implemented method with arg:', { isSticky });
-		throw new Error('Not Implemented Exception');
+		throw new utils.NotImplementedException({ isSticky });
 	}
 
 	/**
 	 * @abstract
 	 * @protected
 	 */
-	unstickImmediately() {}
+	unstickImmediately() {
+		throw new utils.NotImplementedException();
+	}
 }

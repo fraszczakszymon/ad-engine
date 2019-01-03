@@ -1,4 +1,4 @@
-import { slotTweaker } from '@wikia/ad-engine';
+import { slotTweaker, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from '../../../interface/advertisement-label';
 import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
@@ -39,7 +39,9 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @abstract
 	 * @protected
 	 */
-	getStateResolvedAndVideoViewed() {}
+	getStateResolvedAndVideoViewed() {
+		throw new utils.NotImplementedException();
+	}
 
 	/**
 	 * @protected
@@ -69,8 +71,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @protected
 	 */
 	onStickinessChange(isSticky) {
-		console.error('Attempting to call not implemented method with arg:', { isSticky });
-		throw new Error('Not Implemented Exception');
+		throw new utils.NotImplementedException({ isSticky });
 	}
 
 	/**
@@ -78,7 +79,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @protected
 	 * */
 	onCloseClicked() {
-		throw new Error('Not Implemented Exception');
+		throw new utils.NotImplementedException();
 	}
 
 	/**
@@ -87,7 +88,6 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @param stopVideo {boolean}
 	 */
 	unstickImmediately(stopVideo) {
-		console.error('Attempting to call not implemented method with arg:', { stopVideo });
-		throw new Error('Not Implemented Exception');
+		throw new utils.NotImplementedException({ stopVideo });
 	}
 }

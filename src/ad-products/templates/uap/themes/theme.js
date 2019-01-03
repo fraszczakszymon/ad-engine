@@ -1,4 +1,4 @@
-import { context } from '@wikia/ad-engine';
+import { context, utils } from '@wikia/ad-engine';
 
 /**
  * @abstract
@@ -14,18 +14,21 @@ export class BigFancyAdTheme {
 	/**
 	 @abstract
 	 */
-	onAdReady() {}
+	onAdReady() {
+		throw new utils.NotImplementedException();
+	}
 
 	/**
 	 @abstract
 	 */
 	async adIsReady(videoSettings) {
-		console.error('Attempting to call not implemented method with arg:', { videoSettings });
-		throw new Error('Not Implemented Exception');
+		throw new utils.NotImplementedException({ videoSettings });
 	}
 
 	/**
 	 * @abstract
 	 */
-	onVideoReady() {}
+	onVideoReady() {
+		throw new utils.NotImplementedException();
+	}
 }
