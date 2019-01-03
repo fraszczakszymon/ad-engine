@@ -10,6 +10,16 @@ export class AdSlot extends EventEmitter {
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 
+	/**
+	 * Returns true if slot is ATF
+	 *
+	 * @param config slot config
+	 * @returns {boolean} true if slot is ATF
+	 */
+	static isAboveTheFold(config) {
+		return !!config.aboveTheFold;
+	}
+
 	constructor(ad) {
 		super();
 
@@ -102,16 +112,6 @@ export class AdSlot extends EventEmitter {
 		if (status !== null) {
 			slotListener.emitStatusChanged(this);
 		}
-	}
-
-	/**
-	 * Returns true if slot is ATF
-	 *
-	 * @param config slot config
-	 * @returns {boolean} true if slot is ATF
-	 */
-	static isAboveTheFold(config) {
-		return !!config.aboveTheFold;
 	}
 
 	isFirstCall() {

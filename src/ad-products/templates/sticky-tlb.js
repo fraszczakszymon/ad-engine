@@ -45,13 +45,13 @@ export class StickyTLB extends StickyBase {
 		};
 	}
 
+	static getName() {
+		return 'stickyTLB';
+	}
+
 	constructor(adSlot) {
 		super(adSlot);
 		this.container = this.adSlot.getElement();
-	}
-
-	static getName() {
-		return 'stickyTLB';
 	}
 
 	getName() {
