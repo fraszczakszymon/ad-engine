@@ -1,6 +1,7 @@
 {
 	"parser": "babel-eslint",
 	"extends": ["airbnb-base", "prettier"],
+	"plugins": ["sort-class-members"],
 	"rules": {
 		"class-methods-use-this": ["off"],
 		"func-names": ["error", "never"],
@@ -12,7 +13,7 @@
 			}
 		],
 		"import/no-unresolved": [
-			2,
+			"error",
 			{
 				"ignore": ["@wikia/ad-engine"]
 			}
@@ -66,6 +67,23 @@
 				"ignoreRegExpLiterals": true,
 				"ignoreStrings": true,
 				"ignoreTemplateLiterals": true
+			}
+		],
+		"sort-class-members/sort-class-members": [
+			"error",
+			{
+				"order": [
+					"[static-properties]",
+					"[static-methods]",
+					"[properties]",
+					"[conventional-private-properties]",
+					"[getters]",
+					"[setters]",
+					"constructor",
+					"[methods]",
+					"[conventional-private-methods]"
+				],
+				"accessorPairPositioning": "getThenSet"
 			}
 		],
 		"no-param-reassign": 0,
