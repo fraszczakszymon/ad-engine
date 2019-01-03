@@ -854,7 +854,9 @@ var sticky_base_StickyBase = function () {
 
 	createClass_default()(StickyBase, [{
 		key: 'getName',
-		value: function getName() {}
+		value: function getName() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
 
 		/**
    * Runs logic which decides when to unstick the template.

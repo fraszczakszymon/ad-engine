@@ -74,13 +74,13 @@ module.exports =
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 2 */
@@ -104,13 +104,13 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 7 */
@@ -122,55 +122,55 @@ module.exports = require("babel-runtime/core-js/symbol");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 17 */
@@ -261,6 +261,7 @@ __webpack_require__.d(utils_namespaceObject, "IframeBuilder", function() { retur
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "LazyQueue", function() { return lazy_queue_LazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
+__webpack_require__.d(utils_namespaceObject, "NotImplementedException", function() { return not_implemented_exception_NotImplementedException; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
 __webpack_require__.d(utils_namespaceObject, "sampler", function() { return sampler; });
 __webpack_require__.d(utils_namespaceObject, "scriptLoader", function() { return scriptLoader; });
@@ -279,11 +280,11 @@ var get_ = __webpack_require__(25);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(1);
+var classCallCheck_ = __webpack_require__(0);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(0);
+var createClass_ = __webpack_require__(1);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
@@ -588,11 +589,11 @@ function getDocumentVisibilityStatus() {
 	return status;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(5);
+var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(12);
+var typeof_ = __webpack_require__(13);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -664,11 +665,11 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(8);
+var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(14);
+var external_js_cookie_ = __webpack_require__(15);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
@@ -1400,6 +1401,58 @@ function logger(logGroup) {
 		window.console.info(logGroup, logValues);
 	}
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
+var get_prototype_of_ = __webpack_require__(5);
+var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(8);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
+var inherits_ = __webpack_require__(12);
+var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
+// CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.js
+
+
+
+
+var not_implemented_exception_NotImplementedException = function (_Error) {
+	inherits_default()(NotImplementedException, _Error);
+
+	/**
+  * @param parameters - pass here method input parameters as an object.
+  * @param params - standard new Error() parameters, leave empty.
+  */
+	function NotImplementedException() {
+		var _ref;
+
+		var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+		classCallCheck_default()(this, NotImplementedException);
+
+		for (var _len = arguments.length, params = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+			params[_key - 1] = arguments[_key];
+		}
+
+		params[0] = 'Not Implemented Exception';
+		// Pass remaining arguments (including vendor specific ones) to parent constructor
+
+		// Maintains proper stack trace for where our error was thrown (only available on V8)
+		var _this = possibleConstructorReturn_default()(this, (_ref = NotImplementedException.__proto__ || get_prototype_of_default()(NotImplementedException)).call.apply(_ref, [this].concat(params)));
+
+		if (Error.captureStackTrace) {
+			Error.captureStackTrace(_this, NotImplementedException);
+		}
+
+		// Custom debugging information
+		_this.parameters = parameters;
+		return _this;
+	}
+
+	return NotImplementedException;
+}(Error);
 // CONCATENATED MODULE: ./src/ad-engine/utils/sampler.js
 
 
@@ -1520,20 +1573,8 @@ var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableA
 var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(6);
-var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(11);
-var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(16);
-var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(15);
+var external_eventemitter3_ = __webpack_require__(16);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
@@ -2980,7 +3021,7 @@ var symbol_ = __webpack_require__(7);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(13);
+var helpers_get_ = __webpack_require__(14);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -3385,11 +3426,11 @@ var slotListener = new slot_listener_SlotListener();
 
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(10);
+var get_own_property_descriptor_ = __webpack_require__(11);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(9);
+var external_core_decorators_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
@@ -5447,6 +5488,7 @@ var viewportObserver = {
 
 
 
+
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
 
@@ -5707,9 +5749,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.4.3');
-set_default()(window, commitField, '7fa2e8a');
-logger('ad-engine', 'v22.4.3 (7fa2e8a)');
+set_default()(window, versionField, 'v22.4.4');
+set_default()(window, commitField, 'd95b8e1');
+logger('ad-engine', 'v22.4.4 (d95b8e1)');
 
 
 
