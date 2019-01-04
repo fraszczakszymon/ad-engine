@@ -4134,11 +4134,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			slotTweaker.show(this);
 			this.setStatus(status);
 
-			var templates = this.getConfigProperty('defaultTemplates');
+			var templateNames = this.getConfigProperty('defaultTemplates');
 
-			if (templates && templates.length) {
-				templates.forEach(function (template) {
-					return templateService.init(template, _this2);
+			if (templateNames && templateNames.length) {
+				templateNames.forEach(function (templateName) {
+					return templateService.init(templateName, _this2);
 				});
 			}
 		}
@@ -4580,7 +4580,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 var template_service_logGroup = 'template-service';
-var template_service_templates = {};
+var templates = {};
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -4608,7 +4608,7 @@ var template_service_TemplateService = function () {
 			}
 
 			context.set('templates.' + name, config);
-			template_service_templates[name] = template;
+			templates[name] = template;
 		}
 	}, {
 		key: 'init',
@@ -4618,11 +4618,11 @@ var template_service_TemplateService = function () {
 
 			logger(template_service_logGroup, 'Load template', name, slot, params);
 
-			if (!template_service_templates[name]) {
+			if (!templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
 
-			return new template_service_templates[name](slot).init(params);
+			return new templates[name](slot).init(params);
 		}
 	}]);
 
@@ -4897,6 +4897,8 @@ var slot_tweaker_SlotTweaker = function () {
 		value: function forceRepaint(domElement) {
 			return domElement.offsetWidth;
 		}
+		/** @readonly */
+
 	}, {
 		key: 'getContainer',
 		value: function getContainer(adSlot) {
@@ -5071,6 +5073,7 @@ var slot_tweaker_SlotTweaker = function () {
 	return SlotTweaker;
 }();
 
+slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
 var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.js
 
@@ -5723,6 +5726,7 @@ var ad_engine_AdEngine = function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotInjector", function() { return slotInjector; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotService", function() { return slotService; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "SlotTweaker", function() { return slot_tweaker_SlotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotTweaker", function() { return slotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "templateService", function() { return templateService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "trackingOptIn", function() { return trackingOptIn; });
@@ -5749,9 +5753,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.4.4');
-set_default()(window, commitField, 'd95b8e1');
-logger('ad-engine', 'v22.4.4 (d95b8e1)');
+set_default()(window, versionField, 'v22.5.0');
+set_default()(window, commitField, '39925a7');
+logger('ad-engine', 'v22.5.0 (39925a7)');
 
 
 
