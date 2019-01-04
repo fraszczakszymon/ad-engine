@@ -150,7 +150,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 		if (!this.adSlot.isViewed()) {
 			this.addUnstickLogic();
-			this.addUnstickButton();
+			this.addCloseButton();
 			this.addUnstickEvents();
 			this.stickiness.run();
 

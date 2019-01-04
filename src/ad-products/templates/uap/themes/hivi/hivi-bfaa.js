@@ -40,7 +40,7 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 
 	addStickinessPlugin() {
 		this.addUnstickLogic();
-		this.addUnstickButton();
+		this.addCloseButton();
 		this.addUnstickEvents();
 		this.stickiness.run();
 	}

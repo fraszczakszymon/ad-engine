@@ -90,7 +90,7 @@ export class StickyTLB extends StickyBase {
 	addStickinessPlugin() {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();
-		this.addUnstickButton();
+		this.addCloseButton();
 		this.addUnstickEvents();
 		this.stickiness.run();
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
@@ -104,7 +104,7 @@ export class StickyTLB extends StickyBase {
 	}
 
 	/** @private */
-	addUnstickButton() {
+	addCloseButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
 			onClick: () => this.stickiness.close(),
@@ -114,7 +114,7 @@ export class StickyTLB extends StickyBase {
 	}
 
 	/** @private */
-	removeUnstickButton() {
+	removeCloseButton() {
 		this.closeButton.remove();
 	}
 
@@ -182,7 +182,7 @@ export class StickyTLB extends StickyBase {
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 		this.adSlot.getElement().classList.add('theme-resolved');
 		this.stickiness.sticky = false;
-		this.removeUnstickButton();
+		this.removeCloseButton();
 		this.config.mainContainer.style.paddingTop = '0';
 		this.adSlot.getElement().classList.add('hide');
 		utils.logger(logGroup, 'unstick immediately');
