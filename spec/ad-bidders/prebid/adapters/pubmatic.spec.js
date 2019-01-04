@@ -59,14 +59,10 @@ describe('Pubmatic bidder adapter', () => {
 			publisherId: '112233',
 			slots: {
 				featured: {
-					sizes: [
-						[0, 0],
-					],
-					ids: [
-						'1636187@0x0',
-					],
-				}
-			}
+					sizes: [[0, 0]],
+					ids: ['1636187@0x0'],
+				},
+			},
 		});
 
 		expect(pubmatic.prepareAdUnits()).to.deep.equal([
@@ -75,8 +71,8 @@ describe('Pubmatic bidder adapter', () => {
 				mediaTypes: {
 					video: {
 						playerSize: [640, 480],
-						context: 'instream'
-					}
+						context: 'instream',
+					},
 				},
 				bids: [
 					{
@@ -85,12 +81,12 @@ describe('Pubmatic bidder adapter', () => {
 							adSlot: '1636187@0x0',
 							publisherId: '112233',
 							video: {
-								mimes: ['video/mp4', 'video/x-flv']
-							}
-						}
-					}
-				]
-			}
+								mimes: ['video/mp4', 'video/x-flv'],
+							},
+						},
+					},
+				],
+			},
 		]);
 	});
 });

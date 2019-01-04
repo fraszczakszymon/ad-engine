@@ -24,6 +24,7 @@ export class Pubmatic extends BaseAdapter {
 				mimes: ['video/mp4', 'video/x-flv'],
 			},
 		};
+
 		return {
 			code,
 			mediaTypes: {
