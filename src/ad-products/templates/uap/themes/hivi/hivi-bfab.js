@@ -195,7 +195,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 	}
 
 	onCloseClicked() {
-		this.adSlot.emit(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
+		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 
 		this.unstickImmediately();
 
