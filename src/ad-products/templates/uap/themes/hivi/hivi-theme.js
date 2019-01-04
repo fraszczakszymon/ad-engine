@@ -11,7 +11,6 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	static DEFAULT_UNSTICK_DELAY = 3000;
 
 	onAdReady() {
-		super.onAdReady();
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
 	}

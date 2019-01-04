@@ -9,9 +9,7 @@ import { VideoSettings } from '../../video-settings';
  * @abstract
  */
 class BigFancyAdClassicTheme extends BigFancyAdTheme {
-	onAdReady(iframe) {
-		super.onAdReady(iframe);
-
+	onAdReady() {
 		if (universalAdPackage.isVideoEnabled(this.params)) {
 			const videoSettings = new VideoSettings(this.params);
 

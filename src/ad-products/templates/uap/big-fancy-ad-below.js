@@ -58,17 +58,17 @@ export class BigFancyAdBelow {
 		this.videoSettings = new VideoSettings(params);
 		this.theme = bfaThemeFactory.makeBelowTheme(this.adSlot, this.params);
 
-		this.theme.adIsReady(this.videoSettings).then((iframe) => this.onAdReady(iframe));
+		this.theme.adIsReady(this.videoSettings).then(() => this.onAdReady());
 
 		this.config.onInit(this.adSlot, this.params, this.config);
 	}
 
-	async onAdReady(iframe) {
+	async onAdReady() {
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
 
-		this.theme.onAdReady(iframe);
+		this.theme.onAdReady();
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
 			const video = await utils.defer(universalAdPackage.loadVideoAd, this.videoSettings);

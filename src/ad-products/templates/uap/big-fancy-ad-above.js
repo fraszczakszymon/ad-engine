@@ -98,7 +98,7 @@ export class BigFancyAdAbove {
 			await utils.once(window, 'visibilitychange');
 		}
 
-		this.theme.onAdReady(iframe);
+		this.theme.onAdReady();
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
 			// defers for proper rendering

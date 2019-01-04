@@ -62,8 +62,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	}
 
 	onVideoReady(video) {
-		super.onVideoReady(video);
-
 		this.video = video;
 		video.addEventListener('wikiaAdStarted', () => {
 			this.updateAdSizes();
