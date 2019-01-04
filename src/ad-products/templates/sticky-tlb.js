@@ -1,4 +1,4 @@
-import { scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, SlotTweaker, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
@@ -107,7 +107,10 @@ export class StickyTLB extends StickyBase {
 	addCloseButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
+			onClick: () => {
+				this.stickiness.close();
+				this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
+			},
 		}).render();
 
 		this.container.appendChild(this.closeButton);
