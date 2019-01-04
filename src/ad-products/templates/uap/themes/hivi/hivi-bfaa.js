@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { AdSlot, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+import { AdSlot, scrollListener, slotTweaker, SlotTweaker, utils } from '@wikia/ad-engine';
 import { debounce, mapValues, isUndefined, toPlainObject } from 'lodash';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
@@ -128,6 +128,7 @@ export class BfaaTheme extends BigFancyAdHiviTheme {
 	}
 
 	onCloseClicked() {
+		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 		this.unstickImmediately();
 
 		this.config.mainContainer.style.paddingTop = '0';
