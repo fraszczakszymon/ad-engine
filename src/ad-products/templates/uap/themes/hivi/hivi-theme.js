@@ -31,7 +31,25 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
 			this.onStickinessChange(isSticky),
 		);
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.onCloseClicked.bind(this));
-		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.onCloseClicked());
+		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, (arg) => this.unstickImmediately(arg));
+	}
+
+	/**
+	 * @abstract
+	 * @protected
+	 * */
+	onCloseClicked() {
+		throw new Error('Not Implemented Exception');
+	}
+
+	/**
+	 * @abstract
+	 * @protected
+	 * @param stopVideo {boolean}
+	 */
+	unstickImmediately(stopVideo) {
+		console.error('Attempting to call not implemented method with arg:', stopVideo);
+		throw new Error('Not Implemented Exception');
 	}
 }

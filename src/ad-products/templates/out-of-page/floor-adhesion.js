@@ -1,4 +1,4 @@
-import { context, slotTweaker, utils } from '@wikia/ad-engine';
+import { context, slotTweaker, SlotTweaker, utils } from '@wikia/ad-engine';
 import CloseButton from '../interface/close-button';
 
 export class FloorAdhesion {
@@ -22,6 +22,7 @@ export class FloorAdhesion {
 		const closeButton = new CloseButton({
 			onClick: () => {
 				slotTweaker.hide(this.adSlot);
+				this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 				utils.logger(FloorAdhesion.getName(), 'closed');
 			},
 		});
