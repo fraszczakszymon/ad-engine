@@ -1263,7 +1263,8 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			this.closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					return _this3.stickiness.close();
+					_this3.stickiness.close();
+					_this3.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				}
 			}).render();
 
@@ -1363,7 +1364,6 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
-				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
@@ -2859,7 +2859,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		value: function addStickinessPlugin() {
 			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 			this.addUnstickLogic();
-			this.addUnstickButton();
+			this.addCloseButton();
 			this.addUnstickEvents();
 			this.stickiness.run();
 			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
@@ -2878,14 +2878,15 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		/** @private */
 
 	}, {
-		key: 'addUnstickButton',
-		value: function addUnstickButton() {
+		key: 'addCloseButton',
+		value: function addCloseButton() {
 			var _this3 = this;
 
 			this.closeButton = new close_button_CloseButton({
 				classNames: ['button-unstick'],
 				onClick: function onClick() {
-					return _this3.stickiness.close();
+					_this3.stickiness.close();
+					_this3.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 				}
 			}).render();
 
@@ -2895,8 +2896,8 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		/** @private */
 
 	}, {
-		key: 'removeUnstickButton',
-		value: function removeUnstickButton() {
+		key: 'removeCloseButton',
+		value: function removeCloseButton() {
 			this.closeButton.remove();
 		}
 
@@ -3030,13 +3031,12 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
-			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.config.moveNavbar(0, 0);
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 			this.adSlot.getElement().classList.add('theme-resolved');
 			this.stickiness.sticky = false;
-			this.removeUnstickButton();
+			this.removeCloseButton();
 			this.config.mainContainer.style.paddingTop = '0';
 			this.adSlot.getElement().classList.add('hide');
 			ad_engine_["utils"].logger(sticky_tlb_logGroup, 'unstick immediately');
@@ -3503,8 +3503,8 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 			this.container.appendChild(advertisementLabel.render());
 		}
 	}, {
-		key: 'addUnstickButton',
-		value: function addUnstickButton() {
+		key: 'addCloseButton',
+		value: function addCloseButton() {
 			var _this2 = this;
 
 			var closeButton = new close_button_CloseButton({
@@ -3618,7 +3618,7 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 		key: 'addStickinessPlugin',
 		value: function addStickinessPlugin() {
 			this.addUnstickLogic();
-			this.addUnstickButton();
+			this.addCloseButton();
 			this.addUnstickEvents();
 			this.stickiness.run();
 		}
@@ -3764,6 +3764,7 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 	}, {
 		key: 'onCloseClicked',
 		value: function onCloseClicked() {
+			this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 			this.unstickImmediately();
 
 			this.config.mainContainer.style.paddingTop = '0';
@@ -3777,7 +3778,6 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
-			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {
@@ -4006,7 +4006,6 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 		_this.stickiness = null;
 		_this.video = null;
-		_this.isLocked = false;
 		_this.config = ad_engine_["context"].get('templates.bfab');
 		return _this;
 	}
@@ -4183,7 +4182,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 								if (!this.adSlot.isViewed()) {
 									this.addUnstickLogic();
-									this.addUnstickButton();
+									this.addCloseButton();
 									this.addUnstickEvents();
 									this.stickiness.run();
 
@@ -4297,6 +4296,8 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 	}, {
 		key: 'onCloseClicked',
 		value: function onCloseClicked() {
+			this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
+
 			this.unstickImmediately();
 
 			this.adSlot.getElement().parentNode.style.height = null;
@@ -4309,7 +4310,6 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			if (this.stickiness) {
-				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 				if (stopVideo && this.video && this.video.ima.getAdsManager()) {
