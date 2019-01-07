@@ -39,6 +39,8 @@ class EavesDropService {
 				host: this.seleniumHost,
 			});
 			await client.Network.enable();
+			await client.Log.enable();
+			await client.Console.enable();
 			console.log(`Successfully enabled Chrome Network debugging on port ${this.port}`);
 		} catch (e) {
 			console.warn(`Could not initialise Chrome Developer Tools Protocol\n${e}`);
@@ -51,6 +53,35 @@ class EavesDropService {
 		if (client) {
 			await client.close();
 		}
+	}
+
+	async clearConsoleMessages(client) {
+		await client.Log.clear();
+		await client.Console.clearMessages();
+	}
+
+	/**
+	 * Checks if log includes message
+	 *
+	 * @param {string} message
+	 * @param {LogEntry[]} logs
+	 * @param {'any' | 'debug' | 'log' | 'warning' | 'error'} level
+	 * @param {boolean} partial
+	 */
+	logsIncludesMessage(message, logs, level = 'any', partial = false) {
+		const checker = (log) => {
+			if (partial) {
+				return log.text.includes(message);
+			}
+
+			return log.text === message;
+		};
+
+		if (level === 'any') {
+			return logs.filter((log) => log.level === level).some(checker);
+		}
+
+		return logs.some(checker);
 	}
 }
 
