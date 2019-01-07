@@ -1866,8 +1866,36 @@ function getAdapters(config) {
 
 
 
+var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
+
 function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === prebid_Prebid.validResponseStatusCode;
+}
+
+function transformPriceFromCpm(cpm, maxCpm) {
+	maxCpm = maxCpm || DEFAULT_MAX_CPM;
+
+	if (maxCpm < DEFAULT_MAX_CPM) {
+		maxCpm = DEFAULT_MAX_CPM;
+	}
+
+	var result = Math.floor(maxCpm).toFixed(2);
+
+	if (cpm === 0) {
+		result = '0.00';
+	} else if (cpm < 0.05) {
+		result = '0.01';
+	} else if (cpm < 5.0) {
+		result = (Math.floor(cpm * 20) / 20).toFixed(2);
+	} else if (cpm < 10.0) {
+		result = (Math.floor(cpm * 10) / 10).toFixed(2);
+	} else if (cpm < 20.0) {
+		result = (Math.floor(cpm * 2) / 2).toFixed(2);
+	} else if (cpm < maxCpm) {
+		result = Math.floor(cpm).toFixed(2);
+	}
+
+	return result;
 }
 
 var DEFAULT_MAX_CPM = 20;
@@ -1897,35 +1925,18 @@ function getPrebidBestPrice(slotName) {
 	return bestPrices;
 }
 
-function transformPriceFromCpm(cpm, maxCpm) {
-	maxCpm = maxCpm || DEFAULT_MAX_CPM;
-	if (maxCpm < DEFAULT_MAX_CPM) {
-		maxCpm = DEFAULT_MAX_CPM;
+function transformPriceFromBid(bid) {
+	var maxCpm = DEFAULT_MAX_CPM;
+
+	if (videoBiddersCap50.includes(bid.bidderCode)) {
+		maxCpm = 50;
 	}
 
-	var result = Math.floor(maxCpm).toFixed(2);
-
-	if (cpm === 0) {
-		result = '0.00';
-	} else if (cpm < 0.05) {
-		result = '0.01';
-	} else if (cpm < 5.0) {
-		result = (Math.floor(cpm * 20) / 20).toFixed(2);
-	} else if (cpm < 10.0) {
-		result = (Math.floor(cpm * 10) / 10).toFixed(2);
-	} else if (cpm < 20.0) {
-		result = (Math.floor(cpm * 2) / 2).toFixed(2);
-	} else if (cpm < maxCpm) {
-		result = Math.floor(cpm).toFixed(2);
-	}
-
-	return result;
+	return transformPriceFromCpm(bid.cpm, maxCpm);
 }
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-settings.js
 
 
-
-var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
 function getSettings() {
 	return {
@@ -1946,13 +1957,7 @@ function getSettings() {
 			}, {
 				key: 'hb_pb',
 				val: function val(bidResponse) {
-					var maxCpm = DEFAULT_MAX_CPM;
-
-					if (videoBiddersCap50.includes(bidResponse.bidderCode)) {
-						maxCpm = 50;
-					}
-
-					return transformPriceFromCpm(bidResponse.cpm, maxCpm);
+					return transformPriceFromBid(bidResponse);
 				}
 			}, {
 				key: 'hb_size',
@@ -2267,6 +2272,7 @@ prebid_Prebid.errorResponseStatusCode = 2;
 
 
 
+
 var biddersRegistry = {};
 var realSlotPrices = {};
 var ad_bidders_logGroup = 'bidders';
@@ -2386,11 +2392,13 @@ function updateSlotTargeting(slotName) {
 }
 
 var ad_bidders_bidders = {
+	getBidParameters: getBidParameters,
 	getCurrentSlotPrices: getCurrentSlotPrices,
 	getDfpSlotPrices: getDfpSlotPrices,
 	hasAllResponses: hasAllResponses,
 	prebidHelper: prebid_helper_namespaceObject,
 	requestBids: requestBids,
+	transformPriceFromBid: transformPriceFromBid,
 	updateSlotTargeting: updateSlotTargeting
 };
 
