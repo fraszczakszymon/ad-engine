@@ -1,6 +1,6 @@
 class BlockBtfAd {
 	constructor() {
-		this.pageLink = 'slots/block-btf/';
+		this.pageLink = 'slots/kill-codes/';
 	}
 }
 
