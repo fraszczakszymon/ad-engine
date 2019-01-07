@@ -6,6 +6,29 @@ const logGroup = 'sticky-base';
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
+	static isLineAndGeo(lineId, lines) {
+		if (!lineId || !lines || !lines.length) {
+			return false;
+		}
+
+		let found = false;
+
+		lineId = lineId.toString();
+
+		lines.forEach((line) => {
+			line = line.split(':', 2);
+
+			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
+				found = true;
+			}
+		});
+		if (found) {
+			utils.logger(logGroup, `line item ${lineId} enabled in geo`);
+		}
+
+		return found;
+	}
+
 	/**
 	 * Base class for sticky ads
 	 * @param {AdSlot} adSlot
@@ -24,7 +47,9 @@ export class StickyBase {
 	 * @abstract
 	 * @return {string}
 	 */
-	getName() {}
+	getName() {
+		throw new utils.NotImplementedException();
+	}
 
 	/**
 	 * Runs logic which decides when to unstick the template.
@@ -51,28 +76,5 @@ export class StickyBase {
 		}
 
 		return isEnabled;
-	}
-
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
-
-		let found = false;
-
-		lineId = lineId.toString();
-
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-		if (found) {
-			utils.logger(logGroup, `line item ${lineId} enabled in geo`);
-		}
-
-		return found;
 	}
 }

@@ -340,6 +340,11 @@ var floating_rail_FloatingRail = function () {
 				startOffset: 0
 			};
 		}
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
+		}
 	}]);
 
 	function FloatingRail() {
@@ -397,11 +402,6 @@ var floating_rail_FloatingRail = function () {
 			}
 
 			return availableSpace;
-		}
-	}], [{
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return ad_engine_["context"].get('templates.floatingRail.enabled') && ad_engine_["context"].get('state.isMobile') === false;
 		}
 	}]);
 
@@ -802,11 +802,38 @@ stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 var logGroup = 'sticky-base';
 
 var sticky_base_StickyBase = function () {
+	createClass_default()(StickyBase, null, [{
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo(lineId, lines) {
+			if (!lineId || !lines || !lines.length) {
+				return false;
+			}
 
-	/**
-  * Base class for sticky ads
-  * @param {AdSlot} adSlot
-  */
+			var found = false;
+
+			lineId = lineId.toString();
+
+			lines.forEach(function (line) {
+				line = line.split(':', 2);
+
+				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
+					found = true;
+				}
+			});
+			if (found) {
+				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
+			}
+
+			return found;
+		}
+
+		/**
+   * Base class for sticky ads
+   * @param {AdSlot} adSlot
+   */
+
+	}]);
+
 	function StickyBase(adSlot) {
 		classCallCheck_default()(this, StickyBase);
 
@@ -827,7 +854,9 @@ var sticky_base_StickyBase = function () {
 
 	createClass_default()(StickyBase, [{
 		key: 'getName',
-		value: function getName() {}
+		value: function getName() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
 
 		/**
    * Runs logic which decides when to unstick the template.
@@ -882,30 +911,6 @@ var sticky_base_StickyBase = function () {
 			}
 
 			return isEnabled;
-		}
-	}], [{
-		key: 'isLineAndGeo',
-		value: function isLineAndGeo(lineId, lines) {
-			if (!lineId || !lines || !lines.length) {
-				return false;
-			}
-
-			var found = false;
-
-			lineId = lineId.toString();
-
-			lines.forEach(function (line) {
-				line = line.split(':', 2);
-
-				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
-					found = true;
-				}
-			});
-			if (found) {
-				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
-			}
-
-			return found;
 		}
 	}]);
 
@@ -1165,6 +1170,11 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 				slotsIgnoringNavbar: []
 			};
 		}
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return 'stickyAd';
+		}
 	}]);
 
 	function StickyAd(adSlot) {
@@ -1182,11 +1192,6 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 		key: 'getName',
 		value: function getName() {
 			return StickyAd.getName();
-		}
-	}, {
-		key: 'adjustAdSlot',
-		value: function adjustAdSlot() {
-			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 		}
 	}, {
 		key: 'init',
@@ -1239,6 +1244,17 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			window.addEventListener('resize', this.adjustAdSlot.bind(this));
 			ad_engine_["utils"].logger(sticky_ad_logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
+
+		/** @private */
+
+	}, {
+		key: 'adjustAdSlot',
+		value: function adjustAdSlot() {
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+		}
+
+		/** @private */
+
 	}, {
 		key: 'addUnstickButton',
 		value: function addUnstickButton() {
@@ -1253,11 +1269,17 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 
 			this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
 		}
+
+		/** @private */
+
 	}, {
 		key: 'removeUnstickButton',
 		value: function removeUnstickButton() {
 			this.closeButton.remove();
 		}
+
+		/** @private */
+
 	}, {
 		key: 'removeStickyParameters',
 		value: function removeStickyParameters() {
@@ -1266,6 +1288,9 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			this.adSlot.getElement().querySelector('div').style.top = null;
 			this.adSlot.getElement().querySelector('div').style.left = null;
 		}
+
+		/** @private */
+
 	}, {
 		key: 'addUnstickEventsListeners',
 		value: function addUnstickEventsListeners() {
@@ -1277,6 +1302,9 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
 			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 		}
+
+		/** @private */
+
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
@@ -1328,6 +1356,9 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 
 			return onStickinessChange;
 		}()
+
+		/** @private */
+
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
@@ -1338,11 +1369,6 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 				this.removeUnstickButton();
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'unstick immediately');
 			}
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'stickyAd';
 		}
 	}]);
 
@@ -2772,6 +2798,11 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 				}
 			};
 		}
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return 'stickyTLB';
+		}
 	}]);
 
 	function StickyTLB(adSlot) {
@@ -2820,6 +2851,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			this.config.onInit(this.adSlot, this.params, this.config);
 			this.onAdReady();
 		}
+
+		/** @private */
+
 	}, {
 		key: 'addStickinessPlugin',
 		value: function addStickinessPlugin() {
@@ -2830,6 +2864,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			this.stickiness.run();
 			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
+
+		/** @private */
+
 	}, {
 		key: 'addAdvertisementLabel',
 		value: function addAdvertisementLabel() {
@@ -2837,6 +2874,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 			this.adSlot.getElement().appendChild(advertisementLabel.render());
 		}
+
+		/** @private */
+
 	}, {
 		key: 'addUnstickButton',
 		value: function addUnstickButton() {
@@ -2851,11 +2891,17 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 			this.container.appendChild(this.closeButton);
 		}
+
+		/** @private */
+
 	}, {
 		key: 'removeUnstickButton',
 		value: function removeUnstickButton() {
 			this.closeButton.remove();
 		}
+
+		/** @private */
+
 	}, {
 		key: 'addUnstickEvents',
 		value: function addUnstickEvents() {
@@ -2864,9 +2910,16 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
 				return _this4.onStickinessChange(isSticky);
 			});
-			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
-			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, function () {
+				return _this4.unstickImmediately();
+			});
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, function () {
+				return _this4.unstickImmediately();
+			});
 		}
+
+		/** @private */
+
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
@@ -2922,6 +2975,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 			return onStickinessChange;
 		}()
+
+		/** @private */
+
 	}, {
 		key: 'onAdReady',
 		value: function () {
@@ -2968,6 +3024,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 
 			return onAdReady;
 		}()
+
+		/** @private */
+
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
@@ -2982,6 +3041,9 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			this.adSlot.getElement().classList.add('hide');
 			ad_engine_["utils"].logger(sticky_tlb_logGroup, 'unstick immediately');
 		}
+
+		/** @private */
+
 	}, {
 		key: 'setupNavbar',
 		value: function setupNavbar() {
@@ -2997,11 +3059,6 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 			if (desktopNavbarWrapper) {
 				slotParent.insertBefore(desktopNavbarWrapper, sibling);
 			}
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'stickyTLB';
 		}
 	}]);
 
@@ -3230,6 +3287,7 @@ var video_settings_VideoSettings = function () {
 
 
 
+/** @abstract */
 var theme_BigFancyAdTheme = function () {
 	function BigFancyAdTheme(adSlot, params) {
 		classCallCheck_default()(this, BigFancyAdTheme);
@@ -3240,9 +3298,15 @@ var theme_BigFancyAdTheme = function () {
 		this.params = params;
 	}
 
+	/** @abstract */
+
+
 	createClass_default()(BigFancyAdTheme, [{
 		key: 'onAdReady',
 		value: function onAdReady() {}
+
+		/** @abstract */
+
 	}, {
 		key: 'onVideoReady',
 		value: function onVideoReady() {}
@@ -3261,6 +3325,8 @@ var theme_BigFancyAdTheme = function () {
 
 
 
+
+/** @abstract */
 
 var classic_BigFancyAdClassicTheme = function (_BigFancyAdTheme) {
 	inherits_default()(BigFancyAdClassicTheme, _BigFancyAdTheme);
@@ -3458,8 +3524,36 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
 				return _this3.onStickinessChange(isSticky);
 			});
-			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.onCloseClicked.bind(this));
-			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, function () {
+				return _this3.onCloseClicked();
+			});
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, function (arg) {
+				return _this3.unstickImmediately(arg);
+			});
+		}
+
+		/**
+   * @abstract
+   * @protected
+   * */
+
+	}, {
+		key: 'onCloseClicked',
+		value: function onCloseClicked() {
+			throw new Error('Not Implemented Exception');
+		}
+
+		/**
+   * @abstract
+   * @protected
+   * @param stopVideo {boolean}
+   */
+
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately(stopVideo) {
+			console.error('Attempting to call not implemented method with arg:', stopVideo);
+			throw new Error('Not Implemented Exception');
 		}
 	}]);
 
@@ -4699,6 +4793,20 @@ var roadblock_Roadblock = function () {
 
 
 var floor_adhesion_FloorAdhesion = function () {
+	createClass_default()(FloorAdhesion, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'floorAdhesion';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
 	function FloorAdhesion(adSlot) {
 		classCallCheck_default()(this, FloorAdhesion);
 
@@ -4715,6 +4823,7 @@ var floor_adhesion_FloorAdhesion = function () {
 			var closeButton = new close_button_CloseButton({
 				onClick: function onClick() {
 					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					_this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 					ad_engine_["utils"].logger(FloorAdhesion.getName(), 'closed');
 				}
 			});
@@ -4729,18 +4838,6 @@ var floor_adhesion_FloorAdhesion = function () {
 
 			ad_engine_["utils"].logger(FloorAdhesion.getName(), 'init');
 		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'floorAdhesion';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
-		}
 	}]);
 
 	return FloorAdhesion;
@@ -4753,6 +4850,20 @@ var floor_adhesion_FloorAdhesion = function () {
 
 
 var interstitial_Interstitial = function () {
+	createClass_default()(Interstitial, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'interstitial';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				onInit: function onInit() {}
+			};
+		}
+	}]);
+
 	function Interstitial(adSlot) {
 		classCallCheck_default()(this, Interstitial);
 
@@ -4770,6 +4881,7 @@ var interstitial_Interstitial = function () {
 				onClick: function onClick() {
 					document.documentElement.classList.remove('stop-scrolling');
 					ad_engine_["slotTweaker"].hide(_this.adSlot);
+					_this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 					ad_engine_["utils"].logger(Interstitial.getName(), 'closed');
 				}
 			});
@@ -4790,18 +4902,6 @@ var interstitial_Interstitial = function () {
 			ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
 				document.documentElement.classList.remove('stop-scrolling');
 			});
-		}
-	}], [{
-		key: 'getName',
-		value: function getName() {
-			return 'interstitial';
-		}
-	}, {
-		key: 'getDefaultConfig',
-		value: function getDefaultConfig() {
-			return {
-				onInit: function onInit() {}
-			};
 		}
 	}]);
 

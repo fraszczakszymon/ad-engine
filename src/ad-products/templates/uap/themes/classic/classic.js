@@ -3,6 +3,7 @@ import { BigFancyAdTheme } from '../theme';
 import { universalAdPackage } from '../../universal-ad-package';
 import { VideoSettings } from '../../video-settings';
 
+/** @abstract */
 class BigFancyAdClassicTheme extends BigFancyAdTheme {
 	onAdReady(iframe) {
 		super.onAdReady(iframe);

@@ -27,6 +27,10 @@ export class StickyAd extends StickyBase {
 		};
 	}
 
+	static getName() {
+		return 'stickyAd';
+	}
+
 	constructor(adSlot) {
 		super(adSlot);
 		this.scrollListener = null;
@@ -34,16 +38,8 @@ export class StickyAd extends StickyBase {
 		this.leftOffset = 0;
 	}
 
-	static getName() {
-		return 'stickyAd';
-	}
-
 	getName() {
 		return StickyAd.getName();
-	}
-
-	adjustAdSlot() {
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
 	}
 
 	init(params) {
@@ -99,6 +95,12 @@ export class StickyAd extends StickyBase {
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
+	/** @private */
+	adjustAdSlot() {
+		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
+	}
+
+	/** @private */
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
@@ -111,10 +113,12 @@ export class StickyAd extends StickyBase {
 			.appendChild(this.closeButton);
 	}
 
+	/** @private */
 	removeUnstickButton() {
 		this.closeButton.remove();
 	}
 
+	/** @private */
 	removeStickyParameters() {
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
 		this.adSlot.getElement().style.height = null;
@@ -122,6 +126,7 @@ export class StickyAd extends StickyBase {
 		this.adSlot.getElement().querySelector('div').style.left = null;
 	}
 
+	/** @private */
 	addUnstickEventsListeners() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
 			this.onStickinessChange(isSticky),
@@ -130,6 +135,7 @@ export class StickyAd extends StickyBase {
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
 	}
 
+	/** @private */
 	async onStickinessChange(isSticky) {
 		if (!isSticky) {
 			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
@@ -160,6 +166,7 @@ export class StickyAd extends StickyBase {
 		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
+	/** @private */
 	unstickImmediately() {
 		if (this.stickiness) {
 			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);

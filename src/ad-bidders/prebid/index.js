@@ -22,6 +22,9 @@ window.pbjs.que = window.pbjs.que || [];
 events.registerEvent('BIDS_REFRESH');
 
 export class Prebid extends BaseBidder {
+	static validResponseStatusCode = 1;
+	static errorResponseStatusCode = 2;
+
 	constructor(bidderConfig, timeout = 2000) {
 		super('prebid', bidderConfig, timeout);
 
@@ -66,9 +69,6 @@ export class Prebid extends BaseBidder {
 			this.registerBidsRefreshing();
 		}
 	}
-
-	static validResponseStatusCode = 1;
-	static errorResponseStatusCode = 2;
 
 	@decorate(postponeExecutionUntilPbjsLoads)
 	applyConfig(config) {

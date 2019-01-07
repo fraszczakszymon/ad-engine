@@ -19,14 +19,14 @@ export class FloatingRail {
 		};
 	}
 
+	static isEnabled() {
+		return context.get('templates.floatingRail.enabled') && context.get('state.isMobile') === false;
+	}
+
 	constructor() {
 		this.config = context.get('templates.floatingRail');
 		this.rail = document.querySelector(this.config.railSelector);
 		this.railWrapper = document.querySelector(this.config.wrapperSelector);
-	}
-
-	static isEnabled() {
-		return context.get('templates.floatingRail.enabled') && context.get('state.isMobile') === false;
 	}
 
 	init(params) {
