@@ -4450,10 +4450,10 @@ var btf_blocker_service_BtfBlockerService = function () {
 			logger(btf_blocker_service_logGroup, 'first call queue finished');
 
 			if (window.ads.runtime.disableSecondCall) {
-				disableSecondCall([]);
+				this.disableSecondCall([]);
 			} else if (window.ads.runtime.disableBtf) {
-				disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
-					return slot.name;
+				this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
+					return slot.slotName;
 				}))));
 			}
 
@@ -5709,8 +5709,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v22.4.2');
-set_default()(window, commitField, '96fc0d2');
-logger('ad-engine', 'v22.4.2 (96fc0d2)');
+set_default()(window, commitField, '1076095');
+logger('ad-engine', 'v22.4.2 (1076095)');
 
 
 
