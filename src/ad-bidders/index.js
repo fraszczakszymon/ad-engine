@@ -2,6 +2,7 @@ import { context, events, utils } from '@wikia/ad-engine';
 import { A9 } from './a9';
 import { Prebid } from './prebid';
 import * as prebidHelper from './prebid/prebid-helper';
+import { transformPriceFromBid } from './prebid/price-helper';
 
 const biddersRegistry = {};
 const realSlotPrices = {};
@@ -119,10 +120,12 @@ function updateSlotTargeting(slotName) {
 }
 
 export const bidders = {
+	getBidParameters,
 	getCurrentSlotPrices,
 	getDfpSlotPrices,
 	hasAllResponses,
 	prebidHelper,
 	requestBids,
+	transformPriceFromBid,
 	updateSlotTargeting,
 };
