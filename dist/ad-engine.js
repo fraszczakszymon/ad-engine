@@ -4466,6 +4466,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			if (window.ads && window.ads.runtime) {
 				window.ads.runtime.disableBtf = false;
+				window.ads.runtime.disableSecondCall = false;
 			}
 		}
 	}, {
@@ -4491,9 +4492,11 @@ var btf_blocker_service_BtfBlockerService = function () {
 			this.firstCallEnded = true;
 			logger(btf_blocker_service_logGroup, 'first call queue finished');
 
-			if (window.ads.runtime.disableBtf) {
+			if (window.ads.runtime.disableSecondCall) {
+				this.disableSecondCall([]);
+			} else if (window.ads.runtime.disableBtf) {
 				this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
-					return slot.name;
+					return slot.slotName;
 				}))));
 			}
 
@@ -5753,9 +5756,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.5.0');
-set_default()(window, commitField, '39925a7');
-logger('ad-engine', 'v22.5.0 (39925a7)');
+set_default()(window, versionField, 'v22.6.0');
+set_default()(window, commitField, '6cb49d7');
+logger('ad-engine', 'v22.6.0 (6cb49d7)');
 
 
 
