@@ -1866,6 +1866,7 @@ function getAdapters(config) {
 
 
 
+var DEFAULT_MAX_CPM = 20;
 var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
 function isValidPrice(bid) {
@@ -1897,8 +1898,6 @@ function transformPriceFromCpm(cpm, maxCpm) {
 
 	return result;
 }
-
-var DEFAULT_MAX_CPM = 20;
 
 function getPrebidBestPrice(slotName) {
 	var bestPrices = {};

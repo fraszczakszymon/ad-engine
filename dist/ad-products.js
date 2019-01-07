@@ -3479,6 +3479,9 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 
 
+
+var hivi_theme_logGroup = 'HiviTheme';
+
 var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	inherits_default()(BigFancyAdHiviTheme, _BigFancyAdTheme);
 
@@ -3552,7 +3555,7 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately(stopVideo) {
-			console.error('Attempting to call not implemented method with arg:', stopVideo);
+			ad_engine_["utils"].logger(hivi_theme_logGroup, 'Attempting to call not implemented method with arg:', stopVideo);
 			throw new Error('Not Implemented Exception');
 		}
 	}]);
