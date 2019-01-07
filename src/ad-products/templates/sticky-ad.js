@@ -104,7 +104,10 @@ export class StickyAd extends StickyBase {
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
+			onClick: () => {
+				this.stickiness.close();
+				this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+			},
 		}).render();
 
 		this.adSlot
@@ -169,7 +172,6 @@ export class StickyAd extends StickyBase {
 	/** @private */
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();

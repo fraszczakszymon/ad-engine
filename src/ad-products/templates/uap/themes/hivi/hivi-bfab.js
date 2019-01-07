@@ -1,4 +1,11 @@
-import { context, scrollListener, slotService, slotTweaker, utils } from '@wikia/ad-engine';
+import {
+	context,
+	scrollListener,
+	slotService,
+	slotTweaker,
+	SlotTweaker,
+	utils,
+} from '@wikia/ad-engine';
 import { mapValues } from 'lodash';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
@@ -19,7 +26,6 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 		this.stickiness = null;
 		this.video = null;
-		this.isLocked = false;
 		this.config = context.get('templates.bfab');
 	}
 
@@ -143,7 +149,7 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 		if (!this.adSlot.isViewed()) {
 			this.addUnstickLogic();
-			this.addUnstickButton();
+			this.addCloseButton();
 			this.addUnstickEvents();
 			this.stickiness.run();
 
@@ -189,6 +195,8 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 	}
 
 	onCloseClicked() {
+		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
+
 		this.unstickImmediately();
 
 		this.adSlot.getElement().parentNode.style.height = null;
@@ -198,7 +206,6 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 
 	unstickImmediately(stopVideo = true) {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {
