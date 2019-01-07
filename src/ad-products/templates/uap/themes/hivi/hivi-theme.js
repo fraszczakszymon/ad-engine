@@ -1,7 +1,10 @@
+import { utils } from '@wikia/ad-engine';
 import AdvertisementLabel from '../../../interface/advertisement-label';
 import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
 import { Stickiness } from './stickiness';
+
+const logGroup = 'HiviTheme';
 
 export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	static DEFAULT_UNSTICK_DELAY = 3000;
@@ -49,7 +52,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @param stopVideo {boolean}
 	 */
 	unstickImmediately(stopVideo) {
-		console.error('Attempting to call not implemented method with arg:', stopVideo);
+		utils.logger(logGroup, 'Attempting to call not implemented method with arg:', stopVideo);
 		throw new Error('Not Implemented Exception');
 	}
 }

@@ -1,13 +1,14 @@
 import { getAdapters } from './adapters-registry';
 import { Prebid } from './index';
 
+const DEFAULT_MAX_CPM = 20;
 const videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
 function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === Prebid.validResponseStatusCode;
 }
 
-function transformPriceFromCpm(cpm, maxCpm) {
+export function transformPriceFromCpm(cpm, maxCpm) {
 	maxCpm = maxCpm || DEFAULT_MAX_CPM;
 
 	if (maxCpm < DEFAULT_MAX_CPM) {
@@ -32,8 +33,6 @@ function transformPriceFromCpm(cpm, maxCpm) {
 
 	return result;
 }
-
-export const DEFAULT_MAX_CPM = 20;
 
 export function getPrebidBestPrice(slotName) {
 	const bestPrices = {};
