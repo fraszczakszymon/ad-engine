@@ -18,6 +18,7 @@ import { ProjectsHandler } from './projects-handler';
  */
 
 const logGroup = 'bill-the-lizard';
+let openRequests = [];
 
 events.registerEvent('BILL_THE_LIZARD_REQUEST');
 events.registerEvent('BILL_THE_LIZARD_RESPONSE');
@@ -70,6 +71,8 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 	request.open('GET', url, true);
 	request.responseType = 'json';
 	request.timeout = timeout;
+
+	openRequests.push(request);
 
 	utils.logger(logGroup, 'timeout configured to', request.timeout);
 
@@ -143,10 +146,20 @@ export class BillTheLizard {
 	constructor() {
 		this.executor = new Executor();
 		this.projectsHandler = new ProjectsHandler();
-		this.statuses = {};
-		this.predictions = [];
-		this.callCounter = 0;
 		this.targetedModelNames = new Set();
+
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
+	}
+
+	reset() {
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
+
+		openRequests.forEach((req) => req.abort());
+		openRequests = [];
 	}
 
 	/**

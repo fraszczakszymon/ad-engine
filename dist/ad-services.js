@@ -384,6 +384,7 @@ var projects_handler_ProjectsHandler = function () {
  */
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
+var openRequests = [];
 
 ad_engine_["events"].registerEvent('BILL_THE_LIZARD_REQUEST');
 ad_engine_["events"].registerEvent('BILL_THE_LIZARD_RESPONSE');
@@ -440,6 +441,8 @@ function httpRequest(host, endpoint) {
 	request.open('GET', url, true);
 	request.responseType = 'json';
 	request.timeout = timeout;
+
+	openRequests.push(request);
 
 	ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'timeout configured to', request.timeout);
 
@@ -507,26 +510,39 @@ var bill_the_lizard_BillTheLizard = function () {
 
 		this.executor = new executor_Executor();
 		this.projectsHandler = new projects_handler_ProjectsHandler();
-		this.statuses = {};
-		this.predictions = [];
-		this.callCounter = 0;
 		this.targetedModelNames = new set_default.a();
+
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
 	}
 
-	/**
-  * Requests service, executes defined methods and parses response
-  *
-  * Supply callKey if you need to access status for this specific request.
-  * DO NOT use an integer as callKey as it's the default value.
-  * Good key example: "incontent_boxad1".
-  *
-  * @param {string[]} projectNames
-  * @param {string} callId key for this call
-  * @returns {Promise}
-  */
-
-
 	createClass_default()(BillTheLizard, [{
+		key: 'reset',
+		value: function reset() {
+			this.callCounter = 0;
+			this.predictions = [];
+			this.statuses = {};
+
+			openRequests.forEach(function (req) {
+				return req.abort();
+			});
+			openRequests = [];
+		}
+
+		/**
+   * Requests service, executes defined methods and parses response
+   *
+   * Supply callKey if you need to access status for this specific request.
+   * DO NOT use an integer as callKey as it's the default value.
+   * Good key example: "incontent_boxad1".
+   *
+   * @param {string[]} projectNames
+   * @param {string} callId key for this call
+   * @returns {Promise}
+   */
+
+	}, {
 		key: 'call',
 		value: function call(projectNames, callId) {
 			var _this = this;
@@ -1144,6 +1160,7 @@ var nielsen_Nielsen = function () {
 	/**
   * Create Nielsen Static Queue and make a call
   * @param {Object} nielsenMetadata
+  * @returns {Object}
   */
 
 
@@ -1155,7 +1172,7 @@ var nielsen_Nielsen = function () {
 			if (!ad_engine_["context"].get('services.nielsen.enabled') || !nielsenKey) {
 				ad_engine_["utils"].logger(nielsen_logGroup, 'disabled');
 
-				return;
+				return null;
 			}
 
 			if (!this.nlsnInstance) {
@@ -1167,6 +1184,8 @@ var nielsen_Nielsen = function () {
 			this.nlsnInstance.ggPM('staticstart', nielsenMetadata);
 
 			ad_engine_["utils"].logger(nielsen_logGroup, 'called', nielsenMetadata);
+
+			return this.nlsnInstance;
 		}
 	}]);
 

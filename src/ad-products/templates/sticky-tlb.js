@@ -45,13 +45,13 @@ export class StickyTLB extends StickyBase {
 		};
 	}
 
+	static getName() {
+		return 'stickyTLB';
+	}
+
 	constructor(adSlot) {
 		super(adSlot);
 		this.container = this.adSlot.getElement();
-	}
-
-	static getName() {
-		return 'stickyTLB';
 	}
 
 	getName() {
@@ -86,6 +86,7 @@ export class StickyTLB extends StickyBase {
 		this.onAdReady();
 	}
 
+	/** @private */
 	addStickinessPlugin() {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();
@@ -95,12 +96,14 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
+	/** @private */
 	addAdvertisementLabel() {
 		const advertisementLabel = new AdvertisementLabel();
 
 		this.adSlot.getElement().appendChild(advertisementLabel.render());
 	}
 
+	/** @private */
 	addUnstickButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
@@ -110,18 +113,21 @@ export class StickyTLB extends StickyBase {
 		this.container.appendChild(this.closeButton);
 	}
 
+	/** @private */
 	removeUnstickButton() {
 		this.closeButton.remove();
 	}
 
+	/** @private */
 	addUnstickEvents() {
 		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
 			this.onStickinessChange(isSticky),
 		);
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
-		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
+		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.unstickImmediately());
+		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, () => this.unstickImmediately());
 	}
 
+	/** @private */
 	async onStickinessChange(isSticky) {
 		const stickinessBeforeCallback = isSticky
 			? this.config.onBeforeStickBfaaCallback
@@ -148,6 +154,7 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
+	/** @private */
 	async onAdReady() {
 		this.container.classList.add('theme-hivi');
 		this.addAdvertisementLabel();
@@ -168,6 +175,7 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, 'ad ready');
 	}
 
+	/** @private */
 	unstickImmediately() {
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
@@ -181,6 +189,7 @@ export class StickyTLB extends StickyBase {
 		utils.logger(logGroup, 'unstick immediately');
 	}
 
+	/** @private */
 	setupNavbar() {
 		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
 		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
