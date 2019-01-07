@@ -136,13 +136,13 @@ export default {
 		slot: [
 			{
 				onRenderEnded(adSlot) {
-					console.log('💸 Custom listener: onRenderEnded', adSlot.getSlotName());
+					console.log(`💸 Custom listener: onRenderEnded ${adSlot.getSlotName()}`);
 				},
 				onImpressionViewable(adSlot) {
-					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
+					console.log(`👁 Custom listener: onImpressionViewable ${adSlot.getSlotName()}`);
 				},
 				onCustomEvent(adSlot, data) {
-					console.log('👁 Custom listener: onCustomEvent', adSlot.getSlotName(), data.status);
+					console.log(`👁 Custom listener: onCustomEvent ${adSlot.getSlotName()} ${data.status}`);
 				},
 			},
 		],
