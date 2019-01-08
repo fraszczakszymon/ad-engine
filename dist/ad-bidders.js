@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -144,6 +144,12 @@ module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/extends");
+
+/***/ }),
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1199,7 +1205,12 @@ var openx_Openx = function (_BaseAdapter) {
 
 	return Openx;
 }(base_adapter_BaseAdapter);
+// EXTERNAL MODULE: external "babel-runtime/helpers/extends"
+var extends_ = __webpack_require__(12);
+var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
+
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/pubmatic.js
+
 
 
 
@@ -1223,11 +1234,40 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 	createClass_default()(Pubmatic, [{
 		key: 'prepareConfigForAdUnit',
 		value: function prepareConfigForAdUnit(code, _ref) {
-			var _this2 = this;
-
 			var sizes = _ref.sizes,
 			    ids = _ref.ids;
 
+			switch (code.toLowerCase()) {
+				case 'featured':
+				case 'incontent_player':
+					return this.getVideoConfig(code, ids);
+				default:
+					return this.getStandardConfig(code, sizes, ids);
+			}
+		}
+	}, {
+		key: 'getVideoConfig',
+		value: function getVideoConfig(code, ids) {
+			var videoParams = {
+				video: {
+					mimes: ['video/mp4', 'video/x-flv']
+				}
+			};
+
+			return {
+				code: code,
+				mediaTypes: {
+					video: {
+						playerSize: [640, 480],
+						context: 'instream'
+					}
+				},
+				bids: this.getBids(ids, videoParams)
+			};
+		}
+	}, {
+		key: 'getStandardConfig',
+		value: function getStandardConfig(code, sizes, ids) {
 			return {
 				code: code,
 				mediaTypes: {
@@ -1235,16 +1275,25 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 						sizes: sizes
 					}
 				},
-				bids: ids.map(function (adSlot) {
-					return {
-						bidder: _this2.bidderName,
-						params: {
-							adSlot: adSlot,
-							publisherId: _this2.publisherId
-						}
-					};
-				})
+				bids: this.getBids(ids)
 			};
+		}
+	}, {
+		key: 'getBids',
+		value: function getBids(ids) {
+			var _this2 = this;
+
+			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			return ids.map(function (adSlot) {
+				return {
+					bidder: _this2.bidderName,
+					params: extends_default()({
+						adSlot: adSlot,
+						publisherId: _this2.publisherId
+					}, params)
+				};
+			});
 		}
 	}]);
 
@@ -1406,7 +1455,8 @@ var rubicon_Rubicon = function (_BaseAdapter) {
 				mediaType: 'video',
 				mediaTypes: {
 					video: {
-						playerSize: [640, 480]
+						playerSize: [640, 480],
+						context: 'instream'
 					}
 				},
 				bids: [{
@@ -1512,6 +1562,11 @@ var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 
 
+var price = ad_engine_["utils"].queryString.get('wikia_adapter');
+var limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
+var wikia_timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+var useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+
 var wikia_Wikia = function (_BaseAdapter) {
 	inherits_default()(Wikia, _BaseAdapter);
 
@@ -1521,10 +1576,10 @@ var wikia_Wikia = function (_BaseAdapter) {
 		var _this = possibleConstructorReturn_default()(this, (Wikia.__proto__ || get_prototype_of_default()(Wikia)).call(this, options));
 
 		_this.bidderName = 'wikia';
-		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_adapter');
-		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
-		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
-		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
+		_this.enabled = !!price;
+		_this.limit = limit;
+		_this.useRandomPrice = useRandomPrice;
+		_this.timeout = wikia_timeout;
 
 		_this.create = function () {
 			return _this;
@@ -1560,8 +1615,6 @@ var wikia_Wikia = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["utils"].queryString.get('wikia_adapter');
-
 			if (this.useRandomPrice) {
 				return Math.floor(Math.random() * 2000) / 100;
 			}
@@ -1652,6 +1705,11 @@ var wikia_Wikia = function (_BaseAdapter) {
 
 
 
+var wikia_video_price = ad_engine_["utils"].queryString.get('wikia_video_adapter');
+var wikia_video_limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
+var wikia_video_timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
+var wikia_video_useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
+
 var wikia_video_WikiaVideo = function (_BaseAdapter) {
 	inherits_default()(WikiaVideo, _BaseAdapter);
 
@@ -1661,10 +1719,10 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 		var _this = possibleConstructorReturn_default()(this, (WikiaVideo.__proto__ || get_prototype_of_default()(WikiaVideo)).call(this, options));
 
 		_this.bidderName = 'wikiaVideo';
-		_this.enabled = !!ad_engine_["utils"].queryString.get('wikia_video_adapter');
-		_this.useRandomPrice = ad_engine_["utils"].queryString.get('wikia_adapter_random') === '1';
-		_this.timeout = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_timeout'), 10) || 0;
-		_this.limit = parseInt(ad_engine_["utils"].queryString.get('wikia_adapter_limit'), 10) || 99;
+		_this.enabled = !!wikia_video_price;
+		_this.limit = wikia_video_limit;
+		_this.useRandomPrice = wikia_video_useRandomPrice;
+		_this.timeout = wikia_video_timeout;
 
 		_this.create = function () {
 			return _this;
@@ -1699,13 +1757,11 @@ var wikia_video_WikiaVideo = function (_BaseAdapter) {
 	}, {
 		key: 'getPrice',
 		value: function getPrice() {
-			var price = ad_engine_["utils"].queryString.get('wikia_video_adapter');
-
 			if (this.useRandomPrice) {
 				return Math.floor(Math.random() * 20);
 			}
 
-			return parseInt(price, 10) / 100;
+			return parseInt(wikia_video_price, 10) / 100;
 		}
 	}, {
 		key: 'getVastUrl',
@@ -1873,12 +1929,10 @@ function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === prebid_Prebid.validResponseStatusCode;
 }
 
-function transformPriceFromCpm(cpm, maxCpm) {
-	maxCpm = maxCpm || DEFAULT_MAX_CPM;
+function transformPriceFromCpm(cpm) {
+	var maxCpm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_MAX_CPM;
 
-	if (maxCpm < DEFAULT_MAX_CPM) {
-		maxCpm = DEFAULT_MAX_CPM;
-	}
+	maxCpm = Math.max(maxCpm, DEFAULT_MAX_CPM);
 
 	var result = Math.floor(maxCpm).toFixed(2);
 
@@ -1937,6 +1991,8 @@ function transformPriceFromBid(bid) {
 
 
 
+var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
+
 function getSettings() {
 	return {
 		standard: {
@@ -1967,11 +2023,19 @@ function getSettings() {
 			}, {
 				key: 'hb_uuid',
 				val: function val(bidResponse) {
-					return bidResponse.bidderCode === 'appnexusAst' && ad_engine_["context"].get('custom.appnexusDfp') || bidResponse.bidderCode === 'rubicon' && ad_engine_["context"].get('custom.rubiconDfp') ? bidResponse.videoCacheKey : 'disabled';
+					return getBidderUuid(bidResponse);
 				}
 			}]
 		}
 	};
+}
+
+function getBidderUuid(bidResponse) {
+	var isVideo = dfpVideoBidders.some(function (video) {
+		return bidResponse.bidderCode === video.bidderCode && ad_engine_["context"].get(video.contextKey);
+	});
+
+	return isVideo ? bidResponse.videoCacheKey : 'disabled';
 }
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/index.js
 
@@ -2042,6 +2106,7 @@ window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
 ad_engine_["events"].registerEvent('BIDS_REFRESH');
+ad_engine_["events"].registerEvent('PREBID_LAZY_CALL');
 
 var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (_class = function (_BaseBidder) {
 	inherits_default()(Prebid, _BaseBidder);
@@ -2230,7 +2295,7 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(postpo
 			var _this4 = this;
 
 			window.pbjs.que.push(function () {
-				window.pbjs.onEvent('bidWon', function (winningBid) {
+				var refreshUsedBid = function refreshUsedBid(winningBid) {
 					if (_this4.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
 						ad_engine_["events"].emit(ad_engine_["events"].BIDS_REFRESH);
 						var adUnitsToRefresh = _this4.adUnits.filter(function (adUnit) {
@@ -2239,6 +2304,11 @@ var prebid_Prebid = (_dec = Object(external_core_decorators_["decorate"])(postpo
 
 						_this4.requestBids(adUnitsToRefresh, _this4.bidsRefreshing.bidsBackHandler);
 					}
+				};
+
+				window.pbjs.onEvent('bidWon', refreshUsedBid);
+				ad_engine_["events"].once(ad_engine_["events"].PAGE_CHANGE_EVENT, function () {
+					window.pbjs.offEvent('bidWon', refreshUsedBid);
 				});
 			});
 		}
@@ -2353,10 +2423,6 @@ function requestBids(_ref) {
 	var config = ad_engine_["context"].get('bidders');
 
 	if (config.prebid && config.prebid.enabled) {
-		if (!ad_engine_["events"].PREBID_LAZY_CALL) {
-			ad_engine_["events"].registerEvent('PREBID_LAZY_CALL');
-		}
-
 		biddersRegistry.prebid = new prebid_Prebid(config.prebid, config.timeout);
 	}
 

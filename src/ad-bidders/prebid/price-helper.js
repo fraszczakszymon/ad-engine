@@ -8,12 +8,8 @@ function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === Prebid.validResponseStatusCode;
 }
 
-export function transformPriceFromCpm(cpm, maxCpm) {
-	maxCpm = maxCpm || DEFAULT_MAX_CPM;
-
-	if (maxCpm < DEFAULT_MAX_CPM) {
-		maxCpm = DEFAULT_MAX_CPM;
-	}
+export function transformPriceFromCpm(cpm, maxCpm = DEFAULT_MAX_CPM) {
+	maxCpm = Math.max(maxCpm, DEFAULT_MAX_CPM);
 
 	let result = Math.floor(maxCpm).toFixed(2);
 
