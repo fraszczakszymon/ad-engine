@@ -19,7 +19,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.container.appendChild(advertisementLabel.render());
 	}
 
-	addUnstickButton() {
+	addCloseButton() {
 		const closeButton = new CloseButton({
 			classNames: ['button-unstick'],
 			onClick: () => this.stickiness.close(),
