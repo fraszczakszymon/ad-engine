@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -144,6 +144,12 @@ module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/extends");
+
+/***/ }),
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1199,7 +1205,12 @@ var openx_Openx = function (_BaseAdapter) {
 
 	return Openx;
 }(base_adapter_BaseAdapter);
+// EXTERNAL MODULE: external "babel-runtime/helpers/extends"
+var extends_ = __webpack_require__(12);
+var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
+
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/pubmatic.js
+
 
 
 
@@ -1223,11 +1234,40 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 	createClass_default()(Pubmatic, [{
 		key: 'prepareConfigForAdUnit',
 		value: function prepareConfigForAdUnit(code, _ref) {
-			var _this2 = this;
-
 			var sizes = _ref.sizes,
 			    ids = _ref.ids;
 
+			switch (code.toLowerCase()) {
+				case 'featured':
+				case 'incontent_player':
+					return this.getVideoConfig(code, ids);
+				default:
+					return this.getStandardConfig(code, sizes, ids);
+			}
+		}
+	}, {
+		key: 'getVideoConfig',
+		value: function getVideoConfig(code, ids) {
+			var videoParams = {
+				video: {
+					mimes: ['video/mp4', 'video/x-flv']
+				}
+			};
+
+			return {
+				code: code,
+				mediaTypes: {
+					video: {
+						playerSize: [640, 480],
+						context: 'instream'
+					}
+				},
+				bids: this.getBids(ids, videoParams)
+			};
+		}
+	}, {
+		key: 'getStandardConfig',
+		value: function getStandardConfig(code, sizes, ids) {
 			return {
 				code: code,
 				mediaTypes: {
@@ -1235,16 +1275,25 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 						sizes: sizes
 					}
 				},
-				bids: ids.map(function (adSlot) {
-					return {
-						bidder: _this2.bidderName,
-						params: {
-							adSlot: adSlot,
-							publisherId: _this2.publisherId
-						}
-					};
-				})
+				bids: this.getBids(ids)
 			};
+		}
+	}, {
+		key: 'getBids',
+		value: function getBids(ids) {
+			var _this2 = this;
+
+			var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			return ids.map(function (adSlot) {
+				return {
+					bidder: _this2.bidderName,
+					params: extends_default()({
+						adSlot: adSlot,
+						publisherId: _this2.publisherId
+					}, params)
+				};
+			});
 		}
 	}]);
 
@@ -1406,7 +1455,8 @@ var rubicon_Rubicon = function (_BaseAdapter) {
 				mediaType: 'video',
 				mediaTypes: {
 					video: {
-						playerSize: [640, 480]
+						playerSize: [640, 480],
+						context: 'instream'
 					}
 				},
 				bids: [{
@@ -1927,6 +1977,8 @@ function transformPriceFromCpm(cpm, maxCpm) {
 
 var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
+var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
+
 function getSettings() {
 	return {
 		standard: {
@@ -1963,11 +2015,19 @@ function getSettings() {
 			}, {
 				key: 'hb_uuid',
 				val: function val(bidResponse) {
-					return bidResponse.bidderCode === 'appnexusAst' && ad_engine_["context"].get('custom.appnexusDfp') || bidResponse.bidderCode === 'rubicon' && ad_engine_["context"].get('custom.rubiconDfp') ? bidResponse.videoCacheKey : 'disabled';
+					return getBidderUuid(bidResponse);
 				}
 			}]
 		}
 	};
+}
+
+function getBidderUuid(bidResponse) {
+	var isVideo = dfpVideoBidders.some(function (video) {
+		return bidResponse.bidderCode === video.bidderCode && ad_engine_["context"].get(video.contextKey);
+	});
+
+	return isVideo ? bidResponse.videoCacheKey : 'disabled';
 }
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/index.js
 
