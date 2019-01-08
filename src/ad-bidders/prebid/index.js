@@ -20,6 +20,7 @@ window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
 events.registerEvent('BIDS_REFRESH');
+events.registerEvent('PREBID_LAZY_CALL');
 
 export class Prebid extends BaseBidder {
 	static validResponseStatusCode = 1;
@@ -193,7 +194,7 @@ export class Prebid extends BaseBidder {
 
 	registerBidsRefreshing() {
 		window.pbjs.que.push(() => {
-			window.pbjs.onEvent('bidWon', (winningBid) => {
+			const refreshUsedBid = (winningBid) => {
 				if (this.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
 					events.emit(events.BIDS_REFRESH);
 					const adUnitsToRefresh = this.adUnits.filter(
@@ -206,6 +207,11 @@ export class Prebid extends BaseBidder {
 
 					this.requestBids(adUnitsToRefresh, this.bidsRefreshing.bidsBackHandler);
 				}
+			};
+
+			window.pbjs.onEvent('bidWon', refreshUsedBid);
+			events.once(events.PAGE_CHANGE_EVENT, () => {
+				window.pbjs.offEvent('bidWon', refreshUsedBid);
 			});
 		});
 	}
