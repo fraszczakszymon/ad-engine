@@ -1,4 +1,4 @@
-import { scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, SlotTweaker, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
 import CloseButton from './interface/close-button';
@@ -90,7 +90,7 @@ export class StickyTLB extends StickyBase {
 	addStickinessPlugin() {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();
-		this.addUnstickButton();
+		this.addCloseButton();
 		this.addUnstickEvents();
 		this.stickiness.run();
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
@@ -104,17 +104,20 @@ export class StickyTLB extends StickyBase {
 	}
 
 	/** @private */
-	addUnstickButton() {
+	addCloseButton() {
 		this.closeButton = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
+			onClick: () => {
+				this.stickiness.close();
+				this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
+			},
 		}).render();
 
 		this.container.appendChild(this.closeButton);
 	}
 
 	/** @private */
-	removeUnstickButton() {
+	removeCloseButton() {
 		this.closeButton.remove();
 	}
 
@@ -177,13 +180,12 @@ export class StickyTLB extends StickyBase {
 
 	/** @private */
 	unstickImmediately() {
-		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
 		scrollListener.removeCallback(this.scrollListener);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 		this.adSlot.getElement().classList.add('theme-resolved');
 		this.stickiness.sticky = false;
-		this.removeUnstickButton();
+		this.removeCloseButton();
 		this.config.mainContainer.style.paddingTop = '0';
 		this.adSlot.getElement().classList.add('hide');
 		utils.logger(logGroup, 'unstick immediately');

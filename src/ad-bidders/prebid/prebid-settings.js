@@ -1,6 +1,12 @@
 import { context } from '@wikia/ad-engine';
 import { transformPriceFromBid } from './price-helper';
 
+const dfpVideoBidders = [
+	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
+	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
+	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
+];
+
 export function getSettings() {
 	return {
 		standard: {
@@ -24,13 +30,17 @@ export function getSettings() {
 				},
 				{
 					key: 'hb_uuid',
-					val: (bidResponse) =>
-						(bidResponse.bidderCode === 'appnexusAst' && context.get('custom.appnexusDfp')) ||
-						(bidResponse.bidderCode === 'rubicon' && context.get('custom.rubiconDfp'))
-							? bidResponse.videoCacheKey
-							: 'disabled',
+					val: (bidResponse) => getBidderUuid(bidResponse),
 				},
 			],
 		},
 	};
+}
+
+function getBidderUuid(bidResponse) {
+	const isVideo = dfpVideoBidders.some(
+		(video) => bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey),
+	);
+
+	return isVideo ? bidResponse.videoCacheKey : 'disabled';
 }

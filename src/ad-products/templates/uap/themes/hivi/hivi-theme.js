@@ -4,8 +4,6 @@ import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
 import { Stickiness } from './stickiness';
 
-const logGroup = 'HiviTheme';
-
 export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	static DEFAULT_UNSTICK_DELAY = 3000;
 
@@ -21,7 +19,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.container.appendChild(advertisementLabel.render());
 	}
 
-	addUnstickButton() {
+	addCloseButton() {
 		const closeButton = new CloseButton({
 			classNames: ['button-unstick'],
 			onClick: () => this.stickiness.close(),
@@ -43,7 +41,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @protected
 	 * */
 	onCloseClicked() {
-		throw new Error('Not Implemented Exception');
+		throw utils.NotImplementedException();
 	}
 
 	/**
@@ -52,7 +50,6 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	 * @param stopVideo {boolean}
 	 */
 	unstickImmediately(stopVideo) {
-		utils.logger(logGroup, 'Attempting to call not implemented method with arg:', stopVideo);
-		throw new Error('Not Implemented Exception');
+		throw utils.NotImplementedException({ stopVideo });
 	}
 }

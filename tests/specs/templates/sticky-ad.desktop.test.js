@@ -3,15 +3,38 @@ import { stickyAd } from '../../pages/sticky-ad.page';
 import { adSlots } from '../../common/ad-slots';
 import { timeouts } from '../../common/timeouts';
 import { helpers } from '../../common/helpers';
+import networkCapture from '../../common/network-capture';
 
 describe('sticky-ad template', () => {
-	beforeEach(() => {
+	let client;
+	const logs = [];
+
+	before(async () => {
+		client = await networkCapture.getClient();
+
+		client.on('Log.entryAdded', (entry) => {
+			logs.push(entry.entry);
+		});
+
+		client.on('Console.messageAdded', (entry) => {
+			logs.push(entry.message);
+		});
+	});
+
+	beforeEach(async () => {
+		logs.length = 0;
+		await networkCapture.clearConsoleMessages(client);
+
 		browser.url(stickyAd.pageLink);
 		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
 	});
 
 	afterEach(() => {
 		browser.scroll(0, 0);
+	});
+
+	after(async () => {
+		await networkCapture.closeClient(client);
 	});
 
 	it('should stick and unstick', () => {
@@ -27,6 +50,9 @@ describe('sticky-ad template', () => {
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not unsticked properly').to
 			.be.false;
+
+		expect(networkCapture.logsIncludesMessage('force-unstick', logs, 'any', true)).to.be.false;
+		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
 	});
 
 	it('should not stick if viewability is counted', () => {
@@ -35,9 +61,14 @@ describe('sticky-ad template', () => {
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard should not stick').to.be
 			.false;
+
+		expect(networkCapture.logsIncludesMessage('force-unstick', logs, 'any', true)).to.be.false;
+		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
 	});
 
 	it('should unstick if close button is clicked', () => {
+		const message = 'Custom listener: onCustomEvent top_leaderboard force-unstick';
+
 		helpers.slowScroll(200);
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked').to.be.true;
@@ -45,5 +76,12 @@ describe('sticky-ad template', () => {
 		browser.click(`${stickyAd.stickedSlot} ${stickyAd.classUnstickButton}`);
 
 		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked').to.be.false;
+
+		browser.waitUntil(
+			() => networkCapture.logsIncludesMessage(message, logs, 'log', true),
+			2000,
+			`Logs should contain message: "${message}".\nLogs are: ${JSON.stringify(logs)}`,
+		);
+		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
 	});
 });
