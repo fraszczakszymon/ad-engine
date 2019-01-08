@@ -1,4 +1,11 @@
-import { context, scrollListener, slotService, slotTweaker, utils } from '@wikia/ad-engine';
+import {
+	context,
+	scrollListener,
+	slotService,
+	slotTweaker,
+	SlotTweaker,
+	utils,
+} from '@wikia/ad-engine';
 import { mapValues } from 'lodash';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
@@ -209,6 +216,7 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 	 * @protected
 	 */
 	onCloseClicked() {
+		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 		this.unstickImmediately();
 
 		this.adSlot.getElement().parentNode.style.height = null;
@@ -221,7 +229,6 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 	 */
 	unstickImmediately(stopVideo = true) {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {

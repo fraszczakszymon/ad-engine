@@ -381,7 +381,7 @@ export class BillTheLizard {
 			predictions = predictions.filter((pred) => pred.callId === callId);
 		}
 
-		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(';');
+		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(',');
 	}
 }
 

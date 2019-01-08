@@ -112,20 +112,20 @@ export class StickyBase {
 	/**
 	 * @protected
 	 */
-	addUnstickButton(rootElement) {
-		this.closeButton = new CloseButton({
+	addButton(rootElement, cb) {
+		this.button = new CloseButton({
 			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
+			onClick: cb,
 		}).render();
 
-		rootElement.appendChild(this.closeButton);
+		rootElement.appendChild(this.button);
 	}
 
 	/**
 	 * @protected
 	 */
-	removeUnstickButton() {
-		this.closeButton.remove();
+	removeButton() {
+		this.button.remove();
 	}
 
 	/**

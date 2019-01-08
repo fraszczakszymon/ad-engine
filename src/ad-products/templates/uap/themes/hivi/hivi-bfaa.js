@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { AdSlot, scrollListener, slotTweaker, utils } from '@wikia/ad-engine';
+import { AdSlot, scrollListener, SlotTweaker, slotTweaker, utils } from '@wikia/ad-engine';
 import { debounce, mapValues, isUndefined, toPlainObject } from 'lodash';
 import { resolvedState } from '../../resolved-state';
 import { resolvedStateSwitch } from '../../resolved-state-switch';
@@ -329,10 +329,10 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	 * @protected
 	 */
 	onCloseClicked() {
+		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 		this.unstickImmediately();
 
 		this.config.mainContainer.style.paddingTop = '0';
-
 		this.adSlot.disable();
 		this.adSlot.collapse();
 	}
@@ -342,7 +342,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	 */
 	unstickImmediately(stopVideo = true) {
 		scrollListener.removeCallback(this.scrollListener);
-		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 
 		if (stopVideo && this.video && this.video.ima.getAdsManager()) {

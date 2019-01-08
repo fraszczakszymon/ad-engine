@@ -1,6 +1,5 @@
 import { scrollListener, utils } from '@wikia/ad-engine';
 import { StickyBase } from './sticky-base';
-import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
 	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
@@ -9,6 +8,7 @@ import {
 	FADE_IN_TIME,
 	SLIDE_OUT_TIME,
 } from './uap/constants';
+import { Stickiness } from './uap/themes/hivi/stickiness';
 import { animate } from './interface/animate';
 
 const logGroup = 'sticky-ad';
@@ -102,9 +102,9 @@ export class StickyAd extends StickyBase {
 	 */
 	async onStickinessChange(isSticky) {
 		if (isSticky) {
-			this.onUnstick();
+			this.onStick();
 		} else {
-			await this.onStick();
+			await this.onUnstick();
 		}
 
 		utils.logger(logGroup, 'stickiness changed', isSticky);
@@ -113,7 +113,7 @@ export class StickyAd extends StickyBase {
 	/**
 	 * @protected
 	 */
-	async onStick() {
+	async onUnstick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 		await animate(this.containerDiv, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
 		this.removeStickyParameters();
@@ -135,14 +135,14 @@ export class StickyAd extends StickyBase {
 	/**
 	 * @protected
 	 */
-	onUnstick() {
+	onStick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 		this.container.classList.add(CSS_CLASSNAME_STICKY_SLOT);
 		this.container.style.height = `${this.containerDiv.offsetHeight}px`;
 		this.containerDiv.style.top = `${this.topOffset}px`;
 		this.containerDiv.style.left = `${this.leftOffset}px`;
 
-		this.addUnstickButton(this.containerDiv);
+		this.addUnstickButton();
 	}
 
 	/**
@@ -150,7 +150,6 @@ export class StickyAd extends StickyBase {
 	 */
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();
@@ -165,6 +164,23 @@ export class StickyAd extends StickyBase {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
 		this.addUnstickLogic();
 		this.addUnstickEvents();
+	}
+
+	/**
+	 * @private
+	 */
+	addUnstickButton() {
+		this.addButton(this.adSlot.getElement().querySelector('div'), () => {
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+			this.stickiness.close();
+		});
+	}
+
+	/**
+	 * @private
+	 */
+	removeUnstickButton() {
+		this.removeButton();
 	}
 
 	/**

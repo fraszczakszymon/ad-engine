@@ -802,7 +802,7 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			return predictions.map(function (pred) {
 				return pred.modelName + '|' + pred.callId + '=' + pred.result;
-			}).join(';');
+			}).join(',');
 		}
 	}]);
 

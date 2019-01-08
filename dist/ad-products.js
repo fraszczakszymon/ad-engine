@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -86,13 +86,13 @@ module.exports = require("babel-runtime/helpers/createClass");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 4 */
@@ -128,13 +128,13 @@ module.exports = require("babel-runtime/core-js/promise");
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 11 */
@@ -222,12 +222,20 @@ module.exports = require("babel-runtime/helpers/extends");
 
 /***/ }),
 /* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/slicedToArray");
+
+/***/ }),
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
 __webpack_require__.d(utils_namespaceObject, "setupNpaContext", function() { return setupNpaContext; });
+__webpack_require__.d(utils_namespaceObject, "NavbarManager", function() { return navbar_manager_NavbarManager; });
+__webpack_require__.d(utils_namespaceObject, "navbarManager", function() { return navbarManager; });
 var constants_namespaceObject = {};
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_FADE_IN_ANIMATION", function() { return CSS_CLASSNAME_FADE_IN_ANIMATION; });
 __webpack_require__.d(constants_namespaceObject, "CSS_CLASSNAME_SLIDE_OUT_ANIMATION", function() { return CSS_CLASSNAME_SLIDE_OUT_ANIMATION; });
@@ -242,14 +250,6 @@ __webpack_require__.d(constants_namespaceObject, "FADE_IN_TIME", function() { re
 __webpack_require__.d(constants_namespaceObject, "DEFAULT_UAP_ID", function() { return DEFAULT_UAP_ID; });
 __webpack_require__.d(constants_namespaceObject, "DEFAULT_UAP_TYPE", function() { return DEFAULT_UAP_TYPE; });
 __webpack_require__.d(constants_namespaceObject, "FAN_TAKEOVER_TYPES", function() { return FAN_TAKEOVER_TYPES; });
-var themes_classic_namespaceObject = {};
-__webpack_require__.d(themes_classic_namespaceObject, "BfaaTheme", function() { return classic_BfaaTheme; });
-__webpack_require__.d(themes_classic_namespaceObject, "BfabTheme", function() { return classic_BfabTheme; });
-__webpack_require__.d(themes_classic_namespaceObject, "adIsReady", function() { return adIsReady; });
-var hivi_namespaceObject = {};
-__webpack_require__.d(hivi_namespaceObject, "BfaaTheme", function() { return hivi_bfaa_BfaaTheme; });
-__webpack_require__.d(hivi_namespaceObject, "BfabTheme", function() { return hivi_bfab_BfabTheme; });
-__webpack_require__.d(hivi_namespaceObject, "adIsReady", function() { return ready_adIsReady; });
 
 // EXTERNAL MODULE: external "@wikia/ad-engine"
 var ad_engine_ = __webpack_require__(0);
@@ -262,10 +262,53 @@ function setupNpaContext() {
 
 	ad_engine_["context"].set('targeting.npa', optedOut.toString());
 }
+// EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
+var classCallCheck_ = __webpack_require__(3);
+var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
+var createClass_ = __webpack_require__(1);
+var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
+
+// CONCATENATED MODULE: ./src/ad-products/utils/navbar-manager.js
+
+
+var navbar_manager_NavbarManager = function () {
+	function NavbarManager() {
+		classCallCheck_default()(this, NavbarManager);
+	}
+
+	createClass_default()(NavbarManager, [{
+		key: "setup",
+		value: function setup(config, container) {
+			if (!config.handleNavbar) {
+				return;
+			}
+
+			var desktopNavbarWrapper = document.querySelector(config.desktopNavbarWrapperSelector);
+			var mobileNavbarWrapper = document.querySelector(config.mobileNavbarWrapperSelector);
+			var slotParent = container.parentNode;
+			var sibling = document.querySelector(config.slotSibling) || container.nextElementSibling;
+
+			if (mobileNavbarWrapper) {
+				slotParent.insertBefore(mobileNavbarWrapper, sibling);
+			}
+
+			if (desktopNavbarWrapper) {
+				slotParent.insertBefore(desktopNavbarWrapper, sibling);
+			}
+		}
+	}]);
+
+	return NavbarManager;
+}();
+
+var navbarManager = new navbar_manager_NavbarManager();
 // CONCATENATED MODULE: ./src/ad-products/utils/index.js
 
+
 // EXTERNAL MODULE: ./src/ad-products/styles/styles.scss
-var styles = __webpack_require__(27);
+var styles = __webpack_require__(28);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
 var keys_ = __webpack_require__(11);
@@ -305,14 +348,6 @@ function getAdProductInfo(slotName, loadedTemplate, loadedProduct) {
 	};
 }
 // CONCATENATED MODULE: ./src/ad-products/common/index.js
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(2);
-var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(1);
-var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/floating-rail.js
 
@@ -517,7 +552,7 @@ var skin_Skin = function () {
 	return Skin;
 }();
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(3);
+var regenerator_ = __webpack_require__(2);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
@@ -539,6 +574,10 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
 var promise_ = __webpack_require__(8);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
+var slicedToArray_ = __webpack_require__(25);
+var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
 var symbol_ = __webpack_require__(13);
@@ -790,187 +829,12 @@ stickiness_Stickiness.SLOT_STICKED_STATE = 'sticked';
 stickiness_Stickiness.SLOT_UNSTICKED_STATE = 'unsticked';
 stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
 stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-// CONCATENATED MODULE: ./src/ad-products/templates/sticky-base.js
-
-
-
-
-
-
-
-
-var logGroup = 'sticky-base';
-
-var sticky_base_StickyBase = function () {
-	createClass_default()(StickyBase, null, [{
-		key: 'isLineAndGeo',
-		value: function isLineAndGeo(lineId, lines) {
-			if (!lineId || !lines || !lines.length) {
-				return false;
-			}
-
-			var found = false;
-
-			lineId = lineId.toString();
-
-			lines.forEach(function (line) {
-				line = line.split(':', 2);
-
-				if (line[0] === lineId && (!line[1] || ad_engine_["utils"].isProperGeo([line[1]]))) {
-					found = true;
-				}
-			});
-			if (found) {
-				ad_engine_["utils"].logger(logGroup, 'line item ' + lineId + ' enabled in geo');
-			}
-
-			return found;
-		}
-
-		/**
-   * Base class for sticky ads
-   * @param {AdSlot} adSlot
-   */
-
-	}]);
-
-	function StickyBase(adSlot) {
-		classCallCheck_default()(this, StickyBase);
-
-		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.lines = ad_engine_["context"].get('templates.' + this.getName() + '.lineItemIds');
-		this.stickiness = null;
-		this.config = ad_engine_["context"].get('templates.' + this.getName());
-	}
-
-	/**
-  * Returns template name.
-  *
-  * @abstract
-  * @return {string}
-  */
-
-
-	createClass_default()(StickyBase, [{
-		key: 'getName',
-		value: function getName() {
-			throw new ad_engine_["utils"].NotImplementedException();
-		}
-
-		/**
-   * Runs logic which decides when to unstick the template.
-   */
-
-	}, {
-		key: 'addUnstickLogic',
-		value: function addUnstickLogic() {
-			var _this = this;
-
-			var _config = this.config,
-			    stickyAdditionalTime = _config.stickyAdditionalTime,
-			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
-
-			var whenSlotViewedOrTimeout = function () {
-				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-					return regenerator_default.a.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									_context.next = 2;
-									return stickyUntilSlotViewed && !_this.adSlot.isViewed() ? ad_engine_["utils"].once(_this.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
-
-								case 2:
-									_context.next = 4;
-									return ad_engine_["utils"].wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
-
-								case 4:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this);
-				}));
-
-				return function whenSlotViewedOrTimeout() {
-					return _ref.apply(this, arguments);
-				};
-			}();
-
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
-		}
-	}, {
-		key: 'isEnabled',
-		value: function isEnabled() {
-			var isEnabledInContext = ad_engine_["context"].get('templates.' + this.getName() + '.enabled');
-			var isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
-			var isEnabled = isEnabledInContext && isLineAndGeo;
-
-			if (isEnabled) {
-				ad_engine_["utils"].logger(logGroup, 'enabled with line item id ' + this.lineId);
-			}
-
-			return isEnabled;
-		}
-	}]);
-
-	return StickyBase;
-}();
-sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
-var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
-var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
-var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
-var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
-var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
-var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
-var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
-var CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
-// Animation time is defined also in CSS, remember to change it in both places
-var SLIDE_OUT_TIME = 600;
-var FADE_IN_TIME = 400;
-
-var DEFAULT_UAP_ID = 'none';
-var DEFAULT_UAP_TYPE = 'none';
-var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
-// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
-
-
-
-
-var animate = function () {
-	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
-		return regenerator_default.a.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						container.style.animationDuration = duration + 'ms';
-						container.classList.add(className);
-						_context.next = 4;
-						return ad_engine_["utils"].wait(duration);
-
-					case 4:
-						container.classList.remove(className);
-						container.style.animationDuration = '';
-
-					case 6:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, this);
-	}));
-
-	return function animate(_x, _x2, _x3) {
-		return _ref.apply(this, arguments);
-	};
-}();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
 var toConsumableArray_ = __webpack_require__(12);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var get_ = __webpack_require__(9);
+var get_ = __webpack_require__(10);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // CONCATENATED MODULE: ./src/ad-products/templates/interface/ui-component.js
@@ -1137,8 +1001,295 @@ var close_button_CloseButton = function (_UiComponent) {
 }(ui_component_UiComponent);
 
 
-// CONCATENATED MODULE: ./src/ad-products/templates/sticky-ad.js
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-base.js
 
+
+
+
+
+
+
+
+
+
+var logGroup = 'sticky-base';
+
+/**
+ * @abstract
+ */
+var sticky_base_StickyBase = function () {
+
+	/**
+  * Base class for sticky ads
+  * @param {AdSlot} adSlot
+  */
+	function StickyBase(adSlot) {
+		classCallCheck_default()(this, StickyBase);
+
+		this.adSlot = adSlot;
+		this.container = this.adSlot.getElement();
+		this.lineId = adSlot.lineItemId.toString() || '';
+		this.lines = ad_engine_["context"].get('templates.' + this.getName() + '.lineItemIds') || [];
+		this.stickiness = null;
+		this.config = ad_engine_["context"].get('templates.' + this.getName());
+	}
+
+	/**
+  * @protected
+  */
+
+
+	createClass_default()(StickyBase, [{
+		key: 'setupStickiness',
+		value: function setupStickiness(params) {
+			var _this = this;
+
+			this.params = params;
+
+			if (!this.isEnabled()) {
+				ad_engine_["utils"].logger(logGroup, 'stickiness rejected');
+
+				return;
+			}
+
+			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+			this.adSlot.onLoad().then(function () {
+				ad_engine_["utils"].logger(logGroup, _this.adSlot.getSlotName(), 'slot ready for stickiness');
+				_this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKY_READY_STATE);
+			});
+
+			this.addStickinessPlugin();
+		}
+
+		/**
+   * @abstract
+   * @protected
+   */
+
+	}, {
+		key: 'addStickinessPlugin',
+		value: function addStickinessPlugin() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			var isEnabledInContext = ad_engine_["context"].get('templates.' + this.getName() + '.enabled');
+			var isEnabled = isEnabledInContext && this.isLineAndGeo();
+
+			if (isEnabled) {
+				ad_engine_["utils"].logger(logGroup, 'enabled with line item id ' + this.lineId);
+			}
+
+			return isEnabled;
+		}
+
+		/**
+   * Returns template name.
+   * @abstract
+   * @protected
+   * @return {string}
+   */
+
+	}, {
+		key: 'getName',
+		value: function getName() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'isLineAndGeo',
+		value: function isLineAndGeo() {
+			var _this2 = this;
+
+			var found = this.lines.some(function (line) {
+				var _line$split = line.split(':', 2),
+				    _line$split2 = slicedToArray_default()(_line$split, 2),
+				    lineId = _line$split2[0],
+				    geo = _line$split2[1];
+
+				return lineId === _this2.lineId && (!geo || ad_engine_["utils"].isProperGeo([geo]));
+			});
+
+			if (found) {
+				ad_engine_["utils"].logger(logGroup, 'line item ' + this.lineId + ' enabled in geo');
+			}
+
+			return found;
+		}
+
+		/**
+   * Runs logic which decides when to unstick the template.
+   * @protected
+   */
+
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var _this3 = this;
+
+			var _config = this.config,
+			    stickyAdditionalTime = _config.stickyAdditionalTime,
+			    stickyUntilSlotViewed = _config.stickyUntilSlotViewed;
+
+			var whenSlotViewedOrTimeout = function () {
+				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+					return regenerator_default.a.wrap(function _callee$(_context) {
+						while (1) {
+							switch (_context.prev = _context.next) {
+								case 0:
+									_context.next = 2;
+									return stickyUntilSlotViewed && !_this3.adSlot.isViewed() ? ad_engine_["utils"].once(_this3.adSlot, ad_engine_["AdSlot"].SLOT_VIEWED_EVENT) : promise_default.a.resolve();
+
+								case 2:
+									_context.next = 4;
+									return ad_engine_["utils"].wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
+
+								case 4:
+								case 'end':
+									return _context.stop();
+							}
+						}
+					}, _callee, _this3);
+				}));
+
+				return function whenSlotViewedOrTimeout() {
+					return _ref.apply(this, arguments);
+				};
+			}();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'addButton',
+		value: function addButton(rootElement, cb) {
+			this.button = new close_button_CloseButton({
+				classNames: ['button-unstick'],
+				onClick: cb
+			}).render();
+
+			rootElement.appendChild(this.button);
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'removeButton',
+		value: function removeButton() {
+			this.button.remove();
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'addUnstickEvents',
+		value: function addUnstickEvents() {
+			var _this4 = this;
+
+			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
+				return _this4.onStickinessChange(isSticky);
+			});
+			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, function () {
+				return _this4.unstickImmediately();
+			});
+			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, function () {
+				return _this4.unstickImmediately();
+			});
+		}
+
+		/**
+   * @abstract
+   * @protected
+   */
+
+	}, {
+		key: 'onStickinessChange',
+		value: function onStickinessChange(isSticky) {
+			throw new ad_engine_["utils"].NotImplementedException({ isSticky: isSticky });
+		}
+
+		/**
+   * @abstract
+   * @protected
+   */
+
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+	}]);
+
+	return StickyBase;
+}();
+sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
+var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
+var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
+var CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
+var CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
+var CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
+var CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
+var CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+var CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
+// Animation time is defined also in CSS, remember to change it in both places
+var SLIDE_OUT_TIME = 600;
+var FADE_IN_TIME = 400;
+
+var DEFAULT_UAP_ID = 'none';
+var DEFAULT_UAP_TYPE = 'none';
+var FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
+// CONCATENATED MODULE: ./src/ad-products/templates/interface/animate.js
+
+
+
+
+var animate = function () {
+	var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(container, className, duration) {
+		return regenerator_default.a.wrap(function _callee$(_context) {
+			while (1) {
+				switch (_context.prev = _context.next) {
+					case 0:
+						container.style.animationDuration = duration + 'ms';
+						container.classList.add(className);
+						_context.next = 4;
+						return ad_engine_["utils"].wait(duration);
+
+					case 4:
+						container.classList.remove(className);
+						container.style.animationDuration = '';
+
+					case 6:
+					case 'end':
+						return _context.stop();
+				}
+			}
+		}, _callee, this);
+	}));
+
+	return function animate(_x, _x2, _x3) {
+		return _ref.apply(this, arguments);
+	};
+}();
+// CONCATENATED MODULE: ./src/ad-products/templates/sticky-ad.js
 
 
 
@@ -1157,7 +1308,17 @@ var sticky_ad_logGroup = 'sticky-ad';
 var sticky_ad_StickyAd = function (_StickyBase) {
 	inherits_default()(StickyAd, _StickyBase);
 
-	createClass_default()(StickyAd, null, [{
+	createClass_default()(StickyAd, [{
+		key: 'containerDiv',
+
+
+		/**
+   * @private
+   */
+		get: function get() {
+			return this.container.querySelector('div');
+		}
+	}], [{
 		key: 'getDefaultConfig',
 		value: function getDefaultConfig() {
 			return {
@@ -1189,33 +1350,26 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 	}
 
 	createClass_default()(StickyAd, [{
-		key: 'getName',
-		value: function getName() {
-			return StickyAd.getName();
-		}
-	}, {
 		key: 'init',
 		value: function init(params) {
 			var _this2 = this;
 
-			this.params = params;
-
-			if (!this.isEnabled()) {
-				ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness rejected');
-
-				return;
-			}
-
-			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
-			this.adSlot.onLoad().then(function () {
-				ad_engine_["utils"].logger(sticky_ad_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this2.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKY_READY_STATE);
+			this.setupStickiness(params);
+			this.setTopOffset();
+			this.setLeftOffset();
+			this.setupScrollListener();
+			window.addEventListener('resize', function () {
+				return _this2.setLeftOffset();
 			});
-			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+		}
 
-			this.addUnstickLogic();
-			this.addUnstickEventsListeners();
+		/**
+   * @private
+   */
 
+	}, {
+		key: 'setTopOffset',
+		value: function setTopOffset() {
 			if (this.config.handleNavbar && this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1) {
 				var navbarElement = document.querySelector(this.config.navbarWrapperSelector);
 
@@ -1227,83 +1381,43 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 					this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
 				}
 			}
+		}
 
-			this.adjustAdSlot();
+		/**
+   * @private
+   */
 
-			var startOffset = ad_engine_["utils"].getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
+	}, {
+		key: 'setLeftOffset',
+		value: function setLeftOffset() {
+			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.containerDiv.firstChild);
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'setupScrollListener',
+		value: function setupScrollListener() {
+			var _this3 = this;
+
+			var startOffset = ad_engine_["utils"].getTopOffset(this.containerDiv) - this.topOffset;
 
 			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
 				var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
 				if (scrollPosition >= startOffset) {
-					_this2.stickiness.run();
-					ad_engine_["scrollListener"].removeCallback(_this2.scrollListener);
+					_this3.stickiness.run();
+					ad_engine_["utils"].logger(sticky_ad_logGroup, _this3.adSlot.getSlotName(), 'stickiness added');
+					ad_engine_["scrollListener"].removeCallback(_this3.scrollListener);
 				}
 			});
-
-			window.addEventListener('resize', this.adjustAdSlot.bind(this));
-			ad_engine_["utils"].logger(sticky_ad_logGroup, this.adSlot.getSlotName(), 'stickiness added');
 		}
 
-		/** @private */
-
-	}, {
-		key: 'adjustAdSlot',
-		value: function adjustAdSlot() {
-			this.leftOffset = ad_engine_["utils"].getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addUnstickButton',
-		value: function addUnstickButton() {
-			var _this3 = this;
-
-			this.closeButton = new close_button_CloseButton({
-				classNames: ['button-unstick'],
-				onClick: function onClick() {
-					return _this3.stickiness.close();
-				}
-			}).render();
-
-			this.adSlot.getElement().querySelector('div').appendChild(this.closeButton);
-		}
-
-		/** @private */
-
-	}, {
-		key: 'removeUnstickButton',
-		value: function removeUnstickButton() {
-			this.closeButton.remove();
-		}
-
-		/** @private */
-
-	}, {
-		key: 'removeStickyParameters',
-		value: function removeStickyParameters() {
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = null;
-			this.adSlot.getElement().querySelector('div').style.top = null;
-			this.adSlot.getElement().querySelector('div').style.left = null;
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addUnstickEventsListeners',
-		value: function addUnstickEventsListeners() {
-			var _this4 = this;
-
-			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
-				return _this4.onStickinessChange(isSticky);
-			});
-			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
-			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
-		}
-
-		/** @private */
+		/**
+   * @protected
+   */
 
 	}, {
 		key: 'onStickinessChange',
@@ -1313,36 +1427,24 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 					while (1) {
 						switch (_context.prev = _context.next) {
 							case 0:
-								if (isSticky) {
-									_context.next = 9;
+								if (!isSticky) {
+									_context.next = 4;
 									break;
 								}
 
-								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
-								_context.next = 4;
-								return animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-
-							case 4:
-								this.removeStickyParameters();
-								animate(this.adSlot.getElement().querySelector('div'), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-
-								this.removeUnstickButton();
-								_context.next = 15;
+								this.onStick();
+								_context.next = 6;
 								break;
 
-							case 9:
-								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
-								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-								this.adSlot.getElement().style.height = this.adSlot.getElement().querySelector('div').offsetHeight + 'px';
-								this.adSlot.getElement().querySelector('div').style.top = this.topOffset + 'px';
-								this.adSlot.getElement().querySelector('div').style.left = this.leftOffset + 'px';
+							case 4:
+								_context.next = 6;
+								return this.onUnstick();
 
-								this.addUnstickButton();
+							case 6:
 
-							case 15:
 								ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness changed', isSticky);
 
-							case 16:
+							case 7:
 							case 'end':
 								return _context.stop();
 						}
@@ -1357,18 +1459,134 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 			return onStickinessChange;
 		}()
 
-		/** @private */
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'onUnstick',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
+								_context2.next = 3;
+								return animate(this.containerDiv, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+
+							case 3:
+								this.removeStickyParameters();
+								animate(this.containerDiv, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+
+								this.removeUnstickButton();
+
+							case 6:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function onUnstick() {
+				return _ref2.apply(this, arguments);
+			}
+
+			return onUnstick;
+		}()
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'removeStickyParameters',
+		value: function removeStickyParameters() {
+			this.container.classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+			this.container.style.height = null;
+			this.containerDiv.style.top = null;
+			this.containerDiv.style.left = null;
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'onStick',
+		value: function onStick() {
+			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
+			this.container.classList.add(CSS_CLASSNAME_STICKY_SLOT);
+			this.container.style.height = this.containerDiv.offsetHeight + 'px';
+			this.containerDiv.style.top = this.topOffset + 'px';
+			this.containerDiv.style.left = this.leftOffset + 'px';
+
+			this.addUnstickButton();
+		}
+
+		/**
+   * @protected
+   */
 
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			if (this.stickiness) {
-				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.removeStickyParameters();
 				this.stickiness.sticky = false;
 				this.removeUnstickButton();
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'unstick immediately');
 			}
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'addStickinessPlugin',
+		value: function addStickinessPlugin() {
+			this.container.classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+			this.addUnstickLogic();
+			this.addUnstickEvents();
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'addUnstickButton',
+		value: function addUnstickButton() {
+			var _this4 = this;
+
+			this.addButton(this.adSlot.getElement().querySelector('div'), function () {
+				_this4.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+				_this4.stickiness.close();
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'removeUnstickButton',
+		value: function removeUnstickButton() {
+			this.removeButton();
+		}
+
+		/**
+   * Returns template name.
+   * @protected
+   * @return {string}
+   */
+
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return StickyAd.getName();
 		}
 	}]);
 
@@ -2769,7 +2987,266 @@ var sticky_tlb_logGroup = 'sticky-tlb';
 var sticky_tlb_StickyTLB = function (_StickyBase) {
 	inherits_default()(StickyTLB, _StickyBase);
 
-	createClass_default()(StickyTLB, null, [{
+	function StickyTLB() {
+		classCallCheck_default()(this, StickyTLB);
+
+		return possibleConstructorReturn_default()(this, (StickyTLB.__proto__ || get_prototype_of_default()(StickyTLB)).apply(this, arguments));
+	}
+
+	createClass_default()(StickyTLB, [{
+		key: 'init',
+		value: function init(params) {
+			this.setupStickiness(params);
+
+			this.container.style.backgroundColor = '#000';
+			this.container.classList.add('bfaa-template');
+
+			this.config.onInit(this.adSlot, this.params, this.config);
+			this.onAdReady();
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'onAdReady',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								this.container.classList.add('theme-hivi');
+								this.addAdvertisementLabel();
+
+								this.config.mainContainer.style.paddingTop = this.container.scrollHeight + 'px';
+								this.config.mainContainer.classList.add('has-bfaa');
+
+								navbarManager.setup(this.config, this.container);
+								this.config.moveNavbar(this.container.scrollHeight, SLIDE_OUT_TIME);
+
+								if (!document.hidden) {
+									_context.next = 9;
+									break;
+								}
+
+								_context.next = 9;
+								return ad_engine_["utils"].once(window, 'visibilitychange');
+
+							case 9:
+
+								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'ad ready');
+
+							case 10:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function onAdReady() {
+				return _ref.apply(this, arguments);
+			}
+
+			return onAdReady;
+		}()
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'addAdvertisementLabel',
+		value: function addAdvertisementLabel() {
+			var advertisementLabel = new advertisement_label_AdvertisementLabel();
+
+			this.container.appendChild(advertisementLabel.render());
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'onStickinessChange',
+		value: function () {
+			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(isSticky) {
+				var stickinessBeforeCallback, stickinessAfterCallback;
+				return regenerator_default.a.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								stickinessBeforeCallback = isSticky ? this.config.onBeforeStickBfaaCallback : this.config.onBeforeUnstickBfaaCallback;
+								stickinessAfterCallback = isSticky ? this.config.onAfterStickBfaaCallback : this.config.onAfterUnstickBfaaCallback;
+
+
+								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
+
+								if (!isSticky) {
+									_context2.next = 7;
+									break;
+								}
+
+								this.onStick();
+								_context2.next = 9;
+								break;
+
+							case 7:
+								_context2.next = 9;
+								return this.onUnstick();
+
+							case 9:
+
+								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
+								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness changed', isSticky);
+
+							case 11:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function onStickinessChange(_x) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return onStickinessChange;
+		}()
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'onUnstick',
+		value: function () {
+			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
+				return regenerator_default.a.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
+								this.config.moveNavbar(0, SLIDE_OUT_TIME);
+								_context3.next = 4;
+								return animate(this.container, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+
+							case 4:
+								this.container.classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+								this.container.classList.add('theme-resolved');
+								animate(this.container, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+
+							case 7:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function onUnstick() {
+				return _ref3.apply(this, arguments);
+			}
+
+			return onUnstick;
+		}()
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'onStick',
+		value: function onStick() {
+			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
+			this.container.classList.add(CSS_CLASSNAME_STICKY_BFAA);
+
+			this.addCloseButton();
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'unstickImmediately',
+		value: function unstickImmediately() {
+			this.config.moveNavbar(0, 0);
+			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
+			this.container.classList.remove(CSS_CLASSNAME_STICKY_BFAA);
+			this.container.classList.add('theme-resolved');
+			this.stickiness.sticky = false;
+			this.config.mainContainer.style.paddingTop = '0';
+			this.container.classList.add('hide');
+			ad_engine_["utils"].logger(sticky_tlb_logGroup, 'unstick immediately');
+
+			this.removeCloseButton();
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'addStickinessPlugin',
+		value: function addStickinessPlugin() {
+			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
+			this.addUnstickLogic();
+			this.addUnstickEvents();
+			this.stickiness.run();
+			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'addCloseButton',
+		value: function addCloseButton() {
+			var _this2 = this;
+
+			this.addButton(this.container, function () {
+				_this2.stickiness.close();
+				_this2.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'removeCloseButton',
+		value: function removeCloseButton() {
+			this.removeButton();
+		}
+
+		/**
+   * Returns template name.
+   * @protected
+   * @return {string}
+   */
+
+	}, {
+		key: 'getName',
+		value: function getName() {
+			return StickyTLB.getName();
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'isEnabled',
+		value: function isEnabled() {
+			return get_default()(StickyTLB.prototype.__proto__ || get_prototype_of_default()(StickyTLB.prototype), 'isEnabled', this).call(this) && this.container;
+		}
+	}], [{
 		key: 'getDefaultConfig',
 		value: function getDefaultConfig() {
 			return {
@@ -2805,267 +3282,10 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		}
 	}]);
 
-	function StickyTLB(adSlot) {
-		classCallCheck_default()(this, StickyTLB);
-
-		var _this = possibleConstructorReturn_default()(this, (StickyTLB.__proto__ || get_prototype_of_default()(StickyTLB)).call(this, adSlot));
-
-		_this.container = _this.adSlot.getElement();
-		return _this;
-	}
-
-	createClass_default()(StickyTLB, [{
-		key: 'getName',
-		value: function getName() {
-			return StickyTLB.getName();
-		}
-	}, {
-		key: 'isEnabled',
-		value: function isEnabled() {
-			return get_default()(StickyTLB.prototype.__proto__ || get_prototype_of_default()(StickyTLB.prototype), 'isEnabled', this).call(this) && this.container;
-		}
-	}, {
-		key: 'init',
-		value: function init(params) {
-			var _this2 = this;
-
-			this.params = params;
-
-			if (!this.isEnabled()) {
-				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
-
-				return;
-			}
-
-			this.adSlot.setConfigProperty('useGptOnloadEvent', true);
-			this.adSlot.onLoad().then(function () {
-				ad_engine_["utils"].logger(sticky_tlb_logGroup, _this2.adSlot.getSlotName(), 'slot ready for stickiness');
-				_this2.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKY_READY_STATE);
-			});
-
-			this.addStickinessPlugin();
-
-			this.container.style.backgroundColor = '#000';
-			this.container.classList.add('bfaa-template');
-
-			this.config.onInit(this.adSlot, this.params, this.config);
-			this.onAdReady();
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addStickinessPlugin',
-		value: function addStickinessPlugin() {
-			this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
-			this.addUnstickLogic();
-			this.addUnstickButton();
-			this.addUnstickEvents();
-			this.stickiness.run();
-			ad_engine_["utils"].logger(sticky_tlb_logGroup, this.adSlot.getSlotName(), 'stickiness added');
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addAdvertisementLabel',
-		value: function addAdvertisementLabel() {
-			var advertisementLabel = new advertisement_label_AdvertisementLabel();
-
-			this.adSlot.getElement().appendChild(advertisementLabel.render());
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addUnstickButton',
-		value: function addUnstickButton() {
-			var _this3 = this;
-
-			this.closeButton = new close_button_CloseButton({
-				classNames: ['button-unstick'],
-				onClick: function onClick() {
-					return _this3.stickiness.close();
-				}
-			}).render();
-
-			this.container.appendChild(this.closeButton);
-		}
-
-		/** @private */
-
-	}, {
-		key: 'removeUnstickButton',
-		value: function removeUnstickButton() {
-			this.closeButton.remove();
-		}
-
-		/** @private */
-
-	}, {
-		key: 'addUnstickEvents',
-		value: function addUnstickEvents() {
-			var _this4 = this;
-
-			this.stickiness.on(stickiness_Stickiness.STICKINESS_CHANGE_EVENT, function (isSticky) {
-				return _this4.onStickinessChange(isSticky);
-			});
-			this.stickiness.on(stickiness_Stickiness.CLOSE_CLICKED_EVENT, function () {
-				return _this4.unstickImmediately();
-			});
-			this.stickiness.on(stickiness_Stickiness.UNSTICK_IMMEDIATELY_EVENT, function () {
-				return _this4.unstickImmediately();
-			});
-		}
-
-		/** @private */
-
-	}, {
-		key: 'onStickinessChange',
-		value: function () {
-			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(isSticky) {
-				var stickinessBeforeCallback, stickinessAfterCallback;
-				return regenerator_default.a.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								stickinessBeforeCallback = isSticky ? this.config.onBeforeStickBfaaCallback : this.config.onBeforeUnstickBfaaCallback;
-								stickinessAfterCallback = isSticky ? this.config.onAfterStickBfaaCallback : this.config.onAfterUnstickBfaaCallback;
-
-
-								stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
-
-								if (isSticky) {
-									_context.next = 13;
-									break;
-								}
-
-								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICKED_STATE);
-								this.config.moveNavbar(0, SLIDE_OUT_TIME);
-								_context.next = 8;
-								return animate(this.adSlot.getElement(), CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
-
-							case 8:
-								this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-								this.adSlot.getElement().classList.add('theme-resolved');
-								animate(this.adSlot.getElement(), CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
-								_context.next = 15;
-								break;
-
-							case 13:
-								this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKED_STATE);
-								this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_BFAA);
-
-							case 15:
-
-								stickinessAfterCallback.call(this.config, this.adSlot, this.params);
-								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness changed', isSticky);
-
-							case 17:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
-
-			function onStickinessChange(_x2) {
-				return _ref.apply(this, arguments);
-			}
-
-			return onStickinessChange;
-		}()
-
-		/** @private */
-
-	}, {
-		key: 'onAdReady',
-		value: function () {
-			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
-				return regenerator_default.a.wrap(function _callee2$(_context2) {
-					while (1) {
-						switch (_context2.prev = _context2.next) {
-							case 0:
-								this.container.classList.add('theme-hivi');
-								this.addAdvertisementLabel();
-
-								this.config.mainContainer.style.paddingTop = this.container.scrollHeight + 'px';
-								this.config.mainContainer.classList.add('has-bfaa');
-
-								if (this.config.handleNavbar) {
-									this.setupNavbar();
-								}
-
-								this.config.moveNavbar(this.adSlot.getElement().scrollHeight, SLIDE_OUT_TIME);
-
-								if (!document.hidden) {
-									_context2.next = 9;
-									break;
-								}
-
-								_context2.next = 9;
-								return ad_engine_["utils"].once(window, 'visibilitychange');
-
-							case 9:
-
-								ad_engine_["utils"].logger(sticky_tlb_logGroup, 'ad ready');
-
-							case 10:
-							case 'end':
-								return _context2.stop();
-						}
-					}
-				}, _callee2, this);
-			}));
-
-			function onAdReady() {
-				return _ref2.apply(this, arguments);
-			}
-
-			return onAdReady;
-		}()
-
-		/** @private */
-
-	}, {
-		key: 'unstickImmediately',
-		value: function unstickImmediately() {
-			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
-			this.config.moveNavbar(0, 0);
-			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
-			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
-			this.adSlot.getElement().classList.add('theme-resolved');
-			this.stickiness.sticky = false;
-			this.removeUnstickButton();
-			this.config.mainContainer.style.paddingTop = '0';
-			this.adSlot.getElement().classList.add('hide');
-			ad_engine_["utils"].logger(sticky_tlb_logGroup, 'unstick immediately');
-		}
-
-		/** @private */
-
-	}, {
-		key: 'setupNavbar',
-		value: function setupNavbar() {
-			var desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
-			var mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
-			var slotParent = this.container.parentNode;
-			var sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
-
-			if (mobileNavbarWrapper) {
-				slotParent.insertBefore(mobileNavbarWrapper, sibling);
-			}
-
-			if (desktopNavbarWrapper) {
-				slotParent.insertBefore(desktopNavbarWrapper, sibling);
-			}
-		}
-	}]);
-
 	return StickyTLB;
 }(sticky_base_StickyBase);
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(10);
+var assign_ = __webpack_require__(9);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/toArray"
@@ -3282,175 +3502,6 @@ var video_settings_VideoSettings = function () {
 
 	return VideoSettings;
 }();
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/theme.js
-
-
-
-
-/** @abstract */
-var theme_BigFancyAdTheme = function () {
-	function BigFancyAdTheme(adSlot, params) {
-		classCallCheck_default()(this, BigFancyAdTheme);
-
-		this.adSlot = adSlot;
-		this.container = this.adSlot.getElement();
-		this.config = ad_engine_["context"].get('templates.bfaa');
-		this.params = params;
-	}
-
-	/** @abstract */
-
-
-	createClass_default()(BigFancyAdTheme, [{
-		key: 'onAdReady',
-		value: function onAdReady() {}
-
-		/** @abstract */
-
-	}, {
-		key: 'onVideoReady',
-		value: function onVideoReady() {}
-	}]);
-
-	return BigFancyAdTheme;
-}();
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/classic.js
-
-
-
-
-
-
-
-
-
-
-
-/** @abstract */
-
-var classic_BigFancyAdClassicTheme = function (_BigFancyAdTheme) {
-	inherits_default()(BigFancyAdClassicTheme, _BigFancyAdTheme);
-
-	function BigFancyAdClassicTheme() {
-		classCallCheck_default()(this, BigFancyAdClassicTheme);
-
-		return possibleConstructorReturn_default()(this, (BigFancyAdClassicTheme.__proto__ || get_prototype_of_default()(BigFancyAdClassicTheme)).apply(this, arguments));
-	}
-
-	createClass_default()(BigFancyAdClassicTheme, [{
-		key: 'onAdReady',
-		value: function onAdReady(iframe) {
-			get_default()(BigFancyAdClassicTheme.prototype.__proto__ || get_prototype_of_default()(BigFancyAdClassicTheme.prototype), 'onAdReady', this).call(this, iframe);
-
-			if (universalAdPackage.isVideoEnabled(this.params)) {
-				var videoSettings = new video_settings_VideoSettings(this.params);
-
-				if (videoSettings.isSplitLayout()) {
-					var theme = videoSettings.getParams().splitLayoutVideoPosition === 'right' ? 'theme-split-right' : 'theme-split-left';
-
-					this.params.container.classList.add(theme);
-				} else if (!videoSettings.isAutoPlay()) {
-					document.body.classList.add('ctp-vuap-loaded');
-				}
-			}
-		}
-	}]);
-
-	return BigFancyAdClassicTheme;
-}(theme_BigFancyAdTheme);
-
-var classic_BfaaTheme = function (_BigFancyAdClassicThe) {
-	inherits_default()(BfaaTheme, _BigFancyAdClassicThe);
-
-	function BfaaTheme() {
-		classCallCheck_default()(this, BfaaTheme);
-
-		return possibleConstructorReturn_default()(this, (BfaaTheme.__proto__ || get_prototype_of_default()(BfaaTheme)).apply(this, arguments));
-	}
-
-	createClass_default()(BfaaTheme, [{
-		key: 'onVideoReady',
-		value: function onVideoReady(video) {
-			var _this3 = this;
-
-			if (!this.params.splitLayoutVideoPosition) {
-				video.addEventListener('wikiaAdStarted', function () {
-					_this3.recalculatePaddingTop(_this3.params.videoAspectRatio);
-				});
-
-				video.addEventListener('wikiaAdCompleted', function () {
-					_this3.recalculatePaddingTop(_this3.params.aspectRatio);
-				});
-			}
-		}
-	}, {
-		key: 'recalculatePaddingTop',
-		value: function recalculatePaddingTop(finalAspectRatio) {
-			var _this4 = this;
-
-			this.config.mainContainer.style.paddingTop = 100 / finalAspectRatio + '%';
-
-			this.container.style.height = this.container.offsetHeight + 'px';
-			// get offsetWidth from existing DOM element in order to force repaint
-			this.container.style.height = this.container.offsetWidth / finalAspectRatio + 'px';
-
-			setTimeout(function () {
-				// clear height so ad is responsive again
-				_this4.container.style.height = '';
-			}, toggle_animation.duration);
-		}
-	}]);
-
-	return BfaaTheme;
-}(classic_BigFancyAdClassicTheme);
-
-var classic_BfabTheme = function (_BigFancyAdClassicThe2) {
-	inherits_default()(BfabTheme, _BigFancyAdClassicThe2);
-
-	function BfabTheme() {
-		classCallCheck_default()(this, BfabTheme);
-
-		return possibleConstructorReturn_default()(this, (BfabTheme.__proto__ || get_prototype_of_default()(BfabTheme)).apply(this, arguments));
-	}
-
-	return BfabTheme;
-}(classic_BigFancyAdClassicTheme);
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/ready.js
-
-
-
-
-
-var adIsReady = function () {
-	var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(_ref) {
-		var adSlot = _ref.adSlot,
-		    params = _ref.params,
-		    videoSettings = _ref.videoSettings;
-		return regenerator_default.a.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						_context.next = 2;
-						return resolvedState.setImage(videoSettings);
-
-					case 2:
-						return _context.abrupt('return', ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio));
-
-					case 3:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, this);
-	}));
-
-	return function adIsReady(_x) {
-		return _ref2.apply(this, arguments);
-	};
-}();
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/index.js
-
-
 // EXTERNAL MODULE: external "lodash/toPlainObject"
 var toPlainObject_ = __webpack_require__(22);
 var toPlainObject_default = /*#__PURE__*/__webpack_require__.n(toPlainObject_);
@@ -3467,6 +3518,79 @@ var mapValues_default = /*#__PURE__*/__webpack_require__.n(mapValues_);
 var debounce_ = __webpack_require__(20);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/theme.js
+
+
+
+
+
+
+/**
+ * @abstract
+ */
+var theme_BigFancyAdTheme = function () {
+	function BigFancyAdTheme(adSlot, params) {
+		classCallCheck_default()(this, BigFancyAdTheme);
+
+		this.adSlot = adSlot;
+		this.container = this.adSlot.getElement();
+		this.config = ad_engine_["context"].get('templates.bfaa');
+		this.params = params;
+	}
+
+	/**
+  @abstract
+  */
+
+
+	createClass_default()(BigFancyAdTheme, [{
+		key: 'onAdReady',
+		value: function onAdReady() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+
+		/**
+   @abstract
+   */
+
+	}, {
+		key: 'adIsReady',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(videoSettings) {
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								throw new ad_engine_["utils"].NotImplementedException({ videoSettings: videoSettings });
+
+							case 1:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function adIsReady(_x) {
+				return _ref.apply(this, arguments);
+			}
+
+			return adIsReady;
+		}()
+
+		/**
+   * @abstract
+   */
+
+	}, {
+		key: 'onVideoReady',
+		value: function onVideoReady() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+	}]);
+
+	return BigFancyAdTheme;
+}();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-theme.js
 
 
@@ -3479,6 +3603,11 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 
 
+
+
+/**
+ * @abstract
+ */
 var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	inherits_default()(BigFancyAdHiviTheme, _BigFancyAdTheme);
 
@@ -3491,10 +3620,33 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	createClass_default()(BigFancyAdHiviTheme, [{
 		key: 'onAdReady',
 		value: function onAdReady() {
-			get_default()(BigFancyAdHiviTheme.prototype.__proto__ || get_prototype_of_default()(BigFancyAdHiviTheme.prototype), 'onAdReady', this).call(this);
 			this.container.classList.add('theme-hivi');
 			this.addAdvertisementLabel();
 		}
+	}, {
+		key: 'adIsReady',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								return _context.abrupt('return', ad_engine_["slotTweaker"].makeResponsive(this.adSlot, this.params.aspectRatio));
+
+							case 1:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function adIsReady() {
+				return _ref.apply(this, arguments);
+			}
+
+			return adIsReady;
+		}()
 	}, {
 		key: 'addAdvertisementLabel',
 		value: function addAdvertisementLabel() {
@@ -3502,6 +3654,34 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 
 			this.container.appendChild(advertisementLabel.render());
 		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'addUnstickLogic',
+		value: function addUnstickLogic() {
+			var stateResolvedAndVideoViewed = this.getStateResolvedAndVideoViewed();
+
+			this.stickiness = new stickiness_Stickiness(this.adSlot, stateResolvedAndVideoViewed);
+		}
+
+		/**
+   * @abstract
+   * @protected
+   */
+
+	}, {
+		key: 'getStateResolvedAndVideoViewed',
+		value: function getStateResolvedAndVideoViewed() {
+			throw new ad_engine_["utils"].NotImplementedException();
+		}
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'addUnstickButton',
 		value: function addUnstickButton() {
@@ -3516,6 +3696,11 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 
 			this.container.appendChild(closeButton.render());
 		}
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'addUnstickEvents',
 		value: function addUnstickEvents() {
@@ -3535,12 +3720,23 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 		/**
    * @abstract
    * @protected
+   */
+
+	}, {
+		key: 'onStickinessChange',
+		value: function onStickinessChange(isSticky) {
+			throw new ad_engine_["utils"].NotImplementedException({ isSticky: isSticky });
+		}
+
+		/**
+   * @abstract
+   * @protected
    * */
 
 	}, {
 		key: 'onCloseClicked',
 		value: function onCloseClicked() {
-			throw new Error('Not Implemented Exception');
+			throw new ad_engine_["utils"].NotImplementedException();
 		}
 
 		/**
@@ -3552,8 +3748,7 @@ var hivi_theme_BigFancyAdHiviTheme = function (_BigFancyAdTheme) {
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately(stopVideo) {
-			console.error('Attempting to call not implemented method with arg:', stopVideo);
-			throw new Error('Not Implemented Exception');
+			throw new ad_engine_["utils"].NotImplementedException({ stopVideo: stopVideo });
 		}
 	}]);
 
@@ -3588,13 +3783,13 @@ hivi_theme_BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY = 3000;
 
 var HIVI_RESOLVED_THRESHOLD = 0.995;
 
-var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
-	inherits_default()(BfaaTheme, _BigFancyAdHiviTheme);
+var hivi_bfaa_BfaaHiviTheme = function (_BigFancyAdHiviTheme) {
+	inherits_default()(BfaaHiviTheme, _BigFancyAdHiviTheme);
 
-	function BfaaTheme(adSlot, params) {
-		classCallCheck_default()(this, BfaaTheme);
+	function BfaaHiviTheme(adSlot, params) {
+		classCallCheck_default()(this, BfaaHiviTheme);
 
-		var _this = possibleConstructorReturn_default()(this, (BfaaTheme.__proto__ || get_prototype_of_default()(BfaaTheme)).call(this, adSlot, params));
+		var _this = possibleConstructorReturn_default()(this, (BfaaHiviTheme.__proto__ || get_prototype_of_default()(BfaaHiviTheme)).call(this, adSlot, params));
 
 		assign_default()(_this, toPlainObject_default()(new external_eventemitter3_default.a()));
 
@@ -3614,7 +3809,12 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 		return _this;
 	}
 
-	createClass_default()(BfaaTheme, [{
+	/**
+  * @private
+  */
+
+
+	createClass_default()(BfaaHiviTheme, [{
 		key: 'addStickinessPlugin',
 		value: function addStickinessPlugin() {
 			this.addUnstickLogic();
@@ -3623,55 +3823,18 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 			this.stickiness.run();
 		}
 	}, {
-		key: 'addUnstickLogic',
-		value: function addUnstickLogic() {
-			var _this2 = this;
-
-			var _params = this.params,
-			    stickyAdditionalTime = _params.stickyAdditionalTime,
-			    stickyUntilVideoViewed = _params.stickyUntilVideoViewed;
-
-			var whenResolvedAndVideoViewed = function () {
-				var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-					return regenerator_default.a.wrap(function _callee$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									_context.next = 2;
-									return promise_default.a.all([ad_engine_["utils"].once(_this2, BfaaTheme.RESOLVED_STATE_EVENT), stickyUntilVideoViewed ? ad_engine_["utils"].once(_this2.adSlot, ad_engine_["AdSlot"].VIDEO_VIEWED_EVENT) : promise_default.a.resolve()]);
-
-								case 2:
-									_context.next = 4;
-									return ad_engine_["utils"].wait(isUndefined_default()(stickyAdditionalTime) ? BfaaTheme.DEFAULT_UNSTICK_DELAY : stickyAdditionalTime);
-
-								case 4:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, _callee, _this2);
-				}));
-
-				return function whenResolvedAndVideoViewed() {
-					return _ref.apply(this, arguments);
-				};
-			}();
-
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenResolvedAndVideoViewed());
-		}
-	}, {
 		key: 'onAdReady',
 		value: function onAdReady() {
-			var _this3 = this;
+			var _this2 = this;
 
-			get_default()(BfaaTheme.prototype.__proto__ || get_prototype_of_default()(BfaaTheme.prototype), 'onAdReady', this).call(this);
+			get_default()(BfaaHiviTheme.prototype.__proto__ || get_prototype_of_default()(BfaaHiviTheme.prototype), 'onAdReady', this).call(this);
 
 			if (resolvedState.isResolvedState(this.params)) {
 				this.setResolvedState(true);
 			} else {
 				resolvedStateSwitch.updateInformationAboutSeenDefaultStateAd();
 				this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
-					return _this3.updateAdSizes();
+					return _this2.updateAdSizes();
 				});
 				// Manually run update on scroll once
 				this.updateAdSizes();
@@ -3680,34 +3843,310 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 	}, {
 		key: 'onVideoReady',
 		value: function onVideoReady(video) {
-			var _this4 = this;
-
-			get_default()(BfaaTheme.prototype.__proto__ || get_prototype_of_default()(BfaaTheme.prototype), 'onVideoReady', this).call(this, video);
+			var _this3 = this;
 
 			this.video = video;
 			video.addEventListener('wikiaAdStarted', function () {
-				_this4.updateAdSizes();
+				_this3.updateAdSizes();
 
 				if (!video.params.autoPlay) {
-					_this4.resetResolvedState();
+					_this3.resetResolvedState();
 				}
 			});
 			video.addEventListener('wikiaAdCompleted', function () {
-				if (!_this4.isLocked) {
-					_this4.setResolvedState(true);
+				if (!_this3.isLocked) {
+					_this3.setResolvedState(true);
 				}
 			});
 			video.addEventListener('wikiaFullscreenChange', function () {
 				if (video.isFullscreen()) {
-					_this4.stickiness.blockRevertStickiness();
-					_this4.container.classList.add('theme-video-fullscreen');
+					_this3.stickiness.blockRevertStickiness();
+					_this3.container.classList.add('theme-video-fullscreen');
 				} else {
-					_this4.stickiness.unblockRevertStickiness();
-					_this4.container.classList.remove('theme-video-fullscreen');
-					_this4.updateAdSizes();
+					_this3.stickiness.unblockRevertStickiness();
+					_this3.container.classList.remove('theme-video-fullscreen');
+					_this3.updateAdSizes();
 				}
 			});
 		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'resetResolvedState',
+		value: function resetResolvedState() {
+			var offset = this.getHeightDifferenceBetweenStates();
+
+			if (this.isLocked && this.config.defaultStateAllowed && window.scrollY < offset) {
+				var aspectRatio = this.params.config.aspectRatio.default;
+
+				this.container.style.top = '';
+				this.config.mainContainer.style.paddingTop = 100 / aspectRatio + '%';
+
+				if (this.params.isSticky && this.config.stickinessAllowed) {
+					this.unstickImmediately(false);
+				}
+
+				this.unlock();
+				this.switchImagesInAd(false);
+				this.setResolvedState(false);
+				this.updateAdSizes();
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'lock',
+		value: function lock() {
+			var offset = this.getHeightDifferenceBetweenStates();
+
+			this.isLocked = true;
+			this.container.classList.add('theme-locked');
+			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
+			this.adjustSizesToResolved(offset);
+			this.emit(BfaaHiviTheme.RESOLVED_STATE_EVENT);
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'unlock',
+		value: function unlock() {
+			var _this4 = this;
+
+			this.isLocked = false;
+			this.container.classList.remove('theme-locked');
+			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
+				return _this4.updateAdSizes();
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'adjustSizesToResolved',
+		value: function adjustSizesToResolved(offset) {
+			if (this.adSlot.isEnabled()) {
+				var aspectRatio = this.params.config.aspectRatio.resolved;
+
+				this.container.style.top = '';
+				this.config.mainContainer.style.paddingTop = 100 / aspectRatio + '%';
+				ad_engine_["slotTweaker"].makeResponsive(this.adSlot, aspectRatio);
+				window.scrollBy(0, -Math.min(offset, window.scrollY));
+				this.updateAdSizes();
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'updateAdSizes',
+		value: function updateAdSizes() {
+			var _params$config = this.params.config,
+			    aspectRatio = _params$config.aspectRatio,
+			    state = _params$config.state;
+			var currentWidth = this.config.mainContainer.offsetWidth;
+
+			var isResolved = this.container.classList.contains('theme-resolved');
+			var maxHeight = currentWidth / aspectRatio.default;
+			var minHeight = currentWidth / aspectRatio.resolved;
+			var scrollY = window.scrollY || window.pageYOffset || 0;
+			var aspectScroll = this.isLocked ? minHeight : Math.max(minHeight, maxHeight - scrollY);
+			var currentAspectRatio = currentWidth / aspectScroll;
+			var aspectRatioDiff = aspectRatio.default - aspectRatio.resolved;
+			var currentDiff = aspectRatio.default - currentAspectRatio;
+			var currentState = 1 - (aspectRatioDiff - currentDiff) / aspectRatioDiff;
+			var heightDiff = state.height.default - state.height.resolved;
+			var heightFactor = (state.height.default - heightDiff * currentState) / 100;
+			var relativeHeight = aspectScroll * heightFactor;
+
+			this.adjustVideoSize(relativeHeight);
+
+			if (this.params.thumbnail) {
+				this.setThumbnailStyle(currentState);
+			}
+
+			if (currentState >= HIVI_RESOLVED_THRESHOLD && !isResolved) {
+				this.setResolvedState();
+			} else if (currentState < HIVI_RESOLVED_THRESHOLD && isResolved) {
+				this.container.style.top = '';
+				this.switchImagesInAd(false);
+			}
+
+			return ad_engine_["slotTweaker"].makeResponsive(this.adSlot, currentAspectRatio);
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'adjustVideoSize',
+		value: function adjustVideoSize(relativeHeight) {
+			if (this.video && !this.video.isFullscreen()) {
+				this.video.container.style.width = this.params.videoAspectRatio * relativeHeight + 'px';
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'setThumbnailStyle',
+		value: function setThumbnailStyle(state) {
+			var style = mapValues_default()(this.params.config.state, function (styleProperty) {
+				var diff = styleProperty.default - styleProperty.resolved;
+
+				return styleProperty.default - diff * state + '%';
+			});
+
+			assign_default()(this.params.thumbnail.style, style);
+
+			if (this.video) {
+				assign_default()(this.video.container.style, style);
+
+				if (this.video.isFullscreen()) {
+					this.video.container.style.height = '100%';
+				}
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'setResolvedState',
+		value: function setResolvedState(immediately) {
+			var _this5 = this;
+
+			var isSticky = this.stickiness && this.stickiness.isSticky();
+			var width = this.container.offsetWidth;
+			var aspectRatio = this.params.config.aspectRatio;
+
+			var resolvedHeight = width / aspectRatio.resolved;
+			var offset = this.getHeightDifferenceBetweenStates();
+
+			if (isSticky) {
+				this.config.moveNavbar(resolvedHeight, SLIDE_OUT_TIME);
+			} else {
+				this.container.style.top = Math.min(window.scrollY, offset) + 'px';
+			}
+
+			this.switchImagesInAd(true);
+
+			if (this.onResolvedStateScroll) {
+				window.removeEventListener('scroll', this.onResolvedStateScroll);
+				this.onResolvedStateScroll.cancel();
+			}
+
+			return new promise_default.a(function (resolve) {
+				if (immediately) {
+					_this5.lock();
+					resolve();
+				} else {
+					_this5.onResolvedStateScroll = debounce_default()(function () {
+						if (window.scrollY < offset) {
+							return;
+						}
+
+						window.removeEventListener('scroll', _this5.onResolvedStateScroll);
+						_this5.onResolvedStateScroll = null;
+						_this5.lock();
+						resolve();
+					}, 50);
+					window.addEventListener('scroll', _this5.onResolvedStateScroll);
+					_this5.onResolvedStateScroll();
+				}
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'getHeightDifferenceBetweenStates',
+		value: function getHeightDifferenceBetweenStates() {
+			var width = this.container.offsetWidth;
+			var aspectRatio = this.params.config.aspectRatio;
+
+
+			return Math.round(width / aspectRatio.default - width / aspectRatio.resolved);
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'switchImagesInAd',
+		value: function switchImagesInAd(isResolved) {
+			if (isResolved) {
+				this.container.classList.add('theme-resolved');
+				this.params.image2.element.classList.remove('hidden-state');
+			} else {
+				this.container.classList.remove('theme-resolved');
+				this.params.image2.element.classList.add('hidden-state');
+			}
+		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'getStateResolvedAndVideoViewed',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				var _params, stickyAdditionalTime, stickyUntilVideoViewed, stateResolved, videoViewed, unstickDelay;
+
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_params = this.params, stickyAdditionalTime = _params.stickyAdditionalTime, stickyUntilVideoViewed = _params.stickyUntilVideoViewed;
+								stateResolved = ad_engine_["utils"].once(this, BfaaHiviTheme.RESOLVED_STATE_EVENT);
+								videoViewed = stickyUntilVideoViewed ? ad_engine_["utils"].once(this.adSlot, ad_engine_["AdSlot"].VIDEO_VIEWED_EVENT) : promise_default.a.resolve();
+								unstickDelay = isUndefined_default()(stickyAdditionalTime) ? hivi_theme_BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY : stickyAdditionalTime;
+								_context.next = 6;
+								return promise_default.a.all([stateResolved, videoViewed]);
+
+							case 6:
+								_context.next = 8;
+								return ad_engine_["utils"].wait(unstickDelay);
+
+							case 8:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function getStateResolvedAndVideoViewed() {
+				return _ref.apply(this, arguments);
+			}
+
+			return getStateResolvedAndVideoViewed;
+		}()
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
@@ -3761,23 +4200,32 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 
 			return onStickinessChange;
 		}()
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'onCloseClicked',
 		value: function onCloseClicked() {
+			this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 			this.unstickImmediately();
 
 			this.config.mainContainer.style.paddingTop = '0';
-
 			this.adSlot.disable();
 			this.adSlot.collapse();
 		}
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
-			this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 
 			if (stopVideo && this.video && this.video.ima.getAdsManager()) {
@@ -3787,194 +4235,11 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 			this.config.moveNavbar(0, 0);
 			this.stickiness.sticky = false;
 		}
-	}, {
-		key: 'updateAdSizes',
-		value: function updateAdSizes() {
-			var _params$config = this.params.config,
-			    aspectRatio = _params$config.aspectRatio,
-			    state = _params$config.state;
-			var currentWidth = this.config.mainContainer.offsetWidth;
-
-			var isResolved = this.container.classList.contains('theme-resolved');
-			var maxHeight = currentWidth / aspectRatio.default;
-			var minHeight = currentWidth / aspectRatio.resolved;
-			var scrollY = window.scrollY || window.pageYOffset || 0;
-			var aspectScroll = this.isLocked ? minHeight : Math.max(minHeight, maxHeight - scrollY);
-			var currentAspectRatio = currentWidth / aspectScroll;
-			var aspectRatioDiff = aspectRatio.default - aspectRatio.resolved;
-			var currentDiff = aspectRatio.default - currentAspectRatio;
-			var currentState = 1 - (aspectRatioDiff - currentDiff) / aspectRatioDiff;
-			var heightDiff = state.height.default - state.height.resolved;
-			var heightFactor = (state.height.default - heightDiff * currentState) / 100;
-			var relativeHeight = aspectScroll * heightFactor;
-
-			this.adjustVideoSize(relativeHeight);
-
-			if (this.params.thumbnail) {
-				this.setThumbnailStyle(currentState);
-			}
-
-			if (currentState >= HIVI_RESOLVED_THRESHOLD && !isResolved) {
-				this.setResolvedState();
-			} else if (currentState < HIVI_RESOLVED_THRESHOLD && isResolved) {
-				this.container.style.top = '';
-				this.switchImagesInAd(false);
-			}
-
-			return ad_engine_["slotTweaker"].makeResponsive(this.adSlot, currentAspectRatio);
-		}
-	}, {
-		key: 'adjustVideoSize',
-		value: function adjustVideoSize(relativeHeight) {
-			if (this.video && !this.video.isFullscreen()) {
-				this.video.container.style.width = this.params.videoAspectRatio * relativeHeight + 'px';
-			}
-		}
-	}, {
-		key: 'setThumbnailStyle',
-		value: function setThumbnailStyle(state) {
-			var style = mapValues_default()(this.params.config.state, function (styleProperty) {
-				var diff = styleProperty.default - styleProperty.resolved;
-
-				return styleProperty.default - diff * state + '%';
-			});
-
-			assign_default()(this.params.thumbnail.style, style);
-
-			if (this.video) {
-				assign_default()(this.video.container.style, style);
-
-				if (this.video.isFullscreen()) {
-					this.video.container.style.height = '100%';
-				}
-			}
-		}
-	}, {
-		key: 'switchImagesInAd',
-		value: function switchImagesInAd(isResolved) {
-			if (isResolved) {
-				this.container.classList.add('theme-resolved');
-				this.params.image2.element.classList.remove('hidden-state');
-			} else {
-				this.container.classList.remove('theme-resolved');
-				this.params.image2.element.classList.add('hidden-state');
-			}
-		}
-	}, {
-		key: 'lock',
-		value: function lock() {
-			var offset = this.getHeightDifferenceBetweenStates();
-
-			this.isLocked = true;
-			this.container.classList.add('theme-locked');
-			ad_engine_["scrollListener"].removeCallback(this.scrollListener);
-			this.adjustSizesToResolved(offset);
-			this.emit(BfaaTheme.RESOLVED_STATE_EVENT);
-		}
-	}, {
-		key: 'unlock',
-		value: function unlock() {
-			var _this5 = this;
-
-			this.isLocked = false;
-			this.container.classList.remove('theme-locked');
-			this.scrollListener = ad_engine_["scrollListener"].addCallback(function () {
-				return _this5.updateAdSizes();
-			});
-		}
-	}, {
-		key: 'setResolvedState',
-		value: function setResolvedState(immediately) {
-			var _this6 = this;
-
-			var isSticky = this.stickiness && this.stickiness.isSticky();
-			var width = this.container.offsetWidth;
-			var aspectRatio = this.params.config.aspectRatio;
-
-			var resolvedHeight = width / aspectRatio.resolved;
-			var offset = this.getHeightDifferenceBetweenStates();
-
-			if (isSticky) {
-				this.config.moveNavbar(resolvedHeight, SLIDE_OUT_TIME);
-			} else {
-				this.container.style.top = Math.min(window.scrollY, offset) + 'px';
-			}
-
-			this.switchImagesInAd(true);
-
-			if (this.onResolvedStateScroll) {
-				window.removeEventListener('scroll', this.onResolvedStateScroll);
-				this.onResolvedStateScroll.cancel();
-			}
-
-			return new promise_default.a(function (resolve) {
-				if (immediately) {
-					_this6.lock();
-					resolve();
-				} else {
-					_this6.onResolvedStateScroll = debounce_default()(function () {
-						if (window.scrollY < offset) {
-							return;
-						}
-
-						window.removeEventListener('scroll', _this6.onResolvedStateScroll);
-						_this6.onResolvedStateScroll = null;
-						_this6.lock();
-						resolve();
-					}, 50);
-					window.addEventListener('scroll', _this6.onResolvedStateScroll);
-					_this6.onResolvedStateScroll();
-				}
-			});
-		}
-	}, {
-		key: 'resetResolvedState',
-		value: function resetResolvedState() {
-			var offset = this.getHeightDifferenceBetweenStates();
-
-			if (this.isLocked && this.config.defaultStateAllowed && window.scrollY < offset) {
-				var aspectRatio = this.params.config.aspectRatio.default;
-
-				this.container.style.top = '';
-				this.config.mainContainer.style.paddingTop = 100 / aspectRatio + '%';
-
-				if (this.params.isSticky && this.config.stickinessAllowed) {
-					this.unstickImmediately(false);
-				}
-
-				this.unlock();
-				this.switchImagesInAd(false);
-				this.setResolvedState(false);
-				this.updateAdSizes();
-			}
-		}
-	}, {
-		key: 'getHeightDifferenceBetweenStates',
-		value: function getHeightDifferenceBetweenStates() {
-			var width = this.container.offsetWidth;
-			var aspectRatio = this.params.config.aspectRatio;
-
-
-			return Math.round(width / aspectRatio.default - width / aspectRatio.resolved);
-		}
-	}, {
-		key: 'adjustSizesToResolved',
-		value: function adjustSizesToResolved(offset) {
-			if (this.adSlot.isEnabled()) {
-				var aspectRatio = this.params.config.aspectRatio.resolved;
-
-				this.container.style.top = '';
-				this.config.mainContainer.style.paddingTop = 100 / aspectRatio + '%';
-				ad_engine_["slotTweaker"].makeResponsive(this.adSlot, aspectRatio);
-				window.scrollBy(0, -Math.min(offset, window.scrollY));
-				this.updateAdSizes();
-			}
-		}
 	}]);
 
-	return BfaaTheme;
+	return BfaaHiviTheme;
 }(hivi_theme_BigFancyAdHiviTheme);
-hivi_bfaa_BfaaTheme.RESOLVED_STATE_EVENT = symbol_default()('RESOLVED_STATE_EVENT');
+hivi_bfaa_BfaaHiviTheme.RESOLVED_STATE_EVENT = symbol_default()('RESOLVED_STATE_EVENT');
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/hivi-bfab.js
 
 
@@ -3996,25 +4261,24 @@ hivi_bfaa_BfaaTheme.RESOLVED_STATE_EVENT = symbol_default()('RESOLVED_STATE_EVEN
 
 
 
-var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
-	inherits_default()(BfabTheme, _BigFancyAdHiviTheme);
+var hivi_bfab_BfabHiviTheme = function (_BigFancyAdHiviTheme) {
+	inherits_default()(BfabHiviTheme, _BigFancyAdHiviTheme);
 
-	function BfabTheme(adSlot, params) {
-		classCallCheck_default()(this, BfabTheme);
+	function BfabHiviTheme(adSlot, params) {
+		classCallCheck_default()(this, BfabHiviTheme);
 
-		var _this = possibleConstructorReturn_default()(this, (BfabTheme.__proto__ || get_prototype_of_default()(BfabTheme)).call(this, adSlot, params));
+		var _this = possibleConstructorReturn_default()(this, (BfabHiviTheme.__proto__ || get_prototype_of_default()(BfabHiviTheme)).call(this, adSlot, params));
 
 		_this.stickiness = null;
 		_this.video = null;
-		_this.isLocked = false;
 		_this.config = ad_engine_["context"].get('templates.bfab');
 		return _this;
 	}
 
-	createClass_default()(BfabTheme, [{
+	createClass_default()(BfabHiviTheme, [{
 		key: 'onAdReady',
 		value: function onAdReady() {
-			get_default()(BfabTheme.prototype.__proto__ || get_prototype_of_default()(BfabTheme.prototype), 'onAdReady', this).call(this);
+			get_default()(BfabHiviTheme.prototype.__proto__ || get_prototype_of_default()(BfabHiviTheme.prototype), 'onAdReady', this).call(this);
 
 			if (this.params.isSticky && this.config.stickinessAllowed) {
 				this.addStickinessPlugin();
@@ -4032,76 +4296,44 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 				ad_engine_["slotTweaker"].makeResponsive(this.adSlot, this.params.config.aspectRatio.default);
 			}
 		}
-	}, {
-		key: 'onVideoReady',
-		value: function onVideoReady(video) {
-			var _this2 = this;
 
-			get_default()(BfabTheme.prototype.__proto__ || get_prototype_of_default()(BfabTheme.prototype), 'onVideoReady', this).call(this, video);
+		/**
+   * @private
+   */
 
-			this.video = video;
-			video.addEventListener('wikiaAdStarted', function () {
-				return _this2.updateAdSizes();
-			});
-			video.addEventListener('wikiaAdCompleted', function () {
-				return _this2.setResolvedState();
-			});
-			video.addEventListener('wikiaFullscreenChange', function () {
-				if (video.isFullscreen()) {
-					_this2.stickiness.blockRevertStickiness();
-					_this2.container.classList.add('theme-video-fullscreen');
-				} else {
-					_this2.stickiness.unblockRevertStickiness();
-					_this2.container.classList.remove('theme-video-fullscreen');
-					_this2.updateAdSizes();
-				}
-			});
-		}
 	}, {
-		key: 'updateAdSizes',
-		value: function updateAdSizes() {
-			var state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
-			var stateHeight = this.params.config.state.height[state];
-			var relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
-
-			this.adjustVideoSize(relativeHeight);
-
-			if (this.params.thumbnail) {
-				this.setThumbnailStyle(state);
-			}
-		}
-	}, {
-		key: 'adjustVideoSize',
-		value: function adjustVideoSize(relativeHeight) {
-			if (this.video && !this.video.isFullscreen()) {
-				this.video.container.style.width = this.params.videoAspectRatio * relativeHeight + 'px';
-			}
-		}
-	}, {
-		key: 'setResolvedState',
+		key: 'addStickinessPlugin',
 		value: function () {
 			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-				var _params, config, image2;
+				var _this2 = this;
 
 				return regenerator_default.a.wrap(function _callee$(_context) {
 					while (1) {
 						switch (_context.prev = _context.next) {
 							case 0:
-								_params = this.params, config = _params.config, image2 = _params.image2;
+								_context.next = 2;
+								return this.waitForScrollAndUnstickedBfaa();
 
+							case 2:
 
-								this.container.classList.add('theme-resolved');
-								image2.element.classList.remove('hidden-state');
-								_context.next = 5;
-								return ad_engine_["slotTweaker"].makeResponsive(this.adSlot, config.aspectRatio.resolved);
+								if (!this.adSlot.isViewed()) {
+									this.addUnstickLogic();
+									this.addUnstickButton();
+									this.addUnstickEvents();
+									this.stickiness.run();
 
-							case 5:
+									ad_engine_["scrollListener"].addCallback(function (event, id) {
+										var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-								if (this.params.thumbnail) {
-									this.setThumbnailStyle('resolved');
+										if (scrollPosition <= _this2.config.unstickInstantlyBelowPosition) {
+											_this2.adSlot.emitEvent('top-conflict');
+											ad_engine_["scrollListener"].removeCallback(id);
+											_this2.stickiness.revertStickiness();
+										}
+									});
 								}
 
-							case 6:
+							case 3:
 							case 'end':
 								return _context.stop();
 						}
@@ -4109,28 +4341,17 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 				}, _callee, this);
 			}));
 
-			function setResolvedState() {
+			function addStickinessPlugin() {
 				return _ref.apply(this, arguments);
 			}
 
-			return setResolvedState;
+			return addStickinessPlugin;
 		}()
-	}, {
-		key: 'setThumbnailStyle',
-		value: function setThumbnailStyle() {
-			var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-			var thumbnail = this.params.thumbnail;
 
-			var style = mapValues_default()(this.params.config.state, function (styleProperty) {
-				return styleProperty[state] + '%';
-			});
+		/**
+   * @private
+   */
 
-			assign_default()(thumbnail.style, style);
-
-			if (this.video) {
-				assign_default()(this.video.container.style, style);
-			}
-		}
 	}, {
 		key: 'waitForScrollAndUnstickedBfaa',
 		value: function waitForScrollAndUnstickedBfaa() {
@@ -4167,38 +4388,88 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 			return promise;
 		}
 	}, {
-		key: 'addStickinessPlugin',
+		key: 'onVideoReady',
+		value: function onVideoReady(video) {
+			var _this4 = this;
+
+			this.video = video;
+			video.addEventListener('wikiaAdStarted', function () {
+				return _this4.updateAdSizes();
+			});
+			video.addEventListener('wikiaAdCompleted', function () {
+				return _this4.setResolvedState();
+			});
+			video.addEventListener('wikiaFullscreenChange', function () {
+				if (video.isFullscreen()) {
+					_this4.stickiness.blockRevertStickiness();
+					_this4.container.classList.add('theme-video-fullscreen');
+				} else {
+					_this4.stickiness.unblockRevertStickiness();
+					_this4.container.classList.remove('theme-video-fullscreen');
+					_this4.updateAdSizes();
+				}
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'updateAdSizes',
+		value: function updateAdSizes() {
+			var state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
+			var stateHeight = this.params.config.state.height[state];
+			var relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
+
+			this.adjustVideoSize(relativeHeight);
+
+			if (this.params.thumbnail) {
+				this.setThumbnailStyle(state);
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'adjustVideoSize',
+		value: function adjustVideoSize(relativeHeight) {
+			if (this.video && !this.video.isFullscreen()) {
+				this.video.container.style.width = this.params.videoAspectRatio * relativeHeight + 'px';
+			}
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'setResolvedState',
 		value: function () {
 			var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
-				var _this4 = this;
+				var _params, config, image2;
 
 				return regenerator_default.a.wrap(function _callee2$(_context2) {
 					while (1) {
 						switch (_context2.prev = _context2.next) {
 							case 0:
-								_context2.next = 2;
-								return this.waitForScrollAndUnstickedBfaa();
+								_params = this.params, config = _params.config, image2 = _params.image2;
 
-							case 2:
 
-								if (!this.adSlot.isViewed()) {
-									this.addUnstickLogic();
-									this.addUnstickButton();
-									this.addUnstickEvents();
-									this.stickiness.run();
+								this.container.classList.add('theme-resolved');
+								image2.element.classList.remove('hidden-state');
+								_context2.next = 5;
+								return ad_engine_["slotTweaker"].makeResponsive(this.adSlot, config.aspectRatio.resolved);
 
-									ad_engine_["scrollListener"].addCallback(function (event, id) {
-										var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+							case 5:
 
-										if (scrollPosition <= _this4.config.unstickInstantlyBelowPosition) {
-											_this4.adSlot.emitEvent('top-conflict');
-											ad_engine_["scrollListener"].removeCallback(id);
-											_this4.stickiness.revertStickiness();
-										}
-									});
+								if (this.params.thumbnail) {
+									this.setThumbnailStyle('resolved');
 								}
 
-							case 3:
+							case 6:
 							case 'end':
 								return _context2.stop();
 						}
@@ -4206,41 +4477,68 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 				}, _callee2, this);
 			}));
 
-			function addStickinessPlugin() {
+			function setResolvedState() {
 				return _ref2.apply(this, arguments);
 			}
 
-			return addStickinessPlugin;
+			return setResolvedState;
 		}()
+
+		/**
+   * @private
+   */
+
 	}, {
-		key: 'addUnstickLogic',
-		value: function addUnstickLogic() {
-			var _this5 = this;
+		key: 'setThumbnailStyle',
+		value: function setThumbnailStyle() {
+			var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+			var thumbnail = this.params.thumbnail;
 
-			var whenResolvedAndVideoViewed = function () {
-				var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
-					return regenerator_default.a.wrap(function _callee3$(_context3) {
-						while (1) {
-							switch (_context3.prev = _context3.next) {
-								case 0:
-									_context3.next = 2;
-									return ad_engine_["utils"].wait(BfabTheme.DEFAULT_UNSTICK_DELAY);
+			var style = mapValues_default()(this.params.config.state, function (styleProperty) {
+				return styleProperty[state] + '%';
+			});
 
-								case 2:
-								case 'end':
-									return _context3.stop();
-							}
-						}
-					}, _callee3, _this5);
-				}));
+			assign_default()(thumbnail.style, style);
 
-				return function whenResolvedAndVideoViewed() {
-					return _ref3.apply(this, arguments);
-				};
-			}();
-
-			this.stickiness = new stickiness_Stickiness(this.adSlot, whenResolvedAndVideoViewed());
+			if (this.video) {
+				assign_default()(this.video.container.style, style);
+			}
 		}
+
+		/**
+   * @protected
+   */
+
+	}, {
+		key: 'getStateResolvedAndVideoViewed',
+		value: function () {
+			var _ref3 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee3() {
+				return regenerator_default.a.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								_context3.next = 2;
+								return ad_engine_["utils"].wait(hivi_theme_BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
+
+							case 2:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function getStateResolvedAndVideoViewed() {
+				return _ref3.apply(this, arguments);
+			}
+
+			return getStateResolvedAndVideoViewed;
+		}()
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'onStickinessChange',
 		value: function () {
@@ -4294,22 +4592,32 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 			return onStickinessChange;
 		}()
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'onCloseClicked',
 		value: function onCloseClicked() {
+			this.adSlot.emitEvent(ad_engine_["SlotTweaker"].SLOT_CLOSE_IMMEDIATELY);
 			this.unstickImmediately();
 
 			this.adSlot.getElement().parentNode.style.height = null;
 			this.adSlot.disable();
 			this.adSlot.collapse();
 		}
+
+		/**
+   * @protected
+   */
+
 	}, {
 		key: 'unstickImmediately',
 		value: function unstickImmediately() {
 			var stopVideo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
 			if (this.stickiness) {
-				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 				this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);
 
 				if (stopVideo && this.video && this.video.ima.getAdsManager()) {
@@ -4321,21 +4629,176 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 		}
 	}]);
 
-	return BfabTheme;
+	return BfabHiviTheme;
 }(hivi_theme_BigFancyAdHiviTheme);
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/ready.js
-
-
-function ready_adIsReady(_ref) {
-	var adSlot = _ref.adSlot,
-	    params = _ref.params;
-
-	return ad_engine_["slotTweaker"].makeResponsive(adSlot, params.aspectRatio);
-}
-// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/hivi/index.js
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/classic.js
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @abstract
+ */
+
+var classic_BigFancyAdClassicTheme = function (_BigFancyAdTheme) {
+	inherits_default()(BigFancyAdClassicTheme, _BigFancyAdTheme);
+
+	function BigFancyAdClassicTheme() {
+		classCallCheck_default()(this, BigFancyAdClassicTheme);
+
+		return possibleConstructorReturn_default()(this, (BigFancyAdClassicTheme.__proto__ || get_prototype_of_default()(BigFancyAdClassicTheme)).apply(this, arguments));
+	}
+
+	createClass_default()(BigFancyAdClassicTheme, [{
+		key: 'onAdReady',
+		value: function onAdReady() {
+			if (universalAdPackage.isVideoEnabled(this.params)) {
+				var videoSettings = new video_settings_VideoSettings(this.params);
+
+				if (videoSettings.isSplitLayout()) {
+					var theme = videoSettings.getParams().splitLayoutVideoPosition === 'right' ? 'theme-split-right' : 'theme-split-left';
+
+					this.params.container.classList.add(theme);
+				} else if (!videoSettings.isAutoPlay()) {
+					document.body.classList.add('ctp-vuap-loaded');
+				}
+			}
+		}
+	}, {
+		key: 'adIsReady',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(videoSettings) {
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_context.next = 2;
+								return resolvedState.setImage(videoSettings);
+
+							case 2:
+								return _context.abrupt('return', ad_engine_["slotTweaker"].makeResponsive(this.adSlot, this.params.aspectRatio));
+
+							case 3:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function adIsReady(_x) {
+				return _ref.apply(this, arguments);
+			}
+
+			return adIsReady;
+		}()
+	}]);
+
+	return BigFancyAdClassicTheme;
+}(theme_BigFancyAdTheme);
+
+var classic_BfaaTheme = function (_BigFancyAdClassicThe) {
+	inherits_default()(BfaaTheme, _BigFancyAdClassicThe);
+
+	function BfaaTheme() {
+		classCallCheck_default()(this, BfaaTheme);
+
+		return possibleConstructorReturn_default()(this, (BfaaTheme.__proto__ || get_prototype_of_default()(BfaaTheme)).apply(this, arguments));
+	}
+
+	createClass_default()(BfaaTheme, [{
+		key: 'onVideoReady',
+		value: function onVideoReady(video) {
+			var _this3 = this;
+
+			if (!this.params.splitLayoutVideoPosition) {
+				video.addEventListener('wikiaAdStarted', function () {
+					_this3.recalculatePaddingTop(_this3.params.videoAspectRatio);
+				});
+
+				video.addEventListener('wikiaAdCompleted', function () {
+					_this3.recalculatePaddingTop(_this3.params.aspectRatio);
+				});
+			}
+		}
+
+		/**
+   * @private
+   * @param finalAspectRatio
+   */
+
+	}, {
+		key: 'recalculatePaddingTop',
+		value: function recalculatePaddingTop(finalAspectRatio) {
+			var _this4 = this;
+
+			this.config.mainContainer.style.paddingTop = 100 / finalAspectRatio + '%';
+
+			this.container.style.height = this.container.offsetHeight + 'px';
+			// get offsetWidth from existing DOM element in order to force repaint
+			this.container.style.height = this.container.offsetWidth / finalAspectRatio + 'px';
+
+			setTimeout(function () {
+				// clear height so ad is responsive again
+				_this4.container.style.height = '';
+			}, toggle_animation.duration);
+		}
+	}]);
+
+	return BfaaTheme;
+}(classic_BigFancyAdClassicTheme);
+
+var classic_BfabTheme = function (_BigFancyAdClassicThe2) {
+	inherits_default()(BfabTheme, _BigFancyAdClassicThe2);
+
+	function BfabTheme() {
+		classCallCheck_default()(this, BfabTheme);
+
+		return possibleConstructorReturn_default()(this, (BfabTheme.__proto__ || get_prototype_of_default()(BfabTheme)).apply(this, arguments));
+	}
+
+	return BfabTheme;
+}(classic_BigFancyAdClassicTheme);
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/classic/index.js
+
+// CONCATENATED MODULE: ./src/ad-products/templates/uap/themes/factory.js
+
+
+
+
+
+
+var factory_BigFancyAdThemeFactory = function () {
+	function BigFancyAdThemeFactory() {
+		classCallCheck_default()(this, BigFancyAdThemeFactory);
+	}
+
+	createClass_default()(BigFancyAdThemeFactory, [{
+		key: 'makeAboveTheme',
+		value: function makeAboveTheme(adSlot, params) {
+			return params.theme === 'hivi' ? new hivi_bfaa_BfaaHiviTheme(adSlot, params) : new classic_BfaaTheme(adSlot, params);
+		}
+	}, {
+		key: 'makeBelowTheme',
+		value: function makeBelowTheme(adSlot, params) {
+			return params.theme === 'hivi' ? new hivi_bfab_BfabHiviTheme(adSlot, params) : new classic_BfabTheme(adSlot, params);
+		}
+	}]);
+
+	return BigFancyAdThemeFactory;
+}();
+
+var bfaThemeFactory = new factory_BigFancyAdThemeFactory();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/big-fancy-ad-above.js
 
 
@@ -4428,39 +4891,17 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 			this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 			// TODO: End of hack
 
-			var uapTheme = this.params.theme === 'hivi' ? hivi_namespaceObject : themes_classic_namespaceObject;
-
 			universalAdPackage.init(this.params, this.config.slotsToEnable);
 			this.videoSettings = new video_settings_VideoSettings(this.params);
 			this.container.style.backgroundColor = this.getBackgroundColor();
 			this.container.classList.add('bfaa-template');
-			this.theme = new uapTheme.BfaaTheme(this.adSlot, this.params);
+			this.theme = bfaThemeFactory.makeAboveTheme(this.adSlot, this.params);
 
-			uapTheme.adIsReady({
-				adSlot: this.adSlot,
-				videoSettings: this.videoSettings,
-				params: this.params
-			}).then(function (iframe) {
+			this.theme.adIsReady(this.videoSettings).then(function (iframe) {
 				return _this.onAdReady(iframe);
 			});
 
 			this.config.onInit(this.adSlot, this.params, this.config);
-		}
-	}, {
-		key: 'setupNavbar',
-		value: function setupNavbar() {
-			var desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
-			var mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
-			var slotParent = this.container.parentNode;
-			var sibling = document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
-
-			if (mobileNavbarWrapper) {
-				slotParent.insertBefore(mobileNavbarWrapper, sibling);
-			}
-
-			if (desktopNavbarWrapper) {
-				slotParent.insertBefore(desktopNavbarWrapper, sibling);
-			}
 		}
 	}, {
 		key: 'getBackgroundColor',
@@ -4481,9 +4922,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 								this.config.mainContainer.style.paddingTop = iframe.parentElement.style.paddingBottom;
 								this.config.mainContainer.classList.add('has-bfaa');
 
-								if (this.config.handleNavbar) {
-									this.setupNavbar();
-								}
+								navbarManager.setup(this.config, this.container);
 
 								if (!document.hidden) {
 									_context.next = 6;
@@ -4495,7 +4934,7 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 
 							case 6:
 
-								this.theme.onAdReady(iframe);
+								this.theme.onAdReady();
 
 								if (!universalAdPackage.isVideoEnabled(this.params)) {
 									_context.next = 14;
@@ -4541,7 +4980,6 @@ var big_fancy_ad_above_BigFancyAdAbove = function () {
 	return BigFancyAdAbove;
 }();
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/big-fancy-ad-below.js
-
 
 
 
@@ -4614,20 +5052,14 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 			this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 			// TODO: End of hack
 
-			var uapTheme = this.params.theme === 'hivi' ? hivi_namespaceObject : themes_classic_namespaceObject;
-
 			universalAdPackage.initSlot(params);
 
 			this.container.classList.add('bfab-template');
 			this.videoSettings = new video_settings_VideoSettings(params);
-			this.theme = new uapTheme.BfabTheme(this.adSlot, this.params);
+			this.theme = bfaThemeFactory.makeBelowTheme(this.adSlot, this.params);
 
-			uapTheme.adIsReady({
-				adSlot: this.adSlot,
-				videoSettings: this.videoSettings,
-				params: this.params
-			}).then(function (iframe) {
-				return _this.onAdReady(iframe);
+			this.theme.adIsReady(this.videoSettings).then(function () {
+				return _this.onAdReady();
 			});
 
 			this.config.onInit(this.adSlot, this.params, this.config);
@@ -4635,7 +5067,7 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 	}, {
 		key: 'onAdReady',
 		value: function () {
-			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(iframe) {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
 				var video;
 				return regenerator_default.a.wrap(function _callee$(_context) {
 					while (1) {
@@ -4651,7 +5083,7 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 
 							case 3:
 
-								this.theme.onAdReady(iframe);
+								this.theme.onAdReady();
 
 								if (!universalAdPackage.isVideoEnabled(this.params)) {
 									_context.next = 9;
@@ -4675,7 +5107,7 @@ var big_fancy_ad_below_BigFancyAdBelow = function () {
 				}, _callee, this);
 			}));
 
-			function onAdReady(_x) {
+			function onAdReady() {
 				return _ref.apply(this, arguments);
 			}
 
@@ -5690,8 +6122,8 @@ var jwplayerAdsFactory = {
 
 
 /***/ }),
-/* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin

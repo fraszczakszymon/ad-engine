@@ -52,4 +52,41 @@ describe('Pubmatic bidder adapter', () => {
 			},
 		]);
 	});
+
+	it('prepareAdUnits for video returns data in correct shape', () => {
+		const pubmatic = new Pubmatic({
+			enabled: true,
+			publisherId: '112233',
+			slots: {
+				featured: {
+					sizes: [[0, 0]],
+					ids: ['1636187@0x0'],
+				},
+			},
+		});
+
+		expect(pubmatic.prepareAdUnits()).to.deep.equal([
+			{
+				code: 'featured',
+				mediaTypes: {
+					video: {
+						playerSize: [640, 480],
+						context: 'instream',
+					},
+				},
+				bids: [
+					{
+						bidder: 'pubmatic',
+						params: {
+							adSlot: '1636187@0x0',
+							publisherId: '112233',
+							video: {
+								mimes: ['video/mp4', 'video/x-flv'],
+							},
+						},
+					},
+				],
+			},
+		]);
+	});
 });

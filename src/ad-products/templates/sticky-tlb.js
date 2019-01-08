@@ -1,4 +1,4 @@
-import { scrollListener, utils } from '@wikia/ad-engine';
+import { scrollListener, SlotTweaker, utils } from '@wikia/ad-engine';
 import { navbarManager } from '../utils';
 import AdvertisementLabel from './interface/advertisement-label';
 import { animate } from './interface/animate';
@@ -102,9 +102,9 @@ export class StickyTLB extends StickyBase {
 		stickinessBeforeCallback.call(this.config, this.adSlot, this.params);
 
 		if (isSticky) {
-			this.onUnstick();
+			this.onStick();
 		} else {
-			await this.onStick();
+			await this.onUnstick();
 		}
 
 		stickinessAfterCallback.call(this.config, this.adSlot, this.params);
@@ -114,7 +114,7 @@ export class StickyTLB extends StickyBase {
 	/**
 	 * @protected
 	 */
-	async onStick() {
+	async onUnstick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
 		this.config.moveNavbar(0, SLIDE_OUT_TIME);
 		await animate(this.container, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
@@ -126,25 +126,27 @@ export class StickyTLB extends StickyBase {
 	/**
 	 * @protected
 	 */
-	onUnstick() {
+	onStick() {
 		this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
 		this.container.classList.add(CSS_CLASSNAME_STICKY_BFAA);
+
+		this.addCloseButton();
 	}
 
 	/**
 	 * @protected
 	 */
 	unstickImmediately() {
-		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 		this.config.moveNavbar(0, 0);
 		scrollListener.removeCallback(this.scrollListener);
 		this.container.classList.remove(CSS_CLASSNAME_STICKY_BFAA);
 		this.container.classList.add('theme-resolved');
 		this.stickiness.sticky = false;
-		this.removeUnstickButton();
 		this.config.mainContainer.style.paddingTop = '0';
 		this.container.classList.add('hide');
 		utils.logger(logGroup, 'unstick immediately');
+
+		this.removeCloseButton();
 	}
 
 	/**
@@ -153,10 +155,26 @@ export class StickyTLB extends StickyBase {
 	addStickinessPlugin() {
 		this.container.classList.add(CSS_CLASSNAME_STICKY_IAB);
 		this.addUnstickLogic();
-		this.addUnstickButton(this.container);
 		this.addUnstickEvents();
 		this.stickiness.run();
 		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
+	}
+
+	/**
+	 * @private
+	 */
+	addCloseButton() {
+		this.addButton(this.container, () => {
+			this.stickiness.close();
+			this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
+		});
+	}
+
+	/**
+	 * @private
+	 */
+	removeCloseButton() {
+		this.removeButton();
 	}
 
 	/**
