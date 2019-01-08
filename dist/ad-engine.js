@@ -5756,9 +5756,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.0.0');
-set_default()(window, commitField, '78dfc8c');
-logger('ad-engine', 'v23.0.0 (78dfc8c)');
+set_default()(window, versionField, 'v23.0.1');
+set_default()(window, commitField, '0b0c952');
+logger('ad-engine', 'v23.0.1 (0b0c952)');
 
 
 
