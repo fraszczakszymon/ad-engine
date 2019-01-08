@@ -230,7 +230,7 @@ describe('Bill the Lizard service', () => {
 		});
 
 		it('should serialize all predictions if no callId is supplied', () => {
-			expect(billTheLizard.serialize()).to.equal('a|0=1;a:0.0.1|1=2;b|foo=3');
+			expect(billTheLizard.serialize()).to.equal('a|0=1,a:0.0.1|1=2,b|foo=3');
 		});
 
 		it('should serialize only predictions with callId matching the supplied one', () => {

@@ -23,6 +23,7 @@ export class Rubicon extends BaseAdapter {
 			mediaTypes: {
 				video: {
 					playerSize: [640, 480],
+					context: 'instream',
 				},
 			},
 			bids: [
