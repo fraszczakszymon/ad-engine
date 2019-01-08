@@ -1,15 +1,20 @@
 import { buildVastUrl, context, utils } from '@wikia/ad-engine';
 import { BaseAdapter } from './base-adapter';
 
+const price = utils.queryString.get('wikia_video_adapter');
+const limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
+const timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
+const useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
+
 export class WikiaVideo extends BaseAdapter {
 	constructor(options) {
 		super(options);
 
 		this.bidderName = 'wikiaVideo';
-		this.enabled = !!utils.queryString.get('wikia_video_adapter');
-		this.useRandomPrice = utils.queryString.get('wikia_adapter_random') === '1';
-		this.timeout = parseInt(utils.queryString.get('wikia_adapter_timeout'), 10) || 0;
-		this.limit = parseInt(utils.queryString.get('wikia_adapter_limit'), 10) || 99;
+		this.enabled = !!price;
+		this.limit = limit;
+		this.useRandomPrice = useRandomPrice;
+		this.timeout = timeout;
 
 		this.create = () => this;
 	}
@@ -39,8 +44,6 @@ export class WikiaVideo extends BaseAdapter {
 	}
 
 	getPrice() {
-		const price = utils.queryString.get('wikia_video_adapter');
-
 		if (this.useRandomPrice) {
 			return Math.floor(Math.random() * 20);
 		}

@@ -81,10 +81,6 @@ function requestBids({ responseListener = null }) {
 	const config = context.get('bidders');
 
 	if (config.prebid && config.prebid.enabled) {
-		if (!events.PREBID_LAZY_CALL) {
-			events.registerEvent('PREBID_LAZY_CALL');
-		}
-
 		biddersRegistry.prebid = new Prebid(config.prebid, config.timeout);
 	}
 
