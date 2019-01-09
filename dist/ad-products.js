@@ -3770,7 +3770,7 @@ var hivi_bfaa_BfaaTheme = function (_BigFancyAdHiviTheme) {
 			this.config.mainContainer.style.paddingTop = '0';
 
 			this.adSlot.disable();
-			this.adSlot.collapse();
+			ad_engine_["slotTweaker"].hide(this.adSlot);
 		}
 	}, {
 		key: 'unstickImmediately',
@@ -4302,7 +4302,7 @@ var hivi_bfab_BfabTheme = function (_BigFancyAdHiviTheme) {
 
 			this.adSlot.getElement().parentNode.style.height = null;
 			this.adSlot.disable();
-			this.adSlot.collapse();
+			ad_engine_["slotTweaker"].hide(this.adSlot);
 		}
 	}, {
 		key: 'unstickImmediately',

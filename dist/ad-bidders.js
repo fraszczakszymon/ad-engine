@@ -2467,7 +2467,7 @@ function runOnBiddingReady(callback) {
 		responses.push(bidder.waitForResponse());
 	});
 
-	return promise_default.a.race(responses).then(callback);
+	return promise_default.a.all(responses).then(callback);
 }
 
 function storeRealSlotPrices(slotName) {
