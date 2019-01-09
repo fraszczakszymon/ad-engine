@@ -28,12 +28,15 @@ export class BaseBidder {
 		utils.logger(this.logGroup, 'called');
 	}
 
-	createWithTimeout(func, msToTimeout = 2000) {
-		const timeout = new Promise((resolve, reject) => {
-			setTimeout(reject, msToTimeout);
-		});
-
-		return Promise.race([new Promise(func), timeout]);
+	/**
+	 * Returns bidder slot alias if available, otherwise slot name
+	 *
+	 * @param {string} slotName
+	 *
+	 * @returns {string}
+	 */
+	getSlotAlias(slotName) {
+		return context.get(`slots.${slotName}.bidderAlias`) || slotName;
 	}
 
 	getSlotBestPrice(slotName) {
@@ -88,8 +91,13 @@ export class BaseBidder {
 		});
 	}
 
+	/**
+	 * Fires the Promise if bidder replied or timeout is reached
+	 *
+	 * @returns {Promise}
+	 */
 	waitForResponse() {
-		return this.createWithTimeout((resolve) => {
+		return utils.createWithTimeout((resolve) => {
 			if (this.hasResponse()) {
 				resolve();
 			} else {
@@ -98,17 +106,12 @@ export class BaseBidder {
 		}, this.timeout);
 	}
 
+	/**
+	 * Check if bidder was called
+	 *
+	 * @returns {boolean}
+	 */
 	wasCalled() {
 		return this.called;
-	}
-
-	/**
-	 * Returns bidder slot alias if available, otherwise slot name.
-	 *
-	 * @param {string} slotName
-	 * @returns {string}
-	 */
-	getSlotAlias(slotName) {
-		return context.get(`slots.${slotName}.bidderAlias`) || slotName;
 	}
 }

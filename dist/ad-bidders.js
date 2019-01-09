@@ -140,13 +140,13 @@ module.exports = require("babel-runtime/core-js/object/get-own-property-descript
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/helpers/extends");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/extends");
+module.exports = require("babel-runtime/core-js/promise");
 
 /***/ }),
 /* 13 */
@@ -162,6 +162,10 @@ __webpack_require__.d(prebid_helper_namespaceObject, "getPrebid", function() { r
 __webpack_require__.d(prebid_helper_namespaceObject, "getTargeting", function() { return getTargeting; });
 __webpack_require__.d(prebid_helper_namespaceObject, "getWinningVideoBidBySlotName", function() { return getWinningVideoBidBySlotName; });
 __webpack_require__.d(prebid_helper_namespaceObject, "pushPrebid", function() { return pushPrebid; });
+
+// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
+var promise_ = __webpack_require__(12);
+var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
 var assign_ = __webpack_require__(8);
@@ -194,12 +198,7 @@ var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possi
 var inherits_ = __webpack_require__(3);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/promise"
-var promise_ = __webpack_require__(11);
-var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
-
 // CONCATENATED MODULE: ./src/ad-bidders/base-bidder.js
-
 
 
 
@@ -242,16 +241,19 @@ var base_bidder_BaseBidder = function () {
 
 			ad_engine_["utils"].logger(this.logGroup, 'called');
 		}
+
+		/**
+   * Returns bidder slot alias if available, otherwise slot name
+   *
+   * @param {string} slotName
+   *
+   * @returns {string}
+   */
+
 	}, {
-		key: 'createWithTimeout',
-		value: function createWithTimeout(func) {
-			var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
-
-			var timeout = new promise_default.a(function (resolve, reject) {
-				setTimeout(reject, msToTimeout);
-			});
-
-			return promise_default.a.race([new promise_default.a(func), timeout]);
+		key: 'getSlotAlias',
+		value: function getSlotAlias(slotName) {
+			return ad_engine_["context"].get('slots.' + slotName + '.bidderAlias') || slotName;
 		}
 	}, {
 		key: 'getSlotBestPrice',
@@ -314,12 +316,19 @@ var base_bidder_BaseBidder = function () {
 				callback(_this2.name);
 			});
 		}
+
+		/**
+   * Fires the Promise if bidder replied or timeout is reached
+   *
+   * @returns {Promise}
+   */
+
 	}, {
 		key: 'waitForResponse',
 		value: function waitForResponse() {
 			var _this3 = this;
 
-			return this.createWithTimeout(function (resolve) {
+			return ad_engine_["utils"].createWithTimeout(function (resolve) {
 				if (_this3.hasResponse()) {
 					resolve();
 				} else {
@@ -327,23 +336,17 @@ var base_bidder_BaseBidder = function () {
 				}
 			}, this.timeout);
 		}
+
+		/**
+   * Check if bidder was called
+   *
+   * @returns {boolean}
+   */
+
 	}, {
 		key: 'wasCalled',
 		value: function wasCalled() {
 			return this.called;
-		}
-
-		/**
-   * Returns bidder slot alias if available, otherwise slot name.
-   *
-   * @param {string} slotName
-   * @returns {string}
-   */
-
-	}, {
-		key: 'getSlotAlias',
-		value: function getSlotAlias(slotName) {
-			return ad_engine_["context"].get('slots.' + slotName + '.bidderAlias') || slotName;
 		}
 	}]);
 
@@ -1206,7 +1209,7 @@ var openx_Openx = function (_BaseAdapter) {
 	return Openx;
 }(base_adapter_BaseAdapter);
 // EXTERNAL MODULE: external "babel-runtime/helpers/extends"
-var extends_ = __webpack_require__(12);
+var extends_ = __webpack_require__(11);
 var extends_default = /*#__PURE__*/__webpack_require__.n(extends_);
 
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/pubmatic.js
@@ -1922,11 +1925,36 @@ function getAdapters(config) {
 
 
 
+var DEFAULT_MAX_CPM = 20;
+var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
+
 function isValidPrice(bid) {
 	return bid.getStatusCode && bid.getStatusCode() === prebid_Prebid.validResponseStatusCode;
 }
 
-var DEFAULT_MAX_CPM = 20;
+function transformPriceFromCpm(cpm) {
+	var maxCpm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_MAX_CPM;
+
+	maxCpm = Math.max(maxCpm, DEFAULT_MAX_CPM);
+
+	var result = Math.floor(maxCpm).toFixed(2);
+
+	if (cpm === 0) {
+		result = '0.00';
+	} else if (cpm < 0.05) {
+		result = '0.01';
+	} else if (cpm < 5.0) {
+		result = (Math.floor(cpm * 20) / 20).toFixed(2);
+	} else if (cpm < 10.0) {
+		result = (Math.floor(cpm * 10) / 10).toFixed(2);
+	} else if (cpm < 20.0) {
+		result = (Math.floor(cpm * 2) / 2).toFixed(2);
+	} else if (cpm < maxCpm) {
+		result = Math.floor(cpm).toFixed(2);
+	}
+
+	return result;
+}
 
 function getPrebidBestPrice(slotName) {
 	var bestPrices = {};
@@ -1953,35 +1981,18 @@ function getPrebidBestPrice(slotName) {
 	return bestPrices;
 }
 
-function transformPriceFromCpm(cpm, maxCpm) {
-	maxCpm = maxCpm || DEFAULT_MAX_CPM;
-	if (maxCpm < DEFAULT_MAX_CPM) {
-		maxCpm = DEFAULT_MAX_CPM;
+function transformPriceFromBid(bid) {
+	var maxCpm = DEFAULT_MAX_CPM;
+
+	if (videoBiddersCap50.includes(bid.bidderCode)) {
+		maxCpm = 50;
 	}
 
-	var result = Math.floor(maxCpm).toFixed(2);
-
-	if (cpm === 0) {
-		result = '0.00';
-	} else if (cpm < 0.05) {
-		result = '0.01';
-	} else if (cpm < 5.0) {
-		result = (Math.floor(cpm * 20) / 20).toFixed(2);
-	} else if (cpm < 10.0) {
-		result = (Math.floor(cpm * 10) / 10).toFixed(2);
-	} else if (cpm < 20.0) {
-		result = (Math.floor(cpm * 2) / 2).toFixed(2);
-	} else if (cpm < maxCpm) {
-		result = Math.floor(cpm).toFixed(2);
-	}
-
-	return result;
+	return transformPriceFromCpm(bid.cpm, maxCpm);
 }
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/prebid-settings.js
 
 
-
-var videoBiddersCap50 = ['appnexusAst', 'rubicon', 'wikiaVideo']; // bidders with $50 cap
 
 var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
 
@@ -2004,13 +2015,7 @@ function getSettings() {
 			}, {
 				key: 'hb_pb',
 				val: function val(bidResponse) {
-					var maxCpm = DEFAULT_MAX_CPM;
-
-					if (videoBiddersCap50.includes(bidResponse.bidderCode)) {
-						maxCpm = 50;
-					}
-
-					return transformPriceFromCpm(bidResponse.cpm, maxCpm);
+					return transformPriceFromBid(bidResponse);
 				}
 			}, {
 				key: 'hb_size',
@@ -2339,6 +2344,8 @@ prebid_Prebid.errorResponseStatusCode = 2;
 
 
 
+
+
 var biddersRegistry = {};
 var realSlotPrices = {};
 var ad_bidders_logGroup = 'bidders';
@@ -2353,6 +2360,11 @@ function applyTargetingParams(slotName, targeting) {
 	});
 }
 
+/**
+ * Executes callback function on each enabled bidder
+ *
+ * @param {function} callback
+ */
 function forEachBidder(callback) {
 	keys_default()(biddersRegistry).forEach(function (bidderName) {
 		callback(biddersRegistry[bidderName]);
@@ -2393,6 +2405,11 @@ function getDfpSlotPrices(slotName) {
 	return realSlotPrices[slotName] || {};
 }
 
+/**
+ * Returns true if all bidders replied
+ *
+ * @returns {boolean}
+ */
 function hasAllResponses() {
 	var missingBidders = keys_default()(biddersRegistry).filter(function (bidderName) {
 		var bidder = biddersRegistry[bidderName];
@@ -2436,6 +2453,23 @@ function requestBids(_ref) {
 	});
 }
 
+/**
+ * Executes callback function if bidding is finished or timeout is reached
+ *
+ * @param {function} callback
+ *
+ * @returns {Promise}
+ */
+function runOnBiddingReady(callback) {
+	var responses = [];
+
+	forEachBidder(function (bidder) {
+		responses.push(bidder.waitForResponse());
+	});
+
+	return promise_default.a.all(responses).then(callback);
+}
+
 function storeRealSlotPrices(slotName) {
 	realSlotPrices[slotName] = getCurrentSlotPrices(slotName);
 }
@@ -2454,11 +2488,14 @@ function updateSlotTargeting(slotName) {
 }
 
 var ad_bidders_bidders = {
+	getBidParameters: getBidParameters,
 	getCurrentSlotPrices: getCurrentSlotPrices,
 	getDfpSlotPrices: getDfpSlotPrices,
 	hasAllResponses: hasAllResponses,
 	prebidHelper: prebid_helper_namespaceObject,
 	requestBids: requestBids,
+	runOnBiddingReady: runOnBiddingReady,
+	transformPriceFromBid: transformPriceFromBid,
 	updateSlotTargeting: updateSlotTargeting
 };
 
