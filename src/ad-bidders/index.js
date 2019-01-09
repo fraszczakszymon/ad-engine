@@ -122,7 +122,7 @@ function runOnBiddingReady(callback) {
 		responses.push(bidder.waitForResponse());
 	});
 
-	return Promise.race(responses).then(callback);
+	return Promise.all(responses).then(callback);
 }
 
 function storeRealSlotPrices(slotName) {
