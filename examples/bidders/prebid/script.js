@@ -34,6 +34,10 @@ bidders.requestBids({
 	},
 });
 
+bidders.runOnBiddingReady(() => {
+	console.log('⛳ Prebid bidding completed');
+});
+
 events.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());
 });

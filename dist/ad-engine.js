@@ -244,6 +244,7 @@ __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", func
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
 __webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
 __webpack_require__.d(utils_namespaceObject, "getContinentCode", function() { return getContinentCode; });
@@ -655,6 +656,24 @@ function flow_control_once(emitter, eventName) {
 			reject(new Error('Emitter does not have `addEventListener` nor `once` method.'));
 		}
 	});
+}
+
+/**
+ * Fires the Promise if function is fulfilled or timeout is reached
+ *
+ * @param {function} func
+ * @param {int} msToTimeout
+ *
+ * @returns {Promise}
+ */
+function createWithTimeout(func) {
+	var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
+
+	var timeout = new promise_default.a(function (resolve, reject) {
+		setTimeout(reject, msToTimeout);
+	});
+
+	return promise_default.a.race([new promise_default.a(func), timeout]);
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
 var stringify_ = __webpack_require__(4);
@@ -5757,8 +5776,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.0.2');
-set_default()(window, commitField, 'ed00fb57');
-logger('ad-engine', 'v23.0.2 (ed00fb57)');
+set_default()(window, commitField, '9f623699');
+logger('ad-engine', 'v23.0.2 (9f623699)');
 
 
 

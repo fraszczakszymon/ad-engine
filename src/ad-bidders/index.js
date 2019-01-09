@@ -18,6 +18,11 @@ function applyTargetingParams(slotName, targeting) {
 	);
 }
 
+/**
+ * Executes callback function on each enabled bidder
+ *
+ * @param {function} callback
+ */
 function forEachBidder(callback) {
 	Object.keys(biddersRegistry).forEach((bidderName) => {
 		callback(biddersRegistry[bidderName]);
@@ -58,6 +63,11 @@ function getDfpSlotPrices(slotName) {
 	return realSlotPrices[slotName] || {};
 }
 
+/**
+ * Returns true if all bidders replied
+ *
+ * @returns {boolean}
+ */
 function hasAllResponses() {
 	const missingBidders = Object.keys(biddersRegistry).filter((bidderName) => {
 		const bidder = biddersRegistry[bidderName];
@@ -98,6 +108,23 @@ function requestBids({ responseListener = null }) {
 	});
 }
 
+/**
+ * Executes callback function if bidding is finished or timeout is reached
+ *
+ * @param {function} callback
+ *
+ * @returns {Promise}
+ */
+function runOnBiddingReady(callback) {
+	const responses = [];
+
+	forEachBidder((bidder) => {
+		responses.push(bidder.waitForResponse());
+	});
+
+	return Promise.race(responses).then(callback);
+}
+
 function storeRealSlotPrices(slotName) {
 	realSlotPrices[slotName] = getCurrentSlotPrices(slotName);
 }
@@ -122,6 +149,7 @@ export const bidders = {
 	hasAllResponses,
 	prebidHelper,
 	requestBids,
+	runOnBiddingReady,
 	transformPriceFromBid,
 	updateSlotTargeting,
 };
