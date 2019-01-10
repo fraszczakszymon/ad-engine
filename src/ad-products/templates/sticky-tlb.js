@@ -50,6 +50,12 @@ export class StickyTLB extends StickyBase {
 	}
 
 	init(params) {
+		if (!this.isEnabled()) {
+			utils.logger(logGroup, 'stickiness rejected');
+
+			return;
+		}
+
 		this.setupStickiness(params);
 
 		this.container.style.backgroundColor = '#000';

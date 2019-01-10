@@ -45,6 +45,12 @@ export class StickyAd extends StickyBase {
 	}
 
 	init(params) {
+		if (!this.isEnabled()) {
+			utils.logger(logGroup, 'stickiness rejected');
+
+			return;
+		}
+
 		this.setupStickiness(params);
 		this.setTopOffset();
 		this.setLeftOffset();

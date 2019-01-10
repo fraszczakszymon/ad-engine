@@ -29,12 +29,6 @@ export class StickyBase {
 	setupStickiness(params) {
 		this.params = params;
 
-		if (!this.isEnabled()) {
-			utils.logger(logGroup, 'stickiness rejected');
-
-			return;
-		}
-
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
 		this.adSlot.onLoad().then(() => {
 			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
