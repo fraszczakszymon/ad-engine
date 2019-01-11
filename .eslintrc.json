@@ -88,7 +88,8 @@
 		],
 		"no-param-reassign": 0,
 		"no-use-before-define": 0,
-		"no-restricted-globals": 0
+		"no-restricted-globals": 0,
+		"no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
 	},
 	"globals": {
 		"document": false,
