@@ -142,6 +142,7 @@ export class BillTheLizard {
 	static ON_TIME = 'on_time';
 	static TIMEOUT = 'timeout';
 	static TOO_LATE = 'too_late';
+	static REUSED = 'reused';
 
 	constructor() {
 		this.executor = new Executor();
@@ -382,6 +383,33 @@ export class BillTheLizard {
 		}
 
 		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(',');
+	}
+
+	/**
+	 * Get prediction of previous calls.
+	 *
+	 * Uses a supplied callIdBuilder to construct callId
+	 * by iterating down from startId to 2.
+	 *
+	 * @param {number} startId
+	 * @param {function} callIdBuilder
+	 * @param {string} modelName
+	 * @returns {number | undefined}
+	 */
+	getPreviousPrediction(startId, callIdBuilder, modelName) {
+		if (startId <= 1) {
+			return undefined;
+		}
+		for (let backCounter = startId - 1; backCounter > 1; backCounter--) {
+			const callId = callIdBuilder(backCounter);
+			const prevStatus = this.getResponseStatus(callId);
+
+			if (prevStatus === BillTheLizard.ON_TIME || prevStatus === BillTheLizard.TOO_LATE) {
+				return this.getPrediction(modelName, callId);
+			}
+		}
+
+		return undefined;
 	}
 }
 
