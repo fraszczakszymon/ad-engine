@@ -39,6 +39,10 @@ export class LazyQueue {
 	 */
 	items = [];
 
+	get length() {
+		return this.items.length;
+	}
+
 	constructor(...items) {
 		this.items = [...items];
 		this.setPreFlushPush();
