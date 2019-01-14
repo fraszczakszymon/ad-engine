@@ -100,25 +100,17 @@ export class AdEngine {
 		}
 	}
 
-	runAdQueue() {
-		let timeout = null;
+	async runAdQueue() {
 		const delayModulesPromises = this.getDelayModulesPromises();
 		const maxTimeout = context.get('options.maxDelayTimeout');
+		const timeoutPromise = new Promise((resolve) => setTimeout(resolve, maxTimeout));
 
 		logger(logGroup, `Delay by ${delayModulesPromises.length} modules (${maxTimeout}ms timeout)`);
 
-		if (delayModulesPromises.length > 0) {
-			Promise.all(delayModulesPromises).then(() => {
-				logger(logGroup, 'startAdQueue', 'All modules ready');
-				this.flushAdStackQueue(timeout);
-			});
-			timeout = setTimeout(() => {
-				logger(logGroup, 'startAdQueue', 'Timeout reached');
-				this.flushAdStackQueue(timeout);
-			}, maxTimeout);
-		} else {
-			this.flushAdStackQueue(timeout);
-		}
+		await Promise.race([Promise.all(delayModulesPromises), timeoutPromise]);
+
+		logger(logGroup, 'startAdQueue', 'Ready');
+		this.flushAdStackQueue();
 	}
 
 	/**
@@ -139,13 +131,11 @@ export class AdEngine {
 
 	/**
 	 * @private
-	 * @param timeout
 	 */
-	flushAdStackQueue(timeout) {
+	flushAdStackQueue() {
 		if (!this.started) {
 			events.emit(events.AD_STACK_START);
 			this.started = true;
-			clearTimeout(timeout);
 			this.adStackQueue.flush();
 		}
 	}
