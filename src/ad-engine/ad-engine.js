@@ -17,18 +17,6 @@ import { AdSlot } from './models';
 
 const logGroup = 'ad-engine';
 
-function getPromises() {
-	return (
-		(context.get('delayModules') || [])
-			.filter((module) => module.isEnabled())
-			.map((module) => {
-				logger(logGroup, 'Register delay module', module.getName());
-
-				return module.getPromise();
-			}) || []
-	);
-}
-
 export class AdEngine {
 	constructor(config = null) {
 		context.extend(config);
@@ -41,10 +29,28 @@ export class AdEngine {
 
 		events.on(events.PAGE_CHANGE_EVENT, () => {
 			this.started = false;
-			this.setupQueue();
+			this.setupAdStackQueue();
 		});
 	}
 
+	init() {
+		this.setupProviders();
+		this.setupAdStackQueue();
+		btfBlockerService.init();
+
+		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
+		messageBus.init();
+		slotTweaker.registerMessageListener();
+		this.runAdQueue();
+
+		scrollListener.init();
+		slotRepeater.init();
+		this.setupPushOnScrollQueue();
+	}
+
+	/**
+	 * @private
+	 */
 	setupProviders() {
 		const providerName = context.get('state.provider');
 
@@ -58,76 +64,89 @@ export class AdEngine {
 		}
 	}
 
-	setupQueue() {
+	/**
+	 * @private
+	 */
+	setupAdStackQueue() {
 		const adStack = context.get('state.adStack');
 
 		if (adStack instanceof LazyQueue) {
 			return;
 		}
 
-		this.adStack = new LazyQueue(adStack);
-		this.adStack.onItemFlush((ad) => {
+		this.adStackQueue = new LazyQueue(adStack);
+		this.adStackQueue.onItemFlush((ad) => {
 			const adSlot = new AdSlot(ad);
 
 			slotService.add(adSlot);
 			this.provider.fillIn(adSlot);
 		});
-		context.set('state.adStack', this.adStack);
+		context.set('state.adStack', this.adStackQueue);
 	}
 
-	runAdQueue() {
-		let timeout = null;
-
-		const promises = getPromises();
-		const startAdQueue = () => {
-			if (!this.started) {
-				events.emit(events.AD_STACK_START);
-				this.started = true;
-				clearTimeout(timeout);
-				this.adStack.flush();
-			}
-		};
-
-		const maxTimeout = context.get('options.maxDelayTimeout');
-
-		logger(logGroup, `Delay by ${promises.length} modules (${maxTimeout}ms timeout)`);
-
-		if (promises.length > 0) {
-			Promise.all(promises).then(() => {
-				logger(logGroup, 'startAdQueue', 'All modules ready');
-				startAdQueue();
-			});
-			timeout = setTimeout(() => {
-				logger(logGroup, 'startAdQueue', 'Timeout reached');
-				startAdQueue();
-			}, maxTimeout);
-		} else {
-			startAdQueue();
-		}
-	}
-
-	init() {
-		this.setupProviders();
-		this.setupQueue();
-		btfBlockerService.init();
-
-		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
-		messageBus.init();
-		slotTweaker.registerMessageListener();
-		this.runAdQueue();
-
-		scrollListener.init();
-		slotRepeater.init();
-
+	/**
+	 * @private
+	 */
+	setupPushOnScrollQueue() {
 		if (context.get('events.pushOnScroll')) {
 			const pushOnScrollIds = context.get('events.pushOnScroll.ids');
 			const pushOnScrollQueue = new LazyQueue(pushOnScrollIds);
 
 			pushOnScrollQueue.onItemFlush((id) => {
-				scrollListener.addSlot(this.adStack, id, context.get('events.pushOnScroll.threshold'));
+				scrollListener.addSlot(this.adStackQueue, id, context.get('events.pushOnScroll.threshold'));
 			});
 			context.set('events.pushOnScroll.ids', pushOnScrollQueue);
 			pushOnScrollQueue.flush();
+		}
+	}
+
+	runAdQueue() {
+		let timeout = null;
+		const delayModulesPromises = this.getDelayModulesPromises();
+		const maxTimeout = context.get('options.maxDelayTimeout');
+
+		logger(logGroup, `Delay by ${delayModulesPromises.length} modules (${maxTimeout}ms timeout)`);
+
+		if (delayModulesPromises.length > 0) {
+			Promise.all(delayModulesPromises).then(() => {
+				logger(logGroup, 'startAdQueue', 'All modules ready');
+				this.flushAdStackQueue(timeout);
+			});
+			timeout = setTimeout(() => {
+				logger(logGroup, 'startAdQueue', 'Timeout reached');
+				this.flushAdStackQueue(timeout);
+			}, maxTimeout);
+		} else {
+			this.flushAdStackQueue(timeout);
+		}
+	}
+
+	/**
+	 * @private
+	 * @returns {*[]}
+	 */
+	getDelayModulesPromises() {
+		const delayModules = context.get('delayModules') || [];
+
+		return delayModules
+			.filter((delayModule) => delayModule.isEnabled())
+			.map((delayModule) => {
+				logger(logGroup, 'Register delay module', delayModule.getName());
+
+				return delayModule.getPromise();
+			});
+	}
+
+	/**
+	 * @private
+	 * @param timeout
+	 */
+	flushAdStackQueue(timeout) {
+		if (!this.started) {
+			events.emit(events.AD_STACK_START);
+			this.started = true;
+			clearTimeout(timeout);
+			this.adStackQueue.flush();
 		}
 	}
 }
