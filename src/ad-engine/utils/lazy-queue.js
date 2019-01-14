@@ -25,23 +25,26 @@ export function makeLazyQueue(queue, callback) {
  * example: https://stackblitz.com/edit/wikia-lazy-queue
  */
 export class LazyQueue {
+	get length() {
+		return this.items.length;
+	}
+
 	// itemFlushed = {}; // RxJs Subject
+
 	/**
 	 * @private
 	 */
 	itemFlushCallbacks = [];
+
 	/**
 	 * @private
 	 */
 	pushCommand = undefined;
+
 	/**
 	 * @private
 	 */
 	items = [];
-
-	get length() {
-		return this.items.length;
-	}
 
 	constructor(...items) {
 		this.items = [...items];
