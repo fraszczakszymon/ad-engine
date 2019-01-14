@@ -74,7 +74,7 @@ export class AdEngine {
 			return;
 		}
 
-		this.adStackQueue = new LazyQueue(adStack);
+		this.adStackQueue = new LazyQueue(...adStack);
 		this.adStackQueue.onItemFlush((ad) => {
 			const adSlot = new AdSlot(ad);
 
@@ -90,7 +90,7 @@ export class AdEngine {
 	setupPushOnScrollQueue() {
 		if (context.get('events.pushOnScroll')) {
 			const pushOnScrollIds = context.get('events.pushOnScroll.ids');
-			const pushOnScrollQueue = new LazyQueue(pushOnScrollIds);
+			const pushOnScrollQueue = new LazyQueue(...pushOnScrollIds);
 
 			pushOnScrollQueue.onItemFlush((id) => {
 				scrollListener.addSlot(this.adStackQueue, id, context.get('events.pushOnScroll.threshold'));
