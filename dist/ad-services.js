@@ -804,6 +804,36 @@ var bill_the_lizard_BillTheLizard = function () {
 				return pred.modelName + '|' + pred.callId + '=' + pred.result;
 			}).join(',');
 		}
+
+		/**
+   * Get prediction of previous calls.
+   *
+   * Uses a supplied callIdBuilder to construct callId
+   * by iterating down from startId to 2.
+   *
+   * @param {number} startId
+   * @param {function} callIdBuilder
+   * @param {string} modelName
+   * @returns {number | undefined}
+   */
+
+	}, {
+		key: 'getPreviousPrediction',
+		value: function getPreviousPrediction(startId, callIdBuilder, modelName) {
+			if (startId <= 1) {
+				return undefined;
+			}
+			for (var backCounter = startId - 1; backCounter > 1; backCounter--) {
+				var callId = callIdBuilder(backCounter);
+				var prevStatus = this.getResponseStatus(callId);
+
+				if (prevStatus === BillTheLizard.ON_TIME || prevStatus === BillTheLizard.TOO_LATE) {
+					return this.getPrediction(modelName, callId);
+				}
+			}
+
+			return undefined;
+		}
 	}]);
 
 	return BillTheLizard;
@@ -814,6 +844,7 @@ bill_the_lizard_BillTheLizard.NOT_USED = 'not_used';
 bill_the_lizard_BillTheLizard.ON_TIME = 'on_time';
 bill_the_lizard_BillTheLizard.TIMEOUT = 'timeout';
 bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
+bill_the_lizard_BillTheLizard.REUSED = 'reused';
 var billTheLizard = new bill_the_lizard_BillTheLizard();
 // CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
 
