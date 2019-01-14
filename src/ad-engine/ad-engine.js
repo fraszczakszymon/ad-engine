@@ -1,4 +1,4 @@
-import { logger, makeLazyQueue } from './utils';
+import { LazyQueue, logger } from './utils';
 import { FloatingAd } from './templates';
 import { GptProvider, PrebidiumProvider } from './providers';
 import { scrollListener } from './listeners';
@@ -59,15 +59,20 @@ export class AdEngine {
 	}
 
 	setupQueue() {
-		this.adStack = context.get('state.adStack');
-		if (!this.adStack.start) {
-			makeLazyQueue(this.adStack, (ad) => {
-				const adSlot = new AdSlot(ad);
+		const adStack = context.get('state.adStack');
 
-				slotService.add(adSlot);
-				this.provider.fillIn(adSlot);
-			});
+		if (adStack instanceof LazyQueue) {
+			return;
 		}
+
+		this.adStack = new LazyQueue(adStack);
+		this.adStack.onItemFlush((ad) => {
+			const adSlot = new AdSlot(ad);
+
+			slotService.add(adSlot);
+			this.provider.fillIn(adSlot);
+		});
+		context.set('state.adStack', this.adStack);
 	}
 
 	runAdQueue() {
@@ -79,7 +84,7 @@ export class AdEngine {
 				events.emit(events.AD_STACK_START);
 				this.started = true;
 				clearTimeout(timeout);
-				this.adStack.start();
+				this.adStack.flush();
 			}
 		};
 
@@ -115,12 +120,14 @@ export class AdEngine {
 		slotRepeater.init();
 
 		if (context.get('events.pushOnScroll')) {
-			const pushOnScrollQueue = context.get('events.pushOnScroll.ids');
+			const pushOnScrollIds = context.get('events.pushOnScroll.ids');
+			const pushOnScrollQueue = new LazyQueue(pushOnScrollIds);
 
-			makeLazyQueue(pushOnScrollQueue, (id) => {
+			pushOnScrollQueue.onItemFlush((id) => {
 				scrollListener.addSlot(this.adStack, id, context.get('events.pushOnScroll.threshold'));
 			});
-			pushOnScrollQueue.start();
+			context.set('events.pushOnScroll.ids', pushOnScrollQueue);
+			pushOnScrollQueue.flush();
 		}
 	}
 }
