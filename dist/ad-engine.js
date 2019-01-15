@@ -5791,8 +5791,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.1.4');
-set_default()(window, commitField, '0285a819');
-logger('ad-engine', 'v23.1.4 (0285a819)');
+set_default()(window, commitField, '619c88c');
+logger('ad-engine', 'v23.1.4 (619c88c)');
 
 
 
