@@ -4004,6 +4004,14 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.onLoadPromise = new promise_default.a(function (resolve) {
 			_this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
+
+		_this.logger = function () {
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return logger.apply(undefined, [AdSlot.LOG_GROUP].concat(args));
+		};
 		return _this;
 	}
 
@@ -4192,9 +4200,15 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			if (!event.isEmpty && event.slot) {
 				var resp = event.slot.getResponseInformation();
 
-				if (resp && resp.creativeId === null && resp.lineItemId === null) {
-					creativeId = ADX;
-					lineItemId = ADX;
+				if (resp) {
+					if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
+						this.logger('set line item and creative id to source agnostic values');
+						creativeId = resp.sourceAgnosticCreativeId;
+						lineItemId = resp.sourceAgnosticLineItemId;
+					} else if (resp.creativeId === null && resp.lineItemId === null) {
+						creativeId = ADX;
+						lineItemId = ADX;
+					}
 				}
 			}
 
@@ -4217,6 +4231,7 @@ ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
@@ -5776,8 +5791,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.1.3');
-set_default()(window, commitField, 'd7a0800d');
-logger('ad-engine', 'v23.1.3 (d7a0800d)');
+set_default()(window, commitField, '2f153ed');
+logger('ad-engine', 'v23.1.3 (2f153ed)');
 
 
 
