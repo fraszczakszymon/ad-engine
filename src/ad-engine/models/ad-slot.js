@@ -197,7 +197,7 @@ export class AdSlot extends EventEmitter {
 
 			if (resp) {
 				if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
-					logger('set line item and creative id to source agnostic values');
+					this.logger('set line item and creative id to source agnostic values');
 					creativeId = resp.sourceAgnosticCreativeId;
 					lineItemId = resp.sourceAgnosticLineItemId;
 				} else if (resp.creativeId === null && resp.lineItemId === null) {
