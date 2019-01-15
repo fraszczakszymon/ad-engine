@@ -34,19 +34,16 @@ class Confiant {
 
 		utils.logger(logGroup, 'loading');
 
-		/* eslint-disable */
+		// eslint-disable-next-line  no-underscore-dangle
 		window._clrm = window._clrm || {};
+		// eslint-disable-next-line  no-underscore-dangle
 		window._clrm.gpt = {
-			propertyId: propertyId,
+			propertyId,
 			confiantCdn: scriptDomain,
 			sandbox: 0,
-			mapping: mapping,
-			activation: activation,
-			callback: function(blockingType, blockingId, isBlocked, wrapperId, tagId, impressionData) {
-				console.log('w00t one more bad ad nixed.', arguments);
-			},
+			mapping,
+			activation,
 		};
-		/* eslint-enable */
 
 		return loadScript().then(() => {
 			utils.logger(logGroup, 'ready');
