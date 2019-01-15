@@ -29,11 +29,11 @@ exports.config = {
 	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/errorScreenshots/',
-	baseUrl: 'http://localhost:8080',
+	baseUrl: `http://localhost:${process.env.AD_ENGINE_PORT || 8080}`,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone', networkCapture, 'visual-regression'],
+	services: ['static-server', 'selenium-standalone', networkCapture, 'visual-regression'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 	reporterOptions: {
@@ -57,4 +57,6 @@ exports.config = {
 		viewports: [{ width: 1600, height: 900 }],
 		orientations: ['landscape'],
 	},
+	staticServerFolders: [{ mount: '/', path: './examples' }],
+	staticServerPort: process.env.AD_ENGINE_PORT || 8080,
 };
