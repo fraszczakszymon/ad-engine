@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
+const portfinder = require('portfinder');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
@@ -33,7 +34,7 @@ exports.config = {
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['static-server', 'selenium-standalone', networkCapture, 'visual-regression'],
+	services: [networkCapture, 'static-server', 'selenium-standalone', 'visual-regression'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 	reporterOptions: {
@@ -46,6 +47,17 @@ exports.config = {
 		compilers: ['js:babel-core/register'],
 		timeout: 120000,
 	},
+	onPrepare(config) {
+		return new Promise((resolve) => {
+			portfinder.getPort((err, port) => {
+				config.baseUrl = `http://localhost:${process.env.AD_ENGINE_PORT || port}`;
+				config.staticServerPort = process.env.AD_ENGINE_PORT || port;
+
+				resolve();
+			});
+		});
+	},
+	staticServerFolders: [{ mount: '/', path: './examples' }],
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
 			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),
@@ -57,6 +69,4 @@ exports.config = {
 		viewports: [{ width: 1600, height: 900 }],
 		orientations: ['landscape'],
 	},
-	staticServerFolders: [{ mount: '/', path: './examples' }],
-	staticServerPort: process.env.AD_ENGINE_PORT || 8080,
 };
