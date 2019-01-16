@@ -902,7 +902,14 @@ var confiant_Confiant = function () {
 				confiantCdn: scriptDomain,
 				sandbox: 0,
 				mapping: mapping,
-				activation: activation
+				activation: activation,
+				callback: function callback() {
+					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+						args[_key] = arguments[_key];
+					}
+
+					console.log("w00t one more bad ad nixed.", args);
+				}
 			};
 
 			return loadScript().then(function () {
