@@ -5611,7 +5611,7 @@ function create(options) {
 		tracker.register(player);
 	}
 
-	var slotName = options.slotName || options.featured ? 'featured' : 'video';
+	var slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	var slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
 
 	if (!ad_engine_["slotService"].get(slotName)) {
