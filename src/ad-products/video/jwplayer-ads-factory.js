@@ -175,7 +175,7 @@ function create(options) {
 					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
 				};
 
-				if (slotName === 'featured') {
+				if (options.featured) {
 					fillInSlot();
 				} else {
 					btfBlockerService.push(slot, fillInSlot);
@@ -271,7 +271,7 @@ function create(options) {
 		tracker.register(player);
 	}
 
-	const slotName = options.featured ? 'featured' : 'video';
+	const slotName = options.slotName || options.featured ? 'featured' : 'video';
 	const slot = slotService.get(slotName) || new AdSlot({ id: slotName });
 
 	if (!slotService.get(slotName)) {
