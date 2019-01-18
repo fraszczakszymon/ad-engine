@@ -5514,7 +5514,7 @@ function create(options) {
 					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
 				};
 
-				if (slotName === 'featured') {
+				if (options.featured) {
 					fillInSlot();
 				} else {
 					ad_engine_["btfBlockerService"].push(slot, fillInSlot);
@@ -5611,7 +5611,7 @@ function create(options) {
 		tracker.register(player);
 	}
 
-	var slotName = options.featured ? 'featured' : 'video';
+	var slotName = options.slotName || options.featured ? 'featured' : 'video';
 	var slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
 
 	if (!ad_engine_["slotService"].get(slotName)) {
