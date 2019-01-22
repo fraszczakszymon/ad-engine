@@ -908,7 +908,7 @@ var confiant_Confiant = function () {
 						args[_key] = arguments[_key];
 					}
 
-					console.log("w00t one more bad ad nixed.", args);
+					console.log('w00t one more bad ad nixed.', args);
 				}
 			};
 
