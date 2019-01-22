@@ -44,8 +44,8 @@ class Confiant {
 			mapping,
 			activation,
 			callback: (...args) => {
-				console.log("w00t one more bad ad nixed.", args);
-			}
+				console.log('w00t one more bad ad nixed.', args);
+			},
 		};
 
 		return loadScript().then(() => {

@@ -1,6 +1,8 @@
-import { context } from '@wikia/ad-engine';
+import { context, utils } from '@wikia/ad-engine';
 
-/** @abstract */
+/**
+ * @abstract
+ */
 export class BigFancyAdTheme {
 	constructor(adSlot, params) {
 		this.adSlot = adSlot;
@@ -9,9 +11,24 @@ export class BigFancyAdTheme {
 		this.params = params;
 	}
 
-	/** @abstract */
-	onAdReady() {}
+	/**
+	 @abstract
+	 */
+	onAdReady() {
+		throw new utils.NotImplementedException();
+	}
 
-	/** @abstract */
-	onVideoReady() {}
+	/**
+	 @abstract
+	 */
+	async adIsReady(videoSettings) {
+		throw new utils.NotImplementedException({ videoSettings });
+	}
+
+	/**
+	 * @abstract
+	 */
+	onVideoReady() {
+		throw new utils.NotImplementedException();
+	}
 }

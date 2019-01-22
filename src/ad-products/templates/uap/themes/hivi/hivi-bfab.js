@@ -20,7 +20,7 @@ import { animate } from '../../../interface/animate';
 import { BigFancyAdHiviTheme } from './hivi-theme';
 import { Stickiness } from './stickiness';
 
-export class BfabTheme extends BigFancyAdHiviTheme {
+export class BfabHiviTheme extends BigFancyAdHiviTheme {
 	constructor(adSlot, params) {
 		super(adSlot, params);
 
@@ -49,68 +49,34 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
-	onVideoReady(video) {
-		super.onVideoReady(video);
+	/**
+	 * @private
+	 */
+	async addStickinessPlugin() {
+		await this.waitForScrollAndUnstickedBfaa();
 
-		this.video = video;
-		video.addEventListener('wikiaAdStarted', () => this.updateAdSizes());
-		video.addEventListener('wikiaAdCompleted', () => this.setResolvedState());
-		video.addEventListener('wikiaFullscreenChange', () => {
-			if (video.isFullscreen()) {
-				this.stickiness.blockRevertStickiness();
-				this.container.classList.add('theme-video-fullscreen');
-			} else {
-				this.stickiness.unblockRevertStickiness();
-				this.container.classList.remove('theme-video-fullscreen');
-				this.updateAdSizes();
-			}
-		});
-	}
+		if (!this.adSlot.isViewed()) {
+			this.addUnstickLogic();
+			this.addUnstickButton();
+			this.addUnstickEvents();
+			this.stickiness.run();
 
-	updateAdSizes() {
-		const state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
-		const stateHeight = this.params.config.state.height[state];
-		const relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
+			scrollListener.addCallback((event, id) => {
+				const scrollPosition =
+					window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-		this.adjustVideoSize(relativeHeight);
-
-		if (this.params.thumbnail) {
-			this.setThumbnailStyle(state);
+				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
+					this.adSlot.emitEvent('top-conflict');
+					scrollListener.removeCallback(id);
+					this.stickiness.revertStickiness();
+				}
+			});
 		}
 	}
 
-	adjustVideoSize(relativeHeight) {
-		if (this.video && !this.video.isFullscreen()) {
-			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
-		}
-	}
-
-	async setResolvedState() {
-		const { config, image2 } = this.params;
-
-		this.container.classList.add('theme-resolved');
-		image2.element.classList.remove('hidden-state');
-		await slotTweaker.makeResponsive(this.adSlot, config.aspectRatio.resolved);
-
-		if (this.params.thumbnail) {
-			this.setThumbnailStyle('resolved');
-		}
-	}
-
-	setThumbnailStyle(state = 'default') {
-		const { thumbnail } = this.params;
-		const style = mapValues(
-			this.params.config.state,
-			(styleProperty) => `${styleProperty[state]}%`,
-		);
-
-		Object.assign(thumbnail.style, style);
-
-		if (this.video) {
-			Object.assign(this.video.container.style, style);
-		}
-	}
-
+	/**
+	 * @private
+	 */
 	waitForScrollAndUnstickedBfaa() {
 		let resolvePromise = null;
 
@@ -144,36 +110,88 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 		return promise;
 	}
 
-	async addStickinessPlugin() {
-		await this.waitForScrollAndUnstickedBfaa();
+	onVideoReady(video) {
+		this.video = video;
+		video.addEventListener('wikiaAdStarted', () => this.updateAdSizes());
+		video.addEventListener('wikiaAdCompleted', () => this.setResolvedState());
+		video.addEventListener('wikiaFullscreenChange', () => {
+			if (video.isFullscreen()) {
+				this.stickiness.blockRevertStickiness();
+				this.container.classList.add('theme-video-fullscreen');
+			} else {
+				this.stickiness.unblockRevertStickiness();
+				this.container.classList.remove('theme-video-fullscreen');
+				this.updateAdSizes();
+			}
+		});
+	}
 
-		if (!this.adSlot.isViewed()) {
-			this.addUnstickLogic();
-			this.addCloseButton();
-			this.addUnstickEvents();
-			this.stickiness.run();
+	/**
+	 * @private
+	 */
+	updateAdSizes() {
+		const state = resolvedState.isResolvedState(this.params) ? 'resolved' : 'default';
+		const stateHeight = this.params.config.state.height[state];
+		const relativeHeight = this.params.container.offsetHeight * (stateHeight / 100);
 
-			scrollListener.addCallback((event, id) => {
-				const scrollPosition =
-					window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+		this.adjustVideoSize(relativeHeight);
 
-				if (scrollPosition <= this.config.unstickInstantlyBelowPosition) {
-					this.adSlot.emitEvent('top-conflict');
-					scrollListener.removeCallback(id);
-					this.stickiness.revertStickiness();
-				}
-			});
+		if (this.params.thumbnail) {
+			this.setThumbnailStyle(state);
 		}
 	}
 
-	addUnstickLogic() {
-		const whenResolvedAndVideoViewed = async () => {
-			await utils.wait(BfabTheme.DEFAULT_UNSTICK_DELAY);
-		};
-
-		this.stickiness = new Stickiness(this.adSlot, whenResolvedAndVideoViewed());
+	/**
+	 * @private
+	 */
+	adjustVideoSize(relativeHeight) {
+		if (this.video && !this.video.isFullscreen()) {
+			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
+		}
 	}
 
+	/**
+	 * @private
+	 */
+	async setResolvedState() {
+		const { config, image2 } = this.params;
+
+		this.container.classList.add('theme-resolved');
+		image2.element.classList.remove('hidden-state');
+		await slotTweaker.makeResponsive(this.adSlot, config.aspectRatio.resolved);
+
+		if (this.params.thumbnail) {
+			this.setThumbnailStyle('resolved');
+		}
+	}
+
+	/**
+	 * @private
+	 */
+	setThumbnailStyle(state = 'default') {
+		const { thumbnail } = this.params;
+		const style = mapValues(
+			this.params.config.state,
+			(styleProperty) => `${styleProperty[state]}%`,
+		);
+
+		Object.assign(thumbnail.style, style);
+
+		if (this.video) {
+			Object.assign(this.video.container.style, style);
+		}
+	}
+
+	/**
+	 * @protected
+	 */
+	async getStateResolvedAndVideoViewed() {
+		await utils.wait(BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY);
+	}
+
+	/**
+	 * @protected
+	 */
 	async onStickinessChange(isSticky) {
 		const element = this.adSlot.getElement();
 
@@ -194,9 +212,11 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 		}
 	}
 
+	/**
+	 * @protected
+	 */
 	onCloseClicked() {
 		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
-
 		this.unstickImmediately();
 
 		this.adSlot.getElement().parentNode.style.height = null;
@@ -204,6 +224,9 @@ export class BfabTheme extends BigFancyAdHiviTheme {
 		slotTweaker.hide(this.adSlot);
 	}
 
+	/**
+	 * @protected
+	 */
 	unstickImmediately(stopVideo = true) {
 		if (this.stickiness) {
 			this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_BFAB);

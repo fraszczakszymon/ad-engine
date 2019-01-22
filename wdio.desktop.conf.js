@@ -10,6 +10,7 @@ exports.config = merge(
 	wdioConf.config,
 	{
 		specs: ['tests/specs/**/*.desktop.test.js'],
+		exclude: ['tests/specs/**/*.mobile.test.js'],
 		capabilities: [
 			{
 				browserName: 'chrome',
