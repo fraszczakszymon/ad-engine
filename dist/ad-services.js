@@ -846,6 +846,82 @@ bill_the_lizard_BillTheLizard.TIMEOUT = 'timeout';
 bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
 bill_the_lizard_BillTheLizard.REUSED = 'reused';
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/confiant/index.js
+
+
+
+
+
+var confiant_logGroup = 'confiant';
+var scriptDomain = 'clarium.global.ssl.fastly.net';
+
+/**
+ * Injects Confiant script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var confiantLibraryUrl = '//' + scriptDomain + '/gpt/a/wrap.js';
+
+	return ad_engine_["utils"].scriptLoader.loadScript(confiantLibraryUrl, 'text/javascript', true, 'first');
+}
+
+/**
+ * Confiant service handler
+ */
+
+var confiant_Confiant = function () {
+	function Confiant() {
+		classCallCheck_default()(this, Confiant);
+	}
+
+	createClass_default()(Confiant, [{
+		key: 'call',
+
+		/**
+   * Requests service and injects script tag
+   * @returns {Promise}
+   */
+		value: function call() {
+			var propertyId = ad_engine_["context"].get('services.confiant.propertyId');
+			var mapping = ad_engine_["context"].get('services.confiant.mapping');
+			var activation = ad_engine_["context"].get('services.confiant.activation');
+
+			if (!ad_engine_["context"].get('services.confiant.enabled') || !propertyId || !mapping || !activation) {
+				ad_engine_["utils"].logger(confiant_logGroup, 'disabled');
+
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(confiant_logGroup, 'loading');
+
+			// eslint-disable-next-line  no-underscore-dangle
+			window._clrm = window._clrm || {};
+			// eslint-disable-next-line  no-underscore-dangle
+			window._clrm.gpt = {
+				propertyId: propertyId,
+				confiantCdn: scriptDomain,
+				sandbox: 0,
+				mapping: mapping,
+				activation: activation,
+				callback: function callback() {
+					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+						args[_key] = arguments[_key];
+					}
+
+					console.log("w00t one more bad ad nixed.", args);
+				}
+			};
+
+			return loadScript().then(function () {
+				ad_engine_["utils"].logger(confiant_logGroup, 'ready');
+			});
+		}
+	}]);
+
+	return Confiant;
+}();
+
+var confiant = new confiant_Confiant();
 // CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
 
 
@@ -859,7 +935,7 @@ var scriptDomainId = 'd3b02estmut877';
  * Injects Geo Edge Site Side Protection script
  * @returns {Promise}
  */
-function loadScript() {
+function geo_edge_loadScript() {
 	var geoEdgeLibraryUrl = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
 
 	return ad_engine_["utils"].scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
@@ -897,7 +973,7 @@ var geo_edge_GeoEdge = function () {
 				key: geoEdgeKey
 			};
 
-			return loadScript().then(function () {
+			return geo_edge_loadScript().then(function () {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
 			});
 		}
@@ -1227,10 +1303,12 @@ var nielsen = new nielsen_Nielsen();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "confiant", function() { return confiant; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYi", function() { return moatYi; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "nielsen", function() { return nielsen; });
+
 
 
 
