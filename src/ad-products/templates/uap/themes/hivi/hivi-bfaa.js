@@ -334,7 +334,7 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 
 		this.config.mainContainer.style.paddingTop = '0';
 		this.adSlot.disable();
-		this.adSlot.collapse();
+		slotTweaker.hide(this.adSlot);
 	}
 
 	/**

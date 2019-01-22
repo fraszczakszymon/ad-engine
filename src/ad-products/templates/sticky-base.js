@@ -100,7 +100,7 @@ export class StickyBase {
 			await utils.wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout());
 	}
 
 	/**

@@ -221,7 +221,7 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 
 		this.adSlot.getElement().parentNode.style.height = null;
 		this.adSlot.disable();
-		this.adSlot.collapse();
+		slotTweaker.hide(this.adSlot);
 	}
 
 	/**
