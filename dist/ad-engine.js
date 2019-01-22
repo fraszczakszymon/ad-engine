@@ -1739,18 +1739,32 @@ function getCustomParameters(slot) {
 	}).join('&'));
 }
 
+function getVideoSizes(slot) {
+	var sizes = slot.getDefaultSizes();
+
+	if (sizes) {
+		return sizes.map(function (size) {
+			return size.join('x');
+		}).join('|');
+	}
+
+	return '640x480';
+}
+
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
 	var slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push('iu=' + slot.getVideoAdUnit());
+		params.push('sz=' + getVideoSizes(slot));
 		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
 	} else if (options.videoAdUnitId && options.customParams) {
 		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push('iu=' + options.videoAdUnitId);
+		params.push('sz=640x480');
 		params.push('cust_params=' + encodeURIComponent(options.customParams));
 	} else {
 		throw Error('Slot does not exist!');
@@ -5791,8 +5805,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.1.4');
-set_default()(window, commitField, 'c0033dd4');
-logger('ad-engine', 'v23.1.4 (c0033dd4)');
+set_default()(window, commitField, '76918b4f');
+logger('ad-engine', 'v23.1.4 (76918b4f)');
 
 
 
