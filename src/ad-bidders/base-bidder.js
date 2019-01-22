@@ -74,19 +74,16 @@ export class BaseBidder {
 			this.calculatePrices();
 		}
 
-		if (this.onResponseCallbacks) {
-			this.onResponseCallbacks.start();
-		}
-
+		this.onResponseCallbacks.flush();
 		utils.logger(this.logGroup, 'respond');
 	}
 
 	resetState() {
 		this.called = false;
 		this.response = false;
-		this.onResponseCallbacks = [];
 
-		utils.makeLazyQueue(this.onResponseCallbacks, (callback) => {
+		this.onResponseCallbacks = new utils.LazyQueue();
+		this.onResponseCallbacks.onItemFlush((callback) => {
 			callback(this.name);
 		});
 	}

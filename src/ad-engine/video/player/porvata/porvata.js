@@ -1,11 +1,5 @@
 import { PorvataListener } from '../../../listeners';
-import {
-	client,
-	makeLazyQueue,
-	viewportObserver,
-	tryProperty,
-	whichProperty,
-} from '../../../utils';
+import { client, LazyQueue, tryProperty, viewportObserver, whichProperty } from '../../../utils';
 import { googleIma } from './ima/google-ima';
 import { VideoSettings } from './video-settings';
 
@@ -75,9 +69,10 @@ export class PorvataPlayer {
 		this.height = params.height;
 		this.muteProtect = false;
 		this.defaultVolume = 0.75;
-		this.destroyCallbacks = [];
 
-		makeLazyQueue(this.destroyCallbacks, (callback) => callback());
+		this.destroyCallbacks = new LazyQueue();
+		this.destroyCallbacks.onItemFlush((callback) => callback());
+
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(() => this.onFullscreenChange());
 		}
@@ -241,7 +236,7 @@ export class PorvataPlayer {
 	}
 
 	destroy() {
-		this.destroyCallbacks.start();
+		this.destroyCallbacks.flush();
 	}
 }
 

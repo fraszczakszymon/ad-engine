@@ -297,10 +297,7 @@ var base_bidder_BaseBidder = function () {
 				this.calculatePrices();
 			}
 
-			if (this.onResponseCallbacks) {
-				this.onResponseCallbacks.start();
-			}
-
+			this.onResponseCallbacks.flush();
 			ad_engine_["utils"].logger(this.logGroup, 'respond');
 		}
 	}, {
@@ -310,9 +307,9 @@ var base_bidder_BaseBidder = function () {
 
 			this.called = false;
 			this.response = false;
-			this.onResponseCallbacks = [];
 
-			ad_engine_["utils"].makeLazyQueue(this.onResponseCallbacks, function (callback) {
+			this.onResponseCallbacks = new ad_engine_["utils"].LazyQueue();
+			this.onResponseCallbacks.onItemFlush(function (callback) {
 				callback(_this2.name);
 			});
 		}

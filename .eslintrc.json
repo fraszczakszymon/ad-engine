@@ -75,10 +75,10 @@
 				"order": [
 					"[static-properties]",
 					"[static-methods]",
-					"[properties]",
-					"[conventional-private-properties]",
 					"[getters]",
 					"[setters]",
+					"[properties]",
+					"[conventional-private-properties]",
 					"constructor",
 					"[methods]",
 					"[conventional-private-methods]"
