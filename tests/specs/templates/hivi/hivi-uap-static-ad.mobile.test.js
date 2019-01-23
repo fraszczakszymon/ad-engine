@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { hiviUapStatic } from '../../pages/hivi-uap-static-ad.page';
-import { adSlots } from '../../common/ad-slots';
-import { timeouts } from '../../common/timeouts';
-import { helpers } from '../../common/helpers';
+import { hiviUapStatic } from '../../../pages/hivi-uap-static-ad.page';
+import { adSlots } from '../../../common/ad-slots';
+import { timeouts } from '../../../common/timeouts';
+import { helpers } from '../../../common/helpers';
 
 describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	let adStatus;
@@ -82,7 +82,7 @@ describe('Mobile HiVi UAP static ads page: top leaderboard', () => {
 	it('Check if closing top leaderboard works', () => {
 		browser.waitForVisible(hiviUapStatic.closeLeaderboardButton, timeouts.standard);
 		browser.click(hiviUapStatic.closeLeaderboardButton);
-		adSlots.waitForSlotCollapsed(adSlots.topLeaderboard);
+		adSlots.waitForSlotCollapsedManually(adSlots.topLeaderboard);
 	});
 
 	it('Check visual regression in top leaderboard', () => {

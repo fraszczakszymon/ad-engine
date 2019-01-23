@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { hiviUap } from '../../pages/hivi-uap-ad.page';
-import { adSlots } from '../../common/ad-slots';
-import { timeouts } from '../../common/timeouts';
-import { helpers } from '../../common/helpers';
-import networkCapture from '../../common/network-capture';
+import { hiviUap } from '../../../pages/hivi-uap-ad.page';
+import { adSlots } from '../../../common/ad-slots';
+import { timeouts } from '../../../common/timeouts';
+import { helpers } from '../../../common/helpers';
+import networkCapture from '../../../common/network-capture';
 
 describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	let client;

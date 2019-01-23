@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { outstream } from '../../pages/outstream.page';
-import { adSlots } from '../../common/ad-slots';
-import { timeouts } from '../../common/timeouts';
-import { helpers } from '../../common/helpers';
-import { queryStrings } from '../../common/query-strings';
+import { outstream } from '../../../pages/outstream.page';
+import { adSlots } from '../../../common/ad-slots';
+import { timeouts } from '../../../common/timeouts';
+import { helpers } from '../../../common/helpers';
+import { queryStrings } from '../../../common/query-strings';
 
 describe('Outstream ads', () => {
 	let adStatus;
