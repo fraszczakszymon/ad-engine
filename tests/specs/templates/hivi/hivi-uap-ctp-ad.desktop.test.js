@@ -164,7 +164,7 @@ describe('Desktop HiVi UAP CTP ads page: video player in top leaderboard', () =>
 	});
 });
 
-describe('Desktop HiVi UAP CTO ads page: top boxad', () => {
+describe('Desktop HiVi UAP CTP ads page: top boxad', () => {
 	beforeEach(() => {
 		browser.url(hiviUapCtp.pageLink);
 		browser.waitForVisible(adSlots.topBoxad, timeouts.standard);
