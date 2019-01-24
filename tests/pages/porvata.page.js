@@ -10,7 +10,7 @@ class Porvata {
 		this.fullscreenPlayer = '.video-player-fullscreen';
 		this.videoPlayerHidden = '.video-player.hide';
 		this.iconHidden = '.icon.hide';
-		this.videoDuration = 45000;
+		this.videoDuration = 50000;
 	}
 }
 

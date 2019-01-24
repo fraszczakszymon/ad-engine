@@ -106,6 +106,6 @@ describe('jwPlayer player', () => {
 	it('Check if autoplay is disabled upon entering the page', () => {
 		helpers.navigateToUrl(jwPlayer.pageLink, queryStrings.getAutoplay(false));
 		browser.waitForVisible(jwPlayer.player, timeouts.standard);
-		expect(browser.isExisting(jwPlayer.videoIdle)).to.be.false;
+		expect(browser.isExisting(jwPlayer.videoIdle)).to.be.true;
 	});
 });

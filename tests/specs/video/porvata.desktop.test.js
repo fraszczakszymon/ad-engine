@@ -8,16 +8,13 @@ import { queryStrings } from '../../common/query-strings';
 describe('Porvata player', () => {
 	let adStatus;
 
-	before(() => {
+	beforeEach(() => {
 		browser.url(porvata.pageLink);
 		browser.waitForVisible(porvata.player, timeouts.standard);
 		browser.scroll(porvata.player);
-	});
-
-	beforeEach(() => {
-		browser.waitForVisible(porvata.player, timeouts.standard);
 		adStatus = adSlots.getSlotStatus(porvata.player);
 		helpers.waitToStartPlaying();
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
 	});
 
 	it('Check if player is visible', () => {
@@ -51,10 +48,12 @@ describe('Porvata player', () => {
 		browser.waitForExist(`${porvata.unmuteButton}${porvata.iconHidden}`, timeouts.standard);
 	});
 
-	it('Check if opening full screen and redirect on fullscreen player works', () => {
+	// TODO wf fix of ADEN-8239
+	xit('Check if opening full screen and redirect on fullscreen player works', () => {
 		browser.waitForVisible(porvata.fullscreenButton, timeouts.standard);
 		browser.click(porvata.fullscreenButton);
 		browser.waitForVisible(porvata.fullscreenPlayer, timeouts.standard);
+		helpers.waitForVideoToProgress(timeouts.standard);
 		browser.click(porvata.player);
 		helpers.switchToTab(1);
 		helpers.waitForUrl(helpers.clickThroughUrlDomain);
@@ -65,7 +64,9 @@ describe('Porvata player', () => {
 		helpers.closeNewTabs();
 	});
 
-	it('Check if replaying the video works', () => {
+	// TODO wf fix of ADEN-8238
+	xit('Check if replaying the video works', () => {
+		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard, true);
 		helpers.waitForVideoAdToFinish(porvata.videoDuration);
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 		browser.click(porvata.player);
@@ -80,6 +81,9 @@ describe('Porvata player', () => {
 
 	it('Check if autoplay is disabled upon entering the page', () => {
 		helpers.navigateToUrl(porvata.pageLink, queryStrings.getAutoplay(false));
+		browser.waitForExist(porvata.player, timeouts.standard);
+		browser.scroll(porvata.player);
+		helpers.waitToStartPlaying();
 		browser.waitForExist(porvata.videoPlayerHidden, timeouts.standard);
 	});
 });

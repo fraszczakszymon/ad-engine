@@ -46,6 +46,15 @@ class AdSlots {
 		);
 	}
 
+	waitForSlotCollapsedManually(adSlot) {
+		browser.waitUntil(
+			() => browser.getElementSize(adSlot, 'height') < 2,
+			timeouts.standard,
+			'Element not expanded',
+			timeouts.interval,
+		);
+	}
+
 	waitForSlotCollapsed(adSlot) {
 		browser.waitUntil(
 			() => browser.getAttribute(adSlot, this.resultAttribute) === this.adCollapsed,
