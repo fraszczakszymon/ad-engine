@@ -16,7 +16,7 @@ function getCustomParameters(slot, extraTargeting = {}) {
 }
 
 function getVideoSizes(slot) {
-	const sizes = slot.getDefaultSizes();
+	const sizes = slot.getVideoSizes();
 
 	if (sizes) {
 		return sizes.map((size) => size.join('x')).join('|');

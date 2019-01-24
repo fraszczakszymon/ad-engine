@@ -99,6 +99,10 @@ export class AdSlot extends EventEmitter {
 		return this.config.defaultSizes;
 	}
 
+	getVideoSizes() {
+		return this.config.videoSizes;
+	}
+
 	getViewportConflicts() {
 		return this.config.viewportConflicts || [];
 	}
