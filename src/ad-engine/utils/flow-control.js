@@ -39,3 +39,19 @@ export function once(emitter, eventName, options = {}) {
 		}
 	});
 }
+
+/**
+ * Fires the Promise if function is fulfilled or timeout is reached
+ *
+ * @param {function} func
+ * @param {int} msToTimeout
+ *
+ * @returns {Promise}
+ */
+export function createWithTimeout(func, msToTimeout = 2000) {
+	const timeout = new Promise((resolve, reject) => {
+		setTimeout(reject, msToTimeout);
+	});
+
+	return Promise.race([new Promise(func), timeout]);
+}

@@ -1,6 +1,5 @@
 import { scrollListener, utils } from '@wikia/ad-engine';
 import { StickyBase } from './sticky-base';
-import { Stickiness } from './uap/themes/hivi/stickiness';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,
 	CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
@@ -9,8 +8,8 @@ import {
 	FADE_IN_TIME,
 	SLIDE_OUT_TIME,
 } from './uap/constants';
+import { Stickiness } from './uap/themes/hivi/stickiness';
 import { animate } from './interface/animate';
-import CloseButton from './interface/close-button';
 
 const logGroup = 'sticky-ad';
 
@@ -27,6 +26,17 @@ export class StickyAd extends StickyBase {
 		};
 	}
 
+	static getName() {
+		return 'stickyAd';
+	}
+
+	/**
+	 * @private
+	 */
+	get containerDiv() {
+		return this.container.querySelector('div');
+	}
+
 	constructor(adSlot) {
 		super(adSlot);
 		this.scrollListener = null;
@@ -34,37 +44,24 @@ export class StickyAd extends StickyBase {
 		this.leftOffset = 0;
 	}
 
-	static getName() {
-		return 'stickyAd';
-	}
-
-	getName() {
-		return StickyAd.getName();
-	}
-
-	adjustAdSlot() {
-		this.leftOffset = utils.getLeftOffset(this.adSlot.getElement().querySelector('div').firstChild);
-	}
-
 	init(params) {
-		this.params = params;
-
 		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
 
 			return;
 		}
 
-		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
-		this.adSlot.onLoad().then(() => {
-			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
-			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
-		});
-		this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+		this.setupStickiness(params);
+		this.setTopOffset();
+		this.setLeftOffset();
+		this.setupScrollListener();
+		window.addEventListener('resize', () => this.setLeftOffset());
+	}
 
-		this.addUnstickLogic();
-		this.addUnstickEventsListeners();
-
+	/**
+	 * @private
+	 */
+	setTopOffset() {
 		if (
 			this.config.handleNavbar &&
 			this.config.slotsIgnoringNavbar.indexOf(this.adSlot.getSlotName()) === -1
@@ -79,11 +76,20 @@ export class StickyAd extends StickyBase {
 				this.topOffset += smartBannerElement ? smartBannerElement.offsetHeight : 0;
 			}
 		}
+	}
 
-		this.adjustAdSlot();
+	/**
+	 * @private
+	 */
+	setLeftOffset() {
+		this.leftOffset = utils.getLeftOffset(this.containerDiv.firstChild);
+	}
 
-		const startOffset =
-			utils.getTopOffset(this.adSlot.getElement().querySelector('div')) - this.topOffset;
+	/**
+	 * @private
+	 */
+	setupScrollListener() {
+		const startOffset = utils.getTopOffset(this.containerDiv) - this.topOffset;
 
 		this.scrollListener = scrollListener.addCallback(() => {
 			const scrollPosition =
@@ -91,82 +97,104 @@ export class StickyAd extends StickyBase {
 
 			if (scrollPosition >= startOffset) {
 				this.stickiness.run();
+				utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 				scrollListener.removeCallback(this.scrollListener);
 			}
 		});
-
-		window.addEventListener('resize', this.adjustAdSlot.bind(this));
-		utils.logger(logGroup, this.adSlot.getSlotName(), 'stickiness added');
 	}
 
-	addUnstickButton() {
-		this.closeButton = new CloseButton({
-			classNames: ['button-unstick'],
-			onClick: () => this.stickiness.close(),
-		}).render();
-
-		this.adSlot
-			.getElement()
-			.querySelector('div')
-			.appendChild(this.closeButton);
-	}
-
-	removeUnstickButton() {
-		this.closeButton.remove();
-	}
-
-	removeStickyParameters() {
-		this.adSlot.getElement().classList.remove(CSS_CLASSNAME_STICKY_SLOT);
-		this.adSlot.getElement().style.height = null;
-		this.adSlot.getElement().querySelector('div').style.top = null;
-		this.adSlot.getElement().querySelector('div').style.left = null;
-	}
-
-	addUnstickEventsListeners() {
-		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
-			this.onStickinessChange(isSticky),
-		);
-		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, this.unstickImmediately.bind(this));
-		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, this.unstickImmediately.bind(this));
-	}
-
+	/**
+	 * @protected
+	 */
 	async onStickinessChange(isSticky) {
-		if (!isSticky) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
-			await animate(
-				this.adSlot.getElement().querySelector('div'),
-				CSS_CLASSNAME_SLIDE_OUT_ANIMATION,
-				SLIDE_OUT_TIME,
-			);
-			this.removeStickyParameters();
-			animate(
-				this.adSlot.getElement().querySelector('div'),
-				CSS_CLASSNAME_FADE_IN_ANIMATION,
-				FADE_IN_TIME,
-			);
-
-			this.removeUnstickButton();
+		if (isSticky) {
+			this.onStick();
 		} else {
-			this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
-			this.adSlot.getElement().classList.add(CSS_CLASSNAME_STICKY_SLOT);
-			this.adSlot.getElement().style.height = `${
-				this.adSlot.getElement().querySelector('div').offsetHeight
-			}px`;
-			this.adSlot.getElement().querySelector('div').style.top = `${this.topOffset}px`;
-			this.adSlot.getElement().querySelector('div').style.left = `${this.leftOffset}px`;
-
-			this.addUnstickButton();
+			await this.onUnstick();
 		}
+
 		utils.logger(logGroup, 'stickiness changed', isSticky);
 	}
 
+	/**
+	 * @protected
+	 */
+	async onUnstick() {
+		this.adSlot.emitEvent(Stickiness.SLOT_UNSTICKED_STATE);
+		await animate(this.containerDiv, CSS_CLASSNAME_SLIDE_OUT_ANIMATION, SLIDE_OUT_TIME);
+		this.removeStickyParameters();
+		animate(this.containerDiv, CSS_CLASSNAME_FADE_IN_ANIMATION, FADE_IN_TIME);
+
+		this.removeUnstickButton();
+	}
+
+	/**
+	 * @private
+	 */
+	removeStickyParameters() {
+		this.container.classList.remove(CSS_CLASSNAME_STICKY_SLOT);
+		this.container.style.height = null;
+		this.containerDiv.style.top = null;
+		this.containerDiv.style.left = null;
+	}
+
+	/**
+	 * @protected
+	 */
+	onStick() {
+		this.adSlot.emitEvent(Stickiness.SLOT_STICKED_STATE);
+		this.container.classList.add(CSS_CLASSNAME_STICKY_SLOT);
+		this.container.style.height = `${this.containerDiv.offsetHeight}px`;
+		this.containerDiv.style.top = `${this.topOffset}px`;
+		this.containerDiv.style.left = `${this.leftOffset}px`;
+
+		this.addUnstickButton();
+	}
+
+	/**
+	 * @protected
+	 */
 	unstickImmediately() {
 		if (this.stickiness) {
-			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
 			this.removeStickyParameters();
 			this.stickiness.sticky = false;
 			this.removeUnstickButton();
 			utils.logger(logGroup, 'unstick immediately');
 		}
+	}
+
+	/**
+	 * @protected
+	 */
+	addStickinessPlugin() {
+		this.container.classList.add(CSS_CLASSNAME_STICKY_TEMPLATE);
+		this.addUnstickLogic();
+		this.addUnstickEvents();
+	}
+
+	/**
+	 * @private
+	 */
+	addUnstickButton() {
+		this.addButton(this.adSlot.getElement().querySelector('div'), () => {
+			this.adSlot.emitEvent(Stickiness.SLOT_UNSTICK_IMMEDIATELY);
+			this.stickiness.close();
+		});
+	}
+
+	/**
+	 * @private
+	 */
+	removeUnstickButton() {
+		this.removeButton();
+	}
+
+	/**
+	 * Returns template name.
+	 * @protected
+	 * @return {string}
+	 */
+	getName() {
+		return StickyAd.getName();
 	}
 }

@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
-import { stringBuilder } from '../utils';
+import { logger, stringBuilder } from '../utils';
 import { slotListener } from '../listeners';
 import { ADX } from '../providers';
 
@@ -9,6 +9,18 @@ export class AdSlot extends EventEmitter {
 	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
+
+	static LOG_GROUP = 'AdSlot';
+
+	/**
+	 * Returns true if slot is ATF
+	 *
+	 * @param config slot config
+	 * @returns {boolean} true if slot is ATF
+	 */
+	static isAboveTheFold(config) {
+		return !!config.aboveTheFold;
+	}
 
 	constructor(ad) {
 		super();
@@ -35,6 +47,8 @@ export class AdSlot extends EventEmitter {
 		this.onLoadPromise = new Promise((resolve) => {
 			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
+
+		this.logger = (...args) => logger(AdSlot.LOG_GROUP, ...args);
 	}
 
 	getAdUnit() {
@@ -104,16 +118,6 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	/**
-	 * Returns true if slot is ATF
-	 *
-	 * @param config slot config
-	 * @returns {boolean} true if slot is ATF
-	 */
-	static isAboveTheFold(config) {
-		return !!config.aboveTheFold;
-	}
-
 	isFirstCall() {
 		return !!this.config.firstCall;
 	}
@@ -163,10 +167,10 @@ export class AdSlot extends EventEmitter {
 		slotTweaker.show(this);
 		this.setStatus(status);
 
-		const templates = this.getConfigProperty('defaultTemplates');
+		const templateNames = this.getConfigProperty('defaultTemplates');
 
-		if (templates && templates.length) {
-			templates.forEach((template) => templateService.init(template, this));
+		if (templateNames && templateNames.length) {
+			templateNames.forEach((templateName) => templateService.init(templateName, this));
 		}
 	}
 
@@ -191,9 +195,15 @@ export class AdSlot extends EventEmitter {
 		if (!event.isEmpty && event.slot) {
 			const resp = event.slot.getResponseInformation();
 
-			if (resp && resp.creativeId === null && resp.lineItemId === null) {
-				creativeId = ADX;
-				lineItemId = ADX;
+			if (resp) {
+				if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
+					this.logger('set line item and creative id to source agnostic values');
+					creativeId = resp.sourceAgnosticCreativeId;
+					lineItemId = resp.sourceAgnosticLineItemId;
+				} else if (resp.creativeId === null && resp.lineItemId === null) {
+					creativeId = ADX;
+					lineItemId = ADX;
+				}
 			}
 		}
 

@@ -384,6 +384,7 @@ var projects_handler_ProjectsHandler = function () {
  */
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
+var openRequests = [];
 
 ad_engine_["events"].registerEvent('BILL_THE_LIZARD_REQUEST');
 ad_engine_["events"].registerEvent('BILL_THE_LIZARD_RESPONSE');
@@ -440,6 +441,8 @@ function httpRequest(host, endpoint) {
 	request.open('GET', url, true);
 	request.responseType = 'json';
 	request.timeout = timeout;
+
+	openRequests.push(request);
 
 	ad_engine_["utils"].logger(bill_the_lizard_logGroup, 'timeout configured to', request.timeout);
 
@@ -507,26 +510,39 @@ var bill_the_lizard_BillTheLizard = function () {
 
 		this.executor = new executor_Executor();
 		this.projectsHandler = new projects_handler_ProjectsHandler();
-		this.statuses = {};
-		this.predictions = [];
-		this.callCounter = 0;
 		this.targetedModelNames = new set_default.a();
+
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
 	}
 
-	/**
-  * Requests service, executes defined methods and parses response
-  *
-  * Supply callKey if you need to access status for this specific request.
-  * DO NOT use an integer as callKey as it's the default value.
-  * Good key example: "incontent_boxad1".
-  *
-  * @param {string[]} projectNames
-  * @param {string} callId key for this call
-  * @returns {Promise}
-  */
-
-
 	createClass_default()(BillTheLizard, [{
+		key: 'reset',
+		value: function reset() {
+			this.callCounter = 0;
+			this.predictions = [];
+			this.statuses = {};
+
+			openRequests.forEach(function (req) {
+				return req.abort();
+			});
+			openRequests = [];
+		}
+
+		/**
+   * Requests service, executes defined methods and parses response
+   *
+   * Supply callKey if you need to access status for this specific request.
+   * DO NOT use an integer as callKey as it's the default value.
+   * Good key example: "incontent_boxad1".
+   *
+   * @param {string[]} projectNames
+   * @param {string} callId key for this call
+   * @returns {Promise}
+   */
+
+	}, {
 		key: 'call',
 		value: function call(projectNames, callId) {
 			var _this = this;
@@ -786,7 +802,37 @@ var bill_the_lizard_BillTheLizard = function () {
 
 			return predictions.map(function (pred) {
 				return pred.modelName + '|' + pred.callId + '=' + pred.result;
-			}).join(';');
+			}).join(',');
+		}
+
+		/**
+   * Get prediction of previous calls.
+   *
+   * Uses a supplied callIdBuilder to construct callId
+   * by iterating down from startId to 2.
+   *
+   * @param {number} startId
+   * @param {function} callIdBuilder
+   * @param {string} modelName
+   * @returns {number | undefined}
+   */
+
+	}, {
+		key: 'getPreviousPrediction',
+		value: function getPreviousPrediction(startId, callIdBuilder, modelName) {
+			if (startId <= 1) {
+				return undefined;
+			}
+			for (var backCounter = startId - 1; backCounter > 1; backCounter--) {
+				var callId = callIdBuilder(backCounter);
+				var prevStatus = this.getResponseStatus(callId);
+
+				if (prevStatus === BillTheLizard.ON_TIME || prevStatus === BillTheLizard.TOO_LATE) {
+					return this.getPrediction(modelName, callId);
+				}
+			}
+
+			return undefined;
 		}
 	}]);
 
@@ -798,7 +844,84 @@ bill_the_lizard_BillTheLizard.NOT_USED = 'not_used';
 bill_the_lizard_BillTheLizard.ON_TIME = 'on_time';
 bill_the_lizard_BillTheLizard.TIMEOUT = 'timeout';
 bill_the_lizard_BillTheLizard.TOO_LATE = 'too_late';
+bill_the_lizard_BillTheLizard.REUSED = 'reused';
 var billTheLizard = new bill_the_lizard_BillTheLizard();
+// CONCATENATED MODULE: ./src/ad-services/confiant/index.js
+
+
+
+
+
+var confiant_logGroup = 'confiant';
+var scriptDomain = 'clarium.global.ssl.fastly.net';
+
+/**
+ * Injects Confiant script
+ * @returns {Promise}
+ */
+function loadScript() {
+	var confiantLibraryUrl = '//' + scriptDomain + '/gpt/a/wrap.js';
+
+	return ad_engine_["utils"].scriptLoader.loadScript(confiantLibraryUrl, 'text/javascript', true, 'first');
+}
+
+/**
+ * Confiant service handler
+ */
+
+var confiant_Confiant = function () {
+	function Confiant() {
+		classCallCheck_default()(this, Confiant);
+	}
+
+	createClass_default()(Confiant, [{
+		key: 'call',
+
+		/**
+   * Requests service and injects script tag
+   * @returns {Promise}
+   */
+		value: function call() {
+			var propertyId = ad_engine_["context"].get('services.confiant.propertyId');
+			var mapping = ad_engine_["context"].get('services.confiant.mapping');
+			var activation = ad_engine_["context"].get('services.confiant.activation');
+
+			if (!ad_engine_["context"].get('services.confiant.enabled') || !propertyId || !mapping || !activation) {
+				ad_engine_["utils"].logger(confiant_logGroup, 'disabled');
+
+				return promise_default.a.resolve();
+			}
+
+			ad_engine_["utils"].logger(confiant_logGroup, 'loading');
+
+			// eslint-disable-next-line  no-underscore-dangle
+			window._clrm = window._clrm || {};
+			// eslint-disable-next-line  no-underscore-dangle
+			window._clrm.gpt = {
+				propertyId: propertyId,
+				confiantCdn: scriptDomain,
+				sandbox: 0,
+				mapping: mapping,
+				activation: activation,
+				callback: function callback() {
+					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+						args[_key] = arguments[_key];
+					}
+
+					console.log('w00t one more bad ad nixed.', args);
+				}
+			};
+
+			return loadScript().then(function () {
+				ad_engine_["utils"].logger(confiant_logGroup, 'ready');
+			});
+		}
+	}]);
+
+	return Confiant;
+}();
+
+var confiant = new confiant_Confiant();
 // CONCATENATED MODULE: ./src/ad-services/geo-edge/index.js
 
 
@@ -812,7 +935,7 @@ var scriptDomainId = 'd3b02estmut877';
  * Injects Geo Edge Site Side Protection script
  * @returns {Promise}
  */
-function loadScript() {
+function geo_edge_loadScript() {
 	var geoEdgeLibraryUrl = '//' + scriptDomainId + '.cloudfront.net/grumi-ip.js';
 
 	return ad_engine_["utils"].scriptLoader.loadScript(geoEdgeLibraryUrl, 'text/javascript', true, 'first');
@@ -850,7 +973,7 @@ var geo_edge_GeoEdge = function () {
 				key: geoEdgeKey
 			};
 
-			return loadScript().then(function () {
+			return geo_edge_loadScript().then(function () {
 				ad_engine_["utils"].logger(geo_edge_logGroup, 'ready');
 			});
 		}
@@ -1089,12 +1212,104 @@ var moat_yi_MoatYi = function () {
 }();
 
 var moatYi = new moat_yi_MoatYi();
+// CONCATENATED MODULE: ./src/ad-services/nielsen/static-queue-script.js
+// NIELSEN CODE START
+// eslint-disable-next-line
+function initNielsenStaticQueue() {
+  !function (t, n) {
+    t[n] = t[n] || { nlsQ: function nlsQ(e, o, c, r, s, i) {
+        return s = t.document, r = s.createElement("script"), r.async = 1, r.src = ("http:" === t.location.protocol ? "http:" : "https:") + "//cdn-gl.imrworldwide.com/conf/" + e + ".js#name=" + o + "&ns=" + n, i = s.getElementsByTagName("script")[0], i.parentNode.insertBefore(r, i), t[n][o] = t[n][o] || { g: c || {}, ggPM: function ggPM(e, c, r, s, i) {
+            (t[n][o].q = t[n][o].q || []).push([e, c, r, s, i]);
+          } }, t[n][o];
+      } };
+  }(window, "NOLBUNDLE");
+}
+// NIELSEN CODE END
+// CONCATENATED MODULE: ./src/ad-services/nielsen/index.js
+
+
+/* global NOLBUNDLE */
+
+
+
+var nielsen_logGroup = 'nielsen-dcr';
+var nlsnConfig = {};
+
+/**
+ * Creates Nielsen Static Queue Snippet
+ */
+function createInstance(nielsenKey) {
+	ad_engine_["utils"].logger(nielsen_logGroup, 'loading');
+
+	initNielsenStaticQueue();
+
+	return NOLBUNDLE.nlsQ(nielsenKey, 'nlsnInstance', nlsnConfig);
+}
+
+/**
+ * Nielsen service handler
+ */
+
+var nielsen_Nielsen = function () {
+	/**
+  * Class constructor
+  */
+	function Nielsen() {
+		classCallCheck_default()(this, Nielsen);
+
+		this.nlsnInstance = null;
+
+		if (ad_engine_["utils"].queryString.get('nielsen-dcr-debug') === '1') {
+			nlsnConfig.nol_sdkDebug = 'debug';
+		}
+	}
+
+	/**
+  * Create Nielsen Static Queue and make a call
+  * @param {Object} nielsenMetadata
+  * @returns {Object}
+  */
+
+
+	createClass_default()(Nielsen, [{
+		key: 'call',
+		value: function call(nielsenMetadata) {
+			var nielsenKey = ad_engine_["context"].get('services.nielsen.appId');
+
+			if (!ad_engine_["context"].get('services.nielsen.enabled') || !nielsenKey) {
+				ad_engine_["utils"].logger(nielsen_logGroup, 'disabled');
+
+				return null;
+			}
+
+			if (!this.nlsnInstance) {
+				this.nlsnInstance = createInstance(nielsenKey);
+			}
+
+			ad_engine_["utils"].logger(nielsen_logGroup, 'ready');
+
+			this.nlsnInstance.ggPM('staticstart', nielsenMetadata);
+
+			ad_engine_["utils"].logger(nielsen_logGroup, 'called', nielsenMetadata);
+
+			return this.nlsnInstance;
+		}
+	}]);
+
+	return Nielsen;
+}();
+
+var nielsen = new nielsen_Nielsen();
 // CONCATENATED MODULE: ./src/ad-services/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "confiant", function() { return confiant; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYi", function() { return moatYi; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "nielsen", function() { return nielsen; });
+
+
 
 
 

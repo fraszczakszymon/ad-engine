@@ -1,4 +1,4 @@
-import { utils } from '@wikia/ad-engine';
+import { context, utils } from '@wikia/ad-engine';
 
 export class BaseBidder {
 	constructor(name, bidderConfig, timeout = 2000) {
@@ -7,6 +7,7 @@ export class BaseBidder {
 		this.bidderConfig = bidderConfig;
 		this.timeout = timeout;
 		this.utils = utils;
+		this.context = context;
 
 		this.resetState();
 
@@ -18,7 +19,8 @@ export class BaseBidder {
 		this.response = false;
 		this.onResponseCallbacks = [];
 
-		this.utils.makeLazyQueue(this.onResponseCallbacks, (callback) => {
+		this.onResponseCallbacks = new utils.LazyQueue();
+		this.onResponseCallbacks.onItemFlush((callback) => {
 			callback(this.name);
 		});
 	}
@@ -36,13 +38,22 @@ export class BaseBidder {
 		this.response = true;
 
 		this.calculatePrices();
-		this.onResponseCallbacks.start();
+		this.onResponseCallbacks.flush();
 
 		this.utils.logger(this.logGroup, 'respond');
 	}
 
 	createWithTimeout(func, msToTimeout = 2000) {
 		return Promise.race([new Promise(func), this.utils.timeoutReject(msToTimeout)]);
+	}
+
+	/**
+	 * Returns bidder slot alias if available, otherwise slot name
+	 * @param {string} slotName
+	 * @returns {string}
+	 */
+	getSlotAlias(slotName) {
+		return context.get(`slots.${slotName}.bidderAlias`) || slotName;
 	}
 
 	getSlotBestPrice(slotName) {
@@ -61,7 +72,13 @@ export class BaseBidder {
 		return this.isSupported(slotName);
 	}
 
+	/**
+	 * Fires the Promise if bidder replied or timeout is reached
+	 * @returns {Promise}
+	 */
 	waitForResponse() {
+		// TODO Remove utils.createWithTimeout or use it here,
+		// or change it entirely!!!
 		return this.createWithTimeout((resolve) => {
 			if (this.hasResponse()) {
 				resolve();
@@ -79,6 +96,10 @@ export class BaseBidder {
 		this.onResponseCallbacks.push(callback);
 	}
 
+	/**
+	 * Check if bidder was called
+	 * @returns {boolean}
+	 */
 	wasCalled() {
 		return this.called;
 	}

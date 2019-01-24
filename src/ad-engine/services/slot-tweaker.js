@@ -4,7 +4,10 @@ import { slotService } from './slot-service';
 
 const logGroup = 'slot-tweaker';
 
-class SlotTweaker {
+export class SlotTweaker {
+	/** @readonly */
+	static SLOT_CLOSE_IMMEDIATELY = 'force-close';
+
 	forceRepaint(domElement) {
 		return domElement.offsetWidth;
 	}

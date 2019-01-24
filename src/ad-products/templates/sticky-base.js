@@ -1,8 +1,12 @@
 import { AdSlot, context, utils } from '@wikia/ad-engine';
 import { Stickiness } from './uap/themes/hivi/stickiness';
+import CloseButton from './interface/close-button';
 
 const logGroup = 'sticky-base';
 
+/**
+ * @abstract
+ */
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
 
@@ -12,22 +16,80 @@ export class StickyBase {
 	 */
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.lineId = adSlot.lineItemId;
-		this.lines = context.get(`templates.${this.getName()}.lineItemIds`);
+		this.container = this.adSlot.getElement();
+		this.lineId = adSlot.lineItemId.toString() || '';
+		this.lines = context.get(`templates.${this.getName()}.lineItemIds`) || [];
 		this.stickiness = null;
 		this.config = context.get(`templates.${this.getName()}`);
 	}
 
 	/**
-	 * Returns template name.
-	 *
+	 * @protected
+	 */
+	setupStickiness(params) {
+		this.params = params;
+
+		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
+		this.adSlot.onLoad().then(() => {
+			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
+			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
+		});
+
+		this.addStickinessPlugin();
+	}
+
+	/**
 	 * @abstract
+	 * @protected
+	 */
+	addStickinessPlugin() {
+		throw new utils.NotImplementedException();
+	}
+
+	/**
+	 * @protected
+	 */
+	isEnabled() {
+		const isEnabledInContext = context.get(`templates.${this.getName()}.enabled`);
+		const isEnabled = isEnabledInContext && this.isLineAndGeo();
+
+		if (isEnabled) {
+			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
+		}
+
+		return isEnabled;
+	}
+
+	/**
+	 * Returns template name.
+	 * @abstract
+	 * @protected
 	 * @return {string}
 	 */
-	getName() {}
+	getName() {
+		throw new utils.NotImplementedException();
+	}
+
+	/**
+	 * @private
+	 */
+	isLineAndGeo() {
+		const found = this.lines.some((line) => {
+			const [lineId, geo] = line.split(':', 2);
+
+			return lineId === this.lineId && (!geo || utils.isProperGeo([geo]));
+		});
+
+		if (found) {
+			utils.logger(logGroup, `line item ${this.lineId} enabled in geo`);
+		}
+
+		return found;
+	}
 
 	/**
 	 * Runs logic which decides when to unstick the template.
+	 * @protected
 	 */
 	addUnstickLogic() {
 		const { stickyAdditionalTime, stickyUntilSlotViewed } = this.config;
@@ -38,41 +100,52 @@ export class StickyBase {
 			await utils.wait(StickyBase.DEFAULT_UNSTICK_DELAY + stickyAdditionalTime);
 		};
 
-		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout(), true);
+		this.stickiness = new Stickiness(this.adSlot, whenSlotViewedOrTimeout());
 	}
 
-	isEnabled() {
-		const isEnabledInContext = context.get(`templates.${this.getName()}.enabled`);
-		const isLineAndGeo = StickyBase.isLineAndGeo(this.lineId, this.lines);
-		const isEnabled = isEnabledInContext && isLineAndGeo;
+	/**
+	 * @protected
+	 */
+	addButton(rootElement, cb) {
+		this.button = new CloseButton({
+			classNames: ['button-unstick'],
+			onClick: cb,
+		}).render();
 
-		if (isEnabled) {
-			utils.logger(logGroup, `enabled with line item id ${this.lineId}`);
-		}
-
-		return isEnabled;
+		rootElement.appendChild(this.button);
 	}
 
-	static isLineAndGeo(lineId, lines) {
-		if (!lineId || !lines || !lines.length) {
-			return false;
-		}
+	/**
+	 * @protected
+	 */
+	removeButton() {
+		this.button.remove();
+	}
 
-		let found = false;
+	/**
+	 * @protected
+	 */
+	addUnstickEvents() {
+		this.stickiness.on(Stickiness.STICKINESS_CHANGE_EVENT, (isSticky) =>
+			this.onStickinessChange(isSticky),
+		);
+		this.stickiness.on(Stickiness.CLOSE_CLICKED_EVENT, () => this.unstickImmediately());
+		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, () => this.unstickImmediately());
+	}
 
-		lineId = lineId.toString();
+	/**
+	 * @abstract
+	 * @protected
+	 */
+	onStickinessChange(isSticky) {
+		throw new utils.NotImplementedException({ isSticky });
+	}
 
-		lines.forEach((line) => {
-			line = line.split(':', 2);
-
-			if (line[0] === lineId && (!line[1] || utils.isProperGeo([line[1]]))) {
-				found = true;
-			}
-		});
-		if (found) {
-			utils.logger(logGroup, `line item ${lineId} enabled in geo`);
-		}
-
-		return found;
+	/**
+	 * @abstract
+	 * @protected
+	 */
+	unstickImmediately() {
+		throw new utils.NotImplementedException();
 	}
 }

@@ -20,8 +20,12 @@ window.pbjs = window.pbjs || {};
 window.pbjs.que = window.pbjs.que || [];
 
 events.registerEvent('BIDS_REFRESH');
+events.registerEvent('PREBID_LAZY_CALL');
 
 export class Prebid extends BaseBidder {
+	static validResponseStatusCode = 1;
+	static errorResponseStatusCode = 2;
+
 	constructor(bidderConfig, timeout = 2000) {
 		super('prebid', bidderConfig, timeout);
 
@@ -31,7 +35,6 @@ export class Prebid extends BaseBidder {
 		this.isLazyLoadingEnabled = this.bidderConfig.lazyLoadingEnabled;
 		this.isCMPEnabled = context.get('custom.isCMPEnabled');
 		this.adUnits = setupAdUnits(this.bidderConfig, this.isLazyLoadingEnabled ? 'pre' : 'off');
-		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
 		this.prebidConfig = {
 			debug:
 				utils.queryString.get('pbjs_debug') === '1' ||
@@ -48,6 +51,7 @@ export class Prebid extends BaseBidder {
 				syncDelay: 6000,
 			},
 		};
+		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
 
 		if (this.isCMPEnabled) {
 			this.prebidConfig.consentManagement = {
@@ -66,9 +70,6 @@ export class Prebid extends BaseBidder {
 			this.registerBidsRefreshing();
 		}
 	}
-
-	static validResponseStatusCode = 1;
-	static errorResponseStatusCode = 2;
 
 	@decorate(postponeExecutionUntilPbjsLoads)
 	applyConfig(config) {
@@ -140,7 +141,7 @@ export class Prebid extends BaseBidder {
 	}
 
 	getBestPrice(slotName) {
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 
 		return getPrebidBestPrice(slotAlias);
 	}
@@ -152,7 +153,7 @@ export class Prebid extends BaseBidder {
 	getTargetingParams(slotName) {
 		let slotParams = {};
 
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 		const bids = getAvailableBidsByAdUnitCode(slotAlias);
 
 		if (bids.length) {
@@ -186,14 +187,14 @@ export class Prebid extends BaseBidder {
 	}
 
 	isSupported(slotName) {
-		const slotAlias = context.get(`slots.${slotName}.bidderAlias`) || slotName;
+		const slotAlias = this.getSlotAlias(slotName);
 
 		return this.adUnits && this.adUnits.some((adUnit) => adUnit.code === slotAlias);
 	}
 
 	registerBidsRefreshing() {
 		window.pbjs.que.push(() => {
-			window.pbjs.onEvent('bidWon', (winningBid) => {
+			const refreshUsedBid = (winningBid) => {
 				if (this.bidsRefreshing.slots.indexOf(winningBid.adUnitCode) !== -1) {
 					events.emit(events.BIDS_REFRESH);
 					const adUnitsToRefresh = this.adUnits.filter(
@@ -206,6 +207,11 @@ export class Prebid extends BaseBidder {
 
 					this.requestBids(adUnitsToRefresh, this.bidsRefreshing.bidsBackHandler);
 				}
+			};
+
+			window.pbjs.onEvent('bidWon', refreshUsedBid);
+			events.once(events.PAGE_CHANGE_EVENT, () => {
+				window.pbjs.offEvent('bidWon', refreshUsedBid);
 			});
 		});
 	}

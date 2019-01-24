@@ -230,11 +230,66 @@ describe('Bill the Lizard service', () => {
 		});
 
 		it('should serialize all predictions if no callId is supplied', () => {
-			expect(billTheLizard.serialize()).to.equal('a|0=1;a:0.0.1|1=2;b|foo=3');
+			expect(billTheLizard.serialize()).to.equal('a|0=1,a:0.0.1|1=2,b|foo=3');
 		});
 
 		it('should serialize only predictions with callId matching the supplied one', () => {
 			expect(billTheLizard.serialize(0)).to.equal('a|0=1');
+		});
+	});
+
+	describe('getPreviousPrediction', () => {
+		const callIdBuilder = (cId) => `foo_${cId}`;
+		const modelName = 'bar';
+
+		beforeEach(() => {
+			billTheLizard.predictions = [
+				{ modelName, callId: 'foo_1', result: 1 },
+				{ modelName, callId: 'foo_2', result: 2 },
+				{ modelName, callId: 'foo_3', result: 3 },
+			];
+		});
+
+		it('should return undefined if startId is smaller than 2', () => {
+			expect(billTheLizard.getPreviousPrediction(-1)).to.be.undefined;
+			expect(billTheLizard.getPreviousPrediction(0)).to.be.undefined;
+			expect(billTheLizard.getPreviousPrediction(1)).to.be.undefined;
+		});
+
+		it('should return undefined if no previous prediction has status on_time or too_late', () => {
+			billTheLizard.statuses = {
+				foo_1: BillTheLizard.NOT_USED,
+				foo_2: BillTheLizard.NOT_USED,
+				foo_3: BillTheLizard.NOT_USED,
+			};
+
+			const response = billTheLizard.getPreviousPrediction(4, callIdBuilder, modelName);
+
+			expect(response).to.be.undefined;
+		});
+
+		it('should return prediction with status on_time', () => {
+			billTheLizard.statuses = {
+				foo_1: BillTheLizard.NOT_USED,
+				foo_2: BillTheLizard.ON_TIME,
+				foo_3: BillTheLizard.NOT_USED,
+			};
+
+			const response = billTheLizard.getPreviousPrediction(4, callIdBuilder, modelName);
+
+			expect(response.result).to.equal(2);
+		});
+
+		it('should return prediction with status too_late', () => {
+			billTheLizard.statuses = {
+				foo_1: BillTheLizard.NOT_USED,
+				foo_2: BillTheLizard.TOO_LATE,
+				foo_3: BillTheLizard.NOT_USED,
+			};
+
+			const response = billTheLizard.getPreviousPrediction(4, callIdBuilder, modelName);
+
+			expect(response.result).to.equal(2);
 		});
 	});
 

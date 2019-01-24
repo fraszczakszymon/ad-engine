@@ -1,6 +1,22 @@
 import { queryString } from '../utils';
 
 class VastParser {
+	/**
+	 * @private
+	 */
+	getLastNumber(possibleValues) {
+		let i;
+		let value = '';
+
+		for (i = 0; i < possibleValues.length; i += 1) {
+			if (!isNaN(possibleValues[i])) {
+				value = possibleValues[i];
+			}
+		}
+
+		return value;
+	}
+
 	getAdInfo(imaAd) {
 		const adInfo = {};
 
@@ -9,16 +25,16 @@ class VastParser {
 			adInfo.creativeId = imaAd.getCreativeId();
 			adInfo.contentType = imaAd.getContentType();
 
-			const [lineItemId] = imaAd.getWrapperAdIds() || [];
+			const wrapperAdIds = imaAd.getWrapperAdIds() || [];
 
-			if (lineItemId !== undefined) {
-				adInfo.lineItemId = lineItemId;
+			if (wrapperAdIds && wrapperAdIds.length) {
+				adInfo.lineItemId = this.getLastNumber(wrapperAdIds);
 			}
 
-			const [creativeId] = imaAd.getWrapperCreativeIds() || [];
+			const wrapperCreativeIds = imaAd.getWrapperCreativeIds() || [];
 
-			if (creativeId !== undefined) {
-				adInfo.creativeId = creativeId;
+			if (wrapperCreativeIds && wrapperCreativeIds.length) {
+				adInfo.creativeId = this.getLastNumber(wrapperCreativeIds);
 			}
 		}
 

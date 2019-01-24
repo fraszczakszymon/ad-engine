@@ -2,6 +2,7 @@ import { context, events, utils } from '@wikia/ad-engine';
 import { A9 } from './a9';
 import { Prebid } from './prebid';
 import * as prebidHelper from './prebid/prebid-helper';
+import { transformPriceFromBid } from './prebid/price-helper';
 
 const biddersRegistry = {};
 const realSlotPrices = {};
@@ -17,6 +18,11 @@ function applyTargetingParams(slotName, targeting) {
 	);
 }
 
+/**
+ * Executes callback function on each enabled bidder
+ *
+ * @param {function} callback
+ */
 function forEachBidder(callback) {
 	Object.keys(biddersRegistry).forEach((bidderName) => {
 		callback(biddersRegistry[bidderName]);
@@ -30,9 +36,7 @@ function getBidParameters(slotName) {
 		if (bidder && bidder.wasCalled()) {
 			const params = bidder.getSlotTargetingParams(slotName);
 
-			Object.keys(params).forEach((key) => {
-				slotParams[key] = params[key];
-			});
+			Object.assign(slotParams, params);
 		}
 	});
 
@@ -59,6 +63,11 @@ function getDfpSlotPrices(slotName) {
 	return realSlotPrices[slotName] || {};
 }
 
+/**
+ * Returns true if all bidders replied
+ *
+ * @returns {boolean}
+ */
 function hasAllResponses() {
 	const missingBidders = Object.keys(biddersRegistry).filter((bidderName) => {
 		const bidder = biddersRegistry[bidderName];
@@ -83,10 +92,6 @@ function requestBids({ responseListener = null }) {
 	const config = context.get('bidders');
 
 	if (config.prebid && config.prebid.enabled) {
-		if (!events.PREBID_LAZY_CALL) {
-			events.registerEvent('PREBID_LAZY_CALL');
-		}
-
 		biddersRegistry.prebid = new Prebid(config.prebid, config.timeout);
 	}
 
@@ -101,6 +106,23 @@ function requestBids({ responseListener = null }) {
 
 		bidder.call();
 	});
+}
+
+/**
+ * Executes callback function if bidding is finished or timeout is reached
+ *
+ * @param {function} callback
+ *
+ * @returns {Promise}
+ */
+function runOnBiddingReady(callback) {
+	const responses = [];
+
+	forEachBidder((bidder) => {
+		responses.push(bidder.waitForResponse());
+	});
+
+	return Promise.all(responses).then(callback);
 }
 
 function storeRealSlotPrices(slotName) {
@@ -121,10 +143,13 @@ function updateSlotTargeting(slotName) {
 }
 
 export const bidders = {
+	getBidParameters,
 	getCurrentSlotPrices,
 	getDfpSlotPrices,
 	hasAllResponses,
 	prebidHelper,
 	requestBids,
+	runOnBiddingReady,
+	transformPriceFromBid,
 	updateSlotTargeting,
 };

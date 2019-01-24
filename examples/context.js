@@ -30,6 +30,10 @@ export default {
 					type: 'video',
 					slotId: 'FEATURED',
 				},
+				incontent_boxad: {
+					slotId: 'MOBILE_IN_CONTENT',
+					sizes: [[300, 250]],
+				},
 			},
 		},
 		prebid: {
@@ -38,7 +42,7 @@ export default {
 			lazyLoadingEnabled: false,
 			bidsRefreshing: {
 				enabled: true,
-				slots: ['top_boxad'],
+				slots: ['incontent_boxad'],
 			},
 			wikia: {
 				enabled: true,
@@ -47,6 +51,9 @@ export default {
 						sizes: [[728, 90]],
 					},
 					top_boxad: {
+						sizes: [[300, 250]],
+					},
+					incontent_boxad: {
 						sizes: [[300, 250]],
 					},
 					bottom_leaderboard: {
@@ -129,13 +136,13 @@ export default {
 		slot: [
 			{
 				onRenderEnded(adSlot) {
-					console.log('💸 Custom listener: onRenderEnded', adSlot.getSlotName());
+					console.log(`💸 Custom listener: onRenderEnded ${adSlot.getSlotName()}`);
 				},
 				onImpressionViewable(adSlot) {
-					console.log('👁 Custom listener: onImpressionViewable', adSlot.getSlotName());
+					console.log(`👁 Custom listener: onImpressionViewable ${adSlot.getSlotName()}`);
 				},
 				onCustomEvent(adSlot, data) {
-					console.log('👁 Custom listener: onCustomEvent', adSlot.getSlotName(), data.status);
+					console.log(`👁 Custom listener: onCustomEvent ${adSlot.getSlotName()} ${data.status}`);
 				},
 			},
 		],
@@ -208,7 +215,7 @@ export default {
 			},
 		},
 		repeatable_boxad_1: {
-			bidderAlias: 'top_boxad',
+			bidderAlias: 'incontent_boxad',
 			defaultSizes: [[300, 250]],
 			avoidConflictWith: '.repeatable-boxad,#incontent_player',
 			insertBeforeSelector: '.main p',
@@ -318,7 +325,7 @@ export default {
 					s2: 'article',
 				},
 				cheshirecat: {
-					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(';'),
+					bids: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].join(','),
 				},
 			},
 			timeout: 2000,

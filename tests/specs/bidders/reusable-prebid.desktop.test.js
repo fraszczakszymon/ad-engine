@@ -29,7 +29,7 @@ describe('Bidders: Reusable prebid template', () => {
 	});
 
 	it('Check if wikia adapter creative is not rendered when limit of bids is reached', () => {
-		browser.url(reusablePrebid.getLinkWithWikiaAdapterParameters(1410, 2, true));
+		browser.url(reusablePrebid.getLinkWithWikiaAdapterParameters(1410, 3, true));
 
 		asserts.assertWikiaAdapterCampaign(adSlots.topLeaderboard);
 		asserts.assertWikiaAdapterCampaign(repeatableSlots.getRepeatableSlot(1));

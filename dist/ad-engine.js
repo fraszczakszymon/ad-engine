@@ -104,7 +104,7 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/slicedToArray");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 6 */
@@ -116,115 +116,115 @@ module.exports = require("babel-runtime/core-js/object/assign");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/helpers/inherits");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/inherits");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("current-device");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/values");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("babel-runtime/core-js/object/values");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("lodash/get");
 
 /***/ }),
 /* 26 */
@@ -233,7 +233,6 @@ module.exports = require("lodash/set");
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var utils_namespaceObject = {};
-__webpack_require__.d(utils_namespaceObject, "bindCallback", function() { return bindCallback; });
 __webpack_require__.d(utils_namespaceObject, "client", function() { return client; });
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { return getLeftOffset; });
@@ -245,6 +244,7 @@ __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", func
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
 __webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
 __webpack_require__.d(utils_namespaceObject, "getContinentCode", function() { return getContinentCode; });
@@ -262,33 +262,24 @@ __webpack_require__.d(utils_namespaceObject, "IframeBuilder", function() { retur
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "LazyQueue", function() { return lazy_queue_LazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "logger", function() { return logger; });
+__webpack_require__.d(utils_namespaceObject, "NotImplementedException", function() { return not_implemented_exception_NotImplementedException; });
 __webpack_require__.d(utils_namespaceObject, "queryString", function() { return query_string_queryString; });
 __webpack_require__.d(utils_namespaceObject, "sampler", function() { return sampler; });
 __webpack_require__.d(utils_namespaceObject, "scriptLoader", function() { return scriptLoader; });
 __webpack_require__.d(utils_namespaceObject, "stringBuilder", function() { return stringBuilder; });
-__webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
 __webpack_require__.d(utils_namespaceObject, "timer", function() { return timer; });
 __webpack_require__.d(utils_namespaceObject, "whichProperty", function() { return whichProperty; });
 __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return tryProperty; });
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(25);
+var set_ = __webpack_require__(22);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(24);
+var get_ = __webpack_require__(25);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
-// CONCATENATED MODULE: ./src/ad-engine/utils/bind-callback.js
-/** Return passed promise and executes callback if present. */
-function bindCallback(callback, promise) {
-	if (callback && typeof callback === 'function') {
-		promise.then(callback.bind(null, null), callback);
-	}
-
-	return promise;
-}
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
 var classCallCheck_ = __webpack_require__(1);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
@@ -298,11 +289,11 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(20);
+var external_current_device_ = __webpack_require__(21);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(23);
+var external_blockadblock_ = __webpack_require__(24);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.js
@@ -603,7 +594,7 @@ var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(12);
+var typeof_ = __webpack_require__(15);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -666,6 +657,24 @@ function flow_control_once(emitter, eventName) {
 		}
 	});
 }
+
+/**
+ * Fires the Promise if function is fulfilled or timeout is reached
+ *
+ * @param {function} func
+ * @param {int} msToTimeout
+ *
+ * @returns {Promise}
+ */
+function createWithTimeout(func) {
+	var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
+
+	var timeout = new promise_default.a(function (resolve, reject) {
+		setTimeout(reject, msToTimeout);
+	});
+
+	return promise_default.a.race([new promise_default.a(func), timeout]);
+}
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
 var stringify_ = __webpack_require__(4);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
@@ -675,11 +684,11 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(5);
+var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(14);
+var external_js_cookie_ = __webpack_require__(17);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
@@ -1222,6 +1231,12 @@ var iframe_builder_IframeBuilder = function () {
 // CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
 
 
+/**
+ * @deprecated
+ * @param queue
+ * @param callback
+ * Please use LazyQueue class instead
+ */
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -1239,38 +1254,57 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 
-// TODO: Proposal
-// example: https://stackblitz.com/edit/wikia-lazy-queue
+/**
+ * example: https://stackblitz.com/edit/wikia-lazy-queue
+ */
 var lazy_queue_LazyQueue = function () {
-	/** @private */
+	createClass_default()(LazyQueue, [{
+		key: 'length',
+		get: function get() {
+			return this.items.length;
+		}
+
+		// itemFlushed = {}; // RxJs Subject
+
+		/**
+   * @private
+   */
+
+
+		/**
+   * @private
+   */
+
+
+		/**
+   * @private
+   */
+
+	}]);
+
 	function LazyQueue() {
 		classCallCheck_default()(this, LazyQueue);
 
 		this.itemFlushCallbacks = [];
 		this.pushCommand = undefined;
-		this.array = [];
+		this.items = [];
 
 		for (var _len = arguments.length, items = Array(_len), _key = 0; _key < _len; _key++) {
 			items[_key] = arguments[_key];
 		}
 
-		this.array = [].concat(items);
+		this.items = [].concat(items);
 		this.setPreFlushPush();
 	}
 
 	// old start
 
-	/** @private */
-
-	// itemFlushed = {}; // RxJs Subject
-	/** @private */
-
 
 	createClass_default()(LazyQueue, [{
 		key: 'flush',
 		value: function flush() {
-			while (this.array.length > 0) {
-				this.emit(this.array.shift());
+			while (this.items.length > 0) {
+				this.emit(this.items.shift());
 			}
 			this.setPostFlushPush();
 		}
@@ -1293,7 +1327,9 @@ var lazy_queue_LazyQueue = function () {
 			this.itemFlushCallbacks.push(callback);
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'setPreFlushPush',
@@ -1301,13 +1337,15 @@ var lazy_queue_LazyQueue = function () {
 			var _this = this;
 
 			this.pushCommand = function () {
-				var _array;
+				var _items;
 
-				(_array = _this.array).push.apply(_array, arguments);
+				(_items = _this.items).push.apply(_items, arguments);
 			};
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'setPostFlushPush',
@@ -1325,7 +1363,9 @@ var lazy_queue_LazyQueue = function () {
 			};
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'emit',
@@ -1411,6 +1451,58 @@ function logger(logGroup) {
 		window.console.info(logGroup, logValues);
 	}
 }
+// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
+var get_prototype_of_ = __webpack_require__(5);
+var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
+var possibleConstructorReturn_ = __webpack_require__(8);
+var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
+
+// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
+var inherits_ = __webpack_require__(12);
+var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
+
+// CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.js
+
+
+
+
+var not_implemented_exception_NotImplementedException = function (_Error) {
+	inherits_default()(NotImplementedException, _Error);
+
+	/**
+  * @param parameters - pass here method input parameters as an object.
+  * @param params - standard new Error() parameters, leave empty.
+  */
+	function NotImplementedException() {
+		var _ref;
+
+		var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+		classCallCheck_default()(this, NotImplementedException);
+
+		for (var _len = arguments.length, params = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+			params[_key - 1] = arguments[_key];
+		}
+
+		params[0] = 'Not Implemented Exception';
+		// Pass remaining arguments (including vendor specific ones) to parent constructor
+
+		// Maintains proper stack trace for where our error was thrown (only available on V8)
+		var _this = possibleConstructorReturn_default()(this, (_ref = NotImplementedException.__proto__ || get_prototype_of_default()(NotImplementedException)).call.apply(_ref, [this].concat(params)));
+
+		if (Error.captureStackTrace) {
+			Error.captureStackTrace(_this, NotImplementedException);
+		}
+
+		// Custom debugging information
+		_this.parameters = parameters;
+		return _this;
+	}
+
+	return NotImplementedException;
+}(Error);
 // CONCATENATED MODULE: ./src/ad-engine/utils/sampler.js
 
 
@@ -1524,31 +1616,18 @@ var script_loader_ScriptLoader = function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(19);
+var toConsumableArray_ = __webpack_require__(14);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
-var values_ = __webpack_require__(22);
+var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
-// EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(7);
-var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(11);
-var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
-
-// EXTERNAL MODULE: external "babel-runtime/helpers/inherits"
-var inherits_ = __webpack_require__(16);
-var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(15);
+var external_eventemitter3_ = __webpack_require__(19);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
-
 
 
 
@@ -1559,6 +1638,24 @@ var vast_parser_VastParser = function () {
 	}
 
 	createClass_default()(VastParser, [{
+		key: 'getLastNumber',
+
+		/**
+   * @private
+   */
+		value: function getLastNumber(possibleValues) {
+			var i = void 0;
+			var value = '';
+
+			for (i = 0; i < possibleValues.length; i += 1) {
+				if (!isNaN(possibleValues[i])) {
+					value = possibleValues[i];
+				}
+			}
+
+			return value;
+		}
+	}, {
 		key: 'getAdInfo',
 		value: function getAdInfo(imaAd) {
 			var adInfo = {};
@@ -1568,20 +1665,16 @@ var vast_parser_VastParser = function () {
 				adInfo.creativeId = imaAd.getCreativeId();
 				adInfo.contentType = imaAd.getContentType();
 
-				var _ref = imaAd.getWrapperAdIds() || [],
-				    _ref2 = slicedToArray_default()(_ref, 1),
-				    lineItemId = _ref2[0];
+				var wrapperAdIds = imaAd.getWrapperAdIds() || [];
 
-				if (lineItemId !== undefined) {
-					adInfo.lineItemId = lineItemId;
+				if (wrapperAdIds && wrapperAdIds.length) {
+					adInfo.lineItemId = this.getLastNumber(wrapperAdIds);
 				}
 
-				var _ref3 = imaAd.getWrapperCreativeIds() || [],
-				    _ref4 = slicedToArray_default()(_ref3, 1),
-				    creativeId = _ref4[0];
+				var wrapperCreativeIds = imaAd.getWrapperCreativeIds() || [];
 
-				if (creativeId !== undefined) {
-					adInfo.creativeId = creativeId;
+				if (wrapperCreativeIds && wrapperCreativeIds.length) {
+					adInfo.creativeId = this.getLastNumber(wrapperCreativeIds);
 				}
 			}
 
@@ -2240,11 +2333,12 @@ var porvata_PorvataPlayer = function () {
 		this.height = params.height;
 		this.muteProtect = false;
 		this.defaultVolume = 0.75;
-		this.destroyCallbacks = [];
 
-		makeLazyQueue(this.destroyCallbacks, function (callback) {
+		this.destroyCallbacks = new lazy_queue_LazyQueue();
+		this.destroyCallbacks.onItemFlush(function (callback) {
 			return callback();
 		});
+
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
 				return _this.onFullscreenChange();
@@ -2435,7 +2529,7 @@ var porvata_PorvataPlayer = function () {
 	}, {
 		key: 'destroy',
 		value: function destroy() {
-			this.destroyCallbacks.start();
+			this.destroyCallbacks.flush();
 		}
 	}]);
 
@@ -2613,11 +2707,11 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(18);
+var regenerator_ = __webpack_require__(13);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_ = __webpack_require__(18);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.js
@@ -2970,15 +3064,15 @@ porvata_listener_PorvataListener.EVENTS = {
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(17);
+var get_own_property_names_ = __webpack_require__(20);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(8);
+var symbol_ = __webpack_require__(7);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(13);
+var helpers_get_ = __webpack_require__(16);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -3383,11 +3477,11 @@ var slotListener = new slot_listener_SlotListener();
 
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(10);
+var get_own_property_descriptor_ = __webpack_require__(11);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(9);
+var external_core_decorators_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.js
 
@@ -3900,6 +3994,21 @@ var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(exte
 var ad_slot_AdSlot = function (_EventEmitter) {
 	inherits_default()(AdSlot, _EventEmitter);
 
+	createClass_default()(AdSlot, null, [{
+		key: 'isAboveTheFold',
+
+
+		/**
+   * Returns true if slot is ATF
+   *
+   * @param config slot config
+   * @returns {boolean} true if slot is ATF
+   */
+		value: function isAboveTheFold(config) {
+			return !!config.aboveTheFold;
+		}
+	}]);
+
 	function AdSlot(ad) {
 		classCallCheck_default()(this, AdSlot);
 
@@ -3927,6 +4036,14 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.onLoadPromise = new promise_default.a(function (resolve) {
 			_this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
+
+		_this.logger = function () {
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return logger.apply(undefined, [AdSlot.LOG_GROUP].concat(args));
+		};
 		return _this;
 	}
 
@@ -4008,14 +4125,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 				slotListener.emitStatusChanged(this);
 			}
 		}
-
-		/**
-   * Returns true if slot is ATF
-   *
-   * @param config slot config
-   * @returns {boolean} true if slot is ATF
-   */
-
 	}, {
 		key: 'isFirstCall',
 		value: function isFirstCall() {
@@ -4084,11 +4193,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			slotTweaker.show(this);
 			this.setStatus(status);
 
-			var templates = this.getConfigProperty('defaultTemplates');
+			var templateNames = this.getConfigProperty('defaultTemplates');
 
-			if (templates && templates.length) {
-				templates.forEach(function (template) {
-					return templateService.init(template, _this2);
+			if (templateNames && templateNames.length) {
+				templateNames.forEach(function (templateName) {
+					return templateService.init(templateName, _this2);
 				});
 			}
 		}
@@ -4123,9 +4232,15 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			if (!event.isEmpty && event.slot) {
 				var resp = event.slot.getResponseInformation();
 
-				if (resp && resp.creativeId === null && resp.lineItemId === null) {
-					creativeId = ADX;
-					lineItemId = ADX;
+				if (resp) {
+					if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
+						this.logger('set line item and creative id to source agnostic values');
+						creativeId = resp.sourceAgnosticCreativeId;
+						lineItemId = resp.sourceAgnosticLineItemId;
+					} else if (resp.creativeId === null && resp.lineItemId === null) {
+						creativeId = ADX;
+						lineItemId = ADX;
+					}
 				}
 			}
 
@@ -4140,11 +4255,6 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		get: function get() {
 			return this.config.targeting;
 		}
-	}], [{
-		key: 'isAboveTheFold',
-		value: function isAboveTheFold(config) {
-			return !!config.aboveTheFold;
-		}
 	}]);
 
 	return AdSlot;
@@ -4153,6 +4263,7 @@ ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
@@ -4400,17 +4511,22 @@ var btf_blocker_service_BtfBlockerService = function () {
 		this.resetState();
 	}
 
+	/**
+  * @private
+  */
+
+
 	createClass_default()(BtfBlockerService, [{
 		key: 'resetState',
 		value: function resetState() {
 			var _this = this;
 
-			this.slotsQueue = [];
 			this.firstCallEnded = false;
 			/** @type {string[]}  */
 			this.unblockedSlotNames = [];
 
-			makeLazyQueue(this.slotsQueue, function (_ref) {
+			this.slotsQueue = new lazy_queue_LazyQueue();
+			this.slotsQueue.onItemFlush(function (_ref) {
 				var adSlot = _ref.adSlot,
 				    fillInCallback = _ref.fillInCallback;
 
@@ -4421,6 +4537,7 @@ var btf_blocker_service_BtfBlockerService = function () {
 
 			if (window.ads && window.ads.runtime) {
 				window.ads.runtime.disableBtf = false;
+				window.ads.runtime.disableSecondCall = false;
 			}
 		}
 	}, {
@@ -4446,16 +4563,20 @@ var btf_blocker_service_BtfBlockerService = function () {
 			this.firstCallEnded = true;
 			logger(btf_blocker_service_logGroup, 'first call queue finished');
 
-			if (window.ads.runtime.disableBtf) {
+			if (window.ads.runtime.disableSecondCall) {
+				this.disableSecondCall([]);
+			} else if (window.ads.runtime.disableBtf) {
 				this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
-					return slot.name;
+					return slot.slotName;
 				}))));
 			}
 
-			this.slotsQueue.start();
+			this.slotsQueue.flush();
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'disableSecondCall',
@@ -4489,7 +4610,9 @@ var btf_blocker_service_BtfBlockerService = function () {
 			this.fillInSlotIfEnabled(adSlot, fillInCallback);
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'disableAdSlotIfHasConflict',
@@ -4499,7 +4622,9 @@ var btf_blocker_service_BtfBlockerService = function () {
 			}
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'fillInSlotIfEnabled',
@@ -4535,7 +4660,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 var template_service_logGroup = 'template-service';
-var template_service_templates = {};
+var templates = {};
 
 var template_service_TemplateService = function () {
 	function TemplateService() {
@@ -4563,7 +4688,7 @@ var template_service_TemplateService = function () {
 			}
 
 			context.set('templates.' + name, config);
-			template_service_templates[name] = template;
+			templates[name] = template;
 		}
 	}, {
 		key: 'init',
@@ -4573,11 +4698,11 @@ var template_service_TemplateService = function () {
 
 			logger(template_service_logGroup, 'Load template', name, slot, params);
 
-			if (!template_service_templates[name]) {
+			if (!templates[name]) {
 				throw new Error('Template ' + name + ' does not exist.');
 			}
 
-			return new template_service_templates[name](slot).init(params);
+			return new templates[name](slot).init(params);
 		}
 	}]);
 
@@ -4852,6 +4977,8 @@ var slot_tweaker_SlotTweaker = function () {
 		value: function forceRepaint(domElement) {
 			return domElement.offsetWidth;
 		}
+		/** @readonly */
+
 	}, {
 		key: 'getContainer',
 		value: function getContainer(adSlot) {
@@ -5026,6 +5153,7 @@ var slot_tweaker_SlotTweaker = function () {
 	return SlotTweaker;
 }();
 
+slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
 var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.js
 
@@ -5300,13 +5428,6 @@ var string_builder_StringBuilder = function () {
 }();
 
 var stringBuilder = new string_builder_StringBuilder();
-// CONCATENATED MODULE: ./src/ad-engine/utils/timeout-reject.js
-
-function timeoutReject(msToTimeout) {
-	return new promise_default.a(function (resolve, reject) {
-		setTimeout(reject, msToTimeout);
-	});
-}
 // CONCATENATED MODULE: ./src/ad-engine/utils/timer.js
 
 
@@ -5451,7 +5572,6 @@ var viewportObserver = {
 
 
 
-
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
 
@@ -5537,17 +5657,10 @@ var floating_ad_FloatingAd = function () {
 
 
 
+
+
+
 var ad_engine_logGroup = 'ad-engine';
-
-function getPromises() {
-	return (context.get('delayModules') || []).filter(function (module) {
-		return module.isEnabled();
-	}).map(function (module) {
-		logger(ad_engine_logGroup, 'Register delay module', module.getName());
-
-		return module.getPromise();
-	}) || [];
-}
 
 var ad_engine_AdEngine = function () {
 	function AdEngine() {
@@ -5567,11 +5680,32 @@ var ad_engine_AdEngine = function () {
 
 		events.on(events.PAGE_CHANGE_EVENT, function () {
 			_this.started = false;
-			_this.setupQueue();
+			_this.setupAdStack();
 		});
 	}
 
 	createClass_default()(AdEngine, [{
+		key: 'init',
+		value: function init() {
+			this.setupProviders();
+			this.setupAdStack();
+			btfBlockerService.init();
+
+			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
+			messageBus.init();
+			slotTweaker.registerMessageListener();
+			this.runAdQueue();
+
+			scrollListener.init();
+			slotRepeater.init();
+			this.setupPushOnScrollQueue();
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
 		key: 'setupProviders',
 		value: function setupProviders() {
 			var providerName = context.get('state.provider');
@@ -5585,9 +5719,14 @@ var ad_engine_AdEngine = function () {
 					this.provider = new gpt_provider_GptProvider();
 			}
 		}
+
+		/**
+   * @private
+   */
+
 	}, {
-		key: 'setupQueue',
-		value: function setupQueue() {
+		key: 'setupAdStack',
+		value: function setupAdStack() {
 			var _this2 = this;
 
 			this.adStack = context.get('state.adStack');
@@ -5600,212 +5739,104 @@ var ad_engine_AdEngine = function () {
 				});
 			}
 		}
+
+		/**
+   * @private
+   */
+
 	}, {
-		key: 'runAdQueue',
-		value: function runAdQueue() {
+		key: 'setupPushOnScrollQueue',
+		value: function setupPushOnScrollQueue() {
 			var _this3 = this;
 
-			var timeout = null;
+			if (context.get('events.pushOnScroll')) {
+				var pushOnScrollIds = context.get('events.pushOnScroll.ids');
+				var pushOnScrollQueue = new (Function.prototype.bind.apply(lazy_queue_LazyQueue, [null].concat(toConsumableArray_default()(pushOnScrollIds))))();
 
-			var promises = getPromises();
-			var startAdQueue = function startAdQueue() {
-				if (!_this3.started) {
-					events.emit(events.AD_STACK_START);
-					_this3.started = true;
-					clearTimeout(timeout);
-					_this3.adStack.start();
-				}
-			};
-
-			var maxTimeout = context.get('options.maxDelayTimeout');
-
-			logger(ad_engine_logGroup, 'Delay by ' + promises.length + ' modules (' + maxTimeout + 'ms timeout)');
-
-			if (promises.length > 0) {
-				promise_default.a.all(promises).then(function () {
-					logger(ad_engine_logGroup, 'startAdQueue', 'All modules ready');
-					startAdQueue();
+				pushOnScrollQueue.onItemFlush(function (id) {
+					scrollListener.addSlot(_this3.adStack, id, context.get('events.pushOnScroll.threshold'));
 				});
-				timeout = setTimeout(function () {
-					logger(ad_engine_logGroup, 'startAdQueue', 'Timeout reached');
-					startAdQueue();
-				}, maxTimeout);
-			} else {
-				startAdQueue();
+				context.set('events.pushOnScroll.ids', pushOnScrollQueue);
+				pushOnScrollQueue.flush();
 			}
 		}
 	}, {
-		key: 'init',
-		value: function init() {
-			var _this4 = this;
+		key: 'runAdQueue',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				var delayModulesPromises, maxTimeout, timeoutPromise;
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								delayModulesPromises = this.getDelayModulesPromises();
+								maxTimeout = context.get('options.maxDelayTimeout');
+								timeoutPromise = new promise_default.a(function (resolve) {
+									return setTimeout(resolve, maxTimeout);
+								});
 
-			this.setupProviders();
-			this.setupQueue();
-			btfBlockerService.init();
 
-			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
-			messageBus.init();
-			slotTweaker.registerMessageListener();
-			this.runAdQueue();
+								logger(ad_engine_logGroup, 'Delay by ' + delayModulesPromises.length + ' modules (' + maxTimeout + 'ms timeout)');
 
-			scrollListener.init();
-			slotRepeater.init();
+								_context.next = 6;
+								return promise_default.a.race([promise_default.a.all(delayModulesPromises), timeoutPromise]);
 
-			if (context.get('events.pushOnScroll')) {
-				var pushOnScrollQueue = context.get('events.pushOnScroll.ids');
+							case 6:
 
-				makeLazyQueue(pushOnScrollQueue, function (id) {
-					scrollListener.addSlot(_this4.adStack, id, context.get('events.pushOnScroll.threshold'));
-				});
-				pushOnScrollQueue.start();
+								logger(ad_engine_logGroup, 'startAdQueue', 'Ready');
+								this.startAdStack();
+
+							case 8:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function runAdQueue() {
+				return _ref.apply(this, arguments);
+			}
+
+			return runAdQueue;
+		}()
+
+		/**
+   * @private
+   * @returns {*[]}
+   */
+
+	}, {
+		key: 'getDelayModulesPromises',
+		value: function getDelayModulesPromises() {
+			var delayModules = context.get('delayModules') || [];
+
+			return delayModules.filter(function (delayModule) {
+				return delayModule.isEnabled();
+			}).map(function (delayModule) {
+				logger(ad_engine_logGroup, 'Register delay module', delayModule.getName());
+
+				return delayModule.getPromise();
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'startAdStack',
+		value: function startAdStack() {
+			if (!this.started) {
+				events.emit(events.AD_STACK_START);
+				this.started = true;
+				this.adStack.start();
 			}
 		}
 	}]);
 
 	return AdEngine;
 }();
-// CONCATENATED MODULE: ./src/ad-engine/wrappers/apstag.js
-
-
-
-
-
-var apstag_Apstag = function () {
-	function Apstag() {
-		classCallCheck_default()(this, Apstag);
-	}
-
-	createClass_default()(Apstag, [{
-		key: 'init',
-		value: function init(apsConfig) {
-			this.configure();
-			window.apstag.init(apsConfig);
-		}
-
-		/** @private */
-
-	}, {
-		key: 'configure',
-		value: function configure() {
-			var _this = this;
-
-			window.apstag = window.apstag || {};
-			window.apstag._Q = window.apstag._Q || [];
-
-			if (typeof window.apstag.init === 'undefined') {
-				window.apstag.init = function () {
-					for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-						args[_key] = arguments[_key];
-					}
-
-					_this.configureCommand('i', args);
-				};
-			}
-
-			if (typeof window.apstag.fetchBids === 'undefined') {
-				window.apstag.fetchBids = function () {
-					for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-						args[_key2] = arguments[_key2];
-					}
-
-					_this.configureCommand('f', args);
-				};
-			}
-		}
-
-		/** @private */
-
-	}, {
-		key: 'configureCommand',
-		value: function configureCommand(command, args) {
-			window.apstag._Q.push([command, args]);
-		}
-
-		/**
-   * @param {object} bidsConfig configuration of bids
-   * @param {function(object)} cb Callback receiving current bids
-   * @returns {!Promise} If `cb` has been omitted
-   */
-
-	}, {
-		key: 'fetchBids',
-		value: function fetchBids(bidsConfig) {
-			var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-			return bindCallback(cb, new promise_default.a(function (resolve) {
-				window.apstag.fetchBids(bidsConfig, function (currentBids) {
-					return resolve(currentBids);
-				});
-			}));
-		}
-	}, {
-		key: 'targetingKeys',
-		value: function targetingKeys() {
-			return window.apstag.targetingKeys();
-		}
-	}, {
-		key: 'enableDebug',
-		value: function enableDebug() {
-			window.apstag.debug('enable');
-		}
-	}, {
-		key: 'disableDebug',
-		value: function disableDebug() {
-			window.apstag.debug('disable');
-		}
-	}]);
-
-	return Apstag;
-}();
-
-var apstag = new apstag_Apstag();
-// CONCATENATED MODULE: ./src/ad-engine/wrappers/cmp.js
-
-
-
-
-
-var cmp_Cmp = function () {
-	function Cmp() {
-		classCallCheck_default()(this, Cmp);
-	}
-
-	createClass_default()(Cmp, [{
-		key: 'getConsentData',
-
-
-		/**
-   * @param {function(object)} cb Callback receiving current bids
-   * @returns {!Promise} If `cb` has been omitted
-   */
-		value: function getConsentData(param) {
-			var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-			return bindCallback(cb, new promise_default.a(function (resolve) {
-				window.__cmp('getConsentData', param, function (consentData) {
-					return resolve(consentData);
-				});
-			}));
-		}
-	}, {
-		key: 'override',
-		value: function override(newCmp) {
-			window.__cmp = newCmp;
-		}
-	}, {
-		key: 'exists',
-		get: function get() {
-			return !!window.__cmp;
-		}
-	}]);
-
-	return Cmp;
-}();
-
-var cmp = new cmp_Cmp();
-// CONCATENATED MODULE: ./src/ad-engine/wrappers/index.js
-
-
 // CONCATENATED MODULE: ./src/ad-engine/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdEngine", function() { return ad_engine_AdEngine; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataListener", function() { return porvata_listener_PorvataListener; });
@@ -5828,6 +5859,7 @@ var cmp = new cmp_Cmp();
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotInjector", function() { return slotInjector; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotRepeater", function() { return slotRepeater; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotService", function() { return slotService; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "SlotTweaker", function() { return slot_tweaker_SlotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotTweaker", function() { return slotTweaker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "templateService", function() { return templateService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "trackingOptIn", function() { return trackingOptIn; });
@@ -5841,10 +5873,6 @@ var cmp = new cmp_Cmp();
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "googleImaPlayerFactory", function() { return googleImaPlayerFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchPlayer", function() { return twitch_TwitchPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Twitch", function() { return twitch_Twitch; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Apstag", function() { return apstag_Apstag; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "apstag", function() { return apstag; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Cmp", function() { return cmp_Cmp; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "cmp", function() { return cmp; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 
 
@@ -5852,14 +5880,15 @@ var cmp = new cmp_Cmp();
 
 
 var versionField = 'ads.adEngineVersion';
+var commitField = 'ads.adEngineCommit';
 
 if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v22.0.0');
-logger('ad-engine', 'v22.0.0');
-
+set_default()(window, versionField, 'v23.4.0');
+set_default()(window, commitField, '1d0395af');
+logger('ad-engine', 'v23.4.0 (1d0395af)');
 
 
 

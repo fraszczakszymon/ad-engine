@@ -18,6 +18,7 @@ import { ProjectsHandler } from './projects-handler';
  */
 
 const logGroup = 'bill-the-lizard';
+let openRequests = [];
 
 events.registerEvent('BILL_THE_LIZARD_REQUEST');
 events.registerEvent('BILL_THE_LIZARD_RESPONSE');
@@ -70,6 +71,8 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 	request.open('GET', url, true);
 	request.responseType = 'json';
 	request.timeout = timeout;
+
+	openRequests.push(request);
 
 	utils.logger(logGroup, 'timeout configured to', request.timeout);
 
@@ -139,14 +142,25 @@ export class BillTheLizard {
 	static ON_TIME = 'on_time';
 	static TIMEOUT = 'timeout';
 	static TOO_LATE = 'too_late';
+	static REUSED = 'reused';
 
 	constructor() {
 		this.executor = new Executor();
 		this.projectsHandler = new ProjectsHandler();
-		this.statuses = {};
-		this.predictions = [];
-		this.callCounter = 0;
 		this.targetedModelNames = new Set();
+
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
+	}
+
+	reset() {
+		this.callCounter = 0;
+		this.predictions = [];
+		this.statuses = {};
+
+		openRequests.forEach((req) => req.abort());
+		openRequests = [];
 	}
 
 	/**
@@ -368,7 +382,34 @@ export class BillTheLizard {
 			predictions = predictions.filter((pred) => pred.callId === callId);
 		}
 
-		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(';');
+		return predictions.map((pred) => `${pred.modelName}|${pred.callId}=${pred.result}`).join(',');
+	}
+
+	/**
+	 * Get prediction of previous calls.
+	 *
+	 * Uses a supplied callIdBuilder to construct callId
+	 * by iterating down from startId to 2.
+	 *
+	 * @param {number} startId
+	 * @param {function} callIdBuilder
+	 * @param {string} modelName
+	 * @returns {number | undefined}
+	 */
+	getPreviousPrediction(startId, callIdBuilder, modelName) {
+		if (startId <= 1) {
+			return undefined;
+		}
+		for (let backCounter = startId - 1; backCounter > 1; backCounter--) {
+			const callId = callIdBuilder(backCounter);
+			const prevStatus = this.getResponseStatus(callId);
+
+			if (prevStatus === BillTheLizard.ON_TIME || prevStatus === BillTheLizard.TOO_LATE) {
+				return this.getPrediction(modelName, callId);
+			}
+		}
+
+		return undefined;
 	}
 }
 
