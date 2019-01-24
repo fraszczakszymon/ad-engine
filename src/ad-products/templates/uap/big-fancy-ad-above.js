@@ -1,9 +1,9 @@
 import { context, utils } from '@wikia/ad-engine';
+import { navbarManager } from '../../utils';
 import { universalAdPackage } from './universal-ad-package';
 import { VideoSettings } from './video-settings';
-import { SLIDE_OUT_TIME, CSS_TIMING_EASE_IN_CUBIC } from './constants';
-import * as classicTheme from './themes/classic';
-import * as hiviTheme from './themes/hivi';
+import { CSS_TIMING_EASE_IN_CUBIC, SLIDE_OUT_TIME } from './constants';
+import { bfaThemeFactory } from './themes/factory';
 
 export class BigFancyAdAbove {
 	static getName() {
@@ -71,39 +71,15 @@ export class BigFancyAdAbove {
 		this.params.fullscreenAllowed = this.config.fullscreenAllowed;
 		// TODO: End of hack
 
-		const uapTheme = this.params.theme === 'hivi' ? hiviTheme : classicTheme;
-
 		universalAdPackage.init(this.params, this.config.slotsToEnable);
 		this.videoSettings = new VideoSettings(this.params);
 		this.container.style.backgroundColor = this.getBackgroundColor();
 		this.container.classList.add('bfaa-template');
-		this.theme = new uapTheme.BfaaTheme(this.adSlot, this.params);
+		this.theme = bfaThemeFactory.makeAboveTheme(this.adSlot, this.params);
 
-		uapTheme
-			.adIsReady({
-				adSlot: this.adSlot,
-				videoSettings: this.videoSettings,
-				params: this.params,
-			})
-			.then((iframe) => this.onAdReady(iframe));
+		this.theme.adIsReady(this.videoSettings).then((iframe) => this.onAdReady(iframe));
 
 		this.config.onInit(this.adSlot, this.params, this.config);
-	}
-
-	setupNavbar() {
-		const desktopNavbarWrapper = document.querySelector(this.config.desktopNavbarWrapperSelector);
-		const mobileNavbarWrapper = document.querySelector(this.config.mobileNavbarWrapperSelector);
-		const slotParent = this.container.parentNode;
-		const sibling =
-			document.querySelector(this.config.slotSibling) || this.container.nextElementSibling;
-
-		if (mobileNavbarWrapper) {
-			slotParent.insertBefore(mobileNavbarWrapper, sibling);
-		}
-
-		if (desktopNavbarWrapper) {
-			slotParent.insertBefore(desktopNavbarWrapper, sibling);
-		}
 	}
 
 	getBackgroundColor() {
@@ -116,15 +92,13 @@ export class BigFancyAdAbove {
 		this.config.mainContainer.style.paddingTop = iframe.parentElement.style.paddingBottom;
 		this.config.mainContainer.classList.add('has-bfaa');
 
-		if (this.config.handleNavbar) {
-			this.setupNavbar();
-		}
+		navbarManager.setup(this.config, this.container);
 
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
 
-		this.theme.onAdReady(iframe);
+		this.theme.onAdReady();
 
 		if (universalAdPackage.isVideoEnabled(this.params)) {
 			// defers for proper rendering

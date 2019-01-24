@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { uapRoadblock } from '../../pages/uap-roadblock.page';
-import { adSlots } from '../../common/ad-slots';
-import { timeouts } from '../../common/timeouts';
-import { helpers } from '../../common/helpers';
+import { uapRoadblock } from '../../../pages/uap-roadblock.page';
+import { adSlots } from '../../../common/ad-slots';
+import { timeouts } from '../../../common/timeouts';
+import { helpers } from '../../../common/helpers';
 
 describe('Desktop uap roadblock page: top leaderboard', () => {
 	let adStatus;

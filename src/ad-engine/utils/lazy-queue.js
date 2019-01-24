@@ -1,3 +1,9 @@
+/**
+ * @deprecated
+ * @param queue
+ * @param callback
+ * Please use LazyQueue class instead
+ */
 export function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -15,26 +21,40 @@ export function makeLazyQueue(queue, callback) {
 	}
 }
 
-// TODO: Proposal
-// example: https://stackblitz.com/edit/wikia-lazy-queue
+/**
+ * example: https://stackblitz.com/edit/wikia-lazy-queue
+ */
 export class LazyQueue {
+	get length() {
+		return this.items.length;
+	}
+
 	// itemFlushed = {}; // RxJs Subject
-	/** @private */
+
+	/**
+	 * @private
+	 */
 	itemFlushCallbacks = [];
-	/** @private */
+
+	/**
+	 * @private
+	 */
 	pushCommand = undefined;
-	/** @private */
-	array = [];
+
+	/**
+	 * @private
+	 */
+	items = [];
 
 	constructor(...items) {
-		this.array = [...items];
+		this.items = [...items];
 		this.setPreFlushPush();
 	}
 
 	// old start
 	flush() {
-		while (this.array.length > 0) {
-			this.emit(this.array.shift());
+		while (this.items.length > 0) {
+			this.emit(this.items.shift());
 		}
 		this.setPostFlushPush();
 	}
@@ -53,14 +73,18 @@ export class LazyQueue {
 		this.itemFlushCallbacks.push(callback);
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	setPreFlushPush() {
 		this.pushCommand = (...items) => {
-			this.array.push(...items);
+			this.items.push(...items);
 		};
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	setPostFlushPush() {
 		this.pushCommand = (...items) => {
 			items.forEach((item) => {
@@ -69,7 +93,9 @@ export class LazyQueue {
 		};
 	}
 
-	/** @private */
+	/**
+	 * @private
+	 */
 	emit(item) {
 		// this.flushed.next(item);
 		this.itemFlushCallbacks.forEach((flushCallback) => {

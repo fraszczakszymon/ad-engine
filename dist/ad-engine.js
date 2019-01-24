@@ -74,13 +74,13 @@ module.exports =
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 2 */
@@ -152,61 +152,61 @@ module.exports = require("babel-runtime/helpers/inherits");
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/typeof");
+module.exports = require("babel-runtime/regenerator");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/get");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("babel-runtime/helpers/get");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-own-property-names");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/regenerator");
+module.exports = require("babel-runtime/helpers/asyncToGenerator");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("babel-runtime/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("current-device");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/asyncToGenerator");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 23 */
@@ -273,7 +273,7 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(21);
+var set_ = __webpack_require__(22);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
@@ -281,15 +281,15 @@ var get_ = __webpack_require__(25);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(0);
+var classCallCheck_ = __webpack_require__(1);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/createClass"
-var createClass_ = __webpack_require__(1);
+var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(20);
+var external_current_device_ = __webpack_require__(21);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
@@ -594,7 +594,7 @@ var assign_ = __webpack_require__(6);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
-var typeof_ = __webpack_require__(13);
+var typeof_ = __webpack_require__(15);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/promise"
@@ -688,7 +688,7 @@ var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(15);
+var external_js_cookie_ = __webpack_require__(17);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.js
@@ -1231,6 +1231,12 @@ var iframe_builder_IframeBuilder = function () {
 // CONCATENATED MODULE: ./src/ad-engine/utils/lazy-queue.js
 
 
+/**
+ * @deprecated
+ * @param queue
+ * @param callback
+ * Please use LazyQueue class instead
+ */
 function makeLazyQueue(queue, callback) {
 	if (typeof callback !== 'function') {
 		throw new Error('LazyQueue used with callback not being a function');
@@ -1248,38 +1254,57 @@ function makeLazyQueue(queue, callback) {
 	}
 }
 
-// TODO: Proposal
-// example: https://stackblitz.com/edit/wikia-lazy-queue
+/**
+ * example: https://stackblitz.com/edit/wikia-lazy-queue
+ */
 var lazy_queue_LazyQueue = function () {
-	/** @private */
+	createClass_default()(LazyQueue, [{
+		key: 'length',
+		get: function get() {
+			return this.items.length;
+		}
+
+		// itemFlushed = {}; // RxJs Subject
+
+		/**
+   * @private
+   */
+
+
+		/**
+   * @private
+   */
+
+
+		/**
+   * @private
+   */
+
+	}]);
+
 	function LazyQueue() {
 		classCallCheck_default()(this, LazyQueue);
 
 		this.itemFlushCallbacks = [];
 		this.pushCommand = undefined;
-		this.array = [];
+		this.items = [];
 
 		for (var _len = arguments.length, items = Array(_len), _key = 0; _key < _len; _key++) {
 			items[_key] = arguments[_key];
 		}
 
-		this.array = [].concat(items);
+		this.items = [].concat(items);
 		this.setPreFlushPush();
 	}
 
 	// old start
 
-	/** @private */
-
-	// itemFlushed = {}; // RxJs Subject
-	/** @private */
-
 
 	createClass_default()(LazyQueue, [{
 		key: 'flush',
 		value: function flush() {
-			while (this.array.length > 0) {
-				this.emit(this.array.shift());
+			while (this.items.length > 0) {
+				this.emit(this.items.shift());
 			}
 			this.setPostFlushPush();
 		}
@@ -1302,7 +1327,9 @@ var lazy_queue_LazyQueue = function () {
 			this.itemFlushCallbacks.push(callback);
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'setPreFlushPush',
@@ -1310,13 +1337,15 @@ var lazy_queue_LazyQueue = function () {
 			var _this = this;
 
 			this.pushCommand = function () {
-				var _array;
+				var _items;
 
-				(_array = _this.array).push.apply(_array, arguments);
+				(_items = _this.items).push.apply(_items, arguments);
 			};
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'setPostFlushPush',
@@ -1334,7 +1363,9 @@ var lazy_queue_LazyQueue = function () {
 			};
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'emit',
@@ -1585,7 +1616,7 @@ var script_loader_ScriptLoader = function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(19);
+var toConsumableArray_ = __webpack_require__(14);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/values"
@@ -1593,7 +1624,7 @@ var values_ = __webpack_require__(23);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(16);
+var external_eventemitter3_ = __webpack_require__(19);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.js
@@ -1739,32 +1770,18 @@ function getCustomParameters(slot) {
 	}).join('&'));
 }
 
-function getVideoSizes(slot) {
-	var sizes = slot.getDefaultSizes();
-
-	if (sizes) {
-		return sizes.map(function (size) {
-			return size.join('x');
-		}).join('|');
-	}
-
-	return '640x480';
-}
-
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
 	var slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push('iu=' + slot.getVideoAdUnit());
-		params.push('sz=' + getVideoSizes(slot));
 		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
 	} else if (options.videoAdUnitId && options.customParams) {
 		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push('iu=' + options.videoAdUnitId);
-		params.push('sz=640x480');
 		params.push('cust_params=' + encodeURIComponent(options.customParams));
 	} else {
 		throw Error('Slot does not exist!');
@@ -2316,11 +2333,12 @@ var porvata_PorvataPlayer = function () {
 		this.height = params.height;
 		this.muteProtect = false;
 		this.defaultVolume = 0.75;
-		this.destroyCallbacks = [];
 
-		makeLazyQueue(this.destroyCallbacks, function (callback) {
+		this.destroyCallbacks = new lazy_queue_LazyQueue();
+		this.destroyCallbacks.onItemFlush(function (callback) {
 			return callback();
 		});
+
 		if (nativeFullscreen.isSupported()) {
 			nativeFullscreen.addChangeListener(function () {
 				return _this.onFullscreenChange();
@@ -2511,7 +2529,7 @@ var porvata_PorvataPlayer = function () {
 	}, {
 		key: 'destroy',
 		value: function destroy() {
-			this.destroyCallbacks.start();
+			this.destroyCallbacks.flush();
 		}
 	}]);
 
@@ -2689,11 +2707,11 @@ var porvata_Porvata = function () {
 
 
 // EXTERNAL MODULE: external "babel-runtime/regenerator"
-var regenerator_ = __webpack_require__(18);
+var regenerator_ = __webpack_require__(13);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(22);
+var asyncToGenerator_ = __webpack_require__(18);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.js
@@ -3046,7 +3064,7 @@ porvata_listener_PorvataListener.EVENTS = {
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(17);
+var get_own_property_names_ = __webpack_require__(20);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
@@ -3054,7 +3072,7 @@ var symbol_ = __webpack_require__(7);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
-var helpers_get_ = __webpack_require__(14);
+var helpers_get_ = __webpack_require__(16);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.js
@@ -4493,17 +4511,22 @@ var btf_blocker_service_BtfBlockerService = function () {
 		this.resetState();
 	}
 
+	/**
+  * @private
+  */
+
+
 	createClass_default()(BtfBlockerService, [{
 		key: 'resetState',
 		value: function resetState() {
 			var _this = this;
 
-			this.slotsQueue = [];
 			this.firstCallEnded = false;
 			/** @type {string[]}  */
 			this.unblockedSlotNames = [];
 
-			makeLazyQueue(this.slotsQueue, function (_ref) {
+			this.slotsQueue = new lazy_queue_LazyQueue();
+			this.slotsQueue.onItemFlush(function (_ref) {
 				var adSlot = _ref.adSlot,
 				    fillInCallback = _ref.fillInCallback;
 
@@ -4548,10 +4571,12 @@ var btf_blocker_service_BtfBlockerService = function () {
 				}))));
 			}
 
-			this.slotsQueue.start();
+			this.slotsQueue.flush();
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'disableSecondCall',
@@ -4585,7 +4610,9 @@ var btf_blocker_service_BtfBlockerService = function () {
 			this.fillInSlotIfEnabled(adSlot, fillInCallback);
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'disableAdSlotIfHasConflict',
@@ -4595,7 +4622,9 @@ var btf_blocker_service_BtfBlockerService = function () {
 			}
 		}
 
-		/** @private */
+		/**
+   * @private
+   */
 
 	}, {
 		key: 'fillInSlotIfEnabled',
@@ -5628,17 +5657,10 @@ var floating_ad_FloatingAd = function () {
 
 
 
+
+
+
 var ad_engine_logGroup = 'ad-engine';
-
-function getPromises() {
-	return (context.get('delayModules') || []).filter(function (module) {
-		return module.isEnabled();
-	}).map(function (module) {
-		logger(ad_engine_logGroup, 'Register delay module', module.getName());
-
-		return module.getPromise();
-	}) || [];
-}
 
 var ad_engine_AdEngine = function () {
 	function AdEngine() {
@@ -5658,11 +5680,32 @@ var ad_engine_AdEngine = function () {
 
 		events.on(events.PAGE_CHANGE_EVENT, function () {
 			_this.started = false;
-			_this.setupQueue();
+			_this.setupAdStack();
 		});
 	}
 
 	createClass_default()(AdEngine, [{
+		key: 'init',
+		value: function init() {
+			this.setupProviders();
+			this.setupAdStack();
+			btfBlockerService.init();
+
+			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
+			messageBus.init();
+			slotTweaker.registerMessageListener();
+			this.runAdQueue();
+
+			scrollListener.init();
+			slotRepeater.init();
+			this.setupPushOnScrollQueue();
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
 		key: 'setupProviders',
 		value: function setupProviders() {
 			var providerName = context.get('state.provider');
@@ -5676,9 +5719,14 @@ var ad_engine_AdEngine = function () {
 					this.provider = new gpt_provider_GptProvider();
 			}
 		}
+
+		/**
+   * @private
+   */
+
 	}, {
-		key: 'setupQueue',
-		value: function setupQueue() {
+		key: 'setupAdStack',
+		value: function setupAdStack() {
 			var _this2 = this;
 
 			this.adStack = context.get('state.adStack');
@@ -5691,64 +5739,98 @@ var ad_engine_AdEngine = function () {
 				});
 			}
 		}
+
+		/**
+   * @private
+   */
+
 	}, {
-		key: 'runAdQueue',
-		value: function runAdQueue() {
+		key: 'setupPushOnScrollQueue',
+		value: function setupPushOnScrollQueue() {
 			var _this3 = this;
 
-			var timeout = null;
+			if (context.get('events.pushOnScroll')) {
+				var pushOnScrollIds = context.get('events.pushOnScroll.ids');
+				var pushOnScrollQueue = new (Function.prototype.bind.apply(lazy_queue_LazyQueue, [null].concat(toConsumableArray_default()(pushOnScrollIds))))();
 
-			var promises = getPromises();
-			var startAdQueue = function startAdQueue() {
-				if (!_this3.started) {
-					events.emit(events.AD_STACK_START);
-					_this3.started = true;
-					clearTimeout(timeout);
-					_this3.adStack.start();
-				}
-			};
-
-			var maxTimeout = context.get('options.maxDelayTimeout');
-
-			logger(ad_engine_logGroup, 'Delay by ' + promises.length + ' modules (' + maxTimeout + 'ms timeout)');
-
-			if (promises.length > 0) {
-				promise_default.a.all(promises).then(function () {
-					logger(ad_engine_logGroup, 'startAdQueue', 'All modules ready');
-					startAdQueue();
+				pushOnScrollQueue.onItemFlush(function (id) {
+					scrollListener.addSlot(_this3.adStack, id, context.get('events.pushOnScroll.threshold'));
 				});
-				timeout = setTimeout(function () {
-					logger(ad_engine_logGroup, 'startAdQueue', 'Timeout reached');
-					startAdQueue();
-				}, maxTimeout);
-			} else {
-				startAdQueue();
+				context.set('events.pushOnScroll.ids', pushOnScrollQueue);
+				pushOnScrollQueue.flush();
 			}
 		}
 	}, {
-		key: 'init',
-		value: function init() {
-			var _this4 = this;
+		key: 'runAdQueue',
+		value: function () {
+			var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+				var delayModulesPromises, maxTimeout, timeoutPromise;
+				return regenerator_default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								delayModulesPromises = this.getDelayModulesPromises();
+								maxTimeout = context.get('options.maxDelayTimeout');
+								timeoutPromise = new promise_default.a(function (resolve) {
+									return setTimeout(resolve, maxTimeout);
+								});
 
-			this.setupProviders();
-			this.setupQueue();
-			btfBlockerService.init();
 
-			registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
-			messageBus.init();
-			slotTweaker.registerMessageListener();
-			this.runAdQueue();
+								logger(ad_engine_logGroup, 'Delay by ' + delayModulesPromises.length + ' modules (' + maxTimeout + 'ms timeout)');
 
-			scrollListener.init();
-			slotRepeater.init();
+								_context.next = 6;
+								return promise_default.a.race([promise_default.a.all(delayModulesPromises), timeoutPromise]);
 
-			if (context.get('events.pushOnScroll')) {
-				var pushOnScrollQueue = context.get('events.pushOnScroll.ids');
+							case 6:
 
-				makeLazyQueue(pushOnScrollQueue, function (id) {
-					scrollListener.addSlot(_this4.adStack, id, context.get('events.pushOnScroll.threshold'));
-				});
-				pushOnScrollQueue.start();
+								logger(ad_engine_logGroup, 'startAdQueue', 'Ready');
+								this.startAdStack();
+
+							case 8:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function runAdQueue() {
+				return _ref.apply(this, arguments);
+			}
+
+			return runAdQueue;
+		}()
+
+		/**
+   * @private
+   * @returns {*[]}
+   */
+
+	}, {
+		key: 'getDelayModulesPromises',
+		value: function getDelayModulesPromises() {
+			var delayModules = context.get('delayModules') || [];
+
+			return delayModules.filter(function (delayModule) {
+				return delayModule.isEnabled();
+			}).map(function (delayModule) {
+				logger(ad_engine_logGroup, 'Register delay module', delayModule.getName());
+
+				return delayModule.getPromise();
+			});
+		}
+
+		/**
+   * @private
+   */
+
+	}, {
+		key: 'startAdStack',
+		value: function startAdStack() {
+			if (!this.started) {
+				events.emit(events.AD_STACK_START);
+				this.started = true;
+				this.adStack.start();
 			}
 		}
 	}]);
@@ -5804,9 +5886,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.1.4');
-set_default()(window, commitField, '0cfcd1c1');
-logger('ad-engine', 'v23.1.4 (0cfcd1c1)');
+set_default()(window, versionField, 'v23.4.0');
+set_default()(window, commitField, '1d0395af');
+logger('ad-engine', 'v23.4.0 (1d0395af)');
 
 
 

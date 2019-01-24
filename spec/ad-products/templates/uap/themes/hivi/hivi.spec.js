@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as hiviTheme from '../../../../../../src/ad-products/templates/uap/themes/hivi';
+import { BfaaHiviTheme } from '../../../../../../src/ad-products/templates/uap/themes/hivi';
 import { resolvedState } from '../../../../../../src/ad-products/templates/uap/resolved-state';
 import { context, slotTweaker } from '../../../../../../src/ad-engine';
 
@@ -128,7 +128,7 @@ describe('UAP:HiVi template', () => {
 
 	it('should left padding empty for default state (BFAA handles it)', () => {
 		const adSlot = getAdSlotObject();
-		const theme = new hiviTheme.BfaaTheme(adSlot, getParams());
+		const theme = new BfaaHiviTheme(adSlot, getParams());
 
 		resolvedState.isResolvedState.returns(false);
 
@@ -138,7 +138,7 @@ describe('UAP:HiVi template', () => {
 
 	it('should set correct padding for resolved state', () => {
 		const adSlot = getAdSlotObject();
-		const theme = new hiviTheme.BfaaTheme(adSlot, getParams());
+		const theme = new BfaaHiviTheme(adSlot, getParams());
 
 		resolvedState.isResolvedState.returns(true);
 

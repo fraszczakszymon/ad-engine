@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { twitchAd } from '../../pages/hivi-uap-twitch-ad.page';
-import { adSlots } from '../../common/ad-slots';
-import { timeouts } from '../../common/timeouts';
-import { helpers } from '../../common/helpers';
+import { twitchAd } from '../../../pages/hivi-uap-twitch-ad.page';
+import { adSlots } from '../../../common/ad-slots';
+import { timeouts } from '../../../common/timeouts';
+import { helpers } from '../../../common/helpers';
 
 describe('Twitch ads page: top leaderboard', () => {
 	let adStatus;
