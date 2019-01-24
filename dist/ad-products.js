@@ -140,13 +140,13 @@ module.exports = require("babel-runtime/helpers/get");
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
 /* 13 */
@@ -311,7 +311,7 @@ var navbarManager = new navbar_manager_NavbarManager();
 var styles = __webpack_require__(28);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/keys"
-var keys_ = __webpack_require__(11);
+var keys_ = __webpack_require__(12);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // CONCATENATED MODULE: ./src/ad-products/common/product-info.js
@@ -441,6 +441,82 @@ var floating_rail_FloatingRail = function () {
 	}]);
 
 	return FloatingRail;
+}();
+// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
+var toConsumableArray_ = __webpack_require__(11);
+var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
+// CONCATENATED MODULE: ./src/ad-products/templates/incontent-native.js
+
+
+
+
+
+var incontent_native_IncontentNative = function () {
+	createClass_default()(IncontentNative, null, [{
+		key: 'getName',
+		value: function getName() {
+			return 'incontent_native';
+		}
+	}, {
+		key: 'getDefaultConfig',
+		value: function getDefaultConfig() {
+			return {
+				adSlotSelector: '#incontent_native',
+				itemClassList: ['wikia-card__item', 'wds-font-size-s', 'wds-leading-tight', 'ember-view'],
+				titleClassList: ['wikia-card__title', 'wds-font-weight-medium'],
+				descriptionClassList: ['wikia-card__snippet', 'wds-font-size-xs']
+			};
+		}
+	}]);
+
+	function IncontentNative() {
+		classCallCheck_default()(this, IncontentNative);
+
+		this.config = ad_engine_["context"].get('templates.incontent_native');
+		this.adSlot = document.querySelector(this.config.adSlotSelector);
+	}
+
+	/**
+  * Initializes the Skin unit
+  *
+  * @param {Object} params
+  * @param {string} params.title - title of fake search result
+  * @param {string} params.description - fake search result description
+  * @param {href} params.clickThroughURL - link to open after clicking into ad
+  */
+
+
+	createClass_default()(IncontentNative, [{
+		key: 'init',
+		value: function init(params) {
+			this.params = params;
+			this.createAd();
+		}
+	}, {
+		key: 'createAd',
+		value: function createAd() {
+			var _itemDiv$classList, _titleDiv$classList, _descriptionDiv$class;
+
+			var itemDiv = document.createElement('a');
+			var titleDiv = document.createElement('div');
+			var descriptionDiv = document.createElement('div');
+
+			itemDiv.href = this.params.clickThroughURL;
+			(_itemDiv$classList = itemDiv.classList).add.apply(_itemDiv$classList, toConsumableArray_default()(this.config.itemClassList));
+			titleDiv.innerText = this.params.title;
+			(_titleDiv$classList = titleDiv.classList).add.apply(_titleDiv$classList, toConsumableArray_default()(this.config.titleClassList));
+			descriptionDiv.innerText = this.params.description;
+			(_descriptionDiv$class = descriptionDiv.classList).add.apply(_descriptionDiv$class, toConsumableArray_default()(this.config.descriptionClassList));
+
+			itemDiv.appendChild(titleDiv);
+			itemDiv.appendChild(descriptionDiv);
+			this.adSlot.classList.add('wikia-card');
+			this.adSlot.appendChild(itemDiv);
+		}
+	}]);
+
+	return IncontentNative;
 }();
 // CONCATENATED MODULE: ./src/ad-products/templates/skin.js
 
@@ -813,10 +889,6 @@ stickiness_Stickiness.SLOT_STICKED_STATE = 'sticked';
 stickiness_Stickiness.SLOT_UNSTICKED_STATE = 'unsticked';
 stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
 stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
-// EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(12);
-var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
-
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
 var get_ = __webpack_require__(10);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
@@ -5342,6 +5414,7 @@ var interstitial_Interstitial = function () {
 
 
 
+
 // EXTERNAL MODULE: external "js-cookie"
 var external_js_cookie_ = __webpack_require__(19);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
@@ -6080,6 +6153,7 @@ var jwplayerAdsFactory = {
 // CONCATENATED MODULE: ./src/ad-products/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "getAdProductInfo", function() { return getAdProductInfo; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloatingRail", function() { return floating_rail_FloatingRail; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IncontentNative", function() { return incontent_native_IncontentNative; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyTLB", function() { return sticky_tlb_StickyTLB; });

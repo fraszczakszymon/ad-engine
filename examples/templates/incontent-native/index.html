@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Incontent native</title>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
+		/>
+		<link rel="stylesheet" href="../../vendor/dist/styles.css" type="text/css" />
+		<link rel="stylesheet" href="./styles.css" type="text/css" />
+		<script src="../../vendor/dist/vendor.js"></script>
+		<script type="text/javascript">
+			var googletag = window.googletag || {};
+			googletag.cmd = googletag.cmd || [];
+
+			(function() {
+				var gads = document.createElement('script'),
+					useSSL = 'https:' == document.location.protocol,
+					node = document.getElementsByTagName('script')[0];
+
+				gads.async = true;
+				gads.type = 'text/javascript';
+				gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+				node.parentNode.insertBefore(gads, node);
+			})();
+		</script>
+	</head>
+	<body>
+		<script>
+			window.adsQueue = window.adsQueue || [];
+		</script>
+		<nav class="navigation">navbar</nav>
+		<div class="wrapper">
+			<p><strong>Search results</strong></p>
+
+			<div class="search-results">
+				<div class="search-results__total">
+					About 13783 results for <strong class="wds-font-weight-bold">harry potter</strong>
+				</div>
+
+				<div id="incontent_native" class="gpt-ad incontent_native"></div>
+				<script>
+					window.adsQueue.push({
+						id: 'incontent_native',
+					});
+				</script>
+
+				<div class="wikia-card">
+					<div class="wikia-card__title">Harry Potter</div>
+					<div class="wikia-card__snippet">
+						Harry James Potter&nbsp;(b.&nbsp;31 July 1980) was a half-blood wizard, who was the only
+						child and son of the late James and&nbsp;Lily Potter (née Evans), and one of the most
+						famous wizards of modern times. In what proved to be a vain attempt to…
+					</div>
+				</div>
+				<div class="wikia-card">
+					<div class="wikia-card__title">Harry Potter</div>
+					<div class="wikia-card__snippet">
+						Harry James Potter&nbsp;(b.&nbsp;31 July 1980) was a half-blood wizard, who was the only
+						child and son of the late James and&nbsp;Lily Potter (née Evans), and one of the most
+						famous wizards of modern times. In what proved to be a vain attempt to…
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="dist/bundle.js"></script>
+	</body>
+</html>

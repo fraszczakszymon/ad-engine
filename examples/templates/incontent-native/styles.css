@@ -1,0 +1,14 @@
+a {
+	color: #000000;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.search-results {
+	padding: 5px;
+}
+
+.wikia-card__title {
+	padding: 10px 5px 5px;
+	font-weight: bold;
+}
