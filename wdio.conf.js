@@ -15,10 +15,10 @@ function getScreenshotName(basePath) {
 exports.config = {
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
+		'hivi-templates': ['./tests/specs/templates/hivi/*.test.js'],
+		'other-templates': ['./tests/specs/templates/non-hivi/*.test.js'],
 		services: ['./tests/specs/services/*.test.js'],
 		slots: ['./tests/specs/slots/*.test.js'],
-		hiviTemplates: ['./tests/specs/templates/hivi/*.test.js'],
-		otherTemplates: ['./tests/specs/templates/non-hivi/*.test.js'],
 		utils: ['./tests/specs/utils/*.test.js'],
 		video: ['./tests/specs/video/*.test.js'],
 	},
