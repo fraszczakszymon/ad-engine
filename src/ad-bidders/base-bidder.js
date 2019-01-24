@@ -29,7 +29,7 @@ export class BaseBidder {
 		this.response = false;
 		this.called = true;
 
-		this.callBids(() => this.onBidResponse());
+		this.callBids();
 
 		this.utils.logger(this.logGroup, 'called');
 	}
@@ -105,8 +105,7 @@ export class BaseBidder {
 	}
 
 	/** @abstract */
-	// eslint-disable-next-line no-unused-vars
-	callBids(cb) {}
+	callBids() {}
 
 	/** @abstract */
 	calculatePrices() {}
