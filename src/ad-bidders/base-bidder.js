@@ -123,24 +123,16 @@ export class BaseBidder {
 	 * @abstract
 	 * @protected
 	 */
-	// eslint-disable-next-line no-unused-vars
-	callBids(cb) {}
+	callBids(cb) {
+		throw new utils.NotImplementedException({ cb });
+	}
 
 	/**
 	 * @abstract
 	 * @protected
 	 */
-	calculatePrices() {}
-
-	/**
-	 * @abstract
-	 * @protected
-	 * @param {string} slotName
-	 * @returns {*|{}}
-	 */
-	// eslint-disable-next-line no-unused-vars
-	getBestPrice(slotName) {
-		return {};
+	calculatePrices() {
+		throw new utils.NotImplementedException();
 	}
 
 	/**
@@ -149,9 +141,18 @@ export class BaseBidder {
 	 * @param {string} slotName
 	 * @returns {*|{}}
 	 */
-	// eslint-disable-next-line no-unused-vars
+	getBestPrice(slotName) {
+		throw new utils.NotImplementedException({ slotName });
+	}
+
+	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} slotName
+	 * @returns {*|{}}
+	 */
 	getTargetingParams(slotName) {
-		return {};
+		throw new utils.NotImplementedException({ slotName });
 	}
 
 	/**
@@ -161,8 +162,7 @@ export class BaseBidder {
 	 * @param {string} slotName
 	 * @returns {boolean}
 	 */
-	// eslint-disable-next-line no-unused-vars
 	isSupported(slotName) {
-		return false;
+		throw new utils.NotImplementedException({ slotName });
 	}
 }
