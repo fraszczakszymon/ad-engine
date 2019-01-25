@@ -1,5 +1,8 @@
 import { context, utils } from '@wikia/ad-engine';
 
+/**
+ * @abstract
+ */
 export class BaseBidder {
 	constructor(name, bidderConfig, timeout = 2000) {
 		this.name = name;
@@ -17,7 +20,6 @@ export class BaseBidder {
 	resetState() {
 		this.called = false;
 		this.response = false;
-		this.onResponseCallbacks = [];
 
 		this.onResponseCallbacks = new utils.LazyQueue();
 		this.onResponseCallbacks.onItemFlush((callback) => {
@@ -29,11 +31,14 @@ export class BaseBidder {
 		this.response = false;
 		this.called = true;
 
-		this.callBids();
+		this.callBids(() => this.onBidResponse());
 
 		this.utils.logger(this.logGroup, 'called');
 	}
 
+	/**
+	 * @protected
+	 */
 	onBidResponse() {
 		this.response = true;
 
@@ -43,12 +48,9 @@ export class BaseBidder {
 		this.utils.logger(this.logGroup, 'respond');
 	}
 
-	createWithTimeout(func, msToTimeout = 2000) {
-		return Promise.race([new Promise(func), this.utils.timeoutReject(msToTimeout)]);
-	}
-
 	/**
 	 * Returns bidder slot alias if available, otherwise slot name
+	 * @protected
 	 * @param {string} slotName
 	 * @returns {string}
 	 */
@@ -56,10 +58,18 @@ export class BaseBidder {
 		return context.get(`slots.${slotName}.bidderAlias`) || slotName;
 	}
 
+	/**
+	 * @param {string} slotName
+	 * @returns {{}}
+	 */
 	getSlotBestPrice(slotName) {
 		return this.getBestPrice(slotName);
 	}
 
+	/**
+	 * @param {string} slotName
+	 * @returns {{}}
+	 */
 	getSlotTargetingParams(slotName) {
 		if (!this.called || !this.isSlotSupported(slotName)) {
 			return {};
@@ -68,6 +78,10 @@ export class BaseBidder {
 		return this.getTargetingParams(slotName);
 	}
 
+	/**
+	 * @param {string} slotName
+	 * @returns {boolean}
+	 */
 	isSlotSupported(slotName) {
 		return this.isSupported(slotName);
 	}
@@ -77,9 +91,7 @@ export class BaseBidder {
 	 * @returns {Promise}
 	 */
 	waitForResponse() {
-		// TODO Remove utils.createWithTimeout or use it here,
-		// or change it entirely!!!
-		return this.createWithTimeout((resolve) => {
+		return this.utils.createWithTimeout((resolve) => {
 			if (this.hasResponse()) {
 				resolve();
 			} else {
@@ -88,6 +100,9 @@ export class BaseBidder {
 		}, this.timeout);
 	}
 
+	/**
+	 * @returns {boolean}
+	 */
 	hasResponse() {
 		return this.response;
 	}
@@ -104,25 +119,48 @@ export class BaseBidder {
 		return this.called;
 	}
 
-	/** @abstract */
-	callBids() {}
+	/**
+	 * @abstract
+	 * @protected
+	 */
+	// eslint-disable-next-line no-unused-vars
+	callBids(cb) {}
 
-	/** @abstract */
+	/**
+	 * @abstract
+	 * @protected
+	 */
 	calculatePrices() {}
 
-	/** @abstract */
+	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} slotName
+	 * @returns {*|{}}
+	 */
 	// eslint-disable-next-line no-unused-vars
 	getBestPrice(slotName) {
 		return {};
 	}
 
-	/** @abstract */
+	/**
+	 * @abstract
+	 * @protected
+	 * @param {string} slotName
+	 * @returns {*|{}}
+	 */
 	// eslint-disable-next-line no-unused-vars
 	getTargetingParams(slotName) {
 		return {};
 	}
 
-	/** @abstract */
+	/**
+	 * Checks if slot with given name is supported by bidder.
+	 * @abstract
+	 * @protected
+	 * @param {string} slotName
+	 * @returns {boolean}
+	 */
 	// eslint-disable-next-line no-unused-vars
 	isSupported(slotName) {
 		return false;

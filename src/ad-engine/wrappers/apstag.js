@@ -1,4 +1,4 @@
-import { bindCallback } from '../utils';
+import { getPromiseAndExecuteCallback } from '../utils';
 
 export class Apstag {
 	init(apsConfig) {
@@ -35,12 +35,9 @@ export class Apstag {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	fetchBids(bidsConfig, cb = null) {
-		return bindCallback(
-			cb,
-			new Promise((resolve) => {
-				window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
-			}),
-		);
+		return getPromiseAndExecuteCallback((resolve) => {
+			window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
+		}, cb);
 	}
 
 	targetingKeys() {

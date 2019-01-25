@@ -296,7 +296,7 @@ export class A9 extends BaseBidder {
 	}
 
 	/**
-	 * @protected
+	 * @inheritDoc
 	 */
 	calculatePrices() {
 		return Object.keys(this.bids).forEach((slotName) => {
@@ -305,7 +305,7 @@ export class A9 extends BaseBidder {
 	}
 
 	/**
-	 * @protected
+	 * @inheritDoc
 	 */
 	getBestPrice(slotName) {
 		const slotAlias = this.getSlotAlias(slotName);
@@ -314,17 +314,14 @@ export class A9 extends BaseBidder {
 	}
 
 	/**
-	 * @protected
+	 * @inheritDoc
 	 */
 	getTargetingParams(slotName) {
 		return this.bids[this.getSlotAlias(slotName)] || {};
 	}
 
 	/**
-	 * Checks if slot with given name is supported by bidder.
-	 * @protected
-	 * @param {string} slotName
-	 * @returns {boolean}
+	 * @inheritDoc
 	 */
 	isSupported(slotName) {
 		return !!this.slots[this.getSlotAlias(slotName)];

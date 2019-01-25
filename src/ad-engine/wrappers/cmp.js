@@ -1,4 +1,4 @@
-import { bindCallback } from '../utils';
+import { getPromiseAndExecuteCallback } from '../utils';
 
 export class Cmp {
 	get exists() {
@@ -10,12 +10,9 @@ export class Cmp {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	getConsentData(param, cb = null) {
-		return bindCallback(
-			cb,
-			new Promise((resolve) => {
-				window.__cmp('getConsentData', param, (consentData) => resolve(consentData));
-			}),
-		);
+		return getPromiseAndExecuteCallback((resolve) => {
+			window.__cmp('getConsentData', param, (consentData) => resolve(consentData));
+		}, cb);
 	}
 
 	override(newCmp) {
