@@ -4299,6 +4299,7 @@ ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 var slot_service_slots = {};
+
 var slotStates = {};
 var slotStatuses = {};
 
@@ -4334,6 +4335,11 @@ function setState(slotName, state) {
 	}
 	logger(slot_service_groupName, 'set state', slotName, state);
 }
+
+events.on(events.PAGE_CHANGE_EVENT, function () {
+	slotStates = {};
+	slotStatuses = {};
+});
 
 var slot_service_SlotService = function () {
 	function SlotService() {
