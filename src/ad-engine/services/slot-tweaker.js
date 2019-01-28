@@ -13,7 +13,7 @@ export class SlotTweaker {
 	}
 
 	getContainer(adSlot) {
-		const container = document.getElementById(adSlot.getSlotName());
+		const container = adSlot.getElement();
 
 		if (!container) {
 			logger(logGroup, 'cannot find container', adSlot.getSlotName());
