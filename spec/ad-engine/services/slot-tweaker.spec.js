@@ -1,22 +1,8 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import adSlotFake from '../ad-slot-fake';
 import { slotTweaker } from '../../../src/ad-engine/services/slot-tweaker';
 
 describe('slot-tweaker', () => {
-	beforeEach(() => {
-		sinon
-			.stub(document, 'getElementById')
-			.withArgs(adSlotFake.getSlotName())
-			.returns({
-				dataset: {},
-			});
-	});
-
-	afterEach(() => {
-		document.getElementById.restore();
-	});
-
 	it('setDataParam accepts a string', () => {
 		const mockedValue = 'qunitParamValue';
 
