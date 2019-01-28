@@ -5001,7 +5001,7 @@ var slot_tweaker_SlotTweaker = function () {
 	}, {
 		key: 'getContainer',
 		value: function getContainer(adSlot) {
-			var container = document.getElementById(adSlot.getSlotName());
+			var container = adSlot.getElement();
 
 			if (!container) {
 				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
@@ -5906,8 +5906,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.4.0');
-set_default()(window, commitField, '876d072b');
-logger('ad-engine', 'v23.4.0 (876d072b)');
+set_default()(window, commitField, 'f0a9efff');
+logger('ad-engine', 'v23.4.0 (f0a9efff)');
 
 
 
