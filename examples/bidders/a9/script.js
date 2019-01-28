@@ -1,5 +1,5 @@
-import { AdEngine, context, events, utils, apstag, cmp } from '@wikia/ad-engine';
-import { bidders } from '@wikia/ad-bidders';
+import { AdEngine, context, events, utils } from '@wikia/ad-engine';
+import { bidders, apstag, cmp } from '@wikia/ad-bidders';
 import { utils as adProductsUtils } from '@wikia/ad-products';
 import customContext from '../../context';
 import '../../styles.scss';

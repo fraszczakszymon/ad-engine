@@ -1,4 +1,5 @@
-import { context, events, slotService, utils, apstag, cmp } from '@wikia/ad-engine';
+import { context, events, slotService, utils } from '@wikia/ad-engine';
+import { apstag, cmp } from '../wrappers';
 import { BaseBidder } from '../base-bidder';
 
 const logGroup = 'A9';

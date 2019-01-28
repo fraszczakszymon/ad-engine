@@ -1,4 +1,4 @@
-import { getPromiseAndExecuteCallback } from '../utils';
+import { utils } from '@wikia/ad-engine';
 
 export class Apstag {
 	init(apsConfig) {
@@ -35,7 +35,7 @@ export class Apstag {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	fetchBids(bidsConfig, cb = null) {
-		return getPromiseAndExecuteCallback((resolve) => {
+		return utils.getPromiseAndExecuteCallback((resolve) => {
 			window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
 		}, cb);
 	}

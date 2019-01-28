@@ -1,4 +1,4 @@
-import { getPromiseAndExecuteCallback } from '../utils';
+import { utils } from '@wikia/ad-engine';
 
 export class Cmp {
 	get exists() {
@@ -10,7 +10,7 @@ export class Cmp {
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
 	getConsentData(param, cb = null) {
-		return getPromiseAndExecuteCallback((resolve) => {
+		return utils.getPromiseAndExecuteCallback((resolve) => {
 			window.__cmp('getConsentData', param, (consentData) => resolve(consentData));
 		}, cb);
 	}
