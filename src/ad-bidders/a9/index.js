@@ -59,22 +59,9 @@ export class A9 extends BaseBidder {
 	 */
 	initIfNotLoaded(consentData) {
 		if (!this.loaded) {
-			this.insertScript();
 			this.apstag.init(this.getApstagConfig(consentData));
 			this.loaded = true;
 		}
-	}
-
-	/**
-	 * @private
-	 */
-	insertScript() {
-		this.utils.scriptLoader.loadScript(
-			'//c.amazon-adsystem.com/aax2/apstag.js',
-			'text/javascript',
-			true,
-			'first',
-		);
 	}
 
 	/**
@@ -136,9 +123,9 @@ export class A9 extends BaseBidder {
 		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
 		this.overwriteApstagRenderImpOnFirstFetch();
 
-		currentBids.forEach((bid) => {
+		currentBids.forEach(async (bid) => {
 			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
-			const { keys, bidTargeting } = this.getBidTargetingWithKeys(bid);
+			const { keys, bidTargeting } = await this.getBidTargetingWithKeys(bid);
 
 			this.updateBidSlot(slotName, keys, bidTargeting);
 		});
@@ -252,16 +239,16 @@ export class A9 extends BaseBidder {
 	 * @param bid
 	 * @returns {*}
 	 */
-	getBidTargetingWithKeys(bid) {
+	async getBidTargetingWithKeys(bid) {
 		if (this.bidderConfig.dealsEnabled) {
 			return {
-				keys: bid.helpers.targetingKeys,
+				keys: await bid.helpers.targetingKeys,
 				bidTargeting: bid.targeting,
 			};
 		}
 
 		return {
-			keys: this.apstag.targetingKeys(),
+			keys: await this.apstag.targetingKeys(),
 			bidTargeting: bid,
 		};
 	}
