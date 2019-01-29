@@ -91,7 +91,7 @@ class SlotService {
 		// Find slots by first targeting.pos
 		let slotByPos = null;
 
-		this.forEach((slot) => {
+		this.forEachSlot((slot) => {
 			if (slotByPos !== null) {
 				return;
 			}
@@ -110,7 +110,7 @@ class SlotService {
 	 * Iterate over all defined slots
 	 * @param {function} callback
 	 */
-	forEach(callback) {
+	forEachSlot(callback) {
 		Object.keys(slots).forEach((id) => {
 			callback(slots[id]);
 		});

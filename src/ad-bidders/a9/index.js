@@ -160,7 +160,7 @@ export class A9 extends BaseBidder {
 			utils.logger(logGroup, `bid used for slot ${slotName}`);
 			delete this.bids[this.getSlotAlias(slotName)];
 
-			if (window.apstag.renderImp && this.bidsRefreshing.enabled) {
+			if (this.bidsRefreshing.enabled) {
 				this.refreshBid(slot);
 			}
 		});
@@ -173,7 +173,15 @@ export class A9 extends BaseBidder {
 	 * @returns {AdSlot | undefined }
 	 */
 	getRenderedSlot(impId) {
-		return this.slotService.find((slot) => slot.getTargeting().amzniid === impId);
+		let renderedSlot;
+
+		slotService.forEachSlot((slot) => {
+			if (slot.getTargeting().amzniid === impId) {
+				renderedSlot = slot;
+			}
+		});
+
+		return renderedSlot;
 	}
 
 	/**

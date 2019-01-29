@@ -88,7 +88,7 @@ describe('slot-service', () => {
 	it('foreach iterator', () => {
 		slotService.add(adSlot);
 
-		slotService.forEach((slot) => {
+		slotService.forEachSlot((slot) => {
 			expect(slot).to.equal(slot);
 		});
 	});
