@@ -282,10 +282,10 @@ export default {
 			sizes: [
 				{
 					viewportSize: [768, 0],
-					sizes: [[7, 7]],
+					sizes: ['fluid'],
 				},
 			],
-			defaultSizes: [[7, 7]],
+			defaultSizes: ['fluid'],
 			targeting: {
 				loc: 'top',
 			},

@@ -478,7 +478,7 @@ var incontent_native_IncontentNative = function () {
 	}
 
 	/**
-  * Initializes the Skin unit
+  * Initializes the IncontentNative unit
   *
   * @param {Object} params
   * @param {string} params.title - title of fake search result

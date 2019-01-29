@@ -23,13 +23,4 @@ describe('Incontent native page: incontent native', () => {
 			'Line item ID mismatch',
 		);
 	});
-
-	it('Check if ad slot gets proper class', () => {
-		const adElementClassList = browser
-			.element(adSlots.incontentNative)
-			.getAttribute('class')
-			.split(' ');
-
-		expect(adElementClassList).to.include('wikia-card', 'HTMLElement class missing');
-	});
 });

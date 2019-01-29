@@ -20,7 +20,7 @@ export class IncontentNative {
 	}
 
 	/**
-	 * Initializes the Skin unit
+	 * Initializes the IncontentNative unit
 	 *
 	 * @param {Object} params
 	 * @param {string} params.title - title of fake search result
