@@ -1770,18 +1770,32 @@ function getCustomParameters(slot) {
 	}).join('&'));
 }
 
+function getVideoSizes(slot) {
+	var sizes = slot.getVideoSizes();
+
+	if (sizes) {
+		return sizes.map(function (size) {
+			return size.join('x');
+		}).join('|');
+	}
+
+	return '640x480';
+}
+
 function buildVastUrl(aspectRatio, slotName) {
 	var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'sz=640x480', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
+	var params = ['output=vast', 'env=vp', 'gdfp_req=1', 'impl=s', 'unviewed_position_start=1', 'url=' + encodeURIComponent(window.location.href), 'description_url=' + encodeURIComponent(window.location.href), 'correlator=' + correlator];
 	var slot = slotService.get(slotName);
 
 	if (slot) {
 		params.push('iu=' + slot.getVideoAdUnit());
+		params.push('sz=' + getVideoSizes(slot));
 		params.push('cust_params=' + getCustomParameters(slot, options.targeting));
 	} else if (options.videoAdUnitId && options.customParams) {
 		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push('iu=' + options.videoAdUnitId);
+		params.push('sz=640x480');
 		params.push('cust_params=' + encodeURIComponent(options.customParams));
 	} else {
 		throw Error('Slot does not exist!');
@@ -4101,6 +4115,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			return this.config.defaultSizes;
 		}
 	}, {
+		key: 'getVideoSizes',
+		value: function getVideoSizes() {
+			return this.config.videoSizes;
+		}
+	}, {
 		key: 'getViewportConflicts',
 		value: function getViewportConflicts() {
 			return this.config.viewportConflicts || [];
@@ -4982,7 +5001,7 @@ var slot_tweaker_SlotTweaker = function () {
 	}, {
 		key: 'getContainer',
 		value: function getContainer(adSlot) {
-			var container = document.getElementById(adSlot.getSlotName());
+			var container = adSlot.getElement();
 
 			if (!container) {
 				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
@@ -5886,9 +5905,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.4.0');
-set_default()(window, commitField, '1d0395af');
-logger('ad-engine', 'v23.4.0 (1d0395af)');
+set_default()(window, versionField, 'v23.4.1');
+set_default()(window, commitField, '581b4a95');
+logger('ad-engine', 'v23.4.1 (581b4a95)');
 
 
 

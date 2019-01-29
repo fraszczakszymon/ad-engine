@@ -93,6 +93,16 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 }
 
 /**
+ * @param {Object} adSlot
+ * @param {Object} vastParams
+ */
+function updateSlotParams(adSlot, vastParams) {
+	adSlot.lineItemId = vastParams.lineItemId;
+	adSlot.creativeId = vastParams.creativeId;
+	adSlot.creativeSize = vastParams.size;
+}
+
+/**
  * Creates instance with ads schedule and tracking for JWPlayer
  * @param options
  * @param options.adProduct Base ad product name
@@ -175,7 +185,7 @@ function create(options) {
 					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
 				};
 
-				if (slotName === 'featured') {
+				if (options.featured) {
 					fillInSlot();
 				} else {
 					btfBlockerService.push(slot, fillInSlot);
@@ -235,43 +245,31 @@ function create(options) {
 
 			vastDebugger.setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
 			events.emit(events.VIDEO_AD_REQUESTED, slot);
+		});
 
-			// TODO: set slot status so it's tracked to adengadinfo
-			// Currently it isn't working:
-			// slotTracker.onRenderEnded(
-			// 		slot,
-			// 		{
-			// 			timestamp: Date.now(),
-			// 			line_item_id: vastParams.lineItemId,
-			// 			creative_id: vastParams.creativeId,
-			// 			creative_size: vastParams.size,
-			// 			status: 'success',
-			// 			page_width: videoContainer.clientWidth,
-			// 			viewport_height: videoContainer.scrollTop,
-			// 		},
-			// );
+		player.on('adImpression', (event) => {
+			const vastParams = vastParser.parse(event.tag, {
+				imaAd: event.ima && event.ima.ad,
+			});
+
+			updateSlotParams(slot, vastParams);
+			slot.setStatus('success');
 		});
 
 		player.on('adError', (event) => {
-			vastDebugger.setVastAttributes(videoContainer, event.tag, 'error', event.ima && event.ima.ad);
+			const vastParams = vastParser.parse(event.tag, {
+				imaAd: event.ima && event.ima.ad,
+			});
 
-			// TODO: set slot status so it's tracked to adengadinfo
-			// Currently it isn't working:
-			// slotTracker.onRenderEnded(
-			// 		slot,
-			// 		{
-			// 			timestamp: Date.now(),
-			// 			status: 'error',
-			// 			page_width: videoContainer.clientWidth,
-			// 			viewport_height: videoContainer.scrollTop,
-			// 		},
-			// );
+			vastDebugger.setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+			updateSlotParams(slot, vastParams);
+			slot.setStatus('error');
 		});
 
 		tracker.register(player);
 	}
 
-	const slotName = options.featured ? 'featured' : 'video';
+	const slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	const slot = slotService.get(slotName) || new AdSlot({ id: slotName });
 
 	if (!slotService.get(slotName)) {

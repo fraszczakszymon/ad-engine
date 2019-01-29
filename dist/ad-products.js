@@ -5870,6 +5870,16 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 }
 
 /**
+ * @param {Object} adSlot
+ * @param {Object} vastParams
+ */
+function updateSlotParams(adSlot, vastParams) {
+	adSlot.lineItemId = vastParams.lineItemId;
+	adSlot.creativeId = vastParams.creativeId;
+	adSlot.creativeSize = vastParams.size;
+}
+
+/**
  * Creates instance with ads schedule and tracking for JWPlayer
  * @param options
  * @param options.adProduct Base ad product name
@@ -5952,7 +5962,7 @@ function create(options) {
 					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
 				};
 
-				if (slotName === 'featured') {
+				if (options.featured) {
 					fillInSlot();
 				} else {
 					ad_engine_["btfBlockerService"].push(slot, fillInSlot);
@@ -6013,43 +6023,31 @@ function create(options) {
 
 			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
 			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_REQUESTED, slot);
+		});
 
-			// TODO: set slot status so it's tracked to adengadinfo
-			// Currently it isn't working:
-			// slotTracker.onRenderEnded(
-			// 		slot,
-			// 		{
-			// 			timestamp: Date.now(),
-			// 			line_item_id: vastParams.lineItemId,
-			// 			creative_id: vastParams.creativeId,
-			// 			creative_size: vastParams.size,
-			// 			status: 'success',
-			// 			page_width: videoContainer.clientWidth,
-			// 			viewport_height: videoContainer.scrollTop,
-			// 		},
-			// );
+		player.on('adImpression', function (event) {
+			var vastParams = ad_engine_["vastParser"].parse(event.tag, {
+				imaAd: event.ima && event.ima.ad
+			});
+
+			updateSlotParams(slot, vastParams);
+			slot.setStatus('success');
 		});
 
 		player.on('adError', function (event) {
-			ad_engine_["vastDebugger"].setVastAttributes(videoContainer, event.tag, 'error', event.ima && event.ima.ad);
+			var vastParams = ad_engine_["vastParser"].parse(event.tag, {
+				imaAd: event.ima && event.ima.ad
+			});
 
-			// TODO: set slot status so it's tracked to adengadinfo
-			// Currently it isn't working:
-			// slotTracker.onRenderEnded(
-			// 		slot,
-			// 		{
-			// 			timestamp: Date.now(),
-			// 			status: 'error',
-			// 			page_width: videoContainer.clientWidth,
-			// 			viewport_height: videoContainer.scrollTop,
-			// 		},
-			// );
+			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+			updateSlotParams(slot, vastParams);
+			slot.setStatus('error');
 		});
 
 		tracker.register(player);
 	}
 
-	var slotName = options.featured ? 'featured' : 'video';
+	var slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	var slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
 
 	if (!ad_engine_["slotService"].get(slotName)) {
