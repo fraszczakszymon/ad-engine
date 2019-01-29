@@ -11,8 +11,6 @@ if (process.argv[2] && process.argv[3]) {
 	properties.stopPort = startPort + offset;
 }
 
-console.log(properties);
-
 portfinder.getPort(properties, (err, port) => {
 	console.log(port);
 });
