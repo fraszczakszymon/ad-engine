@@ -6,6 +6,7 @@ export class Cmp {
 	}
 
 	/**
+	 * @param {*=} param
 	 * @param {function(object)} cb Callback receiving current bids
 	 * @returns {!Promise} If `cb` has been omitted
 	 */

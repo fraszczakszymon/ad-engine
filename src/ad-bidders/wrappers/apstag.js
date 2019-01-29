@@ -30,7 +30,7 @@ export class Apstag {
 	}
 
 	/**
-	 * @param {object} bidsConfig configuration of bids
+	 * @param {{slots: A9SlotDefinition[], timeout: number}} bidsConfig configuration of bids
 	 * @param {function(object)} cb Callback receiving current bids
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
