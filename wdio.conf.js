@@ -4,6 +4,8 @@ const VisualRegressionCompare = require('wdio-visual-regression-service/compare'
 const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
 
+const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080
+
 function getScreenshotName(basePath) {
 	return function (context) {
 		const hash = md5(context.test.parent + context.test.title);
@@ -29,7 +31,7 @@ exports.config = {
 	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/errorScreenshots/',
-	baseUrl: `http://localhost:${process.env.AD_ENGINE_PORT || 8080}`,
+	baseUrl: `http://localhost:${AD_ENGINE_PORT}`,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
@@ -47,7 +49,7 @@ exports.config = {
 		timeout: 120000,
 	},
 	staticServerFolders: [{ mount: '/', path: './examples' }],
-	staticServerPort: process.env.AD_ENGINE_PORT || 8080,
+	staticServerPort: AD_ENGINE_PORT,
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
 			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),
