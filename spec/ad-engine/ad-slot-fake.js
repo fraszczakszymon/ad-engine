@@ -1,3 +1,5 @@
+const dataset = {};
+
 let offsetTop = 1000;
 
 export default {
@@ -42,6 +44,7 @@ export default {
 			classList: {
 				contains: () => {},
 			},
+			dataset,
 			offsetHeight: 300,
 			offsetTop,
 			offsetParent: null,

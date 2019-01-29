@@ -15,6 +15,16 @@ function getCustomParameters(slot, extraTargeting = {}) {
 	);
 }
 
+function getVideoSizes(slot) {
+	const sizes = slot.getVideoSizes();
+
+	if (sizes) {
+		return sizes.map((size) => size.join('x')).join('|');
+	}
+
+	return '640x480';
+}
+
 export function buildVastUrl(aspectRatio, slotName, options = {}) {
 	const params = [
 		'output=vast',
@@ -22,7 +32,6 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 		'gdfp_req=1',
 		'impl=s',
 		'unviewed_position_start=1',
-		'sz=640x480',
 		`url=${encodeURIComponent(window.location.href)}`,
 		`description_url=${encodeURIComponent(window.location.href)}`,
 		`correlator=${correlator}`,
@@ -31,10 +40,12 @@ export function buildVastUrl(aspectRatio, slotName, options = {}) {
 
 	if (slot) {
 		params.push(`iu=${slot.getVideoAdUnit()}`);
+		params.push(`sz=${getVideoSizes(slot)}`);
 		params.push(`cust_params=${getCustomParameters(slot, options.targeting)}`);
 	} else if (options.videoAdUnitId && options.customParams) {
 		// This condition can be removed once we have Porvata3 and AdEngine3 everywhere
 		params.push(`iu=${options.videoAdUnitId}`);
+		params.push(`sz=640x480`);
 		params.push(`cust_params=${encodeURIComponent(options.customParams)}`);
 	} else {
 		throw Error('Slot does not exist!');
