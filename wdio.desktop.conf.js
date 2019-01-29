@@ -17,6 +17,9 @@ exports.config = merge(
 				loggingPrefs: {
 					browser: 'ALL',
 				},
+				chromeOptions: {
+					args: ['--disable-dev-shm-usage', '--no-sandbox'],
+				},
 			},
 		],
 		before() {
