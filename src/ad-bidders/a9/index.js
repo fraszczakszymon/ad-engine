@@ -121,7 +121,7 @@ export class A9 extends BaseBidder {
 		const currentBids = await this.apstag.fetchBids({ slots, timeout: this.timeout });
 
 		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
-		this.overwriteApstagRenderImpOnFirstFetch();
+		this.addApstagRenderImpHookOnFirstFetch();
 
 		currentBids.forEach(async (bid) => {
 			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
@@ -139,10 +139,10 @@ export class A9 extends BaseBidder {
 	/**
 	 * @private
 	 */
-	overwriteApstagRenderImpOnFirstFetch() {
+	addApstagRenderImpHookOnFirstFetch() {
 		if (!this.isRenderImpOverwritten) {
-			this.overwriteRenderImp();
 			this.isRenderImpOverwritten = true;
+			this.addApstagRenderImpHook();
 		}
 	}
 
@@ -151,12 +151,9 @@ export class A9 extends BaseBidder {
 	 * Calls this.refreshBid() if bids refreshing is enabled.
 	 * @private
 	 */
-	// TODO: (wf JBJ) - Move to apstag wrapper and change it so that human can read it.
-	overwriteRenderImp() {
+	addApstagRenderImpHook() {
 		utils.logger(logGroup, 'overwriting window.apstag.renderImp');
-		window.apstag.renderImp = ((original) => (doc, impId) => {
-			original(doc, impId);
-
+		this.apstag.onRenderImpEnd((doc, impId) => {
 			const slot = this.getRenderedSlot(impId);
 			const slotName = slot.getSlotName();
 
@@ -166,7 +163,7 @@ export class A9 extends BaseBidder {
 			if (window.apstag.renderImp && this.bidsRefreshing.enabled) {
 				this.refreshBid(slot);
 			}
-		})(window.apstag.renderImp);
+		});
 	}
 
 	/**

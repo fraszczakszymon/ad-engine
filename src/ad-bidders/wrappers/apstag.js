@@ -1,10 +1,16 @@
 import { utils } from '@wikia/ad-engine';
 
 export class Apstag {
+	/**
+	 * @private
+	 */
+	renderImpEndCallbacks = [];
+
 	constructor() {
 		this.utils = utils;
 		this.insertScript();
 		this.configure();
+		this.addRenderImpHooks();
 	}
 
 	/**
@@ -17,6 +23,19 @@ export class Apstag {
 			true,
 			'first',
 		);
+	}
+
+	/**
+	 * @private
+	 */
+	async addRenderImpHooks() {
+		await this.script;
+		const original = window.apstag.renderImp;
+
+		window.apstag.renderImp = (doc, impId) => {
+			original(doc, impId);
+			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
+		};
 	}
 
 	/**
@@ -77,6 +96,17 @@ export class Apstag {
 	async disableDebug() {
 		await this.script;
 		window.apstag.debug('disable');
+	}
+
+	/**
+	 * Executes callback each time after apstag.renderImp is called
+	 * @param {function} callback
+	 */
+	onRenderImpEnd(callback) {
+		if (typeof callback !== 'function') {
+			throw new Error('onRenderImpEnd used with callback not being a function');
+		}
+		this.renderImpEndCallbacks.push(callback);
 	}
 }
 
