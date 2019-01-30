@@ -1,9 +1,6 @@
-import { AdEngine, context, templateService } from '@wikia/ad-engine';
-import { IncontentNative } from '@wikia/ad-products';
+import { AdEngine, context } from '@wikia/ad-engine';
 import customContext from '../../context';
 
 context.extend(customContext);
-
-templateService.register(IncontentNative);
 
 new AdEngine().init();

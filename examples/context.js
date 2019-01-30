@@ -279,12 +279,7 @@ export default {
 			firstCall: true,
 			lowerSlotName: 'incontent_native',
 			group: 'NATIVE',
-			sizes: [
-				{
-					viewportSize: [768, 0],
-					sizes: ['fluid'],
-				},
-			],
+			sizes: [],
 			defaultSizes: ['fluid'],
 			targeting: {
 				loc: 'top',
