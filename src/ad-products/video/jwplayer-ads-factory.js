@@ -12,6 +12,13 @@ import {
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
 import featuredVideo15s from './featured-video-f15s';
 
+const vastUrls = {
+	last: null,
+	preroll: null,
+	midroll: null,
+	postroll: null,
+};
+
 /**
  * Calculate depth
  *
@@ -70,6 +77,14 @@ function shouldPlayPostroll(videoDepth) {
 	return context.get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
 }
 
+function getCurrentVast(placement) {
+	const vast = vastUrls[placement];
+
+	vastUrls.last = vast;
+
+	return vast;
+}
+
 /**
  * @param {Object} slot
  * @param {string} position
@@ -79,7 +94,7 @@ function shouldPlayPostroll(videoDepth) {
  * @returns {string}
  */
 function getVastUrl(slot, position, depth, correlator, slotTargeting) {
-	return buildVastUrl(16 / 9, slot.getSlotName(), {
+	const vast = buildVastUrl(16 / 9, slot.getSlotName(), {
 		correlator,
 		vpos: position,
 		targeting: Object.assign(
@@ -90,6 +105,10 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 			slotTargeting,
 		),
 	});
+
+	vastUrls[position] = vast;
+
+	return vast;
 }
 
 /**
@@ -295,5 +314,6 @@ function loadMoatPlugin() {
 
 export const jwplayerAdsFactory = {
 	create,
+	getCurrentVast,
 	loadMoatPlugin,
 };

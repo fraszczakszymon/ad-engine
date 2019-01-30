@@ -5794,6 +5794,13 @@ var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 
 
+var vastUrls = {
+	last: null,
+	preroll: null,
+	midroll: null,
+	postroll: null
+};
+
 /**
  * Calculate depth
  *
@@ -5850,6 +5857,14 @@ function shouldPlayPostroll(videoDepth) {
 	return ad_engine_["context"].get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
 }
 
+function getCurrentVast(placement) {
+	var vast = vastUrls[placement];
+
+	vastUrls.last = vast;
+
+	return vast;
+}
+
 /**
  * @param {Object} slot
  * @param {string} position
@@ -5859,7 +5874,7 @@ function shouldPlayPostroll(videoDepth) {
  * @returns {string}
  */
 function getVastUrl(slot, position, depth, correlator, slotTargeting) {
-	return Object(ad_engine_["buildVastUrl"])(16 / 9, slot.getSlotName(), {
+	var vast = Object(ad_engine_["buildVastUrl"])(16 / 9, slot.getSlotName(), {
 		correlator: correlator,
 		vpos: position,
 		targeting: assign_default()({
@@ -5867,6 +5882,10 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 			rv: calculateRV(depth)
 		}, slotTargeting)
 	});
+
+	vastUrls[position] = vast;
+
+	return vast;
 }
 
 /**
@@ -6073,6 +6092,7 @@ function loadMoatPlugin() {
 
 var jwplayerAdsFactory = {
 	create: create,
+	getCurrentVast: getCurrentVast,
 	loadMoatPlugin: loadMoatPlugin
 };
 // CONCATENATED MODULE: ./src/ad-products/video/index.js
