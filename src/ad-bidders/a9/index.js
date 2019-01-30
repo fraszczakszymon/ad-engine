@@ -175,7 +175,7 @@ export class A9 extends BaseBidder {
 	getRenderedSlot(impId) {
 		let renderedSlot;
 
-		slotService.forEachSlot((slot) => {
+		slotService.forEach((slot) => {
 			if (slot.getTargeting().amzniid === impId) {
 				renderedSlot = slot;
 			}
