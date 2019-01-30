@@ -4,6 +4,8 @@ const VisualRegressionCompare = require('wdio-visual-regression-service/compare'
 const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
 
+const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080
+
 function getScreenshotName(basePath) {
 	return function (context) {
 		const hash = md5(context.test.parent + context.test.title);
@@ -15,10 +17,10 @@ function getScreenshotName(basePath) {
 exports.config = {
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
+		'hivi-templates': ['./tests/specs/templates/hivi/*.test.js'],
+		'other-templates': ['./tests/specs/templates/non-hivi/*.test.js'],
 		services: ['./tests/specs/services/*.test.js'],
 		slots: ['./tests/specs/slots/*.test.js'],
-		hiviTemplates: ['./tests/specs/templates/hivi/*.test.js'],
-		otherTemplates: ['./tests/specs/templates/non-hivi/*.test.js'],
 		utils: ['./tests/specs/utils/*.test.js'],
 		video: ['./tests/specs/video/*.test.js'],
 	},
@@ -29,11 +31,11 @@ exports.config = {
 	deprecationWarnings: false,
 	bail: 0,
 	screenshotPath: './tests/errorScreenshots/',
-	baseUrl: 'http://localhost:8080',
+	baseUrl: `http://localhost:${AD_ENGINE_PORT}`,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
-	services: ['selenium-standalone', networkCapture, 'visual-regression'],
+	services: [networkCapture, 'static-server', 'selenium-standalone', 'visual-regression'],
 	framework: 'mocha',
 	reporters: ['dot', 'allure'],
 	reporterOptions: {
@@ -46,6 +48,8 @@ exports.config = {
 		compilers: ['js:babel-core/register'],
 		timeout: 120000,
 	},
+	staticServerFolders: [{ mount: '/', path: './examples' }],
+	staticServerPort: AD_ENGINE_PORT,
 	visualRegression: {
 		compare: new VisualRegressionCompare.LocalCompare({
 			referenceName: getScreenshotName(path.join(process.cwd(), 'tests/screenshots/reference')),

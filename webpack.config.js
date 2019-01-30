@@ -111,6 +111,11 @@ const development = {
 	},
 };
 
+const wdioTest = {
+	devtool: null,
+	optimization: null,
+};
+
 const test = {
 	resolve: {
 		alias: {
@@ -302,6 +307,7 @@ const adServices = {
 
 module.exports = function (env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
+	const isWdioTest = env && env['wdio-test'];
 	const isTest = env && env.test;
 
 	if (isProduction) {
@@ -318,6 +324,9 @@ module.exports = function (env) {
 	}
 	if (isTest) {
 		return merge(common, test);
+	}
+	if (isWdioTest) {
+		return merge(common, development, wdioTest);
 	}
 
 	return merge(common, development);
