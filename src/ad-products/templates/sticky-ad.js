@@ -47,6 +47,7 @@ export class StickyAd extends StickyBase {
 	init(params) {
 		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
+			this.adSlot.emitEvent(StickyAd.STICKINESS_DISABLED);
 
 			return;
 		}
