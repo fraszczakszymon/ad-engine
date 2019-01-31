@@ -6063,6 +6063,12 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
+		if (ad_engine_["context"].get('opts.wadHMD')) {
+			document.addEventListener('hdPlayerEvent', function (event) {
+				tracker.emit(event.detail.name, event.detail.errorCode);
+			});
+		}
+
 		tracker.register(player);
 	}
 

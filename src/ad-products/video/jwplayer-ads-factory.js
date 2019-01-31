@@ -285,6 +285,12 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
+		if (context.get('opts.wadHMD')) {
+			document.addEventListener('hdPlayerEvent', (event) => {
+				tracker.emit(event.detail.name, event.detail.errorCode);
+			});
+		}
+
 		tracker.register(player);
 	}
 
