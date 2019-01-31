@@ -6065,7 +6065,14 @@ function create(options) {
 
 		if (ad_engine_["context"].get('opts.wadHMD')) {
 			document.addEventListener('hdPlayerEvent', function (event) {
-				tracker.emit(event.detail.name, event.detail.errorCode);
+				if (event.detail.slotStatus) {
+					updateSlotParams(slot, event.detail.slotStatus.vastParams);
+					slot.setStatus(event.detail.slotStatus.statusName);
+				}
+
+				if (event.detail.name) {
+					tracker.emit(event.detail.name, event.detail.errorCode);
+				}
 			});
 		}
 
