@@ -90,4 +90,17 @@ describe('sticky-tlb template', () => {
 
 		expect(networkCapture.logsIncludesMessage('force-unstick', logs, 'any', true)).to.be.false;
 	});
+
+	it('should emit "stickiness-disabled event" if stickiness is disabled', () => {
+		const message = '👁 Custom listener: onCustomEvent top_leaderboard stickiness-disabled';
+
+		browser.url(`${stickyTlb.pageLink}?disabled=1`);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+
+		browser.waitUntil(
+			() => networkCapture.logsIncludesMessage(message, logs, 'log', true),
+			2000,
+			`Logs should contain message: "${message}".\nLogs are: ${JSON.stringify(logs)}`,
+		);
+	});
 });
