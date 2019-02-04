@@ -813,6 +813,7 @@ stickiness_Stickiness.SLOT_STICKED_STATE = 'sticked';
 stickiness_Stickiness.SLOT_UNSTICKED_STATE = 'unsticked';
 stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
 stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+stickiness_Stickiness.SLOT_STICKINESS_DISABLED = 'stickiness-disabled';
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
 var toConsumableArray_ = __webpack_require__(12);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
@@ -1219,7 +1220,6 @@ var sticky_base_StickyBase = function () {
 	return StickyBase;
 }();
 sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
-sticky_base_StickyBase.STICKINESS_DISABLED = 'stickiness-disabled';
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
 var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
 var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
@@ -1335,7 +1335,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness rejected');
-				this.adSlot.emitEvent(StickyAd.STICKINESS_DISABLED);
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKINESS_DISABLED);
 
 				return;
 			}
@@ -2984,7 +2984,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		value: function init(params) {
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
-				this.adSlot.emitEvent(StickyTLB.STICKINESS_DISABLED);
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKINESS_DISABLED);
 
 				return;
 			}

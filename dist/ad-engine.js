@@ -4144,6 +4144,18 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 				slotListener.emitStatusChanged(this);
 			}
 		}
+
+		/**
+   * Decode dataset value stored under provided key.
+   *
+   * @param {string | number} key
+   */
+
+	}, {
+		key: 'getDatasetValue',
+		value: function getDatasetValue(key) {
+			return JSON.parse(this.getElement().dataset[key]);
+		}
 	}, {
 		key: 'isFirstCall',
 		value: function isFirstCall() {
@@ -5906,8 +5918,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '76220ac8');
-logger('ad-engine', 'v23.5.0 (76220ac8)');
+set_default()(window, commitField, '440d6c04');
+logger('ad-engine', 'v23.5.0 (440d6c04)');
 
 
 
