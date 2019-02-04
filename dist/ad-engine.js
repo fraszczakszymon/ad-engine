@@ -244,6 +244,7 @@ __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", func
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
 __webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
 __webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
@@ -258,6 +259,7 @@ __webpack_require__.d(utils_namespaceObject, "setSessionId", function() { return
 __webpack_require__.d(utils_namespaceObject, "getSamplingResults", function() { return getSamplingResults; });
 __webpack_require__.d(utils_namespaceObject, "isProperGeo", function() { return isProperGeo; });
 __webpack_require__.d(utils_namespaceObject, "mapSamplingResults", function() { return mapSamplingResults; });
+__webpack_require__.d(utils_namespaceObject, "getPromiseAndExecuteCallback", function() { return getPromiseAndExecuteCallback; });
 __webpack_require__.d(utils_namespaceObject, "IframeBuilder", function() { return iframe_builder_IframeBuilder; });
 __webpack_require__.d(utils_namespaceObject, "makeLazyQueue", function() { return makeLazyQueue; });
 __webpack_require__.d(utils_namespaceObject, "LazyQueue", function() { return lazy_queue_LazyQueue; });
@@ -659,21 +661,25 @@ function flow_control_once(emitter, eventName) {
 }
 
 /**
+ * @param {number} msToTimeout
+ * @returns {Promise}
+ */
+function timeoutReject(msToTimeout) {
+	return new promise_default.a(function (resolve, reject) {
+		setTimeout(reject, msToTimeout);
+	});
+}
+
+/**
  * Fires the Promise if function is fulfilled or timeout is reached
- *
  * @param {function} func
- * @param {int} msToTimeout
- *
+ * @param {number} msToTimeout
  * @returns {Promise}
  */
 function createWithTimeout(func) {
 	var msToTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
 
-	var timeout = new promise_default.a(function (resolve, reject) {
-		setTimeout(reject, msToTimeout);
-	});
-
-	return promise_default.a.race([new promise_default.a(func), timeout]);
+	return promise_default.a.race([new promise_default.a(func), timeoutReject(msToTimeout)]);
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/json/stringify"
 var stringify_ = __webpack_require__(4);
@@ -772,6 +778,7 @@ function context_service_segment(key, newValue) {
 
 	if (remove) {
 		delete seg[lastKey];
+		triggerOnChange(key, segments, null);
 
 		return null;
 	}
@@ -1182,6 +1189,25 @@ var geo_module = {
 };
 
 /* harmony default export */ var geo = (geo_module);
+// CONCATENATED MODULE: ./src/ad-engine/utils/get-promise-and-execute-callback.js
+
+/**
+ * Returns promise and executes callback if present.
+ * @param {function} func - Function to from which a promise is made.
+ * @param {function=} callback
+ * @returns {Promise}
+ */
+function getPromiseAndExecuteCallback(func) {
+  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+  var promise = new promise_default.a(func);
+
+  if (callback && typeof callback === 'function') {
+    promise.then(callback.bind(null, null), callback);
+  }
+
+  return promise;
+}
 // CONCATENATED MODULE: ./src/ad-engine/utils/iframe-builder.js
 
 
@@ -1421,6 +1447,11 @@ var query_string_QueryString = function () {
 			var queryParameters = this.getValues();
 
 			return queryParameters[key];
+		}
+	}, {
+		key: 'isUrlParamSet',
+		value: function isUrlParamSet(param) {
+			return !!parseInt(this.get(param), 10);
 		}
 	}]);
 
@@ -3593,16 +3624,26 @@ function setupGptTargeting() {
 	var targeting = context.get('targeting');
 
 	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
+		if (typeof value === 'undefined' || value === null) {
+			tag.clearTargeting(key);
+		} else if (typeof value === 'function') {
 			tag.setTargeting(key, value());
 		} else {
 			tag.setTargeting(key, value);
 		}
 	}
 
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
+	function setTargetingFromContext() {
+		keys_default()(targeting).forEach(function (key) {
+			setTargetingValue(key, targeting[key]);
+		});
+	}
+
+	events.on(events.PAGE_CHANGE_EVENT, function () {
+		setTargetingFromContext();
 	});
+
+	setTargetingFromContext();
 
 	context.onChange('targeting', function (trigger, value) {
 		var segments = trigger.split('.');
@@ -4299,6 +4340,7 @@ ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 var slot_service_slots = {};
+
 var slotStates = {};
 var slotStatuses = {};
 
@@ -4334,6 +4376,11 @@ function setState(slotName, state) {
 	}
 	logger(slot_service_groupName, 'set state', slotName, state);
 }
+
+events.on(events.PAGE_CHANGE_EVENT, function () {
+	slotStates = {};
+	slotStatuses = {};
+});
 
 var slot_service_SlotService = function () {
 	function SlotService() {
@@ -5591,6 +5638,7 @@ var viewportObserver = {
 
 
 
+
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.js
 
 
@@ -5905,9 +5953,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '76220ac8');
-logger('ad-engine', 'v23.5.0 (76220ac8)');
+set_default()(window, versionField, 'v23.6.2');
+set_default()(window, commitField, 'e675f045');
+logger('ad-engine', 'v23.6.2 (e675f045)');
 
 
 
