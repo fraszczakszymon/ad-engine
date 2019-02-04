@@ -77,12 +77,13 @@ function shouldPlayPostroll(videoDepth) {
 	return context.get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
 }
 
+function setCurrentVast(placement, vastUrl) {
+	vastUrls[placement] = vastUrl;
+	vastUrls.last = vastUrl;
+}
+
 function getCurrentVast(placement) {
-	const vast = vastUrls[placement];
-
-	vastUrls.last = vast;
-
-	return vast;
+	return vastUrls[placement] || vastUrls.last;
 }
 
 /**
@@ -94,7 +95,7 @@ function getCurrentVast(placement) {
  * @returns {string}
  */
 function getVastUrl(slot, position, depth, correlator, slotTargeting) {
-	const vast = buildVastUrl(16 / 9, slot.getSlotName(), {
+	return buildVastUrl(16 / 9, slot.getSlotName(), {
 		correlator,
 		vpos: position,
 		targeting: Object.assign(
@@ -105,10 +106,6 @@ function getVastUrl(slot, position, depth, correlator, slotTargeting) {
 			slotTargeting,
 		),
 	});
-
-	vastUrls[position] = vast;
-
-	return vast;
 }
 
 /**
@@ -201,7 +198,10 @@ function create(options) {
 				 * @returns {void}
 				 */
 				const fillInSlot = () => {
-					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
+					const vastUrl = getVastUrl(slot, 'preroll', depth, correlator, targeting);
+
+					setCurrentVast('preroll', vastUrl);
+					player.playAd(vastUrl);
 				};
 
 				if (options.featured) {
@@ -216,17 +216,23 @@ function create(options) {
 
 		player.on('videoMidPoint', () => {
 			if (shouldPlayMidroll(depth)) {
+				const vastUrl = getVastUrl(slot, 'midroll', depth, correlator, targeting);
+
 				tracker.adProduct = `${adProduct}-midroll`;
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				setCurrentVast('midroll', vastUrl);
+				player.playAd(vastUrl);
 			}
 		});
 
 		player.on('beforeComplete', () => {
 			if (shouldPlayPostroll(depth)) {
+				const vastUrl = getVastUrl(slot, 'postroll', depth, correlator, targeting);
+
 				tracker.adProduct = `${adProduct}-postroll`;
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'postroll', depth, correlator, targeting));
+				setCurrentVast('postroll', vastUrl);
+				player.playAd(vastUrl);
 			}
 		});
 
@@ -245,9 +251,12 @@ function create(options) {
 			const f15sTime = parseFloat(featuredVideo15s.getTime(currentMedia.mediaid));
 
 			if (currentTime >= f15sTime && !f15sMidrollPlayed) {
+				const vastUrl = getVastUrl(slot, 'midroll', depth, correlator, targeting);
+
 				tracker.adProduct = `${adProduct}-midroll`;
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				setCurrentVast('midroll', vastUrl);
+				player.playAd(vastUrl);
 				f15sMidrollPlayed = true;
 			}
 		});
