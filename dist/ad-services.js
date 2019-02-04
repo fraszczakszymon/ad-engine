@@ -528,7 +528,7 @@ var bill_the_lizard_BillTheLizard = function () {
 				return req.abort();
 			});
 			openRequests = [];
-			ad_engine_["context"].set('targeting.btl', null);
+			ad_engine_["context"].remove('targeting.btl');
 		}
 
 		/**

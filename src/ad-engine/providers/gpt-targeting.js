@@ -1,8 +1,12 @@
-import { context } from '../services';
+import { context, events } from '../services';
 
 export function setupGptTargeting() {
 	const tag = window.googletag.pubads();
 	const targeting = context.get('targeting');
+
+	events.on(events.BEFORE_PAGE_CHANGE_EVENT, () => {
+		tag.clearTargeting();
+	});
 
 	function setTargetingValue(key, value) {
 		if (typeof value === 'function') {

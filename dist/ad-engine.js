@@ -3592,6 +3592,10 @@ function setupGptTargeting() {
 	var tag = window.googletag.pubads();
 	var targeting = context.get('targeting');
 
+	events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+		tag.clearTargeting();
+	});
+
 	function setTargetingValue(key, value) {
 		if (typeof value === 'function') {
 			tag.setTargeting(key, value());
@@ -5912,8 +5916,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.4.2');
-set_default()(window, commitField, '8d1e5f6e');
-logger('ad-engine', 'v23.4.2 (8d1e5f6e)');
+set_default()(window, commitField, '198b4231');
+logger('ad-engine', 'v23.4.2 (198b4231)');
 
 
 
