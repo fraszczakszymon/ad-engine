@@ -12,6 +12,15 @@ export class Stickiness extends EventEmitter {
 	static SLOT_UNSTICKED_STATE = 'unsticked';
 	static SLOT_STICKY_READY_STATE = 'sticky-ready';
 	static SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+	static SLOT_STICKINESS_DISABLED = 'stickiness-disabled';
+
+	static STICKY_EVENTS = [
+		Stickiness.SLOT_STICKY_READY_STATE,
+		Stickiness.SLOT_STICKED_STATE,
+		Stickiness.SLOT_UNSTICKED_STATE,
+		Stickiness.SLOT_UNSTICK_IMMEDIATELY,
+		Stickiness.SLOT_STICKINESS_DISABLED,
+	];
 
 	constructor(adSlot, customWhen = Promise.resolve()) {
 		super();
