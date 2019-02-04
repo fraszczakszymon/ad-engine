@@ -4,21 +4,27 @@ export function setupGptTargeting() {
 	const tag = window.googletag.pubads();
 	const targeting = context.get('targeting');
 
-	events.on(events.BEFORE_PAGE_CHANGE_EVENT, () => {
-		tag.clearTargeting();
-	});
-
 	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
+		if (typeof value === 'undefined' || value === null) {
+			tag.clearTargeting(key);
+		} else if (typeof value === 'function') {
 			tag.setTargeting(key, value());
 		} else {
 			tag.setTargeting(key, value);
 		}
 	}
 
-	Object.keys(targeting).forEach((key) => {
-		setTargetingValue(key, targeting[key]);
+	function setTargetingFromContext() {
+		Object.keys(targeting).forEach((key) => {
+			setTargetingValue(key, targeting[key]);
+		});
+	}
+
+	events.on(events.PAGE_CHANGE_EVENT, () => {
+		setTargetingFromContext();
 	});
+
+	setTargetingFromContext();
 
 	context.onChange('targeting', (trigger, value) => {
 		const segments = trigger.split('.');

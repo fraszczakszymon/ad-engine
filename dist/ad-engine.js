@@ -3592,21 +3592,27 @@ function setupGptTargeting() {
 	var tag = window.googletag.pubads();
 	var targeting = context.get('targeting');
 
-	events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-		tag.clearTargeting();
-	});
-
 	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
+		if (typeof value === 'undefined' || value === null) {
+			tag.clearTargeting(key);
+		} else if (typeof value === 'function') {
 			tag.setTargeting(key, value());
 		} else {
 			tag.setTargeting(key, value);
 		}
 	}
 
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
+	function setTargetingFromContext() {
+		keys_default()(targeting).forEach(function (key) {
+			setTargetingValue(key, targeting[key]);
+		});
+	}
+
+	events.on(events.PAGE_CHANGE_EVENT, function () {
+		setTargetingFromContext();
 	});
+
+	setTargetingFromContext();
 
 	context.onChange('targeting', function (trigger, value) {
 		var segments = trigger.split('.');
@@ -5916,8 +5922,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.4.2');
-set_default()(window, commitField, '198b4231');
-logger('ad-engine', 'v23.4.2 (198b4231)');
+set_default()(window, commitField, '0992833e');
+logger('ad-engine', 'v23.4.2 (0992833e)');
 
 
 
