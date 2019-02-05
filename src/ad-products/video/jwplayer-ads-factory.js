@@ -12,13 +12,6 @@ import {
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
 import featuredVideo15s from './featured-video-f15s';
 
-const vastUrls = {
-	last: null,
-	preroll: null,
-	midroll: null,
-	postroll: null,
-};
-
 /**
  * Calculate depth
  *
@@ -77,15 +70,6 @@ function shouldPlayPostroll(videoDepth) {
 	return context.get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
 }
 
-function setCurrentVast(placement, vastUrl) {
-	vastUrls[placement] = vastUrl;
-	vastUrls.last = vastUrl;
-}
-
-function getCurrentVast(placement) {
-	return vastUrls[placement] || vastUrls.last;
-}
-
 /**
  * @param {Object} slot
  * @param {string} position
@@ -130,6 +114,15 @@ function updateSlotParams(adSlot, vastParams) {
  * @returns {{register: register}}
  */
 function create(options) {
+	function setCurrentVast(placement, vastUrl) {
+		vastUrls[placement] = vastUrl;
+		vastUrls.last = vastUrl;
+	}
+
+	function getCurrentVast(placement) {
+		return vastUrls[placement] || vastUrls.last;
+	}
+
 	function register(player, slotTargeting = {}) {
 		const slot = slotService.get(slotName);
 		const adProduct = slot.config.trackingKey;
@@ -294,7 +287,7 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
-		if (context.get('opts.wadHMD')) {
+		if (context.get('options.wad.hmdRec')) {
 			document.addEventListener('hdPlayerEvent', (event) => {
 				if (event.detail.slotStatus) {
 					updateSlotParams(slot, event.detail.slotStatus.vastParams);
@@ -312,6 +305,12 @@ function create(options) {
 
 	const slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	const slot = slotService.get(slotName) || new AdSlot({ id: slotName });
+	const vastUrls = {
+		last: null,
+		preroll: null,
+		midroll: null,
+		postroll: null,
+	};
 
 	if (!slotService.get(slotName)) {
 		slotService.add(slot);
@@ -327,6 +326,7 @@ function create(options) {
 
 	return {
 		register,
+		getCurrentVast,
 	};
 }
 
@@ -336,6 +336,5 @@ function loadMoatPlugin() {
 
 export const jwplayerAdsFactory = {
 	create,
-	getCurrentVast,
 	loadMoatPlugin,
 };
