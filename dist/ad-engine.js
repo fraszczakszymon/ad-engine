@@ -1422,6 +1422,11 @@ var query_string_QueryString = function () {
 
 			return queryParameters[key];
 		}
+	}, {
+		key: 'isUrlParamSet',
+		value: function isUrlParamSet(param) {
+			return !!parseInt(this.get(param), 10);
+		}
 	}]);
 
 	return QueryString;
@@ -5905,9 +5910,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.4.3');
-set_default()(window, commitField, '1a138c1a');
-logger('ad-engine', 'v23.4.3 (1a138c1a)');
+set_default()(window, versionField, 'v23.5.0');
+set_default()(window, commitField, 'be66c4c8');
+logger('ad-engine', 'v23.5.0 (be66c4c8)');
 
 
 

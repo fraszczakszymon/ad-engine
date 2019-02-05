@@ -5797,13 +5797,6 @@ var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 
 
-var vastUrls = {
-	last: null,
-	preroll: null,
-	midroll: null,
-	postroll: null
-};
-
 /**
  * Calculate depth
  *
@@ -5860,15 +5853,6 @@ function shouldPlayPostroll(videoDepth) {
 	return ad_engine_["context"].get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
 }
 
-function setCurrentVast(placement, vastUrl) {
-	vastUrls[placement] = vastUrl;
-	vastUrls.last = vastUrl;
-}
-
-function getCurrentVast(placement) {
-	return vastUrls[placement] || vastUrls.last;
-}
-
 /**
  * @param {Object} slot
  * @param {string} position
@@ -5910,6 +5894,15 @@ function updateSlotParams(adSlot, vastParams) {
  * @returns {{register: register}}
  */
 function create(options) {
+	function setCurrentVast(placement, vastUrl) {
+		vastUrls[placement] = vastUrl;
+		vastUrls.last = vastUrl;
+	}
+
+	function getCurrentVast(placement) {
+		return vastUrls[placement] || vastUrls.last;
+	}
+
 	function register(player) {
 		var slotTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -6075,7 +6068,7 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
-		if (ad_engine_["context"].get('opts.wadHMD')) {
+		if (ad_engine_["context"].get('options.wad.hmdRec')) {
 			document.addEventListener('hdPlayerEvent', function (event) {
 				if (event.detail.slotStatus) {
 					updateSlotParams(slot, event.detail.slotStatus.vastParams);
@@ -6093,6 +6086,12 @@ function create(options) {
 
 	var slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	var slot = ad_engine_["slotService"].get(slotName) || new ad_engine_["AdSlot"]({ id: slotName });
+	var vastUrls = {
+		last: null,
+		preroll: null,
+		midroll: null,
+		postroll: null
+	};
 
 	if (!ad_engine_["slotService"].get(slotName)) {
 		ad_engine_["slotService"].add(slot);
@@ -6107,7 +6106,8 @@ function create(options) {
 	});
 
 	return {
-		register: register
+		register: register,
+		getCurrentVast: getCurrentVast
 	};
 }
 
@@ -6117,7 +6117,6 @@ function loadMoatPlugin() {
 
 var jwplayerAdsFactory = {
 	create: create,
-	getCurrentVast: getCurrentVast,
 	loadMoatPlugin: loadMoatPlugin
 };
 // CONCATENATED MODULE: ./src/ad-products/video/index.js
