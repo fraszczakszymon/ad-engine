@@ -287,7 +287,7 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
-		if (context.get('options.wad.hmdRec')) {
+		if (context.get('options.wad.hmdRec.enabled')) {
 			document.addEventListener('hdPlayerEvent', (event) => {
 				if (event.detail.slotStatus) {
 					updateSlotParams(slot, event.detail.slotStatus.vastParams);

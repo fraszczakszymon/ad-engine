@@ -6068,7 +6068,7 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
-		if (ad_engine_["context"].get('options.wad.hmdRec')) {
+		if (ad_engine_["context"].get('options.wad.hmdRec.enabled')) {
 			document.addEventListener('hdPlayerEvent', function (event) {
 				if (event.detail.slotStatus) {
 					updateSlotParams(slot, event.detail.slotStatus.vastParams);
