@@ -2421,6 +2421,7 @@ var realSlotPrices = {};
 var ad_bidders_logGroup = 'bidders';
 
 ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_REQUESTED, function (adSlot) {
+	adSlot.updateWinningPbBidderDetails();
 	resetTargetingKeys(adSlot.getSlotName());
 });
 
