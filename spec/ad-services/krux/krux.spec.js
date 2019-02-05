@@ -5,7 +5,6 @@ import { krux } from '../../../src/ad-services/krux';
 describe('Krux service', () => {
 	beforeEach(() => {
 		window.localStorage = {};
-		window.localStorage.kxuser = 'foo';
 		window.localStorage.kxsegs = 'abc,bar,zxc';
 		context.set('services.krux', {
 			enabled: true,
@@ -21,7 +20,17 @@ describe('Krux service', () => {
 		delete window.kruxDartParam_foo;
 	});
 
-	it('import user data and return user id', () => {
+	it('import user data and return user id from old key name', () => {
+		window.localStorage.kxuser = 'foo';
+
+		krux.importUserData();
+
+		expect(krux.getUserId()).to.equal('foo');
+	});
+
+	it('import user data and return user id from old key name', () => {
+		window.localStorage.kxwikia_user = 'foo';
+
 		krux.importUserData();
 
 		expect(krux.getUserId()).to.equal('foo');
