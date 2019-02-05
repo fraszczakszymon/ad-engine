@@ -139,8 +139,8 @@ describe('ad-slot', () => {
 			adSlot.updateWinningPbBidderDetails(targeting);
 
 			expect(adSlot.winningPbBidderDetails).to.deep.equal({
-				bidderWon: targeting.hb_bidder,
-				bidderWonPrice: targeting.hb_pb,
+				name: targeting.hb_bidder,
+				price: targeting.hb_pb,
 			});
 		});
 

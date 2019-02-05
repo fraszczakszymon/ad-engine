@@ -203,8 +203,8 @@ export class AdSlot extends EventEmitter {
 	updateWinningPbBidderDetails(targeting) {
 		if (targeting.hb_bidder && targeting.hb_pb) {
 			this.winningPbBidderDetails = {
-				bidderWon: targeting.hb_bidder,
-				bidderWonPrice: targeting.hb_pb,
+				name: targeting.hb_bidder,
+				price: targeting.hb_pb,
 			};
 		}
 	}

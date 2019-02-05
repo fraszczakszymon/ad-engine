@@ -4257,8 +4257,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		value: function updateWinningPbBidderDetails(targeting) {
 			if (targeting.hb_bidder && targeting.hb_pb) {
 				this.winningPbBidderDetails = {
-					bidderWon: targeting.hb_bidder,
-					bidderWonPrice: targeting.hb_pb
+					name: targeting.hb_bidder,
+					price: targeting.hb_pb
 				};
 			}
 		}
@@ -5935,8 +5935,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '5de6b14d');
-logger('ad-engine', 'v23.5.0 (5de6b14d)');
+set_default()(window, commitField, '93b799d8');
+logger('ad-engine', 'v23.5.0 (93b799d8)');
 
 
 
