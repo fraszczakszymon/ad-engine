@@ -124,15 +124,6 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	/**
-	 * Decode dataset value stored under provided key.
-	 *
-	 * @param {string | number} key
-	 */
-	getDatasetValue(key) {
-		return JSON.parse(this.getElement().dataset[key]);
-	}
-
 	isFirstCall() {
 		return !!this.config.firstCall;
 	}
