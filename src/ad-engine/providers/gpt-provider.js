@@ -109,7 +109,7 @@ export class GptProvider {
 
 		this.applyTargetingParams(gptSlot, targeting);
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-		adSlot.updateWinningPbBidderDetails(targeting);
+		adSlot.updateWinningPbBidderDetails();
 
 		window.googletag.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);

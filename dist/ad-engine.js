@@ -3780,7 +3780,7 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-			adSlot.updateWinningPbBidderDetails(targeting);
+			adSlot.updateWinningPbBidderDetails();
 
 			window.googletag.display(adSlot.getSlotName());
 			definedSlots.push(gptSlot);
@@ -4254,11 +4254,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		}
 	}, {
 		key: 'updateWinningPbBidderDetails',
-		value: function updateWinningPbBidderDetails(targeting) {
-			if (targeting.hb_bidder && targeting.hb_pb) {
+		value: function updateWinningPbBidderDetails() {
+			if (this.targeting.hb_bidder && this.targeting.hb_pb) {
 				this.winningPbBidderDetails = {
-					name: targeting.hb_bidder,
-					price: targeting.hb_pb
+					name: this.targeting.hb_bidder,
+					price: this.targeting.hb_pb
 				};
 			}
 		}
@@ -5935,8 +5935,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '93b799d8');
-logger('ad-engine', 'v23.5.0 (93b799d8)');
+set_default()(window, commitField, '82ef027c');
+logger('ad-engine', 'v23.5.0 (82ef027c)');
 
 
 
