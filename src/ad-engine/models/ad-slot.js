@@ -40,6 +40,8 @@ export class AdSlot extends EventEmitter {
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
 
+		this.winningPbBidderDetails = null;
+
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
 		});
@@ -195,6 +197,15 @@ export class AdSlot extends EventEmitter {
 	emitEvent(eventName = null) {
 		if (eventName !== null) {
 			slotListener.emitCustomEvent(eventName, this);
+		}
+	}
+
+	updateWinningPbBidderDetails(targeting) {
+		if (targeting.hb_bidder && targeting.hb_pb) {
+			this.winningPbBidderDetails = {
+				bidderWon: targeting.hb_bidder,
+				bidderWonPrice: targeting.hb_pb,
+			};
 		}
 	}
 

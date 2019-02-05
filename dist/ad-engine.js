@@ -3780,6 +3780,7 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 
 			this.applyTargetingParams(gptSlot, targeting);
 			slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+			adSlot.updateWinningPbBidderDetails(targeting);
 
 			window.googletag.display(adSlot.getSlotName());
 			definedSlots.push(gptSlot);
@@ -3811,11 +3812,11 @@ var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorat
 		}
 	}, {
 		key: 'parseTargetingParams',
-		value: function parseTargetingParams(targeting) {
+		value: function parseTargetingParams(targetingParams) {
 			var result = {};
 
-			keys_default()(targeting).forEach(function (key) {
-				var value = targeting[key];
+			keys_default()(targetingParams).forEach(function (key) {
+				var value = targetingParams[key];
 
 				if (typeof value === 'function') {
 					value = value();
@@ -4043,6 +4044,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		_this.config.targeting.src = _this.config.targeting.src || context.get('src');
 		_this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
 
+		_this.winningPbBidderDetails = null;
+
 		_this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
 			_this.viewed = true;
 		});
@@ -4247,6 +4250,16 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			if (eventName !== null) {
 				slotListener.emitCustomEvent(eventName, this);
+			}
+		}
+	}, {
+		key: 'updateWinningPbBidderDetails',
+		value: function updateWinningPbBidderDetails(targeting) {
+			if (targeting.hb_bidder && targeting.hb_pb) {
+				this.winningPbBidderDetails = {
+					bidderWon: targeting.hb_bidder,
+					bidderWonPrice: targeting.hb_pb
+				};
 			}
 		}
 	}, {
@@ -5193,6 +5206,10 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 
 
+/**
+ * Sets dataset properties on AdSlot container for debug purposes.
+ */
+
 var slot_data_params_updater_SlotDataParamsUpdater = function () {
 	function SlotDataParamsUpdater() {
 		classCallCheck_default()(this, SlotDataParamsUpdater);
@@ -5918,8 +5935,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '440d6c04');
-logger('ad-engine', 'v23.5.0 (440d6c04)');
+set_default()(window, commitField, '5de6b14d');
+logger('ad-engine', 'v23.5.0 (5de6b14d)');
 
 
 
