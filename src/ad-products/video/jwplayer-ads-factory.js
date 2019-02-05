@@ -12,6 +12,13 @@ import {
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
 import featuredVideo15s from './featured-video-f15s';
 
+const vastUrls = {
+	last: null,
+	preroll: null,
+	midroll: null,
+	postroll: null,
+};
+
 /**
  * Calculate depth
  *
@@ -71,6 +78,24 @@ function shouldPlayPostroll(videoDepth) {
 }
 
 /**
+ * @param {string} placement
+ * @param {string} vastUrl
+ * @returns {void}
+ */
+function setCurrentVast(placement, vastUrl) {
+	vastUrls[placement] = vastUrl;
+	vastUrls.last = vastUrl;
+}
+
+/**
+ * @param {string} placement
+ * @returns {string}
+ */
+function getCurrentVast(placement) {
+	return vastUrls[placement] || vastUrls.last;
+}
+
+/**
  * @param {Object} slot
  * @param {string} position
  * @param {number} depth
@@ -114,15 +139,6 @@ function updateSlotParams(adSlot, vastParams) {
  * @returns {{register: register}}
  */
 function create(options) {
-	function setCurrentVast(placement, vastUrl) {
-		vastUrls[placement] = vastUrl;
-		vastUrls.last = vastUrl;
-	}
-
-	function getCurrentVast(placement) {
-		return vastUrls[placement] || vastUrls.last;
-	}
-
 	function register(player, slotTargeting = {}) {
 		const slot = slotService.get(slotName);
 		const adProduct = slot.config.trackingKey;
@@ -305,12 +321,6 @@ function create(options) {
 
 	const slotName = options.slotName || (options.featured ? 'featured' : 'video');
 	const slot = slotService.get(slotName) || new AdSlot({ id: slotName });
-	const vastUrls = {
-		last: null,
-		preroll: null,
-		midroll: null,
-		postroll: null,
-	};
 
 	if (!slotService.get(slotName)) {
 		slotService.add(slot);
@@ -326,7 +336,6 @@ function create(options) {
 
 	return {
 		register,
-		getCurrentVast,
 	};
 }
 
@@ -336,5 +345,6 @@ function loadMoatPlugin() {
 
 export const jwplayerAdsFactory = {
 	create,
+	getCurrentVast,
 	loadMoatPlugin,
 };
