@@ -38,18 +38,13 @@ describe('sticky-ad template', () => {
 	});
 
 	it('should stick and unstick', () => {
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is sticked too soon').to.be
-			.false;
-
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard, true);
 		helpers.slowScroll(500);
-
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked').to.be.true;
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard);
 
 		helpers.waitForViewabillityCounted(timeouts.unstickTime);
 		helpers.slowScroll(1000);
-
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not unsticked properly').to
-			.be.false;
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard, true);
 
 		expect(networkCapture.logsIncludesMessage('force-unstick', logs, 'any', true)).to.be.false;
 		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
@@ -58,9 +53,7 @@ describe('sticky-ad template', () => {
 	it('should not stick if viewability is counted', () => {
 		helpers.waitForViewabillityCounted(timeouts.unstickTime);
 		helpers.slowScroll(500);
-
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard should not stick').to.be
-			.false;
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard, true);
 
 		expect(networkCapture.logsIncludesMessage('force-unstick', logs, 'any', true)).to.be.false;
 		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
@@ -70,12 +63,9 @@ describe('sticky-ad template', () => {
 		const message = 'Custom listener: onCustomEvent top_leaderboard force-unstick';
 
 		helpers.slowScroll(200);
-
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked').to.be.true;
-
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard);
 		browser.click(`${stickyAd.stickedSlot} ${stickyAd.classUnstickButton}`);
-
-		expect(browser.isExisting(stickyAd.stickedSlot), 'Top leaderboard is not sticked').to.be.false;
+		browser.waitForExist(stickyAd.stickedSlot, timeouts.standard, true);
 
 		browser.waitUntil(
 			() => networkCapture.logsIncludesMessage(message, logs, 'log', true),
@@ -83,5 +73,19 @@ describe('sticky-ad template', () => {
 			`Logs should contain message: "${message}".\nLogs are: ${JSON.stringify(logs)}`,
 		);
 		expect(networkCapture.logsIncludesMessage('force-close', logs, 'any', true)).to.be.false;
+	});
+
+	it('should emit "stickiness-disabled event" if stickiness is disabled', () => {
+		const message = '👁 Custom listener: onCustomEvent top_leaderboard stickiness-disabled';
+
+		browser.url(`${stickyAd.pageLink}?disabled=1`);
+		browser.waitForVisible(adSlots.topLeaderboard, timeouts.standard);
+		helpers.slowScroll(200);
+
+		browser.waitUntil(
+			() => networkCapture.logsIncludesMessage(message, logs, 'log', true),
+			2000,
+			`Logs should contain message: "${message}".\nLogs are: ${JSON.stringify(logs)}`,
+		);
 	});
 });

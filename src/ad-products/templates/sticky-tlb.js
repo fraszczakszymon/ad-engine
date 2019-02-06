@@ -52,6 +52,7 @@ export class StickyTLB extends StickyBase {
 	init(params) {
 		if (!this.isEnabled()) {
 			utils.logger(logGroup, 'stickiness rejected');
+			this.adSlot.emitEvent(StickyTLB.STICKINESS_DISABLED);
 
 			return;
 		}
