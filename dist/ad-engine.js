@@ -772,6 +772,7 @@ function context_service_segment(key, newValue) {
 
 	if (remove) {
 		delete seg[lastKey];
+		triggerOnChange(key, segments, null);
 
 		return null;
 	}
@@ -5922,8 +5923,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.1');
-set_default()(window, commitField, '3c4d70df');
-logger('ad-engine', 'v23.5.1 (3c4d70df)');
+set_default()(window, commitField, 'a7135a1c');
+logger('ad-engine', 'v23.5.1 (a7135a1c)');
 
 
 
