@@ -16,6 +16,7 @@ export class Beachfront extends BaseAdapter {
 			code,
 			mediaTypes: {
 				video: {
+					context: 'instream',
 					playerSize: [640, 480],
 				},
 			},
