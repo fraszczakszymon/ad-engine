@@ -1,6 +1,6 @@
 class IncontentNative {
 	constructor() {
-		this.pageLink = 'templates/incontent-native/';
+		this.pageLink = 'slots/incontent-native/';
 		this.lineItemId = '4932898489';
 	}
 }

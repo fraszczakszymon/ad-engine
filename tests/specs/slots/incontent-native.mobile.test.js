@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { incontentNative } from '../../../pages/incontent-native.page';
-import { timeouts } from '../../../common/timeouts';
-import { adSlots } from '../../../common/ad-slots';
-import { helpers } from '../../../common/helpers';
+import { incontentNative } from '../../pages/incontent-native.page';
+import { timeouts } from '../../common/timeouts';
+import { adSlots } from '../../common/ad-slots';
+import { helpers } from '../../common/helpers';
 
 describe('Incontent native page: incontent native', () => {
 	before(() => {
