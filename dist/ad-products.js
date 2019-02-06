@@ -5797,6 +5797,13 @@ var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 
 
+var vastUrls = {
+	last: null,
+	preroll: null,
+	midroll: null,
+	postroll: null
+};
+
 /**
  * Calculate depth
  *
@@ -5851,6 +5858,24 @@ function shouldPlayMidroll(videoDepth) {
  */
 function shouldPlayPostroll(videoDepth) {
 	return ad_engine_["context"].get('options.video.isPostrollEnabled') && canAdBePlayed(videoDepth);
+}
+
+/**
+ * @param {string} placement
+ * @param {string} vastUrl
+ * @returns {void}
+ */
+function setCurrentVast(placement, vastUrl) {
+	vastUrls[placement] = vastUrl;
+	vastUrls.last = vastUrl;
+}
+
+/**
+ * @param {string} placement
+ * @returns {string}
+ */
+function getCurrentVast(placement) {
+	return vastUrls[placement] || vastUrls.last;
 }
 
 /**
@@ -5962,7 +5987,10 @@ function create(options) {
      * @returns {void}
      */
 				var fillInSlot = function fillInSlot() {
-					player.playAd(getVastUrl(slot, 'preroll', depth, correlator, targeting));
+					var vastUrl = getVastUrl(slot, 'preroll', depth, correlator, targeting);
+
+					setCurrentVast('preroll', vastUrl);
+					player.playAd(vastUrl);
 				};
 
 				if (options.featured) {
@@ -5977,17 +6005,23 @@ function create(options) {
 
 		player.on('videoMidPoint', function () {
 			if (shouldPlayMidroll(depth)) {
+				var vastUrl = getVastUrl(slot, 'midroll', depth, correlator, targeting);
+
 				tracker.adProduct = adProduct + '-midroll';
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				setCurrentVast('midroll', vastUrl);
+				player.playAd(vastUrl);
 			}
 		});
 
 		player.on('beforeComplete', function () {
 			if (shouldPlayPostroll(depth)) {
+				var vastUrl = getVastUrl(slot, 'postroll', depth, correlator, targeting);
+
 				tracker.adProduct = adProduct + '-postroll';
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'postroll', depth, correlator, targeting));
+				setCurrentVast('postroll', vastUrl);
+				player.playAd(vastUrl);
 			}
 		});
 
@@ -6007,9 +6041,12 @@ function create(options) {
 			var f15sTime = parseFloat(featured_video_f15s.getTime(currentMedia.mediaid));
 
 			if (currentTime >= f15sTime && !f15sMidrollPlayed) {
+				var vastUrl = getVastUrl(slot, 'midroll', depth, correlator, targeting);
+
 				tracker.adProduct = adProduct + '-midroll';
 				slot.setConfigProperty('audio', !player.getMute());
-				player.playAd(getVastUrl(slot, 'midroll', depth, correlator, targeting));
+				setCurrentVast('midroll', vastUrl);
+				player.playAd(vastUrl);
 				f15sMidrollPlayed = true;
 			}
 		});
@@ -6047,6 +6084,19 @@ function create(options) {
 			slot.setStatus('error');
 		});
 
+		if (ad_engine_["context"].get('options.wad.hmdRec.enabled')) {
+			document.addEventListener('hdPlayerEvent', function (event) {
+				if (event.detail.slotStatus) {
+					updateSlotParams(slot, event.detail.slotStatus.vastParams);
+					slot.setStatus(event.detail.slotStatus.statusName);
+				}
+
+				if (event.detail.name) {
+					tracker.emit(event.detail.name, event.detail.errorCode);
+				}
+			});
+		}
+
 		tracker.register(player);
 	}
 
@@ -6076,6 +6126,7 @@ function loadMoatPlugin() {
 
 var jwplayerAdsFactory = {
 	create: create,
+	getCurrentVast: getCurrentVast,
 	loadMoatPlugin: loadMoatPlugin
 };
 // CONCATENATED MODULE: ./src/ad-products/video/index.js
