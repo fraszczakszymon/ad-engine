@@ -6,8 +6,9 @@ import { events } from './events';
 const groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 const slots = {};
-const slotStates = {};
-const slotStatuses = {};
+
+let slotStates = {};
+let slotStatuses = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
 	const element = document.getElementById(elementId);
@@ -41,6 +42,11 @@ function setState(slotName, state, status = null) {
 	}
 	logger(groupName, 'set state', slotName, state);
 }
+
+events.on(events.PAGE_CHANGE_EVENT, () => {
+	slotStates = {};
+	slotStatuses = {};
+});
 
 class SlotService {
 	/**

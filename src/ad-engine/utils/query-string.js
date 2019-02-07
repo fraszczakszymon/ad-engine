@@ -24,6 +24,10 @@ class QueryString {
 
 		return queryParameters[key];
 	}
+
+	isUrlParamSet(param) {
+		return !!parseInt(this.get(param), 10);
+	}
 }
 
 export const queryString = new QueryString();

@@ -772,6 +772,7 @@ function context_service_segment(key, newValue) {
 
 	if (remove) {
 		delete seg[lastKey];
+		triggerOnChange(key, segments, null);
 
 		return null;
 	}
@@ -1421,6 +1422,11 @@ var query_string_QueryString = function () {
 			var queryParameters = this.getValues();
 
 			return queryParameters[key];
+		}
+	}, {
+		key: 'isUrlParamSet',
+		value: function isUrlParamSet(param) {
+			return !!parseInt(this.get(param), 10);
 		}
 	}]);
 
@@ -3593,16 +3599,26 @@ function setupGptTargeting() {
 	var targeting = context.get('targeting');
 
 	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
+		if (typeof value === 'undefined' || value === null) {
+			tag.clearTargeting(key);
+		} else if (typeof value === 'function') {
 			tag.setTargeting(key, value());
 		} else {
 			tag.setTargeting(key, value);
 		}
 	}
 
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
+	function setTargetingFromContext() {
+		keys_default()(targeting).forEach(function (key) {
+			setTargetingValue(key, targeting[key]);
+		});
+	}
+
+	events.on(events.PAGE_CHANGE_EVENT, function () {
+		setTargetingFromContext();
 	});
+
+	setTargetingFromContext();
 
 	context.onChange('targeting', function (trigger, value) {
 		var segments = trigger.split('.');
@@ -4299,6 +4315,7 @@ ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 var slot_service_slots = {};
+
 var slotStates = {};
 var slotStatuses = {};
 
@@ -4334,6 +4351,11 @@ function setState(slotName, state) {
 	}
 	logger(slot_service_groupName, 'set state', slotName, state);
 }
+
+events.on(events.PAGE_CHANGE_EVENT, function () {
+	slotStates = {};
+	slotStatuses = {};
+});
 
 var slot_service_SlotService = function () {
 	function SlotService() {
@@ -5905,9 +5927,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '76220ac8');
-logger('ad-engine', 'v23.5.0 (76220ac8)');
+set_default()(window, versionField, 'v23.6.1');
+set_default()(window, commitField, '83359386');
+logger('ad-engine', 'v23.6.1 (83359386)');
 
 
 
