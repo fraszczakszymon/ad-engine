@@ -126,6 +126,7 @@ describe('ad-slot', () => {
 		beforeEach(() => {
 			adSlot = createAdSlot('top_leaderboard');
 			targeting = {};
+			adSlot.config.targeting = targeting;
 		});
 
 		it('should have winningPbBidderDetails set to null initially', () => {
@@ -136,7 +137,7 @@ describe('ad-slot', () => {
 			targeting.hb_bidder = 'bidder';
 			targeting.hb_pb = 20;
 
-			adSlot.updateWinningPbBidderDetails(targeting);
+			adSlot.updateWinningPbBidderDetails();
 
 			expect(adSlot.winningPbBidderDetails).to.deep.equal({
 				name: targeting.hb_bidder,
