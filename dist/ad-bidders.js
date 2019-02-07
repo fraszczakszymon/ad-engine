@@ -1296,7 +1296,15 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 		value: function getVideoConfig(code, ids) {
 			var videoParams = {
 				video: {
-					mimes: ['video/mp4', 'video/x-flv']
+					mimes: ['video/mp4', 'video/x-flv', 'video/webm', 'video/ogg'],
+					skippable: true,
+					minduration: 1,
+					maxduration: 30,
+					startdelay: 0,
+					playbackmethod: [2, 3],
+					protocols: [2, 3, 5, 6],
+					linearity: 1,
+					placement: 1
 				}
 			};
 

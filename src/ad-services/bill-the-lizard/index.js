@@ -161,6 +161,7 @@ export class BillTheLizard {
 
 		openRequests.forEach((req) => req.abort());
 		openRequests = [];
+		context.remove('targeting.btl');
 	}
 
 	/**
