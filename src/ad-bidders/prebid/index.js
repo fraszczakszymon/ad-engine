@@ -12,6 +12,16 @@ function postponeExecutionUntilPbjsLoads(method) {
 	};
 }
 
+events.on(events.VIDEO_AD_IMPRESSION, (adSlot, vastParams) => {
+	// Mark ad as rendered
+	if (vastParams.customParams && vastParams.customParams.hb_adid) {
+		if (window.pbjs && typeof window.pbjs.markWinningBidAsUsed === 'function') {
+			window.pbjs.markWinningBidAsUsed({ adId: vastParams.customParams.hb_adid });
+			events.emit(events.VIDEO_AD_USED, adSlot);
+		}
+	}
+});
+
 const logGroup = 'prebid';
 
 let loaded = false;

@@ -254,6 +254,7 @@ function create(options) {
 
 			updateSlotParams(slot, vastParams);
 			slot.setStatus('success');
+			events.emit(events.VIDEO_AD_IMPRESSION, slot, vastParams);
 		});
 
 		player.on('adError', (event) => {

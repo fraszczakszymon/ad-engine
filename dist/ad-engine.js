@@ -110,13 +110,13 @@ module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/assign");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/core-js/object/assign");
 
 /***/ }),
 /* 8 */
@@ -590,7 +590,7 @@ function getDocumentVisibilityStatus() {
 	return status;
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/assign"
-var assign_ = __webpack_require__(6);
+var assign_ = __webpack_require__(7);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/typeof"
@@ -3082,7 +3082,7 @@ var get_own_property_names_ = __webpack_require__(20);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(7);
+var symbol_ = __webpack_require__(6);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -3118,8 +3118,11 @@ var events_EventService = function (_EventEmitter) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _temp), possibleConstructorReturn_default()(_this, _ret);
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION'), _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED'), _temp), possibleConstructorReturn_default()(_this, _ret);
 	}
+
+	// video events should happen in the order below
+
 
 	createClass_default()(EventService, [{
 		key: 'beforePageChange',
@@ -5925,8 +5928,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, 'e6eaad3b');
-logger('ad-engine', 'v23.5.0 (e6eaad3b)');
+set_default()(window, commitField, '4696251c');
+logger('ad-engine', 'v23.5.0 (4696251c)');
 
 
 

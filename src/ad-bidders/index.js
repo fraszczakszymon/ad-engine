@@ -10,7 +10,10 @@ const logGroup = 'bidders';
 
 events.on(events.VIDEO_AD_REQUESTED, (adSlot) => {
 	adSlot.updateWinningPbBidderDetails();
-	resetTargetingKeys(adSlot.getSlotName());
+});
+
+events.on(events.VIDEO_AD_USED, (adSlot) => {
+	updateSlotTargeting(adSlot.getSlotName());
 });
 
 function applyTargetingParams(slotName, targeting) {

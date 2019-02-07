@@ -2171,6 +2171,16 @@ function postponeExecutionUntilPbjsLoads(method) {
 	};
 }
 
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_IMPRESSION, function (adSlot, vastParams) {
+	// Mark ad as rendered
+	if (vastParams.customParams && vastParams.customParams.hb_adid) {
+		if (window.pbjs && typeof window.pbjs.markWinningBidAsUsed === 'function') {
+			window.pbjs.markWinningBidAsUsed({ adId: vastParams.customParams.hb_adid });
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_USED, adSlot);
+		}
+	}
+});
+
 var prebid_logGroup = 'prebid';
 
 var prebid_loaded = false;
@@ -2422,7 +2432,10 @@ var ad_bidders_logGroup = 'bidders';
 
 ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_REQUESTED, function (adSlot) {
 	adSlot.updateWinningPbBidderDetails();
-	resetTargetingKeys(adSlot.getSlotName());
+});
+
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_USED, function (adSlot) {
+	updateSlotTargeting(adSlot.getSlotName());
 });
 
 function applyTargetingParams(slotName, targeting) {

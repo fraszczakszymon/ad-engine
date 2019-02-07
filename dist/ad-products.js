@@ -6035,6 +6035,7 @@ function create(options) {
 
 			updateSlotParams(slot, vastParams);
 			slot.setStatus('success');
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot, vastParams);
 		});
 
 		player.on('adError', function (event) {
