@@ -1001,6 +1001,7 @@ var beachfront_Beachfront = function (_BaseAdapter) {
 				code: code,
 				mediaTypes: {
 					video: {
+						context: 'instream',
 						playerSize: [640, 480]
 					}
 				},
@@ -2072,7 +2073,7 @@ function transformPriceFromBid(bid) {
 
 
 
-var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'lkqd', contextKey: 'custom.lkqdDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
+var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'beachfront', contextKey: 'custom.beachfrontDfp' }, { bidderCode: 'lkqd', contextKey: 'custom.lkqdDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
 
 function getSettings() {
 	return {

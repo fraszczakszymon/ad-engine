@@ -257,22 +257,33 @@ export default {
 		},
 		outstream: {
 			lowerSlotName: 'outstream',
-			slotGroup: 'VIDEO',
+			group: 'VIDEO',
 			targeting: {},
 			videoAdUnit:
-				'/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+				'/{networkId}/wka1a.{slotConfig.group}/{slotConfig.lowerSlotName}' +
 				'{slotConfig.audioSegment}/{custom.device}/ae-{custom.adLayout}/_example',
 		},
 		featured: {
 			lowerSlotName: 'featured',
-			slotGroup: 'VIDEO',
+			group: 'VIDEO',
 			targeting: {
 				wsi: 'xxx1',
 			},
 			trackingKey: 'featured-video',
 			videoAdUnit:
-				'/{networkId}/wka1a.{slotConfig.slotGroup}/{slotConfig.lowerSlotName}' +
+				'/{networkId}/wka1a.{slotConfig.group}/{slotConfig.lowerSlotName}' +
 				'/{custom.device}/ae-{custom.adLayout}/_example',
+		},
+		incontent_native: {
+			aboveTheFold: true,
+			firstCall: true,
+			lowerSlotName: 'incontent_native',
+			group: 'NATIVE',
+			sizes: [],
+			defaultSizes: ['fluid'],
+			targeting: {
+				loc: 'top',
+			},
 		},
 	},
 	services: {
