@@ -1149,7 +1149,8 @@ var lkqd_Lkqd = function (_BaseAdapter) {
 					bidder: this.bidderName,
 					params: {
 						siteId: siteId,
-						placementId: placementId
+						placementId: placementId,
+						pageurl: window.location.hostname
 					}
 				}]
 			};
