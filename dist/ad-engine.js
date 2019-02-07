@@ -772,6 +772,7 @@ function context_service_segment(key, newValue) {
 
 	if (remove) {
 		delete seg[lastKey];
+		triggerOnChange(key, segments, null);
 
 		return null;
 	}
@@ -3598,16 +3599,26 @@ function setupGptTargeting() {
 	var targeting = context.get('targeting');
 
 	function setTargetingValue(key, value) {
-		if (typeof value === 'function') {
+		if (typeof value === 'undefined' || value === null) {
+			tag.clearTargeting(key);
+		} else if (typeof value === 'function') {
 			tag.setTargeting(key, value());
 		} else {
 			tag.setTargeting(key, value);
 		}
 	}
 
-	keys_default()(targeting).forEach(function (key) {
-		setTargetingValue(key, targeting[key]);
+	function setTargetingFromContext() {
+		keys_default()(targeting).forEach(function (key) {
+			setTargetingValue(key, targeting[key]);
+		});
+	}
+
+	events.on(events.PAGE_CHANGE_EVENT, function () {
+		setTargetingFromContext();
 	});
+
+	setTargetingFromContext();
 
 	context.onChange('targeting', function (trigger, value) {
 		var segments = trigger.split('.');
@@ -4304,6 +4315,7 @@ ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 var slot_service_slots = {};
+
 var slotStates = {};
 var slotStatuses = {};
 
@@ -4339,6 +4351,11 @@ function setState(slotName, state) {
 	}
 	logger(slot_service_groupName, 'set state', slotName, state);
 }
+
+events.on(events.PAGE_CHANGE_EVENT, function () {
+	slotStates = {};
+	slotStatuses = {};
+});
 
 var slot_service_SlotService = function () {
 	function SlotService() {
@@ -5911,8 +5928,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.6.0');
-set_default()(window, commitField, '0954a6f7');
-logger('ad-engine', 'v23.6.0 (0954a6f7)');
+set_default()(window, commitField, 'a6e6d485');
+logger('ad-engine', 'v23.6.0 (a6e6d485)');
 
 
 
