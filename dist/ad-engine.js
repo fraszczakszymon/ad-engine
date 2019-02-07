@@ -5928,8 +5928,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.8.0');
-set_default()(window, commitField, 'fe0e4b7c');
-logger('ad-engine', 'v23.8.0 (fe0e4b7c)');
+set_default()(window, commitField, '6336cb69');
+logger('ad-engine', 'v23.8.0 (6336cb69)');
 
 
 
