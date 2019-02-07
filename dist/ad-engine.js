@@ -4248,6 +4248,8 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 					name: this.targeting.hb_bidder,
 					price: this.targeting.hb_pb
 				};
+			} else {
+				this.winningPbBidderDetails = null;
 			}
 		}
 	}, {
@@ -5923,8 +5925,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '26029abe');
-logger('ad-engine', 'v23.5.0 (26029abe)');
+set_default()(window, commitField, 'e6eaad3b');
+logger('ad-engine', 'v23.5.0 (e6eaad3b)');
 
 
 

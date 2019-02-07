@@ -197,6 +197,8 @@ export class AdSlot extends EventEmitter {
 				name: this.targeting.hb_bidder,
 				price: this.targeting.hb_pb,
 			};
+		} else {
+			this.winningPbBidderDetails = null;
 		}
 	}
 
