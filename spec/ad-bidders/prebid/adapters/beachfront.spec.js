@@ -25,6 +25,7 @@ describe('Beachfront bidder adapter', () => {
 				code: 'mobile_in_content',
 				mediaTypes: {
 					video: {
+						context: 'instream',
 						playerSize: [640, 480],
 					},
 				},
