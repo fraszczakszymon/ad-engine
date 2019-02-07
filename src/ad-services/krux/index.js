@@ -82,13 +82,12 @@ class Krux {
 	 * @returns {void}
 	 */
 	importUserData() {
-		const oldUser = getKruxData('kxuser');
-		const newUser = getKruxData('kxwikia_user');
-		const segments = getKruxData('kxsegs');
+		const user = getKruxData('kxuser') || getKruxData('kxwikia_user');
+		const segments = getKruxData('kxsegs') || getKruxData('kxwikia_segs');
 
-		context.set('targeting.kuid', oldUser || newUser || null);
+		context.set('targeting.kuid', user || null);
 		context.set('targeting.ksg', segments ? segments.split(',') : []);
-		utils.logger(logGroup, 'data set', oldUser, segments);
+		utils.logger(logGroup, 'data set', user, segments);
 	}
 
 	/**
