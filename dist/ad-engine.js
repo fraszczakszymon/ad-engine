@@ -104,13 +104,13 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/get-prototype-of");
+module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/symbol");
+module.exports = require("babel-runtime/core-js/object/get-prototype-of");
 
 /***/ }),
 /* 7 */
@@ -1452,7 +1452,7 @@ function logger(logGroup) {
 	}
 }
 // EXTERNAL MODULE: external "babel-runtime/core-js/object/get-prototype-of"
-var get_prototype_of_ = __webpack_require__(5);
+var get_prototype_of_ = __webpack_require__(6);
 var get_prototype_of_default = /*#__PURE__*/__webpack_require__.n(get_prototype_of_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/possibleConstructorReturn"
@@ -3082,7 +3082,7 @@ var get_own_property_names_ = __webpack_require__(20);
 var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
 
 // EXTERNAL MODULE: external "babel-runtime/core-js/symbol"
-var symbol_ = __webpack_require__(6);
+var symbol_ = __webpack_require__(5);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "babel-runtime/helpers/get"
@@ -3118,7 +3118,7 @@ var events_EventService = function (_EventEmitter) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION'), _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED'), _temp), possibleConstructorReturn_default()(_this, _ret);
+		return _ret = (_temp = (_this = possibleConstructorReturn_default()(this, (_ref = EventService.__proto__ || get_prototype_of_default()(EventService)).call.apply(_ref, [this].concat(args))), _this), _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED'), _this.AD_STACK_START = symbol_default()('AD_STACK_START'), _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT'), _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT'), _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT'), _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED'), _this.VIDEO_AD_ERROR = symbol_default()('VIDEO_AD_ERROR'), _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION'), _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED'), _temp), possibleConstructorReturn_default()(_this, _ret);
 	}
 
 	// video events should happen in the order below
@@ -3365,7 +3365,7 @@ function getAdType(event, adSlot) {
 	var isIframeAccessible = false;
 
 	if (event.isEmpty) {
-		return 'collapse';
+		return ad_slot_AdSlot.STATUS_COLLAPSE;
 	}
 
 	try {
@@ -3378,7 +3378,7 @@ function getAdType(event, adSlot) {
 		return iframe.contentWindow.AdEngine_adType;
 	}
 
-	return 'success';
+	return ad_slot_AdSlot.STATUS_SUCCESS;
 }
 
 function slot_listener_getData(adSlot, _ref) {
@@ -4213,7 +4213,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 		value: function success() {
 			var _this2 = this;
 
-			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_SUCCESS;
 
 			slotTweaker.show(this);
 			this.setStatus(status);
@@ -4229,7 +4229,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 	}, {
 		key: 'collapse',
 		value: function collapse() {
-			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'collapse';
+			var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_COLLAPSE;
 
 			slotTweaker.hide(this);
 			this.setStatus(status);
@@ -4301,6 +4301,9 @@ ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
 ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
 ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
+ad_slot_AdSlot.STATUS_SUCCESS = 'success';
+ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
+ad_slot_AdSlot.STATUS_ERROR = 'error';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
@@ -5928,8 +5931,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.5.0');
-set_default()(window, commitField, '4696251c');
-logger('ad-engine', 'v23.5.0 (4696251c)');
+set_default()(window, commitField, '98042e05');
+logger('ad-engine', 'v23.5.0 (98042e05)');
 
 
 

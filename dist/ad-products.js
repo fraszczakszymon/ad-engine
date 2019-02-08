@@ -1934,7 +1934,7 @@ var porvata_template_PorvataTemplate = function () {
 
 			video.addEventListener('wikiaFirstTimeInViewport', function () {
 				statusPromise.then(function () {
-					var eventSuffix = _this2.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+					var eventSuffix = _this2.adSlot.getStatus() === ad_engine_["AdSlot"].STATUS_SUCCESS ? 'WithOffer' : 'WithoutOffer';
 
 					video.ima.dispatchEvent('wikiaInViewport' + eventSuffix);
 				});
@@ -5797,6 +5797,20 @@ var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 
 
+// We need to rely on message instead of error code
+// because JWPlayer returns:
+// {adErrorCode: 21009, code: 900}
+// instead of 303.
+var EMPTY_TAG_MESSAGE = 'Ad Error: The VAST response document is empty.';
+
+var jwplayer_ads_factory_log = function log() {
+	for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+		args[_key] = arguments[_key];
+	}
+
+	return ad_engine_["utils"].logger.apply(ad_engine_["utils"], ['jwplayer-ads-factory'].concat(args));
+};
+
 /**
  * Calculate depth
  *
@@ -6034,8 +6048,8 @@ function create(options) {
 			});
 
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('success');
-			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot, vastParams);
+			slot.setStatus(ad_engine_["AdSlot"].SUCCESS);
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot);
 		});
 
 		player.on('adError', function (event) {
@@ -6043,9 +6057,21 @@ function create(options) {
 				imaAd: event.ima && event.ima.ad
 			});
 
-			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+			if ([ad_engine_["AdSlot"].STATUS_COLLAPSE, ad_engine_["AdSlot"].STATUS_ERROR].indexOf(slot.getStatus()) !== -1) {
+				// JWPlayer can fire adError multiple times for the same ad
+				return;
+			}
+
+			jwplayer_ads_factory_log('ad error message: ' + event.message);
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('error');
+			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+
+			if (event.message === EMPTY_TAG_MESSAGE) {
+				slot.setStatus(ad_engine_["AdSlot"].STATUS_COLLAPSE);
+			} else {
+				slot.setStatus(ad_engine_["AdSlot"].STATUS_ERROR);
+			}
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_ERROR, slot);
 		});
 
 		tracker.register(player);

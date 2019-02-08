@@ -12,6 +12,10 @@ export class AdSlot extends EventEmitter {
 
 	static LOG_GROUP = 'AdSlot';
 
+	static STATUS_SUCCESS = 'success';
+	static STATUS_COLLAPSE = 'collapse';
+	static STATUS_ERROR = 'error';
+
 	/**
 	 * Returns true if slot is ATF
 	 *
@@ -169,7 +173,7 @@ export class AdSlot extends EventEmitter {
 		return this.onLoadPromise;
 	}
 
-	success(status = 'success') {
+	success(status = AdSlot.STATUS_SUCCESS) {
 		slotTweaker.show(this);
 		this.setStatus(status);
 
@@ -180,7 +184,7 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	collapse(status = 'collapse') {
+	collapse(status = AdSlot.STATUS_COLLAPSE) {
 		slotTweaker.hide(this);
 		this.setStatus(status);
 	}

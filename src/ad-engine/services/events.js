@@ -12,6 +12,7 @@ class EventService extends EventEmitter {
 
 	// video events should happen in the order below
 	VIDEO_AD_REQUESTED = Symbol('VIDEO_AD_REQUESTED');
+	VIDEO_AD_ERROR = Symbol('VIDEO_AD_ERROR');
 	VIDEO_AD_IMPRESSION = Symbol('VIDEO_AD_IMPRESSION');
 	VIDEO_AD_USED = Symbol('VIDEO_AD_USED');
 

@@ -12,6 +12,14 @@ import {
 import { JWPlayerTracker } from '../tracking/video/jwplayer-tracker';
 import featuredVideo15s from './featured-video-f15s';
 
+// We need to rely on message instead of error code
+// because JWPlayer returns:
+// {adErrorCode: 21009, code: 900}
+// instead of 303.
+const EMPTY_TAG_MESSAGE = 'Ad Error: The VAST response document is empty.';
+
+const log = (...args) => utils.logger('jwplayer-ads-factory', ...args);
+
 /**
  * Calculate depth
  *
@@ -253,8 +261,8 @@ function create(options) {
 			});
 
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('success');
-			events.emit(events.VIDEO_AD_IMPRESSION, slot, vastParams);
+			slot.setStatus(AdSlot.SUCCESS);
+			events.emit(events.VIDEO_AD_IMPRESSION, slot);
 		});
 
 		player.on('adError', (event) => {
@@ -262,9 +270,21 @@ function create(options) {
 				imaAd: event.ima && event.ima.ad,
 			});
 
-			vastDebugger.setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+			if ([AdSlot.STATUS_COLLAPSE, AdSlot.STATUS_ERROR].indexOf(slot.getStatus()) !== -1) {
+				// JWPlayer can fire adError multiple times for the same ad
+				return;
+			}
+
+			log(`ad error message: ${event.message}`);
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('error');
+			vastDebugger.setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+
+			if (event.message === EMPTY_TAG_MESSAGE) {
+				slot.setStatus(AdSlot.STATUS_COLLAPSE);
+			} else {
+				slot.setStatus(AdSlot.STATUS_ERROR);
+			}
+			events.emit(events.VIDEO_AD_ERROR, slot);
 		});
 
 		tracker.register(player);

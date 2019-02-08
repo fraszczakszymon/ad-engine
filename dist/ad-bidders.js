@@ -2171,15 +2171,20 @@ function postponeExecutionUntilPbjsLoads(method) {
 	};
 }
 
-ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_IMPRESSION, function (adSlot, vastParams) {
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_IMPRESSION, markWinningBidAsUsed);
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_ERROR, markWinningBidAsUsed);
+
+function markWinningBidAsUsed(adSlot) {
 	// Mark ad as rendered
-	if (vastParams.customParams && vastParams.customParams.hb_adid) {
+	var adId = ad_engine_["context"].get('slots.' + adSlot.getSlotName() + '.targeting.hb_adid');
+
+	if (adId) {
 		if (window.pbjs && typeof window.pbjs.markWinningBidAsUsed === 'function') {
-			window.pbjs.markWinningBidAsUsed({ adId: vastParams.customParams.hb_adid });
+			window.pbjs.markWinningBidAsUsed({ adId: adId });
 			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_USED, adSlot);
 		}
 	}
-});
+}
 
 var prebid_logGroup = 'prebid';
 
