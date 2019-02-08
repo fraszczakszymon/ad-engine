@@ -21,6 +21,8 @@ export class Lkqd extends BaseAdapter {
 					params: {
 						siteId,
 						placementId,
+						pageurl: window.location.hostname,
+						output: 'svpaid',
 					},
 				},
 			],
