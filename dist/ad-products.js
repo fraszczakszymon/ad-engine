@@ -6048,7 +6048,7 @@ function create(options) {
 			});
 
 			updateSlotParams(slot, vastParams);
-			slot.setStatus(ad_engine_["AdSlot"].SUCCESS);
+			slot.setStatus(ad_engine_["AdSlot"].STATUS_SUCCESS);
 			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot);
 		});
 

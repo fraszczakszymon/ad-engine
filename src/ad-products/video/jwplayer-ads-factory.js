@@ -261,7 +261,7 @@ function create(options) {
 			});
 
 			updateSlotParams(slot, vastParams);
-			slot.setStatus(AdSlot.SUCCESS);
+			slot.setStatus(AdSlot.STATUS_SUCCESS);
 			events.emit(events.VIDEO_AD_IMPRESSION, slot);
 		});
 
