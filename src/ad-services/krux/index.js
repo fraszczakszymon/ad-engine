@@ -82,8 +82,8 @@ class Krux {
 	 * @returns {void}
 	 */
 	importUserData() {
-		const user = getKruxData('kxuser');
-		const segments = getKruxData('kxsegs');
+		const user = getKruxData('kxuser') || getKruxData('kxwikia_user');
+		const segments = getKruxData('kxsegs') || getKruxData('kxwikia_segs');
 
 		context.set('targeting.kuid', user || null);
 		context.set('targeting.ksg', segments ? segments.split(',') : []);
