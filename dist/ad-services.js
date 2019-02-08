@@ -908,6 +908,7 @@ var confiant_Confiant = function () {
 						args[_key] = arguments[_key];
 					}
 
+					// eslint-disable-next-line  no-console
 					console.log('w00t one more bad ad nixed.', args);
 				}
 			};

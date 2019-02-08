@@ -44,6 +44,7 @@ class Confiant {
 			mapping,
 			activation,
 			callback: (...args) => {
+				// eslint-disable-next-line  no-console
 				console.log('w00t one more bad ad nixed.', args);
 			},
 		};
