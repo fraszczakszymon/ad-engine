@@ -5797,11 +5797,8 @@ var featured_video_f15s_logGroup = 'featured-video-f15s';
 
 
 
-// We need to rely on message instead of error code
-// because JWPlayer returns:
-// {adErrorCode: 21009, code: 900}
-// instead of 303.
-var EMPTY_TAG_MESSAGE = 'Ad Error: The VAST response document is empty.';
+// 21009	VAST_EMPTY_RESPONSE
+var EMPTY_VAST_CODE = 21009;
 
 var jwplayer_ads_factory_log = function log() {
 	for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -5925,6 +5922,8 @@ function create(options) {
 		// in JWPlayer when removing ad layer and going back to the video
 		// player.off('time') solves it but it also unregisters other event handlers
 		var f15sMidrollPlayed = false;
+		/** @type {string} */
+		var lastBrokenAdPlayId = null;
 
 		slot.element = videoContainer;
 		slot.setConfigProperty('audio', !player.getMute());
@@ -6056,17 +6055,21 @@ function create(options) {
 			var vastParams = ad_engine_["vastParser"].parse(event.tag, {
 				imaAd: event.ima && event.ima.ad
 			});
+			var adPlayId = event.adPlayId;
 
-			if ([ad_engine_["AdSlot"].STATUS_COLLAPSE, ad_engine_["AdSlot"].STATUS_ERROR].indexOf(slot.getStatus()) !== -1) {
-				// JWPlayer can fire adError multiple times for the same ad
+			// JWPlayer can fire adError multiple times for the same ad
+
+			if (adPlayId && adPlayId === lastBrokenAdPlayId) {
 				return;
 			}
+
+			lastBrokenAdPlayId = adPlayId;
 
 			jwplayer_ads_factory_log('ad error message: ' + event.message);
 			updateSlotParams(slot, vastParams);
 			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
 
-			if (event.message === EMPTY_TAG_MESSAGE) {
+			if (event.adErrorCode === EMPTY_VAST_CODE) {
 				slot.setStatus(ad_engine_["AdSlot"].STATUS_COLLAPSE);
 			} else {
 				slot.setStatus(ad_engine_["AdSlot"].STATUS_ERROR);
