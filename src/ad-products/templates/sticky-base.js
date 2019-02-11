@@ -9,7 +9,6 @@ const logGroup = 'sticky-base';
  */
 export class StickyBase {
 	static DEFAULT_UNSTICK_DELAY = 2000;
-	static STICKINESS_DISABLED = 'stickiness-disabled';
 
 	/**
 	 * Base class for sticky ads

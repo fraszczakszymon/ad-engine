@@ -9,7 +9,11 @@ const realSlotPrices = {};
 const logGroup = 'bidders';
 
 events.on(events.VIDEO_AD_REQUESTED, (adSlot) => {
-	resetTargetingKeys(adSlot.getSlotName());
+	adSlot.updateWinningPbBidderDetails();
+});
+
+events.on(events.VIDEO_AD_USED, (adSlot) => {
+	updateSlotTargeting(adSlot.getSlotName());
 });
 
 function applyTargetingParams(slotName, targeting) {

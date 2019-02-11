@@ -2182,6 +2182,21 @@ function postponeExecutionUntilPbjsLoads(method) {
 	};
 }
 
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_IMPRESSION, markWinningBidAsUsed);
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_ERROR, markWinningBidAsUsed);
+
+function markWinningBidAsUsed(adSlot) {
+	// Mark ad as rendered
+	var adId = ad_engine_["context"].get('slots.' + adSlot.getSlotName() + '.targeting.hb_adid');
+
+	if (adId) {
+		if (window.pbjs && typeof window.pbjs.markWinningBidAsUsed === 'function') {
+			window.pbjs.markWinningBidAsUsed({ adId: adId });
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_USED, adSlot);
+		}
+	}
+}
+
 var prebid_logGroup = 'prebid';
 
 var prebid_loaded = false;
@@ -2432,7 +2447,11 @@ var realSlotPrices = {};
 var ad_bidders_logGroup = 'bidders';
 
 ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_REQUESTED, function (adSlot) {
-	resetTargetingKeys(adSlot.getSlotName());
+	adSlot.updateWinningPbBidderDetails();
+});
+
+ad_engine_["events"].on(ad_engine_["events"].VIDEO_AD_USED, function (adSlot) {
+	updateSlotTargeting(adSlot.getSlotName());
 });
 
 function applyTargetingParams(slotName, targeting) {

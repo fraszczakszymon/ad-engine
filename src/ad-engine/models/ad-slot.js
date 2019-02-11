@@ -12,6 +12,10 @@ export class AdSlot extends EventEmitter {
 
 	static LOG_GROUP = 'AdSlot';
 
+	static STATUS_SUCCESS = 'success';
+	static STATUS_COLLAPSE = 'collapse';
+	static STATUS_ERROR = 'error';
+
 	/**
 	 * Returns true if slot is ATF
 	 *
@@ -39,6 +43,8 @@ export class AdSlot extends EventEmitter {
 		this.config.targeting = this.config.targeting || {};
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
+
+		this.winningPbBidderDetails = null;
 
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
 			this.viewed = true;
@@ -167,7 +173,7 @@ export class AdSlot extends EventEmitter {
 		return this.onLoadPromise;
 	}
 
-	success(status = 'success') {
+	success(status = AdSlot.STATUS_SUCCESS) {
 		slotTweaker.show(this);
 		this.setStatus(status);
 
@@ -178,7 +184,7 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	collapse(status = 'collapse') {
+	collapse(status = AdSlot.STATUS_COLLAPSE) {
 		slotTweaker.hide(this);
 		this.setStatus(status);
 	}
@@ -186,6 +192,17 @@ export class AdSlot extends EventEmitter {
 	emitEvent(eventName = null) {
 		if (eventName !== null) {
 			slotListener.emitCustomEvent(eventName, this);
+		}
+	}
+
+	updateWinningPbBidderDetails() {
+		if (this.targeting.hb_bidder && this.targeting.hb_pb) {
+			this.winningPbBidderDetails = {
+				name: this.targeting.hb_bidder,
+				price: this.targeting.hb_pb,
+			};
+		} else {
+			this.winningPbBidderDetails = null;
 		}
 	}
 
