@@ -72,6 +72,7 @@ function segment(key, newValue, remove = false) {
 
 	if (remove) {
 		delete seg[lastKey];
+		triggerOnChange(key, segments, null);
 
 		return null;
 	}

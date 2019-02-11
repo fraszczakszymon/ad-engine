@@ -3,6 +3,8 @@ import { transformPriceFromBid } from './price-helper';
 
 const dfpVideoBidders = [
 	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
+	{ bidderCode: 'beachfront', contextKey: 'custom.beachfrontDfp' },
+	{ bidderCode: 'lkqd', contextKey: 'custom.lkqdDfp' },
 	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
 	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
 ];

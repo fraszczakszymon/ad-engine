@@ -1001,6 +1001,7 @@ var beachfront_Beachfront = function (_BaseAdapter) {
 				code: code,
 				mediaTypes: {
 					video: {
+						context: 'instream',
 						playerSize: [640, 480]
 					}
 				},
@@ -1148,7 +1149,9 @@ var lkqd_Lkqd = function (_BaseAdapter) {
 					bidder: this.bidderName,
 					params: {
 						siteId: siteId,
-						placementId: placementId
+						placementId: placementId,
+						pageurl: window.location.hostname,
+						output: 'svpaid'
 					}
 				}]
 			};
@@ -1296,7 +1299,15 @@ var pubmatic_Pubmatic = function (_BaseAdapter) {
 		value: function getVideoConfig(code, ids) {
 			var videoParams = {
 				video: {
-					mimes: ['video/mp4', 'video/x-flv']
+					mimes: ['video/mp4', 'video/x-flv', 'video/webm', 'video/ogg'],
+					skippable: true,
+					minduration: 1,
+					maxduration: 30,
+					startdelay: 0,
+					playbackmethod: [2, 3],
+					protocols: [2, 3, 5, 6],
+					linearity: 1,
+					placement: 1
 				}
 			};
 
@@ -2064,7 +2075,7 @@ function transformPriceFromBid(bid) {
 
 
 
-var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
+var dfpVideoBidders = [{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' }, { bidderCode: 'beachfront', contextKey: 'custom.beachfrontDfp' }, { bidderCode: 'lkqd', contextKey: 'custom.lkqdDfp' }, { bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' }, { bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' }];
 
 function getSettings() {
 	return {
