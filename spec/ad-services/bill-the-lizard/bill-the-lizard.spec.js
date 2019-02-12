@@ -248,12 +248,21 @@ describe('Bill the Lizard service', () => {
 				{ modelName, callId: 'foo_2', result: 2 },
 				{ modelName, callId: 'foo_3', result: 3 },
 			];
+			billTheLizard.statuses = {
+				foo_1: BillTheLizard.ON_TIME,
+				foo_2: BillTheLizard.TOO_LATE,
+				foo_3: BillTheLizard.TOO_LATE,
+			};
 		});
 
 		it('should return undefined if startId is smaller than 2', () => {
-			expect(billTheLizard.getPreviousPrediction(-1)).to.be.undefined;
-			expect(billTheLizard.getPreviousPrediction(0)).to.be.undefined;
-			expect(billTheLizard.getPreviousPrediction(1)).to.be.undefined;
+			expect(billTheLizard.getPreviousPrediction(-1, callIdBuilder, modelName)).to.be.undefined;
+			expect(billTheLizard.getPreviousPrediction(0, callIdBuilder, modelName)).to.be.undefined;
+			expect(billTheLizard.getPreviousPrediction(1, callIdBuilder, modelName)).to.be.undefined;
+		});
+
+		it('should return first prediction if startId is equal to or greater than 2', () => {
+			expect(billTheLizard.getPreviousPrediction(2, callIdBuilder, modelName).result).to.equal(1);
 		});
 
 		it('should return undefined if no previous prediction has status on_time or too_late', () => {
