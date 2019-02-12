@@ -109,6 +109,7 @@ export class GptProvider {
 
 		this.applyTargetingParams(gptSlot, targeting);
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+		adSlot.updateWinningPbBidderDetails();
 
 		window.googletag.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);
@@ -135,11 +136,11 @@ export class GptProvider {
 		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
 	}
 
-	parseTargetingParams(targeting) {
+	parseTargetingParams(targetingParams) {
 		const result = {};
 
-		Object.keys(targeting).forEach((key) => {
-			let value = targeting[key];
+		Object.keys(targetingParams).forEach((key) => {
+			let value = targetingParams[key];
 
 			if (typeof value === 'function') {
 				value = value();

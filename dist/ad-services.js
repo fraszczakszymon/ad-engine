@@ -909,7 +909,7 @@ var confiant_Confiant = function () {
 						args[_key] = arguments[_key];
 					}
 
-					console.log('w00t one more bad ad nixed.', args);
+					ad_engine_["utils"].logger(confiant_logGroup, args);
 				}
 			};
 
@@ -1091,8 +1091,8 @@ var krux_Krux = function () {
 	}, {
 		key: 'importUserData',
 		value: function importUserData() {
-			var user = getKruxData('kxuser');
-			var segments = getKruxData('kxsegs');
+			var user = getKruxData('kxuser') || getKruxData('kxwikia_user');
+			var segments = getKruxData('kxsegs') || getKruxData('kxwikia_segs');
 
 			ad_engine_["context"].set('targeting.kuid', user || null);
 			ad_engine_["context"].set('targeting.ksg', segments ? segments.split(',') : []);

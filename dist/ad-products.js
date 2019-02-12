@@ -813,6 +813,7 @@ stickiness_Stickiness.SLOT_STICKED_STATE = 'sticked';
 stickiness_Stickiness.SLOT_UNSTICKED_STATE = 'unsticked';
 stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
 stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
+stickiness_Stickiness.SLOT_STICKINESS_DISABLED = 'stickiness-disabled';
 // EXTERNAL MODULE: external "babel-runtime/helpers/toConsumableArray"
 var toConsumableArray_ = __webpack_require__(12);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
@@ -1219,7 +1220,6 @@ var sticky_base_StickyBase = function () {
 	return StickyBase;
 }();
 sticky_base_StickyBase.DEFAULT_UNSTICK_DELAY = 2000;
-sticky_base_StickyBase.STICKINESS_DISABLED = 'stickiness-disabled';
 // CONCATENATED MODULE: ./src/ad-products/templates/uap/constants.js
 var CSS_CLASSNAME_FADE_IN_ANIMATION = 'fade-in';
 var CSS_CLASSNAME_SLIDE_OUT_ANIMATION = 'slide-out';
@@ -1335,7 +1335,7 @@ var sticky_ad_StickyAd = function (_StickyBase) {
 
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_ad_logGroup, 'stickiness rejected');
-				this.adSlot.emitEvent(StickyAd.STICKINESS_DISABLED);
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKINESS_DISABLED);
 
 				return;
 			}
@@ -1934,7 +1934,7 @@ var porvata_template_PorvataTemplate = function () {
 
 			video.addEventListener('wikiaFirstTimeInViewport', function () {
 				statusPromise.then(function () {
-					var eventSuffix = _this2.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+					var eventSuffix = _this2.adSlot.getStatus() === ad_engine_["AdSlot"].STATUS_SUCCESS ? 'WithOffer' : 'WithoutOffer';
 
 					video.ima.dispatchEvent('wikiaInViewport' + eventSuffix);
 				});
@@ -2984,7 +2984,7 @@ var sticky_tlb_StickyTLB = function (_StickyBase) {
 		value: function init(params) {
 			if (!this.isEnabled()) {
 				ad_engine_["utils"].logger(sticky_tlb_logGroup, 'stickiness rejected');
-				this.adSlot.emitEvent(StickyTLB.STICKINESS_DISABLED);
+				this.adSlot.emitEvent(stickiness_Stickiness.SLOT_STICKINESS_DISABLED);
 
 				return;
 			}
@@ -5803,6 +5803,15 @@ var vastUrls = {
 	midroll: null,
 	postroll: null
 };
+// 21009	VAST_EMPTY_RESPONSE
+var EMPTY_VAST_CODE = 21009;
+var jwplayer_ads_factory_log = function log() {
+	for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+		args[_key] = arguments[_key];
+	}
+
+	return ad_engine_["utils"].logger.apply(ad_engine_["utils"], ['jwplayer-ads-factory'].concat(args));
+};
 
 /**
  * Calculate depth
@@ -5936,6 +5945,8 @@ function create(options) {
 		// in JWPlayer when removing ad layer and going back to the video
 		// player.off('time') solves it but it also unregisters other event handlers
 		var f15sMidrollPlayed = false;
+		/** @type {string} */
+		var lastBrokenAdPlayId = null;
 
 		slot.element = videoContainer;
 		slot.setConfigProperty('audio', !player.getMute());
@@ -6071,17 +6082,34 @@ function create(options) {
 			});
 
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('success');
+			slot.setStatus(ad_engine_["AdSlot"].STATUS_SUCCESS);
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot);
 		});
 
 		player.on('adError', function (event) {
 			var vastParams = ad_engine_["vastParser"].parse(event.tag, {
 				imaAd: event.ima && event.ima.ad
 			});
+			var adPlayId = event.adPlayId;
 
-			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+			// JWPlayer can fire adError multiple times for the same ad
+
+			if (adPlayId && adPlayId === lastBrokenAdPlayId) {
+				return;
+			}
+
+			lastBrokenAdPlayId = adPlayId;
+
+			jwplayer_ads_factory_log('ad error message: ' + event.message);
 			updateSlotParams(slot, vastParams);
-			slot.setStatus('error');
+			ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'error', vastParams);
+
+			if (event.adErrorCode === EMPTY_VAST_CODE) {
+				slot.setStatus(ad_engine_["AdSlot"].STATUS_COLLAPSE);
+			} else {
+				slot.setStatus(ad_engine_["AdSlot"].STATUS_ERROR);
+			}
+			ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_ERROR, slot);
 		});
 
 		if (ad_engine_["context"].get('options.wad.hmdRec.enabled')) {

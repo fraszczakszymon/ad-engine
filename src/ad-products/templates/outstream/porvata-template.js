@@ -1,4 +1,4 @@
-import { context, events, Porvata, slotTweaker } from '@wikia/ad-engine';
+import { AdSlot, context, events, Porvata, slotTweaker } from '@wikia/ad-engine';
 import * as videoUserInterface from '../interface/video';
 import { getTranslation } from '../../common/i18n';
 
@@ -108,7 +108,8 @@ export class PorvataTemplate {
 
 		video.addEventListener('wikiaFirstTimeInViewport', () => {
 			statusPromise.then(() => {
-				const eventSuffix = this.adSlot.getStatus() === 'success' ? 'WithOffer' : 'WithoutOffer';
+				const eventSuffix =
+					this.adSlot.getStatus() === AdSlot.STATUS_SUCCESS ? 'WithOffer' : 'WithoutOffer';
 
 				video.ima.dispatchEvent(`wikiaInViewport${eventSuffix}`);
 			});

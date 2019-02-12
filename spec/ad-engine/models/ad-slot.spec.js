@@ -116,4 +116,49 @@ describe('ad-slot', () => {
 			expect(AdSlot.isAboveTheFold({ aboveTheFold: true })).to.equal(true);
 		});
 	});
+
+	describe('updateWinningPbBidderDetails', () => {
+		/** @type {AdSlot} */
+		let adSlot;
+		/** @type {Object} */
+		let targeting;
+
+		beforeEach(() => {
+			adSlot = createAdSlot('top_leaderboard');
+			targeting = {};
+			adSlot.config.targeting = targeting;
+		});
+
+		it('should have winningPbBidderDetails set to null initially', () => {
+			expect(adSlot.winningPbBidderDetails).to.be.null;
+		});
+
+		it('should set winningPbBidderDetails if both bidder and bidder price are available', () => {
+			targeting.hb_bidder = 'bidder';
+			targeting.hb_pb = 20;
+
+			adSlot.updateWinningPbBidderDetails();
+
+			expect(adSlot.winningPbBidderDetails).to.deep.equal({
+				name: targeting.hb_bidder,
+				price: targeting.hb_pb,
+			});
+		});
+
+		it('should not set winningPbBidderDetails if only bidder is available', () => {
+			targeting.hb_bidder = 'bidder';
+
+			adSlot.updateWinningPbBidderDetails(targeting);
+
+			expect(adSlot.winningPbBidderDetails).to.be.null;
+		});
+
+		it('should not set winningPbBidderDetails if only bidder price is available', () => {
+			targeting.hb_pb = 20;
+
+			adSlot.updateWinningPbBidderDetails(targeting);
+
+			expect(adSlot.winningPbBidderDetails).to.be.null;
+		});
+	});
 });

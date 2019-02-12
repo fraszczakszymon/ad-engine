@@ -2,6 +2,9 @@ import { GptSizeMap } from '../providers';
 import { slotTweaker } from './slot-tweaker';
 import { context } from './context-service';
 
+/**
+ * Sets dataset properties on AdSlot container for debug purposes.
+ */
 class SlotDataParamsUpdater {
 	updateOnCreate(adSlot, targeting) {
 		const sizes = adSlot.isOutOfPage()

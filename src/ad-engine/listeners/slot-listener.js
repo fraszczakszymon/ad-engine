@@ -16,7 +16,7 @@ function getAdType(event, adSlot) {
 	let isIframeAccessible = false;
 
 	if (event.isEmpty) {
-		return 'collapse';
+		return AdSlot.STATUS_COLLAPSE;
 	}
 
 	try {
@@ -29,7 +29,7 @@ function getAdType(event, adSlot) {
 		return iframe.contentWindow.AdEngine_adType;
 	}
 
-	return 'success';
+	return AdSlot.STATUS_SUCCESS;
 }
 
 function getData(adSlot, { adType, status }) {
