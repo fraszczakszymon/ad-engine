@@ -2,6 +2,7 @@ import { AdSlot } from '../models';
 import { getTopOffset, logger } from '../utils';
 import { context } from './context-service';
 import { events } from './events';
+import { slotTweaker } from './slot-tweaker';
 
 const groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
@@ -65,6 +66,7 @@ class SlotService {
 			adSlot.enable();
 		}
 
+		slotTweaker.addDefaultClasses(adSlot);
 		events.emit(events.AD_SLOT_CREATED, adSlot);
 	}
 

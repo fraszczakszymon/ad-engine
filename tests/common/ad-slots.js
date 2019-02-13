@@ -117,6 +117,32 @@ class AdSlots {
 	}
 
 	/**
+	 * Checks whether adSlot element has given class names
+	 * @param adSlot slot to check class names
+	 * @param classNames list of element class names to check
+	 */
+	checkSlotClasses(adSlot, classNames = []) {
+		let result = true;
+		let error = '';
+		const classList = browser
+			.element(adSlot)
+			.getAttribute('class')
+			.split(' ');
+
+		classNames.forEach((className) => {
+			if (!classList.includes(className)) {
+				result = false;
+				error += `Missing class: expected ${adSlot} to have class ${className}\n`;
+			}
+		});
+
+		return {
+			status: result,
+			capturedErrors: error,
+		};
+	}
+
+	/**
 	 * Calculates height based on the actual width and given ratio.
 	 * @param adSlot slot to measure
 	 * @param heightRatio ratio to use as a divider
