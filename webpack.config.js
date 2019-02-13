@@ -39,9 +39,14 @@ const common = {
 	module: {
 		rules: [
 			{
-				test: /.ts$/,
-				use: 'babel-loader',
+				test: /\.tsx?$/,
+				loader: 'babel-loader',
 				include: path.resolve(__dirname, 'src'),
+			},
+			{
+				test: /\.js$/,
+				use: ['source-map-loader'],
+				enforce: 'pre',
 			},
 			{
 				test: /\.json$/,

@@ -34,8 +34,8 @@
 		[
 			"module-resolver",
 			{
-				"extensions": [".ts"],
-				"root": ["./src"]
+				"extensions": [".ts", ".js"],
+				"root": ["."]
 			}
 		]
 	],
