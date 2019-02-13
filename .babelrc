@@ -31,8 +31,7 @@
 			{
 				"helpers": true,
 				"corejs": 2,
-				"regenerator": true,
-				"moduleName": "babel-runtime"
+				"regenerator": true
 			}
 		],
 		"@babel/plugin-syntax-dynamic-import",
