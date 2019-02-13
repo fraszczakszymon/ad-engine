@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowJs": true,
+		"baseUrl": "./src",
+		"paths": {
+			"@wikia/ad-bidders": ["ad-bidders/index.ts"],
+			"@wikia/ad-engine": ["ad-engine/index.ts"],
+			"@wikia/ad-products": ["ad-products/index.ts"],
+			"@wikia/ad-services": ["ad-services/index.ts"]
+		},
+		"module": "es2015"
+	},
+	"exclude": ["node_modules", "tmp"]
+}

@@ -4,12 +4,7 @@
 			"@babel/preset-env",
 			{
 				"targets": {
-					"browsers": [
-						"last 2 versions",
-						"safari >= 9.0",
-						"ie 11",
-						"> 2%"
-					]
+					"browsers": ["last 2 versions", "safari >= 9.0", "ie 11", "> 2%"]
 				},
 				"modules": false
 			}
@@ -39,15 +34,8 @@
 		[
 			"module-resolver",
 			{
-				"extensions": [
-					".js",
-					".jsx",
-					".ts",
-					".tsx"
-				],
-				"root": [
-					"./src"
-				]
+				"extensions": [".ts"],
+				"root": ["./src"]
 			}
 		]
 	],
