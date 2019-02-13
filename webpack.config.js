@@ -39,7 +39,7 @@ const common = {
 	module: {
 		rules: [
 			{
-				test: /.js$/,
+				test: /.ts$/,
 				use: 'babel-loader',
 				include: path.resolve(__dirname, 'src'),
 			},
@@ -55,7 +55,7 @@ const common = {
 				exclude: /node_modules/,
 			},
 			{
-				test: path.resolve(__dirname, 'src/ad-engine/index.js'),
+				test: path.resolve(__dirname, 'src/ad-engine/index.ts'),
 				loader: StringReplacePlugin.replace({
 					replacements: [
 						{
@@ -129,7 +129,7 @@ const adEngine = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-engine': './src/ad-engine/index.js',
+			'ad-engine': './src/ad-engine/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -169,7 +169,7 @@ const adProducts = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-products': './src/ad-products/index.js',
+			'ad-products': './src/ad-products/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -217,7 +217,7 @@ const adBidders = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-bidders': './src/ad-bidders/index.js',
+			'ad-bidders': './src/ad-bidders/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -263,7 +263,7 @@ const adServices = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-services': './src/ad-services/index.js',
+			'ad-services': './src/ad-services/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
