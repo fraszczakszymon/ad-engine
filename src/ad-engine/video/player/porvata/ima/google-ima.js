@@ -31,6 +31,8 @@ function getPlayer(videoSettings) {
 
 	const adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
+	adsLoader.getSettings().setVpaidMode(videoSettings.getVpaidMode());
+
 	return googleImaPlayerFactory.create(adDisplayContainer, adsLoader, videoSettings);
 }
 
