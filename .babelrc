@@ -35,7 +35,21 @@
 			}
 		],
 		"@babel/plugin-syntax-dynamic-import",
-		"lodash"
+		"lodash",
+		[
+			"module-resolver",
+			{
+				"extensions": [
+					".js",
+					".jsx",
+					".ts",
+					".tsx"
+				],
+				"root": [
+					"./src"
+				]
+			}
+		]
 	],
 	"env": {
 		"test": {
