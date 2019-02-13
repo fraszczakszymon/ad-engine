@@ -4,8 +4,24 @@ export class Apstag {
 	/**
 	 * @private
 	 */
+	static instance;
+
+	static make() {
+		if (!Apstag.instance) {
+			Apstag.instance = new Apstag();
+		}
+
+		return Apstag.instance;
+	}
+
+	/**
+	 * @private
+	 */
 	renderImpEndCallbacks = [];
 
+	/**
+	 * @private
+	 */
 	constructor() {
 		this.utils = utils;
 		this.insertScript();
@@ -109,5 +125,3 @@ export class Apstag {
 		this.renderImpEndCallbacks.push(callback);
 	}
 }
-
-export const apstag = new Apstag();

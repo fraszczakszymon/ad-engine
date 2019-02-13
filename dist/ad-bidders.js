@@ -230,6 +230,29 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 
 var apstag_Apstag = function () {
+	createClass_default()(Apstag, null, [{
+		key: 'make',
+		value: function make() {
+			if (!Apstag.instance) {
+				Apstag.instance = new Apstag();
+			}
+
+			return Apstag.instance;
+		}
+
+		/**
+   * @private
+   */
+
+		/**
+   * @private
+   */
+
+	}]);
+
+	/**
+  * @private
+  */
 	function Apstag() {
 		classCallCheck_default()(this, Apstag);
 
@@ -240,10 +263,6 @@ var apstag_Apstag = function () {
 		this.configure();
 		this.addRenderImpHooks();
 	}
-
-	/**
-  * @private
-  */
 
 	/**
   * @private
@@ -511,8 +530,6 @@ var apstag_Apstag = function () {
 
 	return Apstag;
 }();
-
-var apstag = new apstag_Apstag();
 // CONCATENATED MODULE: ./src/ad-bidders/wrappers/cmp.js
 
 
@@ -832,7 +849,7 @@ var a9_A9 = function (_BaseBidder) {
 		_this.priceMap = {};
 		_this.slotNamesMap = {};
 		_this.targetingKeys = [];
-		_this.apstag = apstag;
+		_this.apstag = apstag_Apstag.make();
 		_this.cmp = cmp;
 		_this.utils = ad_engine_["utils"];
 		_this.events = ad_engine_["events"];
@@ -3058,7 +3075,6 @@ prebid_Prebid.errorResponseStatusCode = 2;
 // CONCATENATED MODULE: ./src/ad-bidders/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bidders", function() { return ad_bidders_bidders; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Apstag", function() { return apstag_Apstag; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "apstag", function() { return apstag; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Cmp", function() { return cmp_Cmp; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "cmp", function() { return cmp; });
 
