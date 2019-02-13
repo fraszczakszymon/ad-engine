@@ -401,7 +401,7 @@ export class BillTheLizard {
 		if (startId <= 1) {
 			return undefined;
 		}
-		for (let backCounter = startId - 1; backCounter > 1; backCounter--) {
+		for (let backCounter = startId - 1; backCounter >= 1; backCounter--) {
 			const callId = callIdBuilder(backCounter);
 			const prevStatus = this.getResponseStatus(callId);
 

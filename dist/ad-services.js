@@ -824,7 +824,7 @@ var bill_the_lizard_BillTheLizard = function () {
 			if (startId <= 1) {
 				return undefined;
 			}
-			for (var backCounter = startId - 1; backCounter > 1; backCounter--) {
+			for (var backCounter = startId - 1; backCounter >= 1; backCounter--) {
 				var callId = callIdBuilder(backCounter);
 				var prevStatus = this.getResponseStatus(callId);
 
