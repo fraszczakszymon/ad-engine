@@ -2,7 +2,7 @@
 const path = require('path');
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 const md5 = require('js-md5');
-const networkCapture = require('./tests/common/network-capture');
+const networkCapture = require('./tests/common/network-capture.ts');
 
 const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080;
 
@@ -45,7 +45,7 @@ exports.config = {
 	},
 	mochaOpts: {
 		ui: 'bdd',
-		compilers: ['js:@babel/register'],
+		compilers: ['babel-register-ts'],
 		timeout: 120000,
 	},
 	staticServerFolders: [{ mount: '/', path: './examples' }],
