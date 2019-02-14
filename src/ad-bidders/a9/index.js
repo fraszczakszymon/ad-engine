@@ -1,5 +1,5 @@
 import { context, events, slotService, utils } from '@wikia/ad-engine';
-import { Apstag, cmp } from '../wrappers';
+import { apstag, cmp } from '../wrappers';
 import { BaseBidder } from '../base-bidder';
 
 const logGroup = 'A9';
@@ -25,7 +25,7 @@ export class A9 extends BaseBidder {
 		this.priceMap = {};
 		this.slotNamesMap = {};
 		this.targetingKeys = [];
-		this.apstag = Apstag.make();
+		this.apstag = apstag;
 		this.cmp = cmp;
 		this.utils = utils;
 		this.events = events;
