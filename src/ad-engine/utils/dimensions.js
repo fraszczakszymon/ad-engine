@@ -58,6 +58,14 @@ export function getViewportHeight() {
 }
 
 /**
+ * Returns client's viewport width
+ * @returns {number}
+ */
+export function getViewportWidth() {
+	return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
+
+/**
  * Checks whether given element is in the viewport
  * @param element DOM element that is going to be checked
  * @param topOffset top offset that defines top margin of viewport, may be used to exclude navbar
