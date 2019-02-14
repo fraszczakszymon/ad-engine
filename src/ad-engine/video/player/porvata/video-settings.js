@@ -41,6 +41,14 @@ export class VideoSettings {
 		return this.params;
 	}
 
+	getVpaidMode() {
+		if (typeof this.params.vpaidMode !== 'undefined') {
+			return this.params.vpaidMode;
+		}
+
+		return window.google.ima.ImaSdkSettings.VpaidMode.ENABLED;
+	}
+
 	isMoatTrackingEnabled() {
 		return this.moatTracking;
 	}

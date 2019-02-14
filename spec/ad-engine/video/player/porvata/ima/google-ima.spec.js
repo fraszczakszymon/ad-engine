@@ -12,6 +12,9 @@ describe('google-ima', () => {
 			adsLoader: {
 				addEventListener: () => {},
 				contentComplete: () => {},
+				getSettings: () => ({
+					setVpaidMode: () => {},
+				}),
 				removeEventListener: () => {},
 				requestAds: () => {},
 			},
@@ -44,6 +47,9 @@ describe('google-ima', () => {
 				},
 				getContainer() {
 					return mocks.videoParams.container;
+				},
+				getVpaidMode() {
+					return 2;
 				},
 			},
 		};
