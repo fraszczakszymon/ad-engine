@@ -96,9 +96,6 @@ export class Prebid extends BaseBidder {
 		window.pbjs.bidderSettings = getSettings();
 	}
 
-	/**
-	 * @protected
-	 */
 	callBids(bidsBackHandler) {
 		if (!this.adUnits) {
 			this.adUnits = setupAdUnits(this.bidderConfig, this.isLazyLoadingEnabled ? 'pre' : 'off');
@@ -116,9 +113,6 @@ export class Prebid extends BaseBidder {
 		}
 	}
 
-	/**
-	 * @private
-	 */
 	insertScript() {
 		if (loaded) {
 			return;
@@ -161,9 +155,6 @@ export class Prebid extends BaseBidder {
 		});
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	getBestPrice(slotName) {
 		const slotAlias = this.getSlotAlias(slotName);
 
@@ -174,9 +165,6 @@ export class Prebid extends BaseBidder {
 		return ['hb_bidder', 'hb_adid', 'hb_pb', 'hb_size', 'hb_uuid'];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	getTargetingParams(slotName) {
 		let slotParams = {};
 
@@ -213,9 +201,6 @@ export class Prebid extends BaseBidder {
 		return slotParams || {};
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	isSupported(slotName) {
 		const slotAlias = this.getSlotAlias(slotName);
 
