@@ -83,7 +83,7 @@ biddersDelay.getPromise().then(() => {
 		},
 		related: {
 			autoplay: true,
-			playlistId: 'Y2RWCKuS',
+			playlistId: 'MGBx1cJh',
 			time: 3,
 		},
 	};
