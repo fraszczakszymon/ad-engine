@@ -22,6 +22,15 @@ export class SlotTweaker {
 		return container;
 	}
 
+	addDefaultClasses(adSlot) {
+		const container = this.getContainer(adSlot);
+		const defaultClasses = adSlot.getConfigProperty('defaultClasses') || [];
+
+		if (container && defaultClasses.length) {
+			defaultClasses.forEach((className) => container.classList.add(className));
+		}
+	}
+
 	hide(adSlot) {
 		const container = this.getContainer(adSlot);
 

@@ -158,6 +158,7 @@ export default {
 					sizes: [[728, 90], [3, 3]],
 				},
 			],
+			defaultClasses: ['i-am-the-default-class-added-on-create'],
 			defaultSizes: [[300, 250], [2, 2]],
 			targeting: {
 				loc: 'top',
