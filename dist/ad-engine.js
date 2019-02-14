@@ -4333,7 +4333,298 @@ ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
 ad_slot_AdSlot.STATUS_ERROR = 'error';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
+// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.js
+
+
+
+
+var message_bus_callbacks = [];
+var message_bus_logGroup = 'message-bus';
+
+function isAdEngineMessage(message) {
+	try {
+		return !!JSON.parse(message.data).AdEngine;
+	} catch (e) {
+		return false;
+	}
+}
+
+function messageMatch(match, message) {
+	var matching = true;
+
+	if (match.keys) {
+		var data = JSON.parse(message.data).AdEngine;
+
+		match.keys.forEach(function (key) {
+			matching = matching && data[key];
+		});
+	}
+
+	return matching;
+}
+
+function onMessage(message) {
+	var i = 0;
+	var callback = void 0;
+
+	if (isAdEngineMessage(message)) {
+		logger(message_bus_logGroup, 'Message received', message);
+
+		for (i = 0; i < message_bus_callbacks.length; i += 1) {
+			callback = message_bus_callbacks[i];
+			if (messageMatch(callback.match, message)) {
+				logger(message_bus_logGroup, 'Matching message', message, callback);
+
+				callback.fn(JSON.parse(message.data).AdEngine);
+
+				if (!callback.match.infinite) {
+					message_bus_callbacks.splice(i, 1);
+				}
+
+				return;
+			}
+		}
+	}
+}
+
+var message_bus_MessageBus = function () {
+	function MessageBus() {
+		classCallCheck_default()(this, MessageBus);
+	}
+
+	createClass_default()(MessageBus, [{
+		key: 'init',
+		value: function init() {
+			logger(message_bus_logGroup, 'Register message listener');
+			window.addEventListener('message', onMessage);
+		}
+	}, {
+		key: 'register',
+		value: function register(match, callback) {
+			message_bus_callbacks.push({
+				match: match,
+				fn: callback
+			});
+		}
+	}]);
+
+	return MessageBus;
+}();
+
+var messageBus = new message_bus_MessageBus();
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.js
+
+
+
+
+
+
+
+
+var slot_tweaker_logGroup = 'slot-tweaker';
+
+var slot_tweaker_SlotTweaker = function () {
+	function SlotTweaker() {
+		classCallCheck_default()(this, SlotTweaker);
+	}
+
+	createClass_default()(SlotTweaker, [{
+		key: 'forceRepaint',
+		value: function forceRepaint(domElement) {
+			return domElement.offsetWidth;
+		}
+		/** @readonly */
+
+	}, {
+		key: 'getContainer',
+		value: function getContainer(adSlot) {
+			var container = adSlot.getElement();
+
+			if (!container) {
+				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
+			}
+
+			return container;
+		}
+	}, {
+		key: 'addDefaultClasses',
+		value: function addDefaultClasses(adSlot) {
+			var container = this.getContainer(adSlot);
+			var defaultClasses = adSlot.getConfigProperty('defaultClasses') || [];
+
+			if (container && defaultClasses.length) {
+				defaultClasses.forEach(function (className) {
+					return container.classList.add(className);
+				});
+			}
+		}
+	}, {
+		key: 'hide',
+		value: function hide(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			if (container) {
+				logger(slot_tweaker_logGroup, 'hide', adSlot.getSlotName());
+				container.classList.add('hide');
+			}
+		}
+	}, {
+		key: 'show',
+		value: function show(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			if (container) {
+				logger(slot_tweaker_logGroup, 'show', adSlot.getSlotName());
+				container.classList.remove('hide');
+			}
+		}
+	}, {
+		key: 'collapse',
+		value: function collapse(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			container.style.maxHeight = container.scrollHeight + 'px';
+			this.forceRepaint(container);
+			container.classList.add('slot-animation');
+			container.style.maxHeight = '0';
+		}
+	}, {
+		key: 'expand',
+		value: function expand(adSlot) {
+			var container = this.getContainer(adSlot);
+
+			container.style.maxHeight = container.offsetHeight + 'px';
+			container.classList.remove('hide');
+			container.classList.add('slot-animation');
+			container.style.maxHeight = container.scrollHeight + 'px';
+		}
+	}, {
+		key: 'makeResponsive',
+		value: function makeResponsive(adSlot) {
+			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+			var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+			var slotContainer = this.getContainer(adSlot);
+
+			slotContainer.classList.add('slot-responsive');
+
+			return this.onReady(adSlot).then(function (iframe) {
+				var container = iframe.parentElement;
+
+				if (!aspectRatio) {
+					var height = iframe.contentWindow.document.body.scrollHeight;
+					var width = iframe.contentWindow.document.body.scrollWidth;
+
+					aspectRatio = width / height;
+				}
+
+				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
+				if (paddingBottom) {
+					container.style.paddingBottom = 100 / aspectRatio + '%';
+				}
+
+				return iframe;
+			});
+		}
+	}, {
+		key: 'onReady',
+		value: function onReady(adSlot) {
+			if (adSlot.getConfigProperty('useGptOnloadEvent')) {
+				return adSlot.onLoad();
+			}
+
+			var container = this.getContainer(adSlot);
+			var iframe = container.querySelector('div[id*="_container_"] iframe');
+
+			return new promise_default.a(function (resolve, reject) {
+				if (!iframe) {
+					reject(new Error('Cannot find iframe element'));
+				}
+
+				var iframeDocument = null;
+
+				try {
+					iframeDocument = iframe.contentWindow.document;
+				} catch (ignore) {
+					logger(slot_tweaker_logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
+				}
+
+				if (iframeDocument && iframeDocument.readyState === 'complete') {
+					resolve(iframe);
+				} else {
+					iframe.addEventListener('load', function () {
+						return resolve(iframe);
+					});
+				}
+			});
+		}
+	}, {
+		key: 'adjustIframeByContentSize',
+		value: function adjustIframeByContentSize(adSlot) {
+			this.onReady(adSlot).then(function (iframe) {
+				var height = iframe.contentWindow.document.body.scrollHeight;
+				var width = iframe.contentWindow.document.body.scrollWidth;
+
+				iframe.width = width;
+				iframe.height = height;
+
+				logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+			});
+		}
+	}, {
+		key: 'registerMessageListener',
+		value: function registerMessageListener() {
+			var _this = this;
+
+			messageBus.register({
+				keys: ['action', 'slotName'],
+				infinite: true
+			}, function (data) {
+				if (!data.slotName) {
+					logger(slot_tweaker_logGroup, 'Missing slot name');
+
+					return;
+				}
+
+				var adSlot = slotService.get(data.slotName);
+
+				switch (data.action) {
+					case 'expand':
+						_this.expand(adSlot);
+						break;
+					case 'collapse':
+						_this.collapse(adSlot);
+						break;
+					case 'hide':
+						_this.hide(adSlot);
+						break;
+					case 'show':
+						_this.show(adSlot);
+						break;
+					case 'make-responsive':
+						_this.makeResponsive(adSlot, data.aspectRatio);
+						break;
+					default:
+						logger(slot_tweaker_logGroup, 'Unknown action', data.action);
+				}
+			});
+		}
+	}, {
+		key: 'setDataParam',
+		value: function setDataParam(adSlot, attrName, data) {
+			var container = this.getContainer(adSlot);
+
+			container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
+		}
+	}]);
+
+	return SlotTweaker;
+}();
+
+slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
+var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-service.js
+
 
 
 
@@ -4413,6 +4704,7 @@ var slot_service_SlotService = function () {
 				adSlot.enable();
 			}
 
+			slotTweaker.addDefaultClasses(adSlot);
 			events.emit(events.AD_SLOT_CREATED, adSlot);
 		}
 
@@ -4950,284 +5242,6 @@ var local_cache_LocalCache = function () {
 }();
 
 var localCache = new local_cache_LocalCache();
-// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.js
-
-
-
-
-var message_bus_callbacks = [];
-var message_bus_logGroup = 'message-bus';
-
-function isAdEngineMessage(message) {
-	try {
-		return !!JSON.parse(message.data).AdEngine;
-	} catch (e) {
-		return false;
-	}
-}
-
-function messageMatch(match, message) {
-	var matching = true;
-
-	if (match.keys) {
-		var data = JSON.parse(message.data).AdEngine;
-
-		match.keys.forEach(function (key) {
-			matching = matching && data[key];
-		});
-	}
-
-	return matching;
-}
-
-function onMessage(message) {
-	var i = 0;
-	var callback = void 0;
-
-	if (isAdEngineMessage(message)) {
-		logger(message_bus_logGroup, 'Message received', message);
-
-		for (i = 0; i < message_bus_callbacks.length; i += 1) {
-			callback = message_bus_callbacks[i];
-			if (messageMatch(callback.match, message)) {
-				logger(message_bus_logGroup, 'Matching message', message, callback);
-
-				callback.fn(JSON.parse(message.data).AdEngine);
-
-				if (!callback.match.infinite) {
-					message_bus_callbacks.splice(i, 1);
-				}
-
-				return;
-			}
-		}
-	}
-}
-
-var message_bus_MessageBus = function () {
-	function MessageBus() {
-		classCallCheck_default()(this, MessageBus);
-	}
-
-	createClass_default()(MessageBus, [{
-		key: 'init',
-		value: function init() {
-			logger(message_bus_logGroup, 'Register message listener');
-			window.addEventListener('message', onMessage);
-		}
-	}, {
-		key: 'register',
-		value: function register(match, callback) {
-			message_bus_callbacks.push({
-				match: match,
-				fn: callback
-			});
-		}
-	}]);
-
-	return MessageBus;
-}();
-
-var messageBus = new message_bus_MessageBus();
-// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.js
-
-
-
-
-
-
-
-
-var slot_tweaker_logGroup = 'slot-tweaker';
-
-var slot_tweaker_SlotTweaker = function () {
-	function SlotTweaker() {
-		classCallCheck_default()(this, SlotTweaker);
-	}
-
-	createClass_default()(SlotTweaker, [{
-		key: 'forceRepaint',
-		value: function forceRepaint(domElement) {
-			return domElement.offsetWidth;
-		}
-		/** @readonly */
-
-	}, {
-		key: 'getContainer',
-		value: function getContainer(adSlot) {
-			var container = adSlot.getElement();
-
-			if (!container) {
-				logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
-			}
-
-			return container;
-		}
-	}, {
-		key: 'hide',
-		value: function hide(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			if (container) {
-				logger(slot_tweaker_logGroup, 'hide', adSlot.getSlotName());
-				container.classList.add('hide');
-			}
-		}
-	}, {
-		key: 'show',
-		value: function show(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			if (container) {
-				logger(slot_tweaker_logGroup, 'show', adSlot.getSlotName());
-				container.classList.remove('hide');
-			}
-		}
-	}, {
-		key: 'collapse',
-		value: function collapse(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			container.style.maxHeight = container.scrollHeight + 'px';
-			this.forceRepaint(container);
-			container.classList.add('slot-animation');
-			container.style.maxHeight = '0';
-		}
-	}, {
-		key: 'expand',
-		value: function expand(adSlot) {
-			var container = this.getContainer(adSlot);
-
-			container.style.maxHeight = container.offsetHeight + 'px';
-			container.classList.remove('hide');
-			container.classList.add('slot-animation');
-			container.style.maxHeight = container.scrollHeight + 'px';
-		}
-	}, {
-		key: 'makeResponsive',
-		value: function makeResponsive(adSlot) {
-			var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-			var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-			var slotContainer = this.getContainer(adSlot);
-
-			slotContainer.classList.add('slot-responsive');
-
-			return this.onReady(adSlot).then(function (iframe) {
-				var container = iframe.parentElement;
-
-				if (!aspectRatio) {
-					var height = iframe.contentWindow.document.body.scrollHeight;
-					var width = iframe.contentWindow.document.body.scrollWidth;
-
-					aspectRatio = width / height;
-				}
-
-				logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
-				if (paddingBottom) {
-					container.style.paddingBottom = 100 / aspectRatio + '%';
-				}
-
-				return iframe;
-			});
-		}
-	}, {
-		key: 'onReady',
-		value: function onReady(adSlot) {
-			if (adSlot.getConfigProperty('useGptOnloadEvent')) {
-				return adSlot.onLoad();
-			}
-
-			var container = this.getContainer(adSlot);
-			var iframe = container.querySelector('div[id*="_container_"] iframe');
-
-			return new promise_default.a(function (resolve, reject) {
-				if (!iframe) {
-					reject(new Error('Cannot find iframe element'));
-				}
-
-				var iframeDocument = null;
-
-				try {
-					iframeDocument = iframe.contentWindow.document;
-				} catch (ignore) {
-					logger(slot_tweaker_logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
-				}
-
-				if (iframeDocument && iframeDocument.readyState === 'complete') {
-					resolve(iframe);
-				} else {
-					iframe.addEventListener('load', function () {
-						return resolve(iframe);
-					});
-				}
-			});
-		}
-	}, {
-		key: 'adjustIframeByContentSize',
-		value: function adjustIframeByContentSize(adSlot) {
-			this.onReady(adSlot).then(function (iframe) {
-				var height = iframe.contentWindow.document.body.scrollHeight;
-				var width = iframe.contentWindow.document.body.scrollWidth;
-
-				iframe.width = width;
-				iframe.height = height;
-
-				logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
-			});
-		}
-	}, {
-		key: 'registerMessageListener',
-		value: function registerMessageListener() {
-			var _this = this;
-
-			messageBus.register({
-				keys: ['action', 'slotName'],
-				infinite: true
-			}, function (data) {
-				if (!data.slotName) {
-					logger(slot_tweaker_logGroup, 'Missing slot name');
-
-					return;
-				}
-
-				var adSlot = slotService.get(data.slotName);
-
-				switch (data.action) {
-					case 'expand':
-						_this.expand(adSlot);
-						break;
-					case 'collapse':
-						_this.collapse(adSlot);
-						break;
-					case 'hide':
-						_this.hide(adSlot);
-						break;
-					case 'show':
-						_this.show(adSlot);
-						break;
-					case 'make-responsive':
-						_this.makeResponsive(adSlot, data.aspectRatio);
-						break;
-					default:
-						logger(slot_tweaker_logGroup, 'Unknown action', data.action);
-				}
-			});
-		}
-	}, {
-		key: 'setDataParam',
-		value: function setDataParam(adSlot, attrName, data) {
-			var container = this.getContainer(adSlot);
-
-			container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
-		}
-	}]);
-
-	return SlotTweaker;
-}();
-
-slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
-var slotTweaker = new slot_tweaker_SlotTweaker();
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.js
 
 
@@ -5963,9 +5977,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.12.2');
-set_default()(window, commitField, '2d7ef7fc');
-logger('ad-engine', 'v23.12.2 (2d7ef7fc)');
+set_default()(window, versionField, 'v23.12.3');
+set_default()(window, commitField, 'b52fff53');
+logger('ad-engine', 'v23.12.3 (b52fff53)');
 
 
 
