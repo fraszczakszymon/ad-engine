@@ -4,7 +4,7 @@ const VisualRegressionCompare = require('wdio-visual-regression-service/compare'
 const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
 
-const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080;
+const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080
 
 function getScreenshotName(basePath) {
 	return function (context) {
@@ -17,8 +17,8 @@ function getScreenshotName(basePath) {
 exports.config = {
 	suites: {
 		bidders: ['./tests/specs/bidders/*.test.js'],
-		hiviTemplates: ['./tests/specs/templates/hivi/*.test.js'],
-		otherTemplates: ['./tests/specs/templates/non-hivi/*.test.js'],
+		'hivi-templates': ['./tests/specs/templates/hivi/*.test.js'],
+		'other-templates': ['./tests/specs/templates/non-hivi/*.test.js'],
 		services: ['./tests/specs/services/*.test.js'],
 		slots: ['./tests/specs/slots/*.test.js'],
 		utils: ['./tests/specs/utils/*.test.js'],
