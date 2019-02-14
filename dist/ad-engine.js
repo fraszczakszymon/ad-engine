@@ -2203,6 +2203,8 @@ function google_ima_getPlayer(videoSettings) {
 
 	var adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 
+	adsLoader.getSettings().setVpaidMode(videoSettings.getVpaidMode());
+
 	return googleImaPlayerFactory.create(adDisplayContainer, adsLoader, videoSettings);
 }
 
@@ -2262,6 +2264,15 @@ var video_settings_VideoSettings = function () {
 		key: 'getParams',
 		value: function getParams() {
 			return this.params;
+		}
+	}, {
+		key: 'getVpaidMode',
+		value: function getVpaidMode() {
+			if (typeof this.params.vpaidMode !== 'undefined') {
+				return this.params.vpaidMode;
+			}
+
+			return window.google.ima.ImaSdkSettings.VpaidMode.ENABLED;
 		}
 	}, {
 		key: 'isMoatTrackingEnabled',
@@ -5952,9 +5963,9 @@ if (get_default()(window, versionField, null)) {
 	window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.12.1');
-set_default()(window, commitField, '56aa1150');
-logger('ad-engine', 'v23.12.1 (56aa1150)');
+set_default()(window, versionField, 'v23.12.2');
+set_default()(window, commitField, '2d7ef7fc');
+logger('ad-engine', 'v23.12.2 (2d7ef7fc)');
 
 
 
