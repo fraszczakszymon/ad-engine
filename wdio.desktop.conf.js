@@ -9,8 +9,8 @@ global.wdioEnvironment = 'desktop';
 exports.config = merge(
 	wdioConf.config,
 	{
-		specs: ['tests/specs/**/*.desktop.test.js'],
-		exclude: ['tests/specs/**/*.mobile.test.js'],
+		specs: ['tests/specs/**/*.desktop.test.ts'],
+		exclude: ['tests/specs/**/*.mobile.test.ts'],
 		capabilities: [
 			{
 				browserName: 'chrome',

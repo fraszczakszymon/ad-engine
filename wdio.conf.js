@@ -4,7 +4,7 @@ const VisualRegressionCompare = require('wdio-visual-regression-service/compare'
 const md5 = require('js-md5');
 const networkCapture = require('./tests/common/network-capture');
 
-const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080
+const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080;
 
 function getScreenshotName(basePath) {
 	return function (context) {
@@ -16,13 +16,13 @@ function getScreenshotName(basePath) {
 
 exports.config = {
 	suites: {
-		bidders: ['./tests/specs/bidders/*.test.js'],
-		'hivi-templates': ['./tests/specs/templates/hivi/*.test.js'],
-		'other-templates': ['./tests/specs/templates/non-hivi/*.test.js'],
-		services: ['./tests/specs/services/*.test.js'],
-		slots: ['./tests/specs/slots/*.test.js'],
-		utils: ['./tests/specs/utils/*.test.js'],
-		video: ['./tests/specs/video/*.test.js'],
+		bidders: ['./tests/specs/bidders/*.test.ts'],
+		'hivi-templates': ['./tests/specs/templates/hivi/*.test.ts'],
+		'other-templates': ['./tests/specs/templates/non-hivi/*.test.ts'],
+		services: ['./tests/specs/services/*.test.ts'],
+		slots: ['./tests/specs/slots/*.test.ts'],
+		utils: ['./tests/specs/utils/*.test.ts'],
+		video: ['./tests/specs/video/*.test.ts'],
 	},
 	maxInstances: 5,
 	sync: true,
