@@ -237,6 +237,7 @@ __webpack_require__.d(utils_namespaceObject, "client", function() { return clien
 __webpack_require__.d(utils_namespaceObject, "getTopOffset", function() { return getTopOffset; });
 __webpack_require__.d(utils_namespaceObject, "getLeftOffset", function() { return getLeftOffset; });
 __webpack_require__.d(utils_namespaceObject, "getViewportHeight", function() { return getViewportHeight; });
+__webpack_require__.d(utils_namespaceObject, "getViewportWidth", function() { return getViewportWidth; });
 __webpack_require__.d(utils_namespaceObject, "isInViewport", function() { return isInViewport; });
 __webpack_require__.d(utils_namespaceObject, "isInTheSameViewport", function() { return isInTheSameViewport; });
 __webpack_require__.d(utils_namespaceObject, "VISIBILITY_STATUS", function() { return VISIBILITY_STATUS; });
@@ -497,6 +498,14 @@ function getLeftOffset(element) {
  */
 function getViewportHeight() {
 	return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+}
+
+/**
+ * Returns client's viewport width
+ * @returns {number}
+ */
+function getViewportWidth() {
+	return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 }
 
 /**
@@ -4084,6 +4093,11 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 			_this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
 
+		_this.addAdClass();
+		if (!_this.enabled) {
+			slotTweaker.hide(_this);
+		}
+
 		_this.logger = function () {
 			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 				args[_key] = arguments[_key];
@@ -4219,6 +4233,7 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			this.enabled = false;
 			this.setStatus(status);
+			slotTweaker.hide(this);
 		}
 	}, {
 		key: 'getConfigProperty',
@@ -4314,6 +4329,20 @@ var ad_slot_AdSlot = function (_EventEmitter) {
 
 			slotDataParamsUpdater.updateOnRenderEnd(this);
 		}
+
+		/**
+   * Appends gpt-ad class to adSlot node.
+   */
+
+	}, {
+		key: 'addAdClass',
+		value: function addAdClass() {
+			var container = this.getElement();
+
+			if (container) {
+				container.classList.add(AdSlot.AD_CLASS);
+			}
+		}
 	}, {
 		key: 'targeting',
 		get: function get() {
@@ -4331,6 +4360,7 @@ ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
 ad_slot_AdSlot.STATUS_SUCCESS = 'success';
 ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
 ad_slot_AdSlot.STATUS_ERROR = 'error';
+ad_slot_AdSlot.AD_CLASS = 'gpt-ad';
 // CONCATENATED MODULE: ./src/ad-engine/models/index.js
 
 // CONCATENATED MODULE: ./src/ad-engine/services/message-bus.js
@@ -4659,22 +4689,6 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
-function setState(slotName, state) {
-	var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	var slot = slotService.get(slotName);
-
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot && state) {
-		slot.enable();
-	} else if (slot && !state) {
-		slot.disable(status);
-	}
-	logger(slot_service_groupName, 'set state', slotName, state);
-}
-
 events.on(events.PAGE_CHANGE_EVENT, function () {
 	slotStates = {};
 	slotStatuses = {};
@@ -4781,7 +4795,7 @@ var slot_service_SlotService = function () {
 	}, {
 		key: 'enable',
 		value: function enable(slotName) {
-			setState(slotName, true);
+			this.setState(slotName, true);
 		}
 
 		/**
@@ -4795,7 +4809,7 @@ var slot_service_SlotService = function () {
 		value: function disable(slotName) {
 			var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			setState(slotName, false, status);
+			this.setState(slotName, false, status);
 		}
 
 		/**
@@ -4810,6 +4824,31 @@ var slot_service_SlotService = function () {
 			// Comparing with false in order to get truthy value for slot
 			// that wasn't disabled or enabled (in case when state is undefined)
 			return slotStates[slotName] !== false;
+		}
+	}, {
+		key: 'setState',
+		value: function setState(slotName, state) {
+			var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+			var slot = this.get(slotName);
+
+			slotStates[slotName] = state;
+			slotStatuses[slotName] = status;
+
+			// After slot is created context should be read-only
+			if (slot) {
+				slot.setStatus(status);
+				if (state) {
+					slot.enable();
+				} else {
+					slot.disable();
+				}
+			} else if (state) {
+				context.set('slots.' + slotName + '.disabled', false);
+			} else {
+				context.set('slots.' + slotName + '.disabled', true);
+			}
+			logger(slot_service_groupName, 'set state', slotName, state);
 		}
 
 		/**
@@ -5978,8 +6017,8 @@ if (get_default()(window, versionField, null)) {
 }
 
 set_default()(window, versionField, 'v23.12.3');
-set_default()(window, commitField, 'b52fff53');
-logger('ad-engine', 'v23.12.3 (b52fff53)');
+set_default()(window, commitField, '23542cdf');
+logger('ad-engine', 'v23.12.3 (23542cdf)');
 
 
 
