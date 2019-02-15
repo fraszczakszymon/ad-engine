@@ -30,20 +30,6 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
-function setState(slotName, state, status = null) {
-	const slot = slotService.get(slotName);
-
-	slotStates[slotName] = state;
-	slotStatuses[slotName] = status;
-
-	if (slot && state) {
-		slot.enable();
-	} else if (slot && !state) {
-		slot.disable(status);
-	}
-	logger(groupName, 'set state', slotName, state);
-}
-
 events.on(events.PAGE_CHANGE_EVENT, () => {
 	slotStates = {};
 	slotStatuses = {};
@@ -129,7 +115,7 @@ class SlotService {
 	 * @param {string} slotName
 	 */
 	enable(slotName) {
-		setState(slotName, true);
+		this.setState(slotName, true);
 	}
 
 	/**
@@ -138,7 +124,7 @@ class SlotService {
 	 * @param {null|string} status
 	 */
 	disable(slotName, status = null) {
-		setState(slotName, false, status);
+		this.setState(slotName, false, status);
 	}
 
 	/**
@@ -150,6 +136,28 @@ class SlotService {
 		// Comparing with false in order to get truthy value for slot
 		// that wasn't disabled or enabled (in case when state is undefined)
 		return slotStates[slotName] !== false;
+	}
+
+	setState(slotName, state, status = null) {
+		const slot = this.get(slotName);
+
+		slotStates[slotName] = state;
+		slotStatuses[slotName] = status;
+
+		// After slot is created context should be read-only
+		if (slot) {
+			slot.setStatus(status);
+			if (state) {
+				slot.enable();
+			} else {
+				slot.disable();
+			}
+		} else if (state) {
+			context.set(`slots.${slotName}.disabled`, false);
+		} else {
+			context.set(`slots.${slotName}.disabled`, true);
+		}
+		logger(groupName, 'set state', slotName, state);
 	}
 
 	/**

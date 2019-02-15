@@ -16,6 +16,8 @@ export class AdSlot extends EventEmitter {
 	static STATUS_COLLAPSE = 'collapse';
 	static STATUS_ERROR = 'error';
 
+	static AD_CLASS = 'gpt-ad';
+
 	/**
 	 * Returns true if slot is ATF
 	 *
@@ -53,6 +55,11 @@ export class AdSlot extends EventEmitter {
 		this.onLoadPromise = new Promise((resolve) => {
 			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
+
+		this.addAdClass();
+		if (!this.enabled) {
+			slotTweaker.hide(this);
+		}
 
 		this.logger = (...args) => logger(AdSlot.LOG_GROUP, ...args);
 	}
@@ -159,6 +166,7 @@ export class AdSlot extends EventEmitter {
 	disable(status = null) {
 		this.enabled = false;
 		this.setStatus(status);
+		slotTweaker.hide(this);
 	}
 
 	getConfigProperty(key) {
@@ -233,5 +241,16 @@ export class AdSlot extends EventEmitter {
 		this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
 
 		slotDataParamsUpdater.updateOnRenderEnd(this);
+	}
+
+	/**
+	 * Appends gpt-ad class to adSlot node.
+	 */
+	addAdClass() {
+		const container = this.getElement();
+
+		if (container) {
+			container.classList.add(AdSlot.AD_CLASS);
+		}
 	}
 }
