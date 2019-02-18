@@ -21,12 +21,17 @@ export class Apstag {
 
 	/**
 	 * @private
+	 * @type {boolean}
+	 */
+	renderImpHookPresent = false;
+
+	/**
+	 * @private
 	 */
 	constructor() {
 		this.utils = utils;
 		this.insertScript();
 		this.configure();
-		this.addRenderImpHooks();
 	}
 
 	/**
@@ -44,20 +49,6 @@ export class Apstag {
 	/**
 	 * @private
 	 */
-	async addRenderImpHooks() {
-		await this.script;
-		const original = window.apstag.renderImp;
-
-		window.apstag.renderImp = (doc, impId) => {
-			original(doc, impId);
-			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
-		};
-	}
-
-	/**
-	 * @private
-	 */
-	// TODO May not be necessary - try to remove.
 	configure() {
 		window.apstag = window.apstag || {};
 		window.apstag._Q = window.apstag._Q || [];
@@ -80,8 +71,7 @@ export class Apstag {
 		window.apstag._Q.push([command, args]);
 	}
 
-	async init(apsConfig) {
-		await this.script;
+	init(apsConfig) {
 		window.apstag.init(apsConfig);
 	}
 
@@ -90,27 +80,19 @@ export class Apstag {
 	 * @param {function(object)} cb Callback receiving current bids
 	 * @returns {!Promise} If `cb` has been omitted
 	 */
-	async fetchBids(bidsConfig, cb = null) {
-		await this.script;
-
-		return this.utils.getPromiseAndExecuteCallback((resolve) => {
-			window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
-		}, cb);
+	fetchBids(bidsConfig, cb = null) {
+		window.apstag.fetchBids(bidsConfig, (currentBids) => cb(currentBids));
 	}
 
-	async targetingKeys() {
-		await this.script;
-
+	targetingKeys() {
 		return window.apstag.targetingKeys();
 	}
 
-	async enableDebug() {
-		await this.script;
+	enableDebug() {
 		window.apstag.debug('enable');
 	}
 
-	async disableDebug() {
-		await this.script;
+	disableDebug() {
 		window.apstag.debug('disable');
 	}
 
@@ -122,6 +104,21 @@ export class Apstag {
 		if (typeof callback !== 'function') {
 			throw new Error('onRenderImpEnd used with callback not being a function');
 		}
+		if (!this.renderImpHookPresent) {
+			this.addRenderImpHook();
+		}
 		this.renderImpEndCallbacks.push(callback);
+	}
+
+	/**
+	 * @private
+	 */
+	addRenderImpHook() {
+		const original = window.apstag.renderImp;
+
+		window.apstag.renderImp = (doc, impId) => {
+			original(doc, impId);
+			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
+		};
 	}
 }

@@ -116,24 +116,24 @@ export class A9 extends BaseBidder {
 	 * @param {A9SlotDefinition[]} slots
 	 * @param {boolean} refresh
 	 */
-	async fetchBids(slots, refresh = false) {
+	fetchBids(slots, refresh = false) {
 		utils.logger(logGroup, 'fetching bids for slots', slots);
-		const currentBids = await this.apstag.fetchBids({ slots, timeout: this.timeout });
+		this.apstag.fetchBids({ slots, timeout: this.timeout }, (currentBids) => {
+			utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
+			this.addApstagRenderImpHookOnFirstFetch();
 
-		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
-		this.addApstagRenderImpHookOnFirstFetch();
+			currentBids.forEach((bid) => {
+				const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
+				const { keys, bidTargeting } = this.getBidTargetingWithKeys(bid);
 
-		currentBids.forEach(async (bid) => {
-			const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
-			const { keys, bidTargeting } = await this.getBidTargetingWithKeys(bid);
+				this.updateBidSlot(slotName, keys, bidTargeting);
+			});
 
-			this.updateBidSlot(slotName, keys, bidTargeting);
+			this.onBidResponse();
+			if (refresh) {
+				this.events.emit(this.events.BIDS_REFRESH);
+			}
 		});
-
-		this.onBidResponse();
-		if (refresh) {
-			this.events.emit(this.events.BIDS_REFRESH);
-		}
 	}
 
 	/**
@@ -244,17 +244,18 @@ export class A9 extends BaseBidder {
 	 * @param bid
 	 * @returns {*}
 	 */
-	async getBidTargetingWithKeys(bid) {
+	getBidTargetingWithKeys(bid) {
+		let bidTargeting = bid;
+		let keys = this.apstag.targetingKeys();
+
 		if (this.bidderConfig.dealsEnabled) {
-			return {
-				keys: await bid.helpers.targetingKeys,
-				bidTargeting: bid.targeting,
-			};
+			keys = bid.helpers.targetingKeys;
+			bidTargeting = bid.targeting;
 		}
 
 		return {
-			keys: await this.apstag.targetingKeys(),
-			bidTargeting: bid,
+			keys,
+			bidTargeting,
 		};
 	}
 
@@ -276,13 +277,12 @@ export class A9 extends BaseBidder {
 
 	/**
 	 * @protected
-	 * @returns {Promise<void>}
 	 */
-	async callBids() {
+	callBids() {
 		if (this.cmp.exists) {
-			const consentData = await this.cmp.getConsentData(null);
-
-			this.init(consentData);
+			this.cmp.getConsentData(null, (consentData) => {
+				this.init(consentData);
+			});
 		} else {
 			this.init();
 		}

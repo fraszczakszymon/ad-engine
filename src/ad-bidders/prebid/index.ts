@@ -257,4 +257,11 @@ export class Prebid extends BaseBidder {
 			bidsBackHandler,
 		});
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	calculatePrices() {
+		return null;
+	}
 }

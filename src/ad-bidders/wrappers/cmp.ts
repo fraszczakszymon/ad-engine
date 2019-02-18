@@ -1,5 +1,3 @@
-import { utils } from '@wikia/ad-engine';
-
 export class Cmp {
 	get exists() {
 		return !!window.__cmp;
@@ -8,12 +6,9 @@ export class Cmp {
 	/**
 	 * @param {*=} param
 	 * @param {function(object)} cb Callback receiving current bids
-	 * @returns {!Promise} If `cb` has been omitted
 	 */
-	getConsentData(param, cb = null) {
-		return utils.getPromiseAndExecuteCallback((resolve) => {
-			window.__cmp('getConsentData', param, (consentData) => resolve(consentData));
-		}, cb);
+	getConsentData(param, cb) {
+		window.__cmp('getConsentData', param, (consentData) => cb(consentData));
 	}
 
 	override(newCmp) {
