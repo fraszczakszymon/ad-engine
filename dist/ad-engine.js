@@ -5954,9 +5954,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v23.14.0');
 
-set_default()(window, commitField, '7b3908c5');
+set_default()(window, commitField, 'e1313929');
 
-logger('ad-engine', 'v23.14.0 (7b3908c5)');
+logger('ad-engine', 'v23.14.0 (e1313929)');
 
 
 

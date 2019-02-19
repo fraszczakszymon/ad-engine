@@ -180,10 +180,15 @@ export class A9 extends BaseBidder {
 	 */
 	overwriteRenderImp() {
 		utils.logger(logGroup, 'overwriting window.apstag.renderImp');
-		window.apstag.renderImp = ((original) => (doc, impId) => {
-			original(doc, impId);
+		window.apstag.renderImp = ((original) => (...options) => {
+			original(...options);
 
-			const slot = this.getRenderedSlot(impId);
+			if (!options[1]) {
+				utils.logger(logGroup, 'apstag.renderImp() called with 1 argument only');
+
+				return;
+			}
+			const slot = this.getRenderedSlot(options[1]);
 			const slotName = slot.getSlotName();
 
 			utils.logger(logGroup, `bid used for slot ${slotName}`);

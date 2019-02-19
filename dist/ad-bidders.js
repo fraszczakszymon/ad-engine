@@ -591,10 +591,15 @@ function (_BaseBidder) {
       ad_engine_["utils"].logger(logGroup, 'overwriting window.apstag.renderImp');
 
       window.apstag.renderImp = function (original) {
-        return function (doc, impId) {
-          original(doc, impId);
+        return function () {
+          original.apply(void 0, arguments);
 
-          var slot = _this6.getRenderedSlot(impId);
+          if (!(arguments.length <= 1 ? undefined : arguments[1])) {
+            ad_engine_["utils"].logger(logGroup, 'apstag.renderImp() called with 1 argument only');
+            return;
+          }
+
+          var slot = _this6.getRenderedSlot(arguments.length <= 1 ? undefined : arguments[1]);
 
           var slotName = slot.getSlotName();
           ad_engine_["utils"].logger(logGroup, "bid used for slot ".concat(slotName));
