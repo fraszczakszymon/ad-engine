@@ -4309,11 +4309,11 @@ function (_EventEmitter) {
 
   }, {
     key: "addClass",
-    value: function addClass(cls) {
+    value: function addClass(className) {
       var container = this.getElement();
 
       if (container) {
-        container.classList.add(cls);
+        container.classList.add(className);
         return true;
       }
 
@@ -5957,9 +5957,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v23.14.0');
 
-set_default()(window, commitField, 'a221c831');
+set_default()(window, commitField, '109762e5');
 
-logger('ad-engine', 'v23.14.0 (a221c831)');
+logger('ad-engine', 'v23.14.0 (109762e5)');
 
 
 
