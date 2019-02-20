@@ -4072,7 +4072,7 @@ function (_EventEmitter) {
       _this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
     });
 
-    _this.addAdClass();
+    _this.addClass(AdSlot.AD_CLASS);
 
     if (!_this.enabled) {
       slotTweaker.hide(assertThisInitialized_default()(assertThisInitialized_default()(_this)));
@@ -4308,13 +4308,16 @@ function (_EventEmitter) {
      */
 
   }, {
-    key: "addAdClass",
-    value: function addAdClass() {
+    key: "addClass",
+    value: function addClass(cls) {
       var container = this.getElement();
 
       if (container) {
-        container.classList.add(AdSlot.AD_CLASS);
+        container.classList.add(cls);
+        return true;
       }
+
+      return false;
     }
   }, {
     key: "targeting",
@@ -5954,9 +5957,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v23.14.0');
 
-set_default()(window, commitField, 'e1313929');
+set_default()(window, commitField, 'a221c831');
 
-logger('ad-engine', 'v23.14.0 (e1313929)');
+logger('ad-engine', 'v23.14.0 (a221c831)');
 
 
 

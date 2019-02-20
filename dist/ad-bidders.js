@@ -602,6 +602,7 @@ function (_BaseBidder) {
           var slot = _this6.getRenderedSlot(arguments.length <= 1 ? undefined : arguments[1]);
 
           var slotName = slot.getSlotName();
+          slot.addClass(A9.A9_CLASS);
           ad_engine_["utils"].logger(logGroup, "bid used for slot ".concat(slotName));
           delete _this6.bids[_this6.getSlotAlias(slotName)];
 
@@ -732,6 +733,7 @@ function (_BaseBidder) {
 
   return A9;
 }(base_bidder_BaseBidder);
+a9_A9.A9_CLASS = 'a9-ad';
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
 var get_own_property_descriptor_ = __webpack_require__(13);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
