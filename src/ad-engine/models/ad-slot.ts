@@ -56,7 +56,7 @@ export class AdSlot extends EventEmitter {
 			this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 		});
 
-		this.addAdClass();
+		this.addClass(AdSlot.AD_CLASS);
 		if (!this.enabled) {
 			slotTweaker.hide(this);
 		}
@@ -246,11 +246,15 @@ export class AdSlot extends EventEmitter {
 	/**
 	 * Appends gpt-ad class to adSlot node.
 	 */
-	addAdClass() {
+	addClass(cls: string): boolean {
 		const container = this.getElement();
 
 		if (container) {
-			container.classList.add(AdSlot.AD_CLASS);
+			container.classList.add(cls);
+
+			return true;
 		}
+
+		return false;
 	}
 }
