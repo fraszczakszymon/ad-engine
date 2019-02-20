@@ -146,13 +146,13 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/keys");
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/core-js/symbol");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/symbol");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 14 */
@@ -595,7 +595,7 @@ var slicedToArray_ = __webpack_require__(28);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
-var symbol_ = __webpack_require__(13);
+var symbol_ = __webpack_require__(12);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "lodash/isFunction"
@@ -839,7 +839,7 @@ stickiness_Stickiness.SLOT_STICKY_READY_STATE = 'sticky-ready';
 stickiness_Stickiness.SLOT_UNSTICK_IMMEDIATELY = 'force-unstick';
 stickiness_Stickiness.SLOT_STICKINESS_DISABLED = 'stickiness-disabled';
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(12);
+var toConsumableArray_ = __webpack_require__(13);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
@@ -1897,7 +1897,7 @@ function () {
         }
       });
       this.handleSlotStatus(video);
-      ad_engine_["events"].once(ad_engine_["events"].PAGE_CHANGE_EVENT, function () {
+      ad_engine_["eventService"].once(ad_engine_["events"].PAGE_CHANGE_EVENT, function () {
         video.destroy();
       });
       setup(video, template, {
@@ -5197,7 +5197,7 @@ function () {
       document.documentElement.classList.add('stop-scrolling');
       ad_engine_["slotTweaker"].adjustIframeByContentSize(this.adSlot);
       ad_engine_["utils"].logger(Interstitial.getName(), 'init');
-      ad_engine_["events"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
+      ad_engine_["eventService"].once(ad_engine_["events"].BEFORE_PAGE_CHANGE_EVENT, function () {
         document.documentElement.classList.remove('stop-scrolling');
       });
     }
@@ -5224,7 +5224,10 @@ var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_
 
 // CONCATENATED MODULE: ./src/ad-products/tracking/video/player-event-emitter.ts
 
-ad_engine_["events"].registerEvent('VIDEO_PLAYER_TRACKING_EVENT');
+
+var events = {
+  VIDEO_PLAYER_TRACKING_EVENT: symbol_default()('VIDEO_PLAYER_TRACKING_EVENT')
+};
 /* harmony default export */ var player_event_emitter = ({
   /**
    * Emit single event
@@ -5240,7 +5243,7 @@ ad_engine_["events"].registerEvent('VIDEO_PLAYER_TRACKING_EVENT');
       return;
     }
 
-    ad_engine_["events"].emit(ad_engine_["events"].VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
+    ad_engine_["eventService"].emit(events.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
   }
 });
 // CONCATENATED MODULE: ./src/ad-products/tracking/video/video-event-data-provider.ts
@@ -5331,13 +5334,20 @@ function () {
 
     classCallCheck_default()(this, JWPlayerTracker);
 
-    this.adProduct = params.adProduct || null;
-    this.audio = params.audio || false;
+    this.adProduct = void 0;
+    this.audio = false;
     this.contentType = null;
     this.creativeId = null;
-    this.ctp = params.ctp || false;
+    this.ctp = false;
     this.isCtpAudioUpdateEnabled = true;
     this.lineItemId = null;
+    this.slotName = void 0;
+    this.userBlockAutoplay = null;
+    this.videoId = null;
+    this.playerInstance = void 0;
+    this.adProduct = params.adProduct || null;
+    this.audio = params.audio || false;
+    this.ctp = params.ctp || false;
     this.slotName = params.slotName;
     this.userBlockAutoplay = params.userBlockAutoplay || null;
     this.videoId = params.videoId || null;
@@ -5600,6 +5610,7 @@ function () {
 }();
 var twitchTracker = new twitch_tracker_TwitchTracker();
 // CONCATENATED MODULE: ./src/ad-products/tracking/index.ts
+
 
 
 
@@ -5913,7 +5924,7 @@ function create(options) {
         imaAd: event.ima && event.ima.ad
       });
       ad_engine_["vastDebugger"].setVastAttributesFromVastParams(videoContainer, 'success', vastParams);
-      ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_REQUESTED, slot);
+      ad_engine_["eventService"].emit(ad_engine_["events"].VIDEO_AD_REQUESTED, slot);
     });
     player.on('adImpression', function (event) {
       var vastParams = ad_engine_["vastParser"].parse(event.tag, {
@@ -5921,7 +5932,7 @@ function create(options) {
       });
       updateSlotParams(slot, vastParams);
       slot.setStatus(ad_engine_["AdSlot"].STATUS_SUCCESS);
-      ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot);
+      ad_engine_["eventService"].emit(ad_engine_["events"].VIDEO_AD_IMPRESSION, slot);
     });
     player.on('adError', function (event) {
       var vastParams = ad_engine_["vastParser"].parse(event.tag, {
@@ -5944,7 +5955,7 @@ function create(options) {
         slot.setStatus(ad_engine_["AdSlot"].STATUS_ERROR);
       }
 
-      ad_engine_["events"].emit(ad_engine_["events"].VIDEO_AD_ERROR, slot);
+      ad_engine_["eventService"].emit(ad_engine_["events"].VIDEO_AD_ERROR, slot);
     });
 
     if (ad_engine_["context"].get('options.wad.hmdRec.enabled')) {
@@ -6001,17 +6012,18 @@ var jwplayerAdsFactory = {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Skin", function() { return skin_Skin; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyAd", function() { return sticky_ad_StickyAd; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "StickyTLB", function() { return sticky_tlb_StickyTLB; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "universalAdPackage", function() { return universalAdPackage; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "resolvedState", function() { return resolvedState; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdAbove", function() { return big_fancy_ad_above_BigFancyAdAbove; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdBelow", function() { return big_fancy_ad_below_BigFancyAdBelow; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BigFancyAdInPlayer", function() { return big_fancy_ad_in_player_BigFancyAdInPlayer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Roadblock", function() { return roadblock_Roadblock; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "universalAdPackage", function() { return universalAdPackage; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FloorAdhesion", function() { return floor_adhesion_FloorAdhesion; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "Interstitial", function() { return interstitial_Interstitial; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DEFAULT_VIDEO_ASPECT_RATIO", function() { return DEFAULT_VIDEO_ASPECT_RATIO; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "playerEvents", function() { return events; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "JWPlayerTracker", function() { return jwplayer_tracker_JWPlayerTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "porvataTracker", function() { return porvataTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchTracker", function() { return twitch_tracker_TwitchTracker; });

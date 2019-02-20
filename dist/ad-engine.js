@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 33);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,13 +110,17 @@ module.exports = require("@babel/runtime-corejs2/core-js/symbol");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
 module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+=======
+module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
+>>>>>>> ADEN-8407 Refactor EventService.
 
 /***/ }),
 /* 8 */
@@ -182,100 +186,94 @@ module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized")
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/typeof");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/get");
+module.exports = require("@babel/runtime-corejs2/helpers/asyncToGenerator");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/asyncToGenerator");
+module.exports = require("@babel/runtime-corejs2/core-js/date/now");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("current-device");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/date/now");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-names");
+module.exports = require("@babel/runtime-corejs2/helpers/construct");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("@babel/runtime-corejs2/helpers/get");
 
 /***/ }),
 /* 27 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/construct");
+module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 
 /***/ }),
 /* 28 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/helpers/typeof");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
 module.exports = require("lodash/get");
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -292,8 +290,12 @@ __webpack_require__.d(utils_namespaceObject, "VISIBILITY_STATUS", function() { r
 __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", function() { return getDocumentVisibilityStatus; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
+<<<<<<< HEAD
 __webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
 __webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
+=======
+__webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
+>>>>>>> 397c1d50... ts-cleanup Refactor EventService.
 __webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
 __webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
@@ -324,11 +326,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(26);
+var set_ = __webpack_require__(23);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(33);
+var get_ = __webpack_require__(32);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -340,11 +342,11 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(25);
+var external_current_device_ = __webpack_require__(22);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(32);
+var external_blockadblock_ = __webpack_require__(31);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
@@ -649,11 +651,15 @@ function getDocumentVisibilityStatus() {
   return status;
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
+<<<<<<< HEAD
 var assign_ = __webpack_require__(8);
+=======
+var assign_ = __webpack_require__(6);
+>>>>>>> ADEN-8407 Refactor EventService.
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
-var typeof_ = __webpack_require__(18);
+var typeof_ = __webpack_require__(30);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/promise"
@@ -691,7 +697,7 @@ var flow_control_defer = function defer(fn) {
     }, 0);
   });
 };
-function flow_control_once(emitter, eventName) {
+function once(emitter, eventName) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var isObject = typeof_default()(emitter) === 'object';
   var hasAddEventListener = isObject && typeof emitter.addEventListener === 'function';
@@ -744,7 +750,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(31);
+var parse_float_ = __webpack_require__(29);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
@@ -752,7 +758,7 @@ var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(20);
+var external_js_cookie_ = __webpack_require__(18);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.ts
@@ -1517,7 +1523,7 @@ var possibleConstructorReturn_ = __webpack_require__(15);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(6);
+var getPrototypeOf_ = __webpack_require__(7);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
@@ -1529,7 +1535,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(30);
+var wrapNativeSuper_ = __webpack_require__(28);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1689,11 +1695,11 @@ var toConsumableArray_ = __webpack_require__(9);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(29);
+var values_ = __webpack_require__(27);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(22);
+var external_eventemitter3_ = __webpack_require__(20);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
@@ -1865,6 +1871,7 @@ function configure() {
     tag.enableSingleRequest();
   }
 
+<<<<<<< HEAD
   tag.disableInitialLoad();
   tag.addEventListener('slotOnload', function (event) {
     slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
@@ -1874,6 +1881,409 @@ function configure() {
     // Let's launch our callback in a setTimeout instead.
     flow_control_defer(function () {
       return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
+=======
+  if (options.numberOfAds !== undefined) {
+    params.push("pmad=".concat(options.numberOfAds));
+  }
+
+  params.push("npa=".concat(trackingOptIn.isOptedIn() ? 0 : 1));
+  return baseUrl + params.join('&');
+}
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
+// Fixes for MOAT script incompatibility
+var eventMapping = {};
+var listeners = [];
+var moatapi = {}; // MOAT CODE START
+
+/* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
+// eslint-disable-next-line
+
+function initMoatTracking(a, f, c) {
+  if (!1 === f.hasOwnProperty("partnerCode")) return !1;
+  var g = document.createElement("script");
+  c = c || a && ("undefined" !== typeof a.O ? a.O.parentNode : document.body) || document.body;
+  listeners = [];
+  moatapi = {
+    adsManager: a,
+    ids: f,
+    imaSDK: !0,
+    events: []
+  };
+  eventMapping = {
+    complete: "AdVideoComplete",
+    firstquartile: "AdVideoFirstQuartile",
+    impression: "AdImpression",
+    loaded: "AdLoaded",
+    midpoint: "AdVideoMidpoint",
+    pause: "AdPaused",
+    skip: "AdSkipped",
+    start: "AdVideoStart",
+    thirdquartile: "AdVideoThirdQuartile",
+    volumeChange: "AdVolumeChange"
+  };
+
+  if (google && google.ima && a) {
+    var d = "_moatApi" + Math.floor(1E8 * Math.random()),
+        h;
+
+    for (h in google.ima.AdEvent.Type) {
+      var l = function l(b) {
+        if (moatapi.sendEvent) {
+          for (b = listeners.length - 1; 0 <= b; b--) {
+            a.removeEventListener(listeners[b].type, listeners[b].func);
+          }
+
+          moatapi.sendEvent(moatapi.events);
+        } else moatapi.events.push({
+          type: eventMapping[b.type] || b.type,
+          adVolume: a.getVolume()
+        });
+      };
+
+      a.addEventListener(google.ima.AdEvent.Type[h], l);
+      listeners.push({
+        type: google.ima.AdEvent.Type[h],
+        func: l
+      });
+    }
+  }
+
+  var d = "undefined" !== typeof d ? d : "",
+      e,
+      k;
+
+  try {
+    e = c.ownerDocument, k = e.defaultView || e.parentWindow;
+  } catch (m) {
+    e = document, k = window;
+  }
+
+  k[d] = moatapi;
+  g.type = "text/javascript";
+  c && c.appendChild(g);
+  g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
+}
+; // MOAT CODE END
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.ts
+
+
+
+
+
+var logGroup = 'moat-video-tracker';
+
+var moat_video_tracker_MoatVideoTracker =
+/*#__PURE__*/
+function () {
+  function MoatVideoTracker() {
+    classCallCheck_default()(this, MoatVideoTracker);
+  }
+
+  createClass_default()(MoatVideoTracker, [{
+    key: "init",
+    value: function init(adsManager, container, viewMode, slicer1, slicer2) {
+      var ids = {
+        partnerCode: context.get('options.video.moatTracking.partnerCode'),
+        viewMode: viewMode,
+        slicer1: slicer1,
+        slicer2: slicer2
+      };
+
+      try {
+        initMoatTracking(adsManager, ids, container);
+        logger(logGroup, 'MOAT video tracking initialized');
+      } catch (error) {
+        logger(logGroup, 'MOAT video tracking initalization error', error);
+      }
+    }
+  }]);
+
+  return MoatVideoTracker;
+}();
+
+var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-setup.ts
+
+
+
+var google_ima_setup_logGroup = 'google-ima-setup';
+
+function getOverriddenVast() {
+  if (query_string_queryString.get('porvata_override_vast') === '1') {
+    var vastXML = window.localStorage.getItem('porvata_vast');
+    logger(google_ima_setup_logGroup, 'Overridden VAST', vastXML);
+    return vastXML;
+  }
+
+  return null;
+}
+
+function createRequest(params) {
+  var adSlot = slotService.get(params.slotName);
+  var adsRequest = new window.google.ima.AdsRequest();
+  var overriddenVast = getOverriddenVast();
+
+  if (params.vastResponse || overriddenVast) {
+    adsRequest.adsResponse = overriddenVast || params.vastResponse;
+  } // DEPRECATED: options.porvata.audio.segment
+
+
+  var segment = context.get('options.porvata.audio.segment');
+
+  if (segment) {
+    adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
+  }
+
+  adSlot.setConfigProperty('autoplay', params.autoPlay);
+  adSlot.setConfigProperty('audio', !params.autoPlay);
+  adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
+  adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
+  adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
+    targeting: params.vastTargeting
+  });
+  adsRequest.linearAdSlotWidth = params.width;
+  adsRequest.linearAdSlotHeight = params.height;
+  return adsRequest;
+}
+
+function getRenderingSettings() {
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var adsRenderingSettings = new window.google.ima.AdsRenderingSettings();
+  var maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
+
+  if (!context.get('state.isMobile')) {
+    adsRenderingSettings.bitrate = maximumRecommendedBitrate;
+  }
+
+  adsRenderingSettings.loadVideoTimeout = params.loadVideoTimeout || 15000;
+  adsRenderingSettings.enablePreloading = true;
+  adsRenderingSettings.uiElements = [];
+  return adsRenderingSettings;
+}
+
+var googleImaSetup = {
+  createRequest: createRequest,
+  getRenderingSettings: getRenderingSettings
+};
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-player-factory.ts
+
+
+
+
+
+
+function getVideoElement() {
+  var videoElement = document.createElement('video');
+  videoElement.setAttribute('preload', 'none');
+  return videoElement;
+}
+
+var google_ima_player_factory_GoogleImaPlayer =
+/*#__PURE__*/
+function () {
+  function GoogleImaPlayer(adDisplayContainer, adsLoader, params) {
+    classCallCheck_default()(this, GoogleImaPlayer);
+
+    this.isAdsManagerLoaded = false;
+    this.status = '';
+    this.adDisplayContainer = adDisplayContainer;
+    this.adsLoader = adsLoader;
+    this.adsManager = null;
+    this.params = params;
+    this.videoAd = params.container.querySelector('video');
+    this.eventListeners = {};
+    this.vastUrl = '';
+  }
+
+  createClass_default()(GoogleImaPlayer, [{
+    key: "setVastUrl",
+    value: function setVastUrl(vastUrl) {
+      this.vastUrl = vastUrl;
+    }
+  }, {
+    key: "setAdsManager",
+    value: function setAdsManager(adsManager) {
+      this.adsManager = adsManager;
+      this.isAdsManagerLoaded = true;
+    }
+  }, {
+    key: "addEventListener",
+    value: function addEventListener(eventName, callback) {
+      var _this = this;
+
+      if (eventName.indexOf('wikia') !== -1) {
+        this.eventListeners[eventName] = this.eventListeners[eventName] || [];
+        this.eventListeners[eventName].push(callback);
+        return;
+      }
+
+      if (this.isAdsManagerLoaded) {
+        this.adsManager.addEventListener(eventName, callback);
+      } else {
+        this.adsLoader.addEventListener('adsManagerLoaded', function () {
+          _this.adsManager.addEventListener(eventName, callback);
+        });
+      }
+    }
+  }, {
+    key: "setVastAttributes",
+    value: function setVastAttributes(status) {
+      var currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd();
+      var playerElement = this.params.container.querySelector('.video-player');
+      vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
+    }
+  }, {
+    key: "setAutoPlay",
+    value: function setAutoPlay(value) {
+      if (this.videoAd) {
+        this.videoAd.autoplay = value;
+        this.videoAd.muted = value;
+      }
+
+      this.params.autoPlay = value;
+    }
+  }, {
+    key: "playVideo",
+    value: function playVideo(width, height) {
+      var _this2 = this;
+
+      var callback = function callback() {
+        _this2.dispatchEvent('wikiaAdPlayTriggered'); // https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize
+
+
+        _this2.adDisplayContainer.initialize();
+
+        _this2.adsManager.init(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
+
+        _this2.adsManager.start();
+
+        _this2.adsLoader.removeEventListener('adsManagerLoaded', callback);
+      };
+
+      if (this.isAdsManagerLoaded) {
+        callback();
+      } else {
+        // When adsManager is not loaded yet video can't start without click on mobile
+        // Muted auto play is workaround to run video on adsManagerLoaded event
+        this.setAutoPlay(true);
+        this.adsLoader.addEventListener('adsManagerLoaded', callback, false);
+      }
+    }
+  }, {
+    key: "reload",
+    value: function reload() {
+      var adRequest = googleImaSetup.createRequest(this.params);
+      this.adsManager.destroy();
+      this.adsLoader.contentComplete();
+      this.setVastUrl(adRequest.adTagUrl);
+      this.adsLoader.requestAds(adRequest);
+    }
+  }, {
+    key: "resize",
+    value: function resize(width, height) {
+      var isFullscreen = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var viewMode = window.google.ima.ViewMode;
+
+      if (this.adsManager) {
+        this.adsManager.resize(Math.round(width), Math.round(height), isFullscreen ? viewMode.FULLSCREEN : viewMode.NORMAL);
+      }
+    }
+  }, {
+    key: "dispatchEvent",
+    value: function dispatchEvent(eventName) {
+      if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
+        this.eventListeners[eventName].forEach(function (callback) {
+          callback({});
+        });
+      }
+    }
+  }, {
+    key: "setStatus",
+    value: function setStatus(newStatus) {
+      var _this3 = this;
+
+      return function () {
+        _this3.status = newStatus;
+      };
+    }
+  }, {
+    key: "getStatus",
+    value: function getStatus() {
+      return this.status;
+    }
+  }, {
+    key: "getAdsManager",
+    value: function getAdsManager() {
+      return this.adsManager;
+    }
+  }]);
+
+  return GoogleImaPlayer;
+}();
+
+var googleImaPlayerFactory = {
+  create: function create(adDisplayContainer, adsLoader, videoSettings) {
+    var adRequest = googleImaSetup.createRequest(videoSettings.getParams());
+    var player = new google_ima_player_factory_GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams());
+    var videoElement = getVideoElement();
+
+    if (player.videoAd) {
+      player.videoAd.classList.add('porvata-video');
+      videoSettings.getContainer().classList.add('porvata');
+    }
+
+    adsLoader.addEventListener('adsManagerLoaded', function (adsManagerLoadedEvent) {
+      var renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
+      var adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
+      player.setAdsManager(adsManager);
+
+      if (videoSettings.isMoatTrackingEnabled()) {
+        moatVideoTracker.init(adsManager, videoSettings.getContainer(), window.google.ima.ViewMode.NORMAL, videoSettings.get('src'), "".concat(videoSettings.get('adProduct'), "/").concat(videoSettings.get('slotName')));
+      }
+
+      player.dispatchEvent('wikiaAdsManagerLoaded');
+      adsManager.addEventListener('loaded', function () {
+        return player.setVastAttributes('success');
+      });
+      adsManager.addEventListener('adError', function () {
+        return player.setVastAttributes('error');
+      });
+    }, false);
+    adsLoader.addEventListener('adError', function (event) {
+      var emptyVastErrorCode = window.google.ima.AdError.ErrorCode.VAST_EMPTY_RESPONSE;
+
+      if (typeof event.getError === 'function' && event.getError().getErrorCode() === emptyVastErrorCode) {
+        player.dispatchEvent('wikiaEmptyAd');
+      }
+
+      player.setVastAttributes('error');
+    });
+    player.setVastUrl(adRequest.adTagUrl);
+    adsLoader.requestAds(adRequest);
+
+    if (videoSettings.get('autoPlay')) {
+      player.setAutoPlay(true);
+    }
+
+    player.addEventListener('resume', player.setStatus('playing'));
+    player.addEventListener('start', player.setStatus('playing'));
+    player.addEventListener('pause', player.setStatus('paused'));
+    player.addEventListener('wikiaAdStop', player.setStatus('stopped'));
+    player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
+    return player;
+  }
+};
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima.ts
+
+
+
+var imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
+
+function load() {
+  if (window.google && window.google.ima) {
+    return new promise_default.a(function (resolve) {
+      resolve();
+>>>>>>> ADEN-8407 Refactor EventService.
     });
   });
   tag.addEventListener('impressionViewable', function (event) {
@@ -2264,8 +2674,14 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'];
 var baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?';
 var correlator = Math.round(Math.random() * 10000000000);
 
+<<<<<<< HEAD
 function getCustomParameters(slot) {
   var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+=======
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
+var asyncToGenerator_ = __webpack_require__(19);
+var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
+>>>>>>> ADEN-8407 Refactor EventService.
 
   var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
@@ -2820,10 +3236,43 @@ function () {
 
   return VideoSettings;
 }();
+<<<<<<< HEAD
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/porvata.ts
+=======
+porvata_listener_PorvataListener.EVENTS = {
+  adCanPlay: 'ad_can_play',
+  complete: 'completed',
+  click: 'clicked',
+  firstquartile: 'first_quartile',
+  impression: 'impression',
+  loaded: 'loaded',
+  midpoint: 'midpoint',
+  pause: 'paused',
+  resume: 'resumed',
+  start: 'started',
+  thirdquartile: 'third_quartile',
+  viewable_impression: 'viewable_impression',
+  adError: 'error',
+  wikiaAdPlayTriggered: 'play_triggered',
+  wikiaAdStop: 'closed',
+  wikiaAdMute: 'mute',
+  wikiaAdUnmute: 'unmute',
+  wikiaInViewportWithOffer: 'in_viewport_with_offer',
+  wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
+};
+porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
+porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
+var helpers_get_ = __webpack_require__(26);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
+>>>>>>> ADEN-8407 Refactor EventService.
 
 
+<<<<<<< HEAD
 
+=======
+// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
+>>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -2882,6 +3331,7 @@ function () {
   function PorvataPlayer(ima, params, videoSettings) {
     var _this = this;
 
+<<<<<<< HEAD
     classCallCheck_default()(this, PorvataPlayer);
 
     this.ima = ima;
@@ -3257,6 +3707,54 @@ function () {
 }();
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/index.ts
 
+=======
+var groupName = 'eventService';
+var events = {
+  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
+  AD_STACK_START: symbol_default()('AD_STACK_START'),
+  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
+  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
+  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
+  // video events should happen in the order below
+  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
+  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
+  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
+  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
+  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
+  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
+};
+
+var events_EventService =
+/*#__PURE__*/
+function (_EventEmitter$EventEm) {
+  inherits_default()(EventService, _EventEmitter$EventEm);
+
+  function EventService() {
+    classCallCheck_default()(this, EventService);
+
+    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
+  }
+
+  createClass_default()(EventService, [{
+    key: "emit",
+    value: function emit(event) {
+      var _get2;
+
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      logger.apply(void 0, [groupName, 'emit', event].concat(args));
+      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
+    }
+  }]);
+
+  return EventService;
+}(external_eventemitter3_["EventEmitter"]);
+
+var eventService = new events_EventService();
+// CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.ts
+>>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -3321,10 +3819,17 @@ function () {
     value: function dispatch(eventName) {
       var _this2 = this;
 
+<<<<<<< HEAD
       var data = this.getData(eventName);
       this.logger(eventName, data);
       this.listeners.forEach(function (listener) {
         listener.onEvent(eventName, _this2.params, data);
+=======
+      var id = getUniqueId();
+      callbacks[id] = callback;
+      eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+        return _this2.removeCallback(id);
+>>>>>>> ADEN-8407 Refactor EventService.
       });
 
       if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
@@ -3362,6 +3867,31 @@ twitch_listener_TwitchListener.LOG_GROUP = 'twitch-listener';
 twitch_listener_TwitchListener.PLAYER_NAME = 'twitch';
 // CONCATENATED MODULE: ./src/ad-engine/video/player/twitch/embed/twitch-embed.ts
 
+<<<<<<< HEAD
+=======
+var scrollListener = new scroll_listener_ScrollListener();
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
+var is_array_ = __webpack_require__(25);
+var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
+
+// CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
+
+
+
+
+
+
+var slot_listener_logGroup = 'slot-listener';
+var slot_listener_listeners = null;
+
+function getIframe(adSlot) {
+  return adSlot.getElement().querySelector('div[id*="_container_"] iframe');
+}
+
+function getAdType(event, adSlot) {
+  var iframe = getIframe(adSlot);
+  var isIframeAccessible = false;
+>>>>>>> ADEN-8407 Refactor EventService.
 
 var twitchLibraryUrl = '//player.twitch.tv/js/embed/v1.js';
 
@@ -3631,6 +4161,20 @@ var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.ts
 
+<<<<<<< HEAD
+=======
+  eventService.on(events.PAGE_CHANGE_EVENT, function () {
+    setTargetingFromContext();
+  });
+  setTargetingFromContext();
+  context.onChange('targeting', function (trigger, value) {
+    var segments = trigger.split('.');
+    var key = segments[segments.length - 1];
+    setTargetingValue(key, value);
+  });
+}
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
+>>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -3734,11 +4278,30 @@ function (_EventEmitter) {
         throw new Error("You can't listen for an event which is not registered yet.");
       }
 
+<<<<<<< HEAD
       for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
         args[_key6 - 1] = arguments[_key6];
       }
 
       (_get3 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "on", this)).call.apply(_get3, [this, event].concat(args));
+=======
+      setupGptTargeting();
+      configure();
+      this.setupNonPersonalizedAds();
+      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+        return _this2.destroySlots();
+      });
+      eventService.on(events.PAGE_RENDER_EVENT, function () {
+        return _this2.updateCorrelator();
+      });
+      initialized = true;
+    }
+  }, {
+    key: "setupNonPersonalizedAds",
+    value: function setupNonPersonalizedAds() {
+      var tag = window.googletag.pubads();
+      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
+>>>>>>> ADEN-8407 Refactor EventService.
     }
   }, {
     key: "addListener",
@@ -4705,8 +5268,12 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
   return distance < viewportHeight;
 }
 
+<<<<<<< HEAD
 events.on(events.PAGE_CHANGE_EVENT, function () {
   slotEvents = {};
+=======
+eventService.on(events.PAGE_CHANGE_EVENT, function () {
+>>>>>>> 397c1d50... ts-cleanup Refactor EventService.
   slotStates = {};
   slotStatuses = {};
 });
@@ -4738,6 +5305,7 @@ function () {
       }
 
       slotTweaker.addDefaultClasses(adSlot);
+<<<<<<< HEAD
       events.emit(events.AD_SLOT_CREATED, adSlot);
 
       if (slotEvents[slotName]) {
@@ -4749,6 +5317,9 @@ function () {
       }
 
       adSlot.events.flush();
+=======
+      eventService.emit(events.AD_SLOT_CREATED, adSlot);
+>>>>>>> 397c1d50... ts-cleanup Refactor EventService.
     }
     /**
      * Removes slot from register
@@ -4995,7 +5566,7 @@ function () {
           }
         }
       });
-      events.on(events.PAGE_CHANGE_EVENT, function () {
+      eventService.on(events.PAGE_CHANGE_EVENT, function () {
         _this2.resetState();
       });
     }
@@ -5155,7 +5726,7 @@ function registerCustomAdLoader(methodName) {
   };
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
-var now_ = __webpack_require__(23);
+var now_ = __webpack_require__(21);
 var now_default = /*#__PURE__*/__webpack_require__.n(now_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
@@ -5681,7 +6252,7 @@ function updateInViewport(listener) {
   }
 }
 
-function viewport_observer_addListener(element, callback) {
+function addListener(element, callback) {
   var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var listener = {
     element: element,
@@ -5706,7 +6277,7 @@ function removeListener(listenerId) {
 }
 
 var viewportObserver = {
-  addListener: viewport_observer_addListener,
+  addListener: addListener,
   removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/ad-engine/utils/index.ts
@@ -5728,7 +6299,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/construct"
-var construct_ = __webpack_require__(27);
+var construct_ = __webpack_require__(24);
 var construct_default = /*#__PURE__*/__webpack_require__.n(construct_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.ts
@@ -5835,7 +6406,7 @@ function () {
     window.ads = window.ads || {};
     window.ads.runtime = window.ads.runtime || {};
     templateService.register(floating_ad_FloatingAd);
-    events.on(events.PAGE_CHANGE_EVENT, function () {
+    eventService.on(events.PAGE_CHANGE_EVENT, function () {
       _this.started = false;
 
       _this.setupAdStack();
@@ -5978,7 +6549,7 @@ function () {
     key: "startAdStack",
     value: function startAdStack() {
       if (!this.started) {
-        events.emit(events.AD_STACK_START);
+        eventService.emit(events.AD_STACK_START);
         this.started = true;
         this.adStack.start();
       }
@@ -6003,6 +6574,7 @@ function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "registerCustomAdLoader", function() { return registerCustomAdLoader; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "events", function() { return events; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "eventService", function() { return eventService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
@@ -6036,9 +6608,21 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.1.0');
 
+<<<<<<< HEAD
 set_default()(window, commitField, '529ff8a3');
 
 logger('ad-engine', 'v24.1.0 (529ff8a3)');
+=======
+<<<<<<< HEAD
+set_default()(window, commitField, '86bd5fef');
+
+logger('ad-engine', 'v24.0.1 (86bd5fef)');
+=======
+set_default()(window, commitField, '770cdf81');
+
+logger('ad-engine', 'v23.14.0 (770cdf81)');
+>>>>>>> 397c1d50... ts-cleanup Refactor EventService.
+>>>>>>> ADEN-8407 Refactor EventService.
 
 
 
