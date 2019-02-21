@@ -40,10 +40,10 @@ class VastParser {
 
 			const wrapperAdSystems = imaAd.getWrapperAdSystems() || [];
 
-            if (wrapperAdSystems && wrapperAdSystems.indexOf('AdSense/AdX') !== -1) {
-                adInfo.lineItemId = ADX;
-                adInfo.creativeId = ADX;
-            }
+			if (wrapperAdSystems && wrapperAdSystems.indexOf('AdSense/AdX') !== -1) {
+				adInfo.lineItemId = ADX;
+				adInfo.creativeId = ADX;
+			}
 		}
 
 		return adInfo;
