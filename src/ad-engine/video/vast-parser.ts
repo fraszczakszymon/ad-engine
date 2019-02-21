@@ -1,4 +1,5 @@
 import { queryString } from '../utils';
+import { ADX } from '../providers';
 
 class VastParser {
 	/**
@@ -9,7 +10,7 @@ class VastParser {
 		let value = '';
 
 		for (i = 0; i < possibleValues.length; i += 1) {
-			if (!isNaN(possibleValues[i])) {
+			if (possibleValues[i] && Number.isInteger(possibleValues[i])) {
 				value = possibleValues[i];
 			}
 		}
@@ -36,6 +37,13 @@ class VastParser {
 			if (wrapperCreativeIds && wrapperCreativeIds.length) {
 				adInfo.creativeId = this.getLastNumber(wrapperCreativeIds);
 			}
+
+			const wrapperAdSystems = imaAd.getWrapperAdSystems() || [];
+
+            if (wrapperAdSystems && wrapperAdSystems.indexOf('AdSense/AdX') !== -1) {
+                adInfo.lineItemId = ADX;
+                adInfo.creativeId = ADX;
+            }
 		}
 
 		return adInfo;
