@@ -116,8 +116,9 @@ export class Apstag {
 	addRenderImpHook() {
 		const original = window.apstag.renderImp;
 
-		window.apstag.renderImp = (doc, impId) => {
-			original(doc, impId);
+		window.apstag.renderImp = (...options) => {
+			original(...options);
+			const [doc, impId] = options;
 			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
 		};
 	}

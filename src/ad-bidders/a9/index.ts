@@ -1,4 +1,4 @@
-import { context, events, slotService, utils } from '@wikia/ad-engine';
+import { AdSlot, context, events, slotService, utils } from '@wikia/ad-engine';
 import { Apstag, cmp } from '../wrappers';
 import { BaseBidder } from '../base-bidder';
 
@@ -11,6 +11,8 @@ const logGroup = 'A9';
  */
 
 export class A9 extends BaseBidder {
+	static A9_CLASS = 'a9-ad';
+
 	/** @private */
 	loaded = false;
 
@@ -154,9 +156,15 @@ export class A9 extends BaseBidder {
 	addApstagRenderImpHook() {
 		utils.logger(logGroup, 'overwriting window.apstag.renderImp');
 		this.apstag.onRenderImpEnd((doc, impId) => {
+			if (!impId) {
+				utils.logger(logGroup, 'apstag.renderImp() called with 1 argument only');
+				return;
+			}
+
 			const slot = this.getRenderedSlot(impId);
 			const slotName = slot.getSlotName();
 
+			slot.addClass(A9.A9_CLASS);
 			utils.logger(logGroup, `bid used for slot ${slotName}`);
 			delete this.bids[this.getSlotAlias(slotName)];
 
@@ -169,10 +177,8 @@ export class A9 extends BaseBidder {
 	/**
 	 * Returns slot which used bid with given impression id.
 	 * @private
-	 * @param {string | number} impId
-	 * @returns {AdSlot | undefined }
 	 */
-	getRenderedSlot(impId) {
+	getRenderedSlot(impId: string | number): AdSlot {
 		let renderedSlot;
 
 		slotService.forEach((slot) => {
