@@ -5982,7 +5982,7 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v23.14.1');
+set_default()(window, versionField, 'v23.14.2');
 
 set_default()(window, commitField, '00cc0879');
 
