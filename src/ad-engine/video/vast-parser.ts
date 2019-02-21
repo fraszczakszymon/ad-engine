@@ -10,7 +10,7 @@ class VastParser {
 		let value = '';
 
 		for (i = 0; i < possibleValues.length; i += 1) {
-			if (possibleValues[i] && Number.isInteger(possibleValues[i])) {
+			if (possibleValues[i] && Number.isInteger(parseInt(possibleValues[i]))) {
 				value = possibleValues[i];
 			}
 		}

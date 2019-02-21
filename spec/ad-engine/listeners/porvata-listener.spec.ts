@@ -34,6 +34,7 @@ function mockImaVideo() {
 							},
 							getWrapperAdIds() {},
 							getWrapperCreativeIds() {},
+							getWrapperAdSystems() {},
 						};
 					},
 				};
