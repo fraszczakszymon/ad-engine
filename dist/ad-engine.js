@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -128,7 +128,7 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 10 */
@@ -248,40 +248,34 @@ module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/number/is-integer");
+module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
 module.exports = require("lodash/get");
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -334,7 +328,7 @@ var set_ = __webpack_require__(26);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(34);
+var get_ = __webpack_require__(33);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -350,7 +344,7 @@ var external_current_device_ = __webpack_require__(25);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(33);
+var external_blockadblock_ = __webpack_require__(32);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
@@ -750,7 +744,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(32);
+var parse_float_ = __webpack_require__(31);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
@@ -1535,7 +1529,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(31);
+var wrapNativeSuper_ = __webpack_require__(30);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1691,31 +1685,27 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(8);
+var toConsumableArray_ = __webpack_require__(9);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(30);
+var values_ = __webpack_require__(29);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "eventemitter3"
 var external_eventemitter3_ = __webpack_require__(22);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/number/is-integer"
-var is_integer_ = __webpack_require__(29);
-var is_integer_default = /*#__PURE__*/__webpack_require__.n(is_integer_);
-
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(12);
+var get_own_property_descriptor_ = __webpack_require__(13);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(11);
+var applyDecoratedDescriptor_ = __webpack_require__(12);
 var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(10);
+var external_core_decorators_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
 
@@ -2142,7 +2132,6 @@ function () {
 
 
 
-
 var vast_parser_VastParser =
 /*#__PURE__*/
 function () {
@@ -2161,7 +2150,7 @@ function () {
       var value = '';
 
       for (i = 0; i < possibleValues.length; i += 1) {
-        if (possibleValues[i] && is_integer_default()(parse_int_default()(possibleValues[i]))) {
+        if (!isNaN(parse_int_default()(possibleValues[i]))) {
           value = possibleValues[i];
         }
       }
@@ -3272,7 +3261,7 @@ function () {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/regenerator"
-var regenerator_ = __webpack_require__(15);
+var regenerator_ = __webpack_require__(16);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
@@ -6045,11 +6034,11 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v24.0.1');
+set_default()(window, versionField, 'v24.1.0');
 
-set_default()(window, commitField, 'e33c6441');
+set_default()(window, commitField, '529ff8a3');
 
-logger('ad-engine', 'v24.0.0 (e33c6441)');
+logger('ad-engine', 'v24.1.0 (529ff8a3)');
 
 
 
