@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -116,13 +116,13 @@ module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 9 */
@@ -248,34 +248,40 @@ module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/core-js/number/is-integer");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -328,7 +334,7 @@ var set_ = __webpack_require__(26);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(33);
+var get_ = __webpack_require__(34);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -344,7 +350,7 @@ var external_current_device_ = __webpack_require__(25);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(32);
+var external_blockadblock_ = __webpack_require__(33);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
@@ -649,7 +655,7 @@ function getDocumentVisibilityStatus() {
   return status;
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(7);
+var assign_ = __webpack_require__(8);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
@@ -744,7 +750,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(31);
+var parse_float_ = __webpack_require__(32);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
@@ -1433,7 +1439,7 @@ function () {
   return LazyQueue;
 }();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(9);
+var parse_int_ = __webpack_require__(7);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.ts
@@ -1529,7 +1535,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(30);
+var wrapNativeSuper_ = __webpack_require__(31);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1689,14 +1695,450 @@ var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(29);
+var values_ = __webpack_require__(30);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "eventemitter3"
 var external_eventemitter3_ = __webpack_require__(22);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/number/is-integer"
+var is_integer_ = __webpack_require__(29);
+var is_integer_default = /*#__PURE__*/__webpack_require__.n(is_integer_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
+var get_own_property_descriptor_ = __webpack_require__(12);
+var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
+var applyDecoratedDescriptor_ = __webpack_require__(11);
+var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
+
+// EXTERNAL MODULE: external "core-decorators"
+var external_core_decorators_ = __webpack_require__(10);
+
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
+
+
+
+
+var logGroup = 'gpt-size-map';
+var gpt_size_map_GptSizeMap =
+/*#__PURE__*/
+function () {
+  function GptSizeMap(sizeMap) {
+    classCallCheck_default()(this, GptSizeMap);
+
+    this.sizeMap = sizeMap || [];
+    logger(logGroup, this.sizeMap, 'creating new size map');
+  }
+
+  createClass_default()(GptSizeMap, [{
+    key: "addSize",
+    value: function addSize(viewportSize, sizes) {
+      logger(logGroup, viewportSize, sizes, 'adding new size mapping');
+      this.sizeMap.push({
+        viewportSize: viewportSize,
+        sizes: sizes
+      });
+    }
+  }, {
+    key: "build",
+    value: function build() {
+      logger(logGroup, this.sizeMap, 'creating GPT size mapping builder');
+      var builder = window.googletag && window.googletag.sizeMapping();
+
+      if (!builder) {
+        logger(logGroup, 'cannot create GPT size mapping builder');
+        return null;
+      }
+
+      this.sizeMap.forEach(function (_ref) {
+        var viewportSize = _ref.viewportSize,
+            sizes = _ref.sizes;
+        builder.addSize(viewportSize, sizes);
+      });
+      return builder.build();
+    }
+  }, {
+    key: "isEmpty",
+    value: function isEmpty() {
+      return !this.sizeMap.length;
+    }
+  }, {
+    key: "mapAllSizes",
+    value: function mapAllSizes(callback) {
+      return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
+        var viewportSize = _ref2.viewportSize,
+            sizes = _ref2.sizes;
+        var mappedSizes = callback(sizes, viewportSize, index);
+        logger(logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
+        return {
+          viewportSize: viewportSize,
+          sizes: mappedSizes
+        };
+      }));
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      logger(logGroup, this.sizeMap, 'casting to string');
+      var map = {};
+      this.sizeMap.forEach(function (_ref3) {
+        var viewportSize = _ref3.viewportSize,
+            sizes = _ref3.sizes;
+        map[viewportSize.join('x')] = sizes;
+      });
+      return stringify_default()(map);
+    }
+  }]);
+
+  return GptSizeMap;
+}();
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.ts
+
+
+function setupGptTargeting() {
+  var tag = window.googletag.pubads();
+  var targeting = context.get('targeting');
+
+  function setTargetingValue(key, value) {
+    if (typeof value === 'undefined' || value === null) {
+      tag.clearTargeting(key);
+    } else if (typeof value === 'function') {
+      tag.setTargeting(key, value());
+    } else {
+      tag.setTargeting(key, value);
+    }
+  }
+
+  function setTargetingFromContext() {
+    keys_default()(targeting).forEach(function (key) {
+      setTargetingValue(key, targeting[key]);
+    });
+  }
+
+  events.on(events.PAGE_CHANGE_EVENT, function () {
+    setTargetingFromContext();
+  });
+  setTargetingFromContext();
+  context.onChange('targeting', function (trigger, value) {
+    var segments = trigger.split('.');
+    var key = segments[segments.length - 1];
+    setTargetingValue(key, value);
+  });
+}
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
+
+
+
+
+
+
+var _dec, _dec2, _dec3, _dec4, _class;
+
+
+
+
+
+
+
+var gpt_provider_logGroup = 'gpt-provider';
+var ADX = 'AdX';
+
+function postponeExecutionUntilGptLoads(method) {
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return window.googletag.cmd.push(function () {
+      return method.apply(_this, args);
+    });
+  };
+}
+
+var definedSlots = [];
+var initialized = false;
+
+function getAdSlotFromEvent(event) {
+  var id = event.slot.getSlotElementId();
+  return slotService.get(id);
+}
+
+function configure() {
+  var tag = window.googletag.pubads();
+
+  if (!context.get('options.isSraDisabled')) {
+    tag.enableSingleRequest();
+  }
+
+  tag.disableInitialLoad();
+  tag.addEventListener('slotOnload', function (event) {
+    slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
+  });
+  tag.addEventListener('slotRenderEnded', function (event) {
+    // IE doesn't allow us to inspect GPT iframe at this point.
+    // Let's launch our callback in a setTimeout instead.
+    flow_control_defer(function () {
+      return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
+    });
+  });
+  tag.addEventListener('impressionViewable', function (event) {
+    slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
+  });
+  window.googletag.enableServices();
+}
+
+var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec4 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), (_class =
+/*#__PURE__*/
+function () {
+  function GptProvider() {
+    var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    classCallCheck_default()(this, GptProvider);
+
+    window.googletag = window.googletag || {};
+    window.googletag.cmd = window.googletag.cmd || [];
+    this.init(forceInit);
+  }
+
+  createClass_default()(GptProvider, [{
+    key: "isInitialized",
+    value: function isInitialized() {
+      return initialized;
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      if (this.isInitialized()) {
+        return;
+      }
+
+      setupGptTargeting();
+      configure();
+      this.setupNonPersonalizedAds();
+      events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+        return _this2.destroySlots();
+      });
+      events.on(events.PAGE_RENDER_EVENT, function () {
+        return _this2.updateCorrelator();
+      });
+      initialized = true;
+    }
+  }, {
+    key: "setupNonPersonalizedAds",
+    value: function setupNonPersonalizedAds() {
+      var tag = window.googletag.pubads();
+      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
+    }
+  }, {
+    key: "fillIn",
+    value: function fillIn(adSlot) {
+      var _this3 = this;
+
+      var adStack = context.get('state.adStack');
+      btfBlockerService.push(adSlot, function () {
+        _this3.fillInCallback.apply(_this3, arguments);
+      });
+
+      if (adStack.length === 0) {
+        this.flush();
+      }
+    }
+    /** @private */
+
+  }, {
+    key: "fillInCallback",
+    value: function fillInCallback(adSlot) {
+      var targeting = this.parseTargetingParams(adSlot.getTargeting());
+      var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
+      var gptSlot = this.createGptSlot(adSlot, sizeMap);
+      gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
+      this.applyTargetingParams(gptSlot, targeting);
+      slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+      adSlot.updateWinningPbBidderDetails();
+      window.googletag.display(adSlot.getSlotName());
+      definedSlots.push(gptSlot);
+
+      if (!adSlot.isFirstCall()) {
+        this.flush();
+      }
+
+      logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
+    }
+    /** @private */
+
+  }, {
+    key: "createGptSlot",
+    value: function createGptSlot(adSlot, sizeMap) {
+      if (adSlot.isOutOfPage()) {
+        return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+      }
+
+      return window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
+    }
+  }, {
+    key: "applyTargetingParams",
+    value: function applyTargetingParams(gptSlot, targeting) {
+      keys_default()(targeting).forEach(function (key) {
+        return gptSlot.setTargeting(key, targeting[key]);
+      });
+    }
+  }, {
+    key: "parseTargetingParams",
+    value: function parseTargetingParams(targetingParams) {
+      var result = {};
+
+      keys_default()(targetingParams).forEach(function (key) {
+        var value = targetingParams[key];
+
+        if (typeof value === 'function') {
+          value = value();
+        }
+
+        if (value !== null) {
+          result[key] = value;
+        }
+      });
+
+      return result;
+    }
+  }, {
+    key: "updateCorrelator",
+    value: function updateCorrelator() {
+      window.googletag.pubads().updateCorrelator();
+    }
+    /** @private */
+
+  }, {
+    key: "flush",
+    value: function flush() {
+      if (definedSlots.length) {
+        window.googletag.pubads().refresh(definedSlots, {
+          changeCorrelator: false
+        });
+        definedSlots = [];
+      }
+    }
+  }, {
+    key: "destroyGptSlots",
+    value: function destroyGptSlots(gptSlots) {
+      logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
+      gptSlots.forEach(function (gptSlot) {
+        var adSlot = slotService.get(gptSlot.getSlotElementId());
+        slotService.remove(adSlot);
+      });
+      var success = window.googletag.destroySlots(gptSlots);
+
+      if (!success) {
+        logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
+      }
+    }
+  }, {
+    key: "destroySlots",
+    value: function destroySlots(slotNames) {
+      var allSlots = window.googletag.pubads().getSlots();
+      var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
+        var slotId = slot.getSlotElementId();
+
+        if (!slotId) {
+          logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
+        } else if (slotNames.indexOf(slotId) > -1) {
+          return true;
+        }
+
+        return false;
+      }) : allSlots;
+
+      if (slotsToDestroy.length) {
+        this.destroyGptSlots(slotsToDestroy);
+      } else {
+        logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
+      }
+    }
+  }]);
+
+  return GptProvider;
+}(), (applyDecoratedDescriptor_default()(_class.prototype, "init", [_dec], get_own_property_descriptor_default()(_class.prototype, "init"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "fillIn", [_dec2], get_own_property_descriptor_default()(_class.prototype, "fillIn"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "updateCorrelator", [_dec3], get_own_property_descriptor_default()(_class.prototype, "updateCorrelator"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "destroyGptSlots", [_dec4], get_own_property_descriptor_default()(_class.prototype, "destroyGptSlots"), _class.prototype)), _class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/prebidium-provider.ts
+
+
+
+
+
+var prebidium_provider_dec, prebidium_provider_class, _temp;
+
+
+
+
+var prebidium_provider_logGroup = 'prebidium-provider'; // TODO: ADEN-8075
+//  Duplicate from ad-bidders/prebid/index.js
+//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
+
+function postponeExecutionUntilPbjsLoads(method) {
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return window.pbjs.que.push(function () {
+      return method.apply(_this, args);
+    });
+  };
+}
+
+var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (prebidium_provider_class = (_temp =
+/*#__PURE__*/
+function () {
+  function PrebidiumProvider() {
+    classCallCheck_default()(this, PrebidiumProvider);
+
+    this.iframeBuilder = new iframe_builder_IframeBuilder();
+  }
+
+  createClass_default()(PrebidiumProvider, [{
+    key: "fillIn",
+    value: function fillIn(adSlot) {
+      var doc = this.getIframeDoc(adSlot);
+      var adId = this.getAdId(adSlot);
+      window.pbjs.renderAd(doc, adId);
+      logger(prebidium_provider_logGroup, adSlot.getSlotName(), 'slot added');
+    }
+    /** @private */
+
+  }, {
+    key: "getIframeDoc",
+    value: function getIframeDoc(adSlot) {
+      var iframe = this.iframeBuilder.create(adSlot);
+      return iframe.contentWindow.document;
+    }
+    /** @private */
+
+  }, {
+    key: "getAdId",
+    value: function getAdId(adSlot) {
+      return context.get("slots.".concat(adSlot.getSlotName(), ".targeting.hb_adid"));
+    }
+  }]);
+
+  return PrebidiumProvider;
+}(), _temp), (applyDecoratedDescriptor_default()(prebidium_provider_class.prototype, "fillIn", [prebidium_provider_dec], get_own_property_descriptor_default()(prebidium_provider_class.prototype, "fillIn"), prebidium_provider_class.prototype)), prebidium_provider_class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/index.ts
+
+
+
+
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.ts
+
+
+
 
 
 
@@ -1719,7 +2161,7 @@ function () {
       var value = '';
 
       for (i = 0; i < possibleValues.length; i += 1) {
-        if (!isNaN(possibleValues[i])) {
+        if (possibleValues[i] && is_integer_default()(parse_int_default()(possibleValues[i]))) {
           value = possibleValues[i];
         }
       }
@@ -1745,6 +2187,13 @@ function () {
 
         if (wrapperCreativeIds && wrapperCreativeIds.length) {
           adInfo.creativeId = this.getLastNumber(wrapperCreativeIds);
+        }
+
+        var wrapperAdSystems = imaAd.getWrapperAdSystems() || [];
+
+        if (wrapperAdSystems && wrapperAdSystems.indexOf('AdSense/AdX') !== -1) {
+          adInfo.lineItemId = ADX;
+          adInfo.creativeId = ADX;
         }
       }
 
@@ -1965,7 +2414,7 @@ function initMoatTracking(a, f, c) {
 
 
 
-var logGroup = 'moat-video-tracker';
+var moat_video_tracker_logGroup = 'moat-video-tracker';
 
 var moat_video_tracker_MoatVideoTracker =
 /*#__PURE__*/
@@ -1986,9 +2435,9 @@ function () {
 
       try {
         initMoatTracking(adsManager, ids, container);
-        logger(logGroup, 'MOAT video tracking initialized');
+        logger(moat_video_tracker_logGroup, 'MOAT video tracking initialized');
       } catch (error) {
-        logger(logGroup, 'MOAT video tracking initalization error', error);
+        logger(moat_video_tracker_logGroup, 'MOAT video tracking initalization error', error);
       }
     }
   }]);
@@ -2823,7 +3272,7 @@ function () {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/regenerator"
-var regenerator_ = __webpack_require__(16);
+var regenerator_ = __webpack_require__(15);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
@@ -3604,435 +4053,6 @@ function () {
 
 var slotListener = new slot_listener_SlotListener();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/index.ts
-
-
-
-
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(13);
-var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
-
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(12);
-var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
-
-// EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(11);
-
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
-
-
-
-
-var gpt_size_map_logGroup = 'gpt-size-map';
-var gpt_size_map_GptSizeMap =
-/*#__PURE__*/
-function () {
-  function GptSizeMap(sizeMap) {
-    classCallCheck_default()(this, GptSizeMap);
-
-    this.sizeMap = sizeMap || [];
-    logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
-  }
-
-  createClass_default()(GptSizeMap, [{
-    key: "addSize",
-    value: function addSize(viewportSize, sizes) {
-      logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
-      this.sizeMap.push({
-        viewportSize: viewportSize,
-        sizes: sizes
-      });
-    }
-  }, {
-    key: "build",
-    value: function build() {
-      logger(gpt_size_map_logGroup, this.sizeMap, 'creating GPT size mapping builder');
-      var builder = window.googletag && window.googletag.sizeMapping();
-
-      if (!builder) {
-        logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
-        return null;
-      }
-
-      this.sizeMap.forEach(function (_ref) {
-        var viewportSize = _ref.viewportSize,
-            sizes = _ref.sizes;
-        builder.addSize(viewportSize, sizes);
-      });
-      return builder.build();
-    }
-  }, {
-    key: "isEmpty",
-    value: function isEmpty() {
-      return !this.sizeMap.length;
-    }
-  }, {
-    key: "mapAllSizes",
-    value: function mapAllSizes(callback) {
-      return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
-        var viewportSize = _ref2.viewportSize,
-            sizes = _ref2.sizes;
-        var mappedSizes = callback(sizes, viewportSize, index);
-        logger(gpt_size_map_logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
-        return {
-          viewportSize: viewportSize,
-          sizes: mappedSizes
-        };
-      }));
-    }
-  }, {
-    key: "toString",
-    value: function toString() {
-      logger(gpt_size_map_logGroup, this.sizeMap, 'casting to string');
-      var map = {};
-      this.sizeMap.forEach(function (_ref3) {
-        var viewportSize = _ref3.viewportSize,
-            sizes = _ref3.sizes;
-        map[viewportSize.join('x')] = sizes;
-      });
-      return stringify_default()(map);
-    }
-  }]);
-
-  return GptSizeMap;
-}();
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.ts
-
-
-function setupGptTargeting() {
-  var tag = window.googletag.pubads();
-  var targeting = context.get('targeting');
-
-  function setTargetingValue(key, value) {
-    if (typeof value === 'undefined' || value === null) {
-      tag.clearTargeting(key);
-    } else if (typeof value === 'function') {
-      tag.setTargeting(key, value());
-    } else {
-      tag.setTargeting(key, value);
-    }
-  }
-
-  function setTargetingFromContext() {
-    keys_default()(targeting).forEach(function (key) {
-      setTargetingValue(key, targeting[key]);
-    });
-  }
-
-  events.on(events.PAGE_CHANGE_EVENT, function () {
-    setTargetingFromContext();
-  });
-  setTargetingFromContext();
-  context.onChange('targeting', function (trigger, value) {
-    var segments = trigger.split('.');
-    var key = segments[segments.length - 1];
-    setTargetingValue(key, value);
-  });
-}
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
-
-
-
-
-
-
-var _dec, _dec2, _dec3, _dec4, _class;
-
-
-
-
-
-
-
-var gpt_provider_logGroup = 'gpt-provider';
-var ADX = 'AdX';
-
-function postponeExecutionUntilGptLoads(method) {
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return window.googletag.cmd.push(function () {
-      return method.apply(_this, args);
-    });
-  };
-}
-
-var definedSlots = [];
-var initialized = false;
-
-function getAdSlotFromEvent(event) {
-  var id = event.slot.getSlotElementId();
-  return slotService.get(id);
-}
-
-function configure() {
-  var tag = window.googletag.pubads();
-
-  if (!context.get('options.isSraDisabled')) {
-    tag.enableSingleRequest();
-  }
-
-  tag.disableInitialLoad();
-  tag.addEventListener('slotOnload', function (event) {
-    slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
-  });
-  tag.addEventListener('slotRenderEnded', function (event) {
-    // IE doesn't allow us to inspect GPT iframe at this point.
-    // Let's launch our callback in a setTimeout instead.
-    flow_control_defer(function () {
-      return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
-    });
-  });
-  tag.addEventListener('impressionViewable', function (event) {
-    slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
-  });
-  window.googletag.enableServices();
-}
-
-var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec4 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), (_class =
-/*#__PURE__*/
-function () {
-  function GptProvider() {
-    var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    classCallCheck_default()(this, GptProvider);
-
-    window.googletag = window.googletag || {};
-    window.googletag.cmd = window.googletag.cmd || [];
-    this.init(forceInit);
-  }
-
-  createClass_default()(GptProvider, [{
-    key: "isInitialized",
-    value: function isInitialized() {
-      return initialized;
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      if (this.isInitialized()) {
-        return;
-      }
-
-      setupGptTargeting();
-      configure();
-      this.setupNonPersonalizedAds();
-      events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-        return _this2.destroySlots();
-      });
-      events.on(events.PAGE_RENDER_EVENT, function () {
-        return _this2.updateCorrelator();
-      });
-      initialized = true;
-    }
-  }, {
-    key: "setupNonPersonalizedAds",
-    value: function setupNonPersonalizedAds() {
-      var tag = window.googletag.pubads();
-      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
-    }
-  }, {
-    key: "fillIn",
-    value: function fillIn(adSlot) {
-      var _this3 = this;
-
-      var adStack = context.get('state.adStack');
-      btfBlockerService.push(adSlot, function () {
-        _this3.fillInCallback.apply(_this3, arguments);
-      });
-
-      if (adStack.length === 0) {
-        this.flush();
-      }
-    }
-    /** @private */
-
-  }, {
-    key: "fillInCallback",
-    value: function fillInCallback(adSlot) {
-      var targeting = this.parseTargetingParams(adSlot.getTargeting());
-      var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
-      var gptSlot = this.createGptSlot(adSlot, sizeMap);
-      gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
-      this.applyTargetingParams(gptSlot, targeting);
-      slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-      adSlot.updateWinningPbBidderDetails();
-      window.googletag.display(adSlot.getSlotName());
-      definedSlots.push(gptSlot);
-
-      if (!adSlot.isFirstCall()) {
-        this.flush();
-      }
-
-      logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
-    }
-    /** @private */
-
-  }, {
-    key: "createGptSlot",
-    value: function createGptSlot(adSlot, sizeMap) {
-      if (adSlot.isOutOfPage()) {
-        return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-      }
-
-      return window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
-    }
-  }, {
-    key: "applyTargetingParams",
-    value: function applyTargetingParams(gptSlot, targeting) {
-      keys_default()(targeting).forEach(function (key) {
-        return gptSlot.setTargeting(key, targeting[key]);
-      });
-    }
-  }, {
-    key: "parseTargetingParams",
-    value: function parseTargetingParams(targetingParams) {
-      var result = {};
-
-      keys_default()(targetingParams).forEach(function (key) {
-        var value = targetingParams[key];
-
-        if (typeof value === 'function') {
-          value = value();
-        }
-
-        if (value !== null) {
-          result[key] = value;
-        }
-      });
-
-      return result;
-    }
-  }, {
-    key: "updateCorrelator",
-    value: function updateCorrelator() {
-      window.googletag.pubads().updateCorrelator();
-    }
-    /** @private */
-
-  }, {
-    key: "flush",
-    value: function flush() {
-      if (definedSlots.length) {
-        window.googletag.pubads().refresh(definedSlots, {
-          changeCorrelator: false
-        });
-        definedSlots = [];
-      }
-    }
-  }, {
-    key: "destroyGptSlots",
-    value: function destroyGptSlots(gptSlots) {
-      logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
-      gptSlots.forEach(function (gptSlot) {
-        var adSlot = slotService.get(gptSlot.getSlotElementId());
-        slotService.remove(adSlot);
-      });
-      var success = window.googletag.destroySlots(gptSlots);
-
-      if (!success) {
-        logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
-      }
-    }
-  }, {
-    key: "destroySlots",
-    value: function destroySlots(slotNames) {
-      var allSlots = window.googletag.pubads().getSlots();
-      var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
-        var slotId = slot.getSlotElementId();
-
-        if (!slotId) {
-          logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
-        } else if (slotNames.indexOf(slotId) > -1) {
-          return true;
-        }
-
-        return false;
-      }) : allSlots;
-
-      if (slotsToDestroy.length) {
-        this.destroyGptSlots(slotsToDestroy);
-      } else {
-        logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
-      }
-    }
-  }]);
-
-  return GptProvider;
-}(), (applyDecoratedDescriptor_default()(_class.prototype, "init", [_dec], get_own_property_descriptor_default()(_class.prototype, "init"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "fillIn", [_dec2], get_own_property_descriptor_default()(_class.prototype, "fillIn"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "updateCorrelator", [_dec3], get_own_property_descriptor_default()(_class.prototype, "updateCorrelator"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "destroyGptSlots", [_dec4], get_own_property_descriptor_default()(_class.prototype, "destroyGptSlots"), _class.prototype)), _class));
-// CONCATENATED MODULE: ./src/ad-engine/providers/prebidium-provider.ts
-
-
-
-
-
-var prebidium_provider_dec, prebidium_provider_class, _temp;
-
-
-
-
-var prebidium_provider_logGroup = 'prebidium-provider'; // TODO: ADEN-8075
-//  Duplicate from ad-bidders/prebid/index.js
-//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
-
-function postponeExecutionUntilPbjsLoads(method) {
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return window.pbjs.que.push(function () {
-      return method.apply(_this, args);
-    });
-  };
-}
-
-var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (prebidium_provider_class = (_temp =
-/*#__PURE__*/
-function () {
-  function PrebidiumProvider() {
-    classCallCheck_default()(this, PrebidiumProvider);
-
-    this.iframeBuilder = new iframe_builder_IframeBuilder();
-  }
-
-  createClass_default()(PrebidiumProvider, [{
-    key: "fillIn",
-    value: function fillIn(adSlot) {
-      var doc = this.getIframeDoc(adSlot);
-      var adId = this.getAdId(adSlot);
-      window.pbjs.renderAd(doc, adId);
-      logger(prebidium_provider_logGroup, adSlot.getSlotName(), 'slot added');
-    }
-    /** @private */
-
-  }, {
-    key: "getIframeDoc",
-    value: function getIframeDoc(adSlot) {
-      var iframe = this.iframeBuilder.create(adSlot);
-      return iframe.contentWindow.document;
-    }
-    /** @private */
-
-  }, {
-    key: "getAdId",
-    value: function getAdId(adSlot) {
-      return context.get("slots.".concat(adSlot.getSlotName(), ".targeting.hb_adid"));
-    }
-  }]);
-
-  return PrebidiumProvider;
-}(), _temp), (applyDecoratedDescriptor_default()(prebidium_provider_class.prototype, "fillIn", [prebidium_provider_dec], get_own_property_descriptor_default()(prebidium_provider_class.prototype, "fillIn"), prebidium_provider_class.prototype)), prebidium_provider_class));
-// CONCATENATED MODULE: ./src/ad-engine/providers/index.ts
 
 
 
@@ -6027,9 +6047,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.0.1');
 
-set_default()(window, commitField, '1cb6a0a6');
+set_default()(window, commitField, 'e33c6441');
 
-logger('ad-engine', 'v24.0.1 (1cb6a0a6)');
+logger('ad-engine', 'v24.0.0 (e33c6441)');
 
 
 
