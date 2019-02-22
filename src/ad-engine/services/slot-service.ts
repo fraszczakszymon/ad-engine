@@ -31,12 +31,8 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 	return distance < viewportHeight;
 }
 
-<<<<<<< HEAD
-events.on(events.PAGE_CHANGE_EVENT, () => {
-	slotEvents = {};
-=======
 eventService.on(events.PAGE_CHANGE_EVENT, () => {
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
+	slotEvents = {};
 	slotStates = {};
 	slotStatuses = {};
 });
@@ -59,17 +55,13 @@ class SlotService {
 		}
 
 		slotTweaker.addDefaultClasses(adSlot);
-<<<<<<< HEAD
-		events.emit(events.AD_SLOT_CREATED, adSlot);
+		eventService.emit(events.AD_SLOT_CREATED, adSlot);
 
 		if (slotEvents[slotName]) {
 			adSlot.events.push(...slotEvents[slotName]);
 			delete slotEvents[slotName];
 		}
 		adSlot.events.flush();
-=======
-		eventService.emit(events.AD_SLOT_CREATED, adSlot);
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
 	}
 
 	/**

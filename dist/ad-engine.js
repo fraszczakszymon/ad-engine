@@ -110,29 +110,25 @@ module.exports = require("@babel/runtime-corejs2/core-js/symbol");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-<<<<<<< HEAD
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
-=======
-module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
->>>>>>> ADEN-8407 Refactor EventService.
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
 
 /***/ }),
 /* 10 */
@@ -290,12 +286,8 @@ __webpack_require__.d(utils_namespaceObject, "VISIBILITY_STATUS", function() { r
 __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", function() { return getDocumentVisibilityStatus; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
-<<<<<<< HEAD
-__webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
-__webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
-=======
 __webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
+__webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
 __webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
 __webpack_require__.d(utils_namespaceObject, "getCountryCode", function() { return getCountryCode; });
@@ -651,11 +643,7 @@ function getDocumentVisibilityStatus() {
   return status;
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-<<<<<<< HEAD
-var assign_ = __webpack_require__(8);
-=======
-var assign_ = __webpack_require__(6);
->>>>>>> ADEN-8407 Refactor EventService.
+var assign_ = __webpack_require__(7);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
@@ -1439,7 +1427,7 @@ function () {
   return LazyQueue;
 }();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(7);
+var parse_int_ = __webpack_require__(6);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.ts
@@ -1523,7 +1511,7 @@ var possibleConstructorReturn_ = __webpack_require__(15);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(7);
+var getPrototypeOf_ = __webpack_require__(9);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
@@ -1691,7 +1679,7 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(9);
+var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
@@ -1814,7 +1802,7 @@ function setupGptTargeting() {
     });
   }
 
-  events.on(events.PAGE_CHANGE_EVENT, function () {
+  eventService.on(events.PAGE_CHANGE_EVENT, function () {
     setTargetingFromContext();
   });
   setTargetingFromContext();
@@ -1871,7 +1859,6 @@ function configure() {
     tag.enableSingleRequest();
   }
 
-<<<<<<< HEAD
   tag.disableInitialLoad();
   tag.addEventListener('slotOnload', function (event) {
     slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
@@ -1881,409 +1868,6 @@ function configure() {
     // Let's launch our callback in a setTimeout instead.
     flow_control_defer(function () {
       return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
-=======
-  if (options.numberOfAds !== undefined) {
-    params.push("pmad=".concat(options.numberOfAds));
-  }
-
-  params.push("npa=".concat(trackingOptIn.isOptedIn() ? 0 : 1));
-  return baseUrl + params.join('&');
-}
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
-// Fixes for MOAT script incompatibility
-var eventMapping = {};
-var listeners = [];
-var moatapi = {}; // MOAT CODE START
-
-/* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
-// eslint-disable-next-line
-
-function initMoatTracking(a, f, c) {
-  if (!1 === f.hasOwnProperty("partnerCode")) return !1;
-  var g = document.createElement("script");
-  c = c || a && ("undefined" !== typeof a.O ? a.O.parentNode : document.body) || document.body;
-  listeners = [];
-  moatapi = {
-    adsManager: a,
-    ids: f,
-    imaSDK: !0,
-    events: []
-  };
-  eventMapping = {
-    complete: "AdVideoComplete",
-    firstquartile: "AdVideoFirstQuartile",
-    impression: "AdImpression",
-    loaded: "AdLoaded",
-    midpoint: "AdVideoMidpoint",
-    pause: "AdPaused",
-    skip: "AdSkipped",
-    start: "AdVideoStart",
-    thirdquartile: "AdVideoThirdQuartile",
-    volumeChange: "AdVolumeChange"
-  };
-
-  if (google && google.ima && a) {
-    var d = "_moatApi" + Math.floor(1E8 * Math.random()),
-        h;
-
-    for (h in google.ima.AdEvent.Type) {
-      var l = function l(b) {
-        if (moatapi.sendEvent) {
-          for (b = listeners.length - 1; 0 <= b; b--) {
-            a.removeEventListener(listeners[b].type, listeners[b].func);
-          }
-
-          moatapi.sendEvent(moatapi.events);
-        } else moatapi.events.push({
-          type: eventMapping[b.type] || b.type,
-          adVolume: a.getVolume()
-        });
-      };
-
-      a.addEventListener(google.ima.AdEvent.Type[h], l);
-      listeners.push({
-        type: google.ima.AdEvent.Type[h],
-        func: l
-      });
-    }
-  }
-
-  var d = "undefined" !== typeof d ? d : "",
-      e,
-      k;
-
-  try {
-    e = c.ownerDocument, k = e.defaultView || e.parentWindow;
-  } catch (m) {
-    e = document, k = window;
-  }
-
-  k[d] = moatapi;
-  g.type = "text/javascript";
-  c && c.appendChild(g);
-  g.src = "https://z.moatads.com/" + f.partnerCode + "/moatvideo.js#" + d;
-}
-; // MOAT CODE END
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker.ts
-
-
-
-
-
-var logGroup = 'moat-video-tracker';
-
-var moat_video_tracker_MoatVideoTracker =
-/*#__PURE__*/
-function () {
-  function MoatVideoTracker() {
-    classCallCheck_default()(this, MoatVideoTracker);
-  }
-
-  createClass_default()(MoatVideoTracker, [{
-    key: "init",
-    value: function init(adsManager, container, viewMode, slicer1, slicer2) {
-      var ids = {
-        partnerCode: context.get('options.video.moatTracking.partnerCode'),
-        viewMode: viewMode,
-        slicer1: slicer1,
-        slicer2: slicer2
-      };
-
-      try {
-        initMoatTracking(adsManager, ids, container);
-        logger(logGroup, 'MOAT video tracking initialized');
-      } catch (error) {
-        logger(logGroup, 'MOAT video tracking initalization error', error);
-      }
-    }
-  }]);
-
-  return MoatVideoTracker;
-}();
-
-var moatVideoTracker = new moat_video_tracker_MoatVideoTracker();
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-setup.ts
-
-
-
-var google_ima_setup_logGroup = 'google-ima-setup';
-
-function getOverriddenVast() {
-  if (query_string_queryString.get('porvata_override_vast') === '1') {
-    var vastXML = window.localStorage.getItem('porvata_vast');
-    logger(google_ima_setup_logGroup, 'Overridden VAST', vastXML);
-    return vastXML;
-  }
-
-  return null;
-}
-
-function createRequest(params) {
-  var adSlot = slotService.get(params.slotName);
-  var adsRequest = new window.google.ima.AdsRequest();
-  var overriddenVast = getOverriddenVast();
-
-  if (params.vastResponse || overriddenVast) {
-    adsRequest.adsResponse = overriddenVast || params.vastResponse;
-  } // DEPRECATED: options.porvata.audio.segment
-
-
-  var segment = context.get('options.porvata.audio.segment');
-
-  if (segment) {
-    adSlot.setConfigProperty('audioSegment', params.autoPlay ? '' : segment);
-  }
-
-  adSlot.setConfigProperty('autoplay', params.autoPlay);
-  adSlot.setConfigProperty('audio', !params.autoPlay);
-  adSlot.setConfigProperty('targeting.autoplay', params.autoPlay ? 'yes' : 'no');
-  adSlot.setConfigProperty('targeting.audio', !params.autoPlay ? 'yes' : 'no');
-  adsRequest.adTagUrl = params.vastUrl || buildVastUrl(params.width / params.height, params.slotName, {
-    targeting: params.vastTargeting
-  });
-  adsRequest.linearAdSlotWidth = params.width;
-  adsRequest.linearAdSlotHeight = params.height;
-  return adsRequest;
-}
-
-function getRenderingSettings() {
-  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var adsRenderingSettings = new window.google.ima.AdsRenderingSettings();
-  var maximumRecommendedBitrate = 68000; // 2160p High Frame Rate
-
-  if (!context.get('state.isMobile')) {
-    adsRenderingSettings.bitrate = maximumRecommendedBitrate;
-  }
-
-  adsRenderingSettings.loadVideoTimeout = params.loadVideoTimeout || 15000;
-  adsRenderingSettings.enablePreloading = true;
-  adsRenderingSettings.uiElements = [];
-  return adsRenderingSettings;
-}
-
-var googleImaSetup = {
-  createRequest: createRequest,
-  getRenderingSettings: getRenderingSettings
-};
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima-player-factory.ts
-
-
-
-
-
-
-function getVideoElement() {
-  var videoElement = document.createElement('video');
-  videoElement.setAttribute('preload', 'none');
-  return videoElement;
-}
-
-var google_ima_player_factory_GoogleImaPlayer =
-/*#__PURE__*/
-function () {
-  function GoogleImaPlayer(adDisplayContainer, adsLoader, params) {
-    classCallCheck_default()(this, GoogleImaPlayer);
-
-    this.isAdsManagerLoaded = false;
-    this.status = '';
-    this.adDisplayContainer = adDisplayContainer;
-    this.adsLoader = adsLoader;
-    this.adsManager = null;
-    this.params = params;
-    this.videoAd = params.container.querySelector('video');
-    this.eventListeners = {};
-    this.vastUrl = '';
-  }
-
-  createClass_default()(GoogleImaPlayer, [{
-    key: "setVastUrl",
-    value: function setVastUrl(vastUrl) {
-      this.vastUrl = vastUrl;
-    }
-  }, {
-    key: "setAdsManager",
-    value: function setAdsManager(adsManager) {
-      this.adsManager = adsManager;
-      this.isAdsManagerLoaded = true;
-    }
-  }, {
-    key: "addEventListener",
-    value: function addEventListener(eventName, callback) {
-      var _this = this;
-
-      if (eventName.indexOf('wikia') !== -1) {
-        this.eventListeners[eventName] = this.eventListeners[eventName] || [];
-        this.eventListeners[eventName].push(callback);
-        return;
-      }
-
-      if (this.isAdsManagerLoaded) {
-        this.adsManager.addEventListener(eventName, callback);
-      } else {
-        this.adsLoader.addEventListener('adsManagerLoaded', function () {
-          _this.adsManager.addEventListener(eventName, callback);
-        });
-      }
-    }
-  }, {
-    key: "setVastAttributes",
-    value: function setVastAttributes(status) {
-      var currentAd = this.adsManager && this.adsManager.getCurrentAd && this.adsManager.getCurrentAd();
-      var playerElement = this.params.container.querySelector('.video-player');
-      vastDebugger.setVastAttributes(playerElement, this.vastUrl, status, currentAd);
-    }
-  }, {
-    key: "setAutoPlay",
-    value: function setAutoPlay(value) {
-      if (this.videoAd) {
-        this.videoAd.autoplay = value;
-        this.videoAd.muted = value;
-      }
-
-      this.params.autoPlay = value;
-    }
-  }, {
-    key: "playVideo",
-    value: function playVideo(width, height) {
-      var _this2 = this;
-
-      var callback = function callback() {
-        _this2.dispatchEvent('wikiaAdPlayTriggered'); // https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize
-
-
-        _this2.adDisplayContainer.initialize();
-
-        _this2.adsManager.init(Math.round(width), Math.round(height), window.google.ima.ViewMode.NORMAL);
-
-        _this2.adsManager.start();
-
-        _this2.adsLoader.removeEventListener('adsManagerLoaded', callback);
-      };
-
-      if (this.isAdsManagerLoaded) {
-        callback();
-      } else {
-        // When adsManager is not loaded yet video can't start without click on mobile
-        // Muted auto play is workaround to run video on adsManagerLoaded event
-        this.setAutoPlay(true);
-        this.adsLoader.addEventListener('adsManagerLoaded', callback, false);
-      }
-    }
-  }, {
-    key: "reload",
-    value: function reload() {
-      var adRequest = googleImaSetup.createRequest(this.params);
-      this.adsManager.destroy();
-      this.adsLoader.contentComplete();
-      this.setVastUrl(adRequest.adTagUrl);
-      this.adsLoader.requestAds(adRequest);
-    }
-  }, {
-    key: "resize",
-    value: function resize(width, height) {
-      var isFullscreen = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var viewMode = window.google.ima.ViewMode;
-
-      if (this.adsManager) {
-        this.adsManager.resize(Math.round(width), Math.round(height), isFullscreen ? viewMode.FULLSCREEN : viewMode.NORMAL);
-      }
-    }
-  }, {
-    key: "dispatchEvent",
-    value: function dispatchEvent(eventName) {
-      if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
-        this.eventListeners[eventName].forEach(function (callback) {
-          callback({});
-        });
-      }
-    }
-  }, {
-    key: "setStatus",
-    value: function setStatus(newStatus) {
-      var _this3 = this;
-
-      return function () {
-        _this3.status = newStatus;
-      };
-    }
-  }, {
-    key: "getStatus",
-    value: function getStatus() {
-      return this.status;
-    }
-  }, {
-    key: "getAdsManager",
-    value: function getAdsManager() {
-      return this.adsManager;
-    }
-  }]);
-
-  return GoogleImaPlayer;
-}();
-
-var googleImaPlayerFactory = {
-  create: function create(adDisplayContainer, adsLoader, videoSettings) {
-    var adRequest = googleImaSetup.createRequest(videoSettings.getParams());
-    var player = new google_ima_player_factory_GoogleImaPlayer(adDisplayContainer, adsLoader, videoSettings.getParams());
-    var videoElement = getVideoElement();
-
-    if (player.videoAd) {
-      player.videoAd.classList.add('porvata-video');
-      videoSettings.getContainer().classList.add('porvata');
-    }
-
-    adsLoader.addEventListener('adsManagerLoaded', function (adsManagerLoadedEvent) {
-      var renderingSettings = googleImaSetup.getRenderingSettings(videoSettings);
-      var adsManager = adsManagerLoadedEvent.getAdsManager(videoElement, renderingSettings);
-      player.setAdsManager(adsManager);
-
-      if (videoSettings.isMoatTrackingEnabled()) {
-        moatVideoTracker.init(adsManager, videoSettings.getContainer(), window.google.ima.ViewMode.NORMAL, videoSettings.get('src'), "".concat(videoSettings.get('adProduct'), "/").concat(videoSettings.get('slotName')));
-      }
-
-      player.dispatchEvent('wikiaAdsManagerLoaded');
-      adsManager.addEventListener('loaded', function () {
-        return player.setVastAttributes('success');
-      });
-      adsManager.addEventListener('adError', function () {
-        return player.setVastAttributes('error');
-      });
-    }, false);
-    adsLoader.addEventListener('adError', function (event) {
-      var emptyVastErrorCode = window.google.ima.AdError.ErrorCode.VAST_EMPTY_RESPONSE;
-
-      if (typeof event.getError === 'function' && event.getError().getErrorCode() === emptyVastErrorCode) {
-        player.dispatchEvent('wikiaEmptyAd');
-      }
-
-      player.setVastAttributes('error');
-    });
-    player.setVastUrl(adRequest.adTagUrl);
-    adsLoader.requestAds(adRequest);
-
-    if (videoSettings.get('autoPlay')) {
-      player.setAutoPlay(true);
-    }
-
-    player.addEventListener('resume', player.setStatus('playing'));
-    player.addEventListener('start', player.setStatus('playing'));
-    player.addEventListener('pause', player.setStatus('paused'));
-    player.addEventListener('wikiaAdStop', player.setStatus('stopped'));
-    player.addEventListener('allAdsCompleted', player.setStatus('stopped'));
-    return player;
-  }
-};
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/ima/google-ima.ts
-
-
-
-var imaLibraryUrl = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
-
-function load() {
-  if (window.google && window.google.ima) {
-    return new promise_default.a(function (resolve) {
-      resolve();
->>>>>>> ADEN-8407 Refactor EventService.
     });
   });
   tag.addEventListener('impressionViewable', function (event) {
@@ -2322,10 +1906,10 @@ function () {
       setupGptTargeting();
       configure();
       this.setupNonPersonalizedAds();
-      events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
         return _this2.destroySlots();
       });
-      events.on(events.PAGE_RENDER_EVENT, function () {
+      eventService.on(events.PAGE_RENDER_EVENT, function () {
         return _this2.updateCorrelator();
       });
       initialized = true;
@@ -2674,14 +2258,8 @@ var availableVideoPositions = ['preroll', 'midroll', 'postroll'];
 var baseUrl = 'https://pubads.g.doubleclick.net/gampad/ads?';
 var correlator = Math.round(Math.random() * 10000000000);
 
-<<<<<<< HEAD
 function getCustomParameters(slot) {
   var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-=======
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(19);
-var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
->>>>>>> ADEN-8407 Refactor EventService.
 
   var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
@@ -2738,7 +2316,7 @@ function buildVastUrl(aspectRatio, slotName) {
   params.push("npa=".concat(trackingOptIn.isOptedIn() ? 0 : 1));
   return baseUrl + params.join('&');
 }
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.ts
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
 // Fixes for MOAT script incompatibility
 var eventMapping = {};
 var listeners = [];
@@ -3236,43 +2814,10 @@ function () {
 
   return VideoSettings;
 }();
-<<<<<<< HEAD
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/porvata.ts
-=======
-porvata_listener_PorvataListener.EVENTS = {
-  adCanPlay: 'ad_can_play',
-  complete: 'completed',
-  click: 'clicked',
-  firstquartile: 'first_quartile',
-  impression: 'impression',
-  loaded: 'loaded',
-  midpoint: 'midpoint',
-  pause: 'paused',
-  resume: 'resumed',
-  start: 'started',
-  thirdquartile: 'third_quartile',
-  viewable_impression: 'viewable_impression',
-  adError: 'error',
-  wikiaAdPlayTriggered: 'play_triggered',
-  wikiaAdStop: 'closed',
-  wikiaAdMute: 'mute',
-  wikiaAdUnmute: 'unmute',
-  wikiaInViewportWithOffer: 'in_viewport_with_offer',
-  wikiaInViewportWithoutOffer: 'in_viewport_without_offer'
-};
-porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
-porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
-var helpers_get_ = __webpack_require__(26);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
->>>>>>> ADEN-8407 Refactor EventService.
 
 
-<<<<<<< HEAD
 
-=======
-// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
->>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -3331,7 +2876,6 @@ function () {
   function PorvataPlayer(ima, params, videoSettings) {
     var _this = this;
 
-<<<<<<< HEAD
     classCallCheck_default()(this, PorvataPlayer);
 
     this.ima = ima;
@@ -3707,54 +3251,6 @@ function () {
 }();
 // CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/index.ts
 
-=======
-var groupName = 'eventService';
-var events = {
-  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
-  AD_STACK_START: symbol_default()('AD_STACK_START'),
-  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
-  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
-  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
-  // video events should happen in the order below
-  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
-  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
-  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
-  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
-  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
-  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
-};
-
-var events_EventService =
-/*#__PURE__*/
-function (_EventEmitter$EventEm) {
-  inherits_default()(EventService, _EventEmitter$EventEm);
-
-  function EventService() {
-    classCallCheck_default()(this, EventService);
-
-    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
-  }
-
-  createClass_default()(EventService, [{
-    key: "emit",
-    value: function emit(event) {
-      var _get2;
-
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      logger.apply(void 0, [groupName, 'emit', event].concat(args));
-      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
-    }
-  }]);
-
-  return EventService;
-}(external_eventemitter3_["EventEmitter"]);
-
-var eventService = new events_EventService();
-// CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.ts
->>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -3763,7 +3259,7 @@ var regenerator_ = __webpack_require__(16);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_ = __webpack_require__(19);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.ts
@@ -3819,17 +3315,10 @@ function () {
     value: function dispatch(eventName) {
       var _this2 = this;
 
-<<<<<<< HEAD
       var data = this.getData(eventName);
       this.logger(eventName, data);
       this.listeners.forEach(function (listener) {
         listener.onEvent(eventName, _this2.params, data);
-=======
-      var id = getUniqueId();
-      callbacks[id] = callback;
-      eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-        return _this2.removeCallback(id);
->>>>>>> ADEN-8407 Refactor EventService.
       });
 
       if (this.params.position && eventName === TwitchListener.EVENTS.viewable_impression) {
@@ -3867,31 +3356,6 @@ twitch_listener_TwitchListener.LOG_GROUP = 'twitch-listener';
 twitch_listener_TwitchListener.PLAYER_NAME = 'twitch';
 // CONCATENATED MODULE: ./src/ad-engine/video/player/twitch/embed/twitch-embed.ts
 
-<<<<<<< HEAD
-=======
-var scrollListener = new scroll_listener_ScrollListener();
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(25);
-var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
-
-// CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
-
-
-
-
-
-
-var slot_listener_logGroup = 'slot-listener';
-var slot_listener_listeners = null;
-
-function getIframe(adSlot) {
-  return adSlot.getElement().querySelector('div[id*="_container_"] iframe');
-}
-
-function getAdType(event, adSlot) {
-  var iframe = getIframe(adSlot);
-  var isIframeAccessible = false;
->>>>>>> ADEN-8407 Refactor EventService.
 
 var twitchLibraryUrl = '//player.twitch.tv/js/embed/v1.js';
 
@@ -4147,34 +3611,16 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(24);
-var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
+var helpers_get_ = __webpack_require__(26);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
 var symbol_ = __webpack_require__(5);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
-var helpers_get_ = __webpack_require__(19);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
-
 // CONCATENATED MODULE: ./src/ad-engine/services/events.ts
 
-<<<<<<< HEAD
-=======
-  eventService.on(events.PAGE_CHANGE_EVENT, function () {
-    setTargetingFromContext();
-  });
-  setTargetingFromContext();
-  context.onChange('targeting', function (trigger, value) {
-    var segments = trigger.split('.');
-    var key = segments[segments.length - 1];
-    setTargetingValue(key, value);
-  });
-}
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
->>>>>>> ADEN-8407 Refactor EventService.
 
 
 
@@ -4183,185 +3629,51 @@ var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 
 
-
-
-var groupName = 'events';
+var groupName = 'eventService';
+var events = {
+  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
+  AD_STACK_START: symbol_default()('AD_STACK_START'),
+  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
+  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
+  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
+  // video events should happen in the order below
+  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
+  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
+  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
+  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
+  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
+  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
+};
 
 var events_EventService =
 /*#__PURE__*/
-function (_EventEmitter) {
-  inherits_default()(EventService, _EventEmitter);
+function (_EventEmitter$EventEm) {
+  inherits_default()(EventService, _EventEmitter$EventEm);
 
   function EventService() {
-    var _getPrototypeOf2;
-
-    var _this;
-
     classCallCheck_default()(this, EventService);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = possibleConstructorReturn_default()(this, (_getPrototypeOf2 = getPrototypeOf_default()(EventService)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED');
-    _this.AD_STACK_START = symbol_default()('AD_STACK_START');
-    _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT');
-    _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT');
-    _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT');
-    _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED');
-    _this.VIDEO_AD_ERROR = symbol_default()('VIDEO_AD_ERROR');
-    _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION');
-    _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED');
-    return _this;
+    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
   }
 
   createClass_default()(EventService, [{
-    key: "beforePageChange",
-    value: function beforePageChange() {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageChange",
-    value: function pageChange() {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageRender",
-    value: function pageRender() {
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
-      }
-
-      this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
-    }
-  }, {
-    key: "hasEvent",
-    value: function hasEvent(event) {
-      var _this2 = this;
-
-      return get_own_property_names_default()(this).some(function (name) {
-        return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
-      });
-    }
-  }, {
     key: "emit",
     value: function emit(event) {
       var _get2;
 
-      if (!this.hasEvent(event)) {
-        throw new Error("Event \"".concat(event, "\" is not registered. Please register an event first."));
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
       }
-
-      for (var _len5 = arguments.length, args = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-        args[_key5 - 1] = arguments[_key5];
-      }
-
-      (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
 
       logger.apply(void 0, [groupName, 'emit', event].concat(args));
-    }
-  }, {
-    key: "on",
-    value: function on(event) {
-      var _get3;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-<<<<<<< HEAD
-      for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-        args[_key6 - 1] = arguments[_key6];
-      }
-
-      (_get3 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "on", this)).call.apply(_get3, [this, event].concat(args));
-=======
-      setupGptTargeting();
-      configure();
-      this.setupNonPersonalizedAds();
-      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-        return _this2.destroySlots();
-      });
-      eventService.on(events.PAGE_RENDER_EVENT, function () {
-        return _this2.updateCorrelator();
-      });
-      initialized = true;
-    }
-  }, {
-    key: "setupNonPersonalizedAds",
-    value: function setupNonPersonalizedAds() {
-      var tag = window.googletag.pubads();
-      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
->>>>>>> ADEN-8407 Refactor EventService.
-    }
-  }, {
-    key: "addListener",
-    value: function addListener(event) {
-      var _get4;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-        args[_key7 - 1] = arguments[_key7];
-      }
-
-      (_get4 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "addListener", this)).call.apply(_get4, [this, event].concat(args));
-    }
-  }, {
-    key: "once",
-    value: function once(event) {
-      var _get5;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-        args[_key8 - 1] = arguments[_key8];
-      }
-
-      (_get5 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "once", this)).call.apply(_get5, [this, event].concat(args));
-    }
-  }, {
-    key: "registerEvent",
-    value: function registerEvent(name) {
-      if (typeof name !== 'string') {
-        throw new Error('Event name must be a string.');
-      }
-
-      if (this[name] !== undefined) {
-        throw new Error("Event or property \"".concat(name, "\" already exists."));
-      }
-
-      this[name] = symbol_default()(name);
-      return this[name];
-    }
-  }, {
-    key: "getRegisteredEventNames",
-    value: function getRegisteredEventNames() {
-      var _this3 = this;
-
-      return get_own_property_names_default()(this).filter(function (name) {
-        return typeof_default()(_this3[name]) === 'symbol';
-      });
+      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
     }
   }]);
 
   return EventService;
-}(external_eventemitter3_default.a);
+}(external_eventemitter3_["EventEmitter"]);
 
-var events = new events_EventService();
+var eventService = new events_EventService();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.ts
 
 
@@ -4437,7 +3749,7 @@ function () {
 
       var id = getUniqueId();
       callbacks[id] = callback;
-      events.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+      eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
         return _this2.removeCallback(id);
       });
       return id;
@@ -4454,7 +3766,7 @@ function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(28);
+var is_array_ = __webpack_require__(25);
 var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
@@ -5268,12 +4580,8 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
   return distance < viewportHeight;
 }
 
-<<<<<<< HEAD
-events.on(events.PAGE_CHANGE_EVENT, function () {
-  slotEvents = {};
-=======
 eventService.on(events.PAGE_CHANGE_EVENT, function () {
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
+  slotEvents = {};
   slotStates = {};
   slotStatuses = {};
 });
@@ -5305,8 +4613,7 @@ function () {
       }
 
       slotTweaker.addDefaultClasses(adSlot);
-<<<<<<< HEAD
-      events.emit(events.AD_SLOT_CREATED, adSlot);
+      eventService.emit(events.AD_SLOT_CREATED, adSlot);
 
       if (slotEvents[slotName]) {
         var _adSlot$events;
@@ -5317,9 +4624,6 @@ function () {
       }
 
       adSlot.events.flush();
-=======
-      eventService.emit(events.AD_SLOT_CREATED, adSlot);
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
     }
     /**
      * Removes slot from register
@@ -6608,21 +5912,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.1.0');
 
-<<<<<<< HEAD
-set_default()(window, commitField, '529ff8a3');
+set_default()(window, commitField, '82f088da');
 
-logger('ad-engine', 'v24.1.0 (529ff8a3)');
-=======
-<<<<<<< HEAD
-set_default()(window, commitField, '86bd5fef');
-
-logger('ad-engine', 'v24.0.1 (86bd5fef)');
-=======
-set_default()(window, commitField, '770cdf81');
-
-logger('ad-engine', 'v23.14.0 (770cdf81)');
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
->>>>>>> ADEN-8407 Refactor EventService.
+logger('ad-engine', 'v24.1.0 (82f088da)');
 
 
 

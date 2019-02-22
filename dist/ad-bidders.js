@@ -692,7 +692,6 @@ function (_BaseBidder) {
     _this.apstag = apstag_Apstag.make();
     _this.cmp = cmp;
     _this.utils = ad_engine_["utils"];
-    _this.events = ad_engine_["events"];
     _this.slotService = ad_engine_["slotService"];
     _this.timeout = timeout;
     _this.bidsRefreshing = ad_engine_["context"].get('bidders.a9.bidsRefreshing') || {};
@@ -824,11 +823,7 @@ function (_BaseBidder) {
         _this3.onBidResponse();
 
         if (refresh) {
-<<<<<<< HEAD
-          _this3.events.emit(_this3.events.BIDS_REFRESH);
-=======
           ad_engine_["eventService"].emit(ad_engine_["events"].BIDS_REFRESH);
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
         }
       });
     }

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { AdSlot, context, events, slotService, utils } from '@wikia/ad-engine';
+import { AdSlot, context, events, eventService, slotService, utils } from '@wikia/ad-engine';
 import { Apstag, cmp } from '../wrappers';
-=======
-import { context, events, eventService, slotService, utils } from '@wikia/ad-engine';
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
 import { BaseBidder } from '../base-bidder';
 
 const logGroup = 'A9';
@@ -34,7 +30,6 @@ export class A9 extends BaseBidder {
 		this.apstag = Apstag.make();
 		this.cmp = cmp;
 		this.utils = utils;
-		this.events = events;
 		this.slotService = slotService;
 		this.timeout = timeout;
 		this.bidsRefreshing = context.get('bidders.a9.bidsRefreshing') || {};
@@ -63,54 +58,11 @@ export class A9 extends BaseBidder {
 	 * @private
 	 * @param consentData
 	 */
-<<<<<<< HEAD
 	initIfNotLoaded(consentData) {
 		if (!this.loaded) {
 			this.apstag.init(this.getApstagConfig(consentData));
 			this.loaded = true;
 		}
-=======
-	fetchBids(slots, refresh = false) {
-		utils.logger(logGroup, 'fetching bids for slots', slots);
-		window.apstag.fetchBids(
-			{
-				slots,
-				timeout: this.timeout,
-			},
-			(currentBids) => {
-				utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
-				// overwrite window.apstag.renderImp on the first fetch
-				if (!this.isRenderImpOverwritten) {
-					this.overwriteRenderImp();
-					this.isRenderImpOverwritten = true;
-				}
-				currentBids.forEach((bid) => {
-					const slotName = this.slotNamesMap[bid.slotID] || bid.slotID;
-
-					let bidTargeting = bid;
-					let keys = window.apstag.targetingKeys();
-
-					if (this.bidderConfig.dealsEnabled) {
-						keys = bid.helpers.targetingKeys;
-						bidTargeting = bid.targeting;
-					}
-
-					this.bids[slotName] = {};
-					keys.forEach((key) => {
-						if (this.targetingKeys.indexOf(key) === -1) {
-							this.targetingKeys.push(key);
-						}
-						this.bids[slotName][key] = bidTargeting[key];
-					});
-				});
-
-				this.onResponse();
-				if (refresh) {
-					eventService.emit(events.BIDS_REFRESH);
-				}
-			},
-		);
->>>>>>> 397c1d50... ts-cleanup Refactor EventService.
 	}
 
 	/**
@@ -180,7 +132,7 @@ export class A9 extends BaseBidder {
 
 			this.onBidResponse();
 			if (refresh) {
-				this.events.emit(this.events.BIDS_REFRESH);
+				eventService.emit(events.BIDS_REFRESH);
 			}
 		});
 	}
