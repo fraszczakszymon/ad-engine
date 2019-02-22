@@ -128,55 +128,55 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
+module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/inherits");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
+module.exports = require("@babel/runtime-corejs2/helpers/inherits");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/regenerator");
+module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
+module.exports = require("@babel/runtime-corejs2/regenerator");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
 
 /***/ }),
 /* 18 */
@@ -754,7 +754,7 @@ var parse_float_ = __webpack_require__(32);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(9);
+var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
@@ -1519,7 +1519,7 @@ function logger(logGroup) {
   }
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(14);
+var possibleConstructorReturn_ = __webpack_require__(15);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
@@ -1527,11 +1527,11 @@ var getPrototypeOf_ = __webpack_require__(6);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
-var inherits_ = __webpack_require__(13);
+var inherits_ = __webpack_require__(14);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/assertThisInitialized"
-var assertThisInitialized_ = __webpack_require__(16);
+var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
@@ -1691,7 +1691,7 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(17);
+var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
@@ -4101,6 +4101,12 @@ function (_EventEmitter) {
     _this.viewed = false;
     _this.element = null;
     _this.status = null;
+    _this.events = new lazy_queue_LazyQueue();
+
+    _this.events.onItemFlush(function (event) {
+      _this.on(event.name, event.callback);
+    });
+
     _this.creativeId = null;
     _this.creativeSize = null;
     _this.lineItemId = null;
@@ -4214,6 +4220,7 @@ function (_EventEmitter) {
       this.status = status;
 
       if (status !== null) {
+        this.emit(status);
         slotListener.emitStatusChanged(this);
       }
     }
@@ -4685,12 +4692,14 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 
 
+
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 
 var slot_service_slots = {};
-var slotStates = {};
+var slotEvents = {};
 var slotStatuses = {};
+var slotStates = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
   var element = document.getElementById(elementId); // According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
@@ -4708,6 +4717,7 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 }
 
 events.on(events.PAGE_CHANGE_EVENT, function () {
+  slotEvents = {};
   slotStates = {};
   slotStatuses = {};
 });
@@ -4740,6 +4750,16 @@ function () {
 
       slotTweaker.addDefaultClasses(adSlot);
       events.emit(events.AD_SLOT_CREATED, adSlot);
+
+      if (slotEvents[slotName]) {
+        var _adSlot$events;
+
+        (_adSlot$events = adSlot.events).push.apply(_adSlot$events, toConsumableArray_default()(slotEvents[slotName]));
+
+        delete slotEvents[slotName];
+      }
+
+      adSlot.events.flush();
     }
     /**
      * Removes slot from register
@@ -4799,6 +4819,29 @@ function () {
       keys_default()(slot_service_slots).forEach(function (id) {
         callback(slot_service_slots[id]);
       });
+    }
+    /**
+     *
+     * @param {string} slotName
+     * @param {string} eventName
+     * @param {function} callback
+     */
+
+  }, {
+    key: "on",
+    value: function on(slotName, eventName, callback) {
+      var adSlot = this.get(slotName);
+      var event = {
+        name: eventName,
+        callback: callback
+      };
+      slotEvents[slotName] = slotEvents[slotName] || [];
+
+      if (adSlot) {
+        adSlot.events.push(event);
+      } else {
+        slotEvents[slotName].push(event);
+      }
     }
     /**
      * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
@@ -6002,7 +6045,7 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v24.0.0');
+set_default()(window, versionField, 'v24.0.1');
 
 set_default()(window, commitField, 'e33c6441');
 
