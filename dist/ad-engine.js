@@ -122,61 +122,61 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
+module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/inherits");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
+module.exports = require("@babel/runtime-corejs2/helpers/inherits");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/regenerator");
+module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
+module.exports = require("@babel/runtime-corejs2/regenerator");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
 
 /***/ }),
 /* 18 */
@@ -748,7 +748,7 @@ var parse_float_ = __webpack_require__(31);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(9);
+var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
@@ -1433,7 +1433,7 @@ function () {
   return LazyQueue;
 }();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(8);
+var parse_int_ = __webpack_require__(9);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.ts
@@ -1513,7 +1513,7 @@ function logger(logGroup) {
   }
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(14);
+var possibleConstructorReturn_ = __webpack_require__(15);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
@@ -1521,11 +1521,11 @@ var getPrototypeOf_ = __webpack_require__(6);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
-var inherits_ = __webpack_require__(13);
+var inherits_ = __webpack_require__(14);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/assertThisInitialized"
-var assertThisInitialized_ = __webpack_require__(16);
+var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
@@ -1685,7 +1685,7 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(17);
+var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
@@ -2823,7 +2823,7 @@ function () {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/regenerator"
-var regenerator_ = __webpack_require__(15);
+var regenerator_ = __webpack_require__(16);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
@@ -3609,15 +3609,15 @@ var slotListener = new slot_listener_SlotListener();
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(12);
+var get_own_property_descriptor_ = __webpack_require__(13);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(11);
+var applyDecoratedDescriptor_ = __webpack_require__(12);
 var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(10);
+var external_core_decorators_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
 
@@ -4081,6 +4081,12 @@ function (_EventEmitter) {
     _this.viewed = false;
     _this.element = null;
     _this.status = null;
+    _this.events = new lazy_queue_LazyQueue();
+
+    _this.events.onItemFlush(function (event) {
+      _this.on(event.name, event.callback);
+    });
+
     _this.creativeId = null;
     _this.creativeSize = null;
     _this.lineItemId = null;
@@ -4194,6 +4200,7 @@ function (_EventEmitter) {
       this.status = status;
 
       if (status !== null) {
+        this.emit(status);
         slotListener.emitStatusChanged(this);
       }
     }
@@ -4665,12 +4672,14 @@ var slotTweaker = new slot_tweaker_SlotTweaker();
 
 
 
+
 var slot_service_groupName = 'slot-service';
 /** @type {Object.<string, AdSlot>} */
 
 var slot_service_slots = {};
-var slotStates = {};
+var slotEvents = {};
 var slotStatuses = {};
+var slotStates = {};
 
 function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
   var element = document.getElementById(elementId); // According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
@@ -4688,6 +4697,7 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
 }
 
 events.on(events.PAGE_CHANGE_EVENT, function () {
+  slotEvents = {};
   slotStates = {};
   slotStatuses = {};
 });
@@ -4720,6 +4730,16 @@ function () {
 
       slotTweaker.addDefaultClasses(adSlot);
       events.emit(events.AD_SLOT_CREATED, adSlot);
+
+      if (slotEvents[slotName]) {
+        var _adSlot$events;
+
+        (_adSlot$events = adSlot.events).push.apply(_adSlot$events, toConsumableArray_default()(slotEvents[slotName]));
+
+        delete slotEvents[slotName];
+      }
+
+      adSlot.events.flush();
     }
     /**
      * Removes slot from register
@@ -4779,6 +4799,29 @@ function () {
       keys_default()(slot_service_slots).forEach(function (id) {
         callback(slot_service_slots[id]);
       });
+    }
+    /**
+     *
+     * @param {string} slotName
+     * @param {string} eventName
+     * @param {function} callback
+     */
+
+  }, {
+    key: "on",
+    value: function on(slotName, eventName, callback) {
+      var adSlot = this.get(slotName);
+      var event = {
+        name: eventName,
+        callback: callback
+      };
+      slotEvents[slotName] = slotEvents[slotName] || [];
+
+      if (adSlot) {
+        adSlot.events.push(event);
+      } else {
+        slotEvents[slotName].push(event);
+      }
     }
     /**
      * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
@@ -5984,9 +6027,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.0.0');
 
-set_default()(window, commitField, 'a56bd070');
+set_default()(window, commitField, '9f19c209');
 
-logger('ad-engine', 'v24.0.0 (a56bd070)');
+logger('ad-engine', 'v24.0.0 (9f19c209)');
 
 
 
