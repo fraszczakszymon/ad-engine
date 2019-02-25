@@ -1,6 +1,6 @@
 import { context, eventService } from '@wikia/ad-engine';
 
-export const events = {
+export const playerEvents = {
 	VIDEO_PLAYER_TRACKING_EVENT: Symbol('VIDEO_PLAYER_TRACKING_EVENT'),
 };
 
@@ -19,6 +19,6 @@ export default {
 			return;
 		}
 
-		eventService.emit(events.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
+		eventService.emit(playerEvents.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
 	},
 };

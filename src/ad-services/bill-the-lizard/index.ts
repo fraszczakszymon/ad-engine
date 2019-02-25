@@ -30,7 +30,7 @@ interface ResponseEvent {
 	response: string;
 }
 
-export const events = {
+export const billThLizardEvents = {
 	BILL_THE_LIZARD_REQUEST: Symbol('BILL_THE_LIZARD_REQUEST'),
 	BILL_THE_LIZARD_RESPONSE: Symbol('BILL_THE_LIZARD_RESPONSE'),
 };
@@ -75,7 +75,7 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 	const query = buildQueryUrl(queryParameters);
 	const url = buildUrl(host, endpoint, query);
 
-	eventService.emit(events.BILL_THE_LIZARD_REQUEST, {
+	eventService.emit(billThLizardEvents.BILL_THE_LIZARD_REQUEST, {
 		query,
 		callId,
 	} as RequestEvent);
@@ -245,7 +245,7 @@ export class BillTheLizard {
 
 				this.setTargeting();
 
-				eventService.emit(events.BILL_THE_LIZARD_RESPONSE, {
+				eventService.emit(billThLizardEvents.BILL_THE_LIZARD_RESPONSE, {
 					callId,
 					response: this.serialize(callId),
 				} as ResponseEvent);
