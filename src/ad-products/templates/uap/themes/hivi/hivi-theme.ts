@@ -76,7 +76,7 @@ export class BigFancyAdHiviTheme extends BigFancyAdTheme {
 	/**
 	 * @abstract
 	 * @protected
-	 * */
+	 */
 	onCloseClicked() {
 		throw new utils.NotImplementedException();
 	}
