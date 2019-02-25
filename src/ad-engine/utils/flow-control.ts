@@ -33,7 +33,7 @@ export function once(emitter, eventName, options = {}) {
 		if (hasOnce) {
 			emitter.once(eventName, resolve);
 		} else if (hasAddEventListener) {
-			emitter.addEventListener(eventName, resolve, Object.assign({}, options, { once: true }));
+			emitter.addEventListener(eventName, resolve, { ...options, once: true });
 		} else {
 			reject(new Error('Emitter does not have `addEventListener` nor `once` method.'));
 		}

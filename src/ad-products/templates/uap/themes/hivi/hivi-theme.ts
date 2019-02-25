@@ -1,7 +1,7 @@
 import { slotTweaker, utils } from '@wikia/ad-engine';
 import AdvertisementLabel from '../../../interface/advertisement-label';
-import { BigFancyAdTheme } from '../theme';
 import CloseButton from '../../../interface/close-button';
+import { BigFancyAdTheme } from '../theme';
 import { Stickiness } from './stickiness';
 
 /**

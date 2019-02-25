@@ -1,5 +1,5 @@
-import { queryString } from '../utils';
 import { ADX } from '../providers';
+import { queryString } from '../utils';
 
 class VastParser {
 	/**

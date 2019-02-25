@@ -1,8 +1,8 @@
 import EventEmitter from 'eventemitter3';
-import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
-import { logger, stringBuilder, LazyQueue } from '../utils';
 import { slotListener } from '../listeners';
 import { ADX } from '../providers';
+import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
+import { LazyQueue, logger, stringBuilder } from '../utils';
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';

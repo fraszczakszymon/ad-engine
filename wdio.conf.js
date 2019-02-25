@@ -6,7 +6,7 @@ const networkCapture = require('./tests/common/network-capture');
 const AD_ENGINE_PORT = process.env.AD_ENGINE_PORT || 8080;
 
 function getScreenshotName(basePath) {
-	return function (context) {
+	return function(context) {
 		const hash = md5(context.test.parent + context.test.title);
 
 		return path.join(basePath, `${hash}.png`);

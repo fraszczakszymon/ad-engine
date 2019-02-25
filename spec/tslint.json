@@ -7,14 +7,12 @@
 		"no-implicit-dependencies": [
 			true,
 			"dev",
-			[
-				"@wikia/ad-bidders",
-				"@wikia/ad-engine",
-				"@wikia/ad-products",
-				"@wikia/ad-services"
-			]
+			["@wikia/ad-bidders", "@wikia/ad-engine", "@wikia/ad-products", "@wikia/ad-services"]
 		],
 		"no-submodule-imports": false,
-		"max-line-length": [true, { "limit": 100, "ignore-pattern": "^import |^export {(.*?)} |http |it" }]
+		"max-line-length": [
+			true,
+			{ "limit": 100, "ignore-pattern": "^import |^export {(.*?)} |http |it" }
+		]
 	}
 }
