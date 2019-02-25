@@ -400,7 +400,7 @@ function () {
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
 var openRequests = [];
-var events = {
+var billThLizardEvents = {
   BILL_THE_LIZARD_REQUEST: symbol_default()('BILL_THE_LIZARD_REQUEST'),
   BILL_THE_LIZARD_RESPONSE: symbol_default()('BILL_THE_LIZARD_RESPONSE')
 };
@@ -449,7 +449,7 @@ function httpRequest(host, endpoint) {
   var request = new window.XMLHttpRequest();
   var query = buildQueryUrl(queryParameters);
   var url = buildUrl(host, endpoint, query);
-  ad_engine_["eventService"].emit(events.BILL_THE_LIZARD_REQUEST, {
+  ad_engine_["eventService"].emit(billThLizardEvents.BILL_THE_LIZARD_REQUEST, {
     query: query,
     callId: callId
   });
@@ -624,7 +624,7 @@ function () {
 
         _this.setTargeting();
 
-        ad_engine_["eventService"].emit(events.BILL_THE_LIZARD_RESPONSE, {
+        ad_engine_["eventService"].emit(billThLizardEvents.BILL_THE_LIZARD_RESPONSE, {
           callId: callId,
           response: _this.serialize(callId)
         });
@@ -1120,7 +1120,7 @@ var krux = new krux_Krux();
 
 
 var moat_yi_logGroup = 'moat-yi';
-var moat_yi_events = {
+var moatYiEvents = {
   MOAT_YI_READY: symbol_default()('MOAT_YI_READY')
 };
 /**
@@ -1189,7 +1189,7 @@ function () {
       if (window.moatPrebidApi && typeof window.moatPrebidApi.getMoatTargetingForPage === 'function') {
         var pageParams = window.moatPrebidApi.getMoatTargetingForPage() || {};
         ad_engine_["context"].set('targeting.m_data', pageParams.m_data);
-        ad_engine_["eventService"].emit(moat_yi_events.MOAT_YI_READY, "m_data=".concat(pageParams.m_data));
+        ad_engine_["eventService"].emit(moatYiEvents.MOAT_YI_READY, "m_data=".concat(pageParams.m_data));
         ad_engine_["utils"].logger(moat_yi_logGroup, 'moatYieldReady', pageParams);
       }
     }
@@ -1287,14 +1287,14 @@ function () {
 
 var nielsen = new nielsen_Nielsen();
 // CONCATENATED MODULE: ./src/ad-services/index.ts
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billThLizardEvents", function() { return billThLizardEvents; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizardEvents", function() { return events; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "confiant", function() { return confiant; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "geoEdge", function() { return geoEdge; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "krux", function() { return krux; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYiEvents", function() { return moatYiEvents; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYi", function() { return moatYi; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "moatYiEvents", function() { return moat_yi_events; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "nielsen", function() { return nielsen; });
 
 

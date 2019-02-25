@@ -5225,7 +5225,7 @@ var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_
 // CONCATENATED MODULE: ./src/ad-products/tracking/video/player-event-emitter.ts
 
 
-var events = {
+var playerEvents = {
   VIDEO_PLAYER_TRACKING_EVENT: symbol_default()('VIDEO_PLAYER_TRACKING_EVENT')
 };
 /* harmony default export */ var player_event_emitter = ({
@@ -5243,7 +5243,7 @@ var events = {
       return;
     }
 
-    ad_engine_["eventService"].emit(events.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
+    ad_engine_["eventService"].emit(playerEvents.VIDEO_PLAYER_TRACKING_EVENT, eventInfo);
   }
 });
 // CONCATENATED MODULE: ./src/ad-products/tracking/video/video-event-data-provider.ts
@@ -6023,11 +6023,11 @@ var jwplayerAdsFactory = {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DEFAULT_VIDEO_ASPECT_RATIO", function() { return DEFAULT_VIDEO_ASPECT_RATIO; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "IMA_VPAID_INSECURE_MODE", function() { return IMA_VPAID_INSECURE_MODE; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "PorvataTemplate", function() { return porvata_template_PorvataTemplate; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "playerEvents", function() { return events; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "JWPlayerTracker", function() { return jwplayer_tracker_JWPlayerTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "porvataTracker", function() { return porvataTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchTracker", function() { return twitch_tracker_TwitchTracker; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "twitchTracker", function() { return twitchTracker; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "playerEvents", function() { return playerEvents; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "jwplayerAdsFactory", function() { return jwplayerAdsFactory; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "utils", function() { return utils_namespaceObject; });
 
