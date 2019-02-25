@@ -1,6 +1,4 @@
 /* global module, require */
-/* eslint-disable no-console, import/no-extraneous-dependencies */
-
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
