@@ -28,7 +28,6 @@
 		"@babel/register": "^7.0.0",
 		"@slack/client": "4.1.0",
 		"allure-commandline": "2.7.0",
-		"babel-eslint": "^9.0.0",
 		"babel-loader": "^8.0.0",
 		"babel-plugin-lodash": "^3.3.2",
 		"babel-plugin-syntax-trailing-function-commas": "6.22.0",
@@ -36,11 +35,6 @@
 		"chrome-remote-interface": "0.26.1",
 		"copy-webpack-plugin": "4.5.2",
 		"deepmerge": "2.2.1",
-		"eslint": "5.9.0",
-		"eslint-config-airbnb": "17.1.0",
-		"eslint-config-prettier": "3.3.0",
-		"eslint-plugin-import": "2.14.0",
-		"eslint-plugin-sort-class-members": "1.4.0",
 		"husky": "1.1.4",
 		"js-md5": "0.7.3",
 		"jsdom": "11.11.0",
@@ -100,8 +94,8 @@
 		"build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
 		"ci-check": "npm run test && npm run lint",
 		"dev": "npm run serve",
-		"lint": "eslint . && tslint --project . && ./maintenance/detect-incorrect-usages.sh",
-		"lintf": "eslint . --fix && tslint --project . --fix && ./maintenance/detect-incorrect-usages.sh",
+		"lint": "tslint --project . && ./maintenance/detect-incorrect-usages.sh",
+		"lintf": "tslint --project . --fix && ./maintenance/detect-incorrect-usages.sh",
 		"prettier": "prettier --write '**/*.{ts,js,json,css,scss,html}'",
 		"format": "npm run prettier && npm run lintf",
 		"prepare": "echo 'This is a test'",
@@ -129,7 +123,6 @@
 		"linters": {
 			"*.{js,ts}": [
 				"prettier --write",
-				"eslint --fix",
 				"tslint --fix",
 				"./maintenance/detect-incorrect-usages.sh",
 				"git add"
