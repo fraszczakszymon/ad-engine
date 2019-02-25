@@ -9,7 +9,9 @@ describe('google-ima-setup', () => {
 	beforeEach(() => {
 		window.google = {
 			ima: {
+				// tslint:disable-next-line
 				AdsRenderingSettings: function () {},
+				// tslint:disable-next-line
 				AdsRequest: function () {},
 				ViewMode: {
 					NORMAL: 0,

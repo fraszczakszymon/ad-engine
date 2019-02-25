@@ -36,7 +36,7 @@
 		},
 		"member-access": false,
 		"no-arg": true,
-		"no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+		"no-console": [true, "log", "debug", "info", "time", "timeEnd", "trace"],
 		"no-construct": true,
 		"no-debugger": true,
 		"no-duplicate-super": true,
@@ -64,35 +64,39 @@
 			true,
 			{ "anonymous": "always", "named": "never", "asyncArrow": "always" }
 		],
+		"only-arrow-functions": {
+			"severity": "warning",
+			"options": ["allow-declarations", "allow-named-functions"]
+		},
 		"no-shadowed-variable": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"no-bitwise": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"no-unnecessary-initializer": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"no-parameter-reassignment": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"object-shorthand-properties-first": {
-			"severity": "off"
-		},
-		"only-arrow-functions": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"prefer-conditional-expression": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"no-use-before-declare": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"no-this-assignment": {
-			"severity": "off"
+			"severity": "warning"
 		},
 		"max-classes-per-file": {
-			"severity": "off"
+			"severity": "warning"
+		},
+		"no-default-export": {
+			"severity": "warning"
 		}
 	},
 	"exclude": ["dist/", "lib/", "node_modules/", "jspm_packages/"]

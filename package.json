@@ -52,7 +52,7 @@
 		"phantomjs-polyfill-object-assign": "0.0.2",
 		"phantomjs-prebuilt": "^2.1.7",
 		"portfinder": "1.0.20",
-		"prettier": "1.15.3",
+		"prettier": "1.16.4",
 		"sass-loader": "^6.0.6",
 		"selenium-standalone": "6.15.2",
 		"sinon": "4.1.4",
@@ -121,13 +121,13 @@
 	},
 	"lint-staged": {
 		"linters": {
-			"*.{js,ts}": [
+			"*.{ts}": [
 				"prettier --write",
 				"tslint --fix",
 				"./maintenance/detect-incorrect-usages.sh",
 				"git add"
 			],
-			"*.{json,css,scss,html}": [
+			"*.{js,json,css,scss,html}": [
 				"prettier --write",
 				"git add"
 			]

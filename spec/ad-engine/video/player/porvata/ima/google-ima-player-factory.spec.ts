@@ -58,6 +58,7 @@ describe('google-ima-player', () => {
 		};
 		window.google = {
 			ima: {
+				// tslint:disable-next-line
 				AdsRequest: function () {},
 				ViewMode: {
 					NORMAL: 0,

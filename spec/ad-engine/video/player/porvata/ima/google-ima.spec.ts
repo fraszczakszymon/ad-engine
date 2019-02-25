@@ -55,12 +55,15 @@ describe('google-ima', () => {
 		};
 		window.google = {
 			ima: {
+				// tslint:disable-next-line
 				AdDisplayContainer: function () {
 					return mocks.adDisplayContainer;
 				},
+				// tslint:disable-next-line
 				AdsLoader: function () {
 					return mocks.adsLoader;
 				},
+				// tslint:disable-next-line
 				AdsRequest: function () {},
 			},
 		};
