@@ -400,7 +400,7 @@ function () {
 
 var bill_the_lizard_logGroup = 'bill-the-lizard';
 var openRequests = [];
-var billThLizardEvents = {
+var billTheLizardEvents = {
   BILL_THE_LIZARD_REQUEST: symbol_default()('BILL_THE_LIZARD_REQUEST'),
   BILL_THE_LIZARD_RESPONSE: symbol_default()('BILL_THE_LIZARD_RESPONSE')
 };
@@ -749,7 +749,6 @@ function () {
      * If model name is given, it returns all predictions with models matching.
      * Model matches when raw name (without version) is matched.
      *
-     * @param {string} [modelName]
      * @returns {PredictionDefinition[]}
      */
 
@@ -783,8 +782,6 @@ function () {
     }
     /**
      * Serializes all predictions
-     * @param {number|string} [callId]
-     * @returns {string}
      */
 
   }, {
@@ -1287,7 +1284,7 @@ function () {
 
 var nielsen = new nielsen_Nielsen();
 // CONCATENATED MODULE: ./src/ad-services/index.ts
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billThLizardEvents", function() { return billThLizardEvents; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizardEvents", function() { return billTheLizardEvents; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "BillTheLizard", function() { return bill_the_lizard_BillTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "billTheLizard", function() { return billTheLizard; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "confiant", function() { return confiant; });

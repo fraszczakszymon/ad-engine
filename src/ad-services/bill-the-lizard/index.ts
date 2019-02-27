@@ -30,7 +30,7 @@ interface ResponseEvent {
 	response: string;
 }
 
-export const billThLizardEvents = {
+export const billTheLizardEvents = {
 	BILL_THE_LIZARD_REQUEST: Symbol('BILL_THE_LIZARD_REQUEST'),
 	BILL_THE_LIZARD_RESPONSE: Symbol('BILL_THE_LIZARD_RESPONSE'),
 };
@@ -351,10 +351,9 @@ export class BillTheLizard {
 	 * If model name is given, it returns all predictions with models matching.
 	 * Model matches when raw name (without version) is matched.
 	 *
-	 * @param {string} [modelName]
 	 * @returns {PredictionDefinition[]}
 	 */
-	getPredictions(modelName) {
+	getPredictions(modelName?: string) {
 		const separator = ':';
 
 		if (modelName) {
@@ -382,10 +381,8 @@ export class BillTheLizard {
 
 	/**
 	 * Serializes all predictions
-	 * @param {number|string} [callId]
-	 * @returns {string}
 	 */
-	serialize(callId) {
+	serialize(callId?: number|string): string {
 		let { predictions } = this;
 
 		if (callId !== undefined) {
