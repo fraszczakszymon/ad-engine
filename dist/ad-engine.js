@@ -2224,7 +2224,7 @@ function () {
     key: "destroySlots",
     value: function destroySlots(slotNames) {
       var allSlots = window.googletag.pubads().getSlots();
-      var slotsToDestroy;
+      var slotsToDestroy = allSlots;
 
       if (slotNames && slotNames.length) {
         slotsToDestroy = allSlots.filter(function (slot) {
@@ -2238,8 +2238,6 @@ function () {
 
           return false;
         });
-      } else {
-        slotsToDestroy = allSlots;
       }
 
       if (slotsToDestroy.length) {
@@ -6051,11 +6049,11 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v24.1.0');
+set_default()(window, versionField, 'v24.1.1');
 
-set_default()(window, commitField, 'fbb28dd7');
+set_default()(window, commitField, 'd26cb5ad');
 
-logger('ad-engine', 'v24.1.0 (fbb28dd7)');
+logger('ad-engine', 'v24.1.1 (d26cb5ad)');
 
 
 
