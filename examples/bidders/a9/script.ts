@@ -1,5 +1,5 @@
 import { Apstag, bidders, cmp } from '@wikia/ad-bidders';
-import { AdEngine, context, events, utils } from '@wikia/ad-engine';
+import { AdEngine, context, events, eventService, utils } from '@wikia/ad-engine';
 import { utils as adProductsUtils } from '@wikia/ad-products';
 import customContext from '../../context';
 import '../../styles.scss';
@@ -79,7 +79,7 @@ bidders.runOnBiddingReady(() => {
 	console.log('⛳ Prebid bidding completed');
 });
 
-events.on(events.AD_SLOT_CREATED, (slot) => {
+eventService.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());
 });
 

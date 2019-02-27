@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,19 +110,19 @@ module.exports = require("@babel/runtime-corejs2/core-js/symbol");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
 
 /***/ }),
 /* 9 */
@@ -182,106 +182,100 @@ module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized")
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/typeof");
+module.exports = require("js-cookie");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/get");
+module.exports = require("@babel/runtime-corejs2/helpers/asyncToGenerator");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("js-cookie");
+module.exports = require("eventemitter3");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/asyncToGenerator");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("eventemitter3");
+module.exports = require("@babel/runtime-corejs2/core-js/date/now");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("current-device");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/date/now");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-names");
+module.exports = require("@babel/runtime-corejs2/helpers/construct");
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 
 /***/ }),
 /* 27 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 
 /***/ }),
 /* 28 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/construct");
+module.exports = require("@babel/runtime-corejs2/helpers/get");
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/helpers/typeof");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
 module.exports = require("lodash/get");
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -298,7 +292,7 @@ __webpack_require__.d(utils_namespaceObject, "VISIBILITY_STATUS", function() { r
 __webpack_require__.d(utils_namespaceObject, "getDocumentVisibilityStatus", function() { return getDocumentVisibilityStatus; });
 __webpack_require__.d(utils_namespaceObject, "wait", function() { return flow_control_wait; });
 __webpack_require__.d(utils_namespaceObject, "defer", function() { return flow_control_defer; });
-__webpack_require__.d(utils_namespaceObject, "once", function() { return flow_control_once; });
+__webpack_require__.d(utils_namespaceObject, "once", function() { return once; });
 __webpack_require__.d(utils_namespaceObject, "timeoutReject", function() { return timeoutReject; });
 __webpack_require__.d(utils_namespaceObject, "createWithTimeout", function() { return createWithTimeout; });
 __webpack_require__.d(utils_namespaceObject, "setGeoData", function() { return setGeoData; });
@@ -330,11 +324,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(27);
+var set_ = __webpack_require__(24);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(34);
+var get_ = __webpack_require__(33);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -346,11 +340,11 @@ var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(33);
+var external_blockadblock_ = __webpack_require__(32);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(26);
+var external_current_device_ = __webpack_require__(23);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
@@ -659,7 +653,7 @@ var objectSpread_ = __webpack_require__(15);
 var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
-var typeof_ = __webpack_require__(18);
+var typeof_ = __webpack_require__(31);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/promise"
@@ -697,7 +691,7 @@ var flow_control_defer = function defer(fn) {
     }, 0);
   });
 };
-function flow_control_once(emitter, eventName) {
+function once(emitter, eventName) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var isObject = typeof_default()(emitter) === 'object';
   var hasAddEventListener = isObject && typeof emitter.addEventListener === 'function';
@@ -750,7 +744,7 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(32);
+var parse_float_ = __webpack_require__(30);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
@@ -758,11 +752,11 @@ var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
-var external_js_cookie_ = __webpack_require__(20);
+var external_js_cookie_ = __webpack_require__(18);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(23);
+var assign_ = __webpack_require__(21);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.ts
@@ -1442,7 +1436,7 @@ function () {
   return LazyQueue;
 }();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(7);
+var parse_int_ = __webpack_require__(6);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.ts
@@ -1526,7 +1520,7 @@ var possibleConstructorReturn_ = __webpack_require__(14);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(6);
+var getPrototypeOf_ = __webpack_require__(8);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
@@ -1538,7 +1532,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(31);
+var wrapNativeSuper_ = __webpack_require__(29);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1694,23 +1688,19 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(8);
+var toConsumableArray_ = __webpack_require__(7);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(25);
-var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
+var helpers_get_ = __webpack_require__(28);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
 var symbol_ = __webpack_require__(5);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
-var helpers_get_ = __webpack_require__(19);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
-
 // EXTERNAL MODULE: external "eventemitter3"
-var external_eventemitter3_ = __webpack_require__(22);
+var external_eventemitter3_ = __webpack_require__(20);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.ts
@@ -1723,168 +1713,53 @@ var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 
-
-
-var groupName = 'events';
+var groupName = 'eventService';
+var events = {
+  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
+  AD_STACK_START: symbol_default()('AD_STACK_START'),
+  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
+  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
+  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
+  // video events should happen in the order below
+  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
+  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
+  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
+  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
+  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
+  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
+};
 
 var events_EventService =
 /*#__PURE__*/
-function (_EventEmitter) {
-  inherits_default()(EventService, _EventEmitter);
+function (_EventEmitter$EventEm) {
+  inherits_default()(EventService, _EventEmitter$EventEm);
 
   function EventService() {
-    var _getPrototypeOf2;
-
-    var _this;
-
     classCallCheck_default()(this, EventService);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = possibleConstructorReturn_default()(this, (_getPrototypeOf2 = getPrototypeOf_default()(EventService)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED');
-    _this.AD_STACK_START = symbol_default()('AD_STACK_START');
-    _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT');
-    _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT');
-    _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT');
-    _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED');
-    _this.VIDEO_AD_ERROR = symbol_default()('VIDEO_AD_ERROR');
-    _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION');
-    _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED');
-    return _this;
+    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
   }
 
   createClass_default()(EventService, [{
-    key: "beforePageChange",
-    value: function beforePageChange() {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageChange",
-    value: function pageChange() {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageRender",
-    value: function pageRender() {
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
-      }
-
-      this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
-    }
-  }, {
-    key: "hasEvent",
-    value: function hasEvent(event) {
-      var _this2 = this;
-
-      return get_own_property_names_default()(this).some(function (name) {
-        return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
-      });
-    }
-  }, {
     key: "emit",
     value: function emit(event) {
       var _get2;
 
-      if (!this.hasEvent(event)) {
-        throw new Error("Event \"".concat(event, "\" is not registered. Please register an event first."));
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
       }
-
-      for (var _len5 = arguments.length, args = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-        args[_key5 - 1] = arguments[_key5];
-      }
-
-      (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
 
       logger.apply(void 0, [groupName, 'emit', event].concat(args));
-    }
-  }, {
-    key: "on",
-    value: function on(event) {
-      var _get3;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-        args[_key6 - 1] = arguments[_key6];
-      }
-
-      (_get3 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "on", this)).call.apply(_get3, [this, event].concat(args));
-    }
-  }, {
-    key: "addListener",
-    value: function addListener(event) {
-      var _get4;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-        args[_key7 - 1] = arguments[_key7];
-      }
-
-      (_get4 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "addListener", this)).call.apply(_get4, [this, event].concat(args));
-    }
-  }, {
-    key: "once",
-    value: function once(event) {
-      var _get5;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-        args[_key8 - 1] = arguments[_key8];
-      }
-
-      (_get5 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "once", this)).call.apply(_get5, [this, event].concat(args));
-    }
-  }, {
-    key: "registerEvent",
-    value: function registerEvent(name) {
-      if (typeof name !== 'string') {
-        throw new Error('Event name must be a string.');
-      }
-
-      if (this[name] !== undefined) {
-        throw new Error("Event or property \"".concat(name, "\" already exists."));
-      }
-
-      this[name] = symbol_default()(name);
-      return this[name];
-    }
-  }, {
-    key: "getRegisteredEventNames",
-    value: function getRegisteredEventNames() {
-      var _this3 = this;
-
-      return get_own_property_names_default()(this).filter(function (name) {
-        return typeof_default()(_this3[name]) === 'symbol';
-      });
+      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
     }
   }]);
 
   return EventService;
-}(external_eventemitter3_default.a);
+}(external_eventemitter3_["EventEmitter"]);
 
-var events = new events_EventService();
+var eventService = new events_EventService();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(30);
+var values_ = __webpack_require__(27);
 var values_default = /*#__PURE__*/__webpack_require__.n(values_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
@@ -1999,7 +1874,7 @@ function setupGptTargeting() {
     });
   }
 
-  events.on(events.PAGE_CHANGE_EVENT, function () {
+  eventService.on(events.PAGE_CHANGE_EVENT, function () {
     setTargetingFromContext();
   });
   setTargetingFromContext();
@@ -2103,10 +1978,10 @@ function () {
       setupGptTargeting();
       configure();
       this.setupNonPersonalizedAds();
-      events.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
         return _this2.destroySlots();
       });
-      events.on(events.PAGE_RENDER_EVENT, function () {
+      eventService.on(events.PAGE_RENDER_EVENT, function () {
         return _this2.updateCorrelator();
       });
       initialized = true;
@@ -3459,7 +3334,7 @@ var regenerator_ = __webpack_require__(16);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/asyncToGenerator"
-var asyncToGenerator_ = __webpack_require__(21);
+var asyncToGenerator_ = __webpack_require__(19);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/twitch-listener.ts
@@ -3886,7 +3761,7 @@ function () {
 
       var id = getUniqueId();
       callbacks[id] = callback;
-      events.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+      eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
         return _this2.removeCallback(id);
       });
       return id;
@@ -3903,7 +3778,7 @@ function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(29);
+var is_array_ = __webpack_require__(26);
 var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
@@ -4717,7 +4592,7 @@ function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, element
   return distance < viewportHeight;
 }
 
-events.on(events.PAGE_CHANGE_EVENT, function () {
+eventService.on(events.PAGE_CHANGE_EVENT, function () {
   slotEvents = {};
   slotStates = {};
   slotStatuses = {};
@@ -4750,7 +4625,7 @@ function () {
       }
 
       slotTweaker.addDefaultClasses(adSlot);
-      events.emit(events.AD_SLOT_CREATED, adSlot);
+      eventService.emit(events.AD_SLOT_CREATED, adSlot);
 
       if (slotEvents[slotName]) {
         var _adSlot$events;
@@ -5007,7 +4882,7 @@ function () {
           }
         }
       });
-      events.on(events.PAGE_CHANGE_EVENT, function () {
+      eventService.on(events.PAGE_CHANGE_EVENT, function () {
         _this2.resetState();
       });
     }
@@ -5168,7 +5043,7 @@ function registerCustomAdLoader(methodName) {
   };
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
-var now_ = __webpack_require__(24);
+var now_ = __webpack_require__(22);
 var now_default = /*#__PURE__*/__webpack_require__.n(now_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
@@ -5696,7 +5571,7 @@ function updateInViewport(listener) {
   }
 }
 
-function viewport_observer_addListener(element, callback) {
+function addListener(element, callback) {
   var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var listener = {
     element: element,
@@ -5721,7 +5596,7 @@ function removeListener(listenerId) {
 }
 
 var viewportObserver = {
-  addListener: viewport_observer_addListener,
+  addListener: addListener,
   removeListener: removeListener
 };
 // CONCATENATED MODULE: ./src/ad-engine/utils/index.ts
@@ -5743,7 +5618,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/construct"
-var construct_ = __webpack_require__(28);
+var construct_ = __webpack_require__(25);
 var construct_default = /*#__PURE__*/__webpack_require__.n(construct_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.ts
@@ -5850,7 +5725,7 @@ function () {
     window.ads = window.ads || {};
     window.ads.runtime = window.ads.runtime || {};
     templateService.register(floating_ad_FloatingAd);
-    events.on(events.PAGE_CHANGE_EVENT, function () {
+    eventService.on(events.PAGE_CHANGE_EVENT, function () {
       _this.started = false;
 
       _this.setupAdStack();
@@ -5993,7 +5868,7 @@ function () {
     key: "startAdStack",
     value: function startAdStack() {
       if (!this.started) {
-        events.emit(events.AD_STACK_START);
+        eventService.emit(events.AD_STACK_START);
         this.started = true;
         this.adStack.start();
       }
@@ -6018,6 +5893,7 @@ function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "context", function() { return context; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "registerCustomAdLoader", function() { return registerCustomAdLoader; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "events", function() { return events; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "eventService", function() { return eventService; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "localCache", function() { return localCache; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "messageBus", function() { return messageBus; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotDataParamsUpdater", function() { return slotDataParamsUpdater; });
@@ -6051,9 +5927,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.1.1');
 
-set_default()(window, commitField, 'd26cb5ad');
+set_default()(window, commitField, '92c89df6');
 
-logger('ad-engine', 'v24.1.1 (d26cb5ad)');
+logger('ad-engine', 'v24.1.1 (92c89df6)');
 
 
 
