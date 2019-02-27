@@ -75,10 +75,9 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 	const query = buildQueryUrl(queryParameters);
 	const url = buildUrl(host, endpoint, query);
 
-	eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, {
-		query,
-		callId,
-	} as RequestEvent);
+	const eventPayload: RequestEvent = { query, callId };
+
+	eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, eventPayload);
 
 	request.open('GET', url, true);
 	request.responseType = 'json';
@@ -242,10 +241,8 @@ export class BillTheLizard {
 
 				this.setTargeting();
 
-				eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, {
-					callId,
-					response: this.serialize(callId),
-				} as ResponseEvent);
+				const eventPayload: ResponseEvent = { callId, response: this.serialize(callId) };
+				eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, eventPayload);
 
 				this.executor.executeMethods(models, response);
 
@@ -379,7 +376,7 @@ export class BillTheLizard {
 	/**
 	 * Serializes all predictions
 	 */
-	serialize(callId?: number|string): string {
+	serialize(callId?: number | string): string {
 		let { predictions } = this;
 
 		if (callId !== undefined) {

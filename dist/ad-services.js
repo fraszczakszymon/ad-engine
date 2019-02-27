@@ -459,10 +459,11 @@ function httpRequest(host, endpoint) {
   var request = new window.XMLHttpRequest();
   var query = buildQueryUrl(queryParameters);
   var url = buildUrl(host, endpoint, query);
-  ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, {
+  var eventPayload = {
     query: query,
     callId: callId
-  });
+  };
+  ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, eventPayload);
   request.open('GET', url, true);
   request.responseType = 'json';
   request.timeout = timeout;
@@ -634,10 +635,11 @@ function () {
 
         _this.setTargeting();
 
-        ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, {
+        var eventPayload = {
           callId: callId,
           response: _this.serialize(callId)
-        });
+        };
+        ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, eventPayload);
 
         _this.executor.executeMethods(models, response);
 
