@@ -67,20 +67,20 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/createClass");
+module.exports = require("@babel/runtime-corejs2/helpers/classCallCheck");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/classCallCheck");
+module.exports = require("@babel/runtime-corejs2/helpers/createClass");
 
 /***/ }),
 /* 2 */
@@ -98,37 +98,37 @@ module.exports = require("@babel/runtime-corejs2/core-js/promise");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/json/stringify");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/symbol");
+module.exports = require("@babel/runtime-corejs2/core-js/json/stringify");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+module.exports = require("@babel/runtime-corejs2/core-js/symbol");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
 
 /***/ }),
 /* 10 */
@@ -206,37 +206,37 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/date/now");
+module.exports = require("@babel/runtime-corejs2/core-js/object/entries");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("@babel/runtime-corejs2/core-js/date/now");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("current-device");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/construct");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
+module.exports = require("@babel/runtime-corejs2/helpers/construct");
 
 /***/ }),
 /* 27 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 
 /***/ }),
 /* 28 */
@@ -248,34 +248,40 @@ module.exports = require("@babel/runtime-corejs2/helpers/get");
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("lodash/intersection");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/typeof");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("@babel/runtime-corejs2/helpers/typeof");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -324,27 +330,27 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(24);
+var set_ = __webpack_require__(25);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(33);
+var get_ = __webpack_require__(34);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
-var classCallCheck_ = __webpack_require__(1);
+var classCallCheck_ = __webpack_require__(0);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/createClass"
-var createClass_ = __webpack_require__(0);
+var createClass_ = __webpack_require__(1);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(32);
+var external_blockadblock_ = __webpack_require__(33);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
 
 // EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(23);
+var external_current_device_ = __webpack_require__(24);
 var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
@@ -653,7 +659,7 @@ var objectSpread_ = __webpack_require__(15);
 var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
-var typeof_ = __webpack_require__(31);
+var typeof_ = __webpack_require__(32);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/promise"
@@ -736,7 +742,7 @@ function createWithTimeout(func) {
   return promise_default.a.race([new promise_default.a(func), timeoutReject(msToTimeout)]);
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/json/stringify"
-var stringify_ = __webpack_require__(4);
+var stringify_ = __webpack_require__(5);
 var stringify_default = /*#__PURE__*/__webpack_require__.n(stringify_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/keys"
@@ -744,11 +750,11 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(30);
+var parse_float_ = __webpack_require__(31);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(9);
+var slicedToArray_ = __webpack_require__(4);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
@@ -1436,7 +1442,7 @@ function () {
   return LazyQueue;
 }();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(6);
+var parse_int_ = __webpack_require__(7);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/query-string.ts
@@ -1520,7 +1526,7 @@ var possibleConstructorReturn_ = __webpack_require__(14);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(8);
+var getPrototypeOf_ = __webpack_require__(9);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
@@ -1532,7 +1538,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(29);
+var wrapNativeSuper_ = __webpack_require__(30);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1688,15 +1694,19 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(7);
+var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
+
+// EXTERNAL MODULE: external "lodash/intersection"
+var intersection_ = __webpack_require__(29);
+var intersection_default = /*#__PURE__*/__webpack_require__.n(intersection_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
 var helpers_get_ = __webpack_require__(28);
 var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
-var symbol_ = __webpack_require__(5);
+var symbol_ = __webpack_require__(6);
 var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "eventemitter3"
@@ -1758,10 +1768,974 @@ function (_EventEmitter$EventEm) {
 }(external_eventemitter3_["EventEmitter"]);
 
 var eventService = new events_EventService();
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(27);
-var values_default = /*#__PURE__*/__webpack_require__.n(values_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/entries"
+var entries_ = __webpack_require__(22);
+var entries_default = /*#__PURE__*/__webpack_require__.n(entries_);
 
+// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.ts
+
+
+
+var callbacks = [];
+var logGroup = 'message-bus';
+
+function isAdEngineMessage(message) {
+  try {
+    return !!JSON.parse(message.data).AdEngine;
+  } catch (e) {
+    return false;
+  }
+}
+
+function messageMatch(match, message) {
+  var matching = true;
+
+  if (match.keys) {
+    var data = JSON.parse(message.data).AdEngine;
+    match.keys.forEach(function (key) {
+      matching = matching && data[key];
+    });
+  }
+
+  return matching;
+}
+
+function onMessage(message) {
+  var i = 0;
+  var callback;
+
+  if (isAdEngineMessage(message)) {
+    logger(logGroup, 'Message received', message);
+
+    for (i = 0; i < callbacks.length; i += 1) {
+      callback = callbacks[i];
+
+      if (messageMatch(callback.match, message)) {
+        logger(logGroup, 'Matching message', message, callback);
+        callback.fn(JSON.parse(message.data).AdEngine);
+
+        if (!callback.match.infinite) {
+          callbacks.splice(i, 1);
+        }
+
+        return;
+      }
+    }
+  }
+}
+
+var message_bus_MessageBus =
+/*#__PURE__*/
+function () {
+  function MessageBus() {
+    classCallCheck_default()(this, MessageBus);
+  }
+
+  createClass_default()(MessageBus, [{
+    key: "init",
+    value: function init() {
+      logger(logGroup, 'Register message listener');
+      window.addEventListener('message', onMessage);
+    }
+  }, {
+    key: "register",
+    value: function register(match, callback) {
+      callbacks.push({
+        match: match,
+        fn: callback
+      });
+    }
+  }]);
+
+  return MessageBus;
+}();
+
+var messageBus = new message_bus_MessageBus();
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.ts
+
+
+
+
+
+
+
+var slot_tweaker_logGroup = 'slot-tweaker';
+var slot_tweaker_SlotTweaker =
+/*#__PURE__*/
+function () {
+  function SlotTweaker() {
+    classCallCheck_default()(this, SlotTweaker);
+  }
+
+  createClass_default()(SlotTweaker, [{
+    key: "forceRepaint",
+
+    /** @readonly */
+    value: function forceRepaint(domElement) {
+      return domElement.offsetWidth;
+    }
+  }, {
+    key: "getContainer",
+    value: function getContainer(adSlot) {
+      var container = adSlot.getElement();
+
+      if (!container) {
+        logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
+      }
+
+      return container;
+    }
+  }, {
+    key: "addDefaultClasses",
+    value: function addDefaultClasses(adSlot) {
+      var container = this.getContainer(adSlot);
+      var defaultClasses = adSlot.getConfigProperty('defaultClasses') || [];
+
+      if (container && defaultClasses.length) {
+        defaultClasses.forEach(function (className) {
+          return container.classList.add(className);
+        });
+      }
+    }
+  }, {
+    key: "hide",
+    value: function hide(adSlot) {
+      var container = this.getContainer(adSlot);
+
+      if (container) {
+        logger(slot_tweaker_logGroup, 'hide', adSlot.getSlotName());
+        container.classList.add('hide');
+      }
+    }
+  }, {
+    key: "show",
+    value: function show(adSlot) {
+      var container = this.getContainer(adSlot);
+
+      if (container) {
+        logger(slot_tweaker_logGroup, 'show', adSlot.getSlotName());
+        container.classList.remove('hide');
+      }
+    }
+  }, {
+    key: "collapse",
+    value: function collapse(adSlot) {
+      var container = this.getContainer(adSlot);
+      container.style.maxHeight = "".concat(container.scrollHeight, "px");
+      this.forceRepaint(container);
+      container.classList.add('slot-animation');
+      container.style.maxHeight = '0';
+    }
+  }, {
+    key: "expand",
+    value: function expand(adSlot) {
+      var container = this.getContainer(adSlot);
+      container.style.maxHeight = "".concat(container.offsetHeight, "px");
+      container.classList.remove('hide');
+      container.classList.add('slot-animation');
+      container.style.maxHeight = "".concat(container.scrollHeight, "px");
+    }
+  }, {
+    key: "makeResponsive",
+    value: function makeResponsive(adSlot) {
+      var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var slotContainer = this.getContainer(adSlot);
+      slotContainer.classList.add('slot-responsive');
+      return this.onReady(adSlot).then(function (iframe) {
+        var container = iframe.parentElement;
+
+        if (!aspectRatio) {
+          var height = iframe.contentWindow.document.body.scrollHeight;
+          var width = iframe.contentWindow.document.body.scrollWidth;
+          aspectRatio = width / height;
+        }
+
+        logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
+
+        if (paddingBottom) {
+          container.style.paddingBottom = "".concat(100 / aspectRatio, "%");
+        }
+
+        return iframe;
+      });
+    }
+  }, {
+    key: "onReady",
+    value: function onReady(adSlot) {
+      if (adSlot.getConfigProperty('useGptOnloadEvent')) {
+        return adSlot.onLoad();
+      }
+
+      var container = this.getContainer(adSlot);
+      var iframe = container.querySelector('div[id*="_container_"] iframe');
+      return new promise_default.a(function (resolve, reject) {
+        if (!iframe) {
+          reject(new Error('Cannot find iframe element'));
+        }
+
+        var iframeDocument = null;
+
+        try {
+          iframeDocument = iframe.contentWindow.document;
+        } catch (ignore) {
+          logger(slot_tweaker_logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
+        }
+
+        if (iframeDocument && iframeDocument.readyState === 'complete') {
+          resolve(iframe);
+        } else {
+          iframe.addEventListener('load', function () {
+            return resolve(iframe);
+          });
+        }
+      });
+    }
+  }, {
+    key: "adjustIframeByContentSize",
+    value: function adjustIframeByContentSize(adSlot) {
+      this.onReady(adSlot).then(function (iframe) {
+        var height = iframe.contentWindow.document.body.scrollHeight;
+        var width = iframe.contentWindow.document.body.scrollWidth;
+        iframe.width = width;
+        iframe.height = height;
+        logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+      });
+    }
+  }, {
+    key: "registerMessageListener",
+    value: function registerMessageListener() {
+      var _this = this;
+
+      messageBus.register({
+        keys: ['action', 'slotName'],
+        infinite: true
+      }, function (data) {
+        if (!data.slotName) {
+          logger(slot_tweaker_logGroup, 'Missing slot name');
+          return;
+        }
+
+        var adSlot = slotService.get(data.slotName);
+
+        switch (data.action) {
+          case 'expand':
+            _this.expand(adSlot);
+
+            break;
+
+          case 'collapse':
+            _this.collapse(adSlot);
+
+            break;
+
+          case 'hide':
+            _this.hide(adSlot);
+
+            break;
+
+          case 'show':
+            _this.show(adSlot);
+
+            break;
+
+          case 'make-responsive':
+            _this.makeResponsive(adSlot, data.aspectRatio);
+
+            break;
+
+          default:
+            logger(slot_tweaker_logGroup, 'Unknown action', data.action);
+        }
+      });
+    }
+  }, {
+    key: "setDataParam",
+    value: function setDataParam(adSlot, attrName, data) {
+      var container = this.getContainer(adSlot);
+      container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
+    }
+  }]);
+
+  return SlotTweaker;
+}();
+slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
+var slotTweaker = new slot_tweaker_SlotTweaker();
+// CONCATENATED MODULE: ./src/ad-engine/services/slot-service.ts
+
+
+
+
+
+
+
+
+
+
+var slot_service_groupName = 'slot-service';
+
+function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
+  var element = document.getElementById(elementId); // According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+  // Hidden element does not have offsetParent
+
+  if (element.offsetParent === null) {
+    return false;
+  }
+
+  var elementHeight = element.offsetHeight;
+  var elementOffset = getTopOffset(element);
+  var isFirst = elementOffset < slotOffset;
+  var distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
+  return distance < viewportHeight;
+}
+
+eventService.on(events.PAGE_CHANGE_EVENT, function () {
+  slotService.slotEvents = {};
+  slotService.slotStates = {};
+  slotService.slotStatuses = {};
+});
+
+var slot_service_SlotService =
+/*#__PURE__*/
+function () {
+  function SlotService() {
+    classCallCheck_default()(this, SlotService);
+
+    this.slotEvents = {};
+    this.slotStatuses = {};
+    this.slotStates = {};
+    this.slots = {};
+  }
+
+  createClass_default()(SlotService, [{
+    key: "add",
+
+    /**
+     * Add new slot to register
+     */
+    value: function add(adSlot) {
+      var slotName = adSlot.getSlotName();
+      this.slots[slotName] = adSlot;
+
+      if (!this.slotStates[slotName] === false) {
+        adSlot.disable(this.slotStatuses[slotName]);
+      }
+
+      if (this.slotStates[slotName] === true) {
+        adSlot.enable();
+      }
+
+      slotTweaker.addDefaultClasses(adSlot);
+      eventService.emit(events.AD_SLOT_CREATED, adSlot);
+
+      if (this.slotEvents[slotName]) {
+        var _adSlot$events;
+
+        (_adSlot$events = adSlot.events).push.apply(_adSlot$events, toConsumableArray_default()(this.slotEvents[slotName]));
+
+        delete this.slotEvents[slotName];
+      }
+
+      adSlot.events.flush();
+    }
+    /**
+     * Removes slot from register
+     */
+
+  }, {
+    key: "remove",
+    value: function remove(adSlot) {
+      var slotName = adSlot.getSlotName();
+      context.removeListeners("slots.".concat(slotName));
+      adSlot.disable('Marked for remove');
+      delete this.slots[slotName];
+      delete this.slotStates[slotName];
+      delete this.slotStatuses[slotName];
+    }
+    /**
+     * Get slot by its name or pos
+     */
+
+  }, {
+    key: "get",
+    value: function get(id) {
+      var _id$split = id.split(','),
+          _id$split2 = slicedToArray_default()(_id$split, 1),
+          singleSlotName = _id$split2[0];
+
+      if (this.slots[singleSlotName]) {
+        return this.slots[singleSlotName];
+      } // Find slots by first targeting.pos
+
+
+      var slotByPos = null;
+      this.forEach(function (slot) {
+        if (slotByPos !== null) {
+          return;
+        }
+
+        var position = slot.getConfigProperty('targeting.pos') || [];
+
+        if (position === singleSlotName || position[0] === singleSlotName) {
+          slotByPos = slot;
+        }
+      });
+      return slotByPos;
+    }
+    /**
+     * Iterate over all defined slots
+     * @param {function} callback
+     */
+
+  }, {
+    key: "forEach",
+    value: function forEach(callback) {
+      var _this = this;
+
+      keys_default()(this.slots).forEach(function (id) {
+        callback(_this.slots[id]);
+      });
+    }
+  }, {
+    key: "on",
+    value: function on(slotName, eventName, callback) {
+      var adSlot = this.get(slotName);
+      var event = {
+        name: eventName,
+        callback: callback
+      };
+      this.slotEvents[slotName] = this.slotEvents[slotName] || [];
+
+      if (adSlot) {
+        adSlot.events.push(event);
+      } else {
+        this.slotEvents[slotName].push(event);
+      }
+    }
+    /**
+     * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
+     */
+
+  }, {
+    key: "enable",
+    value: function enable(slotName) {
+      this.setState(slotName, true);
+    }
+    /**
+     * Disable slot by name (it isn't necessary to have given ad slot in register at this point)
+     */
+
+  }, {
+    key: "disable",
+    value: function disable(slotName) {
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      this.setState(slotName, false, status);
+    }
+    /**
+     * Get current state of slot (it isn't necessary to have given ad slot in register at this point)
+     */
+
+  }, {
+    key: "getState",
+    value: function getState(slotName) {
+      // Comparing with false in order to get truthy value for slot
+      // that wasn't disabled or enabled (in case when state is undefined)
+      return this.slotStates[slotName] !== false;
+    }
+  }, {
+    key: "setState",
+    value: function setState(slotName, state) {
+      var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var slot = this.get(slotName);
+      this.slotStates[slotName] = state;
+      this.slotStatuses[slotName] = status; // After slot is created context should be read-only
+
+      if (slot) {
+        slot.setStatus(status);
+
+        if (state) {
+          slot.enable();
+        } else {
+          slot.disable();
+        }
+      } else if (state) {
+        context.set("slots.".concat(slotName, ".disabled"), false);
+      } else {
+        context.set("slots.".concat(slotName, ".disabled"), true);
+      }
+
+      logger(slot_service_groupName, 'set state', slotName, state);
+    }
+    /**
+     * Checks whether ad slot has conflict with defined elements
+     */
+
+  }, {
+    key: "hasViewportConflict",
+    value: function hasViewportConflict(adSlot) {
+      if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
+        return false;
+      }
+
+      var slotHeight = adSlot.getElement().offsetHeight;
+      var slotOffset = getTopOffset(adSlot.getElement());
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
+        return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
+      });
+      logger(slot_service_groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
+      return hasConflict;
+    }
+  }, {
+    key: "getAtfSlotNames",
+    value: function getAtfSlotNames() {
+      return entries_default()(this.slotConfigsMap).filter(function (_ref) {
+        var _ref2 = slicedToArray_default()(_ref, 2),
+            name = _ref2[0],
+            config = _ref2[1];
+
+        return !!config.aboveTheFold;
+      }).map(function (_ref3) {
+        var _ref4 = slicedToArray_default()(_ref3, 2),
+            name = _ref4[0],
+            config = _ref4[1];
+
+        return name;
+      });
+    }
+    /**
+     * Returns configuration of first call slots.
+     */
+
+  }, {
+    key: "getFirstCallSlotNames",
+    value: function getFirstCallSlotNames() {
+      return entries_default()(this.slotConfigsMap).filter(function (_ref5) {
+        var _ref6 = slicedToArray_default()(_ref5, 2),
+            name = _ref6[0],
+            config = _ref6[1];
+
+        return !!config.firstCall;
+      }).map(function (_ref7) {
+        var _ref8 = slicedToArray_default()(_ref7, 2),
+            name = _ref8[0],
+            config = _ref8[1];
+
+        return name;
+      });
+    }
+    /**
+     * Returns names of enabled slots.
+     */
+
+  }, {
+    key: "getEnabledSlotNames",
+    value: function getEnabledSlotNames() {
+      return entries_default()(this.slotConfigsMap).filter(function (_ref9) {
+        var _ref10 = slicedToArray_default()(_ref9, 2),
+            name = _ref10[0],
+            config = _ref10[1];
+
+        return !config.disabled;
+      }).map(function (_ref11) {
+        var _ref12 = slicedToArray_default()(_ref11, 2),
+            name = _ref12[0],
+            config = _ref12[1];
+
+        return name;
+      });
+    }
+  }, {
+    key: "slotConfigsMap",
+    get: function get() {
+      return context.get('slots');
+    }
+  }]);
+
+  return SlotService;
+}();
+
+var slotService = new slot_service_SlotService();
+// CONCATENATED MODULE: ./src/ad-engine/services/btf-blocker-service.ts
+
+
+
+
+
+
+
+
+
+var btf_blocker_service_logGroup = 'btf-blocker';
+
+var btf_blocker_service_BtfBlockerService =
+/*#__PURE__*/
+function () {
+  function BtfBlockerService() {
+    classCallCheck_default()(this, BtfBlockerService);
+
+    this.firstCallEnded = false;
+    this.unblockedSlotNames = [];
+    this.slotsQueue = void 0;
+    this.resetState();
+  }
+  /**
+   * @private
+   */
+
+
+  createClass_default()(BtfBlockerService, [{
+    key: "resetState",
+    value: function resetState() {
+      var _this = this;
+
+      this.firstCallEnded = false;
+      this.unblockedSlotNames = [];
+      this.slotsQueue = new lazy_queue_LazyQueue();
+      this.slotsQueue.onItemFlush(function (_ref) {
+        var adSlot = _ref.adSlot,
+            fillInCallback = _ref.fillInCallback;
+        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
+
+        _this.disableAdSlotIfHasConflict(adSlot);
+
+        _this.fillInSlotIfEnabled(adSlot, fillInCallback);
+      });
+
+      if (window.ads && window.ads.runtime) {
+        window.ads.runtime.disableBtf = false;
+        window.ads.runtime.disableSecondCall = false;
+      }
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      context.push('listeners.slot', {
+        onRenderEnded: function onRenderEnded(adSlot) {
+          logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot rendered');
+
+          if (!_this2.firstCallEnded && adSlot.isFirstCall()) {
+            _this2.finishFirstCall();
+          }
+        }
+      });
+      eventService.on(events.PAGE_CHANGE_EVENT, function () {
+        _this2.resetState();
+      });
+
+      var enabledFirstCallSlots = intersection_default()(slotService.getFirstCallSlotNames(), slotService.getEnabledSlotNames());
+
+      if (enabledFirstCallSlots.length === 0) {
+        this.finishFirstCall();
+      }
+    }
+  }, {
+    key: "finishFirstCall",
+    value: function finishFirstCall() {
+      this.firstCallEnded = true;
+      logger(btf_blocker_service_logGroup, 'first call queue finished');
+
+      if (window.ads.runtime.disableSecondCall) {
+        this.disableSecondCall([]);
+      } else if (window.ads.runtime.disableBtf) {
+        this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotNames())));
+      }
+
+      this.slotsQueue.flush();
+    }
+  }, {
+    key: "disableSecondCall",
+    value: function disableSecondCall(unblockedSlots) {
+      var slots = context.get('slots');
+      logger(btf_blocker_service_logGroup, 'second call queue disabled');
+
+      keys_default()(slots).forEach(function (adSlotKey) {
+        var slotConfig = slots[adSlotKey];
+
+        if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
+          slotService.disable(adSlotKey, 'blocked');
+        }
+      });
+    }
+  }, {
+    key: "push",
+    value: function push(adSlot, fillInCallback) {
+      if (!this.firstCallEnded && !adSlot.isFirstCall()) {
+        this.slotsQueue.push({
+          adSlot: adSlot,
+          fillInCallback: fillInCallback
+        });
+        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
+        return;
+      }
+
+      this.disableAdSlotIfHasConflict(adSlot);
+      this.fillInSlotIfEnabled(adSlot, fillInCallback);
+    }
+  }, {
+    key: "disableAdSlotIfHasConflict",
+    value: function disableAdSlotIfHasConflict(adSlot) {
+      if (slotService.hasViewportConflict(adSlot)) {
+        slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
+      }
+    }
+  }, {
+    key: "fillInSlotIfEnabled",
+    value: function fillInSlotIfEnabled(adSlot, fillInCallback) {
+      if (!adSlot.isEnabled()) {
+        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
+        return;
+      }
+
+      logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling in slot');
+      fillInCallback(adSlot);
+    }
+  }, {
+    key: "unblock",
+    value: function unblock(slotName) {
+      logger(btf_blocker_service_logGroup, slotName, 'Unblocking slot');
+      this.unblockedSlotNames.push(slotName);
+      slotService.enable(slotName);
+    }
+  }]);
+
+  return BtfBlockerService;
+}();
+
+var btfBlockerService = new btf_blocker_service_BtfBlockerService();
+// CONCATENATED MODULE: ./src/ad-engine/services/template-service.ts
+
+
+
+
+
+
+var template_service_logGroup = 'template-service';
+var templates = {};
+
+var template_service_TemplateService =
+/*#__PURE__*/
+function () {
+  function TemplateService() {
+    classCallCheck_default()(this, TemplateService);
+  }
+
+  createClass_default()(TemplateService, [{
+    key: "register",
+    value: function register(template) {
+      var customConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      if (typeof template.getName !== 'function') {
+        throw new Error('Template does not implement getName method.');
+      }
+
+      var name = template.getName();
+      var config = context.get("templates.".concat(name)) || {};
+
+      if (typeof template.getDefaultConfig === 'function') {
+        config = assign_default()(template.getDefaultConfig(), config);
+      }
+
+      if (customConfig) {
+        config = objectSpread_default()({}, config, customConfig);
+      }
+
+      context.set("templates.".concat(name), config);
+      templates[name] = template;
+    }
+  }, {
+    key: "init",
+    value: function init(name) {
+      var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      logger(template_service_logGroup, 'Load template', name, slot, params);
+
+      if (!templates[name]) {
+        throw new Error("Template ".concat(name, " does not exist."));
+      }
+
+      return new templates[name](slot).init(params);
+    }
+  }]);
+
+  return TemplateService;
+}();
+
+var templateService = new template_service_TemplateService();
+// CONCATENATED MODULE: ./src/ad-engine/services/custom-ad-loader.ts
+
+
+function registerCustomAdLoader(methodName) {
+  window[methodName] = function (params) {
+    var slot = params.slotName ? slotService.get(params.slotName) : null;
+    templateService.init(params.type, slot, params);
+  };
+}
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
+var now_ = __webpack_require__(23);
+var now_default = /*#__PURE__*/__webpack_require__.n(now_);
+
+// CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
+
+
+
+
+
+
+/* global Storage */
+
+var local_cache_logGroup = 'local-cache';
+
+var _canUseStorage;
+
+var local_cache_LocalCache =
+/*#__PURE__*/
+function () {
+  function LocalCache() {
+    classCallCheck_default()(this, LocalCache);
+  }
+
+  createClass_default()(LocalCache, [{
+    key: "canUseStorage",
+    value: function canUseStorage() {
+      if (typeof _canUseStorage === 'undefined') {
+        _canUseStorage = false;
+
+        if (window.localStorage) {
+          try {
+            window.localStorage.setItem('test', '1');
+            window.localStorage.removeItem('test');
+            _canUseStorage = true;
+          } catch (e) {
+            /* There are two known possibilities here:
+             *
+             * 1) The browser isn't allowing access due to a
+             * privacy setting (which can happen in Safari).
+             *
+             * 2) The allowed disk space for storage is used
+             * up. However, this is more likely to happen in
+             * calls to LocalCache.set().
+             */
+            try {
+              LocalCache.createPolyfill();
+              _canUseStorage = true;
+            } catch (exception) {
+              logger(local_cache_logGroup, 'Local Storage polyfill error: ', exception);
+            }
+          }
+        }
+      }
+
+      return _canUseStorage;
+    }
+  }, {
+    key: "createPolyfill",
+    value: function createPolyfill() {
+      logger(local_cache_logGroup, 'Local Storage polyfill being created');
+      Storage.prototype.data = {};
+
+      Storage.prototype.setItem = function (id, val) {
+        this.data[id] = String(val);
+      };
+
+      Storage.prototype.getItem = function (id) {
+        return this.data[id] ? this.data[id] : null;
+      };
+
+      Storage.prototype.removeItem = function (id) {
+        delete this.data[id];
+      };
+
+      Storage.prototype.clear = function () {
+        this.data = {};
+      };
+    }
+  }, {
+    key: "get",
+    value: function get(key) {
+      if (!this.canUseStorage()) {
+        return false;
+      }
+
+      var cacheItem = window.localStorage.getItem(key);
+
+      if (cacheItem) {
+        // De-serialize
+        cacheItem = JSON.parse(cacheItem); // Check if item has expired
+
+        if (this.isExpired(cacheItem)) {
+          this.delete(key);
+          return false;
+        }
+
+        return cacheItem.data;
+      }
+
+      return false;
+    }
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      var expires = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+      if (!this.canUseStorage() || !this.isStorable(value)) {
+        return false;
+      }
+
+      var cacheItem = {
+        data: value
+      };
+
+      var expiresValue = parse_int_default()(expires, 10);
+
+      if (!isNaN(expiresValue)) {
+        // Set expiration as a JS timestamp
+        cacheItem.expires = expiresValue * 1000 + now_default()();
+      }
+
+      try {
+        window.localStorage.setItem(key, stringify_default()(cacheItem));
+      } catch (e) {
+        // Local Storage is at capacity
+        return false;
+      }
+
+      return true;
+    }
+  }, {
+    key: "delete",
+    value: function _delete(key) {
+      if (!this.canUseStorage()) {
+        return;
+      }
+
+      window.localStorage.removeItem(key);
+    }
+  }, {
+    key: "isStorable",
+    value: function isStorable(value) {
+      if ( // Functions might be a security risk
+      typeof value === 'function' || // NaN
+      typeof value === 'number' && isNaN(value) || // undefined
+      typeof value === 'undefined') {
+        return false;
+      }
+
+      return true;
+    }
+  }, {
+    key: "isExpired",
+    value: function isExpired(cacheItem) {
+      return cacheItem.expires && now_default()() >= parse_int_default()(cacheItem.expires, 10);
+    }
+  }]);
+
+  return LocalCache;
+}();
+
+var localCache = new local_cache_LocalCache();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
 var get_own_property_descriptor_ = __webpack_require__(12);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
@@ -1773,427 +2747,330 @@ var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyD
 // EXTERNAL MODULE: external "core-decorators"
 var external_core_decorators_ = __webpack_require__(10);
 
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
+// CONCATENATED MODULE: ./src/ad-engine/models/ad-slot.ts
 
 
 
 
-var logGroup = 'gpt-size-map';
-var gpt_size_map_GptSizeMap =
+
+
+
+
+
+
+
+
+
+var ad_slot_AdSlot =
 /*#__PURE__*/
-function () {
-  function GptSizeMap(sizeMap) {
-    classCallCheck_default()(this, GptSizeMap);
+function (_EventEmitter) {
+  inherits_default()(AdSlot, _EventEmitter);
 
-    this.sizeMap = sizeMap || [];
-    logger(logGroup, this.sizeMap, 'creating new size map');
-  }
+  function AdSlot(ad) {
+    var _this;
 
-  createClass_default()(GptSizeMap, [{
-    key: "addSize",
-    value: function addSize(viewportSize, sizes) {
-      logger(logGroup, viewportSize, sizes, 'adding new size mapping');
-      this.sizeMap.push({
-        viewportSize: viewportSize,
-        sizes: sizes
-      });
+    classCallCheck_default()(this, AdSlot);
+
+    _this = possibleConstructorReturn_default()(this, getPrototypeOf_default()(AdSlot).call(this));
+    _this.config = void 0;
+    _this.viewed = false;
+    _this.element = null;
+    _this.status = null;
+    _this.enabled = void 0;
+    _this.events = void 0;
+    _this.adUnit = void 0;
+    _this.config = context.get("slots.".concat(ad.id)) || {};
+    _this.enabled = !_this.config.disabled;
+    _this.events = new lazy_queue_LazyQueue();
+
+    _this.events.onItemFlush(function (event) {
+      _this.on(event.name, event.callback);
+    });
+
+    _this.creativeId = null;
+    _this.creativeSize = null;
+    _this.lineItemId = null;
+    _this.config.slotName = _this.config.slotName || ad.id;
+    _this.config.targeting = _this.config.targeting || {};
+    _this.config.targeting.src = _this.config.targeting.src || context.get('src');
+    _this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
+    _this.winningPbBidderDetails = null;
+
+    _this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
+      _this.viewed = true;
+    });
+
+    _this.onLoadPromise = new promise_default.a(function (resolve) {
+      _this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
+    });
+
+    _this.addClass(AdSlot.AD_CLASS);
+
+    if (!_this.enabled) {
+      slotTweaker.hide(assertThisInitialized_default()(assertThisInitialized_default()(_this)));
     }
-  }, {
-    key: "build",
-    value: function build() {
-      logger(logGroup, this.sizeMap, 'creating GPT size mapping builder');
-      var builder = window.googletag && window.googletag.sizeMapping();
 
-      if (!builder) {
-        logger(logGroup, 'cannot create GPT size mapping builder');
-        return null;
+    _this.logger = function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
 
-      this.sizeMap.forEach(function (_ref) {
-        var viewportSize = _ref.viewportSize,
-            sizes = _ref.sizes;
-        builder.addSize(viewportSize, sizes);
+      return logger.apply(void 0, [AdSlot.LOG_GROUP].concat(args));
+    };
+
+    return _this;
+  }
+
+  createClass_default()(AdSlot, [{
+    key: "getAdUnit",
+    value: function getAdUnit() {
+      if (!this.adUnit) {
+        this.adUnit = stringBuilder.build(this.config.adUnit || context.get('adUnitId'), {
+          slotConfig: this.config
+        });
+      }
+
+      return this.adUnit;
+    }
+  }, {
+    key: "getVideoAdUnit",
+    value: function getVideoAdUnit() {
+      return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
+        slotConfig: this.config
       });
-      return builder.build();
     }
   }, {
-    key: "isEmpty",
-    value: function isEmpty() {
-      return !this.sizeMap.length;
+    key: "getElement",
+    value: function getElement() {
+      if (!this.element) {
+        this.element = document.getElementById(this.getSlotName());
+      }
+
+      return this.element;
     }
   }, {
-    key: "mapAllSizes",
-    value: function mapAllSizes(callback) {
-      return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
-        var viewportSize = _ref2.viewportSize,
-            sizes = _ref2.sizes;
-        var mappedSizes = callback(sizes, viewportSize, index);
-        logger(logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
-        return {
-          viewportSize: viewportSize,
-          sizes: mappedSizes
-        };
-      }));
+    key: "getSlotName",
+    value: function getSlotName() {
+      return this.config.slotName;
     }
   }, {
-    key: "toString",
-    value: function toString() {
-      logger(logGroup, this.sizeMap, 'casting to string');
-      var map = {};
-      this.sizeMap.forEach(function (_ref3) {
-        var viewportSize = _ref3.viewportSize,
-            sizes = _ref3.sizes;
-        map[viewportSize.join('x')] = sizes;
-      });
-      return stringify_default()(map);
+    key: "getSizes",
+    value: function getSizes() {
+      return this.config.sizes;
     }
-  }]);
+    /**
+     * Convenient property to get targeting.
+     * @returns {Object}
+     */
 
-  return GptSizeMap;
-}();
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.ts
-
-
-function setupGptTargeting() {
-  var tag = window.googletag.pubads();
-  var targeting = context.get('targeting');
-
-  function setTargetingValue(key, value) {
-    if (typeof value === 'undefined' || value === null) {
-      tag.clearTargeting(key);
-    } else if (typeof value === 'function') {
-      tag.setTargeting(key, value());
-    } else {
-      tag.setTargeting(key, value);
-    }
-  }
-
-  function setTargetingFromContext() {
-    keys_default()(targeting).forEach(function (key) {
-      setTargetingValue(key, targeting[key]);
-    });
-  }
-
-  eventService.on(events.PAGE_CHANGE_EVENT, function () {
-    setTargetingFromContext();
-  });
-  setTargetingFromContext();
-  context.onChange('targeting', function (trigger, value) {
-    var segments = trigger.split('.');
-    var key = segments[segments.length - 1];
-    setTargetingValue(key, value);
-  });
-}
-// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
-
-
-
-
-
-
-var _dec, _dec2, _dec3, _dec4, _class;
-
-
-
-
-
-
-
-var gpt_provider_logGroup = 'gpt-provider';
-var ADX = 'AdX';
-
-function postponeExecutionUntilGptLoads(method) {
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return window.googletag.cmd.push(function () {
-      return method.apply(_this, args);
-    });
-  };
-}
-
-var definedSlots = [];
-var initialized = false;
-
-function getAdSlotFromEvent(event) {
-  var id = event.slot.getSlotElementId();
-  return slotService.get(id);
-}
-
-function configure() {
-  var tag = window.googletag.pubads();
-
-  if (!context.get('options.isSraDisabled')) {
-    tag.enableSingleRequest();
-  }
-
-  tag.disableInitialLoad();
-  tag.addEventListener('slotOnload', function (event) {
-    slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
-  });
-  tag.addEventListener('slotRenderEnded', function (event) {
-    // IE doesn't allow us to inspect GPT iframe at this point.
-    // Let's launch our callback in a setTimeout instead.
-    flow_control_defer(function () {
-      return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
-    });
-  });
-  tag.addEventListener('impressionViewable', function (event) {
-    slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
-  });
-  window.googletag.enableServices();
-}
-
-var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec4 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), (_class =
-/*#__PURE__*/
-function () {
-  function GptProvider() {
-    var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    classCallCheck_default()(this, GptProvider);
-
-    window.googletag = window.googletag || {};
-    window.googletag.cmd = window.googletag.cmd || [];
-    this.init(forceInit);
-  }
-
-  createClass_default()(GptProvider, [{
-    key: "isInitialized",
-    value: function isInitialized() {
-      return initialized;
+  }, {
+    key: "getTargeting",
+    value: function getTargeting() {
+      return this.config.targeting;
     }
   }, {
-    key: "init",
-    value: function init() {
+    key: "getDefaultSizes",
+    value: function getDefaultSizes() {
+      return this.config.defaultSizes;
+    }
+  }, {
+    key: "getVideoSizes",
+    value: function getVideoSizes() {
+      return this.config.videoSizes;
+    }
+  }, {
+    key: "getViewportConflicts",
+    value: function getViewportConflicts() {
+      return this.config.viewportConflicts || [];
+    }
+  }, {
+    key: "hasDefinedViewportConflicts",
+    value: function hasDefinedViewportConflicts() {
+      return this.getViewportConflicts().length > 0;
+    }
+  }, {
+    key: "getStatus",
+    value: function getStatus() {
+      return this.status;
+    }
+  }, {
+    key: "setStatus",
+    value: function setStatus() {
+      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      this.status = status;
+
+      if (status !== null) {
+        this.emit(status);
+        slotListener.emitStatusChanged(this);
+      }
+    }
+  }, {
+    key: "isEnabled",
+    value: function isEnabled() {
+      return this.enabled;
+    }
+  }, {
+    key: "isFirstCall",
+    value: function isFirstCall() {
+      return !!this.config.firstCall;
+    }
+  }, {
+    key: "isViewed",
+    value: function isViewed() {
+      return this.viewed;
+    }
+  }, {
+    key: "isRepeatable",
+    value: function isRepeatable() {
+      return !!this.config.repeat;
+    }
+  }, {
+    key: "isOutOfPage",
+    value: function isOutOfPage() {
+      return !!this.config.outOfPage;
+    }
+  }, {
+    key: "getCopy",
+    value: function getCopy() {
+      return JSON.parse(stringify_default()(this.config));
+    }
+  }, {
+    key: "enable",
+    value: function enable() {
+      this.enabled = true;
+    }
+  }, {
+    key: "disable",
+    value: function disable() {
+      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      this.enabled = false;
+      this.setStatus(status);
+      slotTweaker.hide(this);
+    }
+  }, {
+    key: "getConfigProperty",
+    value: function getConfigProperty(key) {
+      return context.get("slots.".concat(this.config.slotName, ".").concat(key));
+    }
+  }, {
+    key: "setConfigProperty",
+    value: function setConfigProperty(key, value) {
+      context.set("slots.".concat(this.config.slotName, ".").concat(key), value);
+    }
+  }, {
+    key: "onLoad",
+    value: function onLoad() {
+      return this.onLoadPromise;
+    }
+  }, {
+    key: "success",
+    value: function success() {
       var _this2 = this;
 
-      if (this.isInitialized()) {
+      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_SUCCESS;
+      slotTweaker.show(this);
+      this.setStatus(status);
+      var templateNames = this.getConfigProperty('defaultTemplates');
+
+      if (templateNames && templateNames.length) {
+        templateNames.forEach(function (templateName) {
+          return templateService.init(templateName, _this2);
+        });
+      }
+    }
+  }, {
+    key: "collapse",
+    value: function collapse() {
+      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_COLLAPSE;
+      slotTweaker.hide(this);
+      this.setStatus(status);
+    }
+  }, {
+    key: "emitEvent",
+    value: function emitEvent() {
+      var eventName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (eventName !== null) {
+        slotListener.emitCustomEvent(eventName, this);
+      }
+    }
+  }, {
+    key: "updateWinningPbBidderDetails",
+    value: function updateWinningPbBidderDetails() {
+      if (this.targeting.hb_bidder && this.targeting.hb_pb) {
+        this.winningPbBidderDetails = {
+          name: this.targeting.hb_bidder,
+          price: this.targeting.hb_pb
+        };
+      } else {
+        this.winningPbBidderDetails = null;
+      }
+    }
+  }, {
+    key: "updateOnRenderEnd",
+    value: function updateOnRenderEnd(event) {
+      if (!event) {
         return;
       }
 
-      setupGptTargeting();
-      configure();
-      this.setupNonPersonalizedAds();
-      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
-        return _this2.destroySlots();
-      });
-      eventService.on(events.PAGE_RENDER_EVENT, function () {
-        return _this2.updateCorrelator();
-      });
-      initialized = true;
-    }
-  }, {
-    key: "setupNonPersonalizedAds",
-    value: function setupNonPersonalizedAds() {
-      var tag = window.googletag.pubads();
-      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
-    }
-  }, {
-    key: "fillIn",
-    value: function fillIn(adSlot) {
-      var _this3 = this;
+      var creativeId = event.creativeId,
+          lineItemId = event.lineItemId;
 
-      var adStack = context.get('state.adStack');
-      btfBlockerService.push(adSlot, function () {
-        _this3.fillInCallback.apply(_this3, arguments);
-      });
+      if (!event.isEmpty && event.slot) {
+        var resp = event.slot.getResponseInformation();
 
-      if (adStack.length === 0) {
-        this.flush();
-      }
-    }
-    /** @private */
-
-  }, {
-    key: "fillInCallback",
-    value: function fillInCallback(adSlot) {
-      var targeting = this.parseTargetingParams(adSlot.getTargeting());
-      var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
-      var gptSlot = this.createGptSlot(adSlot, sizeMap);
-      gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
-      this.applyTargetingParams(gptSlot, targeting);
-      slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
-      adSlot.updateWinningPbBidderDetails();
-      window.googletag.display(adSlot.getSlotName());
-      definedSlots.push(gptSlot);
-
-      if (!adSlot.isFirstCall()) {
-        this.flush();
-      }
-
-      logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
-    }
-    /** @private */
-
-  }, {
-    key: "createGptSlot",
-    value: function createGptSlot(adSlot, sizeMap) {
-      if (adSlot.isOutOfPage()) {
-        return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
-      }
-
-      return window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
-    }
-  }, {
-    key: "applyTargetingParams",
-    value: function applyTargetingParams(gptSlot, targeting) {
-      keys_default()(targeting).forEach(function (key) {
-        return gptSlot.setTargeting(key, targeting[key]);
-      });
-    }
-  }, {
-    key: "parseTargetingParams",
-    value: function parseTargetingParams(targetingParams) {
-      var result = {};
-
-      keys_default()(targetingParams).forEach(function (key) {
-        var value = targetingParams[key];
-
-        if (typeof value === 'function') {
-          value = value();
-        }
-
-        if (value !== null) {
-          result[key] = value;
-        }
-      });
-
-      return result;
-    }
-  }, {
-    key: "updateCorrelator",
-    value: function updateCorrelator() {
-      window.googletag.pubads().updateCorrelator();
-    }
-    /** @private */
-
-  }, {
-    key: "flush",
-    value: function flush() {
-      if (definedSlots.length) {
-        window.googletag.pubads().refresh(definedSlots, {
-          changeCorrelator: false
-        });
-        definedSlots = [];
-      }
-    }
-  }, {
-    key: "destroyGptSlots",
-    value: function destroyGptSlots(gptSlots) {
-      logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
-      gptSlots.forEach(function (gptSlot) {
-        var adSlot = slotService.get(gptSlot.getSlotElementId());
-        slotService.remove(adSlot);
-      });
-      var success = window.googletag.destroySlots(gptSlots);
-
-      if (!success) {
-        logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
-      }
-    }
-  }, {
-    key: "destroySlots",
-    value: function destroySlots(slotNames) {
-      var allSlots = window.googletag.pubads().getSlots();
-      var slotsToDestroy = allSlots;
-
-      if (slotNames && slotNames.length) {
-        slotsToDestroy = allSlots.filter(function (slot) {
-          var slotId = slot.getSlotElementId();
-
-          if (!slotId) {
-            logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
-          } else if (slotNames.indexOf(slotId) > -1) {
-            return true;
+        if (resp) {
+          if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
+            this.logger('set line item and creative id to source agnostic values');
+            creativeId = resp.sourceAgnosticCreativeId;
+            lineItemId = resp.sourceAgnosticLineItemId;
+          } else if (resp.creativeId === null && resp.lineItemId === null) {
+            creativeId = ADX;
+            lineItemId = ADX;
           }
-
-          return false;
-        });
+        }
       }
 
-      if (slotsToDestroy.length) {
-        this.destroyGptSlots(slotsToDestroy);
-      } else {
-        logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
+      this.creativeId = creativeId;
+      this.lineItemId = lineItemId;
+      this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
+      slotDataParamsUpdater.updateOnRenderEnd(this);
+    }
+    /**
+     * Appends gpt-ad class to adSlot node.
+     */
+
+  }, {
+    key: "addClass",
+    value: function addClass(className) {
+      var container = this.getElement();
+
+      if (container) {
+        container.classList.add(className);
+        return true;
       }
+
+      return false;
+    }
+  }, {
+    key: "targeting",
+    get: function get() {
+      return this.config.targeting;
     }
   }]);
 
-  return GptProvider;
-}(), (applyDecoratedDescriptor_default()(_class.prototype, "init", [_dec], get_own_property_descriptor_default()(_class.prototype, "init"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "fillIn", [_dec2], get_own_property_descriptor_default()(_class.prototype, "fillIn"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "updateCorrelator", [_dec3], get_own_property_descriptor_default()(_class.prototype, "updateCorrelator"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "destroyGptSlots", [_dec4], get_own_property_descriptor_default()(_class.prototype, "destroyGptSlots"), _class.prototype)), _class));
-// CONCATENATED MODULE: ./src/ad-engine/providers/prebidium-provider.ts
-
-
-
-
-
-var prebidium_provider_dec, prebidium_provider_class, _temp;
-
-
-
-
-var prebidium_provider_logGroup = 'prebidium-provider'; // TODO: ADEN-8075
-//  Duplicate from ad-bidders/prebid/index.js
-//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
-
-function postponeExecutionUntilPbjsLoads(method) {
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return window.pbjs.que.push(function () {
-      return method.apply(_this, args);
-    });
-  };
-}
-
-var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (prebidium_provider_class = (_temp =
-/*#__PURE__*/
-function () {
-  function PrebidiumProvider() {
-    classCallCheck_default()(this, PrebidiumProvider);
-
-    this.iframeBuilder = new iframe_builder_IframeBuilder();
-  }
-
-  createClass_default()(PrebidiumProvider, [{
-    key: "fillIn",
-    value: function fillIn(adSlot) {
-      var doc = this.getIframeDoc(adSlot);
-      var adId = this.getAdId(adSlot);
-      window.pbjs.renderAd(doc, adId);
-      logger(prebidium_provider_logGroup, adSlot.getSlotName(), 'slot added');
-    }
-    /** @private */
-
-  }, {
-    key: "getIframeDoc",
-    value: function getIframeDoc(adSlot) {
-      var iframe = this.iframeBuilder.create(adSlot);
-      return iframe.contentWindow.document;
-    }
-    /** @private */
-
-  }, {
-    key: "getAdId",
-    value: function getAdId(adSlot) {
-      return context.get("slots.".concat(adSlot.getSlotName(), ".targeting.hb_adid"));
-    }
-  }]);
-
-  return PrebidiumProvider;
-}(), _temp), (applyDecoratedDescriptor_default()(prebidium_provider_class.prototype, "fillIn", [prebidium_provider_dec], get_own_property_descriptor_default()(prebidium_provider_class.prototype, "fillIn"), prebidium_provider_class.prototype)), prebidium_provider_class));
-// CONCATENATED MODULE: ./src/ad-engine/providers/index.ts
-
-
-
+  return AdSlot;
+}(external_eventemitter3_default.a);
+ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
+ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
+ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
+ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
+ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
+ad_slot_AdSlot.STATUS_SUCCESS = 'success';
+ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
+ad_slot_AdSlot.STATUS_ERROR = 'error';
+ad_slot_AdSlot.AD_CLASS = 'gpt-ad';
+// CONCATENATED MODULE: ./src/ad-engine/models/index.ts
 
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.ts
 
@@ -3692,7 +4569,7 @@ porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
 
 
 
-var callbacks = {};
+var scroll_listener_callbacks = {};
 
 function getUniqueId() {
   return ((1 + Math.random()) * 0x1000000).toString(16).substring(1);
@@ -3720,9 +4597,9 @@ function () {
           window.requestAnimationFrame(function () {
             requestAnimationFrameHandleAdded = false;
 
-            keys_default()(callbacks).forEach(function (id) {
-              if (typeof callbacks[id] === 'function') {
-                callbacks[id](event, id);
+            keys_default()(scroll_listener_callbacks).forEach(function (id) {
+              if (typeof scroll_listener_callbacks[id] === 'function') {
+                scroll_listener_callbacks[id](event, id);
               }
             });
           });
@@ -3760,7 +4637,7 @@ function () {
       var _this2 = this;
 
       var id = getUniqueId();
-      callbacks[id] = callback;
+      scroll_listener_callbacks[id] = callback;
       eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, function () {
         return _this2.removeCallback(id);
       });
@@ -3769,7 +4646,7 @@ function () {
   }, {
     key: "removeCallback",
     value: function removeCallback(id) {
-      delete callbacks[id];
+      delete scroll_listener_callbacks[id];
     }
   }]);
 
@@ -3778,7 +4655,7 @@ function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(26);
+var is_array_ = __webpack_require__(27);
 var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
@@ -3933,1278 +4810,428 @@ var slotListener = new slot_listener_SlotListener();
 
 
 
-// CONCATENATED MODULE: ./src/ad-engine/models/ad-slot.ts
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
 
 
 
 
-
-
-
-
-
-
-
-
-
-var ad_slot_AdSlot =
+var gpt_size_map_logGroup = 'gpt-size-map';
+var gpt_size_map_GptSizeMap =
 /*#__PURE__*/
-function (_EventEmitter) {
-  inherits_default()(AdSlot, _EventEmitter);
+function () {
+  function GptSizeMap(sizeMap) {
+    classCallCheck_default()(this, GptSizeMap);
 
-  createClass_default()(AdSlot, null, [{
-    key: "isAboveTheFold",
-
-    /**
-     * Returns true if slot is ATF
-     *
-     * @param config slot config
-     * @returns {boolean} true if slot is ATF
-     */
-    value: function isAboveTheFold(config) {
-      return !!config.aboveTheFold;
-    }
-  }]);
-
-  function AdSlot(ad) {
-    var _this;
-
-    classCallCheck_default()(this, AdSlot);
-
-    _this = possibleConstructorReturn_default()(this, getPrototypeOf_default()(AdSlot).call(this));
-    _this.config = context.get("slots.".concat(ad.id)) || {};
-    _this.enabled = !_this.config.disabled;
-    _this.viewed = false;
-    _this.element = null;
-    _this.status = null;
-    _this.events = new lazy_queue_LazyQueue();
-
-    _this.events.onItemFlush(function (event) {
-      _this.on(event.name, event.callback);
-    });
-
-    _this.creativeId = null;
-    _this.creativeSize = null;
-    _this.lineItemId = null;
-    _this.config.slotName = _this.config.slotName || ad.id;
-    _this.config.targeting = _this.config.targeting || {};
-    _this.config.targeting.src = _this.config.targeting.src || context.get('src');
-    _this.config.targeting.pos = _this.config.targeting.pos || _this.getSlotName();
-    _this.winningPbBidderDetails = null;
-
-    _this.once(AdSlot.SLOT_VIEWED_EVENT, function () {
-      _this.viewed = true;
-    });
-
-    _this.onLoadPromise = new promise_default.a(function (resolve) {
-      _this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
-    });
-
-    _this.addClass(AdSlot.AD_CLASS);
-
-    if (!_this.enabled) {
-      slotTweaker.hide(assertThisInitialized_default()(assertThisInitialized_default()(_this)));
-    }
-
-    _this.logger = function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return logger.apply(void 0, [AdSlot.LOG_GROUP].concat(args));
-    };
-
-    return _this;
+    this.sizeMap = sizeMap || [];
+    logger(gpt_size_map_logGroup, this.sizeMap, 'creating new size map');
   }
 
-  createClass_default()(AdSlot, [{
-    key: "getAdUnit",
-    value: function getAdUnit() {
-      if (!this.adUnit) {
-        this.adUnit = stringBuilder.build(this.config.adUnit || context.get('adUnitId'), {
-          slotConfig: this.config
-        });
-      }
-
-      return this.adUnit;
-    }
-  }, {
-    key: "getVideoAdUnit",
-    value: function getVideoAdUnit() {
-      return stringBuilder.build(this.config.videoAdUnit || context.get('vast.adUnitId'), {
-        slotConfig: this.config
+  createClass_default()(GptSizeMap, [{
+    key: "addSize",
+    value: function addSize(viewportSize, sizes) {
+      logger(gpt_size_map_logGroup, viewportSize, sizes, 'adding new size mapping');
+      this.sizeMap.push({
+        viewportSize: viewportSize,
+        sizes: sizes
       });
     }
   }, {
-    key: "getElement",
-    value: function getElement() {
-      if (!this.element) {
-        this.element = document.getElementById(this.getSlotName());
+    key: "build",
+    value: function build() {
+      logger(gpt_size_map_logGroup, this.sizeMap, 'creating GPT size mapping builder');
+      var builder = window.googletag && window.googletag.sizeMapping();
+
+      if (!builder) {
+        logger(gpt_size_map_logGroup, 'cannot create GPT size mapping builder');
+        return null;
       }
 
-      return this.element;
+      this.sizeMap.forEach(function (_ref) {
+        var viewportSize = _ref.viewportSize,
+            sizes = _ref.sizes;
+        builder.addSize(viewportSize, sizes);
+      });
+      return builder.build();
     }
   }, {
-    key: "getSlotName",
-    value: function getSlotName() {
-      return this.config.slotName;
+    key: "isEmpty",
+    value: function isEmpty() {
+      return !this.sizeMap.length;
     }
   }, {
-    key: "getSizes",
-    value: function getSizes() {
-      return this.config.sizes;
-    }
-    /**
-     * Convenient property to get targeting.
-     * @returns {Object}
-     */
-
-  }, {
-    key: "getTargeting",
-    value: function getTargeting() {
-      return this.config.targeting;
-    }
-  }, {
-    key: "getDefaultSizes",
-    value: function getDefaultSizes() {
-      return this.config.defaultSizes;
-    }
-  }, {
-    key: "getVideoSizes",
-    value: function getVideoSizes() {
-      return this.config.videoSizes;
-    }
-  }, {
-    key: "getViewportConflicts",
-    value: function getViewportConflicts() {
-      return this.config.viewportConflicts || [];
-    }
-  }, {
-    key: "hasDefinedViewportConflicts",
-    value: function hasDefinedViewportConflicts() {
-      return this.getViewportConflicts().length > 0;
-    }
-  }, {
-    key: "getStatus",
-    value: function getStatus() {
-      return this.status;
-    }
-  }, {
-    key: "setStatus",
-    value: function setStatus() {
-      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      this.status = status;
-
-      if (status !== null) {
-        this.emit(status);
-        slotListener.emitStatusChanged(this);
-      }
-    }
-  }, {
-    key: "isFirstCall",
-    value: function isFirstCall() {
-      return !!this.config.firstCall;
-    }
-  }, {
-    key: "isEnabled",
-    value: function isEnabled() {
-      return this.enabled;
-    }
-  }, {
-    key: "isViewed",
-    value: function isViewed() {
-      return this.viewed;
-    }
-  }, {
-    key: "isRepeatable",
-    value: function isRepeatable() {
-      return !!this.config.repeat;
-    }
-  }, {
-    key: "isOutOfPage",
-    value: function isOutOfPage() {
-      return !!this.config.outOfPage;
-    }
-  }, {
-    key: "getCopy",
-    value: function getCopy() {
-      return JSON.parse(stringify_default()(this.config));
-    }
-  }, {
-    key: "enable",
-    value: function enable() {
-      this.enabled = true;
-    }
-  }, {
-    key: "disable",
-    value: function disable() {
-      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      this.enabled = false;
-      this.setStatus(status);
-      slotTweaker.hide(this);
-    }
-  }, {
-    key: "getConfigProperty",
-    value: function getConfigProperty(key) {
-      return context.get("slots.".concat(this.config.slotName, ".").concat(key));
-    }
-  }, {
-    key: "setConfigProperty",
-    value: function setConfigProperty(key, value) {
-      context.set("slots.".concat(this.config.slotName, ".").concat(key), value);
-    }
-  }, {
-    key: "onLoad",
-    value: function onLoad() {
-      return this.onLoadPromise;
-    }
-  }, {
-    key: "success",
-    value: function success() {
-      var _this2 = this;
-
-      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_SUCCESS;
-      slotTweaker.show(this);
-      this.setStatus(status);
-      var templateNames = this.getConfigProperty('defaultTemplates');
-
-      if (templateNames && templateNames.length) {
-        templateNames.forEach(function (templateName) {
-          return templateService.init(templateName, _this2);
-        });
-      }
-    }
-  }, {
-    key: "collapse",
-    value: function collapse() {
-      var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AdSlot.STATUS_COLLAPSE;
-      slotTweaker.hide(this);
-      this.setStatus(status);
-    }
-  }, {
-    key: "emitEvent",
-    value: function emitEvent() {
-      var eventName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-      if (eventName !== null) {
-        slotListener.emitCustomEvent(eventName, this);
-      }
-    }
-  }, {
-    key: "updateWinningPbBidderDetails",
-    value: function updateWinningPbBidderDetails() {
-      if (this.targeting.hb_bidder && this.targeting.hb_pb) {
-        this.winningPbBidderDetails = {
-          name: this.targeting.hb_bidder,
-          price: this.targeting.hb_pb
+    key: "mapAllSizes",
+    value: function mapAllSizes(callback) {
+      return new GptSizeMap(this.sizeMap.map(function (_ref2, index) {
+        var viewportSize = _ref2.viewportSize,
+            sizes = _ref2.sizes;
+        var mappedSizes = callback(sizes, viewportSize, index);
+        logger(gpt_size_map_logGroup, viewportSize, sizes, mappedSizes, 'mapping viewport sizes');
+        return {
+          viewportSize: viewportSize,
+          sizes: mappedSizes
         };
-      } else {
-        this.winningPbBidderDetails = null;
-      }
+      }));
     }
   }, {
-    key: "updateOnRenderEnd",
-    value: function updateOnRenderEnd(event) {
-      if (!event) {
-        return;
-      }
-
-      var creativeId = event.creativeId,
-          lineItemId = event.lineItemId;
-
-      if (!event.isEmpty && event.slot) {
-        var resp = event.slot.getResponseInformation();
-
-        if (resp) {
-          if (resp.sourceAgnosticCreativeId && resp.sourceAgnosticLineItemId) {
-            this.logger('set line item and creative id to source agnostic values');
-            creativeId = resp.sourceAgnosticCreativeId;
-            lineItemId = resp.sourceAgnosticLineItemId;
-          } else if (resp.creativeId === null && resp.lineItemId === null) {
-            creativeId = ADX;
-            lineItemId = ADX;
-          }
-        }
-      }
-
-      this.creativeId = creativeId;
-      this.lineItemId = lineItemId;
-      this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
-      slotDataParamsUpdater.updateOnRenderEnd(this);
-    }
-    /**
-     * Appends gpt-ad class to adSlot node.
-     */
-
-  }, {
-    key: "addClass",
-    value: function addClass(className) {
-      var container = this.getElement();
-
-      if (container) {
-        container.classList.add(className);
-        return true;
-      }
-
-      return false;
-    }
-  }, {
-    key: "targeting",
-    get: function get() {
-      return this.config.targeting;
+    key: "toString",
+    value: function toString() {
+      logger(gpt_size_map_logGroup, this.sizeMap, 'casting to string');
+      var map = {};
+      this.sizeMap.forEach(function (_ref3) {
+        var viewportSize = _ref3.viewportSize,
+            sizes = _ref3.sizes;
+        map[viewportSize.join('x')] = sizes;
+      });
+      return stringify_default()(map);
     }
   }]);
 
-  return AdSlot;
-}(external_eventemitter3_default.a);
-ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
-ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
-ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
-ad_slot_AdSlot.VIDEO_VIEWED_EVENT = 'videoViewed';
-ad_slot_AdSlot.LOG_GROUP = 'AdSlot';
-ad_slot_AdSlot.STATUS_SUCCESS = 'success';
-ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
-ad_slot_AdSlot.STATUS_ERROR = 'error';
-ad_slot_AdSlot.AD_CLASS = 'gpt-ad';
-// CONCATENATED MODULE: ./src/ad-engine/models/index.ts
-
-// CONCATENATED MODULE: ./src/ad-engine/services/message-bus.ts
+  return GptSizeMap;
+}();
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-targeting.ts
 
 
+function setupGptTargeting() {
+  var tag = window.googletag.pubads();
+  var targeting = context.get('targeting');
 
-var message_bus_callbacks = [];
-var message_bus_logGroup = 'message-bus';
-
-function isAdEngineMessage(message) {
-  try {
-    return !!JSON.parse(message.data).AdEngine;
-  } catch (e) {
-    return false;
+  function setTargetingValue(key, value) {
+    if (typeof value === 'undefined' || value === null) {
+      tag.clearTargeting(key);
+    } else if (typeof value === 'function') {
+      tag.setTargeting(key, value());
+    } else {
+      tag.setTargeting(key, value);
+    }
   }
-}
 
-function messageMatch(match, message) {
-  var matching = true;
-
-  if (match.keys) {
-    var data = JSON.parse(message.data).AdEngine;
-    match.keys.forEach(function (key) {
-      matching = matching && data[key];
+  function setTargetingFromContext() {
+    keys_default()(targeting).forEach(function (key) {
+      setTargetingValue(key, targeting[key]);
     });
   }
 
-  return matching;
+  eventService.on(events.PAGE_CHANGE_EVENT, function () {
+    setTargetingFromContext();
+  });
+  setTargetingFromContext();
+  context.onChange('targeting', function (trigger, value) {
+    var segments = trigger.split('.');
+    var key = segments[segments.length - 1];
+    setTargetingValue(key, value);
+  });
 }
+// CONCATENATED MODULE: ./src/ad-engine/providers/gpt-provider.ts
 
-function onMessage(message) {
-  var i = 0;
-  var callback;
 
-  if (isAdEngineMessage(message)) {
-    logger(message_bus_logGroup, 'Message received', message);
 
-    for (i = 0; i < message_bus_callbacks.length; i += 1) {
-      callback = message_bus_callbacks[i];
 
-      if (messageMatch(callback.match, message)) {
-        logger(message_bus_logGroup, 'Matching message', message, callback);
-        callback.fn(JSON.parse(message.data).AdEngine);
 
-        if (!callback.match.infinite) {
-          message_bus_callbacks.splice(i, 1);
-        }
 
-        return;
-      }
+var _dec, _dec2, _dec3, _dec4, _class;
+
+
+
+
+
+
+
+var gpt_provider_logGroup = 'gpt-provider';
+var ADX = 'AdX';
+
+function postponeExecutionUntilGptLoads(method) {
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
-  }
-}
 
-var message_bus_MessageBus =
-/*#__PURE__*/
-function () {
-  function MessageBus() {
-    classCallCheck_default()(this, MessageBus);
-  }
-
-  createClass_default()(MessageBus, [{
-    key: "init",
-    value: function init() {
-      logger(message_bus_logGroup, 'Register message listener');
-      window.addEventListener('message', onMessage);
-    }
-  }, {
-    key: "register",
-    value: function register(match, callback) {
-      message_bus_callbacks.push({
-        match: match,
-        fn: callback
-      });
-    }
-  }]);
-
-  return MessageBus;
-}();
-
-var messageBus = new message_bus_MessageBus();
-// CONCATENATED MODULE: ./src/ad-engine/services/slot-tweaker.ts
-
-
-
-
-
-
-
-var slot_tweaker_logGroup = 'slot-tweaker';
-var slot_tweaker_SlotTweaker =
-/*#__PURE__*/
-function () {
-  function SlotTweaker() {
-    classCallCheck_default()(this, SlotTweaker);
-  }
-
-  createClass_default()(SlotTweaker, [{
-    key: "forceRepaint",
-
-    /** @readonly */
-    value: function forceRepaint(domElement) {
-      return domElement.offsetWidth;
-    }
-  }, {
-    key: "getContainer",
-    value: function getContainer(adSlot) {
-      var container = adSlot.getElement();
-
-      if (!container) {
-        logger(slot_tweaker_logGroup, 'cannot find container', adSlot.getSlotName());
-      }
-
-      return container;
-    }
-  }, {
-    key: "addDefaultClasses",
-    value: function addDefaultClasses(adSlot) {
-      var container = this.getContainer(adSlot);
-      var defaultClasses = adSlot.getConfigProperty('defaultClasses') || [];
-
-      if (container && defaultClasses.length) {
-        defaultClasses.forEach(function (className) {
-          return container.classList.add(className);
-        });
-      }
-    }
-  }, {
-    key: "hide",
-    value: function hide(adSlot) {
-      var container = this.getContainer(adSlot);
-
-      if (container) {
-        logger(slot_tweaker_logGroup, 'hide', adSlot.getSlotName());
-        container.classList.add('hide');
-      }
-    }
-  }, {
-    key: "show",
-    value: function show(adSlot) {
-      var container = this.getContainer(adSlot);
-
-      if (container) {
-        logger(slot_tweaker_logGroup, 'show', adSlot.getSlotName());
-        container.classList.remove('hide');
-      }
-    }
-  }, {
-    key: "collapse",
-    value: function collapse(adSlot) {
-      var container = this.getContainer(adSlot);
-      container.style.maxHeight = "".concat(container.scrollHeight, "px");
-      this.forceRepaint(container);
-      container.classList.add('slot-animation');
-      container.style.maxHeight = '0';
-    }
-  }, {
-    key: "expand",
-    value: function expand(adSlot) {
-      var container = this.getContainer(adSlot);
-      container.style.maxHeight = "".concat(container.offsetHeight, "px");
-      container.classList.remove('hide');
-      container.classList.add('slot-animation');
-      container.style.maxHeight = "".concat(container.scrollHeight, "px");
-    }
-  }, {
-    key: "makeResponsive",
-    value: function makeResponsive(adSlot) {
-      var aspectRatio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var paddingBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var slotContainer = this.getContainer(adSlot);
-      slotContainer.classList.add('slot-responsive');
-      return this.onReady(adSlot).then(function (iframe) {
-        var container = iframe.parentElement;
-
-        if (!aspectRatio) {
-          var height = iframe.contentWindow.document.body.scrollHeight;
-          var width = iframe.contentWindow.document.body.scrollWidth;
-          aspectRatio = width / height;
-        }
-
-        logger(slot_tweaker_logGroup, 'make responsive', adSlot.getSlotName());
-
-        if (paddingBottom) {
-          container.style.paddingBottom = "".concat(100 / aspectRatio, "%");
-        }
-
-        return iframe;
-      });
-    }
-  }, {
-    key: "onReady",
-    value: function onReady(adSlot) {
-      if (adSlot.getConfigProperty('useGptOnloadEvent')) {
-        return adSlot.onLoad();
-      }
-
-      var container = this.getContainer(adSlot);
-      var iframe = container.querySelector('div[id*="_container_"] iframe');
-      return new promise_default.a(function (resolve, reject) {
-        if (!iframe) {
-          reject(new Error('Cannot find iframe element'));
-        }
-
-        var iframeDocument = null;
-
-        try {
-          iframeDocument = iframe.contentWindow.document;
-        } catch (ignore) {
-          logger(slot_tweaker_logGroup, adSlot.getSlotName(), 'loaded through SafeFrame');
-        }
-
-        if (iframeDocument && iframeDocument.readyState === 'complete') {
-          resolve(iframe);
-        } else {
-          iframe.addEventListener('load', function () {
-            return resolve(iframe);
-          });
-        }
-      });
-    }
-  }, {
-    key: "adjustIframeByContentSize",
-    value: function adjustIframeByContentSize(adSlot) {
-      this.onReady(adSlot).then(function (iframe) {
-        var height = iframe.contentWindow.document.body.scrollHeight;
-        var width = iframe.contentWindow.document.body.scrollWidth;
-        iframe.width = width;
-        iframe.height = height;
-        logger(slot_tweaker_logGroup, 'adjust size', adSlot.getSlotName(), width, height);
-      });
-    }
-  }, {
-    key: "registerMessageListener",
-    value: function registerMessageListener() {
-      var _this = this;
-
-      messageBus.register({
-        keys: ['action', 'slotName'],
-        infinite: true
-      }, function (data) {
-        if (!data.slotName) {
-          logger(slot_tweaker_logGroup, 'Missing slot name');
-          return;
-        }
-
-        var adSlot = slotService.get(data.slotName);
-
-        switch (data.action) {
-          case 'expand':
-            _this.expand(adSlot);
-
-            break;
-
-          case 'collapse':
-            _this.collapse(adSlot);
-
-            break;
-
-          case 'hide':
-            _this.hide(adSlot);
-
-            break;
-
-          case 'show':
-            _this.show(adSlot);
-
-            break;
-
-          case 'make-responsive':
-            _this.makeResponsive(adSlot, data.aspectRatio);
-
-            break;
-
-          default:
-            logger(slot_tweaker_logGroup, 'Unknown action', data.action);
-        }
-      });
-    }
-  }, {
-    key: "setDataParam",
-    value: function setDataParam(adSlot, attrName, data) {
-      var container = this.getContainer(adSlot);
-      container.dataset[attrName] = typeof data === 'string' ? data : stringify_default()(data);
-    }
-  }]);
-
-  return SlotTweaker;
-}();
-slot_tweaker_SlotTweaker.SLOT_CLOSE_IMMEDIATELY = 'force-close';
-var slotTweaker = new slot_tweaker_SlotTweaker();
-// CONCATENATED MODULE: ./src/ad-engine/services/slot-service.ts
-
-
-
-
-
-
-
-
-
-
-
-var slot_service_groupName = 'slot-service';
-/** @type {Object.<string, AdSlot>} */
-
-var slot_service_slots = {};
-var slotEvents = {};
-var slotStatuses = {};
-var slotStates = {};
-
-function isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId) {
-  var element = document.getElementById(elementId); // According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
-  // Hidden element does not have offsetParent
-
-  if (element.offsetParent === null) {
-    return false;
-  }
-
-  var elementHeight = element.offsetHeight;
-  var elementOffset = getTopOffset(element);
-  var isFirst = elementOffset < slotOffset;
-  var distance = isFirst ? slotOffset - elementOffset - elementHeight : elementOffset - slotOffset - slotHeight;
-  return distance < viewportHeight;
-}
-
-eventService.on(events.PAGE_CHANGE_EVENT, function () {
-  slotEvents = {};
-  slotStates = {};
-  slotStatuses = {};
-});
-
-var slot_service_SlotService =
-/*#__PURE__*/
-function () {
-  function SlotService() {
-    classCallCheck_default()(this, SlotService);
-  }
-
-  createClass_default()(SlotService, [{
-    key: "add",
-
-    /**
-     * Add new slot to register
-     * @param {AdSlot} adSlot
-     */
-    value: function add(adSlot) {
-      var slotName = adSlot.getSlotName();
-      slot_service_slots[slotName] = adSlot;
-
-      if (slotStates[slotName] === false) {
-        adSlot.disable(slotStatuses[slotName]);
-      }
-
-      if (slotStates[slotName] === true) {
-        adSlot.enable();
-      }
-
-      slotTweaker.addDefaultClasses(adSlot);
-      eventService.emit(events.AD_SLOT_CREATED, adSlot);
-
-      if (slotEvents[slotName]) {
-        var _adSlot$events;
-
-        (_adSlot$events = adSlot.events).push.apply(_adSlot$events, toConsumableArray_default()(slotEvents[slotName]));
-
-        delete slotEvents[slotName];
-      }
-
-      adSlot.events.flush();
-    }
-    /**
-     * Removes slot from register
-     * @param {AdSlot} adSlot
-     */
-
-  }, {
-    key: "remove",
-    value: function remove(adSlot) {
-      var slotName = adSlot.getSlotName();
-      context.removeListeners("slots.".concat(slotName));
-      adSlot.disable('Marked for remove');
-      delete slot_service_slots[slotName];
-      delete slotStates[slotName];
-      delete slotStatuses[slotName];
-    }
-    /**
-     * Get slot by its name or pos
-     * @param id
-     * @returns {AdSlot}
-     */
-
-  }, {
-    key: "get",
-    value: function get(id) {
-      var _id$split = id.split(','),
-          _id$split2 = slicedToArray_default()(_id$split, 1),
-          singleSlotName = _id$split2[0];
-
-      if (slot_service_slots[singleSlotName]) {
-        return slot_service_slots[singleSlotName];
-      } // Find slots by first targeting.pos
-
-
-      var slotByPos = null;
-      this.forEach(function (slot) {
-        if (slotByPos !== null) {
-          return;
-        }
-
-        var position = slot.getConfigProperty('targeting.pos') || [];
-
-        if (position === singleSlotName || position[0] === singleSlotName) {
-          slotByPos = slot;
-        }
-      });
-      return slotByPos;
-    }
-    /**
-     * Iterate over all defined slots
-     * @param {function} callback
-     */
-
-  }, {
-    key: "forEach",
-    value: function forEach(callback) {
-      keys_default()(slot_service_slots).forEach(function (id) {
-        callback(slot_service_slots[id]);
-      });
-    }
-    /**
-     *
-     * @param {string} slotName
-     * @param {string} eventName
-     * @param {function} callback
-     */
-
-  }, {
-    key: "on",
-    value: function on(slotName, eventName, callback) {
-      var adSlot = this.get(slotName);
-      var event = {
-        name: eventName,
-        callback: callback
-      };
-      slotEvents[slotName] = slotEvents[slotName] || [];
-
-      if (adSlot) {
-        adSlot.events.push(event);
-      } else {
-        slotEvents[slotName].push(event);
-      }
-    }
-    /**
-     * Enable slot by name (it isn't necessary to have given ad slot in register at this point)
-     * @param {string} slotName
-     */
-
-  }, {
-    key: "enable",
-    value: function enable(slotName) {
-      this.setState(slotName, true);
-    }
-    /**
-     * Disable slot by name (it isn't necessary to have given ad slot in register at this point)
-     * @param {string} slotName
-     * @param {null|string} status
-     */
-
-  }, {
-    key: "disable",
-    value: function disable(slotName) {
-      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      this.setState(slotName, false, status);
-    }
-    /**
-     * Get current state of slot (it isn't necessary to have given ad slot in register at this point)
-     * @param {string} slotName
-     * @returns {boolean}
-     */
-
-  }, {
-    key: "getState",
-    value: function getState(slotName) {
-      // Comparing with false in order to get truthy value for slot
-      // that wasn't disabled or enabled (in case when state is undefined)
-      return slotStates[slotName] !== false;
-    }
-  }, {
-    key: "setState",
-    value: function setState(slotName, state) {
-      var status = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-      var slot = this.get(slotName);
-      slotStates[slotName] = state;
-      slotStatuses[slotName] = status; // After slot is created context should be read-only
-
-      if (slot) {
-        slot.setStatus(status);
-
-        if (state) {
-          slot.enable();
-        } else {
-          slot.disable();
-        }
-      } else if (state) {
-        context.set("slots.".concat(slotName, ".disabled"), false);
-      } else {
-        context.set("slots.".concat(slotName, ".disabled"), true);
-      }
-
-      logger(slot_service_groupName, 'set state', slotName, state);
-    }
-    /**
-     * Checks whether ad slot has conflict with defined elements
-     * @param {AdSlot} adSlot
-     * @returns {boolean}
-     */
-
-  }, {
-    key: "hasViewportConflict",
-    value: function hasViewportConflict(adSlot) {
-      if (!adSlot.hasDefinedViewportConflicts() || adSlot.getElement() === null) {
-        return false;
-      }
-
-      var slotHeight = adSlot.getElement().offsetHeight;
-      var slotOffset = getTopOffset(adSlot.getElement());
-      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      var hasConflict = adSlot.getViewportConflicts().some(function (elementId) {
-        return isSlotInTheSameViewport(slotHeight, slotOffset, viewportHeight, elementId);
-      });
-      logger(slot_service_groupName, 'hasViewportConflict', adSlot.getSlotName(), hasConflict);
-      return hasConflict;
-    }
-    /**
-     * Returns configuration of ATF slots.
-     * @returns {Object[]} ATF slot configs
-     */
-
-  }, {
-    key: "getAtfSlotConfigs",
-    value: function getAtfSlotConfigs() {
-      var slotConfigs = context.get('slots');
-      return values_default()(slotConfigs).filter(function (config) {
-        return ad_slot_AdSlot.isAboveTheFold(config);
-      });
-    }
-  }]);
-
-  return SlotService;
-}();
-
-var slotService = new slot_service_SlotService();
-// CONCATENATED MODULE: ./src/ad-engine/services/btf-blocker-service.ts
-
-
-
-
-
-
-
-
-var btf_blocker_service_logGroup = 'btf-blocker';
-
-var btf_blocker_service_BtfBlockerService =
-/*#__PURE__*/
-function () {
-  function BtfBlockerService() {
-    classCallCheck_default()(this, BtfBlockerService);
-
-    this.resetState();
-  }
-  /**
-   * @private
-   */
-
-
-  createClass_default()(BtfBlockerService, [{
-    key: "resetState",
-    value: function resetState() {
-      var _this = this;
-
-      this.firstCallEnded = false;
-      /** @type {string[]}  */
-
-      this.unblockedSlotNames = [];
-      this.slotsQueue = new lazy_queue_LazyQueue();
-      this.slotsQueue.onItemFlush(function (_ref) {
-        var adSlot = _ref.adSlot,
-            fillInCallback = _ref.fillInCallback;
-        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling delayed second call slot');
-
-        _this.disableAdSlotIfHasConflict(adSlot);
-
-        _this.fillInSlotIfEnabled(adSlot, fillInCallback);
-      });
-
-      if (window.ads && window.ads.runtime) {
-        window.ads.runtime.disableBtf = false;
-        window.ads.runtime.disableSecondCall = false;
-      }
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      context.push('listeners.slot', {
-        onRenderEnded: function onRenderEnded(adSlot) {
-          logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot rendered');
-
-          if (!_this2.firstCallEnded && adSlot.isFirstCall()) {
-            _this2.finishFirstCall();
-          }
-        }
-      });
-      eventService.on(events.PAGE_CHANGE_EVENT, function () {
-        _this2.resetState();
-      });
-    }
-  }, {
-    key: "finishFirstCall",
-    value: function finishFirstCall() {
-      this.firstCallEnded = true;
-      logger(btf_blocker_service_logGroup, 'first call queue finished');
-
-      if (window.ads.runtime.disableSecondCall) {
-        this.disableSecondCall([]);
-      } else if (window.ads.runtime.disableBtf) {
-        this.disableSecondCall([].concat(toConsumableArray_default()(this.unblockedSlotNames), toConsumableArray_default()(slotService.getAtfSlotConfigs().map(function (slot) {
-          return slot.slotName;
-        }))));
-      }
-
-      this.slotsQueue.flush();
-    }
-    /**
-     * @private
-     */
-
-  }, {
-    key: "disableSecondCall",
-    value: function disableSecondCall(unblockedSlots) {
-      var slots = context.get('slots');
-      logger(btf_blocker_service_logGroup, 'second call queue disabled');
-
-      keys_default()(slots).forEach(function (adSlotKey) {
-        var slotConfig = slots[adSlotKey];
-
-        if (!slotConfig.firstCall && unblockedSlots.indexOf(adSlotKey) === -1) {
-          slotService.disable(adSlotKey, 'blocked');
-        }
-      });
-    }
-  }, {
-    key: "push",
-    value: function push(adSlot, fillInCallback) {
-      if (!this.firstCallEnded && !adSlot.isFirstCall()) {
-        this.slotsQueue.push({
-          adSlot: adSlot,
-          fillInCallback: fillInCallback
-        });
-        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'second call slot pushed to queue');
-        return;
-      }
-
-      this.disableAdSlotIfHasConflict(adSlot);
-      this.fillInSlotIfEnabled(adSlot, fillInCallback);
-    }
-    /**
-     * @private
-     */
-
-  }, {
-    key: "disableAdSlotIfHasConflict",
-    value: function disableAdSlotIfHasConflict(adSlot) {
-      if (slotService.hasViewportConflict(adSlot)) {
-        slotService.disable(adSlot.getSlotName(), 'viewport-conflict');
-      }
-    }
-    /**
-     * @private
-     */
-
-  }, {
-    key: "fillInSlotIfEnabled",
-    value: function fillInSlotIfEnabled(adSlot, fillInCallback) {
-      if (!adSlot.isEnabled()) {
-        logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Slot blocked', adSlot.getStatus());
-        return;
-      }
-
-      logger(btf_blocker_service_logGroup, adSlot.getSlotName(), 'Filling in slot');
-      fillInCallback(adSlot);
-    }
-  }, {
-    key: "unblock",
-    value: function unblock(slotName) {
-      logger(btf_blocker_service_logGroup, slotName, 'Unblocking slot');
-      this.unblockedSlotNames.push(slotName);
-      slotService.enable(slotName);
-    }
-  }]);
-
-  return BtfBlockerService;
-}();
-
-var btfBlockerService = new btf_blocker_service_BtfBlockerService();
-// CONCATENATED MODULE: ./src/ad-engine/services/template-service.ts
-
-
-
-
-
-
-var template_service_logGroup = 'template-service';
-var templates = {};
-
-var template_service_TemplateService =
-/*#__PURE__*/
-function () {
-  function TemplateService() {
-    classCallCheck_default()(this, TemplateService);
-  }
-
-  createClass_default()(TemplateService, [{
-    key: "register",
-    value: function register(template) {
-      var customConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-      if (typeof template.getName !== 'function') {
-        throw new Error('Template does not implement getName method.');
-      }
-
-      var name = template.getName();
-      var config = context.get("templates.".concat(name)) || {};
-
-      if (typeof template.getDefaultConfig === 'function') {
-        config = assign_default()(template.getDefaultConfig(), config);
-      }
-
-      if (customConfig) {
-        config = objectSpread_default()({}, config, customConfig);
-      }
-
-      context.set("templates.".concat(name), config);
-      templates[name] = template;
-    }
-  }, {
-    key: "init",
-    value: function init(name) {
-      var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      logger(template_service_logGroup, 'Load template', name, slot, params);
-
-      if (!templates[name]) {
-        throw new Error("Template ".concat(name, " does not exist."));
-      }
-
-      return new templates[name](slot).init(params);
-    }
-  }]);
-
-  return TemplateService;
-}();
-
-var templateService = new template_service_TemplateService();
-// CONCATENATED MODULE: ./src/ad-engine/services/custom-ad-loader.ts
-
-
-function registerCustomAdLoader(methodName) {
-  window[methodName] = function (params) {
-    var slot = params.slotName ? slotService.get(params.slotName) : null;
-    templateService.init(params.type, slot, params);
+    return window.googletag.cmd.push(function () {
+      return method.apply(_this, args);
+    });
   };
 }
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
-var now_ = __webpack_require__(22);
-var now_default = /*#__PURE__*/__webpack_require__.n(now_);
 
-// CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
+var definedSlots = [];
+var initialized = false;
 
+function getAdSlotFromEvent(event) {
+  var id = event.slot.getSlotElementId();
+  return slotService.get(id);
+}
 
+function configure() {
+  var tag = window.googletag.pubads();
 
-
-
-
-/* global Storage */
-
-var local_cache_logGroup = 'local-cache';
-
-var _canUseStorage;
-
-var local_cache_LocalCache =
-/*#__PURE__*/
-function () {
-  function LocalCache() {
-    classCallCheck_default()(this, LocalCache);
+  if (!context.get('options.isSraDisabled')) {
+    tag.enableSingleRequest();
   }
 
-  createClass_default()(LocalCache, [{
-    key: "canUseStorage",
-    value: function canUseStorage() {
-      if (typeof _canUseStorage === 'undefined') {
-        _canUseStorage = false;
+  tag.disableInitialLoad();
+  tag.addEventListener('slotOnload', function (event) {
+    slotListener.emitLoadedEvent(event, getAdSlotFromEvent(event));
+  });
+  tag.addEventListener('slotRenderEnded', function (event) {
+    // IE doesn't allow us to inspect GPT iframe at this point.
+    // Let's launch our callback in a setTimeout instead.
+    flow_control_defer(function () {
+      return slotListener.emitRenderEnded(event, getAdSlotFromEvent(event));
+    });
+  });
+  tag.addEventListener('impressionViewable', function (event) {
+    slotListener.emitImpressionViewable(event, getAdSlotFromEvent(event));
+  });
+  window.googletag.enableServices();
+}
 
-        if (window.localStorage) {
-          try {
-            window.localStorage.setItem('test', '1');
-            window.localStorage.removeItem('test');
-            _canUseStorage = true;
-          } catch (e) {
-            /* There are two known possibilities here:
-             *
-             * 1) The browser isn't allowing access due to a
-             * privacy setting (which can happen in Safari).
-             *
-             * 2) The allowed disk space for storage is used
-             * up. However, this is more likely to happen in
-             * calls to LocalCache.set().
-             */
-            try {
-              LocalCache.createPolyfill();
-              _canUseStorage = true;
-            } catch (exception) {
-              logger(local_cache_logGroup, 'Local Storage polyfill error: ', exception);
-            }
-          }
-        }
-      }
+var gpt_provider_GptProvider = (_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec2 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec3 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), _dec4 = Object(external_core_decorators_["decorate"])(postponeExecutionUntilGptLoads), (_class =
+/*#__PURE__*/
+function () {
+  function GptProvider() {
+    var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-      return _canUseStorage;
+    classCallCheck_default()(this, GptProvider);
+
+    window.googletag = window.googletag || {};
+    window.googletag.cmd = window.googletag.cmd || [];
+    this.init(forceInit);
+  }
+
+  createClass_default()(GptProvider, [{
+    key: "isInitialized",
+    value: function isInitialized() {
+      return initialized;
     }
   }, {
-    key: "createPolyfill",
-    value: function createPolyfill() {
-      logger(local_cache_logGroup, 'Local Storage polyfill being created');
-      Storage.prototype.data = {};
+    key: "init",
+    value: function init() {
+      var _this2 = this;
 
-      Storage.prototype.setItem = function (id, val) {
-        this.data[id] = String(val);
-      };
-
-      Storage.prototype.getItem = function (id) {
-        return this.data[id] ? this.data[id] : null;
-      };
-
-      Storage.prototype.removeItem = function (id) {
-        delete this.data[id];
-      };
-
-      Storage.prototype.clear = function () {
-        this.data = {};
-      };
-    }
-  }, {
-    key: "get",
-    value: function get(key) {
-      if (!this.canUseStorage()) {
-        return false;
-      }
-
-      var cacheItem = window.localStorage.getItem(key);
-
-      if (cacheItem) {
-        // De-serialize
-        cacheItem = JSON.parse(cacheItem); // Check if item has expired
-
-        if (this.isExpired(cacheItem)) {
-          this.delete(key);
-          return false;
-        }
-
-        return cacheItem.data;
-      }
-
-      return false;
-    }
-  }, {
-    key: "set",
-    value: function set(key, value) {
-      var expires = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-      if (!this.canUseStorage() || !this.isStorable(value)) {
-        return false;
-      }
-
-      var cacheItem = {
-        data: value
-      };
-
-      var expiresValue = parse_int_default()(expires, 10);
-
-      if (!isNaN(expiresValue)) {
-        // Set expiration as a JS timestamp
-        cacheItem.expires = expiresValue * 1000 + now_default()();
-      }
-
-      try {
-        window.localStorage.setItem(key, stringify_default()(cacheItem));
-      } catch (e) {
-        // Local Storage is at capacity
-        return false;
-      }
-
-      return true;
-    }
-  }, {
-    key: "delete",
-    value: function _delete(key) {
-      if (!this.canUseStorage()) {
+      if (this.isInitialized()) {
         return;
       }
 
-      window.localStorage.removeItem(key);
+      setupGptTargeting();
+      configure();
+      this.setupNonPersonalizedAds();
+      eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, function () {
+        return _this2.destroySlots();
+      });
+      eventService.on(events.PAGE_RENDER_EVENT, function () {
+        return _this2.updateCorrelator();
+      });
+      initialized = true;
     }
   }, {
-    key: "isStorable",
-    value: function isStorable(value) {
-      if ( // Functions might be a security risk
-      typeof value === 'function' || // NaN
-      typeof value === 'number' && isNaN(value) || // undefined
-      typeof value === 'undefined') {
-        return false;
+    key: "setupNonPersonalizedAds",
+    value: function setupNonPersonalizedAds() {
+      var tag = window.googletag.pubads();
+      tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
+    }
+  }, {
+    key: "fillIn",
+    value: function fillIn(adSlot) {
+      var _this3 = this;
+
+      var adStack = context.get('state.adStack');
+      btfBlockerService.push(adSlot, function () {
+        _this3.fillInCallback.apply(_this3, arguments);
+      });
+
+      if (adStack.length === 0) {
+        this.flush();
+      }
+    }
+    /** @private */
+
+  }, {
+    key: "fillInCallback",
+    value: function fillInCallback(adSlot) {
+      var targeting = this.parseTargetingParams(adSlot.getTargeting());
+      var sizeMap = new gpt_size_map_GptSizeMap(adSlot.getSizes());
+      var gptSlot = this.createGptSlot(adSlot, sizeMap);
+      gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
+      this.applyTargetingParams(gptSlot, targeting);
+      slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
+      adSlot.updateWinningPbBidderDetails();
+      window.googletag.display(adSlot.getSlotName());
+      definedSlots.push(gptSlot);
+
+      if (!adSlot.isFirstCall()) {
+        this.flush();
       }
 
-      return true;
+      logger(gpt_provider_logGroup, adSlot.getSlotName(), 'slot added');
+    }
+    /** @private */
+
+  }, {
+    key: "createGptSlot",
+    value: function createGptSlot(adSlot, sizeMap) {
+      if (adSlot.isOutOfPage()) {
+        return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+      }
+
+      return window.googletag.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName()).defineSizeMapping(sizeMap.build());
     }
   }, {
-    key: "isExpired",
-    value: function isExpired(cacheItem) {
-      return cacheItem.expires && now_default()() >= parse_int_default()(cacheItem.expires, 10);
+    key: "applyTargetingParams",
+    value: function applyTargetingParams(gptSlot, targeting) {
+      keys_default()(targeting).forEach(function (key) {
+        return gptSlot.setTargeting(key, targeting[key]);
+      });
+    }
+  }, {
+    key: "parseTargetingParams",
+    value: function parseTargetingParams(targetingParams) {
+      var result = {};
+
+      keys_default()(targetingParams).forEach(function (key) {
+        var value = targetingParams[key];
+
+        if (typeof value === 'function') {
+          value = value();
+        }
+
+        if (value !== null) {
+          result[key] = value;
+        }
+      });
+
+      return result;
+    }
+  }, {
+    key: "updateCorrelator",
+    value: function updateCorrelator() {
+      window.googletag.pubads().updateCorrelator();
+    }
+    /** @private */
+
+  }, {
+    key: "flush",
+    value: function flush() {
+      if (definedSlots.length) {
+        window.googletag.pubads().refresh(definedSlots, {
+          changeCorrelator: false
+        });
+        definedSlots = [];
+      }
+    }
+  }, {
+    key: "destroyGptSlots",
+    value: function destroyGptSlots(gptSlots) {
+      logger(gpt_provider_logGroup, 'destroySlots', gptSlots);
+      gptSlots.forEach(function (gptSlot) {
+        var adSlot = slotService.get(gptSlot.getSlotElementId());
+        slotService.remove(adSlot);
+      });
+      var success = window.googletag.destroySlots(gptSlots);
+
+      if (!success) {
+        logger(gpt_provider_logGroup, 'destroySlots', gptSlots, 'failed');
+      }
+    }
+  }, {
+    key: "destroySlots",
+    value: function destroySlots(slotNames) {
+      var allSlots = window.googletag.pubads().getSlots();
+      var slotsToDestroy = allSlots;
+
+      if (slotNames && slotNames.length) {
+        slotsToDestroy = allSlots.filter(function (slot) {
+          var slotId = slot.getSlotElementId();
+
+          if (!slotId) {
+            logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
+          } else if (slotNames.indexOf(slotId) > -1) {
+            return true;
+          }
+
+          return false;
+        });
+      }
+
+      if (slotsToDestroy.length) {
+        this.destroyGptSlots(slotsToDestroy);
+      } else {
+        logger(gpt_provider_logGroup, 'destroySlots', 'no slots returned to destroy', allSlots, slotNames);
+      }
     }
   }]);
 
-  return LocalCache;
-}();
+  return GptProvider;
+}(), (applyDecoratedDescriptor_default()(_class.prototype, "init", [_dec], get_own_property_descriptor_default()(_class.prototype, "init"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "fillIn", [_dec2], get_own_property_descriptor_default()(_class.prototype, "fillIn"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "updateCorrelator", [_dec3], get_own_property_descriptor_default()(_class.prototype, "updateCorrelator"), _class.prototype), applyDecoratedDescriptor_default()(_class.prototype, "destroyGptSlots", [_dec4], get_own_property_descriptor_default()(_class.prototype, "destroyGptSlots"), _class.prototype)), _class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/prebidium-provider.ts
 
-var localCache = new local_cache_LocalCache();
+
+
+
+
+var prebidium_provider_dec, prebidium_provider_class, _temp;
+
+
+
+
+var prebidium_provider_logGroup = 'prebidium-provider'; // TODO: ADEN-8075
+//  Duplicate from ad-bidders/prebid/index.js
+//  Perhaps create PBJS wrapper, or at least place to share this kind of functions
+
+function postponeExecutionUntilPbjsLoads(method) {
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return window.pbjs.que.push(function () {
+      return method.apply(_this, args);
+    });
+  };
+}
+
+var prebidium_provider_PrebidiumProvider = (prebidium_provider_dec = Object(external_core_decorators_["decorate"])(postponeExecutionUntilPbjsLoads), (prebidium_provider_class = (_temp =
+/*#__PURE__*/
+function () {
+  function PrebidiumProvider() {
+    classCallCheck_default()(this, PrebidiumProvider);
+
+    this.iframeBuilder = new iframe_builder_IframeBuilder();
+  }
+
+  createClass_default()(PrebidiumProvider, [{
+    key: "fillIn",
+    value: function fillIn(adSlot) {
+      var doc = this.getIframeDoc(adSlot);
+      var adId = this.getAdId(adSlot);
+      window.pbjs.renderAd(doc, adId);
+      logger(prebidium_provider_logGroup, adSlot.getSlotName(), 'slot added');
+    }
+    /** @private */
+
+  }, {
+    key: "getIframeDoc",
+    value: function getIframeDoc(adSlot) {
+      var iframe = this.iframeBuilder.create(adSlot);
+      return iframe.contentWindow.document;
+    }
+    /** @private */
+
+  }, {
+    key: "getAdId",
+    value: function getAdId(adSlot) {
+      return context.get("slots.".concat(adSlot.getSlotName(), ".targeting.hb_adid"));
+    }
+  }]);
+
+  return PrebidiumProvider;
+}(), _temp), (applyDecoratedDescriptor_default()(prebidium_provider_class.prototype, "fillIn", [prebidium_provider_dec], get_own_property_descriptor_default()(prebidium_provider_class.prototype, "fillIn"), prebidium_provider_class.prototype)), prebidium_provider_class));
+// CONCATENATED MODULE: ./src/ad-engine/providers/index.ts
+
+
+
+
 // CONCATENATED MODULE: ./src/ad-engine/services/slot-data-params-updater.ts
 
 
@@ -5618,7 +5645,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/construct"
-var construct_ = __webpack_require__(25);
+var construct_ = __webpack_require__(26);
 var construct_default = /*#__PURE__*/__webpack_require__.n(construct_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.ts
@@ -5927,9 +5954,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v25.0.0');
 
-set_default()(window, commitField, '5ebedb11');
+set_default()(window, commitField, 'd208e9d7');
 
-logger('ad-engine', 'v25.0.0 (5ebedb11)');
+logger('ad-engine', 'v25.0.0 (d208e9d7)');
 
 
 
