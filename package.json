@@ -124,7 +124,7 @@
 	},
 	"lint-staged": {
 		"linters": {
-			"*.{ts}": [
+			"*.ts": [
 				"prettier --write",
 				"tslint --fix",
 				"./maintenance/detect-incorrect-usages.sh",
