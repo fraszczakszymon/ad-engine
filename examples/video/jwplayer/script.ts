@@ -1,5 +1,5 @@
-import { context, events, eventService, utils } from '@wikia/ad-engine';
 import { bidders } from '@wikia/ad-bidders';
+import { context, events, eventService, utils } from '@wikia/ad-engine';
 import { jwplayerAdsFactory, playerEvents } from '@wikia/ad-products';
 import 'jwplayer-fandom/dist/wikiajwplayer.js';
 import adContext from '../../context';
