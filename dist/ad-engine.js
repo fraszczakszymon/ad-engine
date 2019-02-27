@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -122,49 +122,49 @@ module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
+module.exports = require("@babel/runtime-corejs2/helpers/inherits");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/inherits");
+module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
+module.exports = require("@babel/runtime-corejs2/helpers/objectSpread");
 
 /***/ }),
 /* 16 */
@@ -212,70 +212,76 @@ module.exports = require("eventemitter3");
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/date/now");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-names");
+module.exports = require("@babel/runtime-corejs2/core-js/date/now");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-names");
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("current-device");
 
 /***/ }),
 /* 27 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/construct");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 28 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
+module.exports = require("@babel/runtime-corejs2/helpers/construct");
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/values");
+module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -324,11 +330,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(26);
+var set_ = __webpack_require__(27);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(33);
+var get_ = __webpack_require__(34);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -339,13 +345,13 @@ var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_)
 var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
-// EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(25);
-var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
-
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(32);
+var external_blockadblock_ = __webpack_require__(33);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
+
+// EXTERNAL MODULE: external "current-device"
+var external_current_device_ = __webpack_require__(26);
+var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
 
@@ -648,9 +654,9 @@ function getDocumentVisibilityStatus() {
 
   return status;
 }
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(8);
-var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/objectSpread"
+var objectSpread_ = __webpack_require__(15);
+var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
 var typeof_ = __webpack_require__(18);
@@ -706,7 +712,7 @@ function flow_control_once(emitter, eventName) {
     if (hasOnce) {
       emitter.once(eventName, resolve);
     } else if (hasAddEventListener) {
-      emitter.addEventListener(eventName, resolve, assign_default()({}, options, {
+      emitter.addEventListener(eventName, resolve, objectSpread_default()({}, options, {
         once: true
       }));
     } else {
@@ -744,16 +750,20 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(31);
+var parse_float_ = __webpack_require__(32);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(10);
+var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
 var external_js_cookie_ = __webpack_require__(20);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
+var assign_ = __webpack_require__(23);
+var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.ts
 
@@ -954,7 +964,7 @@ function getSamplingLimits(value) {
       samplingValue = _value$split2[1];
 
   samplingValue = samplingValue.replace(cacheMarker, '');
-  return Math.round(parse_float_default()(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
+  return Math.round(parse_float_default()(samplingValue) * precision) | 0;
 }
 
 function addResultToCache(name, result, samplingLimits, withCookie) {
@@ -1019,7 +1029,6 @@ function setCookie(value) {
 }
 
 function getResult(samplingLimits, name, withCookie) {
-  // eslint-disable-next-line no-bitwise
   var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0;
   var result = samplingLimits.some(function (value) {
     return randomValue < value;
@@ -1513,7 +1522,7 @@ function logger(logGroup) {
   }
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(15);
+var possibleConstructorReturn_ = __webpack_require__(14);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
@@ -1521,7 +1530,7 @@ var getPrototypeOf_ = __webpack_require__(6);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
-var inherits_ = __webpack_require__(14);
+var inherits_ = __webpack_require__(13);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/assertThisInitialized"
@@ -1529,7 +1538,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(30);
+var wrapNativeSuper_ = __webpack_require__(31);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1685,27 +1694,209 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(9);
+var toConsumableArray_ = __webpack_require__(8);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(29);
-var values_default = /*#__PURE__*/__webpack_require__.n(values_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-names"
+var get_own_property_names_ = __webpack_require__(25);
+var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
+var symbol_ = __webpack_require__(5);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
+var helpers_get_ = __webpack_require__(19);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
 
 // EXTERNAL MODULE: external "eventemitter3"
 var external_eventemitter3_ = __webpack_require__(22);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
+// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
+
+
+
+
+
+
+
+
+
+
+
+var groupName = 'events';
+
+var events_EventService =
+/*#__PURE__*/
+function (_EventEmitter) {
+  inherits_default()(EventService, _EventEmitter);
+
+  function EventService() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    classCallCheck_default()(this, EventService);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = possibleConstructorReturn_default()(this, (_getPrototypeOf2 = getPrototypeOf_default()(EventService)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED');
+    _this.AD_STACK_START = symbol_default()('AD_STACK_START');
+    _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT');
+    _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT');
+    _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT');
+    _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED');
+    _this.VIDEO_AD_ERROR = symbol_default()('VIDEO_AD_ERROR');
+    _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION');
+    _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED');
+    return _this;
+  }
+
+  createClass_default()(EventService, [{
+    key: "beforePageChange",
+    value: function beforePageChange() {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
+    }
+  }, {
+    key: "pageChange",
+    value: function pageChange() {
+      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
+      this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
+    }
+  }, {
+    key: "pageRender",
+    value: function pageRender() {
+      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        args[_key4] = arguments[_key4];
+      }
+
+      this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
+    }
+  }, {
+    key: "hasEvent",
+    value: function hasEvent(event) {
+      var _this2 = this;
+
+      return get_own_property_names_default()(this).some(function (name) {
+        return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
+      });
+    }
+  }, {
+    key: "emit",
+    value: function emit(event) {
+      var _get2;
+
+      if (!this.hasEvent(event)) {
+        throw new Error("Event \"".concat(event, "\" is not registered. Please register an event first."));
+      }
+
+      for (var _len5 = arguments.length, args = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+        args[_key5 - 1] = arguments[_key5];
+      }
+
+      (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
+
+      logger.apply(void 0, [groupName, 'emit', event].concat(args));
+    }
+  }, {
+    key: "on",
+    value: function on(event) {
+      var _get3;
+
+      if (!this.hasEvent(event)) {
+        throw new Error("You can't listen for an event which is not registered yet.");
+      }
+
+      for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+        args[_key6 - 1] = arguments[_key6];
+      }
+
+      (_get3 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "on", this)).call.apply(_get3, [this, event].concat(args));
+    }
+  }, {
+    key: "addListener",
+    value: function addListener(event) {
+      var _get4;
+
+      if (!this.hasEvent(event)) {
+        throw new Error("You can't listen for an event which is not registered yet.");
+      }
+
+      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
+        args[_key7 - 1] = arguments[_key7];
+      }
+
+      (_get4 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "addListener", this)).call.apply(_get4, [this, event].concat(args));
+    }
+  }, {
+    key: "once",
+    value: function once(event) {
+      var _get5;
+
+      if (!this.hasEvent(event)) {
+        throw new Error("You can't listen for an event which is not registered yet.");
+      }
+
+      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
+        args[_key8 - 1] = arguments[_key8];
+      }
+
+      (_get5 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "once", this)).call.apply(_get5, [this, event].concat(args));
+    }
+  }, {
+    key: "registerEvent",
+    value: function registerEvent(name) {
+      if (typeof name !== 'string') {
+        throw new Error('Event name must be a string.');
+      }
+
+      if (this[name] !== undefined) {
+        throw new Error("Event or property \"".concat(name, "\" already exists."));
+      }
+
+      this[name] = symbol_default()(name);
+      return this[name];
+    }
+  }, {
+    key: "getRegisteredEventNames",
+    value: function getRegisteredEventNames() {
+      var _this3 = this;
+
+      return get_own_property_names_default()(this).filter(function (name) {
+        return typeof_default()(_this3[name]) === 'symbol';
+      });
+    }
+  }]);
+
+  return EventService;
+}(external_eventemitter3_default.a);
+
+var events = new events_EventService();
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
+var values_ = __webpack_require__(30);
+var values_default = /*#__PURE__*/__webpack_require__.n(values_);
+
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(13);
+var get_own_property_descriptor_ = __webpack_require__(12);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(12);
+var applyDecoratedDescriptor_ = __webpack_require__(11);
 var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(11);
+var external_core_decorators_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
 
@@ -2033,17 +2224,23 @@ function () {
     key: "destroySlots",
     value: function destroySlots(slotNames) {
       var allSlots = window.googletag.pubads().getSlots();
-      var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
-        var slotId = slot.getSlotElementId();
+      var slotsToDestroy;
 
-        if (!slotId) {
-          logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
-        } else if (slotNames.indexOf(slotId) > -1) {
-          return true;
-        }
+      if (slotNames && slotNames.length) {
+        slotsToDestroy = allSlots.filter(function (slot) {
+          var slotId = slot.getSlotElementId();
 
-        return false;
-      }) : allSlots;
+          if (!slotId) {
+            logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
+          } else if (slotNames.indexOf(slotId) > -1) {
+            return true;
+          }
+
+          return false;
+        });
+      } else {
+        slotsToDestroy = allSlots;
+      }
 
       if (slotsToDestroy.length) {
         this.destroyGptSlots(slotsToDestroy);
@@ -2150,7 +2347,7 @@ function () {
       var value = '';
 
       for (i = 0; i < possibleValues.length; i += 1) {
-        if (!isNaN(parse_int_default()(possibleValues[i]))) {
+        if (!isNaN(parse_int_default()(possibleValues[i], 10))) {
           value = possibleValues[i];
         }
       }
@@ -2267,7 +2464,7 @@ var correlator = Math.round(Math.random() * 10000000000);
 function getCustomParameters(slot) {
   var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
+  var params = objectSpread_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
   return encodeURIComponent(keys_default()(params).filter(function (key) {
     return params[key];
@@ -2322,14 +2519,13 @@ function buildVastUrl(aspectRatio, slotName) {
   params.push("npa=".concat(trackingOptIn.isOptedIn() ? 0 : 1));
   return baseUrl + params.join('&');
 }
-// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.ts
+// CONCATENATED MODULE: ./src/ad-engine/video/player/porvata/moat/moat-video-tracker-script.js
 // Fixes for MOAT script incompatibility
 var eventMapping = {};
 var listeners = [];
 var moatapi = {}; // MOAT CODE START
 
 /* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
-// eslint-disable-next-line
 
 function initMoatTracking(a, f, c) {
   if (!1 === f.hasOwnProperty("partnerCode")) return !1;
@@ -3617,188 +3813,6 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-names"
-var get_own_property_names_ = __webpack_require__(24);
-var get_own_property_names_default = /*#__PURE__*/__webpack_require__.n(get_own_property_names_);
-
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
-var symbol_ = __webpack_require__(5);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
-
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
-var helpers_get_ = __webpack_require__(19);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
-
-// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
-
-
-
-
-
-
-
-
-
-
-
-var groupName = 'events';
-
-var events_EventService =
-/*#__PURE__*/
-function (_EventEmitter) {
-  inherits_default()(EventService, _EventEmitter);
-
-  function EventService() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    classCallCheck_default()(this, EventService);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = possibleConstructorReturn_default()(this, (_getPrototypeOf2 = getPrototypeOf_default()(EventService)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.AD_SLOT_CREATED = symbol_default()('AD_SLOT_CREATED');
-    _this.AD_STACK_START = symbol_default()('AD_STACK_START');
-    _this.BEFORE_PAGE_CHANGE_EVENT = symbol_default()('BEFORE_PAGE_CHANGE_EVENT');
-    _this.PAGE_CHANGE_EVENT = symbol_default()('PAGE_CHANGE_EVENT');
-    _this.PAGE_RENDER_EVENT = symbol_default()('PAGE_RENDER_EVENT');
-    _this.VIDEO_AD_REQUESTED = symbol_default()('VIDEO_AD_REQUESTED');
-    _this.VIDEO_AD_ERROR = symbol_default()('VIDEO_AD_ERROR');
-    _this.VIDEO_AD_IMPRESSION = symbol_default()('VIDEO_AD_IMPRESSION');
-    _this.VIDEO_AD_USED = symbol_default()('VIDEO_AD_USED');
-    return _this;
-  }
-
-  createClass_default()(EventService, [{
-    key: "beforePageChange",
-    value: function beforePageChange() {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      this.emit.apply(this, [this.BEFORE_PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageChange",
-    value: function pageChange() {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      this.emit.apply(this, [this.PAGE_CHANGE_EVENT].concat(args));
-    }
-  }, {
-    key: "pageRender",
-    value: function pageRender() {
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
-      }
-
-      this.emit.apply(this, [this.PAGE_RENDER_EVENT].concat(args));
-    }
-  }, {
-    key: "hasEvent",
-    value: function hasEvent(event) {
-      var _this2 = this;
-
-      return get_own_property_names_default()(this).some(function (name) {
-        return typeof_default()(_this2[name]) === 'symbol' && _this2[name] === event;
-      });
-    }
-  }, {
-    key: "emit",
-    value: function emit(event) {
-      var _get2;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("Event \"".concat(event, "\" is not registered. Please register an event first."));
-      }
-
-      for (var _len5 = arguments.length, args = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-        args[_key5 - 1] = arguments[_key5];
-      }
-
-      (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
-
-      logger.apply(void 0, [groupName, 'emit', event].concat(args));
-    }
-  }, {
-    key: "on",
-    value: function on(event) {
-      var _get3;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
-        args[_key6 - 1] = arguments[_key6];
-      }
-
-      (_get3 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "on", this)).call.apply(_get3, [this, event].concat(args));
-    }
-  }, {
-    key: "addListener",
-    value: function addListener(event) {
-      var _get4;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-        args[_key7 - 1] = arguments[_key7];
-      }
-
-      (_get4 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "addListener", this)).call.apply(_get4, [this, event].concat(args));
-    }
-  }, {
-    key: "once",
-    value: function once(event) {
-      var _get5;
-
-      if (!this.hasEvent(event)) {
-        throw new Error("You can't listen for an event which is not registered yet.");
-      }
-
-      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-        args[_key8 - 1] = arguments[_key8];
-      }
-
-      (_get5 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "once", this)).call.apply(_get5, [this, event].concat(args));
-    }
-  }, {
-    key: "registerEvent",
-    value: function registerEvent(name) {
-      if (typeof name !== 'string') {
-        throw new Error('Event name must be a string.');
-      }
-
-      if (this[name] !== undefined) {
-        throw new Error("Event or property \"".concat(name, "\" already exists."));
-      }
-
-      this[name] = symbol_default()(name);
-      return this[name];
-    }
-  }, {
-    key: "getRegisteredEventNames",
-    value: function getRegisteredEventNames() {
-      var _this3 = this;
-
-      return get_own_property_names_default()(this).filter(function (name) {
-        return typeof_default()(_this3[name]) === 'symbol';
-      });
-    }
-  }]);
-
-  return EventService;
-}(external_eventemitter3_default.a);
-
-var events = new events_EventService();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.ts
 
 
@@ -3891,7 +3905,7 @@ function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(28);
+var is_array_ = __webpack_require__(29);
 var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
@@ -5093,6 +5107,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 
+
 var template_service_logGroup = 'template-service';
 var templates = {};
 
@@ -5120,7 +5135,7 @@ function () {
       }
 
       if (customConfig) {
-        config = assign_default()(config, customConfig);
+        config = objectSpread_default()({}, config, customConfig);
       }
 
       context.set("templates.".concat(name), config);
@@ -5155,7 +5170,7 @@ function registerCustomAdLoader(methodName) {
   };
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
-var now_ = __webpack_require__(23);
+var now_ = __webpack_require__(24);
 var now_default = /*#__PURE__*/__webpack_require__.n(now_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
@@ -5630,7 +5645,7 @@ function () {
         args[_key - 1] = arguments[_key];
       }
 
-      // eslint-disable-next-line no-console
+      // tslint:disable-next-line:no-console
       (_console = console).log.apply(_console, ["%c ".concat(msg), 'color: white; background: #6b5b95', this.now()].concat(args));
     }
   }]);
@@ -5643,6 +5658,8 @@ var timer = new timer_Timer();
 function whichProperty(obj) {
   var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
+  // TODO: replace with properties.find(...)
+  // tslint:disable-next-line
   for (var i = 0; i < properties.length; i += 1) {
     var property = properties[i];
 
@@ -5728,7 +5745,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/construct"
-var construct_ = __webpack_require__(27);
+var construct_ = __webpack_require__(28);
 var construct_default = /*#__PURE__*/__webpack_require__.n(construct_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.ts
@@ -6036,9 +6053,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v24.1.0');
 
-set_default()(window, commitField, '529ff8a3');
+set_default()(window, commitField, 'fbb28dd7');
 
-logger('ad-engine', 'v24.1.0 (529ff8a3)');
+logger('ad-engine', 'v24.1.0 (fbb28dd7)');
 
 
 

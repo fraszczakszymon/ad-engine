@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,53 +110,59 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
+module.exports = require("@babel/runtime-corejs2/helpers/objectSpread");
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/set");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/core-js/set");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/entries");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("@babel/runtime-corejs2/core-js/object/entries");
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+
+/***/ }),
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(10);
+var slicedToArray_ = __webpack_require__(11);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/entries"
-var entries_ = __webpack_require__(9);
+var entries_ = __webpack_require__(10);
 var entries_default = /*#__PURE__*/__webpack_require__.n(entries_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(8);
+var toConsumableArray_ = __webpack_require__(9);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/set"
-var set_ = __webpack_require__(7);
+var set_ = __webpack_require__(8);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -168,12 +174,12 @@ var createClass_ = __webpack_require__(1);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"
-var parse_int_ = __webpack_require__(6);
+var parse_int_ = __webpack_require__(7);
 var parse_int_default = /*#__PURE__*/__webpack_require__.n(parse_int_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(5);
-var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/objectSpread"
+var objectSpread_ = __webpack_require__(6);
+var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/promise"
 var promise_ = __webpack_require__(3);
@@ -272,6 +278,10 @@ function () {
 
   return Executor;
 }();
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
+var assign_ = __webpack_require__(5);
+var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
+
 // CONCATENATED MODULE: ./src/ad-services/bill-the-lizard/projects-handler.ts
 
 
@@ -476,7 +486,7 @@ function httpRequest(host, endpoint) {
 function getQueryParameters(models, parameters) {
   var now = new Date();
   var day = now.getDay() - 1;
-  return assign_default()({}, {
+  return objectSpread_default()({
     models: models.map(function (model) {
       return model.name;
     }),
@@ -875,10 +885,8 @@ function () {
         return promise_default.a.resolve();
       }
 
-      ad_engine_["utils"].logger(confiant_logGroup, 'loading'); // eslint-disable-next-line  no-underscore-dangle
-
-      window._clrm = window._clrm || {}; // eslint-disable-next-line  no-underscore-dangle
-
+      ad_engine_["utils"].logger(confiant_logGroup, 'loading');
+      window._clrm = window._clrm || {};
       window._clrm.gpt = {
         propertyId: propertyId,
         confiantCdn: scriptDomain,
@@ -1184,7 +1192,6 @@ function () {
 var moatYi = new moat_yi_MoatYi();
 // CONCATENATED MODULE: ./src/ad-services/nielsen/static-queue-script.js
 // NIELSEN CODE START
-// eslint-disable-next-line
 function initNielsenStaticQueue() {
   !function (t, n) {
     t[n] = t[n] || {

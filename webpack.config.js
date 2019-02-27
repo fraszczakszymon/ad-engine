@@ -1,6 +1,4 @@
 /* global module, require */
-/* eslint-disable no-console, import/no-extraneous-dependencies */
-
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -308,7 +306,7 @@ const adServices = {
 	},
 };
 
-module.exports = function (env) {
+module.exports = function(env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
 	const isWdioTest = env && env['wdio-test'];
 	const isTest = env && env.test;

@@ -1,6 +1,6 @@
 import { AdSlot, context, events, slotService, utils } from '@wikia/ad-engine';
-import { Apstag, cmp } from '../wrappers';
 import { BaseBidder } from '../base-bidder';
+import { Apstag, cmp } from '../wrappers';
 
 const logGroup = 'A9';
 
