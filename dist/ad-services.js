@@ -459,7 +459,7 @@ function httpRequest(host, endpoint) {
   var request = new window.XMLHttpRequest();
   var query = buildQueryUrl(queryParameters);
   var url = buildUrl(host, endpoint, query);
-  ad_engine_["eventService"].emit(billThLizardEvents.BILL_THE_LIZARD_REQUEST, {
+  ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, {
     query: query,
     callId: callId
   });
@@ -634,7 +634,7 @@ function () {
 
         _this.setTargeting();
 
-        ad_engine_["eventService"].emit(billThLizardEvents.BILL_THE_LIZARD_RESPONSE, {
+        ad_engine_["eventService"].emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, {
           callId: callId,
           response: _this.serialize(callId)
         });

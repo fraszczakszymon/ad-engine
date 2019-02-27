@@ -75,7 +75,7 @@ function httpRequest(host, endpoint, queryParameters = {}, timeout = 0, callId) 
 	const query = buildQueryUrl(queryParameters);
 	const url = buildUrl(host, endpoint, query);
 
-	eventService.emit(billThLizardEvents.BILL_THE_LIZARD_REQUEST, {
+	eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_REQUEST, {
 		query,
 		callId,
 	} as RequestEvent);
@@ -242,7 +242,7 @@ export class BillTheLizard {
 
 				this.setTargeting();
 
-				eventService.emit(billThLizardEvents.BILL_THE_LIZARD_RESPONSE, {
+				eventService.emit(billTheLizardEvents.BILL_THE_LIZARD_RESPONSE, {
 					callId,
 					response: this.serialize(callId),
 				} as ResponseEvent);
