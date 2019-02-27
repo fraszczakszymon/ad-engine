@@ -1,6 +1,4 @@
 /* global module, require */
-/* eslint-disable no-console, import/no-extraneous-dependencies */
-
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -41,7 +39,11 @@ const common = {
 			{
 				test: /\.(js|ts)$/,
 				use: 'babel-loader',
-				include: path.resolve(__dirname, 'src'),
+				include: [
+					path.resolve(__dirname, 'src'),
+					path.resolve(__dirname, 'spec'),
+					path.resolve(__dirname, 'examples'),
+				],
 			},
 			{
 				test: /\.json$/,
@@ -308,7 +310,7 @@ const adServices = {
 	},
 };
 
-module.exports = function (env) {
+module.exports = function(env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
 	const isWdioTest = env && env['wdio-test'];
 	const isTest = env && env.test;

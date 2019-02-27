@@ -117,15 +117,12 @@ function getQueryParameters(models, parameters) {
 	const now = new Date();
 	const day = now.getDay() - 1;
 
-	return Object.assign(
-		{},
-		{
-			models: models.map((model) => model.name),
-			h: now.getHours(),
-			dow: day === -1 ? 6 : day,
-		},
-		parameters,
-	);
+	return {
+		models: models.map((model) => model.name),
+		h: now.getHours(),
+		dow: day === -1 ? 6 : day,
+		...parameters,
+	};
 }
 
 /**

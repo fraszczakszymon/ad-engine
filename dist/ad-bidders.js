@@ -122,43 +122,43 @@ module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
+module.exports = require("@babel/runtime-corejs2/helpers/objectSpread");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("@babel/runtime-corejs2/helpers/assertThisInitialized");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/objectSpread");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 15 */
@@ -186,7 +186,7 @@ var promise_ = __webpack_require__(15);
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(11);
+var assign_ = __webpack_require__(14);
 var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/keys"
@@ -197,7 +197,7 @@ var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 var ad_engine_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/objectSpread"
-var objectSpread_ = __webpack_require__(10);
+var objectSpread_ = __webpack_require__(8);
 var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -219,215 +219,6 @@ var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_)
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
 var inherits_ = __webpack_require__(3);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
-
-// CONCATENATED MODULE: ./src/ad-bidders/wrappers/apstag.ts
-
-
-
-var apstag_Apstag =
-/*#__PURE__*/
-function () {
-  createClass_default()(Apstag, null, [{
-    key: "make",
-
-    /**
-     * @private
-     */
-    value: function make() {
-      if (!Apstag.instance) {
-        Apstag.instance = new Apstag();
-      }
-
-      return Apstag.instance;
-    }
-    /**
-     * @private
-     */
-
-  }]);
-
-  /**
-   * @private
-   */
-  function Apstag() {
-    classCallCheck_default()(this, Apstag);
-
-    this.renderImpEndCallbacks = [];
-    this.renderImpHookPresent = false;
-    this.utils = ad_engine_["utils"];
-    this.insertScript();
-    this.configure();
-  }
-  /**
-   * @private
-   */
-
-
-  createClass_default()(Apstag, [{
-    key: "insertScript",
-    value: function insertScript() {
-      this.script = this.utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
-    }
-    /**
-     * @private
-     */
-
-  }, {
-    key: "configure",
-    value: function configure() {
-      var _this = this;
-
-      window.apstag = window.apstag || {};
-      window.apstag._Q = window.apstag._Q || [];
-
-      if (typeof window.apstag.init === 'undefined') {
-        window.apstag.init = function () {
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
-
-          _this.configureCommand('i', args);
-        };
-      }
-
-      if (typeof window.apstag.fetchBids === 'undefined') {
-        window.apstag.fetchBids = function () {
-          for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
-          }
-
-          _this.configureCommand('f', args);
-        };
-      }
-    }
-    /** @private */
-
-  }, {
-    key: "configureCommand",
-    value: function configureCommand(command, args) {
-      window.apstag._Q.push([command, args]);
-    }
-  }, {
-    key: "init",
-    value: function init(apsConfig) {
-      window.apstag.init(apsConfig);
-    }
-    /**
-     * @param {{slots: A9SlotDefinition[], timeout: number}} bidsConfig configuration of bids
-     * @param {function(object)} cb Callback receiving current bids
-     * @returns {!Promise} If `cb` has been omitted
-     */
-
-  }, {
-    key: "fetchBids",
-    value: function fetchBids(bidsConfig) {
-      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      window.apstag.fetchBids(bidsConfig, function (currentBids) {
-        return cb(currentBids);
-      });
-    }
-  }, {
-    key: "targetingKeys",
-    value: function targetingKeys() {
-      return window.apstag.targetingKeys();
-    }
-  }, {
-    key: "enableDebug",
-    value: function enableDebug() {
-      window.apstag.debug('enable');
-    }
-  }, {
-    key: "disableDebug",
-    value: function disableDebug() {
-      window.apstag.debug('disable');
-    }
-    /**
-     * Executes callback each time after apstag.renderImp is called
-     * @param {function} callback
-     */
-
-  }, {
-    key: "onRenderImpEnd",
-    value: function onRenderImpEnd(callback) {
-      if (typeof callback !== 'function') {
-        throw new Error('onRenderImpEnd used with callback not being a function');
-      }
-
-      if (!this.renderImpHookPresent) {
-        this.addRenderImpHook();
-      }
-
-      this.renderImpEndCallbacks.push(callback);
-    }
-    /**
-     * @private
-     */
-
-  }, {
-    key: "addRenderImpHook",
-    value: function addRenderImpHook() {
-      var _this2 = this;
-
-      var original = window.apstag.renderImp;
-
-      window.apstag.renderImp = function () {
-        for (var _len3 = arguments.length, options = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-          options[_key3] = arguments[_key3];
-        }
-
-        original.apply(void 0, options);
-        var doc = options[0],
-            impId = options[1];
-
-        _this2.renderImpEndCallbacks.forEach(function (cb) {
-          return cb(doc, impId);
-        });
-      };
-    }
-  }]);
-
-  return Apstag;
-}();
-apstag_Apstag.instance = void 0;
-// CONCATENATED MODULE: ./src/ad-bidders/wrappers/cmp.ts
-
-
-var cmp_Cmp =
-/*#__PURE__*/
-function () {
-  function Cmp() {
-    classCallCheck_default()(this, Cmp);
-  }
-
-  createClass_default()(Cmp, [{
-    key: "getConsentData",
-
-    /**
-     * @param {*=} param
-     * @param {function(object)} cb Callback receiving current bids
-     */
-    value: function getConsentData(param, cb) {
-      window.__cmp('getConsentData', param, function (consentData) {
-        return cb(consentData);
-      });
-    }
-  }, {
-    key: "override",
-    value: function override(newCmp) {
-      window.__cmp = newCmp;
-    }
-  }, {
-    key: "exists",
-    get: function get() {
-      return !!window.__cmp;
-    }
-  }]);
-
-  return Cmp;
-}();
-var cmp = new cmp_Cmp();
-// CONCATENATED MODULE: ./src/ad-bidders/wrappers/index.ts
-
 
 // CONCATENATED MODULE: ./src/ad-bidders/base-bidder.ts
 
@@ -648,6 +439,215 @@ function () {
 
   return BaseBidder;
 }();
+// CONCATENATED MODULE: ./src/ad-bidders/wrappers/apstag.ts
+
+
+
+var apstag_Apstag =
+/*#__PURE__*/
+function () {
+  createClass_default()(Apstag, null, [{
+    key: "make",
+
+    /**
+     * @private
+     */
+    value: function make() {
+      if (!Apstag.instance) {
+        Apstag.instance = new Apstag();
+      }
+
+      return Apstag.instance;
+    }
+    /**
+     * @private
+     */
+
+  }]);
+
+  /**
+   * @private
+   */
+  function Apstag() {
+    classCallCheck_default()(this, Apstag);
+
+    this.renderImpEndCallbacks = [];
+    this.renderImpHookPresent = false;
+    this.utils = ad_engine_["utils"];
+    this.insertScript();
+    this.configure();
+  }
+  /**
+   * @private
+   */
+
+
+  createClass_default()(Apstag, [{
+    key: "insertScript",
+    value: function insertScript() {
+      this.script = this.utils.scriptLoader.loadScript('//c.amazon-adsystem.com/aax2/apstag.js', 'text/javascript', true, 'first');
+    }
+    /**
+     * @private
+     */
+
+  }, {
+    key: "configure",
+    value: function configure() {
+      var _this = this;
+
+      window.apstag = window.apstag || {};
+      window.apstag._Q = window.apstag._Q || [];
+
+      if (typeof window.apstag.init === 'undefined') {
+        window.apstag.init = function () {
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          _this.configureCommand('i', args);
+        };
+      }
+
+      if (typeof window.apstag.fetchBids === 'undefined') {
+        window.apstag.fetchBids = function () {
+          for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+          }
+
+          _this.configureCommand('f', args);
+        };
+      }
+    }
+    /** @private */
+
+  }, {
+    key: "configureCommand",
+    value: function configureCommand(command, args) {
+      window.apstag._Q.push([command, args]);
+    }
+  }, {
+    key: "init",
+    value: function init(apsConfig) {
+      window.apstag.init(apsConfig);
+    }
+    /**
+     * @param {{slots: A9SlotDefinition[], timeout: number}} bidsConfig configuration of bids
+     * @param {function(object)} cb Callback receiving current bids
+     * @returns {!Promise} If `cb` has been omitted
+     */
+
+  }, {
+    key: "fetchBids",
+    value: function fetchBids(bidsConfig) {
+      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      window.apstag.fetchBids(bidsConfig, function (currentBids) {
+        return cb(currentBids);
+      });
+    }
+  }, {
+    key: "targetingKeys",
+    value: function targetingKeys() {
+      return window.apstag.targetingKeys();
+    }
+  }, {
+    key: "enableDebug",
+    value: function enableDebug() {
+      window.apstag.debug('enable');
+    }
+  }, {
+    key: "disableDebug",
+    value: function disableDebug() {
+      window.apstag.debug('disable');
+    }
+    /**
+     * Executes callback each time after apstag.renderImp is called
+     * @param {function} callback
+     */
+
+  }, {
+    key: "onRenderImpEnd",
+    value: function onRenderImpEnd(callback) {
+      if (typeof callback !== 'function') {
+        throw new Error('onRenderImpEnd used with callback not being a function');
+      }
+
+      if (!this.renderImpHookPresent) {
+        this.addRenderImpHook();
+      }
+
+      this.renderImpEndCallbacks.push(callback);
+    }
+    /**
+     * @private
+     */
+
+  }, {
+    key: "addRenderImpHook",
+    value: function addRenderImpHook() {
+      var _this2 = this;
+
+      var original = window.apstag.renderImp;
+
+      window.apstag.renderImp = function () {
+        for (var _len3 = arguments.length, options = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+          options[_key3] = arguments[_key3];
+        }
+
+        original.apply(void 0, options);
+        var doc = options[0],
+            impId = options[1];
+
+        _this2.renderImpEndCallbacks.forEach(function (cb) {
+          return cb(doc, impId);
+        });
+      };
+    }
+  }]);
+
+  return Apstag;
+}();
+apstag_Apstag.instance = void 0;
+// CONCATENATED MODULE: ./src/ad-bidders/wrappers/cmp.ts
+
+
+var cmp_Cmp =
+/*#__PURE__*/
+function () {
+  function Cmp() {
+    classCallCheck_default()(this, Cmp);
+  }
+
+  createClass_default()(Cmp, [{
+    key: "getConsentData",
+
+    /**
+     * @param {*=} param
+     * @param {function(object)} cb Callback receiving current bids
+     */
+    value: function getConsentData(param, cb) {
+      window.__cmp('getConsentData', param, function (consentData) {
+        return cb(consentData);
+      });
+    }
+  }, {
+    key: "override",
+    value: function override(newCmp) {
+      window.__cmp = newCmp;
+    }
+  }, {
+    key: "exists",
+    get: function get() {
+      return !!window.__cmp;
+    }
+  }]);
+
+  return Cmp;
+}();
+var cmp = new cmp_Cmp();
+// CONCATENATED MODULE: ./src/ad-bidders/wrappers/index.ts
+
+
 // CONCATENATED MODULE: ./src/ad-bidders/a9/index.ts
 
 
@@ -692,6 +692,7 @@ function (_BaseBidder) {
     _this.apstag = apstag_Apstag.make();
     _this.cmp = cmp;
     _this.utils = ad_engine_["utils"];
+    _this.events = ad_engine_["events"];
     _this.slotService = ad_engine_["slotService"];
     _this.timeout = timeout;
     _this.bidsRefreshing = ad_engine_["context"].get('bidders.a9.bidsRefreshing') || {};
@@ -1055,15 +1056,15 @@ function (_BaseBidder) {
 }(base_bidder_BaseBidder);
 a9_A9.A9_CLASS = 'a9-ad';
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(14);
+var get_own_property_descriptor_ = __webpack_require__(13);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(13);
+var applyDecoratedDescriptor_ = __webpack_require__(12);
 var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(12);
+var external_core_decorators_ = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/base-adapter.ts
 
@@ -1777,7 +1778,7 @@ function getPrebid() {
   return window.pbjs;
 }
 function getTargeting(slotName) {
-  return assign_default()({
+  return objectSpread_default()({
     pos: [slotName]
   }, ad_engine_["context"].get('bidders.prebid.targeting') || {});
 }
@@ -1940,11 +1941,11 @@ function (_BaseAdapter) {
   return RubiconDisplay;
 }(base_adapter_BaseAdapter);
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(9);
+var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/assertThisInitialized"
-var assertThisInitialized_ = __webpack_require__(8);
+var assertThisInitialized_ = __webpack_require__(9);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-int"

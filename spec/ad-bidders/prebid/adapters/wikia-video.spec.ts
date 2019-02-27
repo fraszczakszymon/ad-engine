@@ -1,5 +1,5 @@
-import { expect, assert } from 'chai';
-import sinon from 'sinon';
+import { assert, expect } from 'chai';
+import * as sinon from 'sinon';
 import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
 
 function getMocks() {
@@ -17,13 +17,13 @@ function getMocks() {
 		},
 		fakeVastUrl: 'https://fake-vast-url',
 		fakePrice: 20,
-		done: function () {},
-		setTimeout: function (cb) {
+		done() {},
+		setTimeout(cb) {
 			cb();
 		},
 		pbjs: {
 			que: [],
-			createBid: function () {
+			createBid() {
 				return {};
 			},
 		},

@@ -1,5 +1,5 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { context } from '../../../../src/ad-engine';
 import { universalAdPackage } from '../../../../src/ad-products/templates/uap/universal-ad-package';
 

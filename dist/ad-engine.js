@@ -67,7 +67,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -116,55 +116,55 @@ module.exports = require("@babel/runtime-corejs2/core-js/parse-int");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
+module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/toConsumableArray");
+module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/getPrototypeOf");
+module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/slicedToArray");
+module.exports = require("core-decorators");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("core-decorators");
+module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/applyDecoratedDescriptor");
+module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/object/get-own-property-descriptor");
+module.exports = require("@babel/runtime-corejs2/helpers/inherits");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/inherits");
+module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/possibleConstructorReturn");
+module.exports = require("@babel/runtime-corejs2/helpers/objectSpread");
 
 /***/ }),
 /* 16 */
@@ -200,37 +200,37 @@ module.exports = require("eventemitter3");
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/date/now");
+module.exports = require("@babel/runtime-corejs2/core-js/object/assign");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("current-device");
+module.exports = require("@babel/runtime-corejs2/core-js/date/now");
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/set");
+module.exports = require("current-device");
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/construct");
+module.exports = require("lodash/set");
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
+module.exports = require("@babel/runtime-corejs2/helpers/construct");
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/get");
+module.exports = require("@babel/runtime-corejs2/core-js/array/is-array");
 
 /***/ }),
 /* 27 */
@@ -242,34 +242,40 @@ module.exports = require("@babel/runtime-corejs2/core-js/object/values");
 /* 28 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
+module.exports = require("@babel/runtime-corejs2/helpers/get");
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
+module.exports = require("@babel/runtime-corejs2/helpers/wrapNativeSuper");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("@babel/runtime-corejs2/helpers/typeof");
+module.exports = require("@babel/runtime-corejs2/core-js/parse-float");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("blockadblock");
+module.exports = require("@babel/runtime-corejs2/helpers/typeof");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("lodash/get");
+module.exports = require("blockadblock");
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/get");
+
+/***/ }),
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -318,11 +324,11 @@ __webpack_require__.d(utils_namespaceObject, "tryProperty", function() { return 
 __webpack_require__.d(utils_namespaceObject, "viewportObserver", function() { return viewportObserver; });
 
 // EXTERNAL MODULE: external "lodash/set"
-var set_ = __webpack_require__(23);
+var set_ = __webpack_require__(24);
 var set_default = /*#__PURE__*/__webpack_require__.n(set_);
 
 // EXTERNAL MODULE: external "lodash/get"
-var get_ = __webpack_require__(32);
+var get_ = __webpack_require__(33);
 var get_default = /*#__PURE__*/__webpack_require__.n(get_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/classCallCheck"
@@ -333,13 +339,13 @@ var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck_)
 var createClass_ = __webpack_require__(0);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass_);
 
-// EXTERNAL MODULE: external "current-device"
-var external_current_device_ = __webpack_require__(22);
-var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
-
 // EXTERNAL MODULE: external "blockadblock"
-var external_blockadblock_ = __webpack_require__(31);
+var external_blockadblock_ = __webpack_require__(32);
 var external_blockadblock_default = /*#__PURE__*/__webpack_require__.n(external_blockadblock_);
+
+// EXTERNAL MODULE: external "current-device"
+var external_current_device_ = __webpack_require__(23);
+var external_current_device_default = /*#__PURE__*/__webpack_require__.n(external_current_device_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/client.ts
 
@@ -642,12 +648,12 @@ function getDocumentVisibilityStatus() {
 
   return status;
 }
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
-var assign_ = __webpack_require__(7);
-var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/objectSpread"
+var objectSpread_ = __webpack_require__(15);
+var objectSpread_default = /*#__PURE__*/__webpack_require__.n(objectSpread_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/typeof"
-var typeof_ = __webpack_require__(30);
+var typeof_ = __webpack_require__(31);
 var typeof_default = /*#__PURE__*/__webpack_require__.n(typeof_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/promise"
@@ -700,7 +706,7 @@ function once(emitter, eventName) {
     if (hasOnce) {
       emitter.once(eventName, resolve);
     } else if (hasAddEventListener) {
-      emitter.addEventListener(eventName, resolve, assign_default()({}, options, {
+      emitter.addEventListener(eventName, resolve, objectSpread_default()({}, options, {
         once: true
       }));
     } else {
@@ -738,16 +744,20 @@ var keys_ = __webpack_require__(2);
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/parse-float"
-var parse_float_ = __webpack_require__(29);
+var parse_float_ = __webpack_require__(30);
 var parse_float_default = /*#__PURE__*/__webpack_require__.n(parse_float_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
-var slicedToArray_ = __webpack_require__(10);
+var slicedToArray_ = __webpack_require__(9);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
 
 // EXTERNAL MODULE: external "js-cookie"
 var external_js_cookie_ = __webpack_require__(18);
 var external_js_cookie_default = /*#__PURE__*/__webpack_require__.n(external_js_cookie_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/assign"
+var assign_ = __webpack_require__(21);
+var assign_default = /*#__PURE__*/__webpack_require__.n(assign_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/context-service.ts
 
@@ -948,7 +958,7 @@ function getSamplingLimits(value) {
       samplingValue = _value$split2[1];
 
   samplingValue = samplingValue.replace(cacheMarker, '');
-  return Math.round(parse_float_default()(samplingValue) * precision) | 0; // eslint-disable-line no-bitwise
+  return Math.round(parse_float_default()(samplingValue) * precision) | 0;
 }
 
 function addResultToCache(name, result, samplingLimits, withCookie) {
@@ -1013,7 +1023,6 @@ function setCookie(value) {
 }
 
 function getResult(samplingLimits, name, withCookie) {
-  // eslint-disable-next-line no-bitwise
   var randomValue = Math.round(random.getRandom() * (precision * 100)) | 0;
   var result = samplingLimits.some(function (value) {
     return randomValue < value;
@@ -1507,15 +1516,15 @@ function logger(logGroup) {
   }
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/possibleConstructorReturn"
-var possibleConstructorReturn_ = __webpack_require__(15);
+var possibleConstructorReturn_ = __webpack_require__(14);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/getPrototypeOf"
-var getPrototypeOf_ = __webpack_require__(9);
+var getPrototypeOf_ = __webpack_require__(8);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/inherits"
-var inherits_ = __webpack_require__(14);
+var inherits_ = __webpack_require__(13);
 var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/assertThisInitialized"
@@ -1523,7 +1532,7 @@ var assertThisInitialized_ = __webpack_require__(17);
 var assertThisInitialized_default = /*#__PURE__*/__webpack_require__.n(assertThisInitialized_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/wrapNativeSuper"
-var wrapNativeSuper_ = __webpack_require__(28);
+var wrapNativeSuper_ = __webpack_require__(29);
 var wrapNativeSuper_default = /*#__PURE__*/__webpack_require__.n(wrapNativeSuper_);
 
 // CONCATENATED MODULE: ./src/ad-engine/utils/not-implemented-exception.ts
@@ -1679,27 +1688,90 @@ function () {
 
 var scriptLoader = new script_loader_ScriptLoader();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/toConsumableArray"
-var toConsumableArray_ = __webpack_require__(8);
+var toConsumableArray_ = __webpack_require__(7);
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray_);
 
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
-var values_ = __webpack_require__(27);
-var values_default = /*#__PURE__*/__webpack_require__.n(values_);
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
+var helpers_get_ = __webpack_require__(28);
+var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
+
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
+var symbol_ = __webpack_require__(5);
+var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "eventemitter3"
 var external_eventemitter3_ = __webpack_require__(20);
 var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
+// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
+
+
+
+
+
+
+
+
+
+var groupName = 'eventService';
+var events = {
+  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
+  AD_STACK_START: symbol_default()('AD_STACK_START'),
+  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
+  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
+  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
+  // video events should happen in the order below
+  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
+  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
+  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
+  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
+  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
+  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
+};
+
+var events_EventService =
+/*#__PURE__*/
+function (_EventEmitter$EventEm) {
+  inherits_default()(EventService, _EventEmitter$EventEm);
+
+  function EventService() {
+    classCallCheck_default()(this, EventService);
+
+    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
+  }
+
+  createClass_default()(EventService, [{
+    key: "emit",
+    value: function emit(event) {
+      var _get2;
+
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      logger.apply(void 0, [groupName, 'emit', event].concat(args));
+      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
+    }
+  }]);
+
+  return EventService;
+}(external_eventemitter3_["EventEmitter"]);
+
+var eventService = new events_EventService();
+// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/values"
+var values_ = __webpack_require__(27);
+var values_default = /*#__PURE__*/__webpack_require__.n(values_);
+
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/object/get-own-property-descriptor"
-var get_own_property_descriptor_ = __webpack_require__(13);
+var get_own_property_descriptor_ = __webpack_require__(12);
 var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor_);
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/applyDecoratedDescriptor"
-var applyDecoratedDescriptor_ = __webpack_require__(12);
+var applyDecoratedDescriptor_ = __webpack_require__(11);
 var applyDecoratedDescriptor_default = /*#__PURE__*/__webpack_require__.n(applyDecoratedDescriptor_);
 
 // EXTERNAL MODULE: external "core-decorators"
-var external_core_decorators_ = __webpack_require__(11);
+var external_core_decorators_ = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./src/ad-engine/providers/gpt-size-map.ts
 
@@ -2027,17 +2099,21 @@ function () {
     key: "destroySlots",
     value: function destroySlots(slotNames) {
       var allSlots = window.googletag.pubads().getSlots();
-      var slotsToDestroy = slotNames && slotNames.length ? allSlots.filter(function (slot) {
-        var slotId = slot.getSlotElementId();
+      var slotsToDestroy = allSlots;
 
-        if (!slotId) {
-          logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
-        } else if (slotNames.indexOf(slotId) > -1) {
-          return true;
-        }
+      if (slotNames && slotNames.length) {
+        slotsToDestroy = allSlots.filter(function (slot) {
+          var slotId = slot.getSlotElementId();
 
-        return false;
-      }) : allSlots;
+          if (!slotId) {
+            logger(gpt_provider_logGroup, 'destroySlots', "slot doesn't return element id", slot);
+          } else if (slotNames.indexOf(slotId) > -1) {
+            return true;
+          }
+
+          return false;
+        });
+      }
 
       if (slotsToDestroy.length) {
         this.destroyGptSlots(slotsToDestroy);
@@ -2144,7 +2220,7 @@ function () {
       var value = '';
 
       for (i = 0; i < possibleValues.length; i += 1) {
-        if (!isNaN(parse_int_default()(possibleValues[i]))) {
+        if (!isNaN(parse_int_default()(possibleValues[i], 10))) {
           value = possibleValues[i];
         }
       }
@@ -2261,7 +2337,7 @@ var correlator = Math.round(Math.random() * 10000000000);
 function getCustomParameters(slot) {
   var extraTargeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  var params = assign_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
+  var params = objectSpread_default()({}, context.get('targeting'), slot.getTargeting(), extraTargeting);
 
   return encodeURIComponent(keys_default()(params).filter(function (key) {
     return params[key];
@@ -2323,7 +2399,6 @@ var listeners = [];
 var moatapi = {}; // MOAT CODE START
 
 /* Copyright (c) 2011-2016 Moat Inc. All Rights Reserved. */
-// eslint-disable-next-line
 
 function initMoatTracking(a, f, c) {
   if (!1 === f.hasOwnProperty("partnerCode")) return !1;
@@ -3611,69 +3686,6 @@ porvata_listener_PorvataListener.EVENTS = {
 };
 porvata_listener_PorvataListener.LOG_GROUP = 'porvata-listener';
 porvata_listener_PorvataListener.PLAYER_NAME = 'porvata';
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/get"
-var helpers_get_ = __webpack_require__(26);
-var helpers_get_default = /*#__PURE__*/__webpack_require__.n(helpers_get_);
-
-// EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/symbol"
-var symbol_ = __webpack_require__(5);
-var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
-
-// CONCATENATED MODULE: ./src/ad-engine/services/events.ts
-
-
-
-
-
-
-
-
-
-var groupName = 'eventService';
-var events = {
-  AD_SLOT_CREATED: symbol_default()('AD_SLOT_CREATED'),
-  AD_STACK_START: symbol_default()('AD_STACK_START'),
-  BEFORE_PAGE_CHANGE_EVENT: symbol_default()('BEFORE_PAGE_CHANGE_EVENT'),
-  PAGE_CHANGE_EVENT: symbol_default()('PAGE_CHANGE_EVENT'),
-  PAGE_RENDER_EVENT: symbol_default()('PAGE_RENDER_EVENT'),
-  // video events should happen in the order below
-  VIDEO_AD_REQUESTED: symbol_default()('VIDEO_AD_REQUESTED'),
-  VIDEO_AD_ERROR: symbol_default()('VIDEO_AD_ERROR'),
-  VIDEO_AD_IMPRESSION: symbol_default()('VIDEO_AD_IMPRESSION'),
-  VIDEO_AD_USED: symbol_default()('VIDEO_AD_USED'),
-  BIDS_REFRESH: symbol_default()('BIDS_REFRESH'),
-  PREBID_LAZY_CALL: symbol_default()('PREBID_LAZY_CALL')
-};
-
-var events_EventService =
-/*#__PURE__*/
-function (_EventEmitter$EventEm) {
-  inherits_default()(EventService, _EventEmitter$EventEm);
-
-  function EventService() {
-    classCallCheck_default()(this, EventService);
-
-    return possibleConstructorReturn_default()(this, getPrototypeOf_default()(EventService).apply(this, arguments));
-  }
-
-  createClass_default()(EventService, [{
-    key: "emit",
-    value: function emit(event) {
-      var _get2;
-
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      logger.apply(void 0, [groupName, 'emit', event].concat(args));
-      return (_get2 = helpers_get_default()(getPrototypeOf_default()(EventService.prototype), "emit", this)).call.apply(_get2, [this, event].concat(args));
-    }
-  }]);
-
-  return EventService;
-}(external_eventemitter3_["EventEmitter"]);
-
-var eventService = new events_EventService();
 // CONCATENATED MODULE: ./src/ad-engine/listeners/scroll-listener.ts
 
 
@@ -3766,7 +3778,7 @@ function () {
 
 var scrollListener = new scroll_listener_ScrollListener();
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/array/is-array"
-var is_array_ = __webpack_require__(25);
+var is_array_ = __webpack_require__(26);
 var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array_);
 
 // CONCATENATED MODULE: ./src/ad-engine/listeners/slot-listener.ts
@@ -4968,6 +4980,7 @@ var btfBlockerService = new btf_blocker_service_BtfBlockerService();
 
 
 
+
 var template_service_logGroup = 'template-service';
 var templates = {};
 
@@ -4995,7 +5008,7 @@ function () {
       }
 
       if (customConfig) {
-        config = assign_default()(config, customConfig);
+        config = objectSpread_default()({}, config, customConfig);
       }
 
       context.set("templates.".concat(name), config);
@@ -5030,7 +5043,7 @@ function registerCustomAdLoader(methodName) {
   };
 }
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/core-js/date/now"
-var now_ = __webpack_require__(21);
+var now_ = __webpack_require__(22);
 var now_default = /*#__PURE__*/__webpack_require__.n(now_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/local-cache.ts
@@ -5505,7 +5518,7 @@ function () {
         args[_key - 1] = arguments[_key];
       }
 
-      // eslint-disable-next-line no-console
+      // tslint:disable-next-line:no-console
       (_console = console).log.apply(_console, ["%c ".concat(msg), 'color: white; background: #6b5b95', this.now()].concat(args));
     }
   }]);
@@ -5518,6 +5531,8 @@ var timer = new timer_Timer();
 function whichProperty(obj) {
   var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
+  // TODO: replace with properties.find(...)
+  // tslint:disable-next-line
   for (var i = 0; i < properties.length; i += 1) {
     var property = properties[i];
 
@@ -5603,7 +5618,7 @@ var viewportObserver = {
 
 
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/construct"
-var construct_ = __webpack_require__(24);
+var construct_ = __webpack_require__(25);
 var construct_default = /*#__PURE__*/__webpack_require__.n(construct_);
 
 // CONCATENATED MODULE: ./src/ad-engine/templates/floating-ad.ts
@@ -5910,11 +5925,11 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v24.1.0');
+set_default()(window, versionField, 'v24.1.1');
 
-set_default()(window, commitField, '33d7bf0e');
+set_default()(window, commitField, '9401c84e');
 
-logger('ad-engine', 'v24.1.0 (33d7bf0e)');
+logger('ad-engine', 'v24.1.1 (9401c84e)');
 
 
 

@@ -13,7 +13,7 @@ function getImaAd(wrapperIds = [], wrapperCreativeIds = [], getWrapperAdSystems 
 		getCreativeId: () => '999',
 		getWrapperAdIds: () => wrapperIds,
 		getWrapperCreativeIds: () => wrapperCreativeIds,
-		getWrapperAdSystems: () => getWrapperAdSystems
+		getWrapperAdSystems: () => getWrapperAdSystems,
 	};
 }
 
@@ -102,7 +102,9 @@ describe('vast-parser', () => {
 	});
 
 	it('current ad info from IMA object with AdX response', () => {
-		const adInfo = vastParser.getAdInfo(getImaAd(['222', '333'], ['555', '666'], ['Wikia', 'AdSense/AdX']));
+		const adInfo = vastParser.getAdInfo(
+			getImaAd(['222', '333'], ['555', '666'], ['Wikia', 'AdSense/AdX']),
+		);
 
 		expect(adInfo.contentType).to.equal('text/javascript');
 		expect(adInfo.creativeId).to.equal('AdX');

@@ -1,5 +1,5 @@
-import { queryString } from '../utils';
 import { ADX } from '../providers';
+import { queryString } from '../utils';
 
 class VastParser {
 	/**
@@ -10,7 +10,7 @@ class VastParser {
 		let value = '';
 
 		for (i = 0; i < possibleValues.length; i += 1) {
-			if (!isNaN(parseInt(possibleValues[i]))) {
+			if (!isNaN(parseInt(possibleValues[i], 10))) {
 				value = possibleValues[i];
 			}
 		}

@@ -1,6 +1,6 @@
 import { AdSlot, context, events, eventService, slotService, utils } from '@wikia/ad-engine';
-import { Apstag, cmp } from '../wrappers';
 import { BaseBidder } from '../base-bidder';
+import { Apstag, cmp } from '../wrappers';
 
 const logGroup = 'A9';
 
@@ -30,6 +30,7 @@ export class A9 extends BaseBidder {
 		this.apstag = Apstag.make();
 		this.cmp = cmp;
 		this.utils = utils;
+		this.events = events;
 		this.slotService = slotService;
 		this.timeout = timeout;
 		this.bidsRefreshing = context.get('bidders.a9.bidsRefreshing') || {};

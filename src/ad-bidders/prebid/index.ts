@@ -1,10 +1,10 @@
-import { decorate } from 'core-decorators';
 import { context, events, eventService, utils } from '@wikia/ad-engine';
+import { decorate } from 'core-decorators';
 import { BaseBidder } from '../base-bidder';
 import { getPriorities } from './adapters-registry';
-import { getPrebidBestPrice } from './price-helper';
-import { getSettings } from './prebid-settings';
 import { getAvailableBidsByAdUnitCode, setupAdUnits } from './prebid-helper';
+import { getSettings } from './prebid-settings';
+import { getPrebidBestPrice } from './price-helper';
 
 function postponeExecutionUntilPbjsLoads(method) {
 	return function (...args) {
