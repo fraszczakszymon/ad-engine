@@ -1,5 +1,4 @@
-import { AdEngine, btfBlockerService, context } from '@wikia/ad-engine';
-import { SlotConfig } from '../../../src/ad-engine/models';
+import { AdEngine, context } from '@wikia/ad-engine';
 import customContext from '../../context';
 import '../../styles.scss';
 
