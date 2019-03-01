@@ -1,6 +1,7 @@
 import { bidders } from '@wikia/ad-bidders';
 import { context, events, eventService, utils } from '@wikia/ad-engine';
 import { jwplayerAdsFactory, playerEvents } from '@wikia/ad-products';
+import { DelayModule } from '@wikia/types';
 import 'jwplayer-fandom/dist/wikiajwplayer.js';
 import adContext from '../../context';
 import * as videoData from './video-data.json';
@@ -44,7 +45,7 @@ eventService.on(events.AD_SLOT_CREATED, (slot) => {
 
 let resolveBidders;
 
-const biddersDelay = {
+const biddersDelay: DelayModule = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
 	getPromise: () =>

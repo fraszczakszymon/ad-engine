@@ -12,6 +12,7 @@ import {
 import { defer, logger } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
+import { Provider } from './provider';
 
 const logGroup = 'gpt-provider';
 
@@ -56,7 +57,7 @@ function configure() {
 	window.googletag.enableServices();
 }
 
-export class GptProvider {
+export class GptProvider implements Provider {
 	constructor(forceInit = false) {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
