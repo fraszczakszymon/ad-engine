@@ -16,12 +16,12 @@ import featuredVideo15s from './featured-video-f15s';
 interface HdPlayerEvent extends CustomEvent {
 	detail: {
 		slotStatus?: {
-			vastParams: any;
-			statusName: string;
-		};
-		name?: string | null;
-		errorCode: number;
-	};
+			vastParams: any,
+			statusName: string,
+		},
+		name?: string | null,
+		errorCode: number,
+	},
 }
 
 const vastUrls = {
@@ -152,7 +152,7 @@ function updateSlotParams(adSlot, vastParams) {
  * @returns {{register: register}}
  */
 function create(options) {
-	function register(player, slotTargeting: { [key: string]: any } = {}) {
+	function register(player, slotTargeting: {[key: string]: any} = {}) {
 		const slot = slotService.get(slotName);
 		const adProduct = slot.config.trackingKey;
 		const videoElement = player && player.getContainer && player.getContainer();
