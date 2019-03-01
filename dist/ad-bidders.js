@@ -1940,6 +1940,48 @@ function (_BaseAdapter) {
 
   return RubiconDisplay;
 }(base_adapter_BaseAdapter);
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/Vmg.ts
+
+
+
+
+
+
+var Vmg_Vmg =
+/*#__PURE__*/
+function (_BaseAdapter) {
+  inherits_default()(Vmg, _BaseAdapter);
+
+  function Vmg(options) {
+    var _this;
+
+    classCallCheck_default()(this, Vmg);
+
+    _this = possibleConstructorReturn_default()(this, getPrototypeOf_default()(Vmg).call(this, options));
+    _this.bidderName = 'vmg';
+    return _this;
+  }
+
+  createClass_default()(Vmg, [{
+    key: "prepareConfigForAdUnit",
+    value: function prepareConfigForAdUnit(code, _ref) {
+      var sizes = _ref.sizes;
+      return {
+        code: code,
+        mediaTypes: {
+          banner: {
+            sizes: sizes
+          }
+        },
+        bids: [{
+          bidder: this.bidderName
+        }]
+      };
+    }
+  }]);
+
+  return Vmg;
+}(base_adapter_BaseAdapter);
 // EXTERNAL MODULE: external "@babel/runtime-corejs2/helpers/slicedToArray"
 var slicedToArray_ = __webpack_require__(10);
 var slicedToArray_default = /*#__PURE__*/__webpack_require__.n(slicedToArray_);
@@ -2233,6 +2275,7 @@ function (_BaseAdapter) {
 
 
 
+
 var adapters_registry_adapters = [];
 var customAdapters = [];
 var availableAdapters = {
@@ -2248,7 +2291,8 @@ var availableAdapters = {
   openx: openx_Openx,
   pubmatic: pubmatic_Pubmatic,
   rubicon: rubicon_Rubicon,
-  rubiconDisplay: rubicon_display_RubiconDisplay
+  rubiconDisplay: rubicon_display_RubiconDisplay,
+  vmg: Vmg_Vmg
 };
 
 function registerAliases() {
