@@ -21,7 +21,7 @@ interface HdPlayerEvent extends CustomEvent {
 		},
 		name?: string | null,
 		errorCode: number,
-	},
+	}
 }
 
 const vastUrls = {
