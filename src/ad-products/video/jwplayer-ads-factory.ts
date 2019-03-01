@@ -338,6 +338,7 @@ function create(options) {
 			document.addEventListener('hdPlayerEvent', (event: HdPlayerEvent) => {
 				if (event.detail.slotStatus) {
 					updateSlotParams(slot, event.detail.slotStatus.vastParams);
+					tracker.updateCreativeData(event.detail.slotStatus.vastParams);
 					slot.setStatus(event.detail.slotStatus.statusName);
 				}
 
