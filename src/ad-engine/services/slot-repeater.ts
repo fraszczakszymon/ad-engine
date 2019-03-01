@@ -40,7 +40,8 @@ function repeatSlot(adSlot) {
 	}
 
 	const insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
-	const container = slotInjector.inject(slotName, insertBelowScrollPosition);
+	const disablePushOnScroll = !!adSlot.config.repeat.disablePushOnScroll;
+	const container = slotInjector.inject(slotName, insertBelowScrollPosition, disablePushOnScroll);
 	const additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {

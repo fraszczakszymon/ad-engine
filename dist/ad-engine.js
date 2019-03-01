@@ -5265,11 +5265,15 @@ function findNextSuitablePlace() {
   return null;
 }
 
-function insertNewSlot(slotName, nextSibling) {
+function insertNewSlot(slotName, nextSibling, disablePushOnScroll) {
   var container = document.createElement('div');
   container.id = slotName;
   nextSibling.parentNode.insertBefore(container, nextSibling);
-  context.push('events.pushOnScroll.ids', slotName);
+
+  if (!disablePushOnScroll) {
+    context.push('events.pushOnScroll.ids', slotName);
+  }
+
   return container;
 }
 
@@ -5284,6 +5288,7 @@ function () {
     key: "inject",
     value: function inject(slotName) {
       var insertBelowScrollPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var disablePushOnScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var config = context.get("slots.".concat(slotName));
       var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
       var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
@@ -5302,7 +5307,7 @@ function () {
         return null;
       }
 
-      var container = insertNewSlot(slotName, nextSibling);
+      var container = insertNewSlot(slotName, nextSibling, disablePushOnScroll);
       logger(slot_injector_logGroup, 'Inject slot', slotName);
       return container;
     }
@@ -5350,7 +5355,8 @@ function repeatSlot(adSlot) {
   }
 
   var insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
-  var container = slotInjector.inject(slotName, insertBelowScrollPosition);
+  var disablePushOnScroll = !!adSlot.config.repeat.disablePushOnScroll;
+  var container = slotInjector.inject(slotName, insertBelowScrollPosition, disablePushOnScroll);
   var additionalClasses = repeatConfig.additionalClasses || '';
 
   if (container !== null) {
@@ -5927,9 +5933,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v25.0.0');
 
-set_default()(window, commitField, '5ebedb11');
+set_default()(window, commitField, 'b788b010');
 
-logger('ad-engine', 'v25.0.0 (5ebedb11)');
+logger('ad-engine', 'v25.0.0 (b788b010)');
 
 
 
