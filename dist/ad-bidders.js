@@ -1940,14 +1940,14 @@ function (_BaseAdapter) {
 
   return RubiconDisplay;
 }(base_adapter_BaseAdapter);
-// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/Vmg.ts
+// CONCATENATED MODULE: ./src/ad-bidders/prebid/adapters/vmg.ts
 
 
 
 
 
 
-var Vmg_Vmg =
+var vmg_Vmg =
 /*#__PURE__*/
 function (_BaseAdapter) {
   inherits_default()(Vmg, _BaseAdapter);
@@ -2292,7 +2292,7 @@ var availableAdapters = {
   pubmatic: pubmatic_Pubmatic,
   rubicon: rubicon_Rubicon,
   rubiconDisplay: rubicon_display_RubiconDisplay,
-  vmg: Vmg_Vmg
+  vmg: vmg_Vmg
 };
 
 function registerAliases() {

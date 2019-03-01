@@ -5927,9 +5927,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v25.0.0');
 
-set_default()(window, commitField, 'f5a0b25c');
+set_default()(window, commitField, '705d53e1');
 
-logger('ad-engine', 'v25.0.0 (f5a0b25c)');
+logger('ad-engine', 'v25.0.0 (705d53e1)');
 
 
 
