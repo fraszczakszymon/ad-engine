@@ -6382,11 +6382,11 @@ if (lodash_get__WEBPACK_IMPORTED_MODULE_1___default()(window, versionField, null
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-lodash_set__WEBPACK_IMPORTED_MODULE_0___default()(window, versionField, 'v25.0.1');
+lodash_set__WEBPACK_IMPORTED_MODULE_0___default()(window, versionField, 'v25.0.2');
 
-set_default()(window, commitField, 'b788b010');
+lodash_set__WEBPACK_IMPORTED_MODULE_0___default()(window, commitField, '2ee6995e');
 
-logger('ad-engine', 'v25.0.0 (b788b010)');
+_utils__WEBPACK_IMPORTED_MODULE_2__["logger"]('ad-engine', 'v25.0.2 (2ee6995e)');
 
 
 
