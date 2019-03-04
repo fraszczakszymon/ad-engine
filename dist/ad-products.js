@@ -5963,6 +5963,7 @@ function create(options) {
       document.addEventListener('hdPlayerEvent', function (event) {
         if (event.detail.slotStatus) {
           updateSlotParams(slot, event.detail.slotStatus.vastParams);
+          tracker.updateCreativeData(event.detail.slotStatus.vastParams);
           slot.setStatus(event.detail.slotStatus.statusName);
         }
 
