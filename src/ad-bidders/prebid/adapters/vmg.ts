@@ -1,13 +1,9 @@
-import { BaseAdapter } from './base-adapter';
+import { AdUnitConfig, BaseAdapter, BidderAdSlotConfig } from './base-adapter';
 
 export class Vmg extends BaseAdapter {
-	constructor(options) {
-		super(options);
+	public bidderName = 'vmg';
 
-		this.bidderName = 'vmg';
-	}
-
-	prepareConfigForAdUnit(code, { sizes }) {
+	prepareConfigForAdUnit(code: string, { sizes }: BidderAdSlotConfig): AdUnitConfig {
 		return {
 			code,
 			mediaTypes: {
