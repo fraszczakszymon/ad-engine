@@ -5260,11 +5260,15 @@ function findNextSuitablePlace() {
   return null;
 }
 
-function insertNewSlot(slotName, nextSibling) {
+function insertNewSlot(slotName, nextSibling, disablePushOnScroll) {
   var container = document.createElement('div');
   container.id = slotName;
   nextSibling.parentNode.insertBefore(container, nextSibling);
-  context.push('events.pushOnScroll.ids', slotName);
+
+  if (!disablePushOnScroll) {
+    context.push('events.pushOnScroll.ids', slotName);
+  }
+
   return container;
 }
 
@@ -5278,12 +5282,11 @@ function () {
   createClass_default()(SlotInjector, [{
     key: "inject",
     value: function inject(slotName) {
-      var insertBelowScrollPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var config = context.get("slots.".concat(slotName));
       var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
       var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
 
-      if (insertBelowScrollPosition) {
+      if (config.repeat && config.repeat.insertBelowScrollPosition) {
         var scrollPos = window.scrollY;
         anchorElements = anchorElements.filter(function (el) {
           return el.offsetTop > scrollPos;
@@ -5297,7 +5300,8 @@ function () {
         return null;
       }
 
-      var container = insertNewSlot(slotName, nextSibling);
+      var disablePushOnScroll = config.repeat ? !!config.repeat.disablePushOnScroll : false;
+      var container = insertNewSlot(slotName, nextSibling, disablePushOnScroll);
       logger(slot_injector_logGroup, 'Inject slot', slotName);
       return container;
     }
@@ -5344,8 +5348,7 @@ function repeatSlot(adSlot) {
     });
   }
 
-  var insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
-  var container = slotInjector.inject(slotName, insertBelowScrollPosition);
+  var container = slotInjector.inject(slotName);
   var additionalClasses = repeatConfig.additionalClasses || '';
 
   if (container !== null) {
@@ -5905,9 +5908,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v25.0.5');
 
-set_default()(window, commitField, 'f639f9e5');
+set_default()(window, commitField, 'b81d1197');
 
-logger('ad-engine', 'v25.0.5 (f639f9e5)');
+logger('ad-engine', 'v25.0.5 (b81d1197)');
 
 
 
