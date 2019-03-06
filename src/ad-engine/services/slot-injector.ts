@@ -40,7 +40,7 @@ class SlotInjector {
 			document.querySelectorAll(config.avoidConflictWith),
 		);
 
-		if (config.repeat.insertBelowScrollPosition) {
+		if (config.repeat && config.repeat.insertBelowScrollPosition) {
 			const scrollPos = window.scrollY;
 
 			anchorElements = anchorElements.filter((el) => el.offsetTop > scrollPos);
@@ -54,7 +54,8 @@ class SlotInjector {
 			return null;
 		}
 
-		const container = insertNewSlot(slotName, nextSibling, !!config.repeat.disablePushOnScroll);
+		const disablePushOnScroll = config.repeat ? !!config.repeat.disablePushOnScroll : false;
+		const container = insertNewSlot(slotName, nextSibling, disablePushOnScroll);
 
 		logger(logGroup, 'Inject slot', slotName);
 
