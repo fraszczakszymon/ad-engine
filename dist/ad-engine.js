@@ -357,18 +357,17 @@ var external_current_device_default = /*#__PURE__*/__webpack_require__.n(externa
 
 
 
-/* global BlockAdBlock */
 
-
-var bab = null;
-var client_browser = null;
-var operatingSystem = null;
 
 var client_Client =
 /*#__PURE__*/
 function () {
   function Client() {
     classCallCheck_default()(this, Client);
+
+    this.bab = null;
+    this.browser = null;
+    this.operatingSystem = null;
   }
 
   createClass_default()(Client, [{
@@ -392,13 +391,13 @@ function () {
       var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var disabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-      if (bab === null) {
+      if (this.bab === null) {
         if (typeof external_blockadblock_default.a === 'undefined' || typeof BlockAdBlock === 'undefined') {
           if (enabled !== null) enabled();
           return;
         }
 
-        bab = new BlockAdBlock({
+        this.bab = new BlockAdBlock({
           checkOnLoad: false,
           resetOnEnd: true,
           loopCheckTime: 50,
@@ -406,9 +405,9 @@ function () {
         });
       }
 
-      if (enabled !== null) bab.onDetected(enabled);
-      if (disabled !== null) bab.onNotDetected(disabled);
-      bab.check(true);
+      if (enabled !== null) this.bab.onDetected(enabled);
+      if (disabled !== null) this.bab.onNotDetected(disabled);
+      this.bab.check(true);
     }
   }, {
     key: "getDeviceType",
@@ -426,40 +425,40 @@ function () {
   }, {
     key: "getOperatingSystem",
     value: function getOperatingSystem() {
-      if (operatingSystem !== null) {
-        return operatingSystem;
+      if (this.operatingSystem !== null) {
+        return this.operatingSystem;
       }
 
       var userAgent = window.navigator.userAgent;
-      operatingSystem = 'unknown';
+      this.operatingSystem = 'unknown';
 
       if (userAgent.indexOf('Win') !== -1) {
-        operatingSystem = 'Windows';
+        this.operatingSystem = 'Windows';
       }
 
       if (userAgent.indexOf('Mac') !== -1) {
-        operatingSystem = 'OSX';
+        this.operatingSystem = 'OSX';
       }
 
       if (userAgent.indexOf('Linux') !== -1) {
-        operatingSystem = 'Linux';
+        this.operatingSystem = 'Linux';
       }
 
       if (userAgent.indexOf('Android') !== -1) {
-        operatingSystem = 'Android';
+        this.operatingSystem = 'Android';
       }
 
       if (userAgent.indexOf('like Mac') !== -1) {
-        operatingSystem = 'iOS';
+        this.operatingSystem = 'iOS';
       }
 
-      return operatingSystem;
+      return this.operatingSystem;
     }
   }, {
     key: "getBrowser",
     value: function getBrowser() {
-      if (client_browser !== null) {
-        return client_browser;
+      if (this.browser !== null) {
+        return this.browser;
       }
 
       var _window$navigator = window.navigator,
@@ -471,16 +470,16 @@ function () {
 
       if (/trident/i.test(matches[1])) {
         temp = /\brv[ :]+(\d+)/g.exec(userAgent) || [];
-        client_browser = "IE ".concat(temp[1] || '');
-        return client_browser;
+        this.browser = "IE ".concat(temp[1] || '');
+        return this.browser;
       }
 
       if (matches[1] === 'Chrome') {
         temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/);
 
         if (temp !== null) {
-          client_browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
-          return client_browser;
+          this.browser = temp.slice(1).join(' ').replace('OPR', 'Opera');
+          return this.browser;
         }
       }
 
@@ -491,8 +490,8 @@ function () {
         matches.splice(1, 1, temp[1]);
       }
 
-      client_browser = matches.join(' ');
-      return client_browser;
+      this.browser = matches.join(' ');
+      return this.browser;
     }
   }]);
 
@@ -503,9 +502,8 @@ var client = new client_Client();
 // CONCATENATED MODULE: ./src/ad-engine/utils/dimensions.ts
 /**
  * Returns element's offset of given element depending on offset parameter name
- * @param element DOM element
+ * @param element
  * @param offsetParameter node element parameter to count overall offset
- * @returns {number}
  */
 function getElementOffset(element, offsetParameter) {
   var elementWindow = element.ownerDocument.defaultView;
@@ -535,8 +533,6 @@ function getElementOffset(element, offsetParameter) {
 }
 /**
  * Returns element's offset of given element from the top of the page
- * @param element DOM element
- * @returns {number}
  */
 
 
@@ -545,8 +541,6 @@ function getTopOffset(element) {
 }
 /**
  * Returns element's offset of given element from the left of the page
- * @param element DOM element
- * @returns {number}
  */
 
 function getLeftOffset(element) {
@@ -554,7 +548,6 @@ function getLeftOffset(element) {
 }
 /**
  * Returns client's viewport height
- * @returns {number}
  */
 
 function getViewportHeight() {
@@ -562,7 +555,6 @@ function getViewportHeight() {
 }
 /**
  * Returns client's viewport width
- * @returns {number}
  */
 
 function getViewportWidth() {
@@ -575,7 +567,6 @@ function getViewportWidth() {
  * @param bottomOffset bottom offset that defines bottom margin of viewport
  * @param areaThreshold element area that needs to be in/outside viewport to decide whether element
  * is in the viewport
- * @returns {boolean}
  */
 
 function isInViewport(element) {
@@ -632,8 +623,6 @@ var VISIBILITY_STATUS = {
 };
 /**
  * Returns document visibility status.
- *
- * @returns {string} 'visible'|'hidden'|'notImplemented'
  */
 
 function getDocumentVisibilityStatus() {
@@ -720,11 +709,6 @@ function once(emitter, eventName) {
     }
   });
 }
-/**
- * @param {number} msToTimeout
- * @returns {Promise}
- */
-
 function timeoutReject(msToTimeout) {
   return new promise_default.a(function (resolve, reject) {
     setTimeout(reject, msToTimeout);
@@ -732,9 +716,6 @@ function timeoutReject(msToTimeout) {
 }
 /**
  * Fires the Promise if function is fulfilled or timeout is reached
- * @param {function} func
- * @param {number} msToTimeout
- * @returns {Promise}
  */
 
 function createWithTimeout(func) {
@@ -1687,7 +1668,6 @@ var symbol_default = /*#__PURE__*/__webpack_require__.n(symbol_);
 
 // EXTERNAL MODULE: external "eventemitter3"
 var external_eventemitter3_ = __webpack_require__(20);
-var external_eventemitter3_default = /*#__PURE__*/__webpack_require__.n(external_eventemitter3_);
 
 // CONCATENATED MODULE: ./src/ad-engine/services/events.ts
 
@@ -3036,7 +3016,7 @@ function (_EventEmitter) {
   }]);
 
   return AdSlot;
-}(external_eventemitter3_default.a);
+}(external_eventemitter3_);
 ad_slot_AdSlot.PROPERTY_CHANGED_EVENT = 'propertyChanged';
 ad_slot_AdSlot.SLOT_LOADED_EVENT = 'slotLoaded';
 ad_slot_AdSlot.SLOT_VIEWED_EVENT = 'slotViewed';
@@ -3046,7 +3026,17 @@ ad_slot_AdSlot.STATUS_SUCCESS = 'success';
 ad_slot_AdSlot.STATUS_COLLAPSE = 'collapse';
 ad_slot_AdSlot.STATUS_ERROR = 'error';
 ad_slot_AdSlot.AD_CLASS = 'gpt-ad';
+// CONCATENATED MODULE: ./src/ad-engine/models/delay-module.ts
+
+var delay_module_DelayModule = function DelayModule() {
+  classCallCheck_default()(this, DelayModule);
+
+  this.isEnabled = void 0;
+  this.getName = void 0;
+  this.getPromise = void 0;
+};
 // CONCATENATED MODULE: ./src/ad-engine/models/index.ts
+
 
 // CONCATENATED MODULE: ./src/ad-engine/video/vast-parser.ts
 
@@ -5270,15 +5260,11 @@ function findNextSuitablePlace() {
   return null;
 }
 
-function insertNewSlot(slotName, nextSibling, disablePushOnScroll) {
+function insertNewSlot(slotName, nextSibling) {
   var container = document.createElement('div');
   container.id = slotName;
   nextSibling.parentNode.insertBefore(container, nextSibling);
-
-  if (!disablePushOnScroll) {
-    context.push('events.pushOnScroll.ids', slotName);
-  }
-
+  context.push('events.pushOnScroll.ids', slotName);
   return container;
 }
 
@@ -5293,7 +5279,6 @@ function () {
     key: "inject",
     value: function inject(slotName) {
       var insertBelowScrollPosition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var disablePushOnScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var config = context.get("slots.".concat(slotName));
       var anchorElements = Array.prototype.slice.call(document.querySelectorAll(config.insertBeforeSelector));
       var conflictingElements = Array.prototype.slice.call(document.querySelectorAll(config.avoidConflictWith));
@@ -5312,7 +5297,7 @@ function () {
         return null;
       }
 
-      var container = insertNewSlot(slotName, nextSibling, disablePushOnScroll);
+      var container = insertNewSlot(slotName, nextSibling);
       logger(slot_injector_logGroup, 'Inject slot', slotName);
       return container;
     }
@@ -5360,8 +5345,7 @@ function repeatSlot(adSlot) {
   }
 
   var insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
-  var disablePushOnScroll = !!adSlot.config.repeat.disablePushOnScroll;
-  var container = slotInjector.inject(slotName, insertBelowScrollPosition, disablePushOnScroll);
+  var container = slotInjector.inject(slotName, insertBelowScrollPosition);
   var additionalClasses = repeatConfig.additionalClasses || '';
 
   if (container !== null) {
@@ -5876,6 +5860,7 @@ function () {
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "slotListener", function() { return slotListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "TwitchListener", function() { return twitch_listener_TwitchListener; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "AdSlot", function() { return ad_slot_AdSlot; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "DelayModule", function() { return delay_module_DelayModule; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "ADX", function() { return ADX; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptProvider", function() { return gpt_provider_GptProvider; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "GptSizeMap", function() { return gpt_size_map_GptSizeMap; });
@@ -5918,11 +5903,11 @@ if (get_default()(window, versionField, null)) {
   window.console.warn('Multiple @wikia/ad-engine initializations. This may cause issues.');
 }
 
-set_default()(window, versionField, 'v25.0.3');
+set_default()(window, versionField, 'v25.0.5');
 
-set_default()(window, commitField, 'd40f5fa1');
+set_default()(window, commitField, 'f639f9e5');
 
-logger('ad-engine', 'v25.0.3 (d40f5fa1)');
+logger('ad-engine', 'v25.0.5 (f639f9e5)');
 
 
 
