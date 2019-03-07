@@ -52,7 +52,7 @@ export class JWPlayerTracker {
 	/**
 	 * @param {Object} params
 	 */
-	constructor(params: {[key: string]: any} = {}) {
+	constructor(params: { [key: string]: any } = {}) {
 		this.adProduct = params.adProduct || null;
 		this.audio = params.audio || false;
 		this.ctp = params.ctp || false;
