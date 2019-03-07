@@ -2,7 +2,7 @@ import { context, events, eventService } from '../services';
 
 export function setupGptTargeting() {
 	const tag = window.googletag.pubads();
-	const targeting = context.get('targeting');
+	const targeting = context.get('targeting') || {};
 
 	function setTargetingValue(key, value) {
 		if (typeof value === 'undefined' || value === null) {

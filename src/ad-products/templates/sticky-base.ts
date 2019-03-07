@@ -20,7 +20,7 @@ export class StickyBase {
 		this.lineId = adSlot.lineItemId.toString() || '';
 		this.lines = context.get(`templates.${this.getName()}.lineItemIds`) || [];
 		this.stickiness = null;
-		this.config = context.get(`templates.${this.getName()}`);
+		this.config = context.get(`templates.${this.getName()}`) || {};
 	}
 
 	/**

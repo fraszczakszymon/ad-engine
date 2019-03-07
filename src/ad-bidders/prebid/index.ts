@@ -63,7 +63,7 @@ export class Prebid extends BaseBidder {
 				syncDelay: 6000,
 			},
 		};
-		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing');
+		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing') || {};
 
 		if (this.isCMPEnabled) {
 			this.prebidConfig.consentManagement = {
@@ -78,7 +78,7 @@ export class Prebid extends BaseBidder {
 
 		this.applyConfig(this.prebidConfig);
 
-		if (this.bidsRefreshing && this.bidsRefreshing.enabled) {
+		if (this.bidsRefreshing.enabled) {
 			this.registerBidsRefreshing();
 		}
 	}

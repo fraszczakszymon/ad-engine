@@ -93,7 +93,7 @@ function resetTargetingKeys(slotName) {
 }
 
 function requestBids({ responseListener = null }) {
-	const config = context.get('bidders');
+	const config = context.get('bidders') || {};
 
 	if (config.prebid && config.prebid.enabled) {
 		biddersRegistry.prebid = new Prebid(config.prebid, config.timeout);

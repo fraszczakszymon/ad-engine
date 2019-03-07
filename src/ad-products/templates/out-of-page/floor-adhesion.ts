@@ -14,7 +14,7 @@ export class FloorAdhesion {
 
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.config = context.get('templates.floorAdhesion');
+		this.config = context.get('templates.floorAdhesion') || {};
 	}
 
 	init() {

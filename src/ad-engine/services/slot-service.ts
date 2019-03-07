@@ -198,7 +198,7 @@ class SlotService {
 	}
 
 	get slotConfigsMap(): { [key: string]: SlotConfig } {
-		return context.get('slots');
+		return context.get('slots') || {};
 	}
 
 	getAtfSlotNames(): string[] {

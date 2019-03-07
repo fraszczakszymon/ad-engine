@@ -72,7 +72,7 @@ class BtfBlockerService {
 	}
 
 	private disableSecondCall(unblockedSlots) {
-		const slots = context.get('slots');
+		const slots = context.get('slots') || {};
 
 		logger(logGroup, 'second call queue disabled');
 
