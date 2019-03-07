@@ -2742,7 +2742,7 @@ function (_EventEmitter) {
       _this.on(event.name, event.callback);
     });
 
-    _this.campaignId = null;
+    _this.orderId = null;
     _this.creativeId = null;
     _this.creativeSize = null;
     _this.lineItemId = null;
@@ -2987,7 +2987,7 @@ function (_EventEmitter) {
         }
       }
 
-      this.campaignId = event.campaignId;
+      this.orderId = event.campaignId;
       this.creativeId = creativeId;
       this.lineItemId = lineItemId;
       this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;
@@ -4660,7 +4660,7 @@ function slot_listener_getData(adSlot, _ref) {
   return {
     browser: "".concat(client.getOperatingSystem(), " ").concat(client.getBrowser()),
     adType: adType || '',
-    campaign_id: adSlot.campaignId,
+    order_id: adSlot.orderId,
     creative_id: adSlot.creativeId,
     creative_size: is_array_default()(adSlot.creativeSize) && adSlot.creativeSize.length ? adSlot.creativeSize.join('x') : adSlot.creativeSize,
     line_item_id: adSlot.lineItemId,
@@ -5895,9 +5895,9 @@ if (get_default()(window, versionField, null)) {
 
 set_default()(window, versionField, 'v25.0.7');
 
-set_default()(window, commitField, '2ea38d0c');
+set_default()(window, commitField, 'edd1b300');
 
-logger('ad-engine', 'v25.0.7 (2ea38d0c)');
+logger('ad-engine', 'v25.0.7 (edd1b300)');
 
 
 
