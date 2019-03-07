@@ -1,5 +1,4 @@
 /* global module, require */
-const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -13,6 +12,10 @@ const pkg = require('./package.json');
 const examplePages = {};
 
 function findExamplePages(startPath, filter) {
+	if (!fs.existsSync(startPath)) {
+		return;
+	}
+
 	const files = fs.readdirSync(startPath);
 
 	files.forEach((file) => {
@@ -49,12 +52,12 @@ const common = {
 				test: /\.json$/,
 				loader: 'json-loader',
 				type: 'javascript/auto',
-				exclude: /node_modules/,
+				exclude: [path.resolve(__dirname, 'node_modules')],
 			},
 			{
 				test: /\.s?css$/,
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-				exclude: /node_modules/,
+				exclude: [path.resolve(__dirname, 'node_modules')],
 			},
 			{
 				test: path.resolve(__dirname, 'src/ad-engine/index.ts'),
@@ -63,13 +66,6 @@ const common = {
 						{
 							pattern: /<\?=[ \t]*PACKAGE\(([\w\-_.]*?)\)[ \t]*\?>/gi,
 							replacement: (match, p1) => get(pkg, p1),
-						},
-						{
-							pattern: /<\?=[ \t]*PACKAGE_REPO_COMMIT[ \t]*\?>/gi,
-							replacement: () =>
-								execSync('git rev-parse --short HEAD')
-									.toString()
-									.trim(),
 						},
 					],
 				}),
