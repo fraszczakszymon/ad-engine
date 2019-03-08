@@ -26,7 +26,7 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 
 		this.stickiness = null;
 		this.video = null;
-		this.config = context.get('templates.bfab');
+		this.config = context.get('templates.bfab') || {};
 	}
 
 	onAdReady() {

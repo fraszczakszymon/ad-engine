@@ -1,8 +1,25 @@
-import EventEmitter from 'eventemitter3';
+import * as EventEmitter from 'eventemitter3';
 import { slotListener } from '../listeners';
 import { ADX } from '../providers';
 import { context, slotDataParamsUpdater, slotTweaker, templateService } from '../services';
 import { LazyQueue, logger, stringBuilder } from '../utils';
+
+export interface SlotConfig {
+	disabled?: boolean;
+	firstCall?: boolean;
+	aboveTheFold?: boolean;
+	slotName?: string;
+
+	targeting: { [key: string]: any };
+	videoAdUnit?: any;
+	repeat?: any;
+	adUnit?: string;
+	sizes?: any;
+	videoSizes?: any;
+	defaultSizes?: any;
+	viewportConflicts?: any[];
+	outOfPage?: any;
+}
 
 export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
@@ -18,29 +35,25 @@ export class AdSlot extends EventEmitter {
 
 	static AD_CLASS = 'gpt-ad';
 
-	/**
-	 * Returns true if slot is ATF
-	 *
-	 * @param config slot config
-	 * @returns {boolean} true if slot is ATF
-	 */
-	static isAboveTheFold(config) {
-		return !!config.aboveTheFold;
-	}
+	config: SlotConfig;
+	viewed = false;
+	element = null;
+	status = null;
+	enabled: boolean;
+	events: LazyQueue;
+	adUnit: string;
 
 	constructor(ad) {
 		super();
 
 		this.config = context.get(`slots.${ad.id}`) || {};
 		this.enabled = !this.config.disabled;
-		this.viewed = false;
-		this.element = null;
-		this.status = null;
 		this.events = new LazyQueue();
 		this.events.onItemFlush((event) => {
 			this.on(event.name, event.callback);
 		});
 
+		this.orderId = null;
 		this.creativeId = null;
 		this.creativeSize = null;
 		this.lineItemId = null;
@@ -140,12 +153,12 @@ export class AdSlot extends EventEmitter {
 		}
 	}
 
-	isFirstCall() {
-		return !!this.config.firstCall;
-	}
-
 	isEnabled() {
 		return this.enabled;
+	}
+
+	isFirstCall(): boolean {
+		return !!this.config.firstCall;
 	}
 
 	isViewed() {
@@ -241,6 +254,7 @@ export class AdSlot extends EventEmitter {
 			}
 		}
 
+		this.orderId = event.campaignId;
 		this.creativeId = creativeId;
 		this.lineItemId = lineItemId;
 		this.creativeSize = this.isOutOfPage() ? 'out-of-page' : event.size;

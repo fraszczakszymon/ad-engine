@@ -32,8 +32,8 @@ export class ProjectsHandler {
 	 * @returns {{models: ModelDefinition[], parameters: Object}}
 	 */
 	getEnabledModelsWithParams(projectNames) {
-		const projects = context.get('services.billTheLizard.projects');
-		const projectParameters = context.get('services.billTheLizard.parameters');
+		const projects = context.get('services.billTheLizard.projects') || {};
+		const projectParameters = context.get('services.billTheLizard.parameters') || {};
 		const enabledProjectNames = Object.keys(projects).filter(
 			(name) => this.isEnabled(name) && projectNames.includes(name),
 		);

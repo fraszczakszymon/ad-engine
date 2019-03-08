@@ -1,25 +1,24 @@
-/* global BlockAdBlock */
 import AdBlockDetect from 'blockadblock';
 import currentDevice from 'current-device';
 
-let bab = null;
-let browser = null;
-let operatingSystem = null;
+let bab: BlockAdBlock = null;
+let browser: string = null;
+let operatingSystem: string = null;
 
 class Client {
-	isSmartphone() {
+	isSmartphone(): boolean {
 		return currentDevice.mobile();
 	}
 
-	isTablet() {
+	isTablet(): boolean {
 		return currentDevice.tablet();
 	}
 
-	isDesktop() {
+	isDesktop(): boolean {
 		return !this.isSmartphone() && !this.isTablet();
 	}
 
-	checkBlocking(enabled = null, disabled = null) {
+	checkBlocking(enabled: () => void = null, disabled: () => void = null): void {
 		if (bab === null) {
 			if (typeof AdBlockDetect === 'undefined' || typeof BlockAdBlock === 'undefined') {
 				if (enabled !== null) enabled();
@@ -41,7 +40,7 @@ class Client {
 		bab.check(true);
 	}
 
-	getDeviceType() {
+	getDeviceType(): string {
 		if (this.isTablet()) {
 			return 'tablet';
 		}
@@ -52,7 +51,7 @@ class Client {
 		return 'desktop';
 	}
 
-	getOperatingSystem() {
+	getOperatingSystem(): string {
 		if (operatingSystem !== null) {
 			return operatingSystem;
 		}
@@ -79,13 +78,13 @@ class Client {
 		return operatingSystem;
 	}
 
-	getBrowser() {
+	getBrowser(): string {
 		if (browser !== null) {
 			return browser;
 		}
 
 		const { appName, appVersion, userAgent } = window.navigator;
-		let temp;
+		let temp: RegExpMatchArray;
 		let matches =
 			userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 

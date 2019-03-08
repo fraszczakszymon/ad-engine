@@ -1,6 +1,6 @@
 {
 	"name": "@wikia/ad-engine",
-	"version": "25.0.0",
+	"version": "25.3.2",
 	"description": "Wikia AdEngine",
 	"repository": {
 		"type": "git",
@@ -37,6 +37,7 @@
 		"babel-plugin-syntax-trailing-function-commas": "6.22.0",
 		"chai": "^4.1.2",
 		"chrome-remote-interface": "0.26.1",
+		"concat": "1.0.3",
 		"copy-webpack-plugin": "4.5.2",
 		"deepmerge": "2.2.1",
 		"husky": "1.1.4",
@@ -83,9 +84,15 @@
 	"files": [
 		"dist/",
 		"lib/",
+		"maintenance/",
 		"src/",
+		".babelrc",
+		".npmrc",
 		"jsconfig.json",
-		"README.md"
+		"package.json",
+		"package-lock.json",
+		"README.md",
+		"webpack.config.js"
 	],
 	"main": "./dist/ad-engine.js",
 	"nyc": {
@@ -95,14 +102,14 @@
 		]
 	},
 	"scripts": {
-		"build": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules && bash ./maintenance/build-bundle.sh",
+		"build": "webpack --progress --colors --hide-modules && node ./maintenance/build-bundle.js",
 		"ci-check": "npm run test && npm run lint",
 		"dev": "npm run serve",
-		"lint": "tslint --project . && ./maintenance/detect-incorrect-usages.sh",
-		"lintf": "tslint --project . --fix && ./maintenance/detect-incorrect-usages.sh",
+		"lint": "tslint --project . && npm run rules:lint && ./maintenance/detect-incorrect-usages.sh",
+		"lintf": "tslint --project . --fix && npm run rules:lintf &&  ./maintenance/detect-incorrect-usages.sh",
 		"prettier": "prettier --write '**/*.{ts,js,json,css,scss,html}'",
 		"format": "npm run prettier && npm run lintf",
-		"prepare": "echo 'This is a test'",
+		"prepare": "echo '🍷 Building Wikia/ad-engine' && npm run build --production",
 		"preversion": "./maintenance/preversion.sh",
 		"version": "./maintenance/version.sh",
 		"serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
@@ -116,7 +123,11 @@
 		"allure": "cp -R ./tests/allure-results/report/history ./tests/allure-results | true && allure generate ./tests/allure-results --output ./tests/allure-results/report --clean && allure open ./tests/allure-results/report",
 		"allure-clear": "find ./tests/allure-results/ -name *attachment.json -delete; find ./tests/allure-results/ -name *testsuite.xml -delete; find ./tests/allure-results/ -name *attachment.png -delete",
 		"check-types": "tsc -noEmit",
-		"check-types:watch": "tsc --watch -noEmit"
+		"check-types:watch": "tsc --watch -noEmit",
+		"rules:build": "tsc --project 'maintenance/tslint-rules/tsconfig.json'",
+		"rules:tests": "tslint --project 'maintenance/tslint-rules/tests/tsconfig.json'",
+		"rules:lint": "tslint --project 'maintenance/tslint-rules/tsconfig.json'",
+		"rules:lintf": "tslint --project 'maintenance/tslint-rules/tsconfig.json' --fix"
 	},
 	"husky": {
 		"hooks": {
@@ -137,7 +148,8 @@
 			]
 		},
 		"ignore": [
-			"**/dist/**/*"
+			"**/dist/**/*",
+			"maintenance/tslint-rules/tests/**/*"
 		]
 	}
 }

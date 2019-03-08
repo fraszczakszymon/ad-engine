@@ -1,5 +1,14 @@
 import { bidders } from '@wikia/ad-bidders';
-import { AdEngine, btfBlockerService, context, events, eventService, slotService, utils } from '@wikia/ad-engine';
+import {
+	AdEngine,
+	btfBlockerService,
+	context,
+	DelayModule,
+	events,
+	eventService,
+	slotService,
+	utils,
+} from '@wikia/ad-engine';
 import { billTheLizard } from '@wikia/ad-services';
 import adContext from '../../context';
 
@@ -75,7 +84,7 @@ for (let i = 0; i < contentLength; i += 1) {
 
 let resolveBidders;
 
-const biddersDelay = {
+const biddersDelay: DelayModule = {
 	isEnabled: () => true,
 	getName: () => 'bidders-delay',
 	getPromise: () =>

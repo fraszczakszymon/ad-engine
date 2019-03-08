@@ -23,7 +23,7 @@ class GeoEdge {
 	 */
 	call() {
 		const geoEdgeKey = context.get('services.geoEdge.id');
-		const geoEdgeConfig = context.get('services.geoEdge.config');
+		const geoEdgeConfig = context.get('services.geoEdge.config') || {};
 
 		if (!context.get('services.geoEdge.enabled') || !geoEdgeKey) {
 			utils.logger(logGroup, 'disabled');

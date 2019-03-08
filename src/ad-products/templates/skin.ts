@@ -15,7 +15,7 @@ export class Skin {
 	}
 
 	constructor() {
-		this.config = context.get('templates.skin');
+		this.config = context.get('templates.skin') || {};
 		this.adSkin = document.querySelector(this.config.wrapperSelector);
 	}
 

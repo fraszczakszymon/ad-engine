@@ -28,6 +28,7 @@ function repeatSlot(adSlot) {
 	}
 
 	context.set(`slots.${slotName}`, newSlotDefinition);
+
 	if (repeatConfig.updateProperties) {
 		Object.keys(repeatConfig.updateProperties).forEach((key) => {
 			const value =
@@ -39,8 +40,7 @@ function repeatSlot(adSlot) {
 		});
 	}
 
-	const insertBelowScrollPosition = !!adSlot.config.repeat.insertBelowScrollPosition;
-	const container = slotInjector.inject(slotName, insertBelowScrollPosition);
+	const container = slotInjector.inject(slotName);
 	const additionalClasses = repeatConfig.additionalClasses || '';
 
 	if (container !== null) {

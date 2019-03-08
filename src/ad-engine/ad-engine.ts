@@ -1,6 +1,6 @@
 import { scrollListener } from './listeners';
-import { AdSlot } from './models';
-import { GptProvider, PrebidiumProvider } from './providers';
+import { AdSlot, DelayModule } from './models';
+import { GptProvider, PrebidiumProvider, Provider } from './providers';
 import {
 	btfBlockerService,
 	context,
@@ -14,17 +14,20 @@ import {
 	templateService,
 } from './services';
 import { FloatingAd } from './templates';
-import { LazyQueue, logger, makeLazyQueue } from './utils';
+import { LazyQueue, logger, makeLazyQueue, OldLazyQueue } from './utils';
 
 const logGroup = 'ad-engine';
 
 export class AdEngine {
+	started = false;
+	provider: Provider;
+	adStack: OldLazyQueue<string>;
+
 	constructor(config = null) {
 		context.extend(config);
-		this.started = false;
 
-		window.ads = window.ads || {};
-		window.ads.runtime = window.ads.runtime || {};
+		window.ads = window.ads || ({} as Ads);
+		window.ads.runtime = window.ads.runtime || ({} as Runtime);
 
 		templateService.register(FloatingAd);
 
@@ -34,7 +37,7 @@ export class AdEngine {
 		});
 	}
 
-	init() {
+	init(): void {
 		this.setupProviders();
 		this.setupAdStack();
 		btfBlockerService.init();
@@ -49,11 +52,8 @@ export class AdEngine {
 		this.setupPushOnScrollQueue();
 	}
 
-	/**
-	 * @private
-	 */
-	setupProviders() {
-		const providerName = context.get('state.provider');
+	private setupProviders(): void {
+		const providerName: string = context.get('state.provider');
 
 		switch (providerName) {
 			case 'prebidium':
@@ -65,13 +65,10 @@ export class AdEngine {
 		}
 	}
 
-	/**
-	 * @private
-	 */
-	setupAdStack() {
+	private setupAdStack(): void {
 		this.adStack = context.get('state.adStack');
 		if (!this.adStack.start) {
-			makeLazyQueue(this.adStack, (ad) => {
+			makeLazyQueue<string>(this.adStack as any, (ad: string) => {
 				const adSlot = new AdSlot(ad);
 
 				slotService.add(adSlot);
@@ -80,15 +77,12 @@ export class AdEngine {
 		}
 	}
 
-	/**
-	 * @private
-	 */
-	setupPushOnScrollQueue() {
+	private setupPushOnScrollQueue(): void {
 		if (context.get('events.pushOnScroll')) {
-			const pushOnScrollIds = context.get('events.pushOnScroll.ids');
-			const pushOnScrollQueue = new LazyQueue(...pushOnScrollIds);
+			const pushOnScrollIds: string[] = context.get('events.pushOnScroll.ids') || [];
+			const pushOnScrollQueue = new LazyQueue<string>(...pushOnScrollIds);
 
-			pushOnScrollQueue.onItemFlush((id) => {
+			pushOnScrollQueue.onItemFlush((id: string) => {
 				scrollListener.addSlot(this.adStack, id, context.get('events.pushOnScroll.threshold'));
 			});
 			context.set('events.pushOnScroll.ids', pushOnScrollQueue);
@@ -96,10 +90,10 @@ export class AdEngine {
 		}
 	}
 
-	async runAdQueue() {
-		const delayModulesPromises = this.getDelayModulesPromises();
-		const maxTimeout = context.get('options.maxDelayTimeout');
-		const timeoutPromise = new Promise((resolve) => setTimeout(resolve, maxTimeout));
+	async runAdQueue(): Promise<void> {
+		const delayModulesPromises: Promise<void>[] = this.getDelayModulesPromises();
+		const maxTimeout: number = context.get('options.maxDelayTimeout');
+		const timeoutPromise = new Promise<void>((resolve) => setTimeout(resolve, maxTimeout));
 
 		logger(logGroup, `Delay by ${delayModulesPromises.length} modules (${maxTimeout}ms timeout)`);
 
@@ -109,26 +103,19 @@ export class AdEngine {
 		this.startAdStack();
 	}
 
-	/**
-	 * @private
-	 * @returns {*[]}
-	 */
-	getDelayModulesPromises() {
-		const delayModules = context.get('delayModules') || [];
+	private getDelayModulesPromises(): Promise<void>[] {
+		const delayModules: DelayModule[] = context.get('delayModules') || [];
 
 		return delayModules
-			.filter((delayModule) => delayModule.isEnabled())
-			.map((delayModule) => {
+			.filter((delayModule: DelayModule) => delayModule.isEnabled())
+			.map((delayModule: DelayModule) => {
 				logger(logGroup, 'Register delay module', delayModule.getName());
 
 				return delayModule.getPromise();
 			});
 	}
 
-	/**
-	 * @private
-	 */
-	startAdStack() {
+	private startAdStack(): void {
 		if (!this.started) {
 			eventService.emit(events.AD_STACK_START);
 			this.started = true;

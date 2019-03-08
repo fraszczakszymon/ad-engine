@@ -1,9 +1,9 @@
-import { AdEngine, context } from '@wikia/ad-engine';
+import { AdEngine, context, DelayModule } from '@wikia/ad-engine';
 import adContext from '../../context';
 
 let time = 10;
 
-const clickDelay = {
+const clickDelay: DelayModule = {
 	isEnabled: () => true,
 	getName: () => 'click-to-load',
 	getPromise: () =>

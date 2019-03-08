@@ -68,7 +68,7 @@ class Krux {
 	 * @returns {void}
 	 */
 	exportPageParams() {
-		Object.keys(context.get('targeting')).forEach((key) => {
+		Object.keys(context.get('targeting') || {}).forEach((key) => {
 			const value = context.get(`targeting.${key}`);
 
 			if (value) {

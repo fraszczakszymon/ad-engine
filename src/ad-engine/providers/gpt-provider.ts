@@ -12,6 +12,7 @@ import {
 import { defer, logger } from '../utils';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
+import { Provider } from './provider';
 
 const logGroup = 'gpt-provider';
 
@@ -56,7 +57,7 @@ function configure() {
 	window.googletag.enableServices();
 }
 
-export class GptProvider {
+export class GptProvider implements Provider {
 	constructor(forceInit = false) {
 		window.googletag = window.googletag || {};
 		window.googletag.cmd = window.googletag.cmd || [];
@@ -90,7 +91,7 @@ export class GptProvider {
 
 	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
-		const adStack = context.get('state.adStack');
+		const adStack = context.get('state.adStack') || [];
 
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);

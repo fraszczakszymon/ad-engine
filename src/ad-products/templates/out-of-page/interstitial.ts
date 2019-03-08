@@ -15,7 +15,7 @@ export class Interstitial {
 
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.config = context.get('templates.interstitial');
+		this.config = context.get('templates.interstitial') || {};
 	}
 
 	init() {

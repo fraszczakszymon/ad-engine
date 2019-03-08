@@ -161,7 +161,7 @@ function setType(type) {
 }
 
 function updateSlotsTargeting(lineItemId, creativeId) {
-	const slots = context.get('slots');
+	const slots = context.get('slots') || {};
 
 	Object.keys(slots).forEach((slotId) => {
 		if (!slots[slotId].nonUapSlot) {

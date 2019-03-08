@@ -24,7 +24,7 @@ export class FloatingRail {
 	}
 
 	constructor() {
-		this.config = context.get('templates.floatingRail');
+		this.config = context.get('templates.floatingRail') || {};
 		this.rail = document.querySelector(this.config.railSelector);
 		this.railWrapper = document.querySelector(this.config.wrapperSelector);
 	}
