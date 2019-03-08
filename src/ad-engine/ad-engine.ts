@@ -79,7 +79,7 @@ export class AdEngine {
 
 	private setupPushOnScrollQueue(): void {
 		if (context.get('events.pushOnScroll')) {
-			const pushOnScrollIds: string[] = context.get('events.pushOnScroll.ids');
+			const pushOnScrollIds: string[] = context.get('events.pushOnScroll.ids') || [];
 			const pushOnScrollQueue = new LazyQueue<string>(...pushOnScrollIds);
 
 			pushOnScrollQueue.onItemFlush((id: string) => {

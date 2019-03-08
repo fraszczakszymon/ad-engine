@@ -15,7 +15,7 @@ export class Roadblock {
 	}
 
 	constructor() {
-		this.config = context.get('templates.roadblock');
+		this.config = context.get('templates.roadblock') || {};
 	}
 
 	/**

@@ -21,7 +21,7 @@ export class PorvataTemplate {
 
 	constructor(adSlot) {
 		this.adSlot = adSlot;
-		this.config = context.get('templates.porvata3');
+		this.config = context.get('templates.porvata3') || {};
 	}
 
 	init(params) {

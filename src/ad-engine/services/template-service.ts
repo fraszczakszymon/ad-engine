@@ -14,7 +14,7 @@ class TemplateService {
 		let config = context.get(`templates.${name}`) || {};
 
 		if (typeof template.getDefaultConfig === 'function') {
-			config = Object.assign(template.getDefaultConfig(), config);
+			config = { ...template.getDefaultConfig(), ...config };
 		}
 
 		if (customConfig) {

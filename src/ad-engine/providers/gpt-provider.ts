@@ -91,7 +91,7 @@ export class GptProvider implements Provider {
 
 	@decorate(postponeExecutionUntilGptLoads)
 	fillIn(adSlot) {
-		const adStack = context.get('state.adStack');
+		const adStack = context.get('state.adStack') || [];
 
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);

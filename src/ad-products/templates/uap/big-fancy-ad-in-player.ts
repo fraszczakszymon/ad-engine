@@ -14,7 +14,7 @@ export class BigFancyAdInPlayer {
 	}
 
 	constructor() {
-		this.config = context.get('templates.bfp');
+		this.config = context.get('templates.bfp') || {};
 	}
 
 	/**
