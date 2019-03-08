@@ -16,19 +16,22 @@ function findNextSuitablePlace(anchorElements = [], conflictingElements = []) {
 	return null;
 }
 
-function insertNewSlot(slotName, nextSibling) {
+function insertNewSlot(slotName, nextSibling, disablePushOnScroll) {
 	const container = document.createElement('div');
 
 	container.id = slotName;
 
 	nextSibling.parentNode.insertBefore(container, nextSibling);
-	context.push('events.pushOnScroll.ids', slotName);
+
+	if (!disablePushOnScroll) {
+		context.push('events.pushOnScroll.ids', slotName);
+	}
 
 	return container;
 }
 
 class SlotInjector {
-	inject(slotName, insertBelowScrollPosition = false) {
+	inject(slotName) {
 		const config = context.get(`slots.${slotName}`);
 		let anchorElements = Array.prototype.slice.call(
 			document.querySelectorAll(config.insertBeforeSelector),
@@ -37,7 +40,7 @@ class SlotInjector {
 			document.querySelectorAll(config.avoidConflictWith),
 		);
 
-		if (insertBelowScrollPosition) {
+		if (config.repeat && config.repeat.insertBelowScrollPosition) {
 			const scrollPos = window.scrollY;
 
 			anchorElements = anchorElements.filter((el) => el.offsetTop > scrollPos);
@@ -51,7 +54,8 @@ class SlotInjector {
 			return null;
 		}
 
-		const container = insertNewSlot(slotName, nextSibling);
+		const disablePushOnScroll = config.repeat ? !!config.repeat.disablePushOnScroll : false;
+		const container = insertNewSlot(slotName, nextSibling, disablePushOnScroll);
 
 		logger(logGroup, 'Inject slot', slotName);
 
