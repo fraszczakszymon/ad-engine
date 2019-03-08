@@ -11,6 +11,7 @@ import { Openx } from './adapters/openx';
 import { Pubmatic } from './adapters/pubmatic';
 import { Rubicon } from './adapters/rubicon';
 import { RubiconDisplay } from './adapters/rubicon-display';
+import { Vmg } from './adapters/vmg';
 import { Wikia } from './adapters/wikia';
 import { WikiaVideo } from './adapters/wikia-video';
 
@@ -30,6 +31,7 @@ const availableAdapters = {
 	pubmatic: Pubmatic,
 	rubicon: Rubicon,
 	rubiconDisplay: RubiconDisplay,
+	vmg: Vmg,
 };
 
 function registerAliases() {

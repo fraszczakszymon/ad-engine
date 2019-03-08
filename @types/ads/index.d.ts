@@ -7,3 +7,5 @@ interface Runtime {
 	disableSecondCall: boolean;
 	unblockHighlyViewableSlots: boolean;
 }
+
+export {}; // tslint no-sole-types fix
