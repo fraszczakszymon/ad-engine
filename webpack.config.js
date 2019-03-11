@@ -1,7 +1,4 @@
 /* global module, require */
-/* eslint-disable no-console, import/no-extraneous-dependencies */
-
-const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -15,6 +12,10 @@ const pkg = require('./package.json');
 const examplePages = {};
 
 function findExamplePages(startPath, filter) {
+	if (!fs.existsSync(startPath)) {
+		return;
+	}
+
 	const files = fs.readdirSync(startPath);
 
 	files.forEach((file) => {
@@ -24,14 +25,14 @@ function findExamplePages(startPath, filter) {
 		if (stat.isDirectory()) {
 			findExamplePages(filename, filter);
 		} else if (filename.indexOf(filter) >= 0) {
-			const shortName = filename.replace('examples/', '').replace('/script.js', '');
+			const shortName = filename.replace('examples/', '').replace('/script.ts', '');
 
 			examplePages[shortName] = `./${filename}`;
 		}
 	});
 }
 
-findExamplePages('./examples', 'script.js');
+findExamplePages('./examples', 'script.ts');
 
 const common = {
 	mode: 'development',
@@ -39,40 +40,40 @@ const common = {
 	module: {
 		rules: [
 			{
-				test: /.js$/,
+				test: /\.(js|ts)$/,
 				use: 'babel-loader',
-				include: path.resolve(__dirname, 'src'),
+				include: [
+					path.resolve(__dirname, 'src'),
+					path.resolve(__dirname, 'spec'),
+					path.resolve(__dirname, 'examples'),
+				],
 			},
 			{
 				test: /\.json$/,
 				loader: 'json-loader',
 				type: 'javascript/auto',
-				exclude: /node_modules/,
+				exclude: [path.resolve(__dirname, 'node_modules')],
 			},
 			{
 				test: /\.s?css$/,
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-				exclude: /node_modules/,
+				exclude: [path.resolve(__dirname, 'node_modules')],
 			},
 			{
-				test: path.resolve(__dirname, 'src/ad-engine/index.js'),
+				test: path.resolve(__dirname, 'src/ad-engine/index.ts'),
 				loader: StringReplacePlugin.replace({
 					replacements: [
 						{
 							pattern: /<\?=[ \t]*PACKAGE\(([\w\-_.]*?)\)[ \t]*\?>/gi,
 							replacement: (match, p1) => get(pkg, p1),
 						},
-						{
-							pattern: /<\?=[ \t]*PACKAGE_REPO_COMMIT[ \t]*\?>/gi,
-							replacement: () =>
-								execSync('git rev-parse --short HEAD')
-									.toString()
-									.trim(),
-						},
 					],
 				}),
 			},
 		],
+	},
+	resolve: {
+		extensions: ['.ts', '.js', '.json'],
 	},
 };
 
@@ -129,7 +130,7 @@ const adEngine = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-engine': './src/ad-engine/index.js',
+			'ad-engine': './src/ad-engine/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -169,7 +170,7 @@ const adProducts = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-products': './src/ad-products/index.js',
+			'ad-products': './src/ad-products/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -217,7 +218,7 @@ const adBidders = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-bidders': './src/ad-bidders/index.js',
+			'ad-bidders': './src/ad-bidders/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -263,7 +264,7 @@ const adServices = {
 	config: {
 		mode: 'production',
 		entry: {
-			'ad-services': './src/ad-services/index.js',
+			'ad-services': './src/ad-services/index.ts',
 		},
 		devtool: 'source-map',
 		output: {
@@ -305,7 +306,7 @@ const adServices = {
 	},
 };
 
-module.exports = function (env) {
+module.exports = function(env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
 	const isWdioTest = env && env['wdio-test'];
 	const isTest = env && env.test;

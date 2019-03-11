@@ -1,9 +1,0 @@
-examples/**/dist/bundle.js
-dist/
-lib/
-node_modules/
-jspm_packages/
-tests/allure-results
-
-config.js
-karma.conf.js
