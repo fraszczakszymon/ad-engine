@@ -1,19 +1,21 @@
-import { Aol } from './adapters/aol';
-import { Appnexus } from './adapters/appnexus';
-import { AppnexusAst } from './adapters/appnexus-ast';
-import { AudienceNetwork } from './adapters/audience-network';
-import { Beachfront } from './adapters/beachfront';
-import { IndexExchange } from './adapters/index-exchange';
-import { Kargo } from './adapters/kargo';
-import { Lkqd } from './adapters/lkqd';
-import { Onemobile } from './adapters/onemobile';
-import { Openx } from './adapters/openx';
-import { Pubmatic } from './adapters/pubmatic';
-import { Rubicon } from './adapters/rubicon';
-import { RubiconDisplay } from './adapters/rubicon-display';
-import { Vmg } from './adapters/vmg';
-import { Wikia } from './adapters/wikia';
-import { WikiaVideo } from './adapters/wikia-video';
+import {
+	Aol,
+	Appnexus,
+	AppnexusAst,
+	AudienceNetwork,
+	Beachfront,
+	IndexExchange,
+	Kargo,
+	Lkqd,
+	Onemobile,
+	Openx,
+	Pubmatic,
+	Rubicon,
+	RubiconDisplay,
+	Vmg,
+	Wikia,
+	WikiaVideo,
+} from './adapters';
 
 const adapters = [];
 const customAdapters = [];

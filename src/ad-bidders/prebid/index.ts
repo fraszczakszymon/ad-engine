@@ -51,7 +51,7 @@ export class Prebid extends BaseBidder {
 			debug:
 				utils.queryString.get('pbjs_debug') === '1' ||
 				utils.queryString.get('pbjs_debug') === 'true',
-			enableSendAllBids: true,
+			enableSendAllBids: false,
 			bidderSequence: 'random',
 			bidderTimeout: this.timeout,
 			cache: {
@@ -167,17 +167,24 @@ export class Prebid extends BaseBidder {
 		return getPrebidBestPrice(slotAlias);
 	}
 
-	getTargetingKeysToReset() {
-		return ['hb_bidder', 'hb_adid', 'hb_pb', 'hb_size', 'hb_uuid'];
+	getTargetingKeys(slotName) {
+		const allTargetingKeys = Object.keys(context.get(`slots.${slotName}.targeting`) || {});
+
+		return allTargetingKeys.filter((key) => key.indexOf('hb_') === 0);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	getTargetingParams(slotName) {
+		const slotAlias = this.getSlotAlias(slotName);
+
+		if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
+			return window.pbjs.getAdserverTargetingForAdUnitCode([slotAlias]);
+		}
+
 		let slotParams = {};
 
-		const slotAlias = this.getSlotAlias(slotName);
 		const bids = getAvailableBidsByAdUnitCode(slotAlias);
 
 		if (bids.length) {

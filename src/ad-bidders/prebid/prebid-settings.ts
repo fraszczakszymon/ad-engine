@@ -1,6 +1,10 @@
 import { context } from '@wikia/ad-engine';
+import * as adapters from './adapters';
 import { transformPriceFromBid } from './price-helper';
 
+/**
+ * @deprecated
+ */
 const dfpVideoBidders = [
 	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
 	{ bidderCode: 'beachfront', contextKey: 'custom.beachfrontDfp' },
@@ -8,11 +12,67 @@ const dfpVideoBidders = [
 	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
 	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
 ];
+const VIDEO_TYPE = 'video';
 
-export function getSettings() {
+type ValueFunction = (bidResponse: any) => string;
+
+interface PrebidSettings {
+	[key: string]: {
+		alwaysUseBid?: boolean;
+		adserverTargeting: {
+			key: string;
+			val: ValueFunction;
+		}[];
+		suppressEmptyKeys: boolean;
+	};
+}
+
+function createAdServerTargetingForDeals(): PrebidSettings {
+	const adaptersAdServerTargeting = {};
+
+	if (!context.get('bidders.prebid.useBuiltInTargetingLogic')) {
+		return;
+	}
+
+	Object.keys(adapters).forEach((key) => {
+		const { bidderName } = adapters[key];
+
+		adaptersAdServerTargeting[bidderName] = {
+			adserverTargeting: [
+				{
+					key: `hb_deal_${bidderName}`,
+					val: ({ dealId }) => {
+						return dealId;
+					},
+				},
+			],
+			suppressEmptyKeys: true,
+		};
+	});
+
+	return adaptersAdServerTargeting;
+}
+
+function getBidderUuid(bidResponse): string {
+	if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
+		const isVideoType = bidResponse.mediaType === VIDEO_TYPE;
+
+		if (isVideoType) {
+			return bidResponse.videoCacheKey;
+		}
+	} else {
+		const isVideoBidder = dfpVideoBidders.some(
+			(video) => bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey),
+		);
+
+		return isVideoBidder ? bidResponse.videoCacheKey : 'disabled';
+	}
+}
+
+export function getSettings(): PrebidSettings {
 	return {
 		standard: {
-			alwaysUseBid: false,
+			alwaysUseBid: true,
 			adserverTargeting: [
 				{
 					key: 'hb_bidder',
@@ -35,14 +95,8 @@ export function getSettings() {
 					val: (bidResponse) => getBidderUuid(bidResponse),
 				},
 			],
+			suppressEmptyKeys: true,
 		},
+		...createAdServerTargetingForDeals(),
 	};
-}
-
-function getBidderUuid(bidResponse) {
-	const isVideo = dfpVideoBidders.some(
-		(video) => bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey),
-	);
-
-	return isVideo ? bidResponse.videoCacheKey : 'disabled';
 }

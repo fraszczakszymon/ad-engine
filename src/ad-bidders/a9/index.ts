@@ -41,7 +41,7 @@ export class A9 extends BaseBidder {
 		return this.priceMap;
 	}
 
-	getTargetingKeysToReset() {
+	getTargetingKeys() {
 		return this.targetingKeys;
 	}
 

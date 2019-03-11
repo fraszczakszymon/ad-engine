@@ -1,18 +1,25 @@
 import { getTargeting } from '../prebid-helper';
-import { BaseAdapter } from './base-adapter';
+import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class RubiconDisplay extends BaseAdapter {
+	static bidderName = 'rubicon_display';
+	accountId: number;
+	aliases: { [key: string]: string[] };
+
 	constructor(options) {
 		super(options);
 
-		this.bidderName = 'rubicon_display';
 		this.aliases = {
 			rubicon: [this.bidderName],
 		};
 		this.accountId = options.accountId;
 	}
 
-	prepareConfigForAdUnit(code, { siteId, zoneId, sizes, position, targeting }) {
+	get bidderName(): string {
+		return RubiconDisplay.bidderName;
+	}
+
+	prepareConfigForAdUnit(code, { siteId, zoneId, sizes, position, targeting }): AdUnitConfig {
 		const pageTargeting = getTargeting(code);
 
 		Object.keys(targeting || {}).forEach((key) => {
@@ -30,11 +37,11 @@ export class RubiconDisplay extends BaseAdapter {
 				{
 					bidder: this.bidderName,
 					params: {
-						accountId: this.accountId,
+						position,
 						siteId,
 						zoneId,
+						accountId: this.accountId,
 						name: code,
-						position,
 						keywords: ['rp.fastlane'],
 						inventory: pageTargeting,
 					},

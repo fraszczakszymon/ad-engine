@@ -20,7 +20,7 @@ const biddersDelay: DelayModule = {
 		}),
 };
 
-context.set('options.maxDelayTimeout', 1000);
+context.set('options.maxDelayTimeout', 2000);
 context.push('delayModules', biddersDelay);
 
 bidders.requestBids({
