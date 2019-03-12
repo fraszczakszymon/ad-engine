@@ -2,8 +2,8 @@ import { context, events, eventService, utils } from '@wikia/ad-engine';
 import { decorate } from 'core-decorators';
 import { BaseBidder } from '../base-bidder';
 import { getPriorities } from './adapters-registry';
-import { getAvailableBidsByAdUnitCode, setupAdUnits } from './prebid-helper';
-import { getSettings } from './prebid-settings';
+import { getAvailableBidsByAdUnitCode, getBidUUID, setupAdUnits } from './prebid-helper';
+import { getSettings, PrebidTargeting } from './prebid-settings';
 import { getPrebidBestPrice } from './price-helper';
 
 function postponeExecutionUntilPbjsLoads(method) {
@@ -28,6 +28,7 @@ function markWinningBidAsUsed(adSlot) {
 }
 
 const logGroup = 'prebid';
+const uuidKey = 'hb_uuid';
 
 let loaded = false;
 
@@ -176,44 +177,54 @@ export class Prebid extends BaseBidder {
 	/**
 	 * @inheritDoc
 	 */
-	getTargetingParams(slotName) {
+	getTargetingParams(slotName): PrebidTargeting {
 		const slotAlias = this.getSlotAlias(slotName);
+		let slotParams: PrebidTargeting = {};
 
 		if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
 			utils.logger(logGroup, 'Using built in targeting logic');
 
-			return window.pbjs.getAdserverTargetingForAdUnitCode([slotAlias]);
+			slotParams = window.pbjs.getAdserverTargetingForAdUnitCode([slotAlias]);
+		} else {
+			const bids = getAvailableBidsByAdUnitCode(slotAlias);
+
+			if (bids.length) {
+				let bidParams = null;
+				const priorities = getPriorities();
+
+				bids.forEach((param) => {
+					if (!bidParams) {
+						bidParams = param;
+					} else if (bidParams.cpm === param.cpm) {
+						if (priorities[bidParams.bidder] === priorities[param.bidder]) {
+							bidParams = bidParams.timeToRespond > param.timeToRespond ? param : bidParams;
+						} else {
+							bidParams =
+								priorities[bidParams.bidder] < priorities[param.bidder] ? param : bidParams;
+						}
+					} else {
+						bidParams = bidParams.cpm < param.cpm ? param : bidParams;
+					}
+				});
+
+				if (bidParams) {
+					slotParams = bidParams.adserverTargeting;
+				}
+			}
 		}
 
-		let slotParams = {};
+		const { hb_adid: adId } = slotParams;
 
-		const bids = getAvailableBidsByAdUnitCode(slotAlias);
+		if (adId) {
+			const uuid = getBidUUID(adId);
 
-		if (bids.length) {
-			let bidParams = null;
-			const priorities = getPriorities();
-
-			bids.forEach((param) => {
-				if (!bidParams) {
-					bidParams = param;
-				} else if (bidParams.cpm === param.cpm) {
-					if (priorities[bidParams.bidder] === priorities[param.bidder]) {
-						bidParams = bidParams.timeToRespond > param.timeToRespond ? param : bidParams;
-					} else {
-						bidParams = priorities[bidParams.bidder] < priorities[param.bidder] ? param : bidParams;
-					}
-				} else {
-					bidParams = bidParams.cpm < param.cpm ? param : bidParams;
-				}
-			});
-
-			if (bidParams) {
-				slotParams = bidParams.adserverTargeting;
+			if (uuid) {
+				// This is not calculated in prebid-settings for hb_uuid
+				// because AppNexus adapter is using external service to retrieve
+				// cache key and adserverTargeting is executed too early.
+				// We have to take it as late as possible.
+				slotParams[uuidKey] = uuid;
 			}
-
-			// ADEN-7436: AppNexus hb_uuid fix
-			// (adserverTargeting params are being set before cache key is returned)
-			slotParams.hb_uuid = slotParams.hb_uuid || bidParams.videoCacheKey || 'disabled';
 		}
 
 		return slotParams || {};

@@ -2,18 +2,6 @@ import { context } from '@wikia/ad-engine';
 import * as adapters from './adapters';
 import { transformPriceFromBid } from './price-helper';
 
-/**
- * @deprecated
- */
-const dfpVideoBidders = [
-	{ bidderCode: 'appnexusAst', contextKey: 'custom.appnexusDfp' },
-	{ bidderCode: 'beachfront', contextKey: 'custom.beachfrontDfp' },
-	{ bidderCode: 'lkqd', contextKey: 'custom.lkqdDfp' },
-	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
-	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
-];
-const videoType = 'video';
-
 type ValueFunction = (bidResponse: any) => string;
 
 interface PrebidSettings {
@@ -25,6 +13,14 @@ interface PrebidSettings {
 		}[];
 		suppressEmptyKeys: boolean;
 	};
+}
+
+export interface PrebidTargeting {
+	hb_adid?: string;
+	hb_bidder?: string;
+	hb_pb?: string;
+	hb_size?: string;
+	[key: string]: string | string[];
 }
 
 function createAdServerTargetingForDeals(): PrebidSettings {
@@ -53,22 +49,6 @@ function createAdServerTargetingForDeals(): PrebidSettings {
 	return adaptersAdServerTargeting;
 }
 
-function getBidderUuid(bidResponse): string {
-	if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
-		const isVideoType = bidResponse.mediaType === videoType;
-
-		if (isVideoType) {
-			return bidResponse.videoCacheKey;
-		}
-	} else {
-		const isVideoBidder = dfpVideoBidders.some(
-			(video) => bidResponse.bidderCode === video.bidderCode && context.get(video.contextKey),
-		);
-
-		return isVideoBidder ? bidResponse.videoCacheKey : 'disabled';
-	}
-}
-
 export function getSettings(): PrebidSettings {
 	return {
 		standard: {
@@ -89,10 +69,6 @@ export function getSettings(): PrebidSettings {
 				{
 					key: 'hb_size',
 					val: ({ size }) => size,
-				},
-				{
-					key: 'hb_uuid',
-					val: (bidResponse) => getBidderUuid(bidResponse),
 				},
 			],
 			suppressEmptyKeys: true,

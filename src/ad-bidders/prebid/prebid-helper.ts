@@ -2,6 +2,7 @@ import { context, slotService } from '@wikia/ad-engine';
 import { getAdapters } from './adapters-registry';
 
 const lazyLoadSlots = ['bottom_leaderboard'];
+const videoType = 'video';
 
 function isSlotApplicable(code, lazyLoad) {
 	const isSlotLazy = lazyLoadSlots.indexOf(code) !== -1;
@@ -37,6 +38,16 @@ export function setupAdUnits(adaptersConfig, lazyLoad = 'off') {
 	});
 
 	return adUnits;
+}
+
+export function getBidUUID(adId: string): string {
+	const bid = getBidByAdId(adId);
+
+	if (bid.mediaType === videoType) {
+		return bid.videoCacheKey;
+	}
+
+	return 'disabled';
 }
 
 export function getBidByAdId(adId) {
