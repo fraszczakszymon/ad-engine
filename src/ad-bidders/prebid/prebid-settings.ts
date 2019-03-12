@@ -52,7 +52,6 @@ function createAdServerTargetingForDeals(): PrebidSettings {
 export function getSettings(): PrebidSettings {
 	return {
 		standard: {
-			alwaysUseBid: false,
 			adserverTargeting: [
 				{
 					key: 'hb_bidder',
