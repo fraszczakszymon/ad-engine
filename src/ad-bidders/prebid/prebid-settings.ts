@@ -12,7 +12,7 @@ const dfpVideoBidders = [
 	{ bidderCode: 'rubicon', contextKey: 'custom.rubiconDfp' },
 	{ bidderCode: 'pubmatic', contextKey: 'custom.pubmaticDfp' },
 ];
-const VIDEO_TYPE = 'video';
+const videoType = 'video';
 
 type ValueFunction = (bidResponse: any) => string;
 
@@ -55,7 +55,7 @@ function createAdServerTargetingForDeals(): PrebidSettings {
 
 function getBidderUuid(bidResponse): string {
 	if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
-		const isVideoType = bidResponse.mediaType === VIDEO_TYPE;
+		const isVideoType = bidResponse.mediaType === videoType;
 
 		if (isVideoType) {
 			return bidResponse.videoCacheKey;

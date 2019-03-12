@@ -180,6 +180,8 @@ export class Prebid extends BaseBidder {
 		const slotAlias = this.getSlotAlias(slotName);
 
 		if (context.get('bidders.prebid.useBuiltInTargetingLogic')) {
+			utils.logger(logGroup, 'Using built in targeting logic');
+
 			return window.pbjs.getAdserverTargetingForAdUnitCode([slotAlias]);
 		}
 
