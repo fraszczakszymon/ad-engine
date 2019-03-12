@@ -6,7 +6,6 @@ type ValueFunction = (bidResponse: any) => string;
 
 interface PrebidSettings {
 	[key: string]: {
-		alwaysUseBid?: boolean;
 		adserverTargeting: {
 			key: string;
 			val: ValueFunction;
