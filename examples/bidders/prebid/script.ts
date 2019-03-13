@@ -1,12 +1,5 @@
 import { bidders } from '@wikia/ad-bidders';
-import {
-	AdEngine,
-	context,
-	DEFAULT_MAX_DELAY,
-	DelayModule,
-	events,
-	eventService,
-} from '@wikia/ad-engine';
+import { AdEngine, context, DelayModule, events, eventService } from '@wikia/ad-engine';
 import { utils as adProductsUtils } from '@wikia/ad-products';
 import customContext from '../../context';
 import '../../styles.scss';
