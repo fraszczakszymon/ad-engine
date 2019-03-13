@@ -73,12 +73,12 @@ export class Wikia extends BaseAdapter {
 		};
 	}
 
-	// getSpec(): { [key: string]: string | string[] } {
-	// 	return {
-	// 		code: this.bidderName,
-	// 		supportedMediaTypes: ['banner'],
-	// 	};
-	// }
+	getSpec(): { [key: string]: string | string[] } {
+		return {
+			code: this.bidderName,
+			supportedMediaTypes: ['banner'],
+		};
+	}
 
 	getPrice(): number {
 		if (this.useRandomPrice) {
