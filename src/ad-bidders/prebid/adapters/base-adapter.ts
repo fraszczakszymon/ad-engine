@@ -1,13 +1,3 @@
-export interface BidderAdSlotConfig {
-	appId?: string | number;
-	placementId?: string | number;
-	pos?: string;
-	size?: number[];
-	sizes?: number[][];
-	siteId?: string | number;
-	unit?: string;
-}
-
 export interface AdUnitConfig {
 	bids: Bid[];
 	code: string;
@@ -24,9 +14,23 @@ export interface AdUnitConfig {
 	sizes?: number[];
 }
 
+export interface Aliases {
+	[key: string]: string[];
+}
+
 export interface Bid {
 	bidder: string;
 	params?: { [key: string]: string | number | object | boolean };
+}
+
+export interface BidderAdSlotConfig {
+	appId?: string | number;
+	placementId?: string | number;
+	pos?: string;
+	size?: number[];
+	sizes?: number[][];
+	siteId?: string | number;
+	unit?: string;
 }
 
 export abstract class BaseAdapter {

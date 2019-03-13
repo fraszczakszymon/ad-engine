@@ -2,13 +2,11 @@ import { context } from '@wikia/ad-engine';
 import * as adapters from './adapters';
 import { transformPriceFromBid } from './price-helper';
 
-type ValueFunction = (bidResponse: any) => string;
-
 interface PrebidSettings {
 	[key: string]: {
 		adserverTargeting: {
 			key: string;
-			val: ValueFunction;
+			val: (bidResponse: any) => string;
 		}[];
 		suppressEmptyKeys: boolean;
 	};
@@ -22,15 +20,17 @@ export interface PrebidTargeting {
 	[key: string]: string | string[];
 }
 
-function createAdServerTargetingForDeals(): PrebidSettings {
+export function createAdapterSpecificSettings(adaptersList): PrebidSettings | undefined {
 	const adaptersAdServerTargeting = {};
 
 	if (!context.get('bidders.prebid.useBuiltInTargetingLogic')) {
 		return;
 	}
 
-	Object.keys(adapters).forEach((key) => {
-		const { bidderName } = adapters[key];
+	Object.values(adaptersList).forEach(({ bidderName }) => {
+		if (!bidderName) {
+			return;
+		}
 
 		adaptersAdServerTargeting[bidderName] = {
 			adserverTargeting: [
@@ -71,6 +71,6 @@ export function getSettings(): PrebidSettings {
 			],
 			suppressEmptyKeys: true,
 		},
-		...createAdServerTargetingForDeals(),
+		...createAdapterSpecificSettings(adapters),
 	};
 }

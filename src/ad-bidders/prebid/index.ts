@@ -1,4 +1,4 @@
-import { context, events, eventService, utils } from '@wikia/ad-engine';
+import { context, DEFAULT_MAX_DELAY, events, eventService, utils } from '@wikia/ad-engine';
 import { decorate } from 'core-decorators';
 import { BaseBidder } from '../base-bidder';
 import { getPriorities } from './adapters-registry';
@@ -39,7 +39,7 @@ export class Prebid extends BaseBidder {
 	static validResponseStatusCode = 1;
 	static errorResponseStatusCode = 2;
 
-	constructor(bidderConfig, timeout = 2000) {
+	constructor(bidderConfig, timeout = DEFAULT_MAX_DELAY) {
 		super('prebid', bidderConfig, timeout);
 
 		this.insertScript();

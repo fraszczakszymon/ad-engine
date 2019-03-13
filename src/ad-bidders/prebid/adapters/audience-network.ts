@@ -3,7 +3,7 @@ import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class AudienceNetwork extends BaseAdapter {
 	static bidderName = 'audienceNetwork';
-	testMode: boolean;
+	testMode = false;
 
 	constructor(options) {
 		super(options);

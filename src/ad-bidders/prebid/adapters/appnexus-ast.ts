@@ -1,9 +1,9 @@
 import { utils } from '@wikia/ad-engine';
-import { AdUnitConfig, BaseAdapter } from './base-adapter';
+import { AdUnitConfig, Aliases, BaseAdapter } from './base-adapter';
 
 export class AppnexusAst extends BaseAdapter {
 	static bidderName = 'appnexusAst';
-	aliases: { [key: string]: string[] };
+	aliases: Aliases;
 	debugPlacementId: string;
 	isDebugMode: boolean;
 

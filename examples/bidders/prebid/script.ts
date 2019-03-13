@@ -1,5 +1,12 @@
 import { bidders } from '@wikia/ad-bidders';
-import { AdEngine, context, DelayModule, events, eventService } from '@wikia/ad-engine';
+import {
+	AdEngine,
+	context,
+	DEFAULT_MAX_DELAY,
+	DelayModule,
+	events,
+	eventService,
+} from '@wikia/ad-engine';
 import { utils as adProductsUtils } from '@wikia/ad-products';
 import customContext from '../../context';
 import '../../styles.scss';
@@ -20,7 +27,6 @@ const biddersDelay: DelayModule = {
 		}),
 };
 
-context.set('options.maxDelayTimeout', 2000);
 context.push('delayModules', biddersDelay);
 
 bidders.requestBids({

@@ -54,12 +54,12 @@ export class WikiaVideo extends BaseAdapter {
 		};
 	}
 
-	getSpec(): { [key: string]: string | string[] } {
-		return {
-			code: this.bidderName,
-			supportedMediaTypes: ['video'],
-		};
-	}
+	// getSpec(): { [key: string]: string | string[] } {
+	// 	return {
+	// 		code: this.bidderName,
+	// 		supportedMediaTypes: ['video'],
+	// 	};
+	// }
 
 	getPrice(): number {
 		if (this.useRandomPrice) {
