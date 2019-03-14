@@ -27,7 +27,7 @@ export function createAdapterSpecificSettings(adaptersList): PrebidSettings | un
 		return;
 	}
 
-	Object.values(adaptersList).forEach(({ bidderName }) => {
+	adaptersList.forEach(({ bidderName }) => {
 		if (!bidderName) {
 			return;
 		}
