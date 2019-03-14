@@ -9,14 +9,14 @@ export class RubiconDisplay extends BaseAdapter {
 
 	accountId: number;
 
+	get bidderName(): string {
+		return RubiconDisplay.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
 		this.accountId = options.accountId;
-	}
-
-	get bidderName(): string {
-		return RubiconDisplay.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { siteId, zoneId, sizes, position, targeting }): AdUnitConfig {

@@ -43,6 +43,10 @@ export class Wikia extends BaseAdapter {
 	timeout: number;
 	create: CreateInstance;
 
+	get bidderName(): string {
+		return Wikia.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
@@ -53,10 +57,6 @@ export class Wikia extends BaseAdapter {
 		this.isCustomBidAdapter = true;
 
 		this.create = () => this;
-	}
-
-	get bidderName(): string {
-		return Wikia.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { sizes }): AdUnitConfig {

@@ -4,14 +4,14 @@ export class Aol extends BaseAdapter {
 	static bidderName = 'aol';
 	network: string;
 
+	get bidderName(): string {
+		return Aol.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
 		this.network = options.network;
-	}
-
-	get bidderName(): string {
-		return Aol.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { sizes, placement, alias, sizeId }): AdUnitConfig {

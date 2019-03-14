@@ -6,14 +6,14 @@ export class Rubicon extends BaseAdapter {
 	static bidderName = 'rubicon';
 	accountId: number;
 
+	get bidderName(): string {
+		return Rubicon.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
 		this.accountId = options.accountId;
-	}
-
-	get bidderName(): string {
-		return Rubicon.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { siteId, zoneId, sizeId, position }): AdUnitConfig {

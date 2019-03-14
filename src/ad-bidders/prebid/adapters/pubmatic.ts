@@ -4,14 +4,14 @@ export class Pubmatic extends BaseAdapter {
 	static bidderName = 'pubmatic';
 	publisherId: string;
 
+	get bidderName(): string {
+		return Pubmatic.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
 		this.publisherId = options.publisherId;
-	}
-
-	get bidderName(): string {
-		return Pubmatic.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { sizes, ids }): AdUnitConfig {

@@ -23,6 +23,10 @@ export class WikiaVideo extends BaseAdapter {
 	timeout: number;
 	create: CreateInstance;
 
+	get bidderName(): string {
+		return WikiaVideo.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
@@ -33,10 +37,6 @@ export class WikiaVideo extends BaseAdapter {
 		this.isCustomBidAdapter = true;
 
 		this.create = () => this;
-	}
-
-	get bidderName(): string {
-		return WikiaVideo.bidderName;
 	}
 
 	prepareConfigForAdUnit(code): AdUnitConfig {

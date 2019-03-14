@@ -1,6 +1,6 @@
+import { Prebid } from '@wikia/ad-bidders/prebid/index';
+import { context } from '@wikia/ad-engine/services/context-service';
 import { expect } from 'chai';
-import { Prebid } from '../../../src/ad-bidders/prebid/index';
-import { context } from '../../../src/ad-engine/services/context-service';
 
 const bidderConfig = {
 	lazyLoadingEnabled: false,

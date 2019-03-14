@@ -4,14 +4,14 @@ export class Onemobile extends BaseAdapter {
 	static bidderName = 'onemobile';
 	siteId: string;
 
+	get bidderName(): string {
+		return Onemobile.bidderName;
+	}
+
 	constructor(options) {
 		super(options);
 
 		this.siteId = options.siteId;
-	}
-
-	get bidderName(): string {
-		return Onemobile.bidderName;
 	}
 
 	prepareConfigForAdUnit(code, { size, pos }): AdUnitConfig {

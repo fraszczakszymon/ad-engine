@@ -1,6 +1,6 @@
+import { WikiaVideo } from '@wikia/ad-bidders/prebid/adapters/wikia-video';
 import { assert, expect } from 'chai';
 import * as sinon from 'sinon';
-import { WikiaVideo } from '../../../../src/ad-bidders/prebid/adapters/wikia-video';
 
 function getMocks() {
 	const mocks = {
