@@ -34,8 +34,12 @@ export interface BidderAdSlotConfig {
 }
 
 export abstract class BaseAdapter {
+	static bidderName: string;
+	static aliases?: Aliases;
+	static isCustomBidAdapter = false;
+
 	enabled: boolean;
-	slots: boolean;
+	slots: any;
 
 	constructor({ enabled, slots }) {
 		this.enabled = enabled;

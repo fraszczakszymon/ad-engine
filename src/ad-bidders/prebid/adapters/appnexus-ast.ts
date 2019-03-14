@@ -1,18 +1,18 @@
 import { utils } from '@wikia/ad-engine';
-import { AdUnitConfig, Aliases, BaseAdapter } from './base-adapter';
+import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class AppnexusAst extends BaseAdapter {
 	static bidderName = 'appnexusAst';
-	aliases: Aliases;
+	static aliases = {
+		appnexus: [AppnexusAst.bidderName],
+	};
+
 	debugPlacementId: string;
 	isDebugMode: boolean;
 
 	constructor(options) {
 		super(options);
 
-		this.aliases = {
-			appnexus: [this.bidderName],
-		};
 		this.debugPlacementId = options.debugPlacementId;
 		this.isDebugMode = utils.queryString.get('appnexusast_debug_mode') === '1';
 	}

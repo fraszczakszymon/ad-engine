@@ -1,17 +1,17 @@
 import { getTargeting } from '../prebid-helper';
-import { AdUnitConfig, Aliases, BaseAdapter } from './base-adapter';
+import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class RubiconDisplay extends BaseAdapter {
 	static bidderName = 'rubicon_display';
+	static aliases = {
+		rubicon: [RubiconDisplay.bidderName],
+	};
+
 	accountId: number;
-	aliases: Aliases;
 
 	constructor(options) {
 		super(options);
 
-		this.aliases = {
-			rubicon: [this.bidderName],
-		};
 		this.accountId = options.accountId;
 	}
 
@@ -35,7 +35,7 @@ export class RubiconDisplay extends BaseAdapter {
 			},
 			bids: [
 				{
-					bidder: this.bidderName,
+					bidder: RubiconDisplay.bidderName,
 					params: {
 						position,
 						siteId,

@@ -1,7 +1,7 @@
 import { context, DEFAULT_MAX_DELAY, events, eventService, utils } from '@wikia/ad-engine';
 import { decorate } from 'core-decorators';
 import { BaseBidder } from '../base-bidder';
-import { getPriorities } from './adapters-registry';
+import { configureAdapters } from './adapters';
 import { getAvailableBidsByAdUnitCode, getBidUUID, setupAdUnits } from './prebid-helper';
 import { getSettings, PrebidTargeting } from './prebid-settings';
 import { getPrebidBestPrice } from './price-helper';
@@ -43,11 +43,12 @@ export class Prebid extends BaseBidder {
 		super('prebid', bidderConfig, timeout);
 
 		this.insertScript();
+		configureAdapters(bidderConfig);
 
 		this.lazyLoaded = false;
 		this.isLazyLoadingEnabled = this.bidderConfig.lazyLoadingEnabled;
 		this.isCMPEnabled = context.get('custom.isCMPEnabled');
-		this.adUnits = setupAdUnits(this.bidderConfig, this.isLazyLoadingEnabled ? 'pre' : 'off');
+		this.adUnits = setupAdUnits(this.isLazyLoadingEnabled ? 'pre' : 'off');
 		this.prebidConfig = {
 			debug:
 				utils.queryString.get('pbjs_debug') === '1' ||
@@ -190,18 +191,12 @@ export class Prebid extends BaseBidder {
 
 			if (bids.length) {
 				let bidParams = null;
-				const priorities = getPriorities();
 
 				bids.forEach((param) => {
 					if (!bidParams) {
 						bidParams = param;
 					} else if (bidParams.cpm === param.cpm) {
-						if (priorities[bidParams.bidder] === priorities[param.bidder]) {
-							bidParams = bidParams.timeToRespond > param.timeToRespond ? param : bidParams;
-						} else {
-							bidParams =
-								priorities[bidParams.bidder] < priorities[param.bidder] ? param : bidParams;
-						}
+						bidParams = bidParams.timeToRespond > param.timeToRespond ? param : bidParams;
 					} else {
 						bidParams = bidParams.cpm < param.cpm ? param : bidParams;
 					}

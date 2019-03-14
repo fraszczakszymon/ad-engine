@@ -10,6 +10,8 @@ type CreateInstance = () => Wikia;
 
 export class Wikia extends BaseAdapter {
 	static bidderName = 'wikia';
+	static isCustomBidAdapter = true;
+
 	static getCreative(size, cpm): string {
 		const creative = document.createElement('div');
 

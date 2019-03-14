@@ -1,5 +1,5 @@
 import { context, slotService } from '@wikia/ad-engine';
-import { getAdapters } from './adapters-registry';
+import { adapters } from './adapters';
 
 const lazyLoadSlots = ['bottom_leaderboard'];
 const videoType = 'video';
@@ -21,9 +21,8 @@ function isSlotApplicable(code, lazyLoad) {
 	return true;
 }
 
-export function setupAdUnits(adaptersConfig, lazyLoad = 'off') {
+export function setupAdUnits(lazyLoad = 'off') {
 	const adUnits = [];
-	const adapters = getAdapters(adaptersConfig);
 
 	adapters.forEach((adapter) => {
 		if (adapter && adapter.enabled) {

@@ -1,5 +1,5 @@
 import { context } from '@wikia/ad-engine';
-import * as adapters from './adapters';
+import { adapters } from './adapters';
 import { transformPriceFromBid } from './price-helper';
 
 interface PrebidSettings {

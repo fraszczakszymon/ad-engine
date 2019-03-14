@@ -10,6 +10,8 @@ type CreateInstance = () => WikiaVideo;
 
 export class WikiaVideo extends BaseAdapter {
 	static bidderName = 'wikiaVideo';
+	static isCustomBidAdapter = true;
+
 	static getVastUrl(width, height, slotName): string {
 		return buildVastUrl(width / height, slotName, {
 			videoAdUnitId: context.get(`bidders.prebid.wikiaVideo.slots.${slotName}.videoAdUnitId`),
