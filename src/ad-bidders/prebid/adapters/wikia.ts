@@ -10,7 +10,6 @@ type CreateInstance = () => Wikia;
 
 export class Wikia extends BaseAdapter {
 	static bidderName = 'wikia';
-	static isCustomBidAdapter = true;
 
 	static getCreative(size, cpm): string {
 		const creative = document.createElement('div');
@@ -51,6 +50,7 @@ export class Wikia extends BaseAdapter {
 		this.limit = limit;
 		this.useRandomPrice = useRandomPrice;
 		this.timeout = timeout;
+		this.isCustomBidAdapter = true;
 
 		this.create = () => this;
 	}

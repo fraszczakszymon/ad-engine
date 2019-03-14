@@ -1,5 +1,5 @@
 import { context } from '@wikia/ad-engine';
-import { adapters } from './adapters';
+import { adaptersRegistry } from './adapters-registry';
 import { transformPriceFromBid } from './price-helper';
 
 interface PrebidSettings {
@@ -71,6 +71,6 @@ export function getSettings(): PrebidSettings {
 			],
 			suppressEmptyKeys: true,
 		},
-		...createAdapterSpecificSettings(adapters),
+		...createAdapterSpecificSettings(adaptersRegistry.getAdapters()),
 	};
 }

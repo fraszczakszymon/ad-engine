@@ -1,4 +1,4 @@
-import { adapters } from './adapters';
+import { adaptersRegistry } from './adapters-registry';
 import { Prebid } from './index';
 
 const DEFAULT_MAX_CPM = 20;
@@ -59,7 +59,7 @@ export function getPrebidBestPrice(slotName) {
 	if (window.pbjs && window.pbjs.getBidResponsesForAdUnitCode) {
 		const slotBids = window.pbjs.getBidResponsesForAdUnitCode(slotName).bids || [];
 
-		adapters.forEach((adapter) => {
+		adaptersRegistry.getAdapters().forEach((adapter) => {
 			bestPrices[adapter.bidderName] = '';
 		});
 

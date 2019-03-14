@@ -1,7 +1,7 @@
 import { context, DEFAULT_MAX_DELAY, events, eventService, utils } from '@wikia/ad-engine';
 import { decorate } from 'core-decorators';
 import { BaseBidder } from '../base-bidder';
-import { configureAdapters } from './adapters';
+import { adaptersRegistry } from './adapters-registry';
 import { getAvailableBidsByAdUnitCode, getBidUUID, setupAdUnits } from './prebid-helper';
 import { getSettings, PrebidTargeting } from './prebid-settings';
 import { getPrebidBestPrice } from './price-helper';
@@ -43,7 +43,7 @@ export class Prebid extends BaseBidder {
 		super('prebid', bidderConfig, timeout);
 
 		this.insertScript();
-		configureAdapters(bidderConfig);
+		adaptersRegistry.configureAdapters();
 
 		this.lazyLoaded = false;
 		this.isLazyLoadingEnabled = this.bidderConfig.lazyLoadingEnabled;

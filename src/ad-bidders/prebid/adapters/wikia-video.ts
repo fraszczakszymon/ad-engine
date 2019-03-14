@@ -10,7 +10,6 @@ type CreateInstance = () => WikiaVideo;
 
 export class WikiaVideo extends BaseAdapter {
 	static bidderName = 'wikiaVideo';
-	static isCustomBidAdapter = true;
 
 	static getVastUrl(width, height, slotName): string {
 		return buildVastUrl(width / height, slotName, {
@@ -31,6 +30,7 @@ export class WikiaVideo extends BaseAdapter {
 		this.limit = limit;
 		this.useRandomPrice = useRandomPrice;
 		this.timeout = timeout;
+		this.isCustomBidAdapter = true;
 
 		this.create = () => this;
 	}

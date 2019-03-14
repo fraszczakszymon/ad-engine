@@ -3,7 +3,7 @@ import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class AppnexusAst extends BaseAdapter {
 	static bidderName = 'appnexusAst';
-	static aliases = {
+	aliases = {
 		appnexus: [AppnexusAst.bidderName],
 	};
 

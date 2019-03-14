@@ -3,7 +3,7 @@ import { AdUnitConfig, BaseAdapter } from './base-adapter';
 
 export class RubiconDisplay extends BaseAdapter {
 	static bidderName = 'rubicon_display';
-	static aliases = {
+	aliases = {
 		rubicon: [RubiconDisplay.bidderName],
 	};
 
