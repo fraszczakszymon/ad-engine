@@ -33,9 +33,13 @@ bidders.requestBids({
 	},
 });
 
-bidders.runOnBiddingReady(() => {
-	console.log('⛳ Prebid bidding completed');
-});
+bidders
+	.runOnBiddingReady(() => {
+		console.log('⛳ Prebid bidding completed');
+	})
+	.catch(() => {
+		console.log('😡 Prebid bidding timed out');
+	});
 
 eventService.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());

@@ -39,34 +39,25 @@ export function setupAdUnits(lazyLoad = 'off') {
 	return adUnits;
 }
 
-export function getBidUUID(adId: string): string {
-	const bid = getBidByAdId(adId);
+export function getBidUUID(adUnitCode: string, adId: string): string {
+	const bid = getBidByAdId(adUnitCode, adId);
 
-	if (bid.mediaType === videoType) {
+	if (bid && bid.mediaType === videoType) {
 		return bid.videoCacheKey;
 	}
 
 	return 'disabled';
 }
 
-export function getBidByAdId(adId) {
-	if (!window.pbjs || typeof window.pbjs.getBidResponses !== 'function') {
+export function getBidByAdId(adUnitCode, adId) {
+	if (!window.pbjs || typeof window.pbjs.getBidResponsesForAdUnitCode !== 'function') {
 		return null;
 	}
 
-	let bids = window.pbjs.getAllPrebidWinningBids().filter((bid) => adId === bid.adId);
+	const { bids } = window.pbjs.getBidResponsesForAdUnitCode(adUnitCode);
+	const foundBids = bids.filter((bid) => adId === bid.adId);
 
-	if (!bids.length) {
-		const responses = window.pbjs.getBidResponses();
-
-		Object.keys(responses).forEach((adUnit) => {
-			const adUnitsBids = responses[adUnit].bids.filter((bid) => adId === bid.adId);
-
-			bids = bids.concat(adUnitsBids);
-		});
-	}
-
-	return bids.length ? bids[0] : null;
+	return foundBids.length ? foundBids[0] : null;
 }
 
 export function getAvailableBidsByAdUnitCode(adUnitCode) {

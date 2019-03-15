@@ -211,7 +211,7 @@ export class Prebid extends BaseBidder {
 		const { hb_adid: adId } = slotParams;
 
 		if (adId) {
-			const uuid = getBidUUID(adId);
+			const uuid = getBidUUID(slotAlias, adId);
 
 			if (uuid) {
 				// This is not calculated in prebid-settings for hb_uuid
