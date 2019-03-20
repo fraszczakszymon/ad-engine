@@ -329,12 +329,7 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	 * @protected
 	 */
 	onCloseClicked() {
-		this.adSlot.emitEvent(SlotTweaker.SLOT_CLOSE_IMMEDIATELY);
 		this.unstickImmediately();
-
-		this.config.mainContainer.style.paddingTop = '0';
-		this.adSlot.disable();
-		slotTweaker.hide(this.adSlot);
 	}
 
 	/**
