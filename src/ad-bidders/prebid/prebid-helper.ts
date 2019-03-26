@@ -5,17 +5,11 @@ const lazyLoadSlots = ['bottom_leaderboard'];
 const videoType = 'video';
 
 function isUsedAsAlias(code) {
-	let aliasFound = false;
+	return Object.keys(context.get('slots')).some((slotName) => {
+		const bidderAlias = context.get(`slots.${slotName}.bidderAlias`);
 
-	Object.keys(context.get('slots')).forEach((slotName) => {
-		const slot = context.get(`slots.${slotName}`);
-
-		if (slot.bidderAlias && slot.bidderAlias === code && slotService.getState(slotName)) {
-			aliasFound = true;
-		}
+		return bidderAlias === code && slotService.getState(slotName);
 	});
-
-	return aliasFound;
 }
 
 function isSlotApplicable(code, lazyLoad) {
