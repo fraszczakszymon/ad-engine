@@ -8,7 +8,7 @@ export interface LikhoStorageElement {
 export class LikhoService {
 	static TIME_TO_EXPIRE = 24 * 3600 * 1000;
 
-	refresh(): LikhoStorageElement[] {
+	refresh(): string[] {
 		let likhoStorage: LikhoStorageElement[] = this.retrieve();
 
 		likhoStorage = likhoStorage.filter((item) => item.expirationTime > Date.now());
@@ -16,7 +16,7 @@ export class LikhoService {
 		return this.save(likhoStorage);
 	}
 
-	update(likhoType: string, timeToExpire = LikhoService.TIME_TO_EXPIRE): LikhoStorageElement[] {
+	update(likhoType: string, timeToExpire = LikhoService.TIME_TO_EXPIRE): string[] {
 		const after24hTime: number = Date.now() + timeToExpire;
 		const likhoStorage: LikhoStorageElement[] = this.retrieve();
 		const likhoTypeStoredElement: LikhoStorageElement = likhoStorage.find(
@@ -35,11 +35,13 @@ export class LikhoService {
 		return this.save(likhoStorage);
 	}
 
-	private save(likhoStorage: LikhoStorageElement[]): LikhoStorageElement[] {
-		localStorage.setItem('likho', JSON.stringify(likhoStorage));
-		context.set('targeting.likho', likhoStorage.map((item: LikhoStorageElement) => item.likhoType));
+	private save(likhoStorage: LikhoStorageElement[]): string[] {
+		const likhoTypes: string[] = likhoStorage.map((item: LikhoStorageElement) => item.likhoType);
 
-		return likhoStorage;
+		localStorage.setItem('likho', JSON.stringify(likhoStorage));
+		context.set('targeting.likho', likhoTypes);
+
+		return likhoTypes;
 	}
 
 	private retrieve(): LikhoStorageElement[] {
