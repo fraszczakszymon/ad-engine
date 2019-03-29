@@ -2,18 +2,18 @@
 import * as BlockAdBlock from 'blockadblock';
 import currentDevice from 'current-device';
 
-let bab: BlockAdBlock;
+// let bab: BlockAdBlock;
 let browser: string = null;
 let isBabInitialised = false;
 let operatingSystem: string = null;
 
 function setupBab(): void {
-	bab = new BlockAdBlock({
-		checkOnLoad: false,
-		resetOnEnd: true,
-		loopCheckTime: 50,
-		loopMaxNumber: 5,
-	});
+	// bab = new BlockAdBlock({
+	// 	checkOnLoad: false,
+	// 	resetOnEnd: true,
+	// 	loopCheckTime: 50,
+	// 	loopMaxNumber: 5,
+	// });
 	isBabInitialised = true;
 }
 
@@ -41,10 +41,10 @@ class Client {
 				setupBab();
 			}
 
-			bab.onDetected(() => resolve(true));
-			bab.onNotDetected(() => resolve(false));
-
-			bab.check(true);
+			// bab.onDetected(() => resolve(true));
+			// bab.onNotDetected(() => resolve(false));
+			//
+			// bab.check(true);
 		}).then(
 			(detected: boolean): boolean => {
 				if (detected) {
