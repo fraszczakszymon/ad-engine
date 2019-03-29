@@ -1,6 +1,5 @@
 declare module 'blockadblock' {
-	const loaded: {};
-	export default loaded;
+	export = BlockAdBlock;
 }
 
 declare class BlockAdBlock {
