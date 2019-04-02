@@ -4,6 +4,11 @@ import customContext from '../../context';
 import '../../styles.scss';
 
 customContext.targeting.artid = '390';
+customContext.targeting.dmn = 'fandomcom';
+customContext.templates.bfaa = {
+	...BigFancyAdAbove.getDefaultConfig(),
+	slotsToDisable: ['incontent_player'],
+};
 
 templateService.register(BigFancyAdAbove);
 
