@@ -12,4 +12,4 @@ context.extend(customContext);
 
 templateService.register(BigFancyAdAbove);
 
-new AdEngine(context).init();
+new AdEngine().init();
