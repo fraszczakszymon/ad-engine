@@ -31,3 +31,8 @@ if (document.body.offsetWidth < 728) {
 utils.setupNpaContext();
 
 new AdEngine().init();
+
+document.getElementById('reset').addEventListener('click', () => {
+	localStorage.removeItem('likho');
+	console.log(`💾 Likho storage: reset`);
+});
