@@ -1,5 +1,6 @@
 import { AdEngine, context, templateService } from '@wikia/ad-engine';
 import { utils } from '@wikia/ad-products';
+import { likhoService } from '../../../src/ad-engine/services';
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -18,6 +19,7 @@ customContext.slots.top_leaderboard.sizes = [
 		sizes: [[970, 250], [3, 3]],
 	},
 ];
+customContext.targeting.likho = likhoService.refresh();
 
 context.extend(customContext);
 
