@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { context, localCache, utils } from '@wikia/ad-engine';
 
 const logGroup = 'krux';
 
@@ -21,8 +21,8 @@ function loadScript() {
  * @returns {string}
  */
 function getKruxData(key) {
-	if (window.localStorage) {
-		return window.localStorage[key];
+	if (localCache.canUseStorage()) {
+		return window.localStorage.getItem(key);
 	}
 	if (window.navigator.cookieEnabled) {
 		const match = document.cookie.match(`${key}=([^;]*)`);
