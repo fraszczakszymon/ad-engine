@@ -13,32 +13,35 @@ describe('Krux service', () => {
 		context.set('targeting.foo', 'bar');
 		context.set('targeting.kuid', null);
 		context.set('targeting.ksg', null);
-		sinon.stub(localCache, 'canUseStorage').returns(true);
 	});
 
 	afterEach(() => {
 		delete window.localStorage;
 		delete window.kruxDartParam_foo;
-		localCache.canUseStorage.restore();
 	});
 
 	it('import user data and return user id from old key name', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 		window.localStorage.kxuser = 'foo';
 
 		krux.importUserData();
 
 		expect(krux.getUserId()).to.equal('foo');
+		localCache.canUseStorage.restore();
 	});
 
 	it('import user data and return user id from old key name', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 		window.localStorage.kxwikia_user = 'foo';
 
 		krux.importUserData();
 
 		expect(krux.getUserId()).to.equal('foo');
+		localCache.canUseStorage.restore();
 	});
 
 	it('import user data and return segments for old key name', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 		window.localStorage.kxsegs = 'abc,bar,zxc';
 
 		krux.importUserData();
@@ -46,9 +49,11 @@ describe('Krux service', () => {
 		expect(krux.getSegments()[0]).to.equal('abc');
 		expect(krux.getSegments()[1]).to.equal('bar');
 		expect(krux.getSegments()[2]).to.equal('zxc');
+		localCache.canUseStorage.restore();
 	});
 
 	it('import user data and return segments for old key name', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 		window.localStorage.kxwikia_segs = 'abc,bar,zxc';
 
 		krux.importUserData();
@@ -56,11 +61,24 @@ describe('Krux service', () => {
 		expect(krux.getSegments()[0]).to.equal('abc');
 		expect(krux.getSegments()[1]).to.equal('bar');
 		expect(krux.getSegments()[2]).to.equal('zxc');
+		localCache.canUseStorage.restore();
 	});
 
 	it('export context targeting to krux', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 		krux.exportPageParams();
 
 		expect(window.kruxDartParam_foo).to.equal('bar');
+		localCache.canUseStorage.restore();
+	});
+
+	it('import user data failes when there is no local storage', () => {
+		sinon.stub(localCache, 'canUseStorage').returns(false);
+		window.localStorage.kxuser = 'foo';
+
+		krux.importUserData();
+
+		expect(krux.getUserId()).to.equal(null);
+		localCache.canUseStorage.restore();
 	});
 });
