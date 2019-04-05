@@ -1,4 +1,4 @@
-import { AdEngine, context, templateService } from '@wikia/ad-engine';
+import { AdEngine, context } from '@wikia/ad-engine';
 import { utils } from '@wikia/ad-products';
 import { likhoService } from '../../../src/ad-engine/services';
 import customContext from '../../context';
