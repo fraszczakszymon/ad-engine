@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { context } from '../../../src/ad-engine/index';
+import * as sinon from 'sinon';
+import { context, localCache } from '../../../src/ad-engine/index';
 import { krux } from '../../../src/ad-services/krux';
 
 describe('Krux service', () => {
@@ -12,11 +13,13 @@ describe('Krux service', () => {
 		context.set('targeting.foo', 'bar');
 		context.set('targeting.kuid', null);
 		context.set('targeting.ksg', null);
+		sinon.stub(localCache, 'canUseStorage').returns(true);
 	});
 
 	afterEach(() => {
 		delete window.localStorage;
 		delete window.kruxDartParam_foo;
+		localCache.canUseStorage.restore();
 	});
 
 	it('import user data and return user id from old key name', () => {
