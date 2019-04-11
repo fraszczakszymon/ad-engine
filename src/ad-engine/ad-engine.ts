@@ -26,7 +26,7 @@ export class AdEngine {
 	adStack: OldLazyQueue<string>;
 
 	constructor(config = null) {
-		context.extend(config);
+		context.extend({ ...config });
 
 		window.ads = window.ads || ({} as Ads);
 		window.ads.runtime = window.ads.runtime || ({} as Runtime);
@@ -34,7 +34,7 @@ export class AdEngine {
 		templateService.register(FloatingAd);
 
 		eventService.on(events.PAGE_CHANGE_EVENT, () => {
-			this.started = false;
+			this.started = true;
 			this.setupAdStack();
 		});
 	}
