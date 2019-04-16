@@ -114,7 +114,7 @@ export class A9 extends BaseBidder {
 	getA9SlotsDefinitions(slotsNames) {
 		return slotsNames
 			.map((slotName) => this.getSlotAlias(slotName))
-			.filter((slotAlias) => this.isUsedAsAlias(slotAlias))
+			.filter((slotAlias) => this.isSlotEnabled(slotAlias))
 			.map((slotAlias) => this.createSlotDefinition(slotAlias))
 			.filter((slot) => slot !== null);
 	}
@@ -340,7 +340,7 @@ export class A9 extends BaseBidder {
 	 * @param {string} slotID
 	 * @returns {boolean}
 	 */
-	isUsedAsAlias(slotID) {
+	isSlotEnabled(slotID) {
 		const someEnabledByAlias = Object.keys(context.get('slots')).some((slotName) => {
 			const bidderAlias = context.get(`slots.${slotName}.bidderAlias`);
 
