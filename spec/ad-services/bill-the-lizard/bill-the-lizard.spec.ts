@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { context } from '../../../src/ad-engine/index';
-import { billTheLizard, BillTheLizard } from '../../../src/ad-services/bill-the-lizard';
+import { billTheLizard, BillTheLizard } from '../../../packages/ad-services/bill-the-lizard';
 
 describe('Bill the Lizard service', () => {
 	let requests = [];

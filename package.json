@@ -7,16 +7,10 @@
 		"url": "https://github.com/Wikia/AdEngine"
 	},
 	"dependencies": {
-		"@babel/runtime-corejs2": "7.3.1",
-		"blockadblock": "3.2.1",
-		"core-decorators": "^0.20.0",
-		"current-device": "0.7.8",
-		"eventemitter3": "3.0.1",
-		"js-cookie": "2.2.0",
-		"lodash": "^4.17.4"
+		"@wikia/ad-bidders": "file:packages/ad-bidders",
+		"@wikia/ad-engine": "file:packages/ad-engine"
 	},
 	"devDependencies": {
-		"@alugha/ima": "1.1.2",
 		"@babel/cli": "^7.0.0",
 		"@babel/core": "^7.0.0",
 		"@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -29,8 +23,6 @@
 		"@babel/register": "^7.0.0",
 		"@slack/client": "4.1.0",
 		"@types/chai": "4.1.7",
-		"@types/doubleclick-gpt": "238.0.1",
-		"@types/js-cookie": "2.2.1",
 		"@types/mocha": "5.2.6",
 		"@types/sinon": "7.0.7",
 		"allure-commandline": "2.7.0",
@@ -48,6 +40,7 @@
 		"jsdom-global": "^3.0.2",
 		"json-loader": "0.5.7",
 		"jwplayer-fandom": "github:wikia/jwplayer-fandom#1.6.1",
+		"lerna": "^3.13.2",
 		"lint-staged": "8.0.5",
 		"mini-css-extract-plugin": "0.4.0",
 		"mocha": "4.1.0",
@@ -77,79 +70,9 @@
 		"wdio-visual-regression-service": "0.9.0",
 		"webdriverio": "4.13.2",
 		"webpack": "4.5.0",
-		"webpack-cli": "2.0.14",
+		"webpack-cli": "3.3.0",
 		"webpack-dev-server": "3.1.14",
 		"webpack-merge": "4.1.2"
 	},
-	"files": [
-		"dist/",
-		"lib/",
-		"maintenance/",
-		"src/",
-		".babelrc",
-		".npmrc",
-		"jsconfig.json",
-		"package.json",
-		"package-lock.json",
-		"README.md",
-		"webpack.config.js"
-	],
-	"main": "./dist/ad-engine.js",
-	"nyc": {
-		"report-dir": "./spec/build/",
-		"reporter": [
-			"cobertura"
-		]
-	},
-	"scripts": {
-		"build": "webpack --progress --colors --hide-modules && node ./maintenance/build-bundle.js",
-		"ci-check": "npm run test && npm run lint",
-		"dev": "npm run serve",
-		"lint": "tslint --project . && npm run rules:lint",
-		"lintf": "tslint --project . --fix && npm run rules:lintf",
-		"prettier": "prettier --write '**/*.{ts,js,json,css,scss,html}'",
-		"format": "npm run prettier && npm run lintf",
-		"prepare": "echo '🍷 Building Wikia/ad-engine' && npm run build --production",
-		"preversion": "./maintenance/preversion.sh",
-		"version": "./maintenance/version.sh",
-		"serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --inline --open --watch --content-base=./examples",
-		"tdd": "mocha-webpack -w --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
-		"test": "mocha-webpack --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
-		"test-coverage": "nyc mocha-webpack './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test --reporter mocha-junit-reporter --reporter-options mochaFile=./spec/build/tests.xml",
-		"watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch",
-		"wdio-desktop": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.desktop.conf.js",
-		"wdio-mobile": "BABEL_ENV=test ./node_modules/.bin/wdio wdio.mobile.conf.js",
-		"wdio-all": "npm run wdio-mobile; npm run wdio-desktop",
-		"allure": "cp -R ./tests/allure-results/report/history ./tests/allure-results | true && allure generate ./tests/allure-results --output ./tests/allure-results/report --clean && allure open ./tests/allure-results/report",
-		"allure-clear": "find ./tests/allure-results/ -name *attachment.json -delete; find ./tests/allure-results/ -name *testsuite.xml -delete; find ./tests/allure-results/ -name *attachment.png -delete",
-		"check-types": "tsc -noEmit",
-		"check-types:watch": "tsc --watch -noEmit",
-		"check-types:ad-engine": "npm run check-types 2> /dev/null | grep src/ad-engine | grep -v npm",
-		"rules:build": "tsc --project 'maintenance/tslint-rules/tsconfig.json'",
-		"rules:test": "tslint --project 'maintenance/tslint-rules/tests/tsconfig.json'",
-		"rules:lint": "tslint --project 'maintenance/tslint-rules/tsconfig.json'",
-		"rules:lintf": "tslint --project 'maintenance/tslint-rules/tsconfig.json' --fix"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged && if npm run check-types 2> /dev/null | grep src/ad-engine | grep -v npm; then exit 1; fi"
-		}
-	},
-	"lint-staged": {
-		"linters": {
-			"*.ts": [
-				"prettier --write",
-				"tslint --fix",
-				"git add"
-			],
-			"*.{js,json,css,scss,html}": [
-				"prettier --write",
-				"git add"
-			]
-		},
-		"ignore": [
-			"**/dist/**/*",
-			"maintenance/tslint-rules/tests/**/*"
-		]
-	}
+	"scripts": {}
 }

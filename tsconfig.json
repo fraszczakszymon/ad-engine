@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"outDir": "./dist",
 		"sourceMap": true,
 		"module": "es2015",
 		"moduleResolution": "node",
@@ -10,10 +9,6 @@
 		"noImplicitAny": false,
 		"baseUrl": ".",
 		"typeRoots": ["node_modules/@types", "@types"],
-		"paths": {
-			"@wikia/*": ["src/*"]
-		},
 		"lib": ["es7", "dom", "es2017.object"]
-	},
-	"exclude": ["node_modules", "tmp", "dist", "@types", "maintenance/tslint-rules"]
+	}
 }

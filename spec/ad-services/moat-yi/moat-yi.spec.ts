@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { context } from '../../../src/ad-engine/index';
-import { moatYi } from '../../../src/ad-services/moat-yi';
+import { moatYi } from '../../../packages/ad-services/moat-yi';
 
 describe('MOAT YI service', () => {
 	let moatPageLevelData = {};

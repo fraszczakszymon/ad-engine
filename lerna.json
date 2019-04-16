@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/ad-bidders",
+    "packages/ad-engine"
+  ],
+  "version": "29.0.0"
+}

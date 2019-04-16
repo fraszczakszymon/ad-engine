@@ -1,0 +1,38 @@
+{
+  "name": "@wikia/ad-engine",
+  "version": "29.0.0",
+  "description": "Wikia AdEngine",
+  "dependencies": {
+    "@babel/runtime-corejs2": "7.3.1",
+    "blockadblock": "3.2.1",
+    "core-decorators": "^0.20.0",
+    "current-device": "0.7.8",
+    "eventemitter3": "3.0.1",
+    "js-cookie": "2.2.0",
+    "lodash": "^4.17.4",
+    "@types/doubleclick-gpt": "238.0.1",
+    "@types/js-cookie": "2.2.1",
+    "@alugha/ima": "1.1.2"
+  },
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/ad-engine.js",
+  "nyc": {
+    "report-dir": "./spec/build/",
+    "reporter": [
+      "cobertura"
+    ]
+  },
+  "scripts": {
+    "build": "npm run emit-declarations && webpack --progress --colors --hide-modules",
+    "lint": "tslint --project . && npm run rules:lint",
+    "lintf": "tslint --project . --fix && npm run rules:lintf",
+    "prettier": "prettier --write '**/*.{ts,js,json,css,scss,html}'",
+    "format": "npm run prettier && npm run lintf",
+    "tdd": "mocha-webpack -w --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
+    "test": "mocha-webpack --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
+    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch",
+    "check-types": "tsc -noEmit",
+    "check-types:watch": "tsc --watch -noEmit",
+    "emit-declarations": "tsc --emitDeclarationOnly -d --declarationDir dist/types"
+  }
+}

@@ -1,5 +1,6 @@
 // tslint:disable-next-line:no-reference
 ///<reference path="../../node_modules/@alugha/ima/typings/ima.d.ts"/>
+///<reference path="../../node_modules/@types/doubleclick-gpt/index.d.ts"/>
 
 interface Window {
 	ads?: Ads;

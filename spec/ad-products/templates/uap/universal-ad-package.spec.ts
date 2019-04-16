@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { context } from '../../../../src/ad-engine';
-import { universalAdPackage } from '../../../../src/ad-products/templates/uap/universal-ad-package';
+import { universalAdPackage } from '../../../../packages/ad-products/templates/uap/universal-ad-package';
 
 describe('UniversalAdPackage', () => {
 	const UAP_ID = 666;

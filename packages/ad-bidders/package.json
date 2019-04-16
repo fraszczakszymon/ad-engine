@@ -1,0 +1,23 @@
+{
+  "name": "@wikia/ad-bidders",
+  "version": "29.0.0",
+  "description": "Wikia AdBidders",
+  "dependencies": {
+    "@babel/runtime-corejs2": "7.3.1",
+    "@wikia/ad-engine": "file:../ad-engine",
+    "core-decorators": "^0.20.0"
+  },
+  "main": "./dist/ad-bidders.js",
+  "scripts": {
+    "build": "webpack --progress --colors --hide-modules",
+    "lint": "tslint --project . && npm run rules:lint",
+    "lintf": "tslint --project . --fix && npm run rules:lintf",
+    "prettier": "prettier --write '**/*.{ts,js,json,css,scss,html}'",
+    "format": "npm run prettier && npm run lintf",
+    "tdd": "mocha-webpack -w --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
+    "test": "mocha-webpack --full-trace './spec/**/*.spec.ts' -r jsdom-global/register --webpack-env.test",
+    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --hide-modules --watch",
+    "check-types": "tsc -noEmit",
+    "check-types:watch": "tsc --watch -noEmit"
+  }
+}

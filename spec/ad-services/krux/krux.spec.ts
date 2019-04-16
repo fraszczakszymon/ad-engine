@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { context, localCache } from '../../../src/ad-engine/index';
-import { krux } from '../../../src/ad-services/krux';
+import { krux } from '../../../packages/ad-services/krux';
 
 describe('Krux service', () => {
 	beforeEach(() => {
