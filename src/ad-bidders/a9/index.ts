@@ -114,18 +114,9 @@ export class A9 extends BaseBidder {
 	getA9SlotsDefinitions(slotsNames) {
 		return slotsNames
 			.map((slotName) => this.getSlotAlias(slotName))
+			.filter((slotAlias) => this.isUsedAsAlias(slotAlias))
 			.map((slotAlias) => this.createSlotDefinition(slotAlias))
-			.filter((slot) => {
-				if (slot === null) {
-					return false;
-				}
-
-				const slotConfig = context.get(`slots.${slot.slotName}`);
-
-				return slotConfig && Object.keys(slotConfig).length > 0
-					? slotService.getState(slot.slotName)
-					: this.isUsedAsAlias(slot.slotID);
-			});
+			.filter((slot) => slot !== null);
 	}
 
 	/**
@@ -356,19 +347,10 @@ export class A9 extends BaseBidder {
 			return bidderAlias === slotID && slotService.getState(slotName);
 		});
 
-		const someEnabledByConfig = Object.keys(this.slots).some((slotName) => {
-			const slotId = this.slots[slotName].slotId;
-			const slotConfig = context.get(`slots.${slotName}`);
+		const slotConfig = context.get(`slots.${slotID}`);
 
-			return (
-				slotId &&
-				slotId === slotID &&
-				slotConfig &&
-				Object.keys(slotConfig).length > 0 &&
-				slotService.getState(slotName)
-			);
-		});
-
-		return someEnabledByAlias || someEnabledByConfig;
+		return slotConfig && Object.keys(slotConfig).length > 0
+			? slotService.getState(slotID)
+			: someEnabledByAlias;
 	}
 }
