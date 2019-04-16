@@ -120,19 +120,11 @@ export class A9 extends BaseBidder {
 					return false;
 				}
 
-				const isDisabledByAlias = Object.keys(context.get('slots')).some((slotName) => {
-					const bidderAlias = context.get(`slots.${slotName}.bidderAlias`);
+				const slotConfig = context.get(`slots.${slot.slotName}`);
 
-					return bidderAlias === slot.slotID && !slotService.getState(slotName);
-				});
-
-				const isDisabledByConfig = Object.keys(this.slots).some((slotName) => {
-					const slotId = this.slots[slotName].slotId;
-
-					return slotId && slotId === slot.slotID && !slotService.getState(slotName);
-				});
-
-				return slotService.getState(slot.slotName) && !isDisabledByAlias && !isDisabledByConfig;
+				return slotConfig && Object.keys(slotConfig).length > 0
+					? slotService.getState(slot.slotName)
+					: this.isUsedAsAlias(slot.slotID);
 			});
 	}
 
@@ -349,5 +341,34 @@ export class A9 extends BaseBidder {
 	 */
 	isSupported(slotName) {
 		return !!this.slots[this.getSlotAlias(slotName)];
+	}
+
+	/**
+	 * Checks whether given A9 slot definition is used by alias
+	 * @private
+	 * @param {string} slotID
+	 * @returns {boolean}
+	 */
+	isUsedAsAlias(slotID) {
+		const someEnabledByAlias = Object.keys(context.get('slots')).some((slotName) => {
+			const bidderAlias = context.get(`slots.${slotName}.bidderAlias`);
+
+			return bidderAlias === slotID && slotService.getState(slotName);
+		});
+
+		const someEnabledByConfig = Object.keys(this.slots).some((slotName) => {
+			const slotId = this.slots[slotName].slotId;
+			const slotConfig = context.get(`slots.${slotName}`);
+
+			return (
+				slotId &&
+				slotId === slotID &&
+				slotConfig &&
+				Object.keys(slotConfig).length > 0 &&
+				slotService.getState(slotName)
+			);
+		});
+
+		return someEnabledByAlias || someEnabledByConfig;
 	}
 }
