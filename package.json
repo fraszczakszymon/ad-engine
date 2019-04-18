@@ -1,6 +1,6 @@
 {
 	"name": "@wikia/ad-engine",
-	"version": "29.0.2",
+	"version": "29.0.3",
 	"description": "Wikia AdEngine",
 	"repository": {
 		"type": "git",
