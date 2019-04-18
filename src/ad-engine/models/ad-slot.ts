@@ -65,6 +65,7 @@ export class AdSlot extends EventEmitter {
 	viewed = false;
 	element: null | HTMLElement = null;
 	status: null | string = null;
+	isEmpty = true;
 	enabled: boolean;
 	events: LazyQueue;
 	adUnit: string;
@@ -268,6 +269,8 @@ export class AdSlot extends EventEmitter {
 
 		let creativeId: string | number = event.creativeId;
 		let lineItemId: string | number = event.lineItemId;
+
+		this.isEmpty = event.isEmpty;
 
 		if (!event.isEmpty && event.slot) {
 			const resp = event.slot.getResponseInformation();
