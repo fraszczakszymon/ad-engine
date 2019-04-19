@@ -27,7 +27,7 @@ class VastDebugger {
 		element: HTMLElement,
 		vastUrl: string,
 		status: string,
-		imaAd: google.ima.Ad,
+		imaAd?: google.ima.Ad,
 	): void {
 		const vastParams: VastParams = vastParser.parse(vastUrl, { imaAd });
 
