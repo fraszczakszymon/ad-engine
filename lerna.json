@@ -3,5 +3,5 @@
     "packages/ad-bidders",
     "packages/ad-engine"
   ],
-  "version": "29.0.1-pr.0"
+  "version": "29.0.1-foo.0"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@wikia/ad-bidders",
-  "version": "29.0.1-pr.0",
+  "version": "29.0.1-foo.0",
   "description": "Wikia AdBidders",
   "dependencies": {
     "@babel/runtime-corejs2": "7.3.1",
