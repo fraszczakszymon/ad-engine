@@ -125,3 +125,4 @@ export class AdEngine {
 		}
 	}
 }
+console.log('foo');
