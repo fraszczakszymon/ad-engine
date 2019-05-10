@@ -56,7 +56,7 @@ export class HideOnViewability {
 	 * Initialises the template
 	 */
 	init(): void {
-		this.registerViewabilityListener();
+		this.registerViewabilityListener(this.adSlot);
 
 		utils.logger(HideOnViewability.getName(), 'init');
 	}
@@ -66,20 +66,22 @@ export class HideOnViewability {
 	 *
 	 * @private
 	 */
-	registerViewabilityListener(): void {
+	registerViewabilityListener(slot: AdSlot): void {
 		const viewabilityListener = {
 			onImpressionViewable(adSlot): void {
 				const config = HideOnViewability.getConfig();
 
-				if (config && config.hideAnimation) {
-					setTimeout(() => {
-						config.hideAnimation(adSlot, config.slideOutEdge);
-
-						setTimeout(() => {
-							slotTweaker.hide(adSlot);
-						}, SLIDE_OUT_TIME + FADE_IN_TIME);
-					}, config.additionalHideTime);
+				if (adSlot.getSlotName() !== slot.getSlotName() || !config || !config.hideAnimation) {
+					return;
 				}
+
+				setTimeout(() => {
+					config.hideAnimation(adSlot, config.slideOutEdge);
+
+					setTimeout(() => {
+						slotTweaker.hide(adSlot);
+					}, SLIDE_OUT_TIME + FADE_IN_TIME);
+				}, config.additionalHideTime);
 
 				utils.logger(HideOnViewability.getName(), 'hiding slot');
 			},
