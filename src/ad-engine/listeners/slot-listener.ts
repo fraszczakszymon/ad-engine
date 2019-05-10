@@ -10,8 +10,6 @@ interface AdditionalEventData {
 
 const logGroup = 'slot-listener';
 
-let listeners = null;
-
 function getIframe(adSlot) {
 	return adSlot.getElement().querySelector('div[id*="_container_"] iframe');
 }
@@ -61,13 +59,10 @@ function getData(adSlot: AdSlot, { adType, status }: Partial<AdditionalEventData
 }
 
 function dispatch(methodName, adSlot, adInfo: Partial<AdditionalEventData> = {}) {
-	if (!listeners) {
-		listeners = context
-			.get('listeners.slot')
-			.filter((listener) => !listener.isEnabled || listener.isEnabled());
-	}
-
 	const data = getData(adSlot, adInfo);
+	const listeners = context
+		.get('listeners.slot')
+		.filter((listener) => !listener.isEnabled || listener.isEnabled());
 
 	listeners.forEach((listener) => {
 		if (typeof listener[methodName] !== 'function') {
