@@ -5,11 +5,11 @@ const SLIDE_OUT_TIME = 600;
 const FADE_IN_TIME = 400;
 const SLOT_HIDE_TIME = 1000;
 
-type elementEdge = 'top' | 'bottom' | 'left' | 'right';
+type ElementEdge = 'top' | 'bottom' | 'left' | 'right';
 
 export interface HideOnViewabilityTemplateConfig {
 	additionalHideTime: number;
-	slideOutEdge: elementEdge;
+	slideOutEdge: ElementEdge;
 	hideAnimation: (adSlot: AdSlot, config: HideOnViewabilityTemplateConfig) => void;
 }
 
@@ -24,7 +24,7 @@ export class HideOnViewability {
 			slideOutEdge: 'bottom',
 			hideAnimation: (adSlot: AdSlot, config: HideOnViewabilityTemplateConfig): void => {
 				const height: number = adSlot.getElement().offsetHeight;
-				const edge: elementEdge = config.slideOutEdge;
+				const edge: ElementEdge = config.slideOutEdge;
 				const hideStyles = {
 					transition:
 						`${edge} ${SLIDE_OUT_TIME}ms ${CSS_TIMING_EASE_IN_CUBIC}, ` +
