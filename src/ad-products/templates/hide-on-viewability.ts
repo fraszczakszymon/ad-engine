@@ -1,92 +1,70 @@
 import { AdSlot, context, slotTweaker, utils } from '@wikia/ad-engine';
-import { CSS_TIMING_EASE_IN_CUBIC, FADE_IN_TIME, SLIDE_OUT_TIME } from './uap/constants';
+
+const CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+const SLIDE_OUT_TIME = 600;
+const FADE_IN_TIME = 400;
+const SLOT_HIDE_TIME = 1000;
+
+type elementEdge = 'top' | 'bottom' | 'left' | 'right';
 
 export interface HideOnViewabilityTemplateConfig {
 	additionalHideTime: number;
-	slideOutEdge: string;
-	hideAnimation: (adSlot: AdSlot, edge: string) => void;
+	slideOutEdge: elementEdge;
+	hideAnimation: (adSlot: AdSlot, config: HideOnViewabilityTemplateConfig) => void;
 }
 
 export class HideOnViewability {
-	/**
-	 * Returns template name
-	 */
 	static getName(): string {
 		return 'hideOnViewability';
 	}
 
-	/**
-	 * Returns default template config
-	 */
 	static getDefaultConfig(): HideOnViewabilityTemplateConfig {
 		return {
 			additionalHideTime: 0,
 			slideOutEdge: 'bottom',
-			hideAnimation: (adSlot, edge) => {
-				const height = adSlot.getElement().offsetHeight;
+			hideAnimation: (adSlot: AdSlot, config: HideOnViewabilityTemplateConfig): void => {
+				const height: number = adSlot.getElement().offsetHeight;
+				const edge: elementEdge = config.slideOutEdge;
 				const hideStyles = {
 					transition:
 						`${edge} ${SLIDE_OUT_TIME}ms ${CSS_TIMING_EASE_IN_CUBIC}, ` +
 						`opacity ${FADE_IN_TIME}ms ${CSS_TIMING_EASE_IN_CUBIC}`,
 					opacity: '0',
+					[edge]: `-${height}px`,
 				};
-
-				hideStyles[edge] = `-${height}px`;
 
 				Object.assign(adSlot.getElement().style, hideStyles);
 			},
 		};
 	}
 
-	/**
-	 * Returns current template config
-	 */
-	static getConfig(): HideOnViewabilityTemplateConfig {
-		return context.get('templates.hideOnViewability');
-	}
+	config: HideOnViewabilityTemplateConfig;
 
-	/**
-	 * Constructor
-	 */
 	constructor(public adSlot: AdSlot) {
-		this.adSlot = adSlot;
+		this.config = context.get('templates.hideOnViewability') || {};
 	}
 
-	/**
-	 * Initialises the template
-	 */
 	init(): void {
-		this.registerViewabilityListener(this.adSlot);
-
 		utils.logger(HideOnViewability.getName(), 'init');
+
+		this.registerViewabilityListener(this.adSlot);
 	}
 
-	/**
-	 * Registers viewability listener
-	 *
-	 * @private
-	 */
-	registerViewabilityListener(slot: AdSlot): void {
-		const viewabilityListener = {
-			onImpressionViewable(adSlot): void {
-				const config = HideOnViewability.getConfig();
+	private registerViewabilityListener(adSlot: AdSlot): void {
+		adSlot.on(AdSlot.SLOT_VIEWED_EVENT, () => {
+			if (!this.config || !this.config.hideAnimation) {
+				return;
+			}
 
-				if (adSlot.getSlotName() !== slot.getSlotName() || !config || !config.hideAnimation) {
-					return;
-				}
+			setTimeout(() => {
+				utils.logger(HideOnViewability.getName(), 'hiding slot');
+
+				this.config.hideAnimation(adSlot, this.config);
 
 				setTimeout(() => {
-					config.hideAnimation(adSlot, config.slideOutEdge);
-
-					setTimeout(() => {
-						slotTweaker.hide(adSlot);
-					}, SLIDE_OUT_TIME + FADE_IN_TIME);
-				}, config.additionalHideTime);
-
-				utils.logger(HideOnViewability.getName(), 'hiding slot');
-			},
-		};
-
-		context.push('listeners.slot', viewabilityListener);
+					slotTweaker.hide(adSlot);
+				}, SLOT_HIDE_TIME);
+			}, this.config.additionalHideTime || 0);
+		});
 	}
 }
