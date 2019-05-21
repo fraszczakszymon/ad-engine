@@ -128,7 +128,6 @@ class SlotListener {
 				break;
 			default:
 				adSlot.success();
-				break;
 		}
 
 		const slotsToPush = context.get(`events.pushAfterRendered.${adSlot.getSlotName()}`);
