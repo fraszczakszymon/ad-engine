@@ -144,7 +144,14 @@ export class GptProvider implements Provider {
 	}
 
 	applyTargetingParams(gptSlot: googletag.Slot, targeting: Targeting) {
-		Object.keys(targeting).forEach((key) => gptSlot.setTargeting(key, targeting[key]));
+		Object.keys(targeting).forEach((key) => {
+			let value = targeting[key];
+
+			if (!Array.isArray(value)) {
+				value = value.toString();
+			}
+			gptSlot.setTargeting(key, value);
+		});
 	}
 
 	forceSafeFrame(gptSlot: googletag.Slot) {
