@@ -7,7 +7,6 @@ import { LazyQueue, logger, stringBuilder } from '../utils';
 import { Dictionary } from './dictionary';
 
 export interface Targeting {
-	[key: string]: googletag.NamedSize;
 	amznbid?: string;
 	hb_bidder?: string;
 	hb_pb?: string;
@@ -16,6 +15,7 @@ export interface Targeting {
 	wsi?: string;
 	// @ts-ignore
 	rv?: number;
+	[key: string]: googletag.NamedSize | number;
 }
 
 interface RepeatConfig {
@@ -127,7 +127,7 @@ export class AdSlot extends EventEmitter {
 		});
 	}
 
-	getElement(): HTMLElement {
+	getElement(): HTMLElement | null {
 		if (!this.element) {
 			this.element = document.getElementById(this.getSlotName());
 		}
