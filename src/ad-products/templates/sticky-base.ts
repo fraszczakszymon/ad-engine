@@ -32,7 +32,7 @@ export class StickyBase {
 		this.params = params;
 
 		this.adSlot.setConfigProperty('useGptOnloadEvent', true);
-		this.adSlot.onLoad().then(() => {
+		this.adSlot.loaded().then(() => {
 			utils.logger(logGroup, this.adSlot.getSlotName(), 'slot ready for stickiness');
 			this.adSlot.emitEvent(Stickiness.SLOT_STICKY_READY_STATE);
 		});
@@ -90,8 +90,8 @@ export class StickyBase {
 			stickyUntilSlotViewed,
 		} = this.config;
 		const whenSlotViewedOrTimeout = async () => {
-			await (stickyUntilSlotViewed && !this.adSlot.isViewed()
-				? utils.once(this.adSlot, AdSlot.SLOT_VIEWED_EVENT)
+			await (stickyUntilSlotViewed
+				? this.adSlot.loaded().then(() => this.adSlot.viewed())
 				: Promise.resolve());
 			await utils.wait(stickyDefaultTime + stickyAdditionalTime);
 		};

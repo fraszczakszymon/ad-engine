@@ -80,13 +80,13 @@ export class AdSlot extends EventEmitter {
 	lineItemId: null | string | number = null;
 	winningBidderDetails: null | WinningBidderDetails = null;
 	private slotViewed = false;
-	private loadPromise = new Promise<HTMLIFrameElement>((resolve) => {
+	private loadPromise = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 	});
-	private renderPromise = new Promise<HTMLIFrameElement>((resolve) => {
+	private renderPromise = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_RENDERED_EVENT, resolve);
 	});
-	private viewPromise = new Promise<HTMLIFrameElement>((resolve) => {
+	private viewPromise = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, resolve);
 	});
 
@@ -140,6 +140,16 @@ export class AdSlot extends EventEmitter {
 		}
 
 		return this.element;
+	}
+
+	getIframe(): HTMLIFrameElement | null {
+		const element = this.getElement();
+
+		if (!element) {
+			return null;
+		}
+
+		return element.querySelector<HTMLIFrameElement>('div[id*="_container_"] iframe');
 	}
 
 	getSlotName(): string {
@@ -237,15 +247,15 @@ export class AdSlot extends EventEmitter {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
 	}
 
-	loaded(): Promise<HTMLIFrameElement> {
+	loaded(): Promise<void> {
 		return this.loadPromise;
 	}
 
-	rendered(): Promise<HTMLIFrameElement> {
+	rendered(): Promise<void> {
 		return this.renderPromise;
 	}
 
-	viewed(): Promise<HTMLIFrameElement> {
+	viewed(): Promise<void> {
 		return this.viewPromise;
 	}
 
