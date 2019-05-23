@@ -55,6 +55,7 @@ export class AdSlot extends EventEmitter {
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
 	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
+	static SLOT_RENDERED_EVENT = 'slotRendered';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 	static DESTROYED_EVENT = 'slotDestroyed';
 
@@ -67,7 +68,6 @@ export class AdSlot extends EventEmitter {
 	static AD_CLASS = 'gpt-ad';
 
 	config: SlotConfig;
-	viewed = false;
 	element: null | HTMLElement = null;
 	status: null | string = null;
 	isEmpty = true;
@@ -79,8 +79,15 @@ export class AdSlot extends EventEmitter {
 	creativeSize: null | string | number[] = null;
 	lineItemId: null | string | number = null;
 	winningBidderDetails: null | WinningBidderDetails = null;
-	onLoadPromise = new Promise<HTMLIFrameElement>((resolve) => {
+	private slotViewed = false;
+	private loadPromise = new Promise<HTMLIFrameElement>((resolve) => {
 		this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
+	});
+	private renderPromise = new Promise<HTMLIFrameElement>((resolve) => {
+		this.once(AdSlot.SLOT_RENDERED_EVENT, resolve);
+	});
+	private viewPromise = new Promise<HTMLIFrameElement>((resolve) => {
+		this.once(AdSlot.SLOT_VIEWED_EVENT, resolve);
 	});
 
 	constructor(ad: AdStackPayload) {
@@ -99,7 +106,7 @@ export class AdSlot extends EventEmitter {
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
 
 		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
-			this.viewed = true;
+			this.slotViewed = true;
 		});
 
 		this.addClass(AdSlot.AD_CLASS);
@@ -192,7 +199,7 @@ export class AdSlot extends EventEmitter {
 	}
 
 	isViewed(): boolean {
-		return this.viewed;
+		return this.slotViewed;
 	}
 
 	isRepeatable(): boolean {
@@ -230,8 +237,16 @@ export class AdSlot extends EventEmitter {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
 	}
 
-	onLoad(): Promise<HTMLIFrameElement> {
-		return this.onLoadPromise;
+	loaded(): Promise<HTMLIFrameElement> {
+		return this.loadPromise;
+	}
+
+	rendered(): Promise<HTMLIFrameElement> {
+		return this.renderPromise;
+	}
+
+	viewed(): Promise<HTMLIFrameElement> {
+		return this.viewPromise;
 	}
 
 	success(status: string = AdSlot.STATUS_SUCCESS): void {

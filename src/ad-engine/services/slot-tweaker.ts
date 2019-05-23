@@ -99,7 +99,7 @@ export class SlotTweaker {
 
 	onReady(adSlot: AdSlot): Promise<HTMLIFrameElement> {
 		if (adSlot.getConfigProperty('useGptOnloadEvent')) {
-			return adSlot.onLoad();
+			return adSlot.loaded();
 		}
 
 		const container = this.getContainer(adSlot);
