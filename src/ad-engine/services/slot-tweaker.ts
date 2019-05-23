@@ -109,7 +109,7 @@ export class SlotTweaker {
 		}
 
 		if (adSlot.getConfigProperty('useGptOnloadEvent')) {
-			return adSlot.loaded().then(getIframe);
+			return adSlot.loaded.then(getIframe);
 		}
 
 		return new Promise<HTMLIFrameElement>((resolve) => {

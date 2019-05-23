@@ -100,7 +100,7 @@ export class BfabHiviTheme extends BigFancyAdHiviTheme {
 				resolvePromise();
 			}
 		});
-		this.adSlot.viewed().then(() => {
+		this.adSlot.viewed.then(() => {
 			scrollListener.removeCallback(cbId);
 		});
 

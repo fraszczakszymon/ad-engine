@@ -67,6 +67,7 @@ export class AdSlot extends EventEmitter {
 
 	static AD_CLASS = 'gpt-ad';
 
+	private slotViewed = false;
 	config: SlotConfig;
 	element: null | HTMLElement = null;
 	status: null | string = null;
@@ -79,14 +80,13 @@ export class AdSlot extends EventEmitter {
 	creativeSize: null | string | number[] = null;
 	lineItemId: null | string | number = null;
 	winningBidderDetails: null | WinningBidderDetails = null;
-	private slotViewed = false;
-	private loadPromise = new Promise<void>((resolve) => {
+	loaded = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 	});
-	private renderPromise = new Promise<void>((resolve) => {
+	rendered = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_RENDERED_EVENT, resolve);
 	});
-	private viewPromise = new Promise<void>((resolve) => {
+	viewed = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, resolve);
 	});
 
@@ -245,18 +245,6 @@ export class AdSlot extends EventEmitter {
 
 	setConfigProperty(key: string, value: any): void {
 		context.set(`slots.${this.config.slotName}.${key}`, value);
-	}
-
-	loaded(): Promise<void> {
-		return this.loadPromise;
-	}
-
-	rendered(): Promise<void> {
-		return this.renderPromise;
-	}
-
-	viewed(): Promise<void> {
-		return this.viewPromise;
 	}
 
 	success(status: string = AdSlot.STATUS_SUCCESS): void {
