@@ -147,7 +147,9 @@ export class GptProvider implements Provider {
 		Object.keys(targeting).forEach((key) => {
 			let value = targeting[key];
 
-			if (!Array.isArray(value)) {
+			if (Array.isArray(value)) {
+				value = value.map((item) => item.toString());
+			} else {
 				value = value.toString();
 			}
 			gptSlot.setTargeting(key, value);
