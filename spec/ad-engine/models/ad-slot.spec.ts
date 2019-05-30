@@ -154,10 +154,10 @@ describe('ad-slot', () => {
 			adSlot = createAdSlot('top_leaderboard');
 		});
 
-		it('should return -1 if getElement returns null', () => {
+		it('should return null if getElement returns null', () => {
 			adSlot.getElement = () => null;
 
-			expect(adSlot.getTopOffset()).to.equal(-1);
+			expect(adSlot.getTopOffset()).to.equal(null);
 		});
 	});
 });

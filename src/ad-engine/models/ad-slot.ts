@@ -228,12 +228,12 @@ export class AdSlot extends EventEmitter {
 	/**
 	 * Returns offset of slot from top of the page.
 	 *
-	 * Returns -1 if slot has no element.
+	 * Returns null if slot has no element.
 	 */
-	getTopOffset(): number {
+	getTopOffset(): number | null {
 		const element = this.getElement();
 
-		return element ? getTopOffset(element) : -1;
+		return element ? getTopOffset(element) : null;
 	}
 
 	enable(): void {
