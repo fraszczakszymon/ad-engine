@@ -364,6 +364,10 @@ export default {
 			},
 			timeout: 2000,
 		},
+		instantConfig: {
+			endpoint: 'https://services.wikia-dev.pl/icbm/api/config',
+			fallbackConfigKey: 'fallbackConfig',
+		},
 		krux: {
 			enabled: true,
 			id: 'KPSUiAKl',
