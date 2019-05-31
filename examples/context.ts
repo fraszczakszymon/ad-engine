@@ -41,14 +41,6 @@ export default {
 				enabled: true,
 				slots: ['incontent_boxad'],
 			},
-			vmg: {
-				enabled: true,
-				slots: {
-					top_leaderboard: {
-						sizes: [[3, 3]],
-					},
-				},
-			},
 			wikia: {
 				enabled: true,
 				slots: {
@@ -62,6 +54,9 @@ export default {
 						sizes: [[300, 250]],
 					},
 					bottom_leaderboard: {
+						sizes: [[728, 90]],
+					},
+					floor_adhesion: {
 						sizes: [[728, 90]],
 					},
 				},
