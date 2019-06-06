@@ -24,6 +24,10 @@ class SlotTracker {
 	}
 
 	register(): void {
+		if (!this.isEnabled()) {
+			return;
+		}
+
 		eventService.on(AdSlot.SLOT_RENDERED_EVENT, (slot: AdSlot) => {
 			const status = slot.getStatus();
 
@@ -37,7 +41,7 @@ class SlotTracker {
 			}
 		});
 
-		eventService.on('', (slot: AdSlot) => {
+		eventService.on(AdSlot.SLOT_STATUS_CHANGED, (slot: AdSlot) => {
 			const status = slot.getStatus();
 			const shouldSlotBeTracked =
 				slot.getConfigProperty('trackEachStatus') || slot.trackOnStatusChanged;
