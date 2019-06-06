@@ -158,4 +158,5 @@ export const bidders = {
 	updateSlotTargeting,
 };
 
+export * from './tracking';
 export * from './wrappers';

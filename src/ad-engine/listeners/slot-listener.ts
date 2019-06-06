@@ -1,5 +1,5 @@
 import { AdSlot, Dictionary } from '../models';
-import { context, slotInjector, slotTweaker } from '../services';
+import { context, eventService, slotInjector, slotTweaker } from '../services';
 import { client, logger } from '../utils';
 
 interface AdditionalEventData {
@@ -138,22 +138,26 @@ class SlotListener {
 
 		dispatch('onRenderEnded', adSlot, { adType, event });
 		adSlot.emit(AdSlot.SLOT_RENDERED_EVENT);
+		eventService.emit(AdSlot.SLOT_RENDERED_EVENT, adSlot);
 	}
 
 	emitLoadedEvent(event: googletag.events.SlotOnloadEvent, adSlot: AdSlot): void {
 		adSlot.emit(AdSlot.SLOT_LOADED_EVENT);
+		eventService.emit(AdSlot.SLOT_LOADED_EVENT, adSlot);
 		dispatch('onLoaded', adSlot);
 		slotTweaker.setDataParam(adSlot, 'slotLoaded', true);
 	}
 
 	emitImpressionViewable(event: googletag.events.ImpressionViewableEvent, adSlot: AdSlot): void {
 		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
+		eventService.emit(AdSlot.SLOT_VIEWED_EVENT, adSlot);
 		dispatch('onImpressionViewable', adSlot);
 		slotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
 
 	emitStatusChanged(adSlot: AdSlot): void {
 		slotTweaker.setDataParam(adSlot, 'slotResult', adSlot.getStatus());
+		eventService.emit(AdSlot.SLOT_STATUS_CHANGED, adSlot);
 		dispatch('onStatusChanged', adSlot);
 	}
 

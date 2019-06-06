@@ -56,6 +56,7 @@ export class AdSlot extends EventEmitter {
 	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';
 	static SLOT_RENDERED_EVENT = 'slotRendered';
+	static SLOT_STATUS_CHANGED = 'slotStatusChanged';
 	static VIDEO_VIEWED_EVENT = 'videoViewed';
 	static DESTROYED_EVENT = 'slotDestroyed';
 	static HIDDEN_EVENT = 'slotHidden';
@@ -63,9 +64,11 @@ export class AdSlot extends EventEmitter {
 
 	static LOG_GROUP = 'AdSlot';
 
-	static STATUS_SUCCESS = 'success';
+	static STATUS_BLOCKED = 'blocked';
 	static STATUS_COLLAPSE = 'collapse';
 	static STATUS_ERROR = 'error';
+	static STATUS_SUCCESS = 'success';
+	static STATUS_VIEWPORT_CONFLICT = 'viewport-conflict';
 
 	static AD_CLASS = 'gpt-ad';
 	static HIDDEN_CLASS = 'hide';
@@ -74,6 +77,7 @@ export class AdSlot extends EventEmitter {
 	config: SlotConfig;
 	element: null | HTMLElement = null;
 	status: null | string = null;
+	btlStatus: null;
 	isEmpty = true;
 	enabled: boolean;
 	events: LazyQueue;
@@ -84,6 +88,7 @@ export class AdSlot extends EventEmitter {
 	creativeSize: null | string | number[] = null;
 	lineItemId: null | string | number = null;
 	winningBidderDetails: null | WinningBidderDetails = null;
+	trackOnStatusChanged = false;
 	loaded = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 	});
@@ -154,6 +159,12 @@ export class AdSlot extends EventEmitter {
 		}
 
 		return element.querySelector<HTMLIFrameElement>('div[id*="_container_"] iframe');
+	}
+
+	getMainPositionName(): string {
+		const { pos = '' } = this.targeting;
+
+		return (Array.isArray(pos) ? pos : pos.split(','))[0].toLowerCase();
 	}
 
 	getSlotName(): string {

@@ -21,7 +21,7 @@ export const events = {
 };
 
 class EventService extends EventEmitter.EventEmitter {
-	emit(event: symbol, ...args: any[]): boolean {
+	emit(event: string | symbol, ...args: any[]): boolean {
 		logger(groupName, 'emit', event, ...args);
 		return super.emit(event, ...args);
 	}
