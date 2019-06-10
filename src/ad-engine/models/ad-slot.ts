@@ -161,6 +161,7 @@ export class AdSlot extends EventEmitter {
 		return element.querySelector<HTMLIFrameElement>('div[id*="_container_"] iframe');
 	}
 
+	// Main position is the first value defined in the "pos" key-value (targeting)
 	getMainPositionName(): string {
 		const { pos = '' } = this.targeting;
 
