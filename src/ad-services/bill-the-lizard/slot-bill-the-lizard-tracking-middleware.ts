@@ -1,10 +1,20 @@
 import { AdSlot } from '@wikia/ad-engine';
-import { TrackingData } from '../../ad-tracking/slot-tracking-middleware';
+import {
+	TrackingCallback,
+	TrackingData,
+	TrackingMiddleware,
+} from '../../ad-tracking/slot-tracking-middleware';
 
-export function slotBillTheLizardStatusTracking(data: TrackingData, slot: AdSlot): TrackingData {
-	return {
-		...data,
+export const slotBillTheLizardStatusTracking: TrackingMiddleware = (next: TrackingCallback) => (
+	data: TrackingData,
+	slot: AdSlot,
+): void => {
+	return next(
+		{
+			...data,
 
-		btl: slot.btlStatus || '',
-	};
-}
+			btl: slot.getConfigProperty('btlStatus') || '',
+		},
+		slot,
+	);
+};

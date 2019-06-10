@@ -32,9 +32,7 @@ describe('slot-info-tracking-middleware', () => {
 	it('returns all info about slot for tracking', () => {
 		clock.tick(600);
 
-		const data = slotInfoTracking((data) => {
-			return data;
-		})({ previous: 'value' }, adSlot);
+		const data = slotInfoTracking((data) => data)({ previous: 'value' }, adSlot);
 
 		expect(data).to.deep.equal({
 			ad_load_time: 350,

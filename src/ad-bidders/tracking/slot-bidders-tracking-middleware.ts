@@ -46,7 +46,7 @@ export const slotBiddersTracking: TrackingMiddleware = (next: TrackingCallback) 
 	data: TrackingData,
 	slot: AdSlot,
 ): void => {
-	next(
+	return next(
 		{
 			...data,
 
