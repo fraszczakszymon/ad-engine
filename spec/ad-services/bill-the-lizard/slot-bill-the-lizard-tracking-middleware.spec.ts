@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { AdSlot } from '../../../src/ad-engine/models';
-import { slotBillTheLizardStatusTrackingMiddleware } from '../../../src/ad-services/bill-the-lizard/slot-bill-the-lizard-tracking-middleware';
+import { slotBillTheLizardStatusTrackingMiddleware } from '../../../src/ad-services/bill-the-lizard';
 
 describe('slot-bill-the-lizard-tracking-middleware', () => {
 	let adSlot;
