@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AdSlot, context } from '../../src/ad-engine';
-import { slotTrackingMiddleware } from '../../src/ad-tracking/slot-tracking-middleware';
+import { slotTrackingMiddleware } from '../../src/ad-tracking';
 
 describe('slot-tracking-middleware', () => {
 	const sandbox = sinon.createSandbox();

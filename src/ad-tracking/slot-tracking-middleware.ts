@@ -1,5 +1,4 @@
 import { AdSlot, context, utils } from '@wikia/ad-engine';
-import { TrackingCallback, TrackingData, TrackingMiddleware } from './slot-tracking-middleware';
 
 export interface TrackingData {
 	[key: string]: string | number;
