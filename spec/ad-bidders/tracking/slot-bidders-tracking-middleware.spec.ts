@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import { bidders } from '../../../src/ad-bidders';
 import { slotBiddersTrackingMiddleware } from '../../../src/ad-bidders/tracking';
 import { AdSlot } from '../../../src/ad-engine/models';
 
@@ -11,8 +12,29 @@ describe('slot-bidders-tracking-middleware', () => {
 		adSlot = new AdSlot({ id: 'foo' });
 		adSlot.winningBidderDetails = {
 			name: 'rubicon',
-			price: '20.00',
+			price: '11.00',
 		};
+
+		sandbox.stub(bidders, 'getDfpSlotPrices');
+		sandbox.stub(bidders, 'getCurrentSlotPrices');
+		bidders.getCurrentSlotPrices.returns({
+			wikia: 20.0,
+			indexExchange: 1.0,
+			appnexus: 2.0,
+			rubicon: 4.0,
+			vmg: 5.0,
+			aol: 6.0,
+			wikiaVideo: 8.0,
+			openx: 9.0,
+			appnexusAst: 10.0,
+			rubicon_display: 11.0,
+			a9: 12.0,
+			onemobile: 13.0,
+			pubmatic: 14.0,
+			beachfront: 15.0,
+			kargo: 17.0,
+			lkqd: 18.0,
+		});
 	});
 
 	afterEach(() => {
@@ -20,31 +42,73 @@ describe('slot-bidders-tracking-middleware', () => {
 	});
 
 	it('returns bidders info for tracking', () => {
+		bidders.getDfpSlotPrices.returns({
+			wikia: 20.0,
+			indexExchange: 1.0,
+			appnexus: 2.0,
+			rubicon: 4.0,
+			vmg: 5.0,
+			aol: 6.0,
+			wikiaVideo: 8.0,
+			openx: 9.0,
+			appnexusAst: 10.0,
+			rubicon_display: 11.0,
+			a9: 12.0,
+			onemobile: 13.0,
+			pubmatic: 14.0,
+			beachfront: 15.0,
+			kargo: 17.0,
+			lkqd: 18.0,
+		});
+
 		const data = slotBiddersTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
 
-		expect(Object.keys(data)).to.deep.equal([
-			'previous',
-			'bidder_won',
-			'bidder_won_price',
-			'bidder_0',
-			'bidder_1',
-			'bidder_2',
-			'bidder_4',
-			'bidder_5',
-			'bidder_6',
-			'bidder_8',
-			'bidder_9',
-			'bidder_10',
-			'bidder_11',
-			'bidder_12',
-			'bidder_13',
-			'bidder_14',
-			'bidder_15',
-			'bidder_17',
-			'bidder_18',
-		]);
-		expect(data['previous']).to.equal('value');
-		expect(data['bidder_won']).to.equal('rubicon');
-		expect(data['bidder_won_price']).to.equal('20.00');
+		expect(data).to.deep.equal({
+			previous: 'value',
+			bidder_won: 'rubicon',
+			bidder_won_price: '11.00',
+			bidder_0: 20.0,
+			bidder_1: 1.0,
+			bidder_2: 2.0,
+			bidder_4: 4.0,
+			bidder_5: 5.0,
+			bidder_6: 6.0,
+			bidder_8: 8.0,
+			bidder_9: 9.0,
+			bidder_10: 10.0,
+			bidder_11: 11.0,
+			bidder_12: 12.0,
+			bidder_13: 13.0,
+			bidder_14: 14.0,
+			bidder_15: 15.0,
+			bidder_17: 17.0,
+			bidder_18: 18.0,
+		});
+	});
+
+	it('returns bidders current slot prices when there were no price at the time of ad request', () => {
+		const data = slotBiddersTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+
+		expect(data).to.deep.equal({
+			previous: 'value',
+			bidder_won: 'rubicon',
+			bidder_won_price: '11.00',
+			bidder_0: '20not_used',
+			bidder_1: '1not_used',
+			bidder_2: '2not_used',
+			bidder_4: '4not_used',
+			bidder_5: '5not_used',
+			bidder_6: '6not_used',
+			bidder_8: '8not_used',
+			bidder_9: '9not_used',
+			bidder_10: '10not_used',
+			bidder_11: '11not_used',
+			bidder_12: '12not_used',
+			bidder_13: '13not_used',
+			bidder_14: '14not_used',
+			bidder_15: '15not_used',
+			bidder_17: '17not_used',
+			bidder_18: '18not_used',
+		});
 	});
 });

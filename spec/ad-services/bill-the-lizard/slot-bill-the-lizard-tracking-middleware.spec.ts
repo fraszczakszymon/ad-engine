@@ -15,7 +15,7 @@ describe('slot-bill-the-lizard-tracking-middleware', () => {
 			{ previous: 'value' },
 			adSlot,
 		);
-		console.log(data);
+
 		expect(data).to.deep.equal({
 			btl: 'rabbitMagic',
 			previous: 'value',
