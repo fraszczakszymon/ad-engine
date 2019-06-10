@@ -130,19 +130,16 @@ class SlotListener {
 
 		dispatch('onRenderEnded', adSlot, { adType, event });
 		adSlot.emit(AdSlot.SLOT_RENDERED_EVENT);
-		eventService.emit(AdSlot.SLOT_RENDERED_EVENT, adSlot);
 	}
 
 	emitLoadedEvent(event: googletag.events.SlotOnloadEvent, adSlot: AdSlot): void {
 		adSlot.emit(AdSlot.SLOT_LOADED_EVENT);
-		eventService.emit(AdSlot.SLOT_LOADED_EVENT, adSlot);
 		dispatch('onLoaded', adSlot);
 		slotTweaker.setDataParam(adSlot, 'slotLoaded', true);
 	}
 
 	emitImpressionViewable(event: googletag.events.ImpressionViewableEvent, adSlot: AdSlot): void {
 		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
-		eventService.emit(AdSlot.SLOT_VIEWED_EVENT, adSlot);
 		dispatch('onImpressionViewable', adSlot);
 		slotTweaker.setDataParam(adSlot, 'slotViewed', true);
 	}
