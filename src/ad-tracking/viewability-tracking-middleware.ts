@@ -11,10 +11,8 @@ export const viewabilityTrackingMiddleware: TrackingMiddleware = (next: Tracking
 		{
 			...data,
 
-			rv: slot.getTargeting().rv || '',
 			timestamp: now.getTime(),
 			tz_offset: now.getTimezoneOffset(),
-			wsi: slot.getTargeting().wsi || '',
 		},
 		slot,
 	);

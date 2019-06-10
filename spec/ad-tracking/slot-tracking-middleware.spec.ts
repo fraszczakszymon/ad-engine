@@ -26,10 +26,6 @@ describe('slot-tracking-middleware', () => {
 			skin: 'oasis',
 			top: '1k',
 		});
-		context.set('slots.foo.targeting', {
-			rv: 5,
-			wsi: 'ola1',
-		});
 
 		adSlot = new AdSlot({ id: 'foo' });
 		adSlot.advertiserId = 567;
@@ -59,14 +55,12 @@ describe('slot-tracking-middleware', () => {
 			'kv_esrb',
 			'kv_lang',
 			'kv_ref',
-			'kv_rv',
 			'kv_s0',
 			'kv_s0v',
 			'kv_s1',
 			'kv_s2',
 			'kv_skin',
 			'kv_top',
-			'kv_wsi',
 			'labrador',
 			'opt_in',
 			'page_layout',
@@ -92,14 +86,12 @@ describe('slot-tracking-middleware', () => {
 		expect(data['kv_esrb']).to.equal('kids');
 		expect(data['kv_lang']).to.equal('de');
 		expect(data['kv_ref']).to.equal('search');
-		expect(data['kv_rv']).to.equal(5);
 		expect(data['kv_s0']).to.equal('life');
 		expect(data['kv_s0v']).to.equal('lifestyle');
 		expect(data['kv_s1']).to.equal('_project43');
 		expect(data['kv_s2']).to.equal('article');
 		expect(data['kv_skin']).to.equal('oasis');
 		expect(data['kv_top']).to.equal('1k');
-		expect(data['kv_wsi']).to.equal('ola1');
 		expect(data['labrador']).to.equal('FOO_A_1;BAR_B_99');
 		expect(data['opt_in']).to.equal('');
 		expect(data['page_layout']).to.equal('pos_top=null');

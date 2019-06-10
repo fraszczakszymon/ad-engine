@@ -25,6 +25,8 @@ export const slotPropertiesTrackingMiddleware: TrackingMiddleware = (next: Track
 			creative_id: slot.creativeId || '',
 			creative_size: creativeSize || '',
 			kv_pos: slot.getMainPositionName(),
+			kv_rv: slot.getConfigProperty('targeting.rv') || '',
+			kv_wsi: slot.getConfigProperty('targeting.wsi') || '',
 			order_id: slot.orderId || '',
 			product_lineitem_id: slot.lineItemId || '',
 			slot_size: creativeSize || '',

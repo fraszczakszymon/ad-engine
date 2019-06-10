@@ -1,8 +1,4 @@
-import {
-	TrackingCallback,
-	TrackingData,
-	TrackingMiddleware,
-} from '../../ad-tracking/slot-tracking-middleware';
+import { TrackingCallback, TrackingData, TrackingMiddleware } from '../../ad-tracking';
 import { AdSlot } from '../models';
 
 export const viewabilityPropertiesTrackingMiddleware: TrackingMiddleware = (
@@ -14,6 +10,8 @@ export const viewabilityPropertiesTrackingMiddleware: TrackingMiddleware = (
 
 			creative_id: slot.creativeId || '',
 			line_item_id: slot.lineItemId || '',
+			rv: slot.getConfigProperty('targeting.rv') || '',
+			wsi: slot.getConfigProperty('targeting.wsi') || '',
 		},
 		slot,
 	);

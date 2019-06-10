@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AdSlot } from '../../../src/ad-engine/models';
+import { context } from '../../../src/ad-engine/services';
 import { slotPropertiesTrackingMiddleware } from '../../../src/ad-engine/tracking';
 
 describe('slot-properties-tracking-middleware', () => {
@@ -15,6 +16,10 @@ describe('slot-properties-tracking-middleware', () => {
 			},
 		});
 
+		context.set('slots.foo.targeting', {
+			rv: 5,
+			wsi: 'ola1',
+		});
 		adSlot = new AdSlot({ id: 'foo' });
 		adSlot.advertiserId = 567;
 		adSlot.creativeId = 123;
@@ -41,6 +46,8 @@ describe('slot-properties-tracking-middleware', () => {
 			creative_id: 123,
 			creative_size: '728x90',
 			kv_pos: 'foo',
+			kv_rv: 5,
+			kv_wsi: 'ola1',
 			order_id: 3,
 			previous: 'value',
 			product_lineitem_id: 789,
