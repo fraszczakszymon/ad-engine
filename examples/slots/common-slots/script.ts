@@ -7,12 +7,13 @@ import {
 	slotInfoTracking,
 	slotService,
 } from '@wikia/ad-engine';
-import { SLOT_TRACKING_EVENT, slotGeneralTracking, slotTracker } from '@wikia/ad-tracking';
+import { slotGeneralTracking, slotTracker } from '@wikia/ad-tracking';
 import customContext from '../../context';
 import '../../styles.scss';
 
 context.extend(customContext);
 context.set('slots.bottom_leaderboard.disabled', false);
+context.set('options.tracking.kikimora.slot', true);
 
 slotService.on('top_leaderboard', AdSlot.STATUS_SUCCESS, () => {
 	console.info('top_leaderboard succeed');
@@ -23,12 +24,10 @@ slotTracker
 	.addMiddleware(slotGeneralTracking)
 	.addMiddleware(slotInfoTracking)
 	.addMiddleware(slotBiddersTracking)
-	.register();
-
-// Execute command on slot status (e.g. trigger tracking)
-eventService.on(SLOT_TRACKING_EVENT, (data) => {
-	console.info(`🏁 ${data.kv_pos} ${data.ad_status}`);
-	console.dir(data);
-});
+	.register((data) => {
+		// Trigger event tracking
+		console.info(`🏁 ${data.kv_pos} ${data.ad_status}`);
+		console.dir(data);
+	});
 
 new AdEngine().init();

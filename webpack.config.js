@@ -108,6 +108,7 @@ const development = {
 			'@wikia/ad-bidders': path.join(__dirname, 'src/ad-bidders'),
 			'@wikia/ad-products': path.join(__dirname, 'src/ad-products'),
 			'@wikia/ad-services': path.join(__dirname, 'src/ad-services'),
+			'@wikia/ad-tracking': path.join(__dirname, 'src/ad-tracking'),
 		},
 	},
 };
@@ -124,6 +125,7 @@ const test = {
 			'@wikia/ad-bidders': path.join(__dirname, 'src/ad-bidders'),
 			'@wikia/ad-products': path.join(__dirname, 'src/ad-products'),
 			'@wikia/ad-services': path.join(__dirname, 'src/ad-services'),
+			'@wikia/ad-tracking': path.join(__dirname, 'src/ad-tracking'),
 		},
 	},
 };
@@ -306,6 +308,51 @@ const adServices = {
 		},
 	},
 };
+const adTracking = {
+	config: {
+		mode: 'production',
+		entry: {
+			'ad-tracking': './src/ad-tracking/index.ts',
+		},
+		devtool: 'source-map',
+		output: {
+			path: path.resolve(__dirname, 'dist'),
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify('production'),
+			}),
+			new webpack.optimize.ModuleConcatenationPlugin(),
+		],
+	},
+	targets: {
+		commonjs: {
+			externals: Object.keys(pkg.dependencies)
+				.map((key) => new RegExp(`^${key}`))
+				.concat([/^@wikia\/ad-engine/]),
+			output: {
+				filename: '[name].js',
+				library: 'adEngine',
+				libraryTarget: 'commonjs2',
+			},
+			optimization: {
+				minimize: false,
+			},
+		},
+		window: {
+			externals: {
+				'@wikia/ad-tracking': {
+					window: ['Wikia', 'adTracking'],
+				},
+			},
+			output: {
+				filename: '[name].global.js',
+				library: ['Wikia', 'adTracking'],
+				libraryTarget: 'window',
+			},
+		},
+	},
+};
 
 module.exports = function(env) {
 	const isProduction = process.env.NODE_ENV === 'production' || (env && env.production);
@@ -322,6 +369,8 @@ module.exports = function(env) {
 			merge(common, adBidders.config, adBidders.targets.window),
 			merge(common, adServices.config, adServices.targets.commonjs),
 			merge(common, adServices.config, adServices.targets.window),
+			merge(common, adTracking.config, adTracking.targets.commonjs),
+			merge(common, adTracking.config, adTracking.targets.window),
 		];
 	}
 	if (isTest) {

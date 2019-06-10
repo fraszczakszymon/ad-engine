@@ -1,9 +1,7 @@
-import { AdSlot, context, eventService } from '@wikia/ad-engine';
-import { TrackingData, TrackingMiddleware } from './slot-tracking-middleware';
+import { AdSlot, context, eventService, utils } from '@wikia/ad-engine';
+import { TrackingCallback } from './slot-tracking-middleware';
 
-export const SLOT_TRACKING_EVENT = 'SLOT_TRACKING_EVENT';
-
-class SlotTracker {
+class SlotTracker extends utils.MiddlewareChain {
 	onRenderEndedStatusToTrack = [AdSlot.STATUS_COLLAPSE, AdSlot.STATUS_SUCCESS];
 	onChangeStatusToTrack = [
 		AdSlot.STATUS_BLOCKED,
@@ -11,19 +9,11 @@ class SlotTracker {
 		AdSlot.STATUS_VIEWPORT_CONFLICT,
 	];
 
-	private middlewareList: TrackingMiddleware[] = [];
-
 	isEnabled(): boolean {
 		return context.get('options.tracking.kikimora.slot');
 	}
 
-	addMiddleware(middleware: TrackingMiddleware): SlotTracker {
-		this.middlewareList.push(middleware);
-
-		return this;
-	}
-
-	register(): void {
+	register(callback: TrackingCallback): void {
 		if (!this.isEnabled()) {
 			return;
 		}
@@ -35,7 +25,7 @@ class SlotTracker {
 				this.onRenderEndedStatusToTrack.indexOf(status) !== -1 ||
 				slot.getConfigProperty('trackEachStatus')
 			) {
-				this.emitTrackingEvent(slot);
+				this.resolve(callback, {}, slot);
 			} else if (slot.getStatus() === 'manual') {
 				slot.trackOnStatusChanged = true;
 			}
@@ -47,26 +37,10 @@ class SlotTracker {
 				slot.getConfigProperty('trackEachStatus') || slot.trackOnStatusChanged;
 
 			if (this.onChangeStatusToTrack.indexOf(status) !== -1 || shouldSlotBeTracked) {
-				this.emitTrackingEvent(slot);
+				this.resolve(callback, {}, slot);
 				delete slot.trackOnStatusChanged;
 			}
 		});
-	}
-
-	private getData(slot: AdSlot): TrackingData {
-		let data = {};
-
-		this.middlewareList.forEach((middleware: TrackingMiddleware) => {
-			data = middleware(data, slot);
-		});
-
-		return data;
-	}
-
-	private emitTrackingEvent(slot: AdSlot): void {
-		const data = this.getData(slot);
-
-		eventService.emit(SLOT_TRACKING_EVENT, data);
 	}
 }
 

@@ -1,6 +1,10 @@
 import { AdSlot } from '@wikia/ad-engine';
 import { bidders } from '../';
-import { TrackingData } from '../../ad-tracking/slot-tracking-middleware';
+import {
+	TrackingCallback,
+	TrackingData,
+	TrackingMiddleware,
+} from '../../ad-tracking/slot-tracking-middleware';
 
 function getBiddersPrices(slotName) {
 	const realSlotPrices = bidders.getDfpSlotPrices(slotName);
@@ -38,12 +42,18 @@ function getBiddersPrices(slotName) {
 	};
 }
 
-export function slotBiddersTracking(data: TrackingData, slot: AdSlot): TrackingData {
-	return {
-		...data,
+export const slotBiddersTracking: TrackingMiddleware = (next: TrackingCallback) => (
+	data: TrackingData,
+	slot: AdSlot,
+): void => {
+	next(
+		{
+			...data,
 
-		bidder_won: slot.winningBidderDetails ? slot.winningBidderDetails.name : '',
-		bidder_won_price: slot.winningBidderDetails ? slot.winningBidderDetails.price : '',
-		...getBiddersPrices(slot.getSlotName()),
-	};
-}
+			bidder_won: slot.winningBidderDetails ? slot.winningBidderDetails.name : '',
+			bidder_won_price: slot.winningBidderDetails ? slot.winningBidderDetails.price : '',
+			...getBiddersPrices(slot.getSlotName()),
+		},
+		slot,
+	);
+};
