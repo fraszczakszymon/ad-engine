@@ -42,7 +42,7 @@ function getBiddersPrices(slotName) {
 	};
 }
 
-export const slotBiddersTracking: TrackingMiddleware = (next: TrackingCallback) => (
+export const slotBiddersTrackingMiddleware: TrackingMiddleware = (next: TrackingCallback) => (
 	data: TrackingData,
 	slot: AdSlot,
 ): void => {

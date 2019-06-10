@@ -1,13 +1,14 @@
-import { slotBiddersTracking } from '@wikia/ad-bidders';
+import { slotBiddersTrackingMiddleware } from '@wikia/ad-bidders';
 import {
 	AdEngine,
 	AdSlot,
 	context,
 	eventService,
-	slotInfoTracking,
+	slotPropertiesTrackingMiddleware,
 	slotService,
 } from '@wikia/ad-engine';
-import { slotGeneralTracking, slotTracker } from '@wikia/ad-tracking';
+import { slotBillTheLizardStatusTrackingMiddleware } from '@wikia/ad-services';
+import { slotTracker, slotTrackingMiddleware } from '@wikia/ad-tracking';
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -21,9 +22,10 @@ slotService.on('top_leaderboard', AdSlot.STATUS_SUCCESS, () => {
 
 // Register slot tracker
 slotTracker
-	.addMiddleware(slotGeneralTracking)
-	.addMiddleware(slotInfoTracking)
-	.addMiddleware(slotBiddersTracking)
+	.addMiddleware(slotTrackingMiddleware)
+	.addMiddleware(slotPropertiesTrackingMiddleware)
+	.addMiddleware(slotBiddersTrackingMiddleware)
+	.addMiddleware(slotBillTheLizardStatusTrackingMiddleware)
 	.register((data) => {
 		// Trigger event tracking
 		console.info(`🏁 ${data.kv_pos} ${data.ad_status}`);

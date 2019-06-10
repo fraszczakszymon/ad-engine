@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AdSlot } from '../../../src/ad-engine/models';
-import { slotInfoTracking } from '../../../src/ad-engine/tracking';
+import { slotPropertiesTrackingMiddleware } from '../../../src/ad-engine/tracking';
 
-describe('slot-info-tracking-middleware', () => {
+describe('slot-properties-tracking-middleware', () => {
 	const sandbox = sinon.createSandbox();
 	const clock = sinon.useFakeTimers();
 	let adSlot;
@@ -32,7 +32,7 @@ describe('slot-info-tracking-middleware', () => {
 	it('returns all info about slot for tracking', () => {
 		clock.tick(600);
 
-		const data = slotInfoTracking((data) => data)({ previous: 'value' }, adSlot);
+		const data = slotPropertiesTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
 
 		expect(data).to.deep.equal({
 			ad_load_time: 350,

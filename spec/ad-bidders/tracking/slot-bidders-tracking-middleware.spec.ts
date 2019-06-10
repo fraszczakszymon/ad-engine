@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { slotBiddersTracking } from '../../../src/ad-bidders/tracking';
+import { slotBiddersTrackingMiddleware } from '../../../src/ad-bidders/tracking';
 import { AdSlot } from '../../../src/ad-engine/models';
 
 describe('slot-bidders-tracking-middleware', () => {
@@ -20,7 +20,7 @@ describe('slot-bidders-tracking-middleware', () => {
 	});
 
 	it('returns bidders info for tracking', () => {
-		const data = slotBiddersTracking((data) => data)({ previous: 'value' }, adSlot);
+		const data = slotBiddersTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
 
 		expect(Object.keys(data)).to.deep.equal([
 			'previous',

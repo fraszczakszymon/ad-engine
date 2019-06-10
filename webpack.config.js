@@ -308,6 +308,7 @@ const adServices = {
 		},
 	},
 };
+
 const adTracking = {
 	config: {
 		mode: 'production',
@@ -341,8 +342,8 @@ const adTracking = {
 		},
 		window: {
 			externals: {
-				'@wikia/ad-tracking': {
-					window: ['Wikia', 'adTracking'],
+				'@wikia/ad-engine': {
+					window: ['Wikia', 'adEngine'],
 				},
 			},
 			output: {

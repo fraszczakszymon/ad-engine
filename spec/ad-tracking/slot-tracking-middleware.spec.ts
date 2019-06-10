@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AdSlot, context } from '../../src/ad-engine';
-import { slotGeneralTracking } from '../../src/ad-tracking/slot-general-tracking-middleware';
+import { slotTrackingMiddleware } from '../../src/ad-tracking/slot-tracking-middleware';
 
-describe('slot-general-tracking-middleware', () => {
+describe('slot-tracking-middleware', () => {
 	const sandbox = sinon.createSandbox();
 	let adSlot;
 
@@ -45,7 +45,7 @@ describe('slot-general-tracking-middleware', () => {
 	});
 
 	it('returns all general keys for tracking', () => {
-		const data = slotGeneralTracking((data) => data)({ previous: 'value' }, adSlot);
+		const data = slotTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
 
 		expect(Object.keys(data)).to.deep.equal([
 			'previous',
@@ -81,7 +81,7 @@ describe('slot-general-tracking-middleware', () => {
 	});
 
 	it('returns general info for tracking', () => {
-		const data = slotGeneralTracking((data) => data)({ previous: 'value' }, adSlot);
+		const data = slotTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
 
 		expect(data['previous']).to.equal('value');
 		expect(data['country']).to.equal('PL');

@@ -5,7 +5,7 @@ import {
 } from '../../ad-tracking/slot-tracking-middleware';
 import { AdSlot } from '../models';
 
-export const slotInfoTracking: TrackingMiddleware = (next: TrackingCallback) => (
+export const slotPropertiesTrackingMiddleware: TrackingMiddleware = (next: TrackingCallback) => (
 	data: TrackingData,
 	slot: AdSlot,
 ): void => {

@@ -1,1 +1,1 @@
-export * from './slot-info-tracking-middleware';
+export * from './slot-properties-tracking-middleware';
