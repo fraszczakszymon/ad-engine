@@ -43,7 +43,7 @@ viewabilityTracker
 	.addMiddleware(viewabilityPropertiesTrackingMiddleware)
 	.register((data) => {
 		// Trigger event tracking
-		console.info(`👀 Viewability tracker: ${data.line_item_id} ${data.creative_id}`);
+		console.info(`👀 Viewability tracker: ${data.line_item_id} ${data.creative_id}`, data);
 	});
 
 new AdEngine().init();
