@@ -41,6 +41,10 @@ class SlotTracker extends utils.MiddlewareChain {
 				delete slot.trackOnStatusChanged;
 			}
 		});
+
+		eventService.on(AdSlot.CUSTOM_EVENT, (slot: AdSlot, { status }) => {
+			this.resolve(callback, { ad_status: status }, slot);
+		});
 	}
 }
 

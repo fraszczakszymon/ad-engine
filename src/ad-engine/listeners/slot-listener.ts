@@ -88,6 +88,8 @@ function getData(adSlot: AdSlot, { adType, status }: Partial<AdditionalEventData
 	};
 }
 
+// TODO: Consider removing context::listeners object and usages in favour of
+//       slot-tracker.ts and events.ts
 function dispatch(
 	methodName: SlotListenerMethod,
 	adSlot: AdSlot,
@@ -151,6 +153,7 @@ class SlotListener {
 	}
 
 	emitCustomEvent(event: null | string, adSlot: AdSlot): void {
+		eventService.emit(AdSlot.CUSTOM_EVENT, adSlot, { status: event });
 		dispatch('onCustomEvent', adSlot, { status: event });
 	}
 }

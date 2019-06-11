@@ -52,6 +52,7 @@ export interface WinningBidderDetails {
 }
 
 export class AdSlot extends EventEmitter {
+	static CUSTOM_EVENT = 'customEvent';
 	static PROPERTY_CHANGED_EVENT = 'propertyChanged';
 	static SLOT_LOADED_EVENT = 'slotLoaded';
 	static SLOT_VIEWED_EVENT = 'slotViewed';

@@ -54,4 +54,10 @@ describe('slot-properties-tracking-middleware', () => {
 			slot_size: '728x90',
 		});
 	});
+
+	it('keeps ad_status if it was set before', () => {
+		const data = slotPropertiesTrackingMiddleware((data) => data)({ ad_status: 'custom' }, adSlot);
+
+		expect(data.ad_status).to.deep.equal('custom');
+	});
 });
