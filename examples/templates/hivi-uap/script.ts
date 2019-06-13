@@ -31,11 +31,11 @@ templateService.register(FloatingRail);
 
 // Register slot tracker
 slotTracker
-	.addMiddleware(slotTrackingMiddleware)
-	.addMiddleware(slotPropertiesTrackingMiddleware)
-	.register((data) => {
+	.add(slotTrackingMiddleware)
+	.add(slotPropertiesTrackingMiddleware)
+	.register(({ data, slot }) => {
 		// Trigger event tracking
-		console.info(`🏁 Slot tracker: ${data.kv_pos} ${data.ad_status}`, data);
+		console.info(`🏁 Slot tracker: ${slot.getSlotName()} ${data.ad_status}`, data);
 	});
 
 new AdEngine().init();
