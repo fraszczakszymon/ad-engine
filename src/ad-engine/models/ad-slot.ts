@@ -1,6 +1,6 @@
 import * as EventEmitter from 'eventemitter3';
 import { AdStackPayload, eventService } from '../';
-import { slotListener } from '../listeners';
+import { overscrollListener, slotListener } from '../listeners';
 import { ADX, GptSizeMapping } from '../providers';
 import { context, slotDataParamsUpdater, templateService } from '../services';
 import { getTopOffset, LazyQueue, logger, stringBuilder } from '../utils';
@@ -30,6 +30,7 @@ export interface SlotConfig {
 	disabled?: boolean;
 	firstCall?: boolean;
 	aboveTheFold?: boolean;
+	trackOverscrolled?: boolean;
 	slotName?: string;
 
 	targeting: Targeting;
@@ -75,6 +76,7 @@ export class AdSlot extends EventEmitter {
 	static HIDDEN_CLASS = 'hide';
 
 	private slotViewed = false;
+
 	config: SlotConfig;
 	element: null | HTMLElement = null;
 	status: null | string = null;
@@ -90,6 +92,7 @@ export class AdSlot extends EventEmitter {
 	lineItemId: null | string | number = null;
 	winningBidderDetails: null | WinningBidderDetails = null;
 	trackOnStatusChanged = false;
+
 	loaded = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_LOADED_EVENT, resolve);
 	});
@@ -98,6 +101,7 @@ export class AdSlot extends EventEmitter {
 	});
 	viewed = new Promise<void>((resolve) => {
 		this.once(AdSlot.SLOT_VIEWED_EVENT, resolve);
+		this.once(AdSlot.VIDEO_VIEWED_EVENT, resolve);
 	});
 
 	constructor(ad: AdStackPayload) {
@@ -115,7 +119,7 @@ export class AdSlot extends EventEmitter {
 		this.config.targeting.src = this.config.targeting.src || context.get('src');
 		this.config.targeting.pos = this.config.targeting.pos || this.getSlotName();
 
-		this.once(AdSlot.SLOT_VIEWED_EVENT, () => {
+		this.viewed.then(() => {
 			this.slotViewed = true;
 		});
 
@@ -283,6 +287,10 @@ export class AdSlot extends EventEmitter {
 
 		if (templateNames && templateNames.length) {
 			templateNames.forEach((templateName: string) => templateService.init(templateName, this));
+		}
+
+		if (this.config.trackOverscrolled) {
+			overscrollListener.apply(this);
 		}
 	}
 
