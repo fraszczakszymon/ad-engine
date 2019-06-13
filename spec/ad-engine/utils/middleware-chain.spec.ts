@@ -8,11 +8,6 @@ describe('middleware-chain', () => {
 		chain = new MiddlewareChain();
 	});
 
-	it('has proper interface', () => {
-		assert.equal(typeof chain.addMiddleware, 'function');
-		assert.equal(typeof chain.resolve, 'function');
-	});
-
 	it('resolves run all added middlewares', () => {
 		let resolved = false;
 

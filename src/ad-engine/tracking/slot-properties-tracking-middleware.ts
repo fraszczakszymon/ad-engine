@@ -14,7 +14,6 @@ export const slotPropertiesTrackingMiddleware: TrackingMiddleware = (next: Track
 	return next(
 		{
 			...data,
-
 			ad_load_time: timestamp - window.performance.timing.connectStart,
 			ad_status: data.ad_status || slot.getStatus(),
 			advertiser_id: slot.advertiserId || '',

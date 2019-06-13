@@ -20,8 +20,8 @@ import '../../styles.scss';
 
 context.extend(customContext);
 context.set('slots.bottom_leaderboard.disabled', false);
-context.set('options.tracking.kikimora.slot', true);
-context.set('options.tracking.kikimora.viewability', true);
+context.set('options.tracking.slot.status', true);
+context.set('options.tracking.slot.viewability', true);
 
 slotService.on('top_leaderboard', AdSlot.STATUS_SUCCESS, () => {
 	console.info('top_leaderboard succeed');

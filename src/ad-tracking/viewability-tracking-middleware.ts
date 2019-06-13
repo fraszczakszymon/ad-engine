@@ -10,7 +10,6 @@ export const viewabilityTrackingMiddleware: TrackingMiddleware = (next: Tracking
 	return next(
 		{
 			...data,
-
 			timestamp: now.getTime(),
 			tz_offset: now.getTimezoneOffset(),
 		},

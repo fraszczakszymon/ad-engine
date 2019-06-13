@@ -5,7 +5,7 @@ import { slotTrackingMiddleware } from '../../src/ad-tracking';
 
 describe('slot-tracking-middleware', () => {
 	const sandbox = sinon.createSandbox();
-	let adSlot;
+	let adSlot: AdSlot;
 
 	beforeEach(() => {
 		sandbox.stub(window, 'performance').value({
@@ -28,12 +28,6 @@ describe('slot-tracking-middleware', () => {
 		});
 
 		adSlot = new AdSlot({ id: 'foo' });
-		adSlot.advertiserId = 567;
-		adSlot.creativeId = 123;
-		adSlot.creativeSize = [728, 90];
-		adSlot.lineItemId = 789;
-		adSlot.orderId = 3;
-		adSlot.status = 'success';
 	});
 
 	afterEach(() => {

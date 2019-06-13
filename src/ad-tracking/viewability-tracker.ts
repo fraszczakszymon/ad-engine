@@ -3,7 +3,7 @@ import { TrackingCallback } from './slot-tracking-middleware';
 
 class ViewabilityTracker extends utils.MiddlewareChain {
 	isEnabled(): boolean {
-		return context.get('options.tracking.kikimora.viewability');
+		return context.get('options.tracking.slot.viewability');
 	}
 
 	register(callback: TrackingCallback): void {

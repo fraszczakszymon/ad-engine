@@ -16,7 +16,7 @@ import '../../styles.scss';
 
 context.extend(customContext);
 context.set('targeting.artid', '455');
-context.set('options.tracking.kikimora.slot', true);
+context.set('options.tracking.slot.status', true);
 
 if (document.body.offsetWidth < 728) {
 	context.set('state.isMobile', true);

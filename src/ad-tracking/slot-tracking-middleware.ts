@@ -27,7 +27,6 @@ export const slotTrackingMiddleware: TrackingMiddleware = (next: TrackingCallbac
 	return next(
 		{
 			...data,
-
 			timestamp,
 			browser: `${utils.client.getOperatingSystem()} ${utils.client.getBrowser()}`,
 			country: (utils.geoService.getCountryCode() || '').toUpperCase(),

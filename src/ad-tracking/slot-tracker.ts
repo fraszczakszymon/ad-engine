@@ -10,7 +10,7 @@ class SlotTracker extends utils.MiddlewareChain {
 	];
 
 	isEnabled(): boolean {
-		return context.get('options.tracking.kikimora.slot');
+		return context.get('options.tracking.slot.status');
 	}
 
 	register(callback: TrackingCallback): void {

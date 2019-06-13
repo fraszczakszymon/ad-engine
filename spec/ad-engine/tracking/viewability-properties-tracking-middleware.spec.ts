@@ -3,7 +3,7 @@ import { AdSlot, context } from '../../../src/ad-engine';
 import { viewabilityPropertiesTrackingMiddleware } from '../../../src/ad-engine/tracking';
 
 describe('viewability-properties-tracking-middleware', () => {
-	let adSlot;
+	let adSlot: AdSlot;
 
 	beforeEach(() => {
 		context.set('slots.foo.targeting', {

@@ -11,7 +11,6 @@ export const slotBillTheLizardStatusTrackingMiddleware: TrackingMiddleware = (
 	return next(
 		{
 			...data,
-
 			btl: slot.getConfigProperty('btlStatus') || '',
 		},
 		slot,

@@ -7,7 +7,6 @@ export const viewabilityPropertiesTrackingMiddleware: TrackingMiddleware = (
 	return next(
 		{
 			...data,
-
 			creative_id: slot.creativeId || '',
 			line_item_id: slot.lineItemId || '',
 			rv: slot.getConfigProperty('targeting.rv') || '',

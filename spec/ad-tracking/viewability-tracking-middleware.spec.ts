@@ -3,7 +3,7 @@ import { AdSlot } from '../../src/ad-engine';
 import { viewabilityTrackingMiddleware } from '../../src/ad-tracking';
 
 describe('viewability-tracking-middleware', () => {
-	let adSlot;
+	let adSlot: AdSlot;
 
 	beforeEach(() => {
 		adSlot = new AdSlot({ id: 'foo' });

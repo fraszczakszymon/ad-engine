@@ -3,7 +3,7 @@ import { AdSlot } from '../../../src/ad-engine/models';
 import { slotBillTheLizardStatusTrackingMiddleware } from '../../../src/ad-services/bill-the-lizard';
 
 describe('slot-bill-the-lizard-tracking-middleware', () => {
-	let adSlot;
+	let adSlot: AdSlot;
 
 	beforeEach(() => {
 		adSlot = new AdSlot({ id: 'foo' });

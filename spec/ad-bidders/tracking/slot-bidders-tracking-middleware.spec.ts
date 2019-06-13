@@ -6,7 +6,7 @@ import { AdSlot } from '../../../src/ad-engine/models';
 
 describe('slot-bidders-tracking-middleware', () => {
 	const sandbox = sinon.createSandbox();
-	let adSlot;
+	let adSlot: AdSlot;
 
 	beforeEach(() => {
 		adSlot = new AdSlot({ id: 'foo' });

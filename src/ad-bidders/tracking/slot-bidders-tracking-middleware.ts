@@ -1,10 +1,6 @@
 import { AdSlot } from '@wikia/ad-engine';
 import { bidders } from '../';
-import {
-	TrackingCallback,
-	TrackingData,
-	TrackingMiddleware,
-} from '../../ad-tracking/slot-tracking-middleware';
+import { TrackingCallback, TrackingData, TrackingMiddleware } from '../../ad-tracking';
 
 function getBiddersPrices(slotName) {
 	const realSlotPrices = bidders.getDfpSlotPrices(slotName);
