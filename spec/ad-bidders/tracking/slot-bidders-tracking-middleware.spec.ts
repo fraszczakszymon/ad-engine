@@ -61,7 +61,17 @@ describe('slot-bidders-tracking-middleware', () => {
 			lkqd: 18.0,
 		});
 
-		const data = slotBiddersTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		slotBiddersTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(data).to.deep.equal({
 			previous: 'value',
@@ -87,7 +97,17 @@ describe('slot-bidders-tracking-middleware', () => {
 	});
 
 	it('returns bidders current slot prices when there were no price at the time of ad request', () => {
-		const data = slotBiddersTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		slotBiddersTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(data).to.deep.equal({
 			previous: 'value',

@@ -11,9 +11,16 @@ describe('slot-bill-the-lizard-tracking-middleware', () => {
 	});
 
 	it('returns all info about slot for tracking', () => {
-		const data = slotBillTheLizardStatusTrackingMiddleware((data) => data)(
-			{ previous: 'value' },
-			adSlot,
+		let data = null;
+
+		slotBillTheLizardStatusTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
 		);
 
 		expect(data).to.deep.equal({

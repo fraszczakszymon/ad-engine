@@ -10,7 +10,17 @@ describe('viewability-tracking-middleware', () => {
 	});
 
 	it('returns all general keys for tracking', () => {
-		const data = viewabilityTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		viewabilityTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(Object.keys(data)).to.deep.equal(['previous', 'timestamp', 'tz_offset']);
 	});

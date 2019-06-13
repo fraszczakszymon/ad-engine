@@ -1,10 +1,5 @@
-import { AdSlot, context, utils } from '@wikia/ad-engine';
-
-export interface TrackingData {
-	[key: string]: string | number;
-}
-export type TrackingCallback = (data: TrackingData, slot: AdSlot) => any;
-export type TrackingMiddleware = (next) => TrackingCallback;
+import { context, utils } from '@wikia/ad-engine';
+import { AdInfoContext } from './slot-tracker';
 
 function checkOptIn(): string {
 	if (context.get('options.geoRequiresConsent')) {
@@ -14,18 +9,16 @@ function checkOptIn(): string {
 	return '';
 }
 
-export const slotTrackingMiddleware: TrackingMiddleware = (next: TrackingCallback) => (
-	data: TrackingData,
-	slot: AdSlot,
-): void => {
+export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, slot }, next) => {
 	const now = new Date();
 	const timestamp = now.getTime();
 	const keyVals = {
 		likho: (context.get('targeting.likho') || []).join('|'),
 	};
 
-	return next(
-		{
+	return next({
+		slot,
+		data: {
 			...data,
 			timestamp,
 			browser: `${utils.client.getOperatingSystem()} ${utils.client.getBrowser()}`,
@@ -57,6 +50,5 @@ export const slotTrackingMiddleware: TrackingMiddleware = (next: TrackingCallbac
 			tz_offset: now.getTimezoneOffset(),
 			viewport_height: window.innerHeight || 0,
 		},
-		slot,
-	);
+	});
 };

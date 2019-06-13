@@ -1,30 +1,41 @@
-import { MiddlewareChain } from '@wikia/ad-engine/utils';
+import { MiddlewareService } from '@wikia/ad-engine/utils';
 import { assert } from 'chai';
 
-describe('middleware-chain', () => {
-	let chain;
+describe('middleware-service', () => {
+	let middlewareService;
 
 	beforeEach(() => {
-		chain = new MiddlewareChain();
+		middlewareService = new MiddlewareService();
 	});
 
 	it('resolves run all added middlewares', () => {
 		let resolved = false;
 
-		chain
-			.addMiddleware((next) => (number) => {
-				next(number + 1);
+		middlewareService
+			.add(({ number }, next) => {
+				next({
+					number: number + 1,
+				});
 			})
-			.addMiddleware((next) => (number) => {
-				next(number * 2);
+			.add(({ number }, next) => {
+				next({
+					number: number * 2,
+				});
 			})
-			.addMiddleware((next) => (number) => {
-				next(number + 3);
+			.add(({ number }, next) => {
+				next({
+					number: number + 3,
+				});
 			})
-			.resolve((number) => {
-				assert.equal(number, 7, 'incorrect value at the end of chain');
-				resolved = true;
-			}, 1);
+			.execute(
+				{
+					number: 1,
+				},
+				({ number }) => {
+					assert.equal(number, 7, 'incorrect value at the end of chain');
+					resolved = true;
+				},
+			);
 
 		assert.equal(resolved, true, 'chain did not resolve');
 	});
@@ -32,19 +43,28 @@ describe('middleware-chain', () => {
 	it('breaks when middleware does not execute next()', () => {
 		let resolved = false;
 
-		chain
-			.addMiddleware((next) => (number) => {
-				next(number + 1);
+		middlewareService
+			.add(({ number }, next) => {
+				next({
+					number: number + 1,
+				});
 			})
-			.addMiddleware(() => () => {
+			.add(() => {
 				// no-op
 			})
-			.addMiddleware((next) => (number) => {
-				next(number + 3);
+			.add(({ number }, next) => {
+				next({
+					number: number + 3,
+				});
 			})
-			.resolve(() => {
-				resolved = true;
-			}, 1);
+			.execute(
+				{
+					number: 1,
+				},
+				() => {
+					resolved = true;
+				},
+			);
 
 		assert.equal(resolved, false, 'chain resolved');
 	});

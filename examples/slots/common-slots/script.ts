@@ -29,21 +29,21 @@ slotService.on('top_leaderboard', AdSlot.STATUS_SUCCESS, () => {
 
 // Register slot tracker
 slotTracker
-	.addMiddleware(slotTrackingMiddleware)
-	.addMiddleware(slotPropertiesTrackingMiddleware)
-	.addMiddleware(slotBiddersTrackingMiddleware)
-	.addMiddleware(slotBillTheLizardStatusTrackingMiddleware)
-	.register((data) => {
+	.add(slotTrackingMiddleware)
+	.add(slotPropertiesTrackingMiddleware)
+	.add(slotBiddersTrackingMiddleware)
+	.add(slotBillTheLizardStatusTrackingMiddleware)
+	.register(({ data, slot }) => {
 		// Trigger event tracking
-		console.info(`🏁 Slot tracker: ${data.kv_pos} ${data.ad_status}`, data);
+		console.info(`🏁 Slot tracker: ${slot.getSlotName()} ${data.ad_status}`, data);
 	});
 
 viewabilityTracker
-	.addMiddleware(viewabilityTrackingMiddleware)
-	.addMiddleware(viewabilityPropertiesTrackingMiddleware)
-	.register((data) => {
+	.add(viewabilityTrackingMiddleware)
+	.add(viewabilityPropertiesTrackingMiddleware)
+	.register(({ data, slot }) => {
 		// Trigger event tracking
-		console.info(`👀 Viewability tracker: ${data.line_item_id} ${data.creative_id}`, data);
+		console.info(`👀 Viewability tracker: ${slot.getSlotName()}`, data);
 	});
 
 new AdEngine().init();

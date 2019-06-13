@@ -1,18 +1,18 @@
-import { AdSlot } from '@wikia/ad-engine';
-import { TrackingCallback, TrackingData, TrackingMiddleware } from './slot-tracking-middleware';
+import { utils } from '@wikia/ad-engine';
+import { AdViewabilityContext } from './viewability-tracker';
 
-export const viewabilityTrackingMiddleware: TrackingMiddleware = (next: TrackingCallback) => (
-	data: TrackingData,
-	slot: AdSlot,
-): void => {
+export const viewabilityTrackingMiddleware: utils.Middleware<AdViewabilityContext> = (
+	{ data, slot },
+	next,
+) => {
 	const now = new Date();
 
-	return next(
-		{
+	return next({
+		slot,
+		data: {
 			...data,
 			timestamp: now.getTime(),
 			tz_offset: now.getTimezoneOffset(),
 		},
-		slot,
-	);
+	});
 };

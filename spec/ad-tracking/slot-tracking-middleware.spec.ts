@@ -35,7 +35,17 @@ describe('slot-tracking-middleware', () => {
 	});
 
 	it('returns all general keys for tracking', () => {
-		const data = slotTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		slotTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(Object.keys(data)).to.deep.equal([
 			'previous',
@@ -69,7 +79,17 @@ describe('slot-tracking-middleware', () => {
 	});
 
 	it('returns general info for tracking', () => {
-		const data = slotTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		slotTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(data['previous']).to.equal('value');
 		expect(data['country']).to.equal('PL');

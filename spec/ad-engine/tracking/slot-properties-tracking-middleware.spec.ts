@@ -38,7 +38,17 @@ describe('slot-properties-tracking-middleware', () => {
 		// Move clock so we can assert ad load time
 		clock.tick(600);
 
-		const data = slotPropertiesTrackingMiddleware((data) => data)({ previous: 'value' }, adSlot);
+		let data = null;
+
+		slotPropertiesTrackingMiddleware(
+			{
+				data: { previous: 'value' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(data).to.deep.equal({
 			ad_load_time: 350,
@@ -57,7 +67,17 @@ describe('slot-properties-tracking-middleware', () => {
 	});
 
 	it('keeps ad_status if it was set before', () => {
-		const data = slotPropertiesTrackingMiddleware((data) => data)({ ad_status: 'custom' }, adSlot);
+		let data = null;
+
+		slotPropertiesTrackingMiddleware(
+			{
+				data: { ad_status: 'custom' },
+				slot: adSlot,
+			},
+			(context) => {
+				data = context.data;
+			},
+		);
 
 		expect(data.ad_status).to.deep.equal('custom');
 	});

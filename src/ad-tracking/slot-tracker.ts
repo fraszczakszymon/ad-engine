@@ -1,19 +1,30 @@
 import { AdSlot, context, eventService, utils } from '@wikia/ad-engine';
-import { TrackingCallback } from './slot-tracking-middleware';
 
-class SlotTracker extends utils.MiddlewareChain {
+export interface AdInfoContext {
+	data: any;
+	slot: AdSlot;
+}
+
+class SlotTracker {
 	onRenderEndedStatusToTrack = [AdSlot.STATUS_COLLAPSE, AdSlot.STATUS_SUCCESS];
 	onChangeStatusToTrack = [
 		AdSlot.STATUS_BLOCKED,
 		AdSlot.STATUS_ERROR,
 		AdSlot.STATUS_VIEWPORT_CONFLICT,
 	];
+	middlewareService = new utils.MiddlewareService();
+
+	add(middleware: utils.Middleware<AdInfoContext>): this {
+		this.middlewareService.add(middleware);
+
+		return this;
+	}
 
 	isEnabled(): boolean {
 		return context.get('options.tracking.slot.status');
 	}
 
-	register(callback: TrackingCallback): void {
+	register(callback: utils.Middleware<AdInfoContext>): void {
 		if (!this.isEnabled()) {
 			return;
 		}
@@ -25,7 +36,13 @@ class SlotTracker extends utils.MiddlewareChain {
 				this.onRenderEndedStatusToTrack.indexOf(status) !== -1 ||
 				slot.getConfigProperty('trackEachStatus')
 			) {
-				this.resolve(callback, {}, slot);
+				this.middlewareService.execute(
+					{
+						data: {},
+						slot,
+					},
+					callback,
+				);
 			} else if (slot.getStatus() === 'manual') {
 				slot.trackOnStatusChanged = true;
 			}
@@ -37,13 +54,27 @@ class SlotTracker extends utils.MiddlewareChain {
 				slot.getConfigProperty('trackEachStatus') || slot.trackOnStatusChanged;
 
 			if (this.onChangeStatusToTrack.indexOf(status) !== -1 || shouldSlotBeTracked) {
-				this.resolve(callback, {}, slot);
+				this.middlewareService.execute(
+					{
+						data: {},
+						slot,
+					},
+					callback,
+				);
 				delete slot.trackOnStatusChanged;
 			}
 		});
 
 		eventService.on(AdSlot.CUSTOM_EVENT, (slot: AdSlot, { status }) => {
-			this.resolve(callback, { ad_status: status }, slot);
+			this.middlewareService.execute(
+				{
+					data: {
+						ad_status: status,
+					},
+					slot,
+				},
+				callback,
+			);
 		});
 	}
 }
