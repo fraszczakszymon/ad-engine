@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { AdSlot } from '../../../src/ad-engine/models';
 import { slotBillTheLizardStatusTrackingMiddleware } from '../../../src/ad-services/bill-the-lizard';
 
@@ -11,21 +12,17 @@ describe('slot-bill-the-lizard-tracking-middleware', () => {
 	});
 
 	it('returns all info about slot for tracking', () => {
-		let data = null;
-
-		slotBillTheLizardStatusTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(context) => {
-				data = context.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotBillTheLizardStatusTrackingMiddleware(context, nextSpy);
 
-		expect(data).to.deep.equal({
+		expect(nextSpy.getCall(0).args[0].data).to.deep.equal({
 			btl: 'rabbitMagic',
 			previous: 'value',
 		});

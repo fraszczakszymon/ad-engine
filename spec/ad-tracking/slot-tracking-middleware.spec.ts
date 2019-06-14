@@ -35,21 +35,17 @@ describe('slot-tracking-middleware', () => {
 	});
 
 	it('returns all general keys for tracking', () => {
-		let data = null;
-
-		slotTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(middlewareContext) => {
-				data = middlewareContext.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotTrackingMiddleware(context, nextSpy);
 
-		expect(Object.keys(data)).to.deep.equal([
+		expect(Object.keys(nextSpy.getCall(0).args[0].data)).to.deep.equal([
 			'previous',
 			'timestamp',
 			'browser',
@@ -81,19 +77,17 @@ describe('slot-tracking-middleware', () => {
 	});
 
 	it('returns general info for tracking', () => {
-		let data = null;
-
-		slotTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(middlewareContext) => {
-				data = middlewareContext.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotTrackingMiddleware(context, nextSpy);
+
+		const { data } = nextSpy.getCall(0).args[0];
 
 		expect(data['previous']).to.equal('value');
 		expect(data['country']).to.equal('PL');

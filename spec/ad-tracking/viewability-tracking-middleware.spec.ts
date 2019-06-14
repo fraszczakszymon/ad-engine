@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { AdSlot } from '../../src/ad-engine';
 import { viewabilityTrackingMiddleware } from '../../src/ad-tracking';
 
@@ -10,20 +11,20 @@ describe('viewability-tracking-middleware', () => {
 	});
 
 	it('returns all general keys for tracking', () => {
-		let data = null;
-
-		viewabilityTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(middlewareContext) => {
-				data = middlewareContext.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		viewabilityTrackingMiddleware(context, nextSpy);
 
-		expect(Object.keys(data)).to.deep.equal(['previous', 'timestamp', 'tz_offset']);
+		expect(Object.keys(nextSpy.getCall(0).args[0].data)).to.deep.equal([
+			'previous',
+			'timestamp',
+			'tz_offset',
+		]);
 	});
 });

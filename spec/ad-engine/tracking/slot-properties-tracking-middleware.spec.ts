@@ -38,21 +38,17 @@ describe('slot-properties-tracking-middleware', () => {
 		// Move clock so we can assert ad load time
 		clock.tick(600);
 
-		let data = null;
-
-		slotPropertiesTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(middlewareContext) => {
-				data = middlewareContext.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotPropertiesTrackingMiddleware(context, nextSpy);
 
-		expect(data).to.deep.equal({
+		expect(nextSpy.getCall(0).args[0].data).to.deep.equal({
 			ad_load_time: 350,
 			ad_status: 'success',
 			advertiser_id: '567',
@@ -69,20 +65,16 @@ describe('slot-properties-tracking-middleware', () => {
 	});
 
 	it('keeps ad_status if it was set before', () => {
-		let data = null;
-
-		slotPropertiesTrackingMiddleware(
-			{
-				data: { ad_status: 'custom' },
-				slot: adSlot,
+		const context = {
+			data: {
+				ad_status: 'custom',
 			},
-			(middlewareContext) => {
-				data = middlewareContext.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotPropertiesTrackingMiddleware(context, nextSpy);
 
-		expect(data.ad_status).to.deep.equal('custom');
+		expect(nextSpy.getCall(0).args[0].data.ad_status).to.equal('custom');
 	});
 });

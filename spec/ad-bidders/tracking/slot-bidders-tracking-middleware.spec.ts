@@ -61,21 +61,17 @@ describe('slot-bidders-tracking-middleware', () => {
 			lkqd: 18.0,
 		});
 
-		let data = null;
-
-		slotBiddersTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(context) => {
-				data = context.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotBiddersTrackingMiddleware(context, nextSpy);
 
-		expect(data).to.deep.equal({
+		expect(nextSpy.getCall(0).args[0].data).to.deep.equal({
 			previous: 'value',
 			bidder_won: 'rubicon',
 			bidder_won_price: '11.00',
@@ -99,21 +95,17 @@ describe('slot-bidders-tracking-middleware', () => {
 	});
 
 	it('returns bidders current slot prices when there were no price at the time of ad request', () => {
-		let data = null;
-
-		slotBiddersTrackingMiddleware(
-			{
-				data: { previous: 'value' },
-				slot: adSlot,
+		const context = {
+			data: {
+				previous: 'value',
 			},
-			(context) => {
-				data = context.data;
+			slot: adSlot,
+		};
+		const nextSpy = sinon.spy();
 
-				return Promise.resolve();
-			},
-		);
+		slotBiddersTrackingMiddleware(context, nextSpy);
 
-		expect(data).to.deep.equal({
+		expect(nextSpy.getCall(0).args[0].data).to.deep.equal({
 			previous: 'value',
 			bidder_won: 'rubicon',
 			bidder_won_price: '11.00',

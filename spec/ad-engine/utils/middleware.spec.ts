@@ -1,5 +1,6 @@
 import { MiddlewareService } from '@wikia/ad-engine/utils';
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 
 describe('middleware-service', () => {
 	let middlewareService;
@@ -9,7 +10,10 @@ describe('middleware-service', () => {
 	});
 
 	it('resolves run all added middlewares', () => {
-		let resolved = false;
+		const context = {
+			number: 1,
+		};
+		const finalSpy = sinon.spy();
 
 		middlewareService
 			.add(({ number }, next) => {
@@ -27,21 +31,17 @@ describe('middleware-service', () => {
 					number: number + 3,
 				});
 			})
-			.execute(
-				{
-					number: 1,
-				},
-				({ number }) => {
-					assert.equal(number, 7, 'incorrect value at the end of chain');
-					resolved = true;
-				},
-			);
+			.execute(context, finalSpy);
 
-		assert.equal(resolved, true, 'chain did not resolve');
+		assert.equal(finalSpy.getCall(0).args[0].number, 7, 'incorrect value at the end of chain');
+		assert.equal(finalSpy.calledOnce, true, 'chain did not resolve');
 	});
 
 	it('breaks when middleware does not execute next()', () => {
-		let resolved = false;
+		const context = {
+			number: 1,
+		};
+		const finalSpy = sinon.spy();
 
 		middlewareService
 			.add(({ number }, next) => {
@@ -57,15 +57,8 @@ describe('middleware-service', () => {
 					number: number + 3,
 				});
 			})
-			.execute(
-				{
-					number: 1,
-				},
-				() => {
-					resolved = true;
-				},
-			);
+			.execute(context, finalSpy);
 
-		assert.equal(resolved, false, 'chain resolved');
+		assert.equal(finalSpy.notCalled, true, 'chain resolved');
 	});
 });
