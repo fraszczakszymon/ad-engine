@@ -13,7 +13,7 @@ class SlotTracker {
 		AdSlot.STATUS_VIEWPORT_CONFLICT,
 	];
 
-	private middlewareService: utils.MiddlewareService<AdInfoContext> = new utils.MiddlewareService();
+	private middlewareService = new utils.MiddlewareService<AdInfoContext>();
 
 	add(middleware: utils.Middleware<AdInfoContext>): this {
 		this.middlewareService.add(middleware);
@@ -32,18 +32,16 @@ class SlotTracker {
 
 		eventService.on(AdSlot.SLOT_RENDERED_EVENT, (slot: AdSlot) => {
 			const status = slot.getStatus();
+			const middlewareContext: AdInfoContext = {
+				slot,
+				data: {},
+			};
 
 			if (
-				this.onRenderEndedStatusToTrack.indexOf(status) !== -1 ||
+				this.onRenderEndedStatusToTrack.includes(status) ||
 				slot.getConfigProperty('trackEachStatus')
 			) {
-				this.middlewareService.execute(
-					{
-						slot,
-						data: {},
-					},
-					callback,
-				);
+				this.middlewareService.execute(middlewareContext, callback);
 			} else if (slot.getStatus() === 'manual') {
 				slot.trackOnStatusChanged = true;
 			}
@@ -53,29 +51,26 @@ class SlotTracker {
 			const status = slot.getStatus();
 			const shouldSlotBeTracked =
 				slot.getConfigProperty('trackEachStatus') || slot.trackOnStatusChanged;
+			const middlewareContext: AdInfoContext = {
+				slot,
+				data: {},
+			};
 
-			if (this.onChangeStatusToTrack.indexOf(status) !== -1 || shouldSlotBeTracked) {
-				this.middlewareService.execute(
-					{
-						slot,
-						data: {},
-					},
-					callback,
-				);
+			if (this.onChangeStatusToTrack.includes(status) || shouldSlotBeTracked) {
+				this.middlewareService.execute(middlewareContext, callback);
 				delete slot.trackOnStatusChanged;
 			}
 		});
 
-		eventService.on(AdSlot.CUSTOM_EVENT, (slot: AdSlot, { status }) => {
-			this.middlewareService.execute(
-				{
-					slot,
-					data: {
-						ad_status: status,
-					},
+		eventService.on(AdSlot.CUSTOM_EVENT, (slot: AdSlot, { status }: { status: string }) => {
+			const middlewareContext: AdInfoContext = {
+				slot,
+				data: {
+					ad_status: status,
 				},
-				callback,
-			);
+			};
+
+			this.middlewareService.execute(middlewareContext, callback);
 		});
 	}
 }

@@ -1,12 +1,12 @@
-import { utils } from '@wikia/ad-engine';
+import { Dictionary, utils } from '@wikia/ad-engine';
 import { AdInfoContext } from '@wikia/ad-tracking';
 import { bidders } from '../';
 
-function getBiddersPrices(slotName) {
-	const realSlotPrices = bidders.getDfpSlotPrices(slotName);
-	const currentSlotPrices = bidders.getCurrentSlotPrices(slotName);
+function getBiddersPrices(slotName: string): Dictionary<string> {
+	const realSlotPrices: Dictionary<string> = bidders.getDfpSlotPrices(slotName);
+	const currentSlotPrices: Dictionary<string> = bidders.getCurrentSlotPrices(slotName);
 
-	function transformBidderPrice(bidderName) {
+	function transformBidderPrice(bidderName: string): string {
 		if (realSlotPrices && realSlotPrices[bidderName]) {
 			return realSlotPrices[bidderName];
 		}

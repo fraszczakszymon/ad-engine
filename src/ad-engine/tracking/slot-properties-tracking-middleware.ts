@@ -6,8 +6,8 @@ export const slotPropertiesTrackingMiddleware: Middleware<AdInfoContext> = (
 	next,
 ) => {
 	const now = new Date();
-	const timestamp = now.getTime();
-	const creativeSize = Array.isArray(slot.creativeSize)
+	const timestamp: number = now.getTime();
+	const creativeSize: string = Array.isArray(slot.creativeSize)
 		? slot.creativeSize.join('x')
 		: slot.creativeSize;
 

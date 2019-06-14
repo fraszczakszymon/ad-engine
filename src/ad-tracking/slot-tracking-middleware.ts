@@ -11,8 +11,8 @@ function checkOptIn(): string {
 
 export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, slot }, next) => {
 	const now = new Date();
-	const timestamp = now.getTime();
-	const keyVals: Dictionary = {
+	const timestamp: number = now.getTime();
+	const keyVals: Dictionary<string> = {
 		likho: (context.get('targeting.likho') || []).join('|'),
 	};
 

@@ -6,9 +6,7 @@ export interface AdViewabilityContext {
 }
 
 class ViewabilityTracker {
-	private middlewareService: utils.MiddlewareService<
-		AdViewabilityContext
-	> = new utils.MiddlewareService();
+	private middlewareService = new utils.MiddlewareService<AdViewabilityContext>();
 
 	add(middleware: utils.Middleware<AdViewabilityContext>): this {
 		this.middlewareService.add(middleware);
