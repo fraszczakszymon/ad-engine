@@ -45,8 +45,10 @@ describe('slot-properties-tracking-middleware', () => {
 				data: { previous: 'value' },
 				slot: adSlot,
 			},
-			(context) => {
-				data = context.data;
+			(middlewareContext) => {
+				data = middlewareContext.data;
+
+				return Promise.resolve();
 			},
 		);
 
@@ -74,8 +76,10 @@ describe('slot-properties-tracking-middleware', () => {
 				data: { ad_status: 'custom' },
 				slot: adSlot,
 			},
-			(context) => {
-				data = context.data;
+			(middlewareContext) => {
+				data = middlewareContext.data;
+
+				return Promise.resolve();
 			},
 		);
 

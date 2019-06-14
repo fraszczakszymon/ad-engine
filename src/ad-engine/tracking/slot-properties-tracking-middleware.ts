@@ -1,4 +1,4 @@
-import { AdInfoContext } from '../../ad-tracking';
+import { AdInfoContext } from '@wikia/ad-tracking';
 import { Middleware } from '../utils';
 
 export const slotPropertiesTrackingMiddleware: Middleware<AdInfoContext> = (

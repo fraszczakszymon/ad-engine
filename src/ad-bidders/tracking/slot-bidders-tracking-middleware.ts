@@ -1,6 +1,6 @@
 import { utils } from '@wikia/ad-engine';
+import { AdInfoContext } from '@wikia/ad-tracking';
 import { bidders } from '../';
-import { AdInfoContext } from '../../ad-tracking';
 
 function getBiddersPrices(slotName) {
 	const realSlotPrices = bidders.getDfpSlotPrices(slotName);

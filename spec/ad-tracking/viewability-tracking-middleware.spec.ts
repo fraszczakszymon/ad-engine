@@ -17,8 +17,10 @@ describe('viewability-tracking-middleware', () => {
 				data: { previous: 'value' },
 				slot: adSlot,
 			},
-			(context) => {
-				data = context.data;
+			(middlewareContext) => {
+				data = middlewareContext.data;
+
+				return Promise.resolve();
 			},
 		);
 

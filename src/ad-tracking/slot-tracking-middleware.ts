@@ -1,4 +1,4 @@
-import { context, utils } from '@wikia/ad-engine';
+import { context, Dictionary, utils } from '@wikia/ad-engine';
 import { AdInfoContext } from './slot-tracker';
 
 function checkOptIn(): string {
@@ -12,7 +12,7 @@ function checkOptIn(): string {
 export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, slot }, next) => {
 	const now = new Date();
 	const timestamp = now.getTime();
-	const keyVals = {
+	const keyVals: Dictionary = {
 		likho: (context.get('targeting.likho') || []).join('|'),
 	};
 

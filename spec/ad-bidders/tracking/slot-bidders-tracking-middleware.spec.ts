@@ -70,6 +70,8 @@ describe('slot-bidders-tracking-middleware', () => {
 			},
 			(context) => {
 				data = context.data;
+
+				return Promise.resolve();
 			},
 		);
 
@@ -106,6 +108,8 @@ describe('slot-bidders-tracking-middleware', () => {
 			},
 			(context) => {
 				data = context.data;
+
+				return Promise.resolve();
 			},
 		);
 

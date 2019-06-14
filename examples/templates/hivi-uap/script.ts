@@ -10,7 +10,7 @@ import {
 	FloatingRail,
 	setupNpaContext,
 } from '@wikia/ad-products';
-import { slotTracker, slotTrackingMiddleware } from '@wikia/ad-tracking';
+import { AdInfoContext, slotTracker, slotTrackingMiddleware } from '@wikia/ad-tracking';
 import customContext from '../../context';
 import '../../styles.scss';
 
@@ -33,7 +33,7 @@ templateService.register(FloatingRail);
 slotTracker
 	.add(slotTrackingMiddleware)
 	.add(slotPropertiesTrackingMiddleware)
-	.register(({ data, slot }) => {
+	.register(({ data, slot }: AdInfoContext) => {
 		// Trigger event tracking
 		console.info(`🏁 Slot tracker: ${slot.getSlotName()} ${data.ad_status}`, data);
 	});

@@ -6,7 +6,9 @@ export interface AdViewabilityContext {
 }
 
 class ViewabilityTracker {
-	middlewareService = new utils.MiddlewareService();
+	private middlewareService: utils.MiddlewareService<
+		AdViewabilityContext
+	> = new utils.MiddlewareService();
 
 	add(middleware: utils.Middleware<AdViewabilityContext>): this {
 		this.middlewareService.add(middleware);
@@ -26,8 +28,8 @@ class ViewabilityTracker {
 		eventService.on(AdSlot.SLOT_VIEWED_EVENT, (slot: AdSlot) => {
 			this.middlewareService.execute(
 				{
-					data: {},
 					slot,
+					data: {},
 				},
 				callback,
 			);

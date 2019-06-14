@@ -20,6 +20,8 @@ describe('slot-bill-the-lizard-tracking-middleware', () => {
 			},
 			(context) => {
 				data = context.data;
+
+				return Promise.resolve();
 			},
 		);
 

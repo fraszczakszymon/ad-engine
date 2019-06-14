@@ -1,5 +1,5 @@
 import { utils } from '@wikia/ad-engine';
-import { AdInfoContext } from '../../ad-tracking';
+import { AdInfoContext } from '@wikia/ad-tracking';
 
 export const slotBillTheLizardStatusTrackingMiddleware: utils.Middleware<AdInfoContext> = (
 	{ data, slot },

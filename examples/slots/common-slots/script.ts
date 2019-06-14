@@ -10,6 +10,8 @@ import {
 } from '@wikia/ad-engine';
 import { slotBillTheLizardStatusTrackingMiddleware } from '@wikia/ad-services';
 import {
+	AdInfoContext,
+	AdViewabilityContext,
 	slotTracker,
 	slotTrackingMiddleware,
 	viewabilityTracker,
@@ -33,7 +35,7 @@ slotTracker
 	.add(slotPropertiesTrackingMiddleware)
 	.add(slotBiddersTrackingMiddleware)
 	.add(slotBillTheLizardStatusTrackingMiddleware)
-	.register(({ data, slot }) => {
+	.register(({ data, slot }: AdInfoContext) => {
 		// Trigger event tracking
 		console.info(`🏁 Slot tracker: ${slot.getSlotName()} ${data.ad_status}`, data);
 	});
@@ -41,7 +43,7 @@ slotTracker
 viewabilityTracker
 	.add(viewabilityTrackingMiddleware)
 	.add(viewabilityPropertiesTrackingMiddleware)
-	.register(({ data, slot }) => {
+	.register(({ data, slot }: AdViewabilityContext) => {
 		// Trigger event tracking
 		console.info(`👀 Viewability tracker: ${slot.getSlotName()}`, data);
 	});

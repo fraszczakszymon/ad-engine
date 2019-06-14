@@ -12,7 +12,8 @@ class SlotTracker {
 		AdSlot.STATUS_ERROR,
 		AdSlot.STATUS_VIEWPORT_CONFLICT,
 	];
-	middlewareService = new utils.MiddlewareService();
+
+	private middlewareService: utils.MiddlewareService<AdInfoContext> = new utils.MiddlewareService();
 
 	add(middleware: utils.Middleware<AdInfoContext>): this {
 		this.middlewareService.add(middleware);
@@ -38,8 +39,8 @@ class SlotTracker {
 			) {
 				this.middlewareService.execute(
 					{
-						data: {},
 						slot,
+						data: {},
 					},
 					callback,
 				);
@@ -56,8 +57,8 @@ class SlotTracker {
 			if (this.onChangeStatusToTrack.indexOf(status) !== -1 || shouldSlotBeTracked) {
 				this.middlewareService.execute(
 					{
-						data: {},
 						slot,
+						data: {},
 					},
 					callback,
 				);
@@ -68,10 +69,10 @@ class SlotTracker {
 		eventService.on(AdSlot.CUSTOM_EVENT, (slot: AdSlot, { status }) => {
 			this.middlewareService.execute(
 				{
+					slot,
 					data: {
 						ad_status: status,
 					},
-					slot,
 				},
 				callback,
 			);
