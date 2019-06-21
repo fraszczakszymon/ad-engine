@@ -1,5 +1,5 @@
+import { logVersion } from '@wikia/ad-engine';
 import { adsSetup } from './setup';
 
-// console.log('bielik');
-
+logVersion();
 adsSetup.init();
