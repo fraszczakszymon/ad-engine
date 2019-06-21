@@ -1,22 +1,85 @@
 const path = require('path');
+const get = require('lodash/get');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const StringReplacePlugin = require('string-replace-webpack-plugin');
+const pkg = require('./package.json');
+const babelConfig = require('./configs/babel-app.config');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-const platforms = (PLATFORM) => ({
-	mode: 'production',
+const INCLUDE = [
+	path.resolve(__dirname, 'src'),
+	path.resolve(__dirname, 'examples'),
+	path.resolve(__dirname, 'spec'),
+	path.resolve(__dirname, 'platforms'),
+];
 
-	entry: path.resolve(__dirname, `platforms/${PLATFORM}/index.ts`),
+const platforms = ({ PLATFORM }) => {
+	const TSCONFIG = `platforms/${PLATFORM}/tsconfig.json`;
 
-	output: {
-		filename: 'main.bundle.js',
-		path: path.resolve(__dirname, `dist/${PLATFORM}`),
-	},
+	return {
+		mode: 'production',
 
-	plugins: [new MiniCssExtractPlugin({ filename: 'styles.css' })],
+		context: __dirname,
 
-	devtool: 'source-map',
-});
+		entry: path.resolve(__dirname, `platforms/${PLATFORM}/index.ts`),
 
-module.exports = ({ PLATFORM }) =>
-	merge(platforms(PLATFORM), common(`platforms/${PLATFORM}/tsconfig.json`));
+		output: {
+			filename: 'main.bundle.js',
+			path: path.resolve(__dirname, `dist/${PLATFORM}`),
+		},
+
+		resolve: {
+			extensions: ['.ts', '.js', '.json'],
+			modules: [...INCLUDE, 'node_modules'],
+			plugins: [new TsconfigPathsPlugin({ configFile: TSCONFIG })],
+		},
+
+		module: {
+			rules: [
+				{
+					test: /\.(js|ts)$/,
+					include: INCLUDE,
+					exclude: [/node_modules/],
+					use: [
+						{
+							loader: 'ts-loader',
+							options: {
+								configFile: TSCONFIG,
+								reportFiles: [`platforms/${PLATFORM}/**/*.ts`],
+							},
+						},
+						{
+							loader: 'babel-loader',
+							options: babelConfig,
+						},
+					],
+				},
+				{
+					test: /\.s?css$/,
+					include: INCLUDE,
+					use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+				},
+				{
+					test: path.resolve(__dirname, 'src/ad-engine/log-version.ts'),
+					loader: StringReplacePlugin.replace({
+						replacements: [
+							{
+								pattern: /<\?=[ \t]*PACKAGE\(([\w\-_.]*?)\)[ \t]*\?>/gi,
+								replacement: (match, p1) => get(pkg, p1),
+							},
+						],
+					}),
+				},
+			],
+		},
+
+		plugins: [new MiniCssExtractPlugin({ filename: 'styles.css' })],
+
+		devtool: 'source-map',
+	};
+};
+
+module.exports = platforms;
+
+// module.exports = ({ PLATFORM }) =>
+// 	merge(platforms(PLATFORM), common(`platforms/${PLATFORM}/tsconfig.json`));
