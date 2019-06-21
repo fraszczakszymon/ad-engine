@@ -1,6 +1,8 @@
 {
 	"name": "@wikia/ad-engine",
-	"sideEffects": false,
+	"sideEffects": [
+		"*.scss"
+	],
 	"version": "36.0.2",
 	"description": "Wikia AdEngine",
 	"repository": {
