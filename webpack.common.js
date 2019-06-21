@@ -24,7 +24,11 @@ module.exports = (TSCONFIG) => ({
 
 	module: {
 		rules: [
-			getTypeScriptLoader(INCLUDE, TSCONFIG, true),
+			getTypeScriptLoader({
+				include: INCLUDE,
+				tsconfig: TSCONFIG,
+				transpileOnly: true,
+			}),
 			{
 				test: /\.s?css$/,
 				include: INCLUDE,

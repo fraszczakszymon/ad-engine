@@ -2,9 +2,9 @@ const path = require('path');
 const get = require('lodash/get');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const { getTypeScriptLoader } = require('./configs/webpack-app.config');
 const pkg = require('./package.json');
-const babelConfig = require('./configs/babel-app.config');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const INCLUDE = [
 	path.resolve(__dirname, 'src'),
@@ -31,29 +31,16 @@ const platforms = ({ PLATFORM }) => {
 		resolve: {
 			extensions: ['.ts', '.js', '.json'],
 			modules: [...INCLUDE, 'node_modules'],
-			plugins: [new TsconfigPathsPlugin({ configFile: TSCONFIG })],
+			plugins: [new TsConfigPathsPlugin({ configFileName: TSCONFIG })],
 		},
 
 		module: {
 			rules: [
-				{
-					test: /\.(js|ts)$/,
+				getTypeScriptLoader({
 					include: INCLUDE,
-					exclude: [/node_modules/],
-					use: [
-						{
-							loader: 'ts-loader',
-							options: {
-								configFile: TSCONFIG,
-								reportFiles: [`platforms/${PLATFORM}/**/*.ts`],
-							},
-						},
-						{
-							loader: 'babel-loader',
-							options: babelConfig,
-						},
-					],
-				},
+					tsconfig: TSCONFIG,
+					reportFiles: [`platforms/${PLATFORM}/**/*.ts`],
+				}),
 				{
 					test: /\.s?css$/,
 					include: INCLUDE,
