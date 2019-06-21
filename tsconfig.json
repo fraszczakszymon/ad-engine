@@ -11,11 +11,7 @@
 		"emitDecoratorMetadata": true,
 		"resolveJsonModule": true,
 		"noImplicitAny": false,
-		"baseUrl": "src",
-		"paths": {
-			"@wikia/ad-engine": ["ad-engine"]
-		},
+		"baseUrl": ".",
 		"typeRoots": ["node_modules/@types", "@types"]
-	},
-	"include": ["src"]
+	}
 }

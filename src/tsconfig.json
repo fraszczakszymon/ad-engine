@@ -1,8 +1,9 @@
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
+		"baseUrl": ".",
 		"paths": {
-			"@wikia/*": ["src/*"]
+			"@wikia/ad-engine": ["ad-engine"]
 		}
 	},
 	"include": ["."]

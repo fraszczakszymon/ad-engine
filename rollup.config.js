@@ -11,6 +11,7 @@ import {
 } from './maintenance/rollup-plugins';
 
 const pkg = require('./package.json');
+const TSCONFIG = 'src/tsconfig.json';
 
 const targets = {
 	esm: {
@@ -31,9 +32,9 @@ const targets = {
 			// https://github.com/rollup/rollup-plugin-node-resolve#usage
 			sourceMaps(),
 			// Resolve source maps to the original source
-			typescript({ check: false, useTsconfigDeclarationDir: true }),
+			typescript({ check: false, useTsconfigDeclarationDir: true, tsconfig: TSCONFIG }),
 			classToPure(),
-			tscpaths({ out: 'dist/types' }),
+			tscpaths({ out: 'dist/types', project: TSCONFIG }),
 			adEngineVersion(pkg.name, pkg.version),
 		],
 	},
