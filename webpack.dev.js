@@ -35,4 +35,4 @@ const development = {
 	},
 };
 
-module.exports = merge(common('examples/tsconfig.json'), development);
+module.exports = merge(common({ tsconfig: 'examples/tsconfig.json' }), development);

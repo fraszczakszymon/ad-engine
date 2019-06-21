@@ -5,4 +5,4 @@ const spec = {
 	mode: 'development',
 };
 
-module.exports = merge(common('spec/tsconfig.json'), spec);
+module.exports = merge(common({ tsconfig: 'spec/tsconfig.json' }), spec);
