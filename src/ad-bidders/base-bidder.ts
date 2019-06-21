@@ -1,4 +1,4 @@
-import { context, DEFAULT_MAX_DELAY, utils } from '@wikia/ad-engine';
+import { context, DEFAULT_MAX_DELAY, utils } from '@ad-engine/core';
 
 /**
  * @abstract

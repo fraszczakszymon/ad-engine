@@ -9,6 +9,12 @@
 		"resolveJsonModule": true,
 		"noImplicitAny": false,
 		"baseUrl": ".",
+		"paths": {
+			"@ad-engine/core": ["src/ad-engine"],
+			"@wikia/ad-engine": ["src/index.ts"]
+		},
 		"typeRoots": ["node_modules/@types", "@types"]
-	}
+	},
+	"include": ["src", "spec", "platforms", "examples"],
+	"exclude": ["**/dist/**/*"]
 }

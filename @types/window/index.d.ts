@@ -23,6 +23,7 @@ interface Window {
 
 declare var NOLBUNDLE: any;
 
+// TODO: It's from Gamepedia, need to move somewhere.
 interface Window {
 	__cmp?: any;
 	__cmpStored?: any;

@@ -6,7 +6,7 @@ import {
 	eventService,
 	slotService,
 	utils,
-} from '@wikia/ad-engine';
+} from '@ad-engine/core';
 import { BaseBidder } from '../base-bidder';
 import { Apstag, cmp } from '../wrappers';
 
