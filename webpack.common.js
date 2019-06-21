@@ -10,6 +10,7 @@ const INCLUDE = [
 	path.resolve(__dirname, 'src'),
 	path.resolve(__dirname, 'examples'),
 	path.resolve(__dirname, 'spec'),
+	path.resolve(__dirname, 'platforms'),
 ];
 
 module.exports = (TSCONFIG) => ({
