@@ -80,6 +80,3 @@ const platforms = ({ PLATFORM }) => {
 };
 
 module.exports = platforms;
-
-// module.exports = ({ PLATFORM }) =>
-// 	merge(platforms(PLATFORM), common(`platforms/${PLATFORM}/tsconfig.json`));
