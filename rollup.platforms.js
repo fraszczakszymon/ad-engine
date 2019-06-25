@@ -2,6 +2,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
+import serve from 'rollup-plugin-serve';
 import typescript from 'rollup-plugin-typescript2';
 import json from 'rollup-plugin-json';
 import { adEngineVersion } from './maintenance/rollup-plugins';
@@ -12,7 +13,7 @@ const babelConfig = require('./configs/babel-app.config');
 
 const pkg = require('./package.json');
 const tsconfig = 'platforms/gamepedia/tsconfig.json';
-const include = ['src/**', 'examples/**', 'spec/**', 'platforms/**'];
+const include = ['src/**', 'platforms/**'];
 
 const targets = {
 	esm: {
@@ -42,6 +43,10 @@ const targets = {
 			}),
 			adEngineVersion(pkg.name, pkg.version),
 			terser(),
+			serve({
+				contentBase: 'dist/gamepedia',
+				port: 9000,
+			}),
 		],
 	},
 };
