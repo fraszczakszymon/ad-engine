@@ -2,17 +2,15 @@ import { geoService } from '@wikia/ad-engine/utils';
 import { assert } from 'chai';
 import * as Cookies from 'js-cookie';
 import * as sinon from 'sinon';
+import { context } from '../../../src/ad-engine/services';
 
 describe('Geo', () => {
 	let sandbox;
 
 	beforeEach(() => {
-		geoService.setGeoData({
-			city: 'Poznan',
-			country: 'PL',
-			continent: 'EU',
-			region: '72',
-		});
+		context.set('geo.continent', 'EU');
+		context.set('geo.country', 'PL');
+		context.set('geo.region', '72');
 
 		sandbox = sinon.sandbox.create();
 		sandbox.stub(Math, 'random');

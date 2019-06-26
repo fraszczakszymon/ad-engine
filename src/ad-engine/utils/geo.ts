@@ -168,29 +168,25 @@ function getGeoData(): GeoData | {} {
 	return geoData;
 }
 
-function setGeoData(data: GeoData): void {
-	geoData = data;
-}
-
 /**
  * Return country code based on cookie
  */
 function getCountryCode(): string {
-	return (getGeoData() as GeoData).country;
+	return context.get('geo.country');
 }
 
 /**
  * Return continent code based on cookie
  */
 function getContinentCode(): string {
-	return (getGeoData() as GeoData).continent;
+	return context.get('geo.continent');
 }
 
 /**
  * Return region code based on cookie
  */
 function getRegionCode(): string {
-	return (getGeoData() as GeoData).region;
+	return context.get('geo.region');
 }
 
 /**
@@ -314,7 +310,6 @@ function mapSamplingResults(keyVals: string[] = []): string[] {
 }
 
 export const geoService = {
-	setGeoData,
 	isProperContinent,
 	isProperCountry,
 	isProperRegion,
