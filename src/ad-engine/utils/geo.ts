@@ -11,7 +11,7 @@ const samplingSeparator = '/';
 const sessionCookieDefault = 'tracking_session_id';
 let cache: CacheDictionary = {};
 let cookieLoaded = false;
-let geoData: GeoData | {} = null;
+const geoData: GeoData | {} = null;
 
 export interface CacheDictionary {
 	[key: string]: CacheData;
@@ -149,23 +149,6 @@ function isSampledForGeo(countryList: string[], geo: string, name: string): bool
 
 function containsEarth(countryList: string[], name: string): boolean {
 	return countryList.indexOf(earth) > -1 || isSampledForGeo(countryList, earth, name);
-}
-
-/**
- * Return geo data from cookie
- */
-function getGeoData(): GeoData | {} {
-	if (geoData === null) {
-		const jsonData: string = decodeURIComponent(Cookies.get('Geo'));
-
-		try {
-			geoData = JSON.parse(jsonData) || {};
-		} catch (e) {
-			geoData = {};
-		}
-	}
-
-	return geoData;
 }
 
 /**
