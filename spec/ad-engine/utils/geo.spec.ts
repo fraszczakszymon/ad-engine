@@ -73,6 +73,26 @@ describe('Geo', () => {
 		assert.notOk(geoService.isProperGeo(['XX', 'non-XX-EU']));
 	});
 
+	it('geoService.isProperGeo test - lack of region and continent', () => {
+		context.set('geo.continent', null);
+		context.set('geo.region', null);
+		assert.ok(geoService.isProperGeo(['PL']));
+		assert.notOk(geoService.isProperGeo(['PL-72']));
+		assert.notOk(geoService.isProperGeo(['DE']));
+		assert.notOk(geoService.isProperGeo(['EU']));
+	});
+
+	it('geoService.isProperGeo test - lack of all geos', () => {
+		context.set('geo.continent', null);
+		context.set('geo.country', null);
+		context.set('geo.region', null);
+		assert.notOk(geoService.isProperGeo(['PL']));
+		assert.notOk(geoService.isProperGeo(['PL-72']));
+		assert.notOk(geoService.isProperGeo(['DE']));
+		assert.notOk(geoService.isProperGeo(['EU']));
+		assert.ok(geoService.isProperGeo(['XX']));
+	});
+
 	it('samples traffic for earth', () => {
 		Math.random.returns(0);
 		assert.ok(geoService.isProperGeo(['XX/100']));
