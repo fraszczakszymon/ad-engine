@@ -1,4 +1,4 @@
-import { context, DEFAULT_MAX_DELAY, Dictionary, utils } from '@wikia/ad-engine';
+import { context, DEFAULT_MAX_DELAY, Dictionary, utils } from '@ad-engine/core';
 import { LazyQueue } from '../ad-engine/utils';
 
 export interface BidderConfig {
@@ -11,6 +11,7 @@ export interface BidderConfig {
 export class BaseBidder {
 	logGroup: string;
 	called = false;
+	w;
 	response = false;
 	onResponseCallbacks: LazyQueue;
 
