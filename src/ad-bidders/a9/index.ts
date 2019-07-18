@@ -121,7 +121,7 @@ export class A9 extends BaseBidder {
 	 * Fetches bids from A9.
 	 * Calls this.onBidResponse() upon success.
 	 */
-	private fetchBids(slots: A9SlotDefinition[], refresh = false): void {
+	private async fetchBids(slots: A9SlotDefinition[], refresh = false): Promise<void> {
 		utils.logger(logGroup, 'fetching bids for slots', slots);
 
 		if (!slots || slots.length === 0) {
@@ -129,22 +129,22 @@ export class A9 extends BaseBidder {
 			return;
 		}
 
-		this.apstag.fetchBids({ slots, timeout: this.timeout }, (currentBids) => {
-			utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
-			this.addApstagRenderImpHookOnFirstFetch();
+		const currentBids = await this.apstag.fetchBids({ slots, timeout: this.timeout });
 
-			currentBids.forEach((bid) => {
-				const slotName: string = this.slotNamesMap[bid.slotID] || bid.slotID;
-				const { keys, bidTargeting } = this.getBidTargetingWithKeys(bid);
+		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
+		this.addApstagRenderImpHookOnFirstFetch();
 
-				this.updateBidSlot(slotName, keys, bidTargeting);
-			});
+		currentBids.forEach(async (bid) => {
+			const slotName: string = this.slotNamesMap[bid.slotID] || bid.slotID;
+			const { keys, bidTargeting } = await this.getBidTargetingWithKeys(bid);
 
-			this.onBidResponse();
-			if (refresh) {
-				eventService.emit(events.BIDS_REFRESH);
-			}
+			this.updateBidSlot(slotName, keys, bidTargeting);
 		});
+
+		this.onBidResponse();
+		if (refresh) {
+			eventService.emit(events.BIDS_REFRESH);
+		}
 	}
 
 	private addApstagRenderImpHookOnFirstFetch(): void {
@@ -240,16 +240,14 @@ export class A9 extends BaseBidder {
 		return definition;
 	}
 
-	/**
-	 * @param bid
-	 * @returns {*}
-	 */
-	private getBidTargetingWithKeys(bid: Dictionary): { keys: string[]; bidTargeting: Dictionary } {
+	private async getBidTargetingWithKeys(
+		bid: Dictionary,
+	): Promise<{ keys: string[]; bidTargeting: Dictionary }> {
 		let bidTargeting: Dictionary = bid;
-		let keys: string[] = this.apstag.targetingKeys();
+		let keys: string[] = await this.apstag.targetingKeys();
 
 		if (this.bidderConfig.dealsEnabled) {
-			keys = bid.helpers.targetingKeys;
+			keys = await bid.helpers.targetingKeys;
 			bidTargeting = bid.targeting;
 		}
 

@@ -56,9 +56,12 @@ export class Apstag {
 		window.apstag.init(apsConfig);
 	}
 
-	async fetchBids(bidsConfig: A9BidConfig, cb: (bids: any) => void = null): Promise<void> {
+	async fetchBids(bidsConfig: A9BidConfig): Promise<any> {
 		await this.script;
-		window.apstag.fetchBids(bidsConfig, (currentBids) => cb(currentBids));
+
+		return new Promise((resolve) => {
+			window.apstag.fetchBids(bidsConfig, (currentBids) => resolve(currentBids));
+		});
 	}
 
 	async targetingKeys(): Promise<string[]> {
