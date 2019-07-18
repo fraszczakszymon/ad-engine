@@ -9,56 +9,18 @@ import {
 	slotService,
 	utils,
 } from '@ad-engine/core';
-import { BaseBidder, BidderConfig, BidsRefreshing } from '../base-bidder';
+import { BaseBidder, BidsRefreshing } from '../base-bidder';
 import { Apstag, Cmp, cmp } from '../wrappers';
-
-type PriceMap = Dictionary<string>;
-
-interface ApstagConfig extends Partial<A9GDPR> {
-	pubID: string;
-	videoAdServer: 'DFP';
-	deals: boolean;
-}
-
-interface ConsentData {
-	gdprApplies?: boolean;
-	consentData?: string;
-}
-
-interface A9GDPR {
-	gdpr: {
-		enabled: boolean;
-		consent: string;
-		cmpTimeout: number;
-	};
-}
-
-interface A9Config extends BidderConfig {
-	amazonId: string;
-	dealsEnabled: boolean;
-	slots: Dictionary<A9SlotConfig>;
-	videoEnabled: boolean;
-	bidsRefreshing: BidsRefreshing;
-}
-
-interface A9SlotConfig {
-	sizes: number[][];
-	type: 'display' | 'video';
-	slotId?: string;
-}
-
-interface A9Bids {
-	[slotName: string]: {
-		[targetingKey: string]: string;
-	};
-}
-
-interface A9SlotDefinition {
-	slotID: string;
-	slotName: string;
-	mediaType?: 'display' | 'video';
-	sizes?: number[][];
-}
+import {
+	A9Bids,
+	A9Config,
+	A9GDPR,
+	A9SlotConfig,
+	A9SlotDefinition,
+	ApstagConfig,
+	ConsentData,
+	PriceMap,
+} from './types';
 
 const logGroup = 'A9';
 

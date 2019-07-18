@@ -1,12 +1,10 @@
 import { utils } from '@ad-engine/core';
+import { A9BidConfig } from '../a9/types';
 
 export class Apstag {
-	/**
-	 * @private
-	 */
-	static instance;
+	private static instance: Apstag;
 
-	static make() {
+	static make(): Apstag {
 		if (!Apstag.instance) {
 			Apstag.instance = new Apstag();
 		}
@@ -14,23 +12,18 @@ export class Apstag {
 		return Apstag.instance;
 	}
 
+	private script: Promise<Event>;
 	private renderImpEndCallbacks = [];
 	private renderImpHookPresent = false;
 	utils = utils;
 
-	/**
-	 * @private
-	 */
-	constructor() {
+	private constructor() {
 		this.insertScript();
 		this.configure();
 	}
 
-	/**
-	 * @private
-	 */
-	insertScript() {
-		this.utils.scriptLoader.loadScript(
+	private insertScript(): void {
+		this.script = this.utils.scriptLoader.loadScript(
 			'//c.amazon-adsystem.com/aax2/apstag.js',
 			'text/javascript',
 			true,
@@ -38,10 +31,7 @@ export class Apstag {
 		);
 	}
 
-	/**
-	 * @private
-	 */
-	configure() {
+	private configure(): void {
 		window.apstag = window.apstag || { _Q: [] };
 
 		if (typeof window.apstag.init === 'undefined') {
@@ -57,41 +47,40 @@ export class Apstag {
 		}
 	}
 
-	/** @private */
-	configureCommand(command, args) {
+	private configureCommand(command, args): void {
 		window.apstag._Q.push([command, args]);
 	}
 
-	init(apsConfig) {
+	async init(apsConfig): Promise<void> {
+		await this.script;
 		window.apstag.init(apsConfig);
 	}
 
-	/**
-	 * @param {{slots: A9SlotDefinition[], timeout: number}} bidsConfig configuration of bids
-	 * @param {function(object)} cb Callback receiving current bids
-	 * @returns {!Promise} If `cb` has been omitted
-	 */
-	fetchBids(bidsConfig, cb = null) {
+	async fetchBids(bidsConfig: A9BidConfig, cb: (bids: any) => void = null): Promise<void> {
+		await this.script;
 		window.apstag.fetchBids(bidsConfig, (currentBids) => cb(currentBids));
 	}
 
-	targetingKeys(): string[] {
+	async targetingKeys(): Promise<string[]> {
+		await this.script;
+
 		return window.apstag.targetingKeys();
 	}
 
-	enableDebug() {
+	async enableDebug(): Promise<void> {
+		await this.script;
 		window.apstag.debug('enable');
 	}
 
-	disableDebug() {
+	async disableDebug(): Promise<void> {
+		await this.script;
 		window.apstag.debug('disable');
 	}
 
 	/**
 	 * Executes callback each time after apstag.renderImp is called
-	 * @param {function} callback
 	 */
-	onRenderImpEnd(callback) {
+	onRenderImpEnd(callback: (doc: any, impId: any) => void): void {
 		if (typeof callback !== 'function') {
 			throw new Error('onRenderImpEnd used with callback not being a function');
 		}
@@ -101,10 +90,7 @@ export class Apstag {
 		this.renderImpEndCallbacks.push(callback);
 	}
 
-	/**
-	 * @private
-	 */
-	addRenderImpHook() {
+	private addRenderImpHook(): void {
 		const original = window.apstag.renderImp;
 
 		window.apstag.renderImp = (...options) => {
