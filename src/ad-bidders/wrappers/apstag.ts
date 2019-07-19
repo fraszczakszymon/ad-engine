@@ -14,12 +14,12 @@ export class Apstag {
 
 	private script: Promise<Event>;
 	private renderImpEndCallbacks = [];
-	private renderImpHookPresent = false;
 	utils = utils;
 
 	private constructor() {
 		this.insertScript();
 		this.configure();
+		this.addRenderImpHook();
 	}
 
 	private insertScript(): void {
@@ -45,6 +45,18 @@ export class Apstag {
 				this.configureCommand('f', args);
 			};
 		}
+	}
+
+	private async addRenderImpHook(): Promise<void> {
+		await this.script;
+
+		const original = window.apstag.renderImp;
+
+		window.apstag.renderImp = (...options) => {
+			original(...options);
+			const [doc, impId] = options;
+			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
+		};
 	}
 
 	private configureCommand(command, args): void {
@@ -83,23 +95,11 @@ export class Apstag {
 	/**
 	 * Executes callback each time after apstag.renderImp is called
 	 */
-	onRenderImpEnd(callback: (doc: any, impId: any) => void): void {
+	// TODO: add types to callback arguments
+	async onRenderImpEnd(callback: (doc: any, impId: any) => void): Promise<void> {
 		if (typeof callback !== 'function') {
 			throw new Error('onRenderImpEnd used with callback not being a function');
 		}
-		if (!this.renderImpHookPresent) {
-			this.addRenderImpHook();
-		}
 		this.renderImpEndCallbacks.push(callback);
-	}
-
-	private addRenderImpHook(): void {
-		const original = window.apstag.renderImp;
-
-		window.apstag.renderImp = (...options) => {
-			original(...options);
-			const [doc, impId] = options;
-			this.renderImpEndCallbacks.forEach((cb) => cb(doc, impId));
-		};
 	}
 }

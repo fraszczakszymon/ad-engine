@@ -74,9 +74,6 @@ export class A9 extends BaseBidder {
 		}
 	}
 
-	/**
-	 * @returns {{videoAdServer: string, deals: boolean, pubID: (*|string), gdpr: ()}}
-	 */
 	private getApstagConfig(consentData: ConsentData): ApstagConfig {
 		return {
 			pubID: this.amazonId,
@@ -86,12 +83,7 @@ export class A9 extends BaseBidder {
 		};
 	}
 
-	/**
-	 * @private
-	 * @param consentData
-	 * @returns {*}
-	 */
-	getGdprIfApplicable(consentData: ConsentData): Partial<A9GDPR> {
+	private getGdprIfApplicable(consentData: ConsentData): Partial<A9GDPR> {
 		if (this.isCMPEnabled && consentData && consentData.consentData) {
 			return {
 				gdpr: {
