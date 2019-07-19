@@ -9,11 +9,6 @@ export interface ApstagConfig extends Partial<A9GDPR> {
 	deals: boolean;
 }
 
-export interface ConsentData {
-	gdprApplies?: boolean;
-	consentData?: string;
-}
-
 export interface A9GDPR {
 	gdpr: {
 		enabled: boolean;

@@ -18,7 +18,6 @@ import {
 	A9SlotConfig,
 	A9SlotDefinition,
 	ApstagConfig,
-	ConsentData,
 	PriceMap,
 } from './types';
 
@@ -267,11 +266,11 @@ export class A9 extends BaseBidder {
 		});
 	}
 
-	protected callBids(): void {
+	protected async callBids(): Promise<void> {
 		if (this.isCMPEnabled && this.cmp.exists) {
-			this.cmp.getConsentData(null, (consentData) => {
-				this.init(consentData);
-			});
+			const consentData = await this.cmp.getConsentData();
+
+			this.init(consentData);
 		} else {
 			this.init();
 		}
