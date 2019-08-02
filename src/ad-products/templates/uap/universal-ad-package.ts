@@ -9,7 +9,7 @@ import {
 	TwitchPlayer,
 	utils,
 } from '@ad-engine/core';
-import { throttle } from 'lodash';
+import { throttle } from 'lodash-es';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
 import { VideoSettings } from './video-settings';

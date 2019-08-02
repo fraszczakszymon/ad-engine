@@ -1,4 +1,4 @@
-import { get, set } from 'lodash';
+import { get, set } from 'lodash-es';
 import { logger } from './utils';
 
 export function logVersion(): void {

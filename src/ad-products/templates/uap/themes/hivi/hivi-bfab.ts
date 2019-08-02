@@ -6,7 +6,7 @@ import {
 	SlotTweaker,
 	utils,
 } from '@ad-engine/core';
-import { mapValues } from 'lodash';
+import { mapValues } from 'lodash-es';
 import { animate } from '../../../interface/animate';
 import {
 	CSS_CLASSNAME_FADE_IN_ANIMATION,

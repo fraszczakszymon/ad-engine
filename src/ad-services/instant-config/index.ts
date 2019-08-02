@@ -1,5 +1,5 @@
 import { context, utils } from '@ad-engine/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 const logGroup = 'instant-config';
 const instantGlobalsQueryParamPrefix = 'InstantGlobals';
