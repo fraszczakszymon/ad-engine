@@ -8,7 +8,7 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import * as Cookies from 'js-cookie';
-import { get, set } from 'lodash';
+import { get, set } from 'lodash-es';
 import { biddersContext } from './bidders/bidders-context';
 import { cmpWrapper } from './cmp/cmp-wrapper';
 import { slotsContext } from './slots';

@@ -1,5 +1,5 @@
 import { context, instantConfig, utils } from '@wikia/ad-engine';
-import { set } from 'lodash';
+import { set } from 'lodash-es';
 import adContext from '../../context';
 
 const breakConfigButton = document.getElementById('break-config');
