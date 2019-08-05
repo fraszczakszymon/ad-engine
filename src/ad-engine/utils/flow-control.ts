@@ -1,4 +1,4 @@
-import * as EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 export const wait = (milliseconds = 0) =>
 	new Promise((resolve, reject) => {
@@ -23,15 +23,13 @@ export function defer<T>(fn: (...args: any) => T, ...args: any): Promise<T> {
 	});
 }
 
-export function once(
-	emitter: EventEmitter | Window,
-	eventName: string,
-	options = {},
-): Promise<any> {
+export class EE extends EventEmitter {}
+
+export function once(emitter: EE | Window, eventName: string, options = {}): Promise<any> {
 	const isObject: boolean = typeof emitter === 'object';
 	const hasAddEventListener: boolean =
 		isObject && typeof (emitter as Window).addEventListener === 'function';
-	const hasOnce: boolean = isObject && typeof (emitter as EventEmitter).once === 'function';
+	const hasOnce: boolean = isObject && typeof (emitter as EE).once === 'function';
 
 	return new Promise((resolve, reject) => {
 		if (typeof options === 'boolean') {
@@ -39,7 +37,7 @@ export function once(
 		}
 
 		if (hasOnce) {
-			(emitter as EventEmitter).once(eventName, resolve);
+			(emitter as EE).once(eventName, resolve);
 		} else if (hasAddEventListener) {
 			(emitter as Window).addEventListener(eventName, resolve, { ...options, once: true });
 		} else {

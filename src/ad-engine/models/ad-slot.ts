@@ -1,4 +1,4 @@
-import * as EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { AdStackPayload, eventService } from '../';
 import { overscrollListener, slotListener } from '../listeners';
 import { ADX, GptSizeMapping } from '../providers';

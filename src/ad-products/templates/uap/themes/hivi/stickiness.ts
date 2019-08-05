@@ -1,5 +1,5 @@
 import { AdSlot, slotTweaker, utils } from '@ad-engine/core';
-import * as EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { isFunction } from 'lodash-es';
 
 export type CustomWhen = (() => Promise<void>) | Promise<void>;

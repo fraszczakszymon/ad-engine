@@ -1,4 +1,4 @@
-import * as EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { logger } from '../utils';
 
 const groupName = 'eventService';
@@ -20,7 +20,7 @@ export const events = {
 	PREBID_LAZY_CALL: Symbol('PREBID_LAZY_CALL'),
 };
 
-class EventService extends EventEmitter.EventEmitter {
+class EventService extends EventEmitter {
 	emit(event: symbol | string, ...args: any[]): boolean {
 		logger(groupName, 'emit', event, ...args);
 		return super.emit(event, ...args);

@@ -6,7 +6,7 @@ import {
 	slotTweaker,
 	utils,
 } from '@ad-engine/core';
-import * as EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { debounce, isUndefined, mapValues, toPlainObject } from 'lodash-es';
 import { animate } from '../../../interface/animate';
 import { StickinessCallback } from '../../big-fancy-ad-above';
