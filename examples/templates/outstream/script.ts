@@ -21,6 +21,10 @@ context.set('targeting.artid', '503');
 context.set('slots.incontent_boxad.disabled', false);
 context.set('options.tracking.kikimora.player', true);
 
+if (utils.queryString.get('porvata-direct') === '1') {
+	context.set('slots.incontent_player.customFiller', 'porvata');
+}
+
 context.push('listeners.slot', {
 	onStatusChanged: (adSlot) => {
 		console.log(`⛳ ${adSlot.getSlotName()}: %c${adSlot.getStatus()}`, 'font-weight: bold');

@@ -1,6 +1,6 @@
 import { PorvataListener } from '../../../listeners';
 import { client, LazyQueue, tryProperty, viewportObserver, whichProperty } from '../../../utils';
-import { Targeting } from './../../../models';
+import { AdSlot, Targeting } from './../../../models';
 import { googleIma } from './ima/google-ima';
 import { GoogleImaPlayer } from './ima/google-ima-player-factory';
 import { VideoParams, VideoSettings } from './video-settings';
@@ -284,6 +284,12 @@ export class PorvataPlayer {
 
 	destroy(): void {
 		this.destroyCallbacks.flush();
+	}
+}
+
+export class PorvataFiller {
+	fill(adslot: AdSlot) {
+		adslot.getElement().innerHTML = 'FILLED!';
 	}
 }
 
