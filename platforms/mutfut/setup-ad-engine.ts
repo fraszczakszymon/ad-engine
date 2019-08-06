@@ -11,7 +11,6 @@ import { biddersDelay } from './bidders/bidders-delay';
 import { adsSetup } from './setup';
 import { hideAllAdSlots } from './templates/hide-all-ad-slots';
 import { PageTracker } from './tracking/page-tracker';
-import { editModeManager } from './utils/edit-mode-manager';
 import { babDetection } from './wad/bab-detection';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
@@ -33,7 +32,6 @@ export async function setupAdEngine(isOptedIn): Promise<void> {
 	});
 
 	if (context.get('state.showAds')) {
-		editModeManager.onActivate(() => hideAllAdSlots());
 		callExternals();
 		startAdEngine();
 	} else {

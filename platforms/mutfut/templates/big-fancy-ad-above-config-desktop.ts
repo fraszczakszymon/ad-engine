@@ -9,7 +9,6 @@ import {
 	universalAdPackage,
 	utils,
 } from '@wikia/ad-engine';
-import { editModeManager } from '../utils/edit-mode-manager';
 
 const {
 	CSS_CLASSNAME_STICKY_BFAA,
@@ -41,7 +40,6 @@ export function getBfaaConfigDesktop(): any {
 		enabled: true,
 
 		onInit(adSlot: AdSlot, params: UapParams, config: BigFancyAdAboveConfig): void {
-			this.enabled = !editModeManager.isInEditMode;
 			this.adSlot = adSlot;
 			this.templateParams = params;
 			this.config = config || context.get('templates.bfaa') || {};
@@ -52,12 +50,6 @@ export function getBfaaConfigDesktop(): any {
 			slotTweaker.onReady(adSlot).then(() => {
 				this.adjustPageMargin();
 				this.adjustPageMarginOnScroll = scrollListener.addCallback(() => this.adjustPageMargin());
-				editModeManager.onActivate(() => {
-					this.enabled = false;
-					this.adSlot.destroy();
-					this.adjustPageMargin();
-					this.updateNavbar();
-				});
 			});
 		},
 
@@ -121,7 +113,7 @@ export function getBfaaConfigDesktop(): any {
 		adjustPageMargin(resolved: boolean): void {
 			const aspectRatio = this.getSlotRatio(resolved);
 
-			this.enabled ? this.setPageMargin(aspectRatio) : this.removePageMargin();
+			this.setPageMargin(aspectRatio);
 		},
 
 		setPageMargin(aspectRatio: number): void {
@@ -154,8 +146,7 @@ export function getBfaaConfigDesktop(): any {
 		adjustSlotMargin(): void {
 			const container = this.adSlot.getElement();
 			const isSticky = container.classList.contains(CSS_CLASSNAME_STICKY_BFAA);
-
-			this.enabled ? this.setSlotMargin(isSticky, container) : this.removeSlotMargin();
+			this.setSlotMargin(isSticky, container);
 		},
 
 		setSlotMargin(isSticky: boolean, container: HTMLElement): void {
@@ -195,13 +186,8 @@ export function getBfaaConfigDesktop(): any {
 
 		moveNavbar(offset: number): void {
 			if (this.navbarElement) {
-				if (this.enabled) {
-					this.navbarElement.style.position = 'fixed';
-					this.navbarElement.style.top = offset ? `${offset}px` : '';
-				} else {
-					this.navbarElement.style.setProperty('position', null, null);
-					this.navbarElement.style.setProperty('top', null, null);
-				}
+				this.navbarElement.style.position = 'fixed';
+				this.navbarElement.style.top = offset ? `${offset}px` : '';
 			}
 		},
 	};
