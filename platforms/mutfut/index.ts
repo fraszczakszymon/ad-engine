@@ -1,16 +1,20 @@
-import { context } from '@wikia/ad-engine';
-import { basicContext } from '../gamepedia/ad-context';
+import { context, utils } from '@wikia/ad-engine';
+import { basicContext } from './ad-context';
 import { cmpWrapper } from './cmp/cmp-wrapper';
 import { setupAdEngine } from './setup-ad-engine';
 import './styles.scss';
 
-const geo = 'PL';
+async function bootstrap(): Promise<void> {
+	const geo = utils.geoService.setUpGeoData().country;
 
-context.set('country', geo);
-context.set('custom.isCMPEnabled', cmpWrapper.geoRequiresConsent(geo));
-context.set('options.geoRequiresConsent', cmpWrapper.geoRequiresConsent(geo));
-
-cmpWrapper.init().then(() => {
 	context.extend(basicContext);
-	cmpWrapper.getConsent(geo).then((response) => setupAdEngine(response));
-});
+
+	context.set('custom.isCMPEnabled', cmpWrapper.geoRequiresConsent(geo));
+	context.set('options.geoRequiresConsent', cmpWrapper.geoRequiresConsent(geo));
+
+	cmpWrapper.init().then(() => {
+		cmpWrapper.getConsent(geo).then((response) => setupAdEngine(response));
+	});
+}
+
+bootstrap();

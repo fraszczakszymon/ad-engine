@@ -1,6 +1,5 @@
 interface Window {
 	__cmpStored?: WindowCMP;
-	mw: MediaWiki;
 	RLQ?: any;
 	XMLHttpRequest?: any;
 	sessionId?: string;

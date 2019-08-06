@@ -17,12 +17,18 @@ export interface GeoData {
 
 function setUpGeoData(): GeoData {
 	const jsonData = decodeURIComponent(Cookies.get('Geo'));
+
 	let geoData: GeoData = {};
 
 	try {
 		geoData = JSON.parse(jsonData) || {};
 	} catch (e) {
-		// Stay with {} value
+		// Staging and devboxes don't go through Fastly
+		geoData = {
+			region: 'WP',
+			country: 'PL',
+			continent: 'EU',
+		};
 	}
 
 	context.set('geo.region', geoData.region);

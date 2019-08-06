@@ -17,7 +17,7 @@ const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn): Promise<void> {
-	const wikiContext = window.mw ? window.mw.config.values : {};
+	const wikiContext = {};
 
 	await adsSetup.configure(wikiContext, isOptedIn);
 
