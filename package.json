@@ -121,8 +121,8 @@
 	"scripts": {
 		"serve": "npm run dev",
 		"dev": "webpack-dev-server --progress --config webpack.dev.js",
-		"dev:gp": "webpack-dev-server --progress --config webpack.platforms.js --env.PLATFORM=gamepedia",
-		"dev:mf": "webpack-dev-server --progress --config webpack.platforms.js --env.PLATFORM=mutfut",
+		"dev:gp": "webpack-dev-server --progress --config webpack.platforms.js --env.PLATFORM=gamepedia --port=9000",
+		"dev:mf": "webpack-dev-server --progress --config webpack.platforms.js --env.PLATFORM=mutfut --port=9100",
 		"prebuild": "rm -rf dist",
 		"build": "rollup -c rollup.config.js",
 		"build:examples": "webpack --progress --colors --hide-modules --config webpack.dev.js",
