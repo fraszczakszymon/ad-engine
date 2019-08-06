@@ -1,5 +1,4 @@
 interface Window {
-	__cmpStored?: WindowCMP;
 	mw: MediaWiki;
 	RLQ?: any;
 	pvUID?: string;
