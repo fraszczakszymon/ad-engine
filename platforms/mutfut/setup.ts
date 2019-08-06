@@ -8,15 +8,15 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { set } from 'lodash';
-import { biddersContext } from './bidders/bidders-context';
-import { slotsContext } from './slots';
-import { targeting } from './targeting';
-import { templateRegistry } from './templates/templates-registry';
+import { biddersContext } from '../shared/bidders/bidders-context';
+import { slotsContext } from '../shared/slots';
 import {
 	registerPorvataTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
-} from './tracking/tracker';
+} from '../shared/tracking/tracker';
+import { targeting } from './targeting';
+import { templateRegistry } from './templates/templates-registry';
 
 const fallbackInstantConfig = {
 	wgAdDriverA9BidderCountries: ['XX'],

@@ -1,6 +1,6 @@
 import { context, utils } from '@wikia/ad-engine';
-import { basicContext } from './ad-context';
-import { cmpWrapper } from './cmp/cmp-wrapper';
+import { basicContext } from '../shared/ad-context';
+import { cmpWrapper } from '../shared/cmp/cmp-wrapper';
 import { setupAdEngine } from './setup-ad-engine';
 import './styles.scss';
 

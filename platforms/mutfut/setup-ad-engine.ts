@@ -7,11 +7,11 @@ import {
 	geoCacheStorage,
 	utils,
 } from '@wikia/ad-engine';
-import { biddersDelay } from './bidders/bidders-delay';
+import { biddersDelay } from '../shared/bidders/bidders-delay';
+import { PageTracker } from '../shared/tracking/page-tracker';
+import { babDetection } from '../shared/wad/bab-detection';
 import { adsSetup } from './setup';
 import { hideAllAdSlots } from './templates/hide-all-ad-slots';
-import { PageTracker } from './tracking/page-tracker';
-import { babDetection } from './wad/bab-detection';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
