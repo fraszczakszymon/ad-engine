@@ -13,11 +13,11 @@ function getPageType(wg): string {
 }
 
 function getSkin(wikiContext): string {
-	let wikiSkin = wikiContext.skin;
+	let wikiSkin = wikiContext.skin || 'unknown';
 	const skins = ['hydra', 'minerva'];
 
 	skins.forEach((skin) => {
-		if (wikiContext.skin.includes(skin)) {
+		if (wikiSkin.includes(skin)) {
 			wikiSkin = skin;
 		}
 	});
