@@ -17,7 +17,7 @@ import { editModeManager } from './utils/edit-mode-manager';
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
-export async function setupAdEngine(isOptedIn): Promise<void> {
+export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	const wikiContext = window.mw ? window.mw.config.values : {};
 
 	await adsSetup.configure(wikiContext, isOptedIn);

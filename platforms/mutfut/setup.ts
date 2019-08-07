@@ -38,7 +38,7 @@ const fallbackInstantConfig = {
 class AdsSetup {
 	private instantConfig: InstantConfigService;
 
-	async configure(wikiContext, isOptedIn): Promise<void> {
+	async configure(wikiContext, isOptedIn: boolean): Promise<void> {
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 		this.instantConfig = await InstantConfigService.init();
 
