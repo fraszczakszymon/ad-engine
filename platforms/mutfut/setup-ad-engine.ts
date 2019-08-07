@@ -11,12 +11,12 @@ import { biddersDelay } from '../shared/bidders/bidders-delay';
 import { PageTracker } from '../shared/tracking/page-tracker';
 import { babDetection } from '../shared/wad/bab-detection';
 import { adsSetup } from './setup';
-import { hideAllAdSlots } from './templates/hide-all-ad-slots';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn): Promise<void> {
+	// TODO: Add actual context
 	const wikiContext = {};
 
 	await adsSetup.configure(wikiContext, isOptedIn);
@@ -35,7 +35,7 @@ export async function setupAdEngine(isOptedIn): Promise<void> {
 		callExternals();
 		startAdEngine();
 	} else {
-		hideAllAdSlots();
+		// Hide All Ad Slots
 	}
 
 	trackLabradorValues();

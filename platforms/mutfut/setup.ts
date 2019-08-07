@@ -16,7 +16,6 @@ import {
 	registerViewabilityTracker,
 } from '../shared/tracking/tracker';
 import { targeting } from './targeting';
-import { templateRegistry } from './templates/templates-registry';
 
 const fallbackInstantConfig = {
 	wgAdDriverA9BidderCountries: ['XX'],
@@ -45,7 +44,6 @@ class AdsSetup {
 
 		this.setupAdContext(wikiContext, isOptedIn);
 		setupNpaContext();
-		templateRegistry.registerTemplates();
 
 		registerPorvataTracker();
 		registerSlotTracker();
