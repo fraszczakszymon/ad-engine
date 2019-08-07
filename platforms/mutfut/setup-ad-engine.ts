@@ -62,6 +62,7 @@ function startAdEngine(): void {
 	context.push('state.adStack', { id: 'cdm-zone-06' });
 }
 
+// TODO: remove
 function trackLabradorValues(): void {
 	const labradorPropValue = geoCacheStorage.getSamplingResults().join(';');
 
