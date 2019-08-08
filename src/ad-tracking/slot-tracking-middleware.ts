@@ -30,6 +30,7 @@ export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, 
 			country: (utils.geoService.getCountryCode() || '').toUpperCase(),
 			device: utils.client.getDeviceType(),
 			document_visibility: utils.getDocumentVisibilityStatus(),
+			is_uap: slot.getConfigProperty('targeting.uap') ? 1 : 0,
 			key_vals: Object.keys(keyVals)
 				.filter((key) => keyVals[key])
 				.map((key) => `${key}=${keyVals[key]}`)
@@ -47,7 +48,8 @@ export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, 
 			labrador: geoCacheStorage.getSamplingResults().join(';'),
 			opt_in: checkOptIn(),
 			page_layout: `pos_top=${topOffset}`,
-			page_width: window.document.body.scrollWidth || '',
+			page_width:
+				(window.document.body.scrollWidth && window.document.body.scrollWidth.toString()) || '',
 			pv: window.pvNumber || '',
 			pv_unique_id: window.pvUID || '',
 			scroll_y: window.scrollY || window.pageYOffset,
