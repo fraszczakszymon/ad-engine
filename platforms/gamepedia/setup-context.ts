@@ -36,7 +36,7 @@ const fallbackInstantConfig = {
 	wgAdDriverUapRestriction: 1,
 };
 
-class AdsSetup {
+class ContextSetup {
 	private instantConfig: InstantConfigService;
 
 	async configure(wikiContext, isOptedIn: boolean): Promise<void> {
@@ -197,4 +197,4 @@ class AdsSetup {
 	}
 }
 
-export const adsSetup = new AdsSetup();
+export const adsSetup = new ContextSetup();
