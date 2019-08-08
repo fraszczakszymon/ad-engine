@@ -1,4 +1,6 @@
 import { PorvataListener } from '../../../listeners';
+import { context } from '../../../services/context-service';
+import { templateService } from '../../../services/template-service';
 import { client, LazyQueue, tryProperty, viewportObserver, whichProperty } from '../../../utils';
 import { AdSlot, Targeting } from './../../../models';
 import { googleIma } from './ima/google-ima';
@@ -287,9 +289,68 @@ export class PorvataPlayer {
 	}
 }
 
+/*
+
+div id slot
+	container
+		iframe
+			document
+				creative
+
+ */
+
 export class PorvataFiller {
-	fill(adslot: AdSlot) {
-		adslot.getElement().innerHTML = 'FILLED!';
+	private porvataParams = {
+		type: 'porvata3',
+		theme: 'hivi',
+		adProduct: 'incontent_veles',
+		autoPlay: true,
+		startInViewportOnly: true,
+		blockOutOfViewportPausing: true,
+		enableInContentFloating: true,
+		fallbackBidBlockOutOfViewportPausing: false,
+		fallbackBidEnableInContentFloating: false,
+		width: 1,
+		height: 1,
+		src: context.get('src'),
+		lineItemId: '',
+		creativeId: '',
+		trackingDisabled: false,
+		loadVideoTimeout: 30000,
+		vpaidMode: 2,
+		vastTargeting: {
+			passback: 'veles',
+			pos: 'outstream',
+			src: 'test' /*context.get('src'),*/,
+		},
+	};
+
+	fill(adslot: AdSlot): void {
+		// ToDo: ogarnac co jest z src, czemu jest gpt
+		// ToDo: odhackowa makeResponsive i iframe
+		// ToDo: zobaczyc czy tracking dziala
+		// ToDo: refaktor kodu
+		// ToDo: style playera do css
+		// ToDo: jakie paramsy wyrabac?
+		// ToDo: czy testy dalej dzialaja?
+
+		const player = document.createElement('div');
+		player.setAttribute('id', 'playerContainer');
+
+		const iframe = document.createElement('iframe');
+		const container = document.createElement('div');
+		container.setAttribute('id', 'player_container_element');
+		container.appendChild(iframe);
+
+		adslot.getElement().appendChild(player);
+		adslot.getElement().appendChild(container);
+
+		// @ts-ignore
+		this.porvataParams.container = player;
+		// @ts-ignore
+		this.porvataParams.slotName = adslot.getSlotName();
+
+		templateService.init(this.porvataParams.type, adslot, this.porvataParams);
 	}
 }
 
