@@ -1,4 +1,6 @@
+import { context } from '@wikia/ad-engine';
 import { bootstrapAndGetCmpConsent } from '../shared/bootstrap';
+import { basicContext } from './ad-context';
 import { setupAdEngine } from './setup-ad-engine';
 import './styles.scss';
 
@@ -7,6 +9,8 @@ window.RLQ = window.RLQ || [];
 window.RLQ.push(async () => {
 	// AdEngine has to wait for Track extension
 	await window.mw.loader.using('ext.track.scripts');
+
+	context.extend(basicContext);
 
 	const consent: boolean = await bootstrapAndGetCmpConsent();
 
