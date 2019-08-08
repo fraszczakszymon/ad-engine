@@ -10,13 +10,13 @@ import {
 import { set } from 'lodash';
 import { biddersContext } from '../shared/bidders/bidders-context';
 import { slotsContext } from '../shared/slots';
+import { targeting } from './targeting';
+import { templateRegistry } from './templates/templates-registry';
 import {
 	registerPorvataTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
-} from '../shared/tracking/tracker';
-import { targeting } from './targeting';
-import { templateRegistry } from './templates/templates-registry';
+} from './tracking/tracker';
 
 const fallbackInstantConfig = {
 	wgAdDriverA9BidderCountries: ['XX'],

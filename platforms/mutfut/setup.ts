@@ -10,11 +10,6 @@ import {
 import { set } from 'lodash';
 import { biddersContext } from '../shared/bidders/bidders-context';
 import { slotsContext } from '../shared/slots';
-import {
-	registerPorvataTracker,
-	registerSlotTracker,
-	registerViewabilityTracker,
-} from '../shared/tracking/tracker';
 import { targeting } from './targeting';
 
 const fallbackInstantConfig = {
@@ -44,10 +39,6 @@ class AdsSetup {
 
 		this.setupAdContext(wikiContext, isOptedIn);
 		setupNpaContext();
-
-		registerPorvataTracker();
-		registerSlotTracker();
-		registerViewabilityTracker();
 	}
 
 	private setupAdContext(wikiContext, isOptedIn = false): void {

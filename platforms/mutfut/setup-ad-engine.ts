@@ -1,14 +1,5 @@
-import {
-	AdEngine,
-	bidders,
-	context,
-	events,
-	eventService,
-	geoCacheStorage,
-	utils,
-} from '@wikia/ad-engine';
+import { AdEngine, bidders, context, events, eventService, utils } from '@wikia/ad-engine';
 import { biddersDelay } from '../shared/bidders/bidders-delay';
-import { PageTracker } from '../shared/tracking/page-tracker';
 import { babDetection } from '../shared/wad/bab-detection';
 import { adsSetup } from './setup';
 
@@ -35,10 +26,8 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 		callExternals();
 		startAdEngine();
 	} else {
-		// Hide All Ad Slots
+		// TODO: Hide All Ad Slots
 	}
-
-	trackLabradorValues();
 }
 
 function startAdEngine(): void {
@@ -60,15 +49,6 @@ function startAdEngine(): void {
 	context.push('state.adStack', { id: 'cdm-zone-03' });
 	context.push('state.adStack', { id: 'cdm-zone-04' });
 	context.push('state.adStack', { id: 'cdm-zone-06' });
-}
-
-// TODO: remove
-function trackLabradorValues(): void {
-	const labradorPropValue = geoCacheStorage.getSamplingResults().join(';');
-
-	if (labradorPropValue) {
-		PageTracker.trackProp('labrador', labradorPropValue);
-	}
 }
 
 function callExternals(): void {
