@@ -9,6 +9,7 @@ import {
 } from '@wikia/ad-engine';
 import { set } from 'lodash';
 import { biddersContext } from '../shared/bidders/bidders-context';
+import { getDeviceMode } from '../shared/models/device-mode';
 import { slotsContext } from '../shared/slots';
 import { targeting } from './targeting';
 
@@ -42,7 +43,7 @@ class AdsSetup {
 	}
 
 	private setupAdContext(wikiContext, isOptedIn = false): void {
-		const isMobile = !utils.client.isDesktop();
+		const isMobile = getDeviceMode() === 'mobile';
 
 		context.set('wiki', wikiContext);
 		context.set('state.showAds', true);
