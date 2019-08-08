@@ -1,3 +1,4 @@
+import { babDetection, biddersDelay } from '@platforms/shared';
 import {
 	AdEngine,
 	bidders,
@@ -7,8 +8,7 @@ import {
 	geoCacheStorage,
 	utils,
 } from '@wikia/ad-engine';
-import { biddersDelay } from '../shared/bidders/bidders-delay';
-import { babDetection } from '../shared/wad/bab-detection';
+
 import { adsSetup } from './setup-context';
 import { hideAllAdSlots } from './templates/hide-all-ad-slots';
 import { trackBab } from './tracking/bab-tracker';

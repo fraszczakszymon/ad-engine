@@ -1,6 +1,5 @@
+import { babDetection, biddersDelay } from '@platforms/shared';
 import { AdEngine, bidders, context, events, eventService, utils } from '@wikia/ad-engine';
-import { biddersDelay } from '../shared/bidders/bidders-delay';
-import { babDetection } from '../shared/wad/bab-detection';
 import { adsSetup } from './setup-context';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';

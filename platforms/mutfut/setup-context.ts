@@ -1,3 +1,4 @@
+import { biddersContext, getDeviceMode, slotsContext } from '@platforms/shared';
 import {
 	AdSlot,
 	context,
@@ -8,9 +9,6 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { set } from 'lodash';
-import { biddersContext } from '../shared/bidders/bidders-context';
-import { getDeviceMode } from '../shared/models/device-mode';
-import { slotsContext } from '../shared/slots';
 import { targeting } from './targeting';
 
 const fallbackInstantConfig = {

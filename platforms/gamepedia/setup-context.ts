@@ -1,3 +1,4 @@
+import { biddersContext, slotsContext } from '@platforms/shared';
 import {
 	AdSlot,
 	context,
@@ -8,8 +9,6 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { set } from 'lodash';
-import { biddersContext } from '../shared/bidders/bidders-context';
-import { slotsContext } from '../shared/slots';
 import { targeting } from './targeting';
 import { templateRegistry } from './templates/templates-registry';
 import {
