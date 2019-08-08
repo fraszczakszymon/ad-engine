@@ -8,6 +8,7 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { biddersDelay } from '../shared/bidders/bidders-delay';
+import { trackBab } from '../shared/tracking/bab-tracker';
 import { PageTracker } from '../shared/tracking/page-tracker';
 import { babDetection } from '../shared/wad/bab-detection';
 import { adsSetup } from './setup';
@@ -49,7 +50,7 @@ function startAdEngine(): void {
 	const engine = new AdEngine();
 
 	engine.init();
-	babDetection.run();
+	babDetection.run().then((isBabDetected) => trackBab(isBabDetected));
 
 	context.push('listeners.slot', {
 		onRenderEnded: (slot) => {
