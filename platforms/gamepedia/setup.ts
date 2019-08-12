@@ -14,6 +14,7 @@ import { targeting } from './targeting';
 import { templateRegistry } from './templates/templates-registry';
 import {
 	registerPorvataTracker,
+	registerPostmessageTrackingTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
 } from './tracking/tracker';
@@ -50,6 +51,7 @@ class AdsSetup {
 		registerPorvataTracker();
 		registerSlotTracker();
 		registerViewabilityTracker();
+		registerPostmessageTrackingTracker();
 	}
 
 	private setupAdContext(wikiContext, isOptedIn = false): void {
@@ -64,6 +66,7 @@ class AdsSetup {
 		context.set('options.tracking.slot.status', true);
 		context.set('options.tracking.slot.viewability', true);
 		context.set('options.trackingOptIn', isOptedIn);
+		context.set('options.tracking.postmessage', true);
 
 		context.set(
 			'options.video.isOutstreamEnabled',
@@ -110,6 +113,9 @@ class AdsSetup {
 			context.get('bidders.prebid.enabled') || context.get('bidders.a9.enabled'),
 		);
 
+		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
+		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
+
 		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
 
 		context.set('slots', slotsContext.generate());
@@ -125,9 +131,8 @@ class AdsSetup {
 			slotsContext.addSlotSize('cdm-zone-01', uapSize);
 		}
 
-		// ToDo: rest of context
-
 		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
+		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 
 		this.injectIncontentPlayer();
 

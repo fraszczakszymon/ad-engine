@@ -369,12 +369,15 @@ export default {
 			timeout: 2000,
 		},
 		instantConfig: {
-			endpoint: 'https://services.wikia-dev.pl/icbm/api/config',
+			endpoint: 'https://services.wikia-dev.pl/icbm/api/config?app=oasis',
 			fallbackConfigKey: 'fallbackConfig',
 		},
 		krux: {
 			enabled: true,
 			id: 'KPSUiAKl',
+		},
+		taxonomy: {
+			enabled: false,
 		},
 		moatYi: {
 			enabled: true,
