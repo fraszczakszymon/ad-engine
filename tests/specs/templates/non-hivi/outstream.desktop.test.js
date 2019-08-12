@@ -4,6 +4,7 @@ import { adSlots } from '../../../common/ad-slots';
 import { timeouts } from '../../../common/timeouts';
 import { helpers } from '../../../common/helpers';
 import { queryStrings } from '../../../common/query-strings';
+import networkCapture from '../../../common/network-capture';
 
 describe('Outstream ads', () => {
 	let adStatus;
@@ -21,7 +22,7 @@ describe('Outstream ads', () => {
 		expect(adStatus.visible, 'Not in viewport').to.be.true;
 	});
 
-	it('Check if video is visible is floating', () => {
+	it('Check if video is visible while floating', () => {
 		browser.url(outstream.pageLink);
 		$(adSlots.topLeaderboard).waitForDisplayed(timeouts.standard);
 		helpers.waitForViewabillityCounted(timeouts.standard);
@@ -42,5 +43,16 @@ describe('Outstream ads', () => {
 		helpers.slowScroll(outstream.pageLength);
 		adStatus = adSlots.getSlotStatus(adSlots.incontentPlayer, true);
 		expect(adStatus.inViewport, 'Not in viewport').to.be.false;
+	});
+
+	it.only('Check if porvata is loaded without GAM call', () => {
+		helpers.navigateToUrl(outstream.pageLink, queryStrings.getPorvataDirect(true));
+		$(adSlots.topLeaderboard).waitForDisplayed(timeouts.standard);
+		helpers.waitForViewabillityCounted(timeouts.standard);
+		adStatus = adSlots.getSlotStatus(adSlots.incontentPlayer, true);
+		$(adSlots.incontentPlayer).scrollIntoView();
+		helpers.waitToStartPlaying();
+		expect($(adSlots.incontentPlayer).isDisplayed(), 'Incontent not visible').to.be.true;
+		expect(networkCapture.logsIncludesMessage('ads? player', logs, 'any', true)).to.be.false; // not sure :F
 	});
 });
