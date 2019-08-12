@@ -131,9 +131,8 @@ class AdsSetup {
 			slotsContext.addSlotSize('cdm-zone-01', uapSize);
 		}
 
-		// ToDo: rest of context
-
 		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
+		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 
 		this.injectIncontentPlayer();
 

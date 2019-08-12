@@ -1,6 +1,7 @@
 import {
 	AdEngine,
 	bidders,
+	confiant,
 	context,
 	events,
 	eventService,
@@ -78,6 +79,8 @@ function callExternals(): void {
 	bidders.requestBids({
 		responseListener: biddersDelay.markAsReady,
 	});
+
+	confiant.call();
 
 	taxonomyService.configurePageLevelTargeting();
 }
