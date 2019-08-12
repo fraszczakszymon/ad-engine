@@ -5,7 +5,7 @@ import {
 	DelayModule,
 	events,
 	eventService,
-	playerEvents,
+	playerEvents, PorvataFiller,
 	PorvataTemplate,
 	porvataTracker,
 	slotService,
@@ -14,6 +14,7 @@ import {
 } from '@wikia/ad-engine';
 import customContext from '../../context';
 import '../../styles.scss';
+import { slotFillers } from "../../../src/ad-engine/services/slot-filler";
 
 context.extend(customContext);
 
@@ -68,6 +69,8 @@ templateService.register(PorvataTemplate, {
 	isFloatingEnabled: utils.queryString.get('floating') !== '0',
 	inViewportOffsetTop: 58,
 });
+
+slotFillers.register(new PorvataFiller());
 
 eventService.on(events.AD_SLOT_CREATED, (slot) => {
 	bidders.updateSlotTargeting(slot.getSlotName());

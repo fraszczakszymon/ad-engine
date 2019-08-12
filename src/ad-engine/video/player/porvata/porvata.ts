@@ -6,6 +6,7 @@ import { AdSlot, Targeting } from './../../../models';
 import { googleIma } from './ima/google-ima';
 import { GoogleImaPlayer } from './ima/google-ima-player-factory';
 import { VideoParams, VideoSettings } from './video-settings';
+import { SlotFiller } from "../../../services/slot-filler";
 
 export interface PorvataTemplateParams {
 	vpaidMode: google.ima.ImaSdkSettings.VpaidMode;
@@ -299,7 +300,8 @@ div id slot
 
  */
 
-export class PorvataFiller {
+export class PorvataFiller implements SlotFiller {
+
 	private porvataParams = {
 		type: 'porvata3',
 		theme: 'hivi',
@@ -307,9 +309,7 @@ export class PorvataFiller {
 		autoPlay: true,
 		startInViewportOnly: true,
 		blockOutOfViewportPausing: true,
-		enableInContentFloating: true,
-		fallbackBidBlockOutOfViewportPausing: false,
-		fallbackBidEnableInContentFloating: false,
+		enableInContentFloating: false,
 		width: 1,
 		height: 1,
 		src: context.get('src'),
@@ -321,18 +321,19 @@ export class PorvataFiller {
 		vastTargeting: {
 			passback: 'veles',
 			pos: 'outstream',
-			src: 'test' /*context.get('src'),*/,
+			src: null,
 		},
 	};
 
 	fill(adslot: AdSlot): void {
-		// ToDo: ogarnac co jest z src, czemu jest gpt
-		// ToDo: odhackowa makeResponsive i iframe
-		// ToDo: zobaczyc czy tracking dziala
-		// ToDo: refaktor kodu
-		// ToDo: style playera do css
-		// ToDo: jakie paramsy wyrabac?
+		// DONE: ogarnac co jest z src, czemu jest gpt
+		// ToDo: odhackowac makeResponsive i iframe
+		// LATERToDo: zobaczyc czy tracking dziala - waiting for implementation
+		// DONE: refaktor kodu
+		// DONE: style playera do css
+		// DONE: jakie paramsy wyrabac?
 		// ToDo: czy testy dalej dzialaja?
+		// LATERToDo: sprawdzic czy tracking dziala + lineItemId, creativeId. - waiting for implementation
 
 		const player = document.createElement('div');
 		player.setAttribute('id', 'playerContainer');
@@ -345,6 +346,7 @@ export class PorvataFiller {
 		adslot.getElement().appendChild(player);
 		adslot.getElement().appendChild(container);
 
+		this.porvataParams.vastTargeting.src = context.get('src');
 		// @ts-ignore
 		this.porvataParams.container = player;
 		// @ts-ignore
@@ -352,6 +354,11 @@ export class PorvataFiller {
 
 		templateService.init(this.porvataParams.type, adslot, this.porvataParams);
 	}
+
+	getName(): string {
+		return 'porvata';
+	}
+
 }
 
 export class Porvata {

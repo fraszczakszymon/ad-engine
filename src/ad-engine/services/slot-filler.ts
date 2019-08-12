@@ -1,8 +1,22 @@
-import { PorvataFiller } from '../video/player/porvata/porvata';
+import { AdSlot, Dictionary } from '../models';
 
-export const slotFiller = {
-	// ToDo const fillery
+export interface SlotFiller {
+	getName: () => string;
+	fill: (adSlot: AdSlot) => void;
+}
 
-	// ToDo: funkcja register, get, add
-	porvata: new PorvataFiller(),
-};
+class SlotFillers {
+	fillers: Dictionary<SlotFiller> = {};
+
+	register(filler: SlotFiller) {
+		const fillerName = filler.getName();
+
+		this.fillers[fillerName] = filler;
+	}
+
+	apply(adSlot: AdSlot, fillerName: string) {
+		this.fillers[fillerName].fill(adSlot);
+	}
+
+}
+export const slotFillers = new SlotFillers();
