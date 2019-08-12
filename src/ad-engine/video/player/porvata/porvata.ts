@@ -349,7 +349,7 @@ export class PorvataFiller implements SlotFiller {
 		// @ts-ignore
 		this.porvataParams.container = player;
 		// @ts-ignore
-		this.porvataParams.slotName = adslot.getSlotName();
+		this.porvataParams.slotName = adSlot.getSlotName();
 
 		templateService.init(this.porvataParams.type, adSlot, this.porvataParams);
 	}
