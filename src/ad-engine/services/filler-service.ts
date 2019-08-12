@@ -1,22 +1,21 @@
 import { AdSlot, Dictionary } from '../models';
 
 export interface SlotFiller {
-	getName: () => string;
 	fill: (adSlot: AdSlot) => void;
+	getName: () => string;
 }
 
-class SlotFillers {
+class FillerService {
 	fillers: Dictionary<SlotFiller> = {};
 
-	register(filler: SlotFiller) {
+	apply(adSlot: AdSlot, fillerName: string): void {
+		this.fillers[fillerName].fill(adSlot);
+	}
+
+	register(filler: SlotFiller): void {
 		const fillerName = filler.getName();
 
 		this.fillers[fillerName] = filler;
 	}
-
-	apply(adSlot: AdSlot, fillerName: string) {
-		this.fillers[fillerName].fill(adSlot);
-	}
-
 }
-export const slotFillers = new SlotFillers();
+export const fillerService = new FillerService();

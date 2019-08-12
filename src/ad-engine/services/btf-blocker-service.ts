@@ -3,7 +3,7 @@ import { AdSlot, Dictionary, SlotConfig } from '../models';
 import { LazyQueue, logger } from '../utils';
 import { context } from './context-service';
 import { events, eventService } from './events';
-import { slotFillers } from './slot-filler';
+import { fillerService } from './filler-service';
 import { slotService } from './slot-service';
 
 type FillInCallback = (adSlot: AdSlot) => void;
@@ -119,7 +119,7 @@ class BtfBlockerService {
 		if (adSlot.getConfigProperty('customFiller')) {
 			const fillerName = adSlot.getConfigProperty('customFiller');
 
-			slotFillers.apply(adSlot, fillerName);
+			fillerService.apply(adSlot, fillerName);
 
 			logger(logGroup, adSlot.getSlotName(), 'Custom filler', fillerName);
 

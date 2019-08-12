@@ -1,12 +1,12 @@
 import { PorvataListener } from '../../../listeners';
 import { context } from '../../../services/context-service';
+import { SlotFiller } from '../../../services/filler-service';
 import { templateService } from '../../../services/template-service';
 import { client, LazyQueue, tryProperty, viewportObserver, whichProperty } from '../../../utils';
 import { AdSlot, Targeting } from './../../../models';
 import { googleIma } from './ima/google-ima';
 import { GoogleImaPlayer } from './ima/google-ima-player-factory';
 import { VideoParams, VideoSettings } from './video-settings';
-import { SlotFiller } from "../../../services/slot-filler";
 
 export interface PorvataTemplateParams {
 	vpaidMode: google.ima.ImaSdkSettings.VpaidMode;
@@ -301,7 +301,6 @@ div id slot
  */
 
 export class PorvataFiller implements SlotFiller {
-
 	private porvataParams = {
 		type: 'porvata3',
 		theme: 'hivi',
@@ -325,7 +324,7 @@ export class PorvataFiller implements SlotFiller {
 		},
 	};
 
-	fill(adslot: AdSlot): void {
+	fill(adSlot: AdSlot): void {
 		// DONE: ogarnac co jest z src, czemu jest gpt
 		// ToDo: odhackowac makeResponsive i iframe
 		// LATERToDo: zobaczyc czy tracking dziala - waiting for implementation
@@ -343,8 +342,8 @@ export class PorvataFiller implements SlotFiller {
 		container.setAttribute('id', 'player_container_element');
 		container.appendChild(iframe);
 
-		adslot.getElement().appendChild(player);
-		adslot.getElement().appendChild(container);
+		adSlot.getElement().appendChild(player);
+		adSlot.getElement().appendChild(container);
 
 		this.porvataParams.vastTargeting.src = context.get('src');
 		// @ts-ignore
@@ -352,13 +351,12 @@ export class PorvataFiller implements SlotFiller {
 		// @ts-ignore
 		this.porvataParams.slotName = adslot.getSlotName();
 
-		templateService.init(this.porvataParams.type, adslot, this.porvataParams);
+		templateService.init(this.porvataParams.type, adSlot, this.porvataParams);
 	}
 
 	getName(): string {
 		return 'porvata';
 	}
-
 }
 
 export class Porvata {
