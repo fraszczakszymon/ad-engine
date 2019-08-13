@@ -27,3 +27,19 @@ export function getDocumentVisibilityStatus(): VisibilityStatusType {
 
 	return status;
 }
+
+/**
+ * Check if element is an Iframe.
+ */
+
+export function isIframe(input: HTMLIFrameElement | HTMLElement): input is HTMLIFrameElement {
+	let isIframe: boolean;
+
+	if (input.tagName === 'IFRAME') {
+		isIframe = true;
+	} else {
+		isIframe = false;
+	}
+
+	return isIframe;
+}

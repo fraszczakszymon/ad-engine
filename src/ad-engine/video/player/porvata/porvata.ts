@@ -26,6 +26,27 @@ export interface PorvataTemplateParams {
 	onReady: (player: PorvataPlayer) => void;
 }
 
+export interface PorvataGamParams {
+	container: HTMLElement;
+	slotName: string;
+	type: string;
+	theme: string;
+	adProduct: string;
+	autoPlay: boolean;
+	startInViewportOnly: boolean;
+	blockOutOfViewportPausing: boolean;
+	enableInContentFloating: boolean;
+	width: number;
+	height: number;
+	src: string;
+	lineItemId: string;
+	creativeId: string;
+	trackingDisabled: boolean;
+	loadVideoTimeout: number;
+	vpaidMode: google.ima.ImaSdkSettings.VpaidMode;
+	vastTargeting: Targeting;
+}
+
 interface NativeFullscreen {
 	enter: () => boolean | undefined;
 	exit: () => boolean | undefined;
@@ -290,18 +311,11 @@ export class PorvataPlayer {
 	}
 }
 
-/*
-
-div id slot
-	container
-		iframe
-			document
-				creative
-
- */
-
 export class PorvataFiller implements SlotFiller {
-	private porvataParams = {
+	private containerName = 'playerContainer';
+	private porvataParams: PorvataGamParams = {
+		container: null,
+		slotName: '',
 		type: 'porvata3',
 		theme: 'hivi',
 		adProduct: 'incontent_veles',
@@ -325,33 +339,20 @@ export class PorvataFiller implements SlotFiller {
 	};
 
 	fill(adSlot: AdSlot): void {
-		// DONE: ogarnac co jest z src, czemu jest gpt
-		// ToDo: odhackowac makeResponsive i iframe
-		// LATERToDo: zobaczyc czy tracking dziala - waiting for implementation
-		// DONE: refaktor kodu
-		// DONE: style playera do css
-		// DONE: jakie paramsy wyrabac?
-		// ToDo: czy testy dalej dzialaja?
-		// LATERToDo: sprawdzic czy tracking dziala + lineItemId, creativeId. - waiting for implementation
-
 		const player = document.createElement('div');
-		player.setAttribute('id', 'playerContainer');
-
-		const iframe = document.createElement('iframe');
-		const container = document.createElement('div');
-		container.setAttribute('id', 'player_container_element');
-		container.appendChild(iframe);
+		player.setAttribute('id', this.containerName);
 
 		adSlot.getElement().appendChild(player);
-		adSlot.getElement().appendChild(container);
 
 		this.porvataParams.vastTargeting.src = context.get('src');
-		// @ts-ignore
 		this.porvataParams.container = player;
-		// @ts-ignore
 		this.porvataParams.slotName = adSlot.getSlotName();
 
 		templateService.init(this.porvataParams.type, adSlot, this.porvataParams);
+	}
+
+	getContainer(): HTMLElement {
+		return document.getElementById(this.containerName);
 	}
 
 	getName(): string {
