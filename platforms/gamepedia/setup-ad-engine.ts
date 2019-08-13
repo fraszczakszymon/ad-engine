@@ -2,10 +2,12 @@ import { babDetection, biddersDelay } from '@platforms/shared';
 import {
 	AdEngine,
 	bidders,
+	confiant,
 	context,
 	events,
 	eventService,
 	geoCacheStorage,
+	taxonomyService,
 	utils,
 } from '@wikia/ad-engine';
 
@@ -27,6 +29,7 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 
 	context.push('delayModules', babDetection);
 	context.push('delayModules', biddersDelay);
+	context.push('delayModules', taxonomyService);
 
 	eventService.on(events.AD_SLOT_CREATED, (slot) => {
 		utils.logger(logGroup, `Created ad slot ${slot.getSlotName()}`);
@@ -78,5 +81,7 @@ function callExternals(): void {
 		responseListener: biddersDelay.markAsReady,
 	});
 
-	// ToDo: other externals
+	confiant.call();
+
+	taxonomyService.configurePageLevelTargeting();
 }

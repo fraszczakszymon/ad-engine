@@ -1,4 +1,9 @@
 interface Window {
+	ga?: (
+		command: string,
+		eventType: 'pageview' | 'event' | 'social' | 'timing',
+		...opts: string[]
+	) => void;
 	mw: MediaWiki;
 	RLQ?: any;
 	pvUID?: string;
