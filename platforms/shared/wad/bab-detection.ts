@@ -56,11 +56,12 @@ class BabDetection {
 		if (this.isEnabled()) {
 			const isBabDetected: boolean = await utils.client.checkBlocking();
 
-			this.markAsReady();
 			utils.logger(logGroup, 'BAB detection, AB detected:', isBabDetected);
+
 			this.setRuntimeParams(isBabDetected);
 			this.updateSrcParameter(isBabDetected);
 			this.dispatchDetectionEvent(isBabDetected);
+			this.markAsReady();
 
 			return isBabDetected;
 		}
@@ -85,6 +86,8 @@ class BabDetection {
 		window.ads.runtime = window.ads.runtime || ({} as any);
 		window.ads.runtime.bab = window.ads.runtime.bab || {};
 		window.ads.runtime.bab.blocking = isBabDetected;
+
+		context.set('options.wad.blocking', isBabDetected);
 	}
 
 	/**
