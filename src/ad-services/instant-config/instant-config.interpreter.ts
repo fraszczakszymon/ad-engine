@@ -45,8 +45,8 @@ export class InstantConfigInterpreter {
 	}
 
 	private getValue(key: string, groups: InstantConfigGroup[]): InstantConfigValue {
-		const correct = groups.find((group) =>
-			this.samplingCache.apply(key, group, this.getPredicate(group)),
+		const correct = groups.find((group, index) =>
+			this.samplingCache.apply(`${key}-${index}`, group, this.getPredicate(group)),
 		);
 
 		if (typeof correct !== 'undefined') {
