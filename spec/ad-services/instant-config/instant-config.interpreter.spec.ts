@@ -169,7 +169,7 @@ describe('Instant Config Interpreter', () => {
 		const [id, group, predicate] = samplingCacheApplyStub.getCalls()[0].args;
 
 		expect(samplingCacheApplyStub.getCalls().length).to.equal(1);
-		expect(id).to.equal('babDetection-0');
+		expect(id).to.equal('babDetection');
 		expect(group).to.deep.equal({});
 		expect(typeof predicate).to.equal('function');
 	});
