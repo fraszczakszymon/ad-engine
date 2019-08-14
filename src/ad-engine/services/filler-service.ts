@@ -1,5 +1,7 @@
 import { AdSlot, Dictionary } from '../models';
+import { logger } from '../utils';
 
+const logGroup = 'filler-service';
 export interface SlotFiller {
 	fill: (adSlot: AdSlot) => void;
 	getContainer: () => HTMLElement;
@@ -10,11 +12,15 @@ class FillerService {
 	fillers: Dictionary<SlotFiller> = {};
 
 	apply(adSlot: AdSlot, fillerName: string): void {
-		this.fillers[fillerName].fill(adSlot);
+		this.get(fillerName).fill(adSlot);
 	}
 
 	get(fillerName: string): SlotFiller {
-		return this.fillers[fillerName];
+		const result = this.fillers[fillerName];
+		if (!result) {
+			logger(logGroup, result, `${fillerName} - filler is not registered`);
+		}
+		return result;
 	}
 
 	register(filler: SlotFiller): void {

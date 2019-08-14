@@ -124,17 +124,19 @@ export class SlotTweaker {
 		});
 	}
 
-	adjustIframeByContentSize(adSlot: AdSlot): void {
-		this.onReady(adSlot).then((element) => {
-			if (isIframe(element)) {
-				const height = element.contentWindow.document.body.scrollHeight;
-				const width = element.contentWindow.document.body.scrollWidth;
+	async adjustIframeByContentSize(adSlot: AdSlot): Promise<HTMLIFrameElement | HTMLElement> {
+		const element = await this.onReady(adSlot);
 
-				element.width = width.toString();
-				element.height = height.toString();
-				logger(logGroup, 'adjust size', adSlot.getSlotName(), width, height);
-			}
-		});
+		if (isIframe(element)) {
+			const height = element.contentWindow.document.body.scrollHeight;
+			const width = element.contentWindow.document.body.scrollWidth;
+
+			element.width = width.toString();
+			element.height = height.toString();
+			logger(logGroup, 'adjust size', adSlot.getSlotName(), width, height);
+		}
+
+		return element;
 	}
 
 	registerMessageListener(): void {

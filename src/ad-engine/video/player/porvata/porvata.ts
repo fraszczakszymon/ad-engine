@@ -312,7 +312,7 @@ export class PorvataPlayer {
 }
 
 export class PorvataFiller implements SlotFiller {
-	private containerName = 'playerContainer';
+	private containerId = 'playerContainer';
 	private porvataParams: PorvataGamParams = {
 		container: null,
 		slotName: '',
@@ -334,13 +334,12 @@ export class PorvataFiller implements SlotFiller {
 		vastTargeting: {
 			passback: 'veles',
 			pos: 'outstream',
-			src: null,
 		},
 	};
 
 	fill(adSlot: AdSlot): void {
 		const player = document.createElement('div');
-		player.setAttribute('id', this.containerName);
+		player.setAttribute('id', this.containerId);
 
 		adSlot.getElement().appendChild(player);
 
@@ -352,7 +351,7 @@ export class PorvataFiller implements SlotFiller {
 	}
 
 	getContainer(): HTMLElement {
-		return document.getElementById(this.containerName);
+		return document.getElementById(this.containerId);
 	}
 
 	getName(): string {
