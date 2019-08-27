@@ -1,47 +1,53 @@
 import { DeviceMode } from '../../models/device-mode';
 
-export function getAppNexusContext(device: DeviceMode): any {
+export function getOpenXContext(device: DeviceMode): any {
 	const context = {
 		desktop: {
 			enabled: false,
+			delDomain: 'wikia-d.openx.net',
 			slots: {
 				'01_LB': {
 					sizes: [[728, 90], [970, 150], [970, 250]],
-					placementId: '15976818',
+					unit: '540774852',
 				},
 				'02_MR': {
 					sizes: [[300, 250], [300, 600]],
-					placementId: '15976819',
+					unit: '540774853',
 				},
 				'03_PF': {
 					sizes: [[300, 250]],
-					placementId: '15976832',
+					unit: '540774856',
 				},
 				'04_BLB': {
 					sizes: [[728, 90]],
-					placementId: '15976830',
+					unit: '540774855',
 				},
 				'06_FMR': {
 					sizes: [[300, 250]],
-					placementId: '15976820',
+					unit: '540774854',
 				},
 			},
 		},
 
 		mobile: {
 			enabled: false,
+			delDomain: 'wikia-d.openx.net',
 			slots: {
 				'01_LB': {
 					sizes: [[320, 50]],
-					placementId: '15976871',
+					unit: '540774857',
 				},
 				'02_MR': {
 					sizes: [[300, 250]],
-					placementId: '15976892',
+					unit: '540774858',
+				},
+				'03_PF': {
+					sizes: [[300, 250]],
+					unit: '540820350',
 				},
 				'06_FMR': {
 					sizes: [[300, 250]],
-					placementId: '15976893',
+					unit: '540774859',
 				},
 			},
 		},
