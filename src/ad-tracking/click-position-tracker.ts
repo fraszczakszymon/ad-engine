@@ -39,8 +39,6 @@ class ClickPositionTracker {
 		const slot: AdSlot = slotService.get(slotName);
 		const iframeElement: HTMLIFrameElement = slot.getIframe();
 		const slotElement: HTMLElement = slot.getElement();
-		const elementHeight: number = slotElement.offsetHeight;
-		const elementWidth: number = slotElement.offsetWidth;
 
 		if (!slot || !iframeElement) {
 			utils.logger(this.logGroup, `Slot ${slotName} has no iframe.`);
@@ -54,6 +52,9 @@ class ClickPositionTracker {
 		const iframeBody: HTMLElement = iframeElement.contentWindow.document.body;
 
 		if (iframeBody && slotElement) {
+			const elementHeight: number = slotElement.offsetHeight;
+			const elementWidth: number = slotElement.offsetWidth;
+
 			slotElement.addEventListener('click', (e: MouseEvent) => {
 				const y: number = e.clientY - window.innerHeight + elementHeight;
 
