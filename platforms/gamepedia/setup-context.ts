@@ -1,4 +1,12 @@
-import { setupBidders, slotsContext, uapHelper } from '@platforms/shared';
+import {
+	registerPorvataTracker,
+	registerPostmessageTrackingTracker,
+	registerSlotTracker,
+	registerViewabilityTracker,
+	setupBidders,
+	slotsContext,
+	uapHelper,
+} from '@platforms/shared';
 import {
 	AdSlot,
 	context,
@@ -14,12 +22,6 @@ import { setPrebidAdaptersConfig } from './bidders/prebid';
 import * as fallbackInstantConfig from './fallback-config.json';
 import { targeting } from './targeting';
 import { templateRegistry } from './templates/templates-registry';
-import {
-	registerPorvataTracker,
-	registerPostmessageTrackingTracker,
-	registerSlotTracker,
-	registerViewabilityTracker,
-} from './tracking/tracker';
 
 class ContextSetup {
 	private instantConfig: InstantConfigService;
