@@ -13,7 +13,16 @@ const include = [
 	path.resolve(__dirname, 'platforms'),
 ];
 
-module.exports = ({ tsconfig, transpileOnly, reportFiles }) => ({
+const reportFiles = [
+	`platforms/**/*.ts`,
+	`@types/**/*`,
+	`src/ad-engine/**/*.ts`,
+	'src/ad-bidders/**/*.ts',
+	'src/ad-services/**/*.ts',
+	'src/ad-tracking/**/*.ts',
+];
+
+module.exports = ({ tsconfig }) => ({
 	mode: 'development',
 
 	context: __dirname,
@@ -30,7 +39,6 @@ module.exports = ({ tsconfig, transpileOnly, reportFiles }) => ({
 				include,
 				tsconfig,
 				reportFiles,
-				transpileOnly,
 			}),
 			{
 				test: /\.s?css$/,
