@@ -322,7 +322,7 @@ export class PorvataFiller implements SlotFiller {
 		autoPlay: true,
 		startInViewportOnly: true,
 		blockOutOfViewportPausing: true,
-		enableInContentFloating: false,
+		enableInContentFloating: true,
 		width: 1,
 		height: 1,
 		src: context.get('src'),
@@ -336,12 +336,6 @@ export class PorvataFiller implements SlotFiller {
 			pos: 'outstream',
 		},
 	};
-
-	constructor(params: PorvataGamParams | {} = {}) {
-		Object.keys(params).forEach((param) => {
-			this.porvataParams[param] = params[param];
-		});
-	}
 
 	fill(adSlot: AdSlot): void {
 		const player = document.createElement('div');
