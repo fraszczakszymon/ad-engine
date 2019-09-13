@@ -337,6 +337,12 @@ export class PorvataFiller implements SlotFiller {
 		},
 	};
 
+	constructor(params: PorvataGamParams | {} = {}) {
+		Object.keys(params).forEach((param) => {
+			this.porvataParams[param] = params[param];
+		});
+	}
+
 	fill(adSlot: AdSlot): void {
 		const player = document.createElement('div');
 		player.setAttribute('id', this.containerId);
