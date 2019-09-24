@@ -10,6 +10,7 @@ class Network {
 		browser.addListener('Page.frameNavigated', ({ frame }) => {
 			if (frame && !frame.parentId) {
 				this.clearResponses();
+				this.clearLogs();
 			}
 		});
 	}
@@ -34,12 +35,14 @@ class Network {
 		this.clearResponses();
 		this.listener = null;
 	}
+
 	enableLogCapturing() {
 		browser.cdp('Log', 'enable');
 	}
 
 	disableLogCapturing() {
 		browser.cdp('Log', 'disable');
+		this.clearLogs();
 	}
 
 	captureConsole() {
@@ -56,6 +59,10 @@ class Network {
 	}
 
 	clearResponses() {
+		this.responses = [];
+	}
+
+	clearLogs() {
 		this.responses = [];
 	}
 
