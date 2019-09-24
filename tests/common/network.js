@@ -34,10 +34,21 @@ class Network {
 		this.clearResponses();
 		this.listener = null;
 	}
+	enableLogCapturing() {
+		browser.cdp('Log', 'enable');
+	}
+
+	disableLogCapturing() {
+		browser.cdp('Log', 'disable');
+	}
 
 	captureConsole() {
-		this.logs.push(browser.cdp('Log', 'enable'));
-		// this.logs.push(browser.cdp('Log', 'messageAdded'));
+		browser.on('Log.entryAdded', (entry) => {
+			this.logs.push(entry.entry);
+		});
+		browser.on('Console.messageAdded', (entry) => {
+			this.logs.push(entry.message);
+		});
 	}
 
 	returnConsole() {

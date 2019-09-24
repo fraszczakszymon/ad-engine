@@ -4,15 +4,12 @@ import { adSlots } from '../../../common/ad-slots';
 import { timeouts } from '../../../common/timeouts';
 import { helpers } from '../../../common/helpers';
 import { queryStrings } from '../../../common/query-strings';
-import networkCapture from '../../../common/network-capture';
+import { network } from '../../../common/network';
 
 // TODO Network capture
 xdescribe('sticky-tlb template', () => {
-	let client;
-	const logs = [];
-
-	before(async () => {
-		client = await networkCapture.getClient();
+	before(() => {
+		client = networkCapture.getClient();
 
 		client.on('Log.entryAdded', (entry) => {
 			logs.push(entry.entry);

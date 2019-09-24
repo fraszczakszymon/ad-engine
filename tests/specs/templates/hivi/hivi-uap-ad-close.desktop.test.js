@@ -5,21 +5,14 @@ import { timeouts } from '../../../common/timeouts';
 import { network } from '../../../common/network';
 
 // TODO fix network capture
-describe.skip('Desktop HiVi UAP ads page: top leaderboard', () => {
-	const logs = [];
-
+describe('Desktop HiVi UAP ads page: top leaderboard', () => {
 	before(() => {
-		browser.cdp('Log', 'enable');
-		browser.on('Log.entryAdded', (entry) => {
-			logs.push(entry.entry);
-		});
-		browser.on('Console.messageAdded', (entry) => {
-			logs.push(entry.message);
-		});
+		network.enableLogCapturing();
+		network.captureConsole();
 	});
 
 	after(() => {
-		browser.cdp('Log', 'disable');
+		network.disableLogCapturing();
 	});
 
 	// TODO fix network capture
@@ -28,6 +21,8 @@ describe.skip('Desktop HiVi UAP ads page: top leaderboard', () => {
 
 		hiviUap.openUapWithState(true, hiviUap.pageLink, adSlots.topLeaderboard);
 		browser.pause(5000);
+		let logs = network.returnConsole();
+
 		logs.forEach((log) => {
 			console.log(log);
 			console.log(log.text.includes('👁 Custom listener: onImpressionViewable top_leaderboard'));
