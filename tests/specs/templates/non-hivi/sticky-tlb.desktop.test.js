@@ -36,12 +36,7 @@ describe('sticky-tlb template', () => {
 
 		let logs = network.returnConsole();
 
-		logs.forEach((log) => {
-			console.log(log);
-			console.log(log.text.includes('unsticked'));
-			console.log(log.text.includes('force-unstick'));
-			console.log(log.text.includes('force-close'));
-		});
+		expect(network.checkIfMessageIsInLogs('unsticked'));
 	});
 
 	it('should not stick if viewability is counted', () => {

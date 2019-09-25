@@ -93,6 +93,10 @@ class Network {
 		return this.responses.some((response) => keys.every((key) => response.url.includes(key)));
 	}
 
+	checkIfMessageIsInLogs(key) {
+		return this.logs.some((entry) => entry.text.includes(key));
+	}
+
 	getQueryValues(requestFilter, queryKey) {
 		const response = this.filterResponses(requestFilter).shift();
 
