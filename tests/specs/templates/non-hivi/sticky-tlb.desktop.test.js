@@ -34,8 +34,6 @@ describe('sticky-tlb template', () => {
 		helpers.slowScroll(1000);
 		// expect(stickyTlb.isAdSticked()).to.be.false;
 
-		let logs = network.returnConsole();
-
 		expect(network.checkIfMessageIsInLogs('unsticked'));
 	});
 
