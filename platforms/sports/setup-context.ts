@@ -4,6 +4,7 @@ import {
 	registerPorvataTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
+	setWadContext,
 	slotsContext,
 	uapHelper,
 } from '@platforms/shared';
@@ -35,11 +36,13 @@ class ContextSetup {
 		registerPorvataTracker();
 		registerSlotTracker();
 		registerViewabilityTracker();
+		// registerPostmessageTrackingTracker();
 	}
 
 	private async setupAdContext(isOptedIn = false): Promise<void> {
 		const isMobile = getDeviceMode() === 'mobile';
 
+		// context.set('wiki', wikiContext);
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.isMobile', isMobile);
 		// context.set('state.isLogged', !!wikiContext.wgUserId);
@@ -80,19 +83,7 @@ class ContextSetup {
 		await uapHelper.configureUap();
 		slotsContext.setupStates();
 
-		this.updateWadContext();
-	}
-
-	private updateWadContext(): void {
-		const babEnabled = this.instantConfig.get('icBabDetection');
-
-		// BlockAdBlock detection
-		context.set('options.wad.enabled', babEnabled);
-
-		if (babEnabled) {
-			// BT rec
-			context.set('options.wad.btRec.enabled', this.instantConfig.get('icBTRec'));
-		}
+		await setWadContext();
 	}
 }
 

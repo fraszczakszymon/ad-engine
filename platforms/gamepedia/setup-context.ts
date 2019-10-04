@@ -4,6 +4,7 @@ import {
 	registerPostmessageTrackingTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
+	setWadContext,
 	slotsContext,
 	uapHelper,
 } from '@platforms/shared';
@@ -82,19 +83,7 @@ class ContextSetup {
 		await uapHelper.configureUap();
 		slotsContext.setupStates();
 
-		this.updateWadContext();
-	}
-
-	private updateWadContext(): void {
-		const babEnabled = this.instantConfig.get('icBabDetection');
-
-		// BlockAdBlock detection
-		context.set('options.wad.enabled', babEnabled);
-
-		if (!context.get('state.isLogged') && babEnabled) {
-			// BT rec
-			context.set('options.wad.btRec.enabled', this.instantConfig.get('icBTRec'));
-		}
+		await setWadContext();
 	}
 }
 
