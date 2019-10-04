@@ -18,7 +18,7 @@ import { set } from 'lodash';
 import { setA9AdapterConfig } from './bidders/a9';
 import { setPrebidAdaptersConfig } from './bidders/prebid';
 import * as fallbackInstantConfig from './fallback-config.json';
-import { targeting } from './targeting';
+import { getPageLevelTargeting } from './targeting';
 import { templateRegistry } from './templates/templates-registry';
 
 class ContextSetup {
@@ -58,25 +58,19 @@ class ContextSetup {
 			this.instantConfig.isGeoEnabled('wgAdDriverOutstreamSlotCountries'),
 		);
 
+		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
+
 		setA9AdapterConfig();
 		setPrebidAdaptersConfig();
 		setupBidders(context, this.instantConfig);
 
+		context.set('slots', slotsContext.generate());
+		context.set('targeting', getPageLevelTargeting(wikiContext));
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
 
-		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
-
-		context.set('slots', slotsContext.generate());
-
 		if (this.instantConfig.get('wgAdDriverTestCommunities', []).includes(wikiContext.wgDBname)) {
 			context.set('src', 'test');
-		}
-
-		this.setupPageLevelTargeting(context.get('wiki'));
-
-		if (uapHelper.isUapAllowed(this.instantConfig.get('icUapRestriction'))) {
-			uapHelper.configureUap();
 		}
 
 		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
@@ -85,17 +79,12 @@ class ContextSetup {
 
 		injectIncontentPlayer();
 
+		if (uapHelper.isUapAllowed(this.instantConfig.get('icUapRestriction'))) {
+			uapHelper.configureUap();
+		}
 		slotsContext.setupStates();
 
 		this.updateWadContext();
-	}
-
-	private setupPageLevelTargeting(wikiContext): void {
-		const pageLevelParams = targeting.getPageLevelTargeting(wikiContext);
-
-		Object.keys(pageLevelParams).forEach((key) => {
-			context.set(`targeting.${key}`, pageLevelParams[key]);
-		});
 	}
 
 	private updateWadContext(): void {

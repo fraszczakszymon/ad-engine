@@ -104,10 +104,6 @@ export const basicContext = {
 		adStack: [],
 		isMobile: false,
 	},
-	targeting: {
-		uap: 'none',
-		uap_c: 'none',
-	},
 	vast: {
 		adUnitId:
 			'/{custom.dfpId}/cports/{slotConfig.adProduct}/{state.deviceType}/' +
