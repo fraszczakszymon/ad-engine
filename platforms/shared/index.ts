@@ -10,3 +10,4 @@ export * from './tracking/data-warehouse';
 export * from './tracking/page-tracker';
 export * from './tracking/tracker';
 export * from './wad/bab-detection';
+export * from './setup/inject-incontent-player';

@@ -1,4 +1,5 @@
 import {
+	injectIncontentPlayer,
 	registerPorvataTracker,
 	registerPostmessageTrackingTracker,
 	registerSlotTracker,
@@ -7,13 +8,10 @@ import {
 	uapHelper,
 } from '@platforms/shared';
 import {
-	AdSlot,
 	context,
 	InstantConfigService,
 	setupBidders,
 	setupNpaContext,
-	slotInjector,
-	slotService,
 	utils,
 } from '@wikia/ad-engine';
 import { set } from 'lodash';
@@ -85,7 +83,7 @@ class ContextSetup {
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
 
-		this.injectIncontentPlayer();
+		injectIncontentPlayer();
 
 		slotsContext.setupStates();
 
@@ -110,39 +108,6 @@ class ContextSetup {
 			// BT rec
 			context.set('options.wad.btRec.enabled', this.instantConfig.get('icBTRec'));
 		}
-	}
-
-	private injectIncontentPlayer(): void {
-		const incontentPlayerSlotName = 'incontent_player';
-		const porvataAlternativeSlotsName = 'cdm-zone-02';
-
-		if (
-			!!document.getElementById('mf-video') ||
-			!!document.getElementById('twitchnet-liveontwitch') ||
-			!!document.getElementById('ds_cpp')
-		) {
-			return;
-		}
-
-		if (!document.getElementById(porvataAlternativeSlotsName)) {
-			this.initiateIncontentPlayer(incontentPlayerSlotName);
-		}
-
-		slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_SUCCESS, () => {
-			if (!!context.get('options.video.porvataLoaded')) {
-				return;
-			}
-			this.initiateIncontentPlayer(incontentPlayerSlotName);
-		});
-
-		slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_COLLAPSE, () => {
-			this.initiateIncontentPlayer(incontentPlayerSlotName);
-		});
-	}
-
-	private initiateIncontentPlayer(slotName: string): void {
-		slotInjector.inject(slotName);
-		slotsContext.setState(slotName, context.get('options.video.isOutstreamEnabled'));
 	}
 }
 
