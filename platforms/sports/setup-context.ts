@@ -28,7 +28,7 @@ class ContextSetup {
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 		this.instantConfig = await InstantConfigService.init();
 
-		this.setupAdContext(isOptedIn);
+		await this.setupAdContext(isOptedIn);
 		setupNpaContext();
 		templateRegistry.registerTemplates();
 
@@ -37,36 +37,47 @@ class ContextSetup {
 		registerViewabilityTracker();
 	}
 
-	private setupAdContext(isOptedIn = false): void {
+	private async setupAdContext(isOptedIn = false): Promise<void> {
 		const isMobile = getDeviceMode() === 'mobile';
 
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.isMobile', isMobile);
+		// context.set('state.isLogged', !!wikiContext.wgUserId);
 		context.set('state.deviceType', utils.client.getDeviceType());
 
 		context.set('options.tracking.kikimora.player', true);
 		context.set('options.tracking.slot.status', true);
 		context.set('options.tracking.slot.viewability', true);
+		// context.set('options.tracking.postmessage', true);
 		context.set('options.trackingOptIn', isOptedIn);
+		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
 
 		context.set(
 			'options.video.isOutstreamEnabled',
 			this.instantConfig.isGeoEnabled('wgAdDriverOutstreamSlotCountries'),
 		);
-
 		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
-
-		context.set('slots', slotsContext.generate());
-		context.set('targeting', getPageLevelTargeting());
-		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
 
 		setA9AdapterConfig();
 		setPrebidAdaptersConfig(context.get('targeting.s1'));
 		setupBidders(context, this.instantConfig);
 
+		context.set('slots', slotsContext.generate());
+		context.set('targeting', getPageLevelTargeting());
+
+		// context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
+		// context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
+		//
+		// if (this.instantConfig.get('wgAdDriverTestCommunities', []).includes(wikiContext.wgDBname)) {
+		// 	context.set('src', 'test');
+		// }
+		//
+		// context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
+		// context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
+
 		injectIncontentPlayer();
 
-		uapHelper.configureUap();
+		await uapHelper.configureUap();
 		slotsContext.setupStates();
 
 		this.updateWadContext();

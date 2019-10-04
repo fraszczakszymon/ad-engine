@@ -28,7 +28,7 @@ class ContextSetup {
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 		this.instantConfig = await InstantConfigService.init();
 
-		this.setupAdContext(wikiContext, isOptedIn);
+		await this.setupAdContext(wikiContext, isOptedIn);
 		setupNpaContext();
 		templateRegistry.registerTemplates();
 
@@ -38,7 +38,7 @@ class ContextSetup {
 		registerPostmessageTrackingTracker();
 	}
 
-	private setupAdContext(wikiContext, isOptedIn = false): void {
+	private async setupAdContext(wikiContext, isOptedIn = false): Promise<void> {
 		const isMobile = !utils.client.isDesktop();
 
 		context.set('wiki', wikiContext);
@@ -50,14 +50,14 @@ class ContextSetup {
 		context.set('options.tracking.kikimora.player', true);
 		context.set('options.tracking.slot.status', true);
 		context.set('options.tracking.slot.viewability', true);
-		context.set('options.trackingOptIn', isOptedIn);
 		context.set('options.tracking.postmessage', true);
+		context.set('options.trackingOptIn', isOptedIn);
+		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
 
 		context.set(
 			'options.video.isOutstreamEnabled',
 			this.instantConfig.isGeoEnabled('wgAdDriverOutstreamSlotCountries'),
 		);
-
 		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
 
 		setA9AdapterConfig();
@@ -66,6 +66,7 @@ class ContextSetup {
 
 		context.set('slots', slotsContext.generate());
 		context.set('targeting', getPageLevelTargeting(wikiContext));
+
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
 
@@ -73,15 +74,12 @@ class ContextSetup {
 			context.set('src', 'test');
 		}
 
-		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
 
 		injectIncontentPlayer();
 
-		if (uapHelper.isUapAllowed(this.instantConfig.get('icUapRestriction'))) {
-			uapHelper.configureUap();
-		}
+		await uapHelper.configureUap();
 		slotsContext.setupStates();
 
 		this.updateWadContext();
