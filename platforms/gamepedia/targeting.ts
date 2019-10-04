@@ -1,6 +1,7 @@
-import { Dictionary, utils } from '@wikia/ad-engine';
+import { context, Dictionary, utils } from '@wikia/ad-engine';
 
-export function getPageLevelTargeting(wikiContext: any = {}): any {
+export function getPageLevelTargeting(): any {
+	const wikiContext = context.get('wiki') || {};
 	const pageTargeting: Dictionary<string> = {
 		ae3: '1',
 		uap: 'none',

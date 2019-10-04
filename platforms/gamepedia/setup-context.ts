@@ -1,4 +1,5 @@
 import {
+	getDeviceMode,
 	injectIncontentPlayer,
 	registerPorvataTracker,
 	registerPostmessageTrackingTracker,
@@ -29,7 +30,7 @@ class ContextSetup {
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 		this.instantConfig = await InstantConfigService.init();
 
-		await this.setupAdContext(wikiContext, isOptedIn);
+		await this.setupAdContext(isOptedIn);
 		setupNpaContext();
 		templateRegistry.registerTemplates();
 
@@ -39,13 +40,22 @@ class ContextSetup {
 		registerPostmessageTrackingTracker();
 	}
 
-	private async setupAdContext(wikiContext, isOptedIn = false): Promise<void> {
-		const isMobile = !utils.client.isDesktop();
-
+	private async different(wikiContext): Promise<void> {
 		context.set('wiki', wikiContext);
-		context.set('state.showAds', !utils.client.isSteamPlatform());
-		context.set('state.isMobile', isMobile);
 		context.set('state.isLogged', !!wikiContext.wgUserId);
+		context.set('state.isMobile', !utils.client.isDesktop());
+		if (this.instantConfig.get('wgAdDriverTestCommunities', []).includes(wikiContext.wgDBname)) {
+			context.set('src', 'test');
+		}
+
+		setA9AdapterConfig();
+		setPrebidAdaptersConfig();
+
+		context.set('targeting', getPageLevelTargeting());
+	}
+
+	private async setupAdContext(isOptedIn = false): Promise<void> {
+		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.deviceType', utils.client.getDeviceType());
 
 		context.set('options.tracking.kikimora.player', true);
@@ -61,19 +71,12 @@ class ContextSetup {
 		);
 		this.instantConfig.isGeoEnabled('wgAdDriverLABradorTestCountries');
 
-		setA9AdapterConfig();
-		setPrebidAdaptersConfig();
 		setupBidders(context, this.instantConfig);
 
 		context.set('slots', slotsContext.generate());
-		context.set('targeting', getPageLevelTargeting(wikiContext));
 
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
-
-		if (this.instantConfig.get('wgAdDriverTestCommunities', []).includes(wikiContext.wgDBname)) {
-			context.set('src', 'test');
-		}
 
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
