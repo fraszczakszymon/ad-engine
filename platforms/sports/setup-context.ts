@@ -2,6 +2,7 @@ import {
 	getDeviceMode,
 	injectIncontentPlayer,
 	registerPorvataTracker,
+	registerPostmessageTrackingTracker,
 	registerSlotTracker,
 	registerViewabilityTracker,
 	setWadContext,
@@ -36,7 +37,7 @@ class ContextSetup {
 		registerPorvataTracker();
 		registerSlotTracker();
 		registerViewabilityTracker();
-		// registerPostmessageTrackingTracker();
+		registerPostmessageTrackingTracker();
 	}
 
 	private async setupAdContext(isOptedIn = false): Promise<void> {
