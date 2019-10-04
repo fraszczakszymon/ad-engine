@@ -42,21 +42,17 @@ class ContextSetup {
 
 	private async different(wikiContext): Promise<void> {
 		context.set('wiki', wikiContext);
-		context.set('state.isLogged', !!wikiContext.wgUserId);
+		context.set('targeting', getPageLevelTargeting());
 		context.set('state.isMobile', !utils.client.isDesktop());
-		if (this.instantConfig.get('wgAdDriverTestCommunities', []).includes(wikiContext.wgDBname)) {
-			context.set('src', 'test');
-		}
 
 		setA9AdapterConfig();
 		setPrebidAdaptersConfig();
-
-		context.set('targeting', getPageLevelTargeting());
 	}
 
 	private async setupAdContext(isOptedIn = false): Promise<void> {
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.deviceType', utils.client.getDeviceType());
+		context.set('state.isLogged', !!context.get('wiki.wgUserId'));
 
 		context.set('options.tracking.kikimora.player', true);
 		context.set('options.tracking.slot.status', true);
@@ -64,6 +60,12 @@ class ContextSetup {
 		context.set('options.tracking.postmessage', this.instantConfig.get('icPostmessageTracking'));
 		context.set('options.trackingOptIn', isOptedIn);
 		context.set('options.maxDelayTimeout', this.instantConfig.get('wgAdDriverDelayTimeout', 2000));
+
+		if (
+			this.instantConfig.get('wgAdDriverTestCommunities', []).includes(context.get('wiki.wgDBname'))
+		) {
+			context.set('src', 'test');
+		}
 
 		context.set(
 			'options.video.isOutstreamEnabled',
@@ -77,7 +79,6 @@ class ContextSetup {
 
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
-
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
 
