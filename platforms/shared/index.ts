@@ -11,3 +11,4 @@ export * from './tracking/page-tracker';
 export * from './tracking/tracking-registry';
 export * from './wad/bab-detection';
 export * from './setup/shared-context-setup';
+export * from './targeting-setup';
