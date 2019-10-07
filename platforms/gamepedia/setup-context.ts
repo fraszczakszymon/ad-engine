@@ -1,10 +1,4 @@
-import {
-	registerPorvataTracker,
-	registerPostmessageTrackingTracker,
-	registerSlotTracker,
-	registerViewabilityTracker,
-	SharedContextSetup,
-} from '@platforms/shared';
+import { SharedContextSetup, TrackingRegistry } from '@platforms/shared';
 import { context, InstantConfigService, setupNpaContext, utils } from '@wikia/ad-engine';
 import { set } from 'lodash';
 import { setA9AdapterConfig } from './bidders/a9';
@@ -17,6 +11,7 @@ class ContextSetup {
 	async configure(wikiContext, isOptedIn: boolean): Promise<void> {
 		const instantConfig = await InstantConfigService.init();
 		const sharedContextSetup = new SharedContextSetup(instantConfig);
+		const trackingRegistry = new TrackingRegistry();
 
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 
@@ -24,10 +19,7 @@ class ContextSetup {
 		setupNpaContext();
 		templateRegistry.registerTemplates();
 
-		registerPorvataTracker();
-		registerSlotTracker();
-		registerViewabilityTracker();
-		registerPostmessageTrackingTracker();
+		trackingRegistry.registerTrackers();
 	}
 
 	private async different(wikiContext): Promise<void> {
