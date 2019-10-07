@@ -27,16 +27,16 @@ export class PlatformSetup {
 
 	configure({ isOptedIn = false, isMobile = false }): void {
 		this.wikiContextSetup.setWikiContext();
+		this.sharedContextSetup.setState(isMobile);
+		this.sharedContextSetup.setOptions(isOptedIn);
+		this.sharedContextSetup.setServices();
+		this.sharedContextSetup.setMisc();
 		this.targetingSetup.setTargeting();
 		slotsContext.setSlotsContext(); // semi-todo
 		injectIncontentPlayer(); // todo
 		this.uapHelper.configureUap(); // todo
 		slotsContext.setSlotsState(); // semi-todo
-		this.sharedContextSetup.setState(isMobile);
 		this.biddersStateSetup.setBiddersStateContext();
-		this.sharedContextSetup.setOptions(isOptedIn);
-		this.sharedContextSetup.setServices();
-		this.sharedContextSetup.setMisc();
 		this.biddersConfigSetup.setBiddersConfigContext();
 		setupNpaContext();
 		this.templateRegistry.registerTemplates();
