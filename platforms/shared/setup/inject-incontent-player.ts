@@ -1,35 +1,39 @@
 import { AdSlot, context, slotInjector, slotService } from '@wikia/ad-engine';
-import { slotsContext } from '../slots';
+import { Injectable } from '@wikia/dependency-injection';
+import { slotsContext } from '../slots/slots';
 
-export function injectIncontentPlayer(): void {
-	const incontentPlayerSlotName = 'incontent_player';
-	const porvataAlternativeSlotsName = 'cdm-zone-02';
+@Injectable()
+export class IncontentPlayerInjector {
+	injectIncontentPlayer(): void {
+		const incontentPlayerSlotName = 'incontent_player';
+		const porvataAlternativeSlotsName = 'cdm-zone-02';
 
-	if (
-		!!document.getElementById('mf-video') ||
-		!!document.getElementById('twitchnet-liveontwitch') ||
-		!!document.getElementById('ds_cpp')
-	) {
-		return;
-	}
-
-	if (!document.getElementById(porvataAlternativeSlotsName)) {
-		initiateIncontentPlayer(incontentPlayerSlotName);
-	}
-
-	slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_SUCCESS, () => {
-		if (!!context.get('options.video.porvataLoaded')) {
+		if (
+			!!document.getElementById('mf-video') ||
+			!!document.getElementById('twitchnet-liveontwitch') ||
+			!!document.getElementById('ds_cpp')
+		) {
 			return;
 		}
-		initiateIncontentPlayer(incontentPlayerSlotName);
-	});
 
-	slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_COLLAPSE, () => {
-		initiateIncontentPlayer(incontentPlayerSlotName);
-	});
-}
+		if (!document.getElementById(porvataAlternativeSlotsName)) {
+			this.initiateIncontentPlayer(incontentPlayerSlotName);
+		}
 
-function initiateIncontentPlayer(slotName: string): void {
-	slotInjector.inject(slotName);
-	slotsContext.setState(slotName, context.get('options.video.isOutstreamEnabled'));
+		slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_SUCCESS, () => {
+			if (!!context.get('options.video.porvataLoaded')) {
+				return;
+			}
+			this.initiateIncontentPlayer(incontentPlayerSlotName);
+		});
+
+		slotService.on(porvataAlternativeSlotsName, AdSlot.STATUS_COLLAPSE, () => {
+			this.initiateIncontentPlayer(incontentPlayerSlotName);
+		});
+	}
+
+	private initiateIncontentPlayer(slotName: string): void {
+		slotInjector.inject(slotName);
+		slotsContext.setState(slotName, context.get('options.video.isOutstreamEnabled'));
+	}
 }

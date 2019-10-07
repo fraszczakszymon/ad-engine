@@ -5,14 +5,14 @@ import { Injectable } from '@wikia/dependency-injection';
 export class PlatformContextSetup {
 	constructor(private instantConfig: InstantConfigService) {}
 
-	setState(isMobile: boolean): void {
+	setStateContext(isMobile: boolean): void {
 		context.set('state.isMobile', isMobile);
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.deviceType', utils.client.getDeviceType());
 		context.set('state.isLogged', !!context.get('wiki.wgUserId'));
 	}
 
-	setOptions(isOptedIn: boolean): void {
+	setOptionsContext(isOptedIn: boolean): void {
 		context.set('options.tracking.kikimora.player', true);
 		context.set('options.tracking.slot.status', true);
 		context.set('options.tracking.slot.viewability', true);
@@ -26,7 +26,7 @@ export class PlatformContextSetup {
 		this.setWadContext();
 	}
 
-	setWadContext(): void {
+	private setWadContext(): void {
 		const babEnabled = this.instantConfig.get('icBabDetection');
 
 		// BlockAdBlock detection
@@ -38,14 +38,14 @@ export class PlatformContextSetup {
 		}
 	}
 
-	setServices(): void {
+	setServicesContext(): void {
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
 	}
 
-	setMisc(): void {
+	setMiscContext(): void {
 		if (
 			this.instantConfig.get('wgAdDriverTestCommunities', []).includes(context.get('wiki.wgDBname'))
 		) {

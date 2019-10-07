@@ -1,5 +1,5 @@
 export * from './bootstrap';
-export * from './slots';
+export * from './slots/slots';
 export * from './bidders/bidders-delay';
 export * from './bidders/wikia-adapter';
 export * from './bidders/bidders-config-setup';

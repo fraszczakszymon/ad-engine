@@ -4,7 +4,7 @@ import { Injectable } from '@wikia/dependency-injection';
 
 @Injectable()
 export class SportsTargetingSetup implements TargetingSetup {
-	setTargeting(): void {
+	setTargetingContext(): void {
 		context.set('targeting', this.getPageLevelTargeting());
 	}
 

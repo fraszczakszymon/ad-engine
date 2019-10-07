@@ -1,9 +1,9 @@
 import { context, InstantConfigService, utils } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
-import { slotsContext } from '../slots';
+import { slotsContext } from '../slots/slots';
 
 @Injectable()
-export class UapHelper {
+export class UapSetup {
 	private firstCallSlotName = 'cdm-zone-01';
 
 	constructor(private instantConfig: InstantConfigService) {}

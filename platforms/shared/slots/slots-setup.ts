@@ -1,37 +1,9 @@
-import {
-	AdSlot,
-	context,
-	getAdProductInfo,
-	slotService,
-	utils,
-	VideoParams,
-} from '@wikia/ad-engine';
+import { slotsContext } from '@platforms/shared';
+import { context } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 
-class SlotsContext {
-	addSlotSize(slotName: string, size: [number, number]): void {
-		const definedViewportSizes = context.get(`slots.${slotName}.sizes`);
-
-		context.push(`slots.${slotName}.defaultSizes`, size);
-		definedViewportSizes.forEach((sizeMap) => {
-			sizeMap.sizes.push(size);
-		});
-	}
-
-	setupSlotVideoAdUnit(adSlot: AdSlot, params: VideoParams): void {
-		const adProductInfo = getAdProductInfo(adSlot.getSlotName(), params.type, params.adProduct);
-		const adUnit = utils.stringBuilder.build(
-			context.get(`slots.${adSlot.getSlotName()}.videoAdUnit`) || context.get('vast.adUnitId'),
-			{
-				slotConfig: {
-					group: adProductInfo.adGroup,
-					adProduct: adProductInfo.adProduct,
-				},
-			},
-		);
-
-		context.set(`slots.${adSlot.getSlotName()}.videoAdUnit`, adUnit);
-	}
-
+@Injectable()
+export class SlotsSetup {
 	setSlotsContext(): void {
 		const slots = {
 			'cdm-zone-01': {
@@ -128,19 +100,11 @@ class SlotsContext {
 	}
 
 	setSlotsState(): void {
-		this.setState('cdm-zone-01', true);
-		this.setState('cdm-zone-02', true);
-		this.setState('cdm-zone-03', true);
-		this.setState('cdm-zone-04', !context.get('state.isMobile'));
-		this.setState('cdm-zone-06', true);
-		this.setState('incontent_player', context.get('options.video.isOutstreamEnabled'));
-	}
-
-	setState(slotName: string, state: boolean): void {
-		const element = document.getElementById(slotName);
-
-		slotService.setState(slotName, !!element && state);
+		slotsContext.setState('cdm-zone-01', true);
+		slotsContext.setState('cdm-zone-02', true);
+		slotsContext.setState('cdm-zone-03', true);
+		slotsContext.setState('cdm-zone-04', !context.get('state.isMobile'));
+		slotsContext.setState('cdm-zone-06', true);
+		slotsContext.setState('incontent_player', context.get('options.video.isOutstreamEnabled'));
 	}
 }
-
-export const slotsContext = new SlotsContext();
