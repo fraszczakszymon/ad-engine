@@ -41,8 +41,8 @@ class ContextSetup {
 	}
 
 	private async different(): Promise<void> {
-		context.set('state.isMobile', getDeviceMode() === 'mobile');
 		context.set('targeting', getPageLevelTargeting());
+		context.set('state.isMobile', getDeviceMode() === 'mobile');
 
 		setA9AdapterConfig();
 		setPrebidAdaptersConfig(context.get('targeting.s1'));
