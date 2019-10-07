@@ -1,7 +1,7 @@
 import {
 	babDetection,
+	BiddersConfigSetup,
 	biddersDelay,
-	BiddersSetup,
 	getDeviceMode,
 	TargetingSetup,
 	TemplateRegistry,
@@ -19,8 +19,8 @@ import {
 } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { set } from 'lodash';
-import { SharedSetup } from '../shared/setup/shared-setup';
-import { SportsBiddersSetup } from './bidders/bidders-setup';
+import { PlatformSetup } from '../shared/setup/platform-setup';
+import { SportsBiddersConfigSetup } from './bidders/bidders-config-setup';
 import * as fallbackInstantConfig from './fallback-config.json';
 import { SportsTargetingSetup } from './targeting';
 import { SportsTemplateRegistry } from './templates/templates-registry';
@@ -34,12 +34,12 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
 	container.bind(TargetingSetup).to(SportsTargetingSetup);
-	container.bind(BiddersSetup).to(SportsBiddersSetup);
+	container.bind(BiddersConfigSetup).to(SportsBiddersConfigSetup);
 	container.bind(TemplateRegistry).to(SportsTemplateRegistry);
 
-	const sharedSetup = container.get(SharedSetup);
+	const platformSetup = container.get(PlatformSetup);
 
-	sharedSetup.configure({ isOptedIn, isMobile: getDeviceMode() === 'mobile' });
+	platformSetup.configure({ isOptedIn, isMobile: getDeviceMode() === 'mobile' });
 
 	// ToDo: video and recovery
 

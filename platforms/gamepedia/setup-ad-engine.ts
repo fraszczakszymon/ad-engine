@@ -1,7 +1,7 @@
 import {
 	babDetection,
+	BiddersConfigSetup,
 	biddersDelay,
-	BiddersSetup,
 	PageTracker,
 	TargetingSetup,
 	TemplateRegistry,
@@ -24,8 +24,8 @@ import {
 } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { set } from 'lodash';
-import { SharedSetup } from '../shared/setup/shared-setup';
-import { GamepediaBiddersSetup } from './bidders/bidders-setup';
+import { PlatformSetup } from '../shared/setup/platform-setup';
+import { GamepediaBiddersConfigSetup } from './bidders/bidders-config-setup';
 import * as fallbackInstantConfig from './fallback-config.json';
 import { GamepediaWikiContextSetup } from './setup/wiki-context-setup';
 import { GamepediaTargetingSetup } from './targeting';
@@ -43,12 +43,12 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
 	container.bind(WikiContextSetup).to(GamepediaWikiContextSetup);
 	container.bind(TargetingSetup).to(GamepediaTargetingSetup);
-	container.bind(BiddersSetup).to(GamepediaBiddersSetup);
+	container.bind(BiddersConfigSetup).to(GamepediaBiddersConfigSetup);
 	container.bind(TemplateRegistry).to(GamepediaTemplateRegistry);
 
-	const sharedSetup = container.get(SharedSetup);
+	const platformSetup = container.get(PlatformSetup);
 
-	sharedSetup.configure({ isOptedIn, isMobile: !utils.client.isDesktop() });
+	platformSetup.configure({ isOptedIn, isMobile: !utils.client.isDesktop() });
 
 	// ToDo: video and recovery
 
