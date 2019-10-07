@@ -1,6 +1,8 @@
 import { TargetingSetup } from '@platforms/shared';
 import { context, Dictionary, Targeting, utils } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 
+@Injectable()
 export class GamepediaTargetingSetup implements TargetingSetup {
 	setTargeting(): void {
 		context.set('targeting', this.getPageLevelTargeting());

@@ -1,4 +1,11 @@
-import { babDetection, biddersDelay, PageTracker, trackBab } from '@platforms/shared';
+import {
+	babDetection,
+	biddersDelay,
+	PageTracker,
+	TargetingSetup,
+	trackBab,
+	WikiContextSetup,
+} from '@platforms/shared';
 import {
 	AdEngine,
 	bidders,
@@ -9,10 +16,17 @@ import {
 	events,
 	eventService,
 	InstantConfigCacheStorage,
+	InstantConfigService,
 	taxonomyService,
 	utils,
 } from '@wikia/ad-engine';
+import { Container } from '@wikia/dependency-injection';
+import { set } from 'lodash';
+import { SharedSetup } from '../shared/setup/shared-setup';
+import * as fallbackInstantConfig from './fallback-config.json';
 import { adsSetup } from './setup-context';
+import { GamepediaWikiContextSetup } from './setup/wiki-context-setup';
+import { GamepediaTargetingSetup } from './targeting';
 import { hideAllAdSlots } from './templates/hide-all-ad-slots';
 import { editModeManager } from './utils/edit-mode-manager';
 
@@ -20,9 +34,16 @@ const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
-	const wikiContext = window.mw ? window.mw.config.values : {};
+	set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 
-	await adsSetup.configure(wikiContext, isOptedIn);
+	const container = new Container();
+	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
+	container.bind(WikiContextSetup).to(GamepediaWikiContextSetup);
+	container.bind(TargetingSetup).to(GamepediaTargetingSetup);
+	const sharedSetup = container.get(SharedSetup);
+
+	sharedSetup.configure(isOptedIn);
+	adsSetup.configure();
 
 	// ToDo: video and recovery
 

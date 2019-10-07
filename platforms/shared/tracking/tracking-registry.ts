@@ -15,12 +15,14 @@ import {
 	viewabilityTracker,
 	viewabilityTrackingMiddleware,
 } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 import { DataWarehouseTracker } from './data-warehouse';
 
 const slotTrackingUrl = 'https://beacon.wikia-services.com/__track/special/adengadinfo';
 const viewabilityUrl = 'https://beacon.wikia-services.com/__track/special/adengviewability';
 const porvataUrl = 'https://beacon.wikia-services.com/__track/special/adengplayerinfo';
 
+@Injectable()
 export class TrackingRegistry {
 	registerTrackers(): void {
 		this.porvataTracker();

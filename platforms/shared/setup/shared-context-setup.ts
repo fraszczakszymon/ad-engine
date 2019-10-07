@@ -1,10 +1,12 @@
 import { context, InstantConfigService, setupBidders, utils } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 import { slotsContext } from '../slots';
 import { UapHelper } from '../templates/uap-helper';
 import { injectIncontentPlayer } from './inject-incontent-player';
 
+@Injectable()
 export class SharedContextSetup {
-	constructor(private instantConfig: InstantConfigService) {}
+	constructor(private instantConfig: InstantConfigService, private uapHelper: UapHelper) {}
 
 	setup({ isOptedIn = false } = {}): void {
 		this.setState();
@@ -14,7 +16,7 @@ export class SharedContextSetup {
 		setupBidders(context, this.instantConfig);
 		context.set('slots', slotsContext.generate());
 		injectIncontentPlayer();
-		new UapHelper(this.instantConfig).configureUap();
+		this.uapHelper.configureUap();
 		slotsContext.setupStates();
 	}
 

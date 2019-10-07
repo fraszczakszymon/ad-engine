@@ -1,12 +1,14 @@
 import { context, InstantConfigService, utils } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 import { slotsContext } from '../slots';
 
+@Injectable()
 export class UapHelper {
 	private firstCallSlotName = 'cdm-zone-01';
 
 	constructor(private instantConfig: InstantConfigService) {}
 
-	async configureUap(): Promise<void> {
+	configureUap(): void {
 		if (!this.isUapAllowed(this.instantConfig.get('icUapRestriction'))) {
 			return;
 		}
@@ -28,5 +30,3 @@ export class UapHelper {
 		);
 	}
 }
-
-export const uapHelper = new UapHelper({} as any);

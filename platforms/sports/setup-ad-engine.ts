@@ -1,12 +1,34 @@
-import { babDetection, biddersDelay, trackBab } from '@platforms/shared';
-import { AdEngine, bidders, btRec, context, events, eventService, utils } from '@wikia/ad-engine';
+import { babDetection, biddersDelay, TargetingSetup, trackBab } from '@platforms/shared';
+import {
+	AdEngine,
+	bidders,
+	btRec,
+	context,
+	events,
+	eventService,
+	InstantConfigService,
+	utils,
+} from '@wikia/ad-engine';
+import { Container } from '@wikia/dependency-injection';
+import { set } from 'lodash';
+import { SharedSetup } from '../shared/setup/shared-setup';
+import * as fallbackInstantConfig from './fallback-config.json';
 import { adsSetup } from './setup-context';
+import { SportsTargetingSetup } from './targeting';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
-	await adsSetup.configure(isOptedIn);
+	set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
+
+	const container = new Container();
+	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
+	container.bind(TargetingSetup).to(SportsTargetingSetup);
+	const sharedSetup = container.get(SharedSetup);
+
+	sharedSetup.configure(isOptedIn);
+	adsSetup.configure();
 
 	// ToDo: video and recovery
 

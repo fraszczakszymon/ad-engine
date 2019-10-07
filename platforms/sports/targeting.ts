@@ -1,6 +1,8 @@
 import { TargetingSetup } from '@platforms/shared';
 import { context, Targeting, utils } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 
+@Injectable()
 export class SportsTargetingSetup implements TargetingSetup {
 	setTargeting(): void {
 		context.set('targeting', this.getPageLevelTargeting());
