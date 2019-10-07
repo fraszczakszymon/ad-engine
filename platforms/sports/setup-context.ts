@@ -6,7 +6,7 @@ import {
 	registerViewabilityTracker,
 	SharedContextSetup,
 } from '@platforms/shared';
-import { context, setupNpaContext } from '@wikia/ad-engine';
+import { context, InstantConfigService, setupNpaContext } from '@wikia/ad-engine';
 import { set } from 'lodash';
 import { setA9AdapterConfig } from './bidders/a9';
 import { setPrebidAdaptersConfig } from './bidders/prebid';
@@ -15,12 +15,13 @@ import { getPageLevelTargeting } from './targeting';
 import { templateRegistry } from './templates/templates-registry';
 
 class ContextSetup {
-	private sharedContextSetup = new SharedContextSetup();
-
 	async configure(isOptedIn: boolean): Promise<void> {
+		const instantConfig = await InstantConfigService.init();
+		const sharedContextSetup = new SharedContextSetup(instantConfig);
+
 		set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 
-		await this.sharedContextSetup.setup({ isOptedIn });
+		sharedContextSetup.setup({ isOptedIn });
 		setupNpaContext();
 		templateRegistry.registerTemplates();
 

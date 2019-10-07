@@ -4,11 +4,9 @@ import { UapHelper } from '../templates/uap-helper';
 import { injectIncontentPlayer } from './inject-incontent-player';
 
 export class SharedContextSetup {
-	instantConfig: InstantConfigService;
+	constructor(private instantConfig: InstantConfigService) {}
 
-	async setup({ isOptedIn = false } = {}): Promise<void> {
-		this.instantConfig = await InstantConfigService.init();
-
+	setup({ isOptedIn = false } = {}): void {
 		this.setState();
 		this.setOptions(isOptedIn);
 		this.setServices();
