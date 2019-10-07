@@ -1,19 +1,9 @@
 import { context, InstantConfigService, utils } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
-import { slotsContext } from '../slots';
-import { UapHelper } from '../templates/uap-helper';
-import { injectIncontentPlayer } from './inject-incontent-player';
 
 @Injectable()
 export class PlatformContextSetup {
-	constructor(private instantConfig: InstantConfigService, private uapHelper: UapHelper) {}
-
-	setup(): void {
-		context.set('slots', slotsContext.generate());
-		injectIncontentPlayer();
-		this.uapHelper.configureUap();
-		slotsContext.setupStates();
-	}
+	constructor(private instantConfig: InstantConfigService) {}
 
 	setState(isMobile: boolean): void {
 		context.set('state.isMobile', isMobile);

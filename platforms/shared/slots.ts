@@ -32,8 +32,8 @@ class SlotsContext {
 		context.set(`slots.${adSlot.getSlotName()}.videoAdUnit`, adUnit);
 	}
 
-	generate(): any {
-		return {
+	setSlotsContext(): void {
+		const slots = {
 			'cdm-zone-01': {
 				aboveTheFold: true,
 				defaultSizes: [[728, 90], [970, 150], [970, 250]],
@@ -123,9 +123,11 @@ class SlotsContext {
 				},
 			},
 		};
+
+		context.set('slots', slots);
 	}
 
-	setupStates(): void {
+	setSlotsState(): void {
 		this.setState('cdm-zone-01', true);
 		this.setState('cdm-zone-02', true);
 		this.setState('cdm-zone-03', true);
