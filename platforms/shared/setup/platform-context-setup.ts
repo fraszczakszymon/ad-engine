@@ -1,33 +1,28 @@
-import { context, InstantConfigService, setupBidders, utils } from '@wikia/ad-engine';
+import { context, InstantConfigService, utils } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { slotsContext } from '../slots';
 import { UapHelper } from '../templates/uap-helper';
 import { injectIncontentPlayer } from './inject-incontent-player';
 
 @Injectable()
-export class SharedContextSetup {
+export class PlatformContextSetup {
 	constructor(private instantConfig: InstantConfigService, private uapHelper: UapHelper) {}
 
-	setup({ isOptedIn = false, isMobile = false } = {}): void {
-		this.setState(isMobile);
-		this.setOptions(isOptedIn);
-		this.setServices();
-		this.setMisc();
-		setupBidders(context, this.instantConfig);
+	setup(): void {
 		context.set('slots', slotsContext.generate());
 		injectIncontentPlayer();
 		this.uapHelper.configureUap();
 		slotsContext.setupStates();
 	}
 
-	private setState(isMobile: boolean): void {
+	setState(isMobile: boolean): void {
 		context.set('state.isMobile', isMobile);
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.deviceType', utils.client.getDeviceType());
 		context.set('state.isLogged', !!context.get('wiki.wgUserId'));
 	}
 
-	private setOptions(isOptedIn: boolean): void {
+	setOptions(isOptedIn: boolean): void {
 		context.set('options.tracking.kikimora.player', true);
 		context.set('options.tracking.slot.status', true);
 		context.set('options.tracking.slot.viewability', true);
@@ -41,7 +36,7 @@ export class SharedContextSetup {
 		this.setWadContext();
 	}
 
-	private setWadContext(): void {
+	setWadContext(): void {
 		const babEnabled = this.instantConfig.get('icBabDetection');
 
 		// BlockAdBlock detection
@@ -53,14 +48,14 @@ export class SharedContextSetup {
 		}
 	}
 
-	private setServices(): void {
+	setServices(): void {
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
 	}
 
-	private setMisc(): void {
+	setMisc(): void {
 		if (
 			this.instantConfig.get('wgAdDriverTestCommunities', []).includes(context.get('wiki.wgDBname'))
 		) {

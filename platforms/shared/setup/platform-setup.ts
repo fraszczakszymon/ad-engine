@@ -1,5 +1,5 @@
-import { BiddersConfigSetup, SharedContextSetup, TemplateRegistry } from '@platforms/shared';
-import { setupNpaContext } from '@wikia/ad-engine';
+import { BiddersConfigSetup, PlatformContextSetup, TemplateRegistry } from '@platforms/shared';
+import { BiddersStateSetup, setupNpaContext } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { TrackingRegistry } from '../tracking/tracking-registry';
 import { TargetingSetup } from './targeting-setup';
@@ -11,15 +11,21 @@ export class PlatformSetup {
 		private trackingRegistry: TrackingRegistry,
 		private wikiContextSetup: WikiContextSetup,
 		private targetingSetup: TargetingSetup,
-		private sharedContextSetup: SharedContextSetup,
+		private sharedContextSetup: PlatformContextSetup,
 		private biddersConfigSetup: BiddersConfigSetup,
+		private biddersStateSetup: BiddersStateSetup,
 		private templateRegistry: TemplateRegistry,
 	) {}
 
-	configure({ isOptedIn = false, isMobile = false } = {}): void {
+	configure({ isOptedIn = false, isMobile = false }): void {
 		this.wikiContextSetup.setWikiContext();
 		this.targetingSetup.setTargeting();
-		this.sharedContextSetup.setup({ isOptedIn, isMobile });
+		this.sharedContextSetup.setup();
+		this.sharedContextSetup.setState(isMobile);
+		this.biddersStateSetup.setBiddersStateContext();
+		this.sharedContextSetup.setOptions(isOptedIn);
+		this.sharedContextSetup.setServices();
+		this.sharedContextSetup.setMisc();
 		this.biddersConfigSetup.setBiddersConfigContext();
 		setupNpaContext();
 		this.templateRegistry.registerTemplates();
