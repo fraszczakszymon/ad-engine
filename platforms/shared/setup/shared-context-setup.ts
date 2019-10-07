@@ -1,8 +1,9 @@
-import { injectIncontentPlayer, UapHelper } from '@platforms/shared';
 import { context, InstantConfigService, setupBidders, utils } from '@wikia/ad-engine';
 import { slotsContext } from '../slots';
+import { UapHelper } from '../templates/uap-helper';
+import { injectIncontentPlayer } from './inject-incontent-player';
 
-export class SharedContext {
+export class SharedContextSetup {
 	instantConfig: InstantConfigService;
 
 	async setup({ isOptedIn = false } = {}): Promise<void> {
