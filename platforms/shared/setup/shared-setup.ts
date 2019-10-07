@@ -1,4 +1,4 @@
-import { SharedContextSetup } from '@platforms/shared';
+import { BiddersSetup, SharedContextSetup } from '@platforms/shared';
 import { setupNpaContext } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { TrackingRegistry } from '../tracking/tracking-registry';
@@ -12,6 +12,7 @@ export class SharedSetup {
 		private wikiContextSetup: WikiContextSetup,
 		private targetingSetup: TargetingSetup,
 		private sharedContextSetup: SharedContextSetup,
+		private biddersSetup: BiddersSetup,
 	) {}
 
 	configure({ isOptedIn = false, isMobile = false } = {}): void {
@@ -21,8 +22,6 @@ export class SharedSetup {
 		setupNpaContext();
 		// templateRegistry.registerTemplates();
 		this.trackingRegistry.registerTrackers();
-
-		// setA9AdapterConfig();
-		// setPrebidAdaptersConfig();
+		this.biddersSetup.setBiddersContext();
 	}
 }

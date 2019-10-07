@@ -2,6 +2,7 @@ export * from './bootstrap';
 export * from './slots';
 export * from './bidders/bidders-delay';
 export * from './bidders/wikia-adapter';
+export * from './bidders/bidders-setup';
 export * from './cmp/cmp-wrapper';
 export * from './models/device-mode';
 export * from './tracking/bab-tracker';
