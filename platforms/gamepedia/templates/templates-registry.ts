@@ -1,3 +1,4 @@
+import { TemplateRegistry } from '@platforms/shared';
 import {
 	BigFancyAdAbove,
 	context,
@@ -10,7 +11,7 @@ import { getBfaaConfigMobile } from './big-fancy-ad-above-config-mobile';
 import { getPorvataConfig } from './porvata-config';
 import { getRoadblockConfig } from './roadblock-config';
 
-export const templateRegistry = {
+export class GamepediaTemplateRegistry implements TemplateRegistry {
 	registerTemplates(): void {
 		templateService.register(
 			BigFancyAdAbove,
@@ -18,5 +19,5 @@ export const templateRegistry = {
 		);
 		templateService.register(PorvataTemplate, getPorvataConfig());
 		templateService.register(Roadblock, getRoadblockConfig());
-	},
-};
+	}
+}

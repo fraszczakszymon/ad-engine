@@ -12,3 +12,4 @@ export * from './wad/bab-detection';
 export * from './setup/shared-context-setup';
 export * from './setup/targeting-setup';
 export * from './setup/wiki-context-setup';
+export * from './templates/template-registry';

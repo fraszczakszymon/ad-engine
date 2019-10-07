@@ -1,8 +1,10 @@
 import {
 	babDetection,
 	biddersDelay,
+	BiddersSetup,
 	getDeviceMode,
 	TargetingSetup,
+	TemplateRegistry,
 	trackBab,
 } from '@platforms/shared';
 import {
@@ -18,23 +20,26 @@ import {
 import { Container } from '@wikia/dependency-injection';
 import { set } from 'lodash';
 import { SharedSetup } from '../shared/setup/shared-setup';
+import { SportsBiddersSetup } from './bidders/bidders-setup';
 import * as fallbackInstantConfig from './fallback-config.json';
-import { adsSetup } from './setup-context';
 import { SportsTargetingSetup } from './targeting';
+import { SportsTemplateRegistry } from './templates/templates-registry';
 
 const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
-	set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
-
 	const container = new Container();
+
+	set(window, context.get('services.instantConfig.fallbackConfigKey'), fallbackInstantConfig);
 	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
 	container.bind(TargetingSetup).to(SportsTargetingSetup);
+	container.bind(BiddersSetup).to(SportsBiddersSetup);
+	container.bind(TemplateRegistry).to(SportsTemplateRegistry);
+
 	const sharedSetup = container.get(SharedSetup);
 
 	sharedSetup.configure({ isOptedIn, isMobile: getDeviceMode() === 'mobile' });
-	adsSetup.configure();
 
 	// ToDo: video and recovery
 
