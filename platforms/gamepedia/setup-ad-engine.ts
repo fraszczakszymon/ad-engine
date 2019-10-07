@@ -42,7 +42,7 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	container.bind(TargetingSetup).to(GamepediaTargetingSetup);
 	const sharedSetup = container.get(SharedSetup);
 
-	sharedSetup.configure(isOptedIn);
+	sharedSetup.configure({ isOptedIn, isMobile: !utils.client.isDesktop() });
 	adsSetup.configure();
 
 	// ToDo: video and recovery

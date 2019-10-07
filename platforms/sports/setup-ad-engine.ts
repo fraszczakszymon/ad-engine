@@ -1,4 +1,10 @@
-import { babDetection, biddersDelay, TargetingSetup, trackBab } from '@platforms/shared';
+import {
+	babDetection,
+	biddersDelay,
+	getDeviceMode,
+	TargetingSetup,
+	trackBab,
+} from '@platforms/shared';
 import {
 	AdEngine,
 	bidders,
@@ -27,7 +33,7 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	container.bind(TargetingSetup).to(SportsTargetingSetup);
 	const sharedSetup = container.get(SharedSetup);
 
-	sharedSetup.configure(isOptedIn);
+	sharedSetup.configure({ isOptedIn, isMobile: getDeviceMode() === 'mobile' });
 	adsSetup.configure();
 
 	// ToDo: video and recovery

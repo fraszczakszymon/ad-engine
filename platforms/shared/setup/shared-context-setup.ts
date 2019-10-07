@@ -8,8 +8,8 @@ import { injectIncontentPlayer } from './inject-incontent-player';
 export class SharedContextSetup {
 	constructor(private instantConfig: InstantConfigService, private uapHelper: UapHelper) {}
 
-	setup({ isOptedIn = false } = {}): void {
-		this.setState();
+	setup({ isOptedIn = false, isMobile = false } = {}): void {
+		this.setState(isMobile);
 		this.setOptions(isOptedIn);
 		this.setServices();
 		this.setMisc();
@@ -20,7 +20,8 @@ export class SharedContextSetup {
 		slotsContext.setupStates();
 	}
 
-	private setState(): void {
+	private setState(isMobile: boolean): void {
+		context.set('state.isMobile', isMobile);
 		context.set('state.showAds', !utils.client.isSteamPlatform());
 		context.set('state.deviceType', utils.client.getDeviceType());
 		context.set('state.isLogged', !!context.get('wiki.wgUserId'));

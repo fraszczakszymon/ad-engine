@@ -14,11 +14,10 @@ export class SharedSetup {
 		private sharedContextSetup: SharedContextSetup,
 	) {}
 
-	configure(isOptedIn: boolean): void {
+	configure({ isOptedIn = false, isMobile = false } = {}): void {
 		this.wikiContextSetup.setWikiContext();
 		this.targetingSetup.setTargeting();
-		// context.set('state.isMobile', !utils.client.isDesktop());
-		this.sharedContextSetup.setup({ isOptedIn });
+		this.sharedContextSetup.setup({ isOptedIn, isMobile });
 		setupNpaContext();
 		// templateRegistry.registerTemplates();
 		this.trackingRegistry.registerTrackers();
