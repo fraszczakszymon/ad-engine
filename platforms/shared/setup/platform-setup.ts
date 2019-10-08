@@ -14,7 +14,7 @@ export class PlatformSetup {
 		private trackingRegistry: TrackingRegistry,
 		private wikiContextSetup: WikiContextSetup,
 		private targetingSetup: TargetingSetup,
-		private sharedContextSetup: PlatformContextSetup,
+		private platformContextSetup: PlatformContextSetup,
 		private biddersStateSetup: BiddersStateSetup,
 		private biddersConfigSetup: BiddersConfigSetup,
 		private templateRegistry: TemplateRegistry,
@@ -25,10 +25,10 @@ export class PlatformSetup {
 
 	configure({ isOptedIn = false, isMobile = false }): void {
 		this.wikiContextSetup.setWikiContext();
-		this.sharedContextSetup.setStateContext(isMobile);
-		this.sharedContextSetup.setOptionsContext(isOptedIn);
-		this.sharedContextSetup.setServicesContext();
-		this.sharedContextSetup.setMiscContext();
+		this.platformContextSetup.setStateContext(isMobile);
+		this.platformContextSetup.setOptionsContext(isOptedIn);
+		this.platformContextSetup.setServicesContext();
+		this.platformContextSetup.setMiscContext();
 		this.targetingSetup.setTargetingContext();
 		this.slotsSetup.setSlotsContext();
 		this.slotsSetup.setSlotsState();
