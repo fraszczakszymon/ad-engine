@@ -10,6 +10,8 @@ export * from './tracking/data-warehouse';
 export * from './tracking/page-tracker';
 export * from './wad/bab-detection';
 export * from './setup/ad-stack-setup';
+export * from './setup/ad-engine-prestarter';
+export * from './setup/no-ads-handler';
 export * from './setup/delay-modules-setup';
 export * from './setup/platform-context-setup';
 export * from './setup/targeting-setup';

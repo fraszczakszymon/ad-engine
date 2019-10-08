@@ -1,4 +1,6 @@
 import {
+	AdEnginePreStarter,
+	AdStackSetup,
 	BiddersConfigSetup,
 	DelayModulesSetup,
 	TargetingSetup,
@@ -11,6 +13,8 @@ import { SportsBiddersConfigSetup } from '../bidders/bidders-config-setup';
 import * as fallbackInstantConfig from '../fallback-config.json';
 import { SportsTargetingSetup } from '../targeting';
 import { SportsTemplateRegistry } from '../templates/templates-registry';
+import { SportsAdEnginePreStarter } from './ad-engine-prestarter';
+import { SportsAdStackSetup } from './ad-stack-setup';
 import { SportsDelayModulesSetup } from './delay-modules-setup';
 
 export async function setupIoc(): Promise<Container> {
@@ -22,6 +26,8 @@ export async function setupIoc(): Promise<Container> {
 	container.bind(BiddersConfigSetup).to(SportsBiddersConfigSetup);
 	container.bind(TemplateRegistry).to(SportsTemplateRegistry);
 	container.bind(DelayModulesSetup).to(SportsDelayModulesSetup);
+	container.bind(AdStackSetup).to(SportsAdStackSetup);
+	container.bind(AdEnginePreStarter).to(SportsAdEnginePreStarter);
 
 	return container;
 }
