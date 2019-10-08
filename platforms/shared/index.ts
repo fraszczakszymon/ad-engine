@@ -15,4 +15,5 @@ export * from './setup/no-ads-handler';
 export * from './setup/delay-modules-setup';
 export * from './setup/targeting-setup';
 export * from './setup/wiki-context-setup';
+export * from './setup/platform-startup';
 export * from './templates/template-setup';

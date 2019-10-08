@@ -1,7 +1,6 @@
-import { bootstrapAndGetCmpConsent, getDeviceMode } from '@platforms/shared';
+import { bootstrapAndGetCmpConsent, getDeviceMode, PlatformStartup } from '@platforms/shared';
 import { context } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
-import { PlatformStartup } from '../shared/setup/platform-startup';
 import { basicContext } from './ad-context';
 import { setupIoc } from './setup/setup-ioc';
 import './styles.scss';
