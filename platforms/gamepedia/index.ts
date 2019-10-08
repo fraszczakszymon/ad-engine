@@ -1,7 +1,8 @@
 import { bootstrapAndGetCmpConsent } from '@platforms/shared';
-import { context } from '@wikia/ad-engine';
+import { context, utils } from '@wikia/ad-engine';
+import { PlatformStartup } from '../shared/setup/platform-startup';
 import { basicContext } from './ad-context';
-import { setupAdEngine } from './setup-ad-engine';
+import { setupIoc } from './setup/setup-ioc';
 import './styles.scss';
 
 // RLQ may not exist as AdEngine is loading independently from Resource Loader
@@ -13,6 +14,9 @@ window.RLQ.push(async () => {
 	context.extend(basicContext);
 
 	const consent: boolean = await bootstrapAndGetCmpConsent();
+	const container = await setupIoc();
+	const platformStartup = container.get(PlatformStartup);
 
-	setupAdEngine(consent);
+	platformStartup.configure({ isOptedIn: consent, isMobile: !utils.client.isDesktop() });
+	platformStartup.run();
 });

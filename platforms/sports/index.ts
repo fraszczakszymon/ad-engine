@@ -1,15 +1,19 @@
-import { bootstrapAndGetCmpConsent } from '@platforms/shared';
+import { bootstrapAndGetCmpConsent, getDeviceMode } from '@platforms/shared';
 import { context } from '@wikia/ad-engine';
+import { PlatformStartup } from '../shared/setup/platform-startup';
 import { basicContext } from './ad-context';
-import { setupAdEngine } from './setup-ad-engine';
+import { setupIoc } from './setup/setup-ioc';
 import './styles.scss';
 
 async function start(): Promise<void> {
 	context.extend(basicContext);
 
 	const consent: boolean = await bootstrapAndGetCmpConsent();
+	const container = await setupIoc();
+	const platformStartup = container.get(PlatformStartup);
 
-	setupAdEngine(consent);
+	platformStartup.configure({ isOptedIn: consent, isMobile: getDeviceMode() === 'mobile' });
+	platformStartup.run();
 }
 
 start();
