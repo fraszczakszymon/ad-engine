@@ -1,4 +1,9 @@
-import { BiddersConfigSetup, PlatformContextSetup, TemplateRegistry } from '@platforms/shared';
+import {
+	BiddersConfigSetup,
+	DelayModulesSetup,
+	PlatformContextSetup,
+	TemplateRegistry,
+} from '@platforms/shared';
 import { BiddersStateSetup, setupNpaContext } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { SlotsSetup } from '../slots/slots-setup';
@@ -21,6 +26,7 @@ export class PlatformSetup {
 		private uapSetup: UapSetup,
 		private slotsSetup: SlotsSetup,
 		private incontentPlayerInjector: IncontentPlayerInjector,
+		private delayModulesSetup: DelayModulesSetup,
 	) {}
 
 	configure({ isOptedIn = false, isMobile = false }): void {
@@ -39,5 +45,6 @@ export class PlatformSetup {
 		setupNpaContext();
 		this.templateRegistry.registerTemplates();
 		this.trackingRegistry.registerTrackers();
+		this.delayModulesSetup.setupDelayModules();
 	}
 }

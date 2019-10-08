@@ -1,5 +1,6 @@
 import {
 	BiddersConfigSetup,
+	DelayModulesSetup,
 	TargetingSetup,
 	TemplateRegistry,
 	WikiContextSetup,
@@ -11,6 +12,7 @@ import { GamepediaBiddersConfigSetup } from '../bidders/bidders-config-setup';
 import * as fallbackInstantConfig from '../fallback-config.json';
 import { GamepediaTargetingSetup } from '../targeting';
 import { GamepediaTemplateRegistry } from '../templates/templates-registry';
+import { GamepediaDelayModulesSetup } from './delay-modules-setup';
 import { GamepediaWikiContextSetup } from './wiki-context-setup';
 
 export async function setupIoc(): Promise<Container> {
@@ -22,6 +24,7 @@ export async function setupIoc(): Promise<Container> {
 	container.bind(TargetingSetup).to(GamepediaTargetingSetup);
 	container.bind(BiddersConfigSetup).to(GamepediaBiddersConfigSetup);
 	container.bind(TemplateRegistry).to(GamepediaTemplateRegistry);
+	container.bind(DelayModulesSetup).to(GamepediaDelayModulesSetup);
 
 	return container;
 }

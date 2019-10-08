@@ -1,4 +1,4 @@
-import { babDetection, biddersDelay, PageTracker } from '@platforms/shared';
+import { biddersDelay, PageTracker } from '@platforms/shared';
 import {
 	bidders,
 	confiant,
@@ -23,12 +23,6 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	const platformSetup = container.get(PlatformSetup);
 
 	platformSetup.configure({ isOptedIn, isMobile: !utils.client.isDesktop() });
-
-	// ToDo: video and recovery
-
-	context.push('delayModules', babDetection);
-	context.push('delayModules', biddersDelay);
-	context.push('delayModules', taxonomyService);
 
 	eventService.on(events.AD_SLOT_CREATED, (slot) => {
 		utils.logger(logGroup, `Created ad slot ${slot.getSlotName()}`);

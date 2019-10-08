@@ -1,4 +1,4 @@
-import { babDetection, biddersDelay, getDeviceMode } from '@platforms/shared';
+import { biddersDelay, getDeviceMode } from '@platforms/shared';
 import { bidders, context, events, eventService, utils } from '@wikia/ad-engine';
 import { PlatformSetup } from '../shared/setup/platform-setup';
 import { setupIoc } from './setup/setup-ioc';
@@ -11,11 +11,6 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	const platformSetup = container.get(PlatformSetup);
 
 	platformSetup.configure({ isOptedIn, isMobile: getDeviceMode() === 'mobile' });
-
-	// ToDo: video and recovery
-
-	context.push('delayModules', babDetection);
-	context.push('delayModules', biddersDelay);
 
 	eventService.on(events.AD_SLOT_CREATED, (slot) => {
 		utils.logger(logGroup, `Created ad slot ${slot.getSlotName()}`);

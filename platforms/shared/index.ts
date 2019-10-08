@@ -9,6 +9,7 @@ export * from './tracking/bab-tracker';
 export * from './tracking/data-warehouse';
 export * from './tracking/page-tracker';
 export * from './wad/bab-detection';
+export * from './setup/delay-modules-setup';
 export * from './setup/platform-context-setup';
 export * from './setup/targeting-setup';
 export * from './setup/wiki-context-setup';
