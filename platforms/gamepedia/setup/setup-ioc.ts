@@ -6,7 +6,7 @@ import {
 	LabradorTracker,
 	NoAdsHandler,
 	TargetingSetup,
-	TemplateRegistry,
+	TemplateSetup,
 	WikiContextSetup,
 } from '@platforms/shared';
 import { context, InstantConfigService } from '@wikia/ad-engine';
@@ -14,13 +14,13 @@ import { Container } from '@wikia/dependency-injection';
 import { set } from 'lodash';
 import { GamepediaBiddersConfigSetup } from '../bidders/bidders-config-setup';
 import * as fallbackInstantConfig from '../fallback-config.json';
-import { GamepediaTargetingSetup } from '../targeting';
-import { GamepediaTemplateRegistry } from '../templates/templates-registry';
+import { GamepediaTemplateSetup } from '../templates/templates-setup';
 import { GamepediaLabradorTracker } from '../tracking/labrador-tracker';
 import { GamepediaAdEnginePreStarter } from './ad-engine-prestarter';
 import { GamepediaAdStackSetup } from './ad-stack-setup';
 import { GamepediaDelayModulesSetup } from './delay-modules-setup';
 import { GamepediaNoAdsHandler } from './no-ads-handler';
+import { GamepediaTargetingSetup } from './targeting-setup';
 import { GamepediaWikiContextSetup } from './wiki-context-setup';
 
 export async function setupIoc(): Promise<Container> {
@@ -31,7 +31,7 @@ export async function setupIoc(): Promise<Container> {
 	container.bind(WikiContextSetup).to(GamepediaWikiContextSetup);
 	container.bind(TargetingSetup).to(GamepediaTargetingSetup);
 	container.bind(BiddersConfigSetup).to(GamepediaBiddersConfigSetup);
-	container.bind(TemplateRegistry).to(GamepediaTemplateRegistry);
+	container.bind(TemplateSetup).to(GamepediaTemplateSetup);
 	container.bind(DelayModulesSetup).to(GamepediaDelayModulesSetup);
 	container.bind(AdStackSetup).to(GamepediaAdStackSetup);
 	container.bind(AdEnginePreStarter).to(GamepediaAdEnginePreStarter);

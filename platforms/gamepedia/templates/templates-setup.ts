@@ -1,4 +1,4 @@
-import { TemplateRegistry } from '@platforms/shared';
+import { TemplateSetup } from '@platforms/shared';
 import {
 	BigFancyAdAbove,
 	context,
@@ -6,12 +6,14 @@ import {
 	Roadblock,
 	templateService,
 } from '@wikia/ad-engine';
+import { Injectable } from '@wikia/dependency-injection';
 import { getBfaaConfigDesktop } from './big-fancy-ad-above-config-desktop';
 import { getBfaaConfigMobile } from './big-fancy-ad-above-config-mobile';
 import { getPorvataConfig } from './porvata-config';
 import { getRoadblockConfig } from './roadblock-config';
 
-export class GamepediaTemplateRegistry implements TemplateRegistry {
+@Injectable()
+export class GamepediaTemplateSetup implements TemplateSetup {
 	registerTemplates(): void {
 		templateService.register(
 			BigFancyAdAbove,

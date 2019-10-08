@@ -1,6 +1,6 @@
 import { Injectable } from '@wikia/dependency-injection';
 
 @Injectable()
-export class TemplateRegistry {
+export class TemplateSetup {
 	registerTemplates(): void {}
 }

@@ -1,15 +1,4 @@
 import {
-	AdEnginePreStarter,
-	AdStackSetup,
-	babDetection,
-	BiddersConfigSetup,
-	DelayModulesSetup,
-	NoAdsHandler,
-	PlatformContextSetup,
-	TemplateRegistry,
-	trackBab,
-} from '@platforms/shared';
-import {
 	AdEngine,
 	bidders,
 	BiddersStateSetup,
@@ -21,12 +10,21 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
+import { BiddersConfigSetup } from '../bidders/bidders-config-setup';
 import { SlotsSetup } from '../slots/slots-setup';
-import { UapSetup } from '../templates/uap-setup';
+import { TemplateSetup } from '../templates/template-setup';
+import { trackBab } from '../tracking/bab-tracker';
 import { LabradorTracker } from '../tracking/labrador-tracker';
 import { TrackingRegistry } from '../tracking/tracking-registry';
+import { babDetection } from '../wad/bab-detection';
+import { AdEnginePreStarter } from './ad-engine-prestarter';
+import { AdStackSetup } from './ad-stack-setup';
+import { DelayModulesSetup } from './delay-modules-setup';
 import { IncontentPlayerInjector } from './inject-incontent-player';
+import { NoAdsHandler } from './no-ads-handler';
+import { PlatformContextSetup } from './platform-context-setup';
 import { TargetingSetup } from './targeting-setup';
+import { UapSetup } from './uap-setup';
 import { WikiContextSetup } from './wiki-context-setup';
 
 const logGroup = 'ad-engine';
@@ -40,7 +38,7 @@ export class PlatformStartup {
 		private platformContextSetup: PlatformContextSetup,
 		private biddersStateSetup: BiddersStateSetup,
 		private biddersConfigSetup: BiddersConfigSetup,
-		private templateRegistry: TemplateRegistry,
+		private templateSetup: TemplateSetup,
 		private uapSetup: UapSetup,
 		private slotsSetup: SlotsSetup,
 		private incontentPlayerInjector: IncontentPlayerInjector,
@@ -65,11 +63,11 @@ export class PlatformStartup {
 		this.biddersStateSetup.setBiddersStateContext();
 		this.biddersConfigSetup.setBiddersConfigContext();
 		setupNpaContext();
-		this.templateRegistry.registerTemplates();
+		this.templateSetup.registerTemplates();
 		this.trackingRegistry.registerTrackers();
+		this.labradorTracker.trackLabradorValues();
 		this.delayModulesSetup.setupDelayModules();
 		this.configureEventService();
-		this.labradorTracker.trackLabradorValues();
 	}
 
 	private configureEventService(): void {
