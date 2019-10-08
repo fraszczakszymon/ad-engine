@@ -5,12 +5,9 @@ import {
 	getDeviceMode,
 	TargetingSetup,
 	TemplateRegistry,
-	trackBab,
 } from '@platforms/shared';
 import {
-	AdEngine,
 	bidders,
-	btRec,
 	context,
 	events,
 	eventService,
@@ -22,10 +19,10 @@ import { set } from 'lodash';
 import { PlatformSetup } from '../shared/setup/platform-setup';
 import { SportsBiddersConfigSetup } from './bidders/bidders-config-setup';
 import * as fallbackInstantConfig from './fallback-config.json';
+import { startAdEngine } from './start-ad-engine';
 import { SportsTargetingSetup } from './targeting';
 import { SportsTemplateRegistry } from './templates/templates-registry';
 
-const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
@@ -57,36 +54,6 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	} else {
 		// TODO: Hide All Ad Slots
 	}
-}
-
-function startAdEngine(): void {
-	utils.scriptLoader.loadScript(GPT_LIBRARY_URL);
-
-	const engine = new AdEngine();
-
-	engine.init();
-
-	if (babDetection.isEnabled()) {
-		babDetection.run().then((isBabDetected) => {
-			trackBab(isBabDetected);
-
-			if (isBabDetected) {
-				btRec.run();
-			}
-		});
-	}
-
-	context.push('listeners.slot', {
-		onRenderEnded: (slot) => {
-			slot.getElement().classList.remove('default-height');
-		},
-	});
-
-	context.push('state.adStack', { id: 'cdm-zone-01' });
-	context.push('state.adStack', { id: 'cdm-zone-02' });
-	context.push('state.adStack', { id: 'cdm-zone-03' });
-	context.push('state.adStack', { id: 'cdm-zone-06' });
-	context.push('events.pushOnScroll.ids', 'cdm-zone-04');
 }
 
 function callExternals(): void {

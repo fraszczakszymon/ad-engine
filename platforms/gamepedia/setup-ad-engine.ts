@@ -5,13 +5,10 @@ import {
 	PageTracker,
 	TargetingSetup,
 	TemplateRegistry,
-	trackBab,
 	WikiContextSetup,
 } from '@platforms/shared';
 import {
-	AdEngine,
 	bidders,
-	btRec,
 	confiant,
 	context,
 	durationMedia,
@@ -28,12 +25,12 @@ import { PlatformSetup } from '../shared/setup/platform-setup';
 import { GamepediaBiddersConfigSetup } from './bidders/bidders-config-setup';
 import * as fallbackInstantConfig from './fallback-config.json';
 import { GamepediaWikiContextSetup } from './setup/wiki-context-setup';
+import { startAdEngine } from './start-ad-engine';
 import { GamepediaTargetingSetup } from './targeting';
 import { hideAllAdSlots } from './templates/hide-all-ad-slots';
 import { GamepediaTemplateRegistry } from './templates/templates-registry';
 import { editModeManager } from './utils/edit-mode-manager';
 
-const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 const logGroup = 'ad-engine';
 
 export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
@@ -70,36 +67,6 @@ export async function setupAdEngine(isOptedIn: boolean): Promise<void> {
 	}
 
 	trackLabradorValues();
-}
-
-function startAdEngine(): void {
-	utils.scriptLoader.loadScript(GPT_LIBRARY_URL);
-
-	const engine = new AdEngine();
-
-	engine.init();
-
-	if (babDetection.isEnabled()) {
-		babDetection.run().then((isBabDetected) => {
-			trackBab(isBabDetected);
-
-			if (isBabDetected) {
-				btRec.run();
-			}
-		});
-	}
-
-	context.push('listeners.slot', {
-		onRenderEnded: (slot) => {
-			slot.getElement().classList.remove('default-height');
-		},
-	});
-
-	context.push('state.adStack', { id: 'cdm-zone-01' });
-	context.push('state.adStack', { id: 'cdm-zone-02' });
-	context.push('state.adStack', { id: 'cdm-zone-03' });
-	context.push('state.adStack', { id: 'cdm-zone-04' });
-	context.push('state.adStack', { id: 'cdm-zone-06' });
 }
 
 function trackLabradorValues(): void {
