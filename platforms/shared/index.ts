@@ -17,3 +17,4 @@ export * from './setup/targeting-setup';
 export * from './setup/wiki-context-setup';
 export * from './setup/platform-startup';
 export * from './templates/template-setup';
+export * from './utils/get-domain';

@@ -1,25 +1,29 @@
 import { DeviceMode } from '@platforms/shared';
 
-export function getIndexExchangeContext(device: DeviceMode): any {
+export function getAppNexusContext(device: DeviceMode): any {
 	const context = {
 		desktop: {
 			enabled: false,
 			slots: {
 				'01_LB': {
 					sizes: [[728, 90], [970, 250]],
-					siteId: '410298',
+					placementId: '16755870',
 				},
 				'02_MR': {
 					sizes: [[300, 250], [300, 600]],
-					siteId: '410301',
+					placementId: '16755872',
 				},
 				'03_PF': {
 					sizes: [[300, 250]],
-					siteId: '410303',
+					placementId: '16755874',
+				},
+				'04_BLB': {
+					sizes: [[728, 90]],
+					placementId: '16755876',
 				},
 				'06_FMR': {
 					sizes: [[300, 250]],
-					siteId: '410304',
+					placementId: '16755879',
 				},
 			},
 		},
@@ -29,19 +33,19 @@ export function getIndexExchangeContext(device: DeviceMode): any {
 			slots: {
 				'01_LB': {
 					sizes: [[320, 50]],
-					siteId: '410291',
+					placementId: '16755858',
 				},
 				'02_MR': {
 					sizes: [[300, 250]],
-					siteId: '410293',
+					placementId: '16755860',
 				},
 				'03_PF': {
 					sizes: [[300, 250]],
-					siteId: '410294',
+					placementId: '16755861',
 				},
 				'06_FMR': {
 					sizes: [[300, 250]],
-					siteId: '410296',
+					placementId: '16755866',
 				},
 			},
 		},

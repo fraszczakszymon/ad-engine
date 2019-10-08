@@ -59,6 +59,7 @@ export class GamepediaTargetingSetup implements TargetingSetup {
 		return wikiSkin;
 	}
 
+	// TODO: replace with get domain from @shared
 	private getDomain(): string {
 		const hostname = window.location.hostname.toLowerCase();
 		const pieces = hostname.split('.');

@@ -4,7 +4,7 @@ import { Injectable } from '@wikia/dependency-injection';
 import { setPrebidAdaptersConfig } from './prebid';
 
 @Injectable()
-export class SportsBiddersConfigSetup implements BiddersConfigSetup {
+export class MutheadBiddersConfigSetup implements BiddersConfigSetup {
 	setBiddersConfigContext(): void {
 		setA9AdapterConfig();
 		setPrebidAdaptersConfig();

@@ -4,6 +4,7 @@ import { getAppNexusContext } from './prebid/app-nexus';
 import { getIndexExchangeContext } from './prebid/index-exchange';
 import { getOpenXContext } from './prebid/openx';
 import { getPubmaticContext } from './prebid/pubmatic';
+import { getRubiconContext } from './prebid/rubicon';
 
 export function setPrebidAdaptersConfig(): void {
 	const mode: DeviceMode = getDeviceMode();
@@ -13,4 +14,5 @@ export function setPrebidAdaptersConfig(): void {
 	context.set('bidders.prebid.openx', getOpenXContext(mode));
 	context.set('bidders.prebid.pubmatic', getPubmaticContext(mode));
 	context.set('bidders.prebid.wikia', getWikiaContext(mode));
+	context.set('bidders.prebid.rubicon_display', getRubiconContext(mode));
 }

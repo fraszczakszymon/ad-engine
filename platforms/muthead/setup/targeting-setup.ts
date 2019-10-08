@@ -3,7 +3,7 @@ import { context, Targeting, utils } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 
 @Injectable()
-export class FutheadTargetingSetup implements TargetingSetup {
+export class MutheadTargetingSetup implements TargetingSetup {
 	setTargetingContext(): void {
 		context.set('targeting', this.getPageLevelTargeting());
 	}
@@ -17,7 +17,7 @@ export class FutheadTargetingSetup implements TargetingSetup {
 			uap: 'none',
 			uap_c: 'none',
 			s0: 'gaming',
-			s1: 'futhead',
+			s1: 'muthead',
 			s2: 'main',
 			dmn: `${domain.name}${domain.tld}`,
 		};
