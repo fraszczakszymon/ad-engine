@@ -23,6 +23,7 @@ import {
 import { Injectable } from '@wikia/dependency-injection';
 import { SlotsSetup } from '../slots/slots-setup';
 import { UapSetup } from '../templates/uap-setup';
+import { LabradorTracker } from '../tracking/labrador-tracker';
 import { TrackingRegistry } from '../tracking/tracking-registry';
 import { IncontentPlayerInjector } from './inject-incontent-player';
 import { TargetingSetup } from './targeting-setup';
@@ -44,6 +45,7 @@ export class PlatformStartup {
 		private slotsSetup: SlotsSetup,
 		private incontentPlayerInjector: IncontentPlayerInjector,
 		private delayModulesSetup: DelayModulesSetup,
+		private labradorTracker: LabradorTracker,
 		private adStackSetup: AdStackSetup,
 		private adEnginePreStarter: AdEnginePreStarter,
 		private noAdsHandler: NoAdsHandler,
@@ -67,7 +69,7 @@ export class PlatformStartup {
 		this.trackingRegistry.registerTrackers();
 		this.delayModulesSetup.setupDelayModules();
 		this.configureEventService();
-		// labrador tacker
+		this.labradorTracker.trackLabradorValues();
 	}
 
 	private configureEventService(): void {

@@ -8,6 +8,7 @@ export * from './models/device-mode';
 export * from './tracking/bab-tracker';
 export * from './tracking/data-warehouse';
 export * from './tracking/page-tracker';
+export * from './tracking/labrador-tracker';
 export * from './wad/bab-detection';
 export * from './setup/ad-stack-setup';
 export * from './setup/ad-engine-prestarter';

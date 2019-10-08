@@ -3,6 +3,7 @@ import {
 	AdStackSetup,
 	BiddersConfigSetup,
 	DelayModulesSetup,
+	LabradorTracker,
 	NoAdsHandler,
 	TargetingSetup,
 	TemplateRegistry,
@@ -15,6 +16,7 @@ import { GamepediaBiddersConfigSetup } from '../bidders/bidders-config-setup';
 import * as fallbackInstantConfig from '../fallback-config.json';
 import { GamepediaTargetingSetup } from '../targeting';
 import { GamepediaTemplateRegistry } from '../templates/templates-registry';
+import { GamepediaLabradorTracker } from '../tracking/labrador-tracker';
 import { GamepediaAdEnginePreStarter } from './ad-engine-prestarter';
 import { GamepediaAdStackSetup } from './ad-stack-setup';
 import { GamepediaDelayModulesSetup } from './delay-modules-setup';
@@ -34,6 +36,7 @@ export async function setupIoc(): Promise<Container> {
 	container.bind(AdStackSetup).to(GamepediaAdStackSetup);
 	container.bind(AdEnginePreStarter).to(GamepediaAdEnginePreStarter);
 	container.bind(NoAdsHandler).to(GamepediaNoAdsHandler);
+	container.bind(LabradorTracker).to(GamepediaLabradorTracker);
 
 	return container;
 }
