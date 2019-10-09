@@ -3,7 +3,8 @@ import { context } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { basicContext } from './ad-context';
 import { setupIoc } from './setup/setup-ioc';
-import './styles.scss';
+// tslint:disable-next-line:no-implicit-dependencies no-submodule-imports ordered-imports
+import 'platforms/shared-sports/styles.scss';
 
 async function start(): Promise<void> {
 	context.extend(basicContext);
