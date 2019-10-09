@@ -1,5 +1,6 @@
 import {
 	AdEngine,
+	AdSlot,
 	bidders,
 	BiddersStateSetup,
 	btRec,
@@ -106,10 +107,8 @@ export class PlatformStartup {
 			});
 		}
 
-		context.push('listeners.slot', {
-			onRenderEnded: (slot) => {
-				slot.getElement().classList.remove('default-height');
-			},
+		eventService.on(AdSlot.SLOT_RENDERED_EVENT, (slot) => {
+			slot.removeClass('default-height');
 		});
 	}
 }
