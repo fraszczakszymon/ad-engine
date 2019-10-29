@@ -13,7 +13,6 @@ interface Window {
 	google: {
 		ima: typeof google.ima;
 	};
-	googletag: googletag.Googletag;
 	moatPrebidApi?: MoatPrebidApi;
 	moatYieldReady?: MoatYieldReady;
 	Krux?: KruxQueue;

@@ -1,7 +1,9 @@
 import { context, events, eventService } from '../services';
+import { gptFactory } from './gpt-factory';
 
-export function setupGptTargeting(): void {
-	const tag = window.googletag.pubads();
+export async function setupGptTargeting(): Promise<void> {
+	const gpt = await gptFactory.init();
+	const tag = gpt.pubads();
 	const targeting = context.get('targeting') || {};
 
 	function setTargetingValue(

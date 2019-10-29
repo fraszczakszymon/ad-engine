@@ -1,4 +1,3 @@
-import { decorate } from 'core-decorators';
 // tslint:disable-next-line:no-blacklisted-paths
 import { getAdStack } from '../ad-engine';
 import { AdSlot, Dictionary, Targeting } from '../models';
@@ -11,6 +10,7 @@ import {
 	trackingOptIn,
 } from '../services';
 import { defer, logger } from '../utils';
+import { gptFactory } from './gpt-factory';
 import { GptSizeMap } from './gpt-size-map';
 import { setupGptTargeting } from './gpt-targeting';
 import { Provider } from './provider';
@@ -18,15 +18,6 @@ import { Provider } from './provider';
 const logGroup = 'gpt-provider';
 
 export const ADX = 'AdX';
-
-function postponeExecutionUntilGptLoads(method: () => void) {
-	return function (...args: any) {
-		// TODO: remove this hack in https://wikia-inc.atlassian.net/browse/ADEN-9254
-		setTimeout(() => {
-			return window.googletag.cmd.push(() => method.apply(this, args));
-		});
-	};
-}
 
 let definedSlots: googletag.Slot[] = [];
 let initialized = false;
@@ -43,8 +34,9 @@ function getAdSlotFromEvent(
 	return slotService.get(id);
 }
 
-function configure() {
-	const tag = window.googletag.pubads();
+async function configure() {
+	const gpt = await gptFactory.init();
+	const tag = gpt.pubads();
 
 	tag.disableInitialLoad();
 
@@ -71,7 +63,7 @@ function configure() {
 		adSlot.emit(AdSlot.SLOT_VIEWED_EVENT);
 	});
 
-	window.googletag.enableServices();
+	gpt.enableServices();
 }
 
 function getAdType(
@@ -99,9 +91,6 @@ function getAdType(
 
 export class GptProvider implements Provider {
 	constructor() {
-		window.googletag = window.googletag || ({} as googletag.Googletag);
-		window.googletag.cmd = window.googletag.cmd || [];
-
 		this.init();
 	}
 
@@ -109,45 +98,44 @@ export class GptProvider implements Provider {
 		return initialized;
 	}
 
-	@decorate(postponeExecutionUntilGptLoads)
-	init(): void {
+	async init(): Promise<void> {
 		if (this.isInitialized()) {
 			return;
 		}
 
-		setupGptTargeting();
-		configure();
-		this.setupNonPersonalizedAds();
+		await setupGptTargeting();
+		await configure();
+		await this.setupNonPersonalizedAds();
 		eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, () => this.destroySlots());
 		eventService.on(events.PAGE_RENDER_EVENT, () => this.updateCorrelator());
 		initialized = true;
 	}
 
-	setupNonPersonalizedAds(): void {
-		const tag = window.googletag.pubads();
+	async setupNonPersonalizedAds(): Promise<void> {
+		const gpt = await gptFactory.init();
+		const tag = gpt.pubads();
 
 		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
-	@decorate(postponeExecutionUntilGptLoads)
-	fillIn(adSlot: AdSlot): void {
+	async fillIn(adSlot: AdSlot): Promise<void> {
 		const adStack = getAdStack() || [];
 
 		btfBlockerService.push(adSlot, (...args) => {
 			this.fillInCallback(...args);
 		});
 		if (adStack.length === 0) {
-			this.flush();
+			await this.flush();
 		}
 	}
 
-	/** @private */
-	fillInCallback(adSlot: AdSlot): void {
+	private async fillInCallback(adSlot: AdSlot): Promise<void> {
+		const gpt = await gptFactory.init();
 		const targeting = this.parseTargetingParams(adSlot.getTargeting());
 		const sizeMap = new GptSizeMap(adSlot.getSizes());
-		const gptSlot = this.createGptSlot(adSlot, sizeMap);
+		const gptSlot = await this.createGptSlot(adSlot, sizeMap);
 
-		gptSlot.addService(window.googletag.pubads()).setCollapseEmptyDiv(true);
+		gptSlot.addService(gpt.pubads()).setCollapseEmptyDiv(true);
 
 		this.applyTargetingParams(gptSlot, targeting);
 
@@ -158,23 +146,24 @@ export class GptProvider implements Provider {
 		slotDataParamsUpdater.updateOnCreate(adSlot, targeting);
 		adSlot.updateWinningPbBidderDetails();
 
-		window.googletag.display(adSlot.getSlotName());
+		gpt.display(adSlot.getSlotName());
 		definedSlots.push(gptSlot);
 
 		if (!adSlot.isFirstCall()) {
-			this.flush();
+			await this.flush();
 		}
 
 		logger(logGroup, adSlot.getSlotName(), 'slot added');
 	}
 
-	/** @private */
-	createGptSlot(adSlot: AdSlot, sizeMap: GptSizeMap) {
+	private async createGptSlot(adSlot: AdSlot, sizeMap: GptSizeMap) {
+		const gpt = await gptFactory.init();
+
 		if (adSlot.isOutOfPage()) {
-			return window.googletag.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
+			return gpt.defineOutOfPageSlot(adSlot.getAdUnit(), adSlot.getSlotName());
 		}
 
-		return window.googletag
+		return gpt
 			.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
 			.defineSizeMapping(sizeMap.build());
 	}
@@ -217,21 +206,22 @@ export class GptProvider implements Provider {
 		return result as Targeting;
 	}
 
-	@decorate(postponeExecutionUntilGptLoads)
-	updateCorrelator(): void {
-		window.googletag.pubads().updateCorrelator();
+	async updateCorrelator(): Promise<void> {
+		const gpt = await gptFactory.init();
+		gpt.pubads().updateCorrelator();
 	}
 
-	/** @private */
-	flush(): void {
+	private async flush(): Promise<void> {
+		const gpt = await gptFactory.init();
+
 		if (definedSlots.length) {
-			window.googletag.pubads().refresh(definedSlots, { changeCorrelator: false });
+			gpt.pubads().refresh(definedSlots, { changeCorrelator: false });
 			definedSlots = [];
 		}
 	}
 
-	@decorate(postponeExecutionUntilGptLoads)
-	destroyGptSlots(gptSlots: googletag.Slot[]): void {
+	async destroyGptSlots(gptSlots: googletag.Slot[]): Promise<void> {
+		const gpt = await gptFactory.init();
 		logger(logGroup, 'destroySlots', gptSlots);
 
 		gptSlots.forEach((gptSlot) => {
@@ -240,15 +230,16 @@ export class GptProvider implements Provider {
 			slotService.remove(adSlot);
 		});
 
-		const success = window.googletag.destroySlots(gptSlots);
+		const success = gpt.destroySlots(gptSlots);
 
 		if (!success) {
 			logger(logGroup, 'destroySlots', gptSlots, 'failed');
 		}
 	}
 
-	destroySlots(slotNames?: string[]): boolean {
-		const allSlots = window.googletag.pubads().getSlots();
+	async destroySlots(slotNames?: string[]): Promise<boolean> {
+		const gpt = await gptFactory.init();
+		const allSlots = gpt.pubads().getSlots();
 		let slotsToDestroy = allSlots;
 
 		if (slotNames && slotNames.length) {
@@ -266,7 +257,7 @@ export class GptProvider implements Provider {
 		}
 
 		if (slotsToDestroy.length) {
-			this.destroyGptSlots(slotsToDestroy);
+			await this.destroyGptSlots(slotsToDestroy);
 			return true;
 		}
 
