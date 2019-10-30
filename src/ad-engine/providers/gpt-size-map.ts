@@ -1,5 +1,6 @@
 import { Dictionary } from '../models';
 import { logger } from '../utils';
+import { gptFactory } from './gpt-factory';
 
 const logGroup = 'gpt-size-map';
 
@@ -21,10 +22,10 @@ export class GptSizeMap {
 		});
 	}
 
-	build(): googletag.SizeMappingArray | null {
+	async build(): Promise<googletag.SizeMappingArray | null> {
+		const gpt = await gptFactory.init();
 		logger(logGroup, this.sizeMap, 'creating GPT size mapping builder');
-		const builder: googletag.SizeMappingBuilder | undefined =
-			window.googletag && window.googletag.sizeMapping();
+		const builder: googletag.SizeMappingBuilder | undefined = gpt && gpt.sizeMapping();
 
 		if (!builder) {
 			logger(logGroup, 'cannot create GPT size mapping builder');

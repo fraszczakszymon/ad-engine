@@ -165,7 +165,7 @@ export class GptProvider implements Provider {
 
 		return gpt
 			.defineSlot(adSlot.getAdUnit(), adSlot.getDefaultSizes(), adSlot.getSlotName())
-			.defineSizeMapping(sizeMap.build());
+			.defineSizeMapping(await sizeMap.build());
 	}
 
 	applyTargetingParams(gptSlot: googletag.Slot, targeting: Targeting) {
