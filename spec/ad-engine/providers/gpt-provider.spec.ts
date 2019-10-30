@@ -1,72 +1,57 @@
 import { expect } from 'chai';
-import { spy, stub } from 'sinon';
+import { createSandbox } from 'sinon';
 import { GptProvider } from '../../../src/ad-engine/providers/gpt-provider';
 import { context } from '../../../src/ad-engine/services/context-service';
+import { stubGpt } from '../../ad-engine/providers/gpt.stub';
 
 let provider;
-let pubads;
-let isInitializedCb;
 
 describe('gpt-provider', () => {
-	before(() => {
-		isInitializedCb = stub(GptProvider.prototype, 'isInitialized');
-	});
+	const sandbox = createSandbox();
+	let pubadsStub;
 
 	after(() => {
-		isInitializedCb.reset();
 		context.removeListeners('targeting');
 	});
 
 	beforeEach(() => {
-		isInitializedCb.returns(false);
+		const { gptStub } = stubGpt(sandbox);
 
-		pubads = {
-			addEventListener: spy(),
-			disableInitialLoad: spy(),
-			enableSingleRequest: spy(),
-			setRequestNonPersonalizedAds: spy(),
-			setTargeting: spy(),
+		pubadsStub = {
+			addEventListener: sandbox.spy(),
+			disableInitialLoad: sandbox.spy(),
+			enableSingleRequest: sandbox.spy(),
+			setRequestNonPersonalizedAds: sandbox.spy(),
+			setTargeting: sandbox.spy(),
 		};
-
-		window.googletag = {
-			pubads: () => pubads,
-			enableServices: spy(),
-		};
-
-		window.googletag.cmd = window.googletag.cmd || [];
-		window.googletag.cmd.push = (cb) => {
-			cb();
-		};
-
+		gptStub.pubads.returns(pubadsStub);
 		context.set('options.trackingOptIn', true);
 	});
 
 	afterEach(() => {
-		isInitializedCb.reset();
+		sandbox.restore();
 	});
 
 	it('initialise and setup gpt provider', (done) => {
-		isInitializedCb.callThrough();
-
-		provider = new GptProvider();
-		provider = new GptProvider();
 		provider = new GptProvider();
 
 		setTimeout(() => {
-			expect(pubads.disableInitialLoad.called).to.be.true;
-			expect(pubads.enableSingleRequest.called).to.be.false;
-			expect(pubads.addEventListener.calledThrice).to.be.true;
-			expect(pubads.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
+			expect(pubadsStub.disableInitialLoad.called).to.be.true;
+			expect(pubadsStub.enableSingleRequest.called).to.be.false;
+			expect(pubadsStub.addEventListener.calledThrice).to.be.true;
+			expect(pubadsStub.setRequestNonPersonalizedAds.calledWith(0)).to.be.true;
 			done();
 		});
 	});
 
-	it('initialise with non personalized ads when tracking in is disabled', () => {
+	it('initialise with non personalized ads when tracking in is disabled', (done) => {
 		context.set('options.trackingOptIn', false);
 
 		provider = new GptProvider();
 		provider.setupNonPersonalizedAds();
-
-		expect(pubads.setRequestNonPersonalizedAds.calledWith(1)).to.be.true;
+		setTimeout(() => {
+			expect(pubadsStub.setRequestNonPersonalizedAds.calledWith(1)).to.be.true;
+			done();
+		});
 	});
 });
