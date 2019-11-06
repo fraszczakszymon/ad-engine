@@ -47,7 +47,7 @@ export default {
 					top_leaderboard: {
 						sizes: [[728, 90]],
 					},
-					TOP_BOXAD: {
+					top_boxad: {
 						sizes: [[300, 250]],
 					},
 					incontent_boxad: {
@@ -113,6 +113,13 @@ export default {
 				jwplayerPluginUrl: 'https://z.moatads.com/jwplayerplugin0938452/moatplugin.js',
 				partnerCode: 'wikiaimajsint377461931603',
 				sampling: 1,
+			},
+			iasTracking: {
+				enabled: false,
+				config: {
+					anId: '930616',
+					campId: '640x480',
+				},
 			},
 		},
 		slotRepeater: true,

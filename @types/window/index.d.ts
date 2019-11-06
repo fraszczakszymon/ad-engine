@@ -13,6 +13,7 @@ interface Window {
 	google: {
 		ima: typeof google.ima;
 	};
+	googleImaVansAdapter?: any;
 	moatPrebidApi?: MoatPrebidApi;
 	moatYieldReady?: MoatYieldReady;
 	Krux?: KruxQueue;
