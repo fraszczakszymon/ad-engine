@@ -25,13 +25,7 @@ export class GptSizeMap {
 	async build(): Promise<googletag.SizeMappingArray | null> {
 		const gpt = await gptFactory.init();
 		logger(logGroup, this.sizeMap, 'creating GPT size mapping builder');
-		const builder: googletag.SizeMappingBuilder | undefined = gpt && gpt.sizeMapping();
-
-		if (!builder) {
-			logger(logGroup, 'cannot create GPT size mapping builder');
-
-			return null;
-		}
+		const builder: googletag.SizeMappingBuilder = gpt.sizeMapping();
 
 		this.sizeMap.forEach(({ viewportSize, sizes }) => {
 			builder.addSize(viewportSize, sizes);
