@@ -9,7 +9,7 @@ class GptFactory {
 	init(): Promise<googletag.Googletag> {
 		if (!this.instancePromise) {
 			this.instancePromise = new Promise((resolve) =>
-				window.googletag.cmd.push(() => resolve(window.googletag as any)),
+				window.googletag.cmd.push(() => resolve(window.googletag)),
 			);
 		}
 
