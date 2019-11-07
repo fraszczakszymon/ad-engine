@@ -2,9 +2,9 @@ import { logger, scriptLoader } from '../utils';
 import { context } from './context-service';
 
 const logGroup = 'pbjs-factory';
-declare const window: Window & { pbjs?: { que?: any[] } };
+declare const window: Window & { pbjs?: Pbjs & { que?: any[] } };
 
-window.pbjs = window.pbjs || {};
+window.pbjs = window.pbjs || ({} as any);
 window.pbjs.que = window.pbjs.que || [];
 
 class PbjsFactory {
@@ -24,7 +24,7 @@ class PbjsFactory {
 			}
 
 			this.instancePromise = new Promise((resolve) =>
-				window.pbjs.que.push(() => resolve(window.pbjs as any)),
+				window.pbjs.que.push(() => resolve(window.pbjs)),
 			);
 		}
 
