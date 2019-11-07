@@ -4,7 +4,7 @@ import { context } from './context-service';
 const logGroup = 'pbjs-factory';
 declare const window: Window & { pbjs?: Pbjs & { que?: any[] } };
 
-window.pbjs = window.pbjs || ({} as any);
+window.pbjs = window.pbjs || ({} as Pbjs);
 window.pbjs.que = window.pbjs.que || [];
 
 class PbjsFactory {
