@@ -121,12 +121,13 @@ export class GptProvider implements Provider {
 	async fillIn(adSlot: AdSlot): Promise<void> {
 		const adStack = getAdStack() || [];
 
-		btfBlockerService.push(adSlot, (...args) => {
-			this.fillInCallback(...args);
+		btfBlockerService.push(adSlot, async (...args) => {
+			await this.fillInCallback(...args);
+
+			if (adStack.length === 0) {
+				this.flush();
+			}
 		});
-		if (adStack.length === 0) {
-			await this.flush();
-		}
 	}
 
 	private async fillInCallback(adSlot: AdSlot): Promise<void> {
