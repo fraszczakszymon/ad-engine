@@ -2,6 +2,8 @@ import { AdSlot, context, slotTweaker } from '@ad-engine/core';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
 import { CloseButton } from '../../../interface/close-button';
 import { BigFancyAdAboveConfig } from '../../big-fancy-ad-above';
+import { resolvedState } from '../../resolved-state';
+import { UapVideoSettings } from '../../uap-video-settings';
 import { UapParams } from '../../universal-ad-package';
 import { BigFancyAdTheme } from '../theme';
 import { CustomWhen, Stickiness } from './stickiness';
@@ -23,8 +25,13 @@ export abstract class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.addAdvertisementLabel();
 	}
 
-	async adIsReady(): Promise<HTMLIFrameElement | HTMLElement> {
-		return slotTweaker.makeResponsive(this.adSlot, this.params.aspectRatio);
+	async adIsReady(videoSettings: UapVideoSettings): Promise<HTMLIFrameElement | HTMLElement> {
+		const aspectRatios = this.params.config.aspectRatio;
+		const ratio = resolvedState.isResolvedState(this.params)
+			? aspectRatios.resolved
+			: aspectRatios.default;
+
+		return slotTweaker.makeResponsive(this.adSlot, ratio);
 	}
 
 	addAdvertisementLabel(): void {
