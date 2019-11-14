@@ -1,9 +1,11 @@
 import {
 	AdEngineRunnerSetup,
+	AdsMode,
 	CommonAdEngineRunnerSetup,
 	CommonContextSetup,
 	CommonStateSetup,
 	ContextSetup,
+	SlotsContextSetup,
 	StateSetup,
 	WikiContextSetup,
 } from '@platforms/shared';
@@ -13,6 +15,8 @@ import { set } from 'lodash';
 
 import * as fallbackInstantConfig from './fallback-config.json';
 
+import { UcpAdsMode } from './modes/ucp-ads.mode';
+import { UcpSlotsContextSetup } from './setup/context/slots/ucp-slots-context-setup';
 import { UcpWikiContextSetup } from './setup/context/wiki/ucp-wiki-context.setup';
 
 export async function setupUcpIoc(): Promise<Container> {
@@ -22,7 +26,9 @@ export async function setupUcpIoc(): Promise<Container> {
 	container.bind(InstantConfigService as any).value(await InstantConfigService.init());
 	container.bind(WikiContextSetup).to(UcpWikiContextSetup);
 	container.bind(AdEngineRunnerSetup).to(CommonAdEngineRunnerSetup);
+	container.bind(AdsMode).to(UcpAdsMode);
 	container.bind(ContextSetup).to(CommonContextSetup);
+	container.bind(SlotsContextSetup).to(UcpSlotsContextSetup);
 	container.bind(StateSetup).to(CommonStateSetup);
 
 	return container;
