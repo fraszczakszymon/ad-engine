@@ -1,13 +1,10 @@
 import { AdsMode, biddersDelay, startAdEngine } from '@platforms/shared';
 import { bidders, context } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
-import { hideAllAdSlots } from '../templates/hide-all-ad-slots';
-import { editModeManager } from '../utils/edit-mode-manager';
 
 @Injectable()
 export class UcpAdsMode implements AdsMode {
 	handleAds(): void {
-		editModeManager.onActivate(() => hideAllAdSlots());
 		this.callExternals();
 		startAdEngine();
 		this.setAdStack();

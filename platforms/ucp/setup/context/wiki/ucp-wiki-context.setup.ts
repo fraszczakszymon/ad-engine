@@ -5,7 +5,7 @@ import { Injectable } from '@wikia/dependency-injection';
 @Injectable()
 export class UcpWikiContextSetup implements WikiContextSetup {
 	configureWikiContext(): void {
-		const wikiContext = window.mw ? window.mw.config.values : {};
+		const wikiContext = window.ads ? window.ads.context : {};
 
 		context.set('wiki', wikiContext);
 	}

@@ -1,5 +1,5 @@
 interface MediaWiki {
-	config: {
+	context: {
 		values: {};
 	};
 
