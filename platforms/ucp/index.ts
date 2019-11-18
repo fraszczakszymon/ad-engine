@@ -5,7 +5,9 @@ import { basicContext } from './ad-context';
 import { setupUcpIoc } from './setup-ucp-ioc';
 import './styles.scss';
 
-async function start(): Promise<void> {
+window.RLQ = window.RLQ || [];
+window.RLQ.push(async () => {
+	await window.mw.loader.using('ext.track.scripts');
 	context.extend(basicContext);
 
 	const [consent, container]: [boolean, Container] = await Promise.all([
@@ -16,6 +18,4 @@ async function start(): Promise<void> {
 
 	platformStartup.configure({ isOptedIn: consent, isMobile: getDeviceMode() === 'mobile' });
 	platformStartup.run();
-}
-
-start();
+});

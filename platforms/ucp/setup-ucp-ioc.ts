@@ -5,6 +5,7 @@ import {
 	CommonContextSetup,
 	CommonStateSetup,
 	ContextSetup,
+	DynamicSlotsSetup,
 	SlotsContextSetup,
 	SlotsStateSetup,
 	StateSetup,
@@ -21,6 +22,7 @@ import { UcpAdsMode } from './modes/ucp-ads.mode';
 import { UcpSlotsContextSetup } from './setup/context/slots/ucp-slots-context.setup';
 import { UcpTargetingSetup } from './setup/context/targeting/ucp-targeting.setup';
 import { UcpWikiContextSetup } from './setup/context/wiki/ucp-wiki-context.setup';
+import { UcpDynamicSlotsSetup } from './setup/dynamic-slots/ucp-dynamic-slots.setup';
 import { UcpSlotsStateSetup } from './setup/state/slots/ucp-slots-state-setup';
 
 export async function setupUcpIoc(): Promise<Container> {
@@ -36,6 +38,7 @@ export async function setupUcpIoc(): Promise<Container> {
 	container.bind(SlotsStateSetup).to(UcpSlotsStateSetup);
 	container.bind(SlotsContextSetup).to(UcpSlotsContextSetup);
 	container.bind(StateSetup).to(CommonStateSetup);
+	container.bind(DynamicSlotsSetup).to(UcpDynamicSlotsSetup);
 
 	return container;
 }
