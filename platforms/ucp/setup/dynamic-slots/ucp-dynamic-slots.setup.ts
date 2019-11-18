@@ -11,6 +11,7 @@ export class UcpDynamicSlotsSetup implements DynamicSlotsSetup {
 		const container = document.querySelector('.WikiaPage');
 		const topLeadeboardWrapper = document.createElement('div');
 		topLeadeboardWrapper.id = 'top_leaderboard';
-		container.appendChild(topLeadeboardWrapper);
+		const parentElement = container.parentNode;
+		parentElement.insertBefore(topLeadeboardWrapper, container);
 	}
 }
