@@ -6,6 +6,7 @@ import {
 	CommonStateSetup,
 	ContextSetup,
 	SlotsContextSetup,
+	SlotsStateSetup,
 	StateSetup,
 	TargetingSetup,
 	WikiContextSetup,
@@ -17,9 +18,10 @@ import { set } from 'lodash';
 import * as fallbackInstantConfig from './fallback-config.json';
 
 import { UcpAdsMode } from './modes/ucp-ads.mode';
-import { UcpSlotsContextSetup } from './setup/context/slots/ucp-slots-context-setup';
+import { UcpSlotsContextSetup } from './setup/context/slots/ucp-slots-context.setup';
 import { UcpTargetingSetup } from './setup/context/targeting/ucp-targeting.setup';
 import { UcpWikiContextSetup } from './setup/context/wiki/ucp-wiki-context.setup';
+import { UcpSlotsStateSetup } from './setup/state/slots/ucp-slots-state-setup';
 
 export async function setupUcpIoc(): Promise<Container> {
 	const container = new Container();
@@ -31,6 +33,7 @@ export async function setupUcpIoc(): Promise<Container> {
 	container.bind(AdEngineRunnerSetup).to(CommonAdEngineRunnerSetup);
 	container.bind(AdsMode).to(UcpAdsMode);
 	container.bind(ContextSetup).to(CommonContextSetup);
+	container.bind(SlotsStateSetup).to(UcpSlotsStateSetup);
 	container.bind(SlotsContextSetup).to(UcpSlotsContextSetup);
 	container.bind(StateSetup).to(CommonStateSetup);
 
