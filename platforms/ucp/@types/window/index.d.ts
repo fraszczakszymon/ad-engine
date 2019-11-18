@@ -1,5 +1,5 @@
 interface Window {
-	ads?: Ads;
+	ads?: MediaWikiAds;
 	mw: MediaWiki;
 	RLQ?: any;
 }

@@ -7,7 +7,6 @@ import './styles.scss';
 
 window.RLQ = window.RLQ || [];
 window.RLQ.push(async () => {
-	await window.mw.loader.using('ext.track.scripts');
 	context.extend(basicContext);
 
 	const [consent, container]: [boolean, Container] = await Promise.all([
