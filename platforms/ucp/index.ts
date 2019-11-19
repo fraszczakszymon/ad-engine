@@ -15,6 +15,6 @@ window.RLQ.push(async () => {
 	]);
 	const platformStartup = container.get(PlatformStartup);
 
-	platformStartup.configure({ isOptedIn: consent, isMobile: getDeviceMode() === 'mobile' });
+	platformStartup.configure({ isOptedIn: consent, isMobile: false });
 	platformStartup.run();
 });
