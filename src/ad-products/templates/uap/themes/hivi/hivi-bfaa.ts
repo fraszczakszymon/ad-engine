@@ -79,6 +79,8 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 			// Manually run update on scroll once
 			this.updateAdSizes();
 		}
+
+		setTimeout(() => this.addImagesAnimation());
 	}
 
 	onVideoReady(video: PorvataPlayer): void {

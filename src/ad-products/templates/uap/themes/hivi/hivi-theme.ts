@@ -70,6 +70,16 @@ export abstract class BigFancyAdHiviTheme extends BigFancyAdTheme {
 		this.stickiness.on(Stickiness.UNSTICK_IMMEDIATELY_EVENT, (arg) => this.unstickImmediately(arg));
 	}
 
+	protected addImagesAnimation() {
+		if (this.params.image1 && this.params.image1.element) {
+			this.params.image1.element.classList.add('background-transition');
+		}
+
+		if (this.params.image2 && this.params.image2.element) {
+			this.params.image2.element.classList.add('background-transition');
+		}
+	}
+
 	protected abstract onStickinessChange(isSticky: boolean): void;
 
 	protected abstract onCloseClicked(): void;
