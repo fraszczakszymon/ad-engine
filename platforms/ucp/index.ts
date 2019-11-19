@@ -1,4 +1,4 @@
-import { bootstrapAndGetCmpConsent, getDeviceMode, PlatformStartup } from '@platforms/shared';
+import { bootstrapAndGetCmpConsent, PlatformStartup } from '@platforms/shared';
 import { context } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { basicContext } from './ad-context';
