@@ -1,4 +1,4 @@
-import { TargetingSetup } from '@platforms/shared';
+import { getDomain, TargetingSetup } from '@platforms/shared';
 import { context, Targeting, utils } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 
@@ -11,11 +11,12 @@ export class UcpTargetingSetup implements TargetingSetup {
 	private getPageLevelTargeting(): Partial<Targeting> {
 		const cid = utils.queryString.get('cid');
 		const wiki: MediaWikiAdsContext = context.get('wiki');
+		const domain = getDomain();
 
 		const targeting: Partial<Targeting> = {
 			ar: window.innerWidth > window.innerHeight ? '4:3' : '3:4',
 			artid: wiki.targeting.pageArticleId,
-			dmn: this.getDomain(),
+			dmn: domain.base,
 			esrb: wiki.targeting.esrbRating,
 			geo: utils.geoService.getCountryCode() || 'none',
 			hostpre: this.getHostnamePrefix(),
@@ -38,21 +39,6 @@ export class UcpTargetingSetup implements TargetingSetup {
 		}
 
 		return targeting;
-	}
-
-	private getDomain(): string {
-		const hostname = window.location.hostname.toLowerCase();
-		const pieces = hostname.split('.');
-		const np = pieces.length;
-
-		let domain = `${pieces[np - 2]}.${pieces[np - 1]}`;
-
-		if (pieces[np - 2] === 'co') {
-			// .co.uk or .co.jp
-			domain = `${pieces[np - 3]}.${pieces[np - 2]}.${pieces[np - 1]}`;
-		}
-
-		return domain.replace(/\./g, '');
 	}
 
 	private getHostnamePrefix(): string {
