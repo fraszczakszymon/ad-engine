@@ -1,4 +1,4 @@
-import { bootstrapAndGetCmpConsent } from '@platforms/shared';
+import { bootstrapAndGetCmpConsent, ensureGeoCookie } from '@platforms/shared';
 import { context, utils } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { PlatformStartup } from '../shared/platform-startup';
@@ -13,8 +13,8 @@ window.RLQ.push(async () => {
 	await window.mw.loader.using('ext.track.scripts');
 	context.extend(basicContext);
 
-	const [consent, container]: [boolean, Container] = await Promise.all([
-		bootstrapAndGetCmpConsent(),
+	const [consent, container]: [boolean, Container, ...any[]] = await Promise.all([
+		ensureGeoCookie().then(() => bootstrapAndGetCmpConsent()),
 		setupGamepediaIoc(),
 	]);
 	const platformStartup = container.get(PlatformStartup);
