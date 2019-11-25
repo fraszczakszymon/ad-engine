@@ -21,6 +21,7 @@ export function setupBidders(context: Context, instantConfig: InstantConfigServi
 		context.set('bidders.prebid.kargo.enabled', instantConfig.get('icPrebidKargo'));
 		context.set('bidders.prebid.lkqd.enabled', instantConfig.get('icPrebidLkqd'));
 		context.set('bidders.prebid.onemobile.enabled', instantConfig.get('icPrebidOneMobile'));
+		context.set('bidders.prebid.oneVideo.enabled', instantConfig.get('icPrebidOneVideo'));
 		context.set('bidders.prebid.openx.enabled', instantConfig.get('icPrebidOpenX'));
 		context.set('bidders.prebid.pubmatic.enabled', instantConfig.get('icPrebidPubmatic'));
 		context.set(
