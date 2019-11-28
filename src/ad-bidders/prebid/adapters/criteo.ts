@@ -2,9 +2,6 @@ import { PrebidAdapter } from '../prebid-adapter';
 
 export class Criteo extends PrebidAdapter {
 	static bidderName = 'criteo';
-	aliases = {
-		criteo: [Criteo.bidderName],
-	};
 
 	networkId: string;
 
