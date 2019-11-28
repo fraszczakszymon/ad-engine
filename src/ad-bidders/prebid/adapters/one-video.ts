@@ -20,12 +20,13 @@ export class OneVideo extends PrebidAdapter {
 				{
 					bidder: this.bidderName,
 					params: {
+						pubId,
 						video: {
 							playerWidth: 480,
 							playerHeight: 640,
-							mimes: ['video/mp4'],
+							mimes: ['video/mp4', 'video/x-flv', 'video/webm', 'video/ogg'],
+							protocols: [2, 3, 5, 6],
 						},
-						pubId,
 					},
 				},
 			],
