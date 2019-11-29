@@ -9,7 +9,30 @@ export class Criteo extends PrebidAdapter {
 		return Criteo.bidderName;
 	}
 
-	prepareConfigForAdUnit(code, { sizes, networkId }): PrebidAdUnit {
+	prepareConfigForAdUnit(code, { sizes, ids }): PrebidAdUnit {
+		switch (code.toLowerCase()) {
+			case 'featured':
+			case 'incontent_player':
+				return this.getVideoConfig(code, ids);
+			default:
+				return this.getStandardConfig(code, sizes, ids);
+		}
+	}
+
+	getVideoConfig(code, ids): PrebidAdUnit {
+		return {
+			code,
+			mediaTypes: {
+				video: {
+					playerSize: [640, 480],
+					context: 'instream',
+				},
+			},
+			bids: this.getBids(ids),
+		};
+	}
+
+	getStandardConfig(code, { sizes, networkId }): PrebidAdUnit {
 		return {
 			code,
 			mediaTypes: {
@@ -25,5 +48,16 @@ export class Criteo extends PrebidAdapter {
 				},
 			})),
 		};
+	}
+
+	getBids(ids, params = {}): PrebidBid[] {
+		return ids.map((adSlot) => ({
+			bidder: this.bidderName,
+			params: {
+				adSlot,
+				publisherId: this.publisherId,
+				...params,
+			},
+		}));
 	}
 }
