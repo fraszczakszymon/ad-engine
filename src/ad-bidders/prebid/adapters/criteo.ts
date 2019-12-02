@@ -9,13 +9,13 @@ export class Criteo extends PrebidAdapter {
 		return Criteo.bidderName;
 	}
 
-	prepareConfigForAdUnit(code, { sizes, ids }): PrebidAdUnit {
+	prepareConfigForAdUnit(code, { sizes, networkId, zoneId }): PrebidAdUnit {
 		switch (code.toLowerCase()) {
 			case 'featured':
 			case 'incontent_player':
-				return this.getVideoConfig(code, ids);
+				return this.getVideoConfig(code, { networkId, zoneId });
 			default:
-				return this.getStandardConfig(code, sizes);
+				return this.getStandardConfig(code, { sizes, networkId });
 		}
 	}
 
