@@ -7,7 +7,7 @@ export class OneVideo extends PrebidAdapter {
 		return OneVideo.bidderName;
 	}
 
-	prepareConfigForAdUnit(code, { pubId }): PrebidAdUnit {
+	prepareConfigForAdUnit(code, { site, pubId }): PrebidAdUnit {
 		return {
 			code,
 			mediaTypes: {
@@ -20,6 +20,7 @@ export class OneVideo extends PrebidAdapter {
 				{
 					bidder: this.bidderName,
 					params: {
+						site,
 						pubId,
 						video: {
 							playerWidth: 480,
