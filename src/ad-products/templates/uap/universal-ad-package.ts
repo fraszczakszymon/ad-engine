@@ -29,7 +29,7 @@ export interface UapConfig {
 
 export interface UapImage {
 	element: HTMLImageElement;
-	background: string;
+	background?: string;
 }
 
 export interface VideoSize {

@@ -274,7 +274,7 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 			this.container.classList.remove(CSS_CLASSNAME_THEME_RESOLVED);
 		}
 
-		if (this.params.image2 && this.params.image2.element) {
+		if (this.params.image2 && this.params.image2.background) {
 			if (isResolved) {
 				this.params.image2.element.classList.remove('hidden-state');
 				this.params.image1.element.classList.add('hidden-state');
