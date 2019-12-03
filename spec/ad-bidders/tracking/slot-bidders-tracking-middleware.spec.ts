@@ -105,7 +105,7 @@ describe('slot-bidders-tracking-middleware', () => {
 			bidder_20: 20.0,
 			bidder_21: 21.0,
 			bidder_22: 22.0,
-			oneVideo: 23.0,
+			bidder_23: 23.0,
 		});
 	});
 
