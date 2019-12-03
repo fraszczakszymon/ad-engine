@@ -13,26 +13,29 @@ export class Criteo extends PrebidAdapter {
 		switch (code.toLowerCase()) {
 			case 'featured':
 			case 'incontent_player':
-				return this.getVideoConfig(code, { networkId, zoneId });
+				return this.getVideoConfig(code, zoneId);
 			default:
 				return this.getStandardConfig(code, { sizes, networkId });
 		}
 	}
 
-	getVideoConfig(code, { networkId, zoneId }): PrebidAdUnit {
+	getVideoConfig(code, zoneId): PrebidAdUnit {
 		return {
 			code,
 			mediaTypes: {
 				video: {
 					playerSize: [640, 480],
 					context: 'instream',
+					mimes: ['video/mp4'],
+					maxduration: 30,
+					api: [1, 2],
+					protocols: [2, 3],
 				},
 			},
 			bids: [
 				{
 					bidder: this.bidderName,
 					params: {
-						networkId,
 						zoneId,
 					},
 				},
