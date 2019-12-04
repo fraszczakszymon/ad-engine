@@ -9,6 +9,7 @@ export * from './index-exchange';
 export * from './kargo';
 export * from './lkqd';
 export * from './onemobile';
+export * from './one-video';
 export * from './openx';
 export * from './pubmatic';
 export * from './rubicon';
