@@ -163,7 +163,7 @@
             "regions": [
                 "XX"
             ],
-            "sampling": 50.0,
+            "sampling": 100.0,
             "value": true
         }
     ],
@@ -180,6 +180,18 @@
                 "XX"
             ],
             "value": true
+        }
+    ],
+    "icPrebidCriteo": [
+        {
+            "apps": [
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "value": false
         }
     ],
     "icA9Bidder": [
@@ -207,14 +219,7 @@
                 "oasis"
             ],
             "regions": [
-                "AU",
-                "CA",
-                "DE",
-                "GB",
-                "NZ",
-                "PL",
-                "UK",
-                "XX-EU"
+                "XX"
             ],
             "value": true
         }
