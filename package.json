@@ -20,7 +20,8 @@
 		"js-cookie": "2.2.0",
 		"lodash": "^4.17.4",
 		"query-string": "6.8.0",
-		"rxjs": "6.5.3"
+		"rxjs": "6.5.3",
+		"state-charts": "1.2.0"
 	},
 	"devDependencies": {
 		"@alugha/ima": "1.1.2",
