@@ -129,6 +129,8 @@ export class PorvataPlayer {
 	readonly destroyCallbacks = new utils.LazyQueue();
 	nativeFullscreen: NativeFullscreen;
 
+	delete;
+
 	constructor(
 		readonly ima: GoogleImaPlayer,
 		public params: VideoParams,
@@ -202,6 +204,7 @@ export class PorvataPlayer {
 	}
 
 	reload(): void {
+		this.ima.dispatchEvent('wikiaAdReload');
 		this.ima.reload();
 	}
 

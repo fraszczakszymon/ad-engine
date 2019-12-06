@@ -1,6 +1,8 @@
 import { AdSlot, context, slotTweaker } from '@ad-engine/core';
 import * as EventEmitter from 'eventemitter3';
 import { mapValues } from 'lodash';
+import { fromEvent } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import { FSM, ReduxExtensionConnector, State } from 'state-charts';
 import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState } from '../../../..';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
@@ -36,7 +38,7 @@ const bfaaStates = [
 		name: STATES.RESOLVED,
 		transitions: [
 			{ action: ACTIONS.STICK, to: STATES.STICKY },
-			{ action: ACTIONS.RESET, to: STATES.IMPACT },
+			{ action: ACTIONS.IMPACT, to: STATES.IMPACT },
 		],
 	},
 	{
@@ -68,25 +70,32 @@ bfaaFsm.init();
 export class BfaaHiviTheme extends BigFancyAdTheme {
 	protected config: BigFancyAdAboveConfig;
 	video: PorvataPlayer;
+	stopNextVideo = false;
 
 	constructor(protected adSlot: AdSlot, public params: UapParams) {
 		super(adSlot, params);
 		this.config = context.get('templates.bfaa') || {};
 
-		bfaaEmitter.on(FSM.events.enter, (event: State) => {
-			if (event.name === STATES.RESOLVED) {
+		bfaaEmitter.on(FSM.events.enter, (state: State) => {
+			if (state.name === STATES.RESOLVED) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.resolved);
 				this.switchImagesInAd(true);
 				this.container.classList.add(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
 			}
-			if (event.name === STATES.IMPACT) {
+			if (state.name === STATES.IMPACT) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.default);
 				this.switchImagesInAd(false);
 				this.container.classList.remove(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
+			}
+		});
+
+		bfaaEmitter.on(FSM.events.leave, (state: State) => {
+			if (state.name === STATES.IMPACT) {
+				// scroll listener fun goes here
 			}
 		});
 	}
@@ -114,6 +123,13 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 
 	onVideoReady(video: PorvataPlayer): void {
 		this.video = video;
+
+		// Video restart
+		fromEvent(video.ima, 'wikiaAdPlayTriggered')
+			.pipe(skip(1))
+			.subscribe(() => {
+				bfaaFsm.dispatch(ACTIONS.IMPACT);
+			});
 	}
 
 	private switchImagesInAd(isResolved: boolean): void {

@@ -50,6 +50,13 @@ export class GoogleImaPlayer {
 		}
 	}
 
+	removeEventListener(
+		eventName: VideoEvent,
+		callback: (event: google.ima.AdEvent | google.ima.AdErrorEvent) => void,
+	) {
+		// Huck you!
+	}
+
 	setVastAttributes(status: string, currentAd?: google.ima.Ad): void {
 		const playerElement: HTMLVideoElement = this.params.container.querySelector('.video-player');
 
@@ -117,6 +124,7 @@ export class GoogleImaPlayer {
 	}
 
 	dispatchEvent(eventName: string): void {
+		console.error('******* dispatchEvent', eventName);
 		if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
 			this.eventListeners[eventName].forEach((callback) => {
 				callback({});
