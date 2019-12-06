@@ -1,15 +1,17 @@
-import { AdSlot, context, slotTweaker } from '@ad-engine/core';
+import { AdSlot, context, scrollListener, slotTweaker } from '@ad-engine/core';
 import * as EventEmitter from 'eventemitter3';
 import { mapValues } from 'lodash';
 import { fromEvent } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { FSM, ReduxExtensionConnector, State } from 'state-charts';
-import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState } from '../../../..';
+import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState, UapRatio } from '../../../..';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
 import { CSS_CLASSNAME_THEME_RESOLVED } from '../../constants';
 import { UapVideoSettings } from '../../uap-video-settings';
 import { UapParams, UapState } from '../../universal-ad-package';
 import { BigFancyAdTheme } from '../theme';
+
+const HIVI_RESOLVED_THRESHOLD = 0.995;
 
 const STATES = {
 	IMPACT: 'impact',
@@ -71,6 +73,7 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 	protected config: BigFancyAdAboveConfig;
 	video: PorvataPlayer;
 	stopNextVideo = false;
+	impactScrollListener: string;
 
 	constructor(protected adSlot: AdSlot, public params: UapParams) {
 		super(adSlot, params);
@@ -90,12 +93,20 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 				this.container.classList.remove(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
+
+				this.impactScrollListener = scrollListener.addCallback(() => {
+					this.updateAdSizes();
+
+					if (this.currentState >= HIVI_RESOLVED_THRESHOLD) {
+						bfaaFsm.dispatch(ACTIONS.RESOLVE);
+					}
+				});
 			}
 		});
 
 		bfaaEmitter.on(FSM.events.leave, (state: State) => {
 			if (state.name === STATES.IMPACT) {
-				// scroll listener fun goes here
+				scrollListener.removeCallback(this.impactScrollListener);
 			}
 		});
 	}
@@ -146,21 +157,41 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 		}
 	}
 
-	private updateAdSizes(): Promise<HTMLElement> {
-		const { aspectRatio, state } = this.params.config;
-		const currentWidth: number = this.config.mainContainer.offsetWidth;
-		const maxHeight = currentWidth / aspectRatio.default;
-		const minHeight = currentWidth / aspectRatio.resolved;
+	get currentWidth(): number {
+		return this.config.mainContainer.offsetWidth;
+	}
+
+	get aspectRatio(): UapRatio {
+		return this.params.config.aspectRatio;
+	}
+
+	get currentAspectRatio(): number {
+		return this.currentWidth / this.aspectScroll;
+	}
+
+	get aspectScroll(): number {
+		const maxHeight = this.currentWidth / this.aspectRatio.default;
+		const minHeight = this.currentWidth / this.aspectRatio.resolved;
 		const scrollY = window.scrollY || window.pageYOffset || 0;
-		const aspectScroll =
-			bfaaFsm.state.name === STATES.IMPACT ? Math.max(minHeight, maxHeight - scrollY) : minHeight;
-		const currentAspectRatio = currentWidth / aspectScroll;
+
+		return bfaaFsm.state.name === STATES.IMPACT
+			? Math.max(minHeight, maxHeight - scrollY)
+			: minHeight;
+	}
+
+	get currentState(): number {
+		const { aspectRatio } = this.params.config;
 		const aspectRatioDiff = aspectRatio.default - aspectRatio.resolved;
-		const currentDiff = aspectRatio.default - currentAspectRatio;
-		const currentState = 1 - (aspectRatioDiff - currentDiff) / aspectRatioDiff;
+		const currentDiff = aspectRatio.default - this.currentAspectRatio;
+		return 1 - (aspectRatioDiff - currentDiff) / aspectRatioDiff;
+	}
+
+	private updateAdSizes(): Promise<HTMLElement> {
+		const { state } = this.params.config;
+		const currentState = this.currentState;
 		const heightDiff = state.height.default - state.height.resolved;
 		const heightFactor = (state.height.default - heightDiff * currentState) / 100;
-		const relativeHeight = aspectScroll * heightFactor;
+		const relativeHeight = this.aspectScroll * heightFactor;
 
 		this.updateVideoSize(relativeHeight);
 
@@ -177,7 +208,7 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 			}
 		}
 
-		return slotTweaker.makeResponsive(this.adSlot, currentAspectRatio);
+		return slotTweaker.makeResponsive(this.adSlot, this.currentAspectRatio);
 	}
 
 	private setThumbnailStyle(style): void {
