@@ -73,7 +73,8 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 	protected config: BigFancyAdAboveConfig;
 	video: PorvataPlayer;
 	stopNextVideo = false;
-	impactScrollListener: string;
+	impactUIScrollListener: string;
+	impactStateScrollListener: string;
 
 	constructor(protected adSlot: AdSlot, public params: UapParams) {
 		super(adSlot, params);
@@ -87,6 +88,7 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 
 				this.updateAdSizes();
 			}
+
 			if (state.name === STATES.IMPACT) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.default);
 				this.switchImagesInAd(false);
@@ -94,9 +96,15 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 
 				this.updateAdSizes();
 
-				this.impactScrollListener = scrollListener.addCallback(() => {
+				this.impactUIScrollListener = scrollListener.addCallback(() => {
 					this.updateAdSizes();
+				});
+			}
+		});
 
+		bfaaEmitter.on(FSM.events.enter, (state: State) => {
+			if (state.name === STATES.IMPACT) {
+				this.impactStateScrollListener = scrollListener.addCallback(() => {
 					if (this.currentState >= HIVI_RESOLVED_THRESHOLD) {
 						bfaaFsm.dispatch(ACTIONS.RESOLVE);
 					}
@@ -106,7 +114,13 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 
 		bfaaEmitter.on(FSM.events.leave, (state: State) => {
 			if (state.name === STATES.IMPACT) {
-				scrollListener.removeCallback(this.impactScrollListener);
+				scrollListener.removeCallback(this.impactUIScrollListener);
+			}
+		});
+
+		bfaaEmitter.on(FSM.events.leave, (state: State) => {
+			if (state.name === STATES.IMPACT) {
+				scrollListener.removeCallback(this.impactStateScrollListener);
 			}
 		});
 	}
