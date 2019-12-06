@@ -50,10 +50,11 @@ export class GoogleImaPlayer {
 		}
 	}
 
+	/* tslint-ignore */
 	removeEventListener(
 		eventName: VideoEvent,
 		callback: (event: google.ima.AdEvent | google.ima.AdErrorEvent) => void,
-	) {
+	): void {
 		// Huck you!
 	}
 
@@ -124,7 +125,6 @@ export class GoogleImaPlayer {
 	}
 
 	dispatchEvent(eventName: string): void {
-		console.error('******* dispatchEvent', eventName);
 		if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
 			this.eventListeners[eventName].forEach((callback) => {
 				callback({});
