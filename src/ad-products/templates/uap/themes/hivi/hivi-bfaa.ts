@@ -4,7 +4,7 @@ import * as EventEmitter from 'eventemitter3';
 import { isUndefined, mapValues } from 'lodash';
 import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, skip, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { FSM, ReduxExtensionConnector, State } from 'state-charts';
+import { FSM, ReduxExtensionConnector } from 'state-charts';
 import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState, UapRatio } from '../../../..';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
 import {
@@ -21,6 +21,8 @@ import { BigFancyAdHiviTheme } from './hivi-theme';
 const HIVI_RESOLVED_THRESHOLD = 0.995;
 export const MOVE_NAVBAR = '[UAP HiVi BFAA] move navbar';
 export const SET_BODY_PADDING_TOP = '[UAP HiVi BFAA] set body padding top';
+
+type State = any;
 
 const STATES = {
 	IMPACT: 'impact',
