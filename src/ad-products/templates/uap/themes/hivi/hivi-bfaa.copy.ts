@@ -152,7 +152,6 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 
 		if (this.isLocked && this.config.defaultStateAllowed && window.scrollY < offset) {
 			const aspectRatio: number = this.params.config.aspectRatio.default;
-			bfaaFsm.dispatch('reset');
 
 			this.container.style.top = '';
 			this.config.mainContainer.style.paddingTop = `${100 / aspectRatio}%`;

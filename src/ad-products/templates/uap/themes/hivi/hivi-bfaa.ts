@@ -1,24 +1,32 @@
-import { AdSlot, context, scrollListener, slotTweaker } from '@ad-engine/core';
+import { AdSlot, context, scrollListener, slotTweaker, utils } from '@ad-engine/core';
 import { Communicator } from '@wikia/post-quecast';
 import * as EventEmitter from 'eventemitter3';
-import { mapValues } from 'lodash';
-import { fromEvent } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { isUndefined, mapValues } from 'lodash';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
+import { filter, skip, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { FSM, ReduxExtensionConnector, State } from 'state-charts';
 import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState, UapRatio } from '../../../..';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
-import { CSS_CLASSNAME_STICKY_BFAA, CSS_CLASSNAME_THEME_RESOLVED } from '../../constants';
+import {
+	CSS_CLASSNAME_IMPACT_BFAA,
+	CSS_CLASSNAME_STICKY_BFAA,
+	CSS_CLASSNAME_THEME_RESOLVED,
+	SLIDE_OUT_TIME,
+} from '../../constants';
 import { UapVideoSettings } from '../../uap-video-settings';
 import { UapParams, UapState } from '../../universal-ad-package';
 import { BigFancyAdTheme } from '../theme';
+import { BigFancyAdHiviTheme } from './hivi-theme';
 
 const HIVI_RESOLVED_THRESHOLD = 0.995;
+const MOVE_NAVBAR = '[UAP HiVi BFAA] move navbar';
+const SET_BODY_PADDING_TOP = '[UAP HiVi BFAA] set body padding top';
 
 const STATES = {
 	IMPACT: 'impact',
 	INITIAL: 'initial',
 	RESOLVED: 'resolved',
-	STICKY: 'stickY',
+	STICKY: 'sticky',
 };
 const ACTIONS = {
 	IMPACT: 'impact',
@@ -35,6 +43,7 @@ const bfaaStates = [
 		transitions: [
 			{ action: ACTIONS.IMPACT, to: STATES.IMPACT },
 			{ action: ACTIONS.RESOLVE, to: STATES.RESOLVED },
+			{ action: ACTIONS.STICK, to: STATES.STICKY },
 		],
 	},
 	{
@@ -47,7 +56,7 @@ const bfaaStates = [
 	{
 		name: STATES.STICKY,
 		transitions: [
-			{ action: ACTIONS.UNSTICK, to: STATES.RESOLVED },
+			{ action: ACTIONS.RESOLVE, to: STATES.RESOLVED },
 			{ action: ACTIONS.CLOSE, to: STATES.RESOLVED },
 		],
 	},
@@ -69,14 +78,33 @@ const bfaaFsm = new FSM(
 );
 /* tslint:disable */
 new ReduxExtensionConnector(bfaaFsm, '[UAP BFAA] ');
-bfaaFsm.init();
+
+const entering$ = new Subject<State>();
+const leaving$ = new Subject<State>();
+
+function createScrollObservable(): Observable<any> {
+	return new Observable((observer) => {
+		const listenerId = scrollListener.addCallback(() => {
+			observer.next();
+		});
+
+		return () => scrollListener.removeCallback(listenerId);
+	});
+}
+
+bfaaEmitter.on(FSM.events.enter, (state: State) => {
+	entering$.next(state);
+});
+
+bfaaEmitter.on(FSM.events.leave, (state: State) => {
+	leaving$.next(state);
+});
 
 export class BfaaHiviTheme extends BigFancyAdTheme {
 	protected config: BigFancyAdAboveConfig;
 	video: PorvataPlayer;
-	stopNextVideo = false;
-	impactUIScrollListener: string;
 	impactStateScrollListener: string;
+	viewableAndTimeoutRunning$ = new BehaviorSubject<boolean>(true);
 
 	constructor(protected adSlot: AdSlot, public params: UapParams) {
 		super(adSlot, params);
@@ -84,33 +112,45 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 
 		// ENTER - UI
 		bfaaEmitter.on(FSM.events.enter, (state: State) => {
+			if (state.name === STATES.INITIAL) {
+				this.startStickiness();
+			}
 			if (state.name === STATES.RESOLVED) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.resolved);
 				this.switchImagesInAd(true);
 				this.adSlot.addClass(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
+
+				this.setBodyPaddingTop(`${100 / this.currentAspectRatio}%`);
+				this.moveNavbar(0, 0);
 			}
 
 			if (state.name === STATES.IMPACT) {
+				this.adSlot.addClass(CSS_CLASSNAME_IMPACT_BFAA);
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.default);
 				this.switchImagesInAd(false);
 
 				this.updateAdSizes();
+				// TODO: Update body padding
 
-				this.impactUIScrollListener = scrollListener.addCallback(() => {
-					this.updateAdSizes();
-				});
+				createScrollObservable()
+					.pipe(takeUntil(leaving$))
+					.subscribe(() => {
+						// TODO: Update body padding
+						this.updateAdSizes();
+					});
 			}
 			if (state.name === STATES.STICKY) {
 				this.adSlot.addClass(CSS_CLASSNAME_STICKY_BFAA);
+				this.stickNavbar();
 			}
 		});
 
 		// LEAVE - UI
 		bfaaEmitter.on(FSM.events.leave, (state: State) => {
 			if (state.name === STATES.RESOLVED) {
-				this.adSlot.addClass(CSS_CLASSNAME_THEME_RESOLVED);
+				this.adSlot.removeClass(CSS_CLASSNAME_THEME_RESOLVED);
 			}
 
 			if (state.name === STATES.STICKY) {
@@ -118,18 +158,57 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 			}
 
 			if (state.name === STATES.IMPACT) {
-				scrollListener.removeCallback(this.impactUIScrollListener);
+				this.adSlot.removeClass(CSS_CLASSNAME_IMPACT_BFAA);
 			}
 		});
 
 		// ENTER - STATE
 		bfaaEmitter.on(FSM.events.enter, (state: State) => {
+			if (state.name === STATES.RESOLVED) {
+				// Stick on scroll only if not viewable and not timeout
+				this.viewableAndTimeoutRunning$
+					.pipe(
+						filter((running) => !!running),
+						switchMap(() => {
+							return createScrollObservable().pipe(
+								takeUntil(this.viewableAndTimeoutRunning$.pipe(filter((running) => !running))),
+								takeUntil(leaving$),
+							);
+						}),
+					)
+					.subscribe(() => bfaaFsm.dispatch(ACTIONS.STICK));
+			}
+
+			if (state.name === STATES.STICKY) {
+				// Unstick on scroll only if viewable and timeout
+				this.viewableAndTimeoutRunning$
+					.pipe(
+						filter((running) => !running),
+						takeUntil(leaving$),
+						switchMap(() => createScrollObservable()),
+						take(1),
+					)
+					.subscribe(() => bfaaFsm.dispatch(ACTIONS.RESOLVE));
+			}
+
 			if (state.name === STATES.IMPACT) {
-				this.impactStateScrollListener = scrollListener.addCallback(() => {
-					if (this.currentState >= HIVI_RESOLVED_THRESHOLD) {
-						bfaaFsm.dispatch(ACTIONS.RESOLVE);
-					}
-				});
+				// When smaller than HIVI_RESOLVED_THRESHOLD
+				createScrollObservable()
+					.pipe(
+						takeUntil(leaving$),
+						filter(() => this.currentState >= HIVI_RESOLVED_THRESHOLD),
+						take(1),
+						withLatestFrom(this.viewableAndTimeoutRunning$),
+					)
+					.subscribe(([_, running]) => {
+						if (running) {
+							// it not timeout and not viewable
+							bfaaFsm.dispatch(ACTIONS.STICK);
+						} else {
+							// if timeout and viewable
+							bfaaFsm.dispatch(ACTIONS.RESOLVE);
+						}
+					});
 			}
 		});
 
@@ -138,17 +217,13 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 			if (state.name === STATES.IMPACT) {
 				scrollListener.removeCallback(this.impactStateScrollListener);
 			}
+
+			if (state.name === STATES.STICKY) {
+				communicator.dispatch({ type: MOVE_NAVBAR, payload: { height: 0, time: SLIDE_OUT_TIME } });
+			}
 		});
 
-		// ENTER - broadcast
-		bfaaEmitter.on(FSM.events.enter, (state: State) => {
-			communicator.dispatch({ type: `[UAP HiVi BFAA] ${FSM.events.enter} ${state.name}` });
-		});
-
-		// LEAVE - broadcast
-		bfaaEmitter.on(FSM.events.leave, (state: State) => {
-			communicator.dispatch({ type: `[UAP HiVi BFAA] ${FSM.events.enter} ${state.name}` });
-		});
+		bfaaFsm.init();
 	}
 
 	// This is run first
@@ -179,6 +254,7 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 		fromEvent(video.ima, 'wikiaAdPlayTriggered')
 			.pipe(skip(1))
 			.subscribe(() => {
+				this.startStickiness();
 				bfaaFsm.dispatch(ACTIONS.IMPACT);
 			});
 	}
@@ -267,5 +343,40 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 		if (this.video && !this.video.isFullscreen()) {
 			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
 		}
+	}
+
+	private stickNavbar(): void {
+		// TODO: Refactor
+		const width: number = this.container.offsetWidth;
+		const { aspectRatio } = this.params.config;
+		const resolvedHeight: number = width / aspectRatio.resolved;
+
+		this.moveNavbar(resolvedHeight, SLIDE_OUT_TIME);
+	}
+
+	private moveNavbar(height = 0, time = 0): void {
+		communicator.dispatch({ type: MOVE_NAVBAR, payload: { height, time } });
+	}
+
+	protected startStickiness() {
+		// needs a better name!
+		this.viewableAndTimeoutRunning$.next(true);
+		const slotViewed: Promise<void> = this.config.stickyUntilSlotViewed
+			? this.adSlot.loaded.then(() => this.adSlot.viewed)
+			: Promise.resolve();
+		const videoViewed: Promise<void> = this.params.stickyUntilVideoViewed
+			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
+			: Promise.resolve();
+		const unstickDelay: number = isUndefined(this.params.stickyAdditionalTime)
+			? BigFancyAdHiviTheme.DEFAULT_UNSTICK_DELAY
+			: this.params.stickyAdditionalTime;
+
+		Promise.all([slotViewed, videoViewed, utils.wait(unstickDelay)]).then(() =>
+			this.viewableAndTimeoutRunning$.next(false),
+		);
+	}
+
+	private setBodyPaddingTop(padding: string): void {
+		communicator.dispatch({ type: SET_BODY_PADDING_TOP, padding: padding });
 	}
 }

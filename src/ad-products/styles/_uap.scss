@@ -491,8 +491,17 @@ body.ctp-vuap-loaded {
 	transition: height $uap-video-animation-duration ease;
 	top: 0;
 
-	&.theme-hivi:not(.theme-resolved):not(.sticky-bfaa),
-	&.theme-hivi.theme-resolved:not(.theme-locked):not(.sticky-iab) {
+	//&.theme-hivi:not(.theme-resolved):not(.sticky-bfaa),
+	//&.theme-hivi.theme-resolved:not(.theme-locked):not(.sticky-iab) {
+	//	position: fixed;
+	//	top: 0;
+	//}
+	&.theme-hivi.sticky-bfaa {
+		position: fixed;
+		top: 0;
+	}
+
+	&.theme-hivi.impact-bfaa {
 		position: fixed;
 		top: 0;
 	}
@@ -501,7 +510,6 @@ body.ctp-vuap-loaded {
 		left: 0;
 	}
 }
-
 .gpt-ad.bfab-template {
 	max-width: 1024px;
 	width: 100%;

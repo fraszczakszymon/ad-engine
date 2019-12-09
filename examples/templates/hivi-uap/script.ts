@@ -12,13 +12,15 @@ import {
 	templateService,
 	universalAdPackage,
 } from '@wikia/ad-engine';
+import { Communicator, ofType, setupPostQuecast } from '@wikia/post-quecast';
+import { FSM } from 'state-charts';
 
 import customContext from '../../context';
 import '../../styles.scss';
 
 const { CSS_TIMING_EASE_IN_CUBIC, SLIDE_OUT_TIME } = universalAdPackage;
 
-function moveNavbar(offset: number, time: number = SLIDE_OUT_TIME): void {
+function moveNavbar(offset = 0, time: number = SLIDE_OUT_TIME): void {
 	const navbarElement: HTMLElement = document.querySelector('body > nav.navigation');
 
 	if (navbarElement) {
@@ -26,6 +28,8 @@ function moveNavbar(offset: number, time: number = SLIDE_OUT_TIME): void {
 		navbarElement.style.top = offset ? `${offset}px` : '';
 	}
 }
+
+setupPostQuecast();
 
 context.extend(customContext);
 
@@ -58,6 +62,19 @@ slotTracker
 	});
 
 // TODO: Move theme with PQC
-moveNavbar(0, 0);
+const communicator = new Communicator();
+
+communicator.actions$.pipe(ofType(`[UAP HiVi BFAA] move navbar`)).subscribe(({ payload }) => {
+	const { height, time } = payload;
+	console.log(['***', `Moving navbar: ${height}, ${time}`]);
+	moveNavbar(height, time);
+});
+
+communicator.actions$
+	.pipe(ofType(`[UAP HiVi BFAA] set body padding top`))
+	.subscribe(({ padding }) => {
+		console.log(['*** padding top', padding]);
+		document.body.style.paddingTop = padding;
+	});
 
 new AdEngine().init();

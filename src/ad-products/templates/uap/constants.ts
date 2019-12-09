@@ -4,6 +4,7 @@ export const CSS_CLASSNAME_BFAA_PINNED = 'bfaa-pinned';
 export const CSS_CLASSNAME_STICKY_BFAA = 'sticky-bfaa';
 export const CSS_CLASSNAME_STICKY_BFAB = 'sticky-bfab';
 export const CSS_CLASSNAME_STICKY_SLOT = 'sticky-slot';
+export const CSS_CLASSNAME_IMPACT_BFAA = 'impact-bfaa';
 export const CSS_CLASSNAME_STICKY_TEMPLATE = 'sticky-template';
 export const CSS_TIMING_EASE_IN_CUBIC = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)';
 export const CSS_CLASSNAME_STICKY_IAB = 'sticky-iab';
