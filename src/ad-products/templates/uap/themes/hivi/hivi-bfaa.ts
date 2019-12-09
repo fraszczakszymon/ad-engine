@@ -1,4 +1,5 @@
 import { AdSlot, context, scrollListener, slotTweaker } from '@ad-engine/core';
+import { Communicator } from '@wikia/post-quecast';
 import * as EventEmitter from 'eventemitter3';
 import { mapValues } from 'lodash';
 import { fromEvent } from 'rxjs';
@@ -6,7 +7,7 @@ import { skip } from 'rxjs/operators';
 import { FSM, ReduxExtensionConnector, State } from 'state-charts';
 import { BigFancyAdAboveConfig, PorvataPlayer, resolvedState, UapRatio } from '../../../..';
 import { AdvertisementLabel } from '../../../interface/advertisement-label';
-import { CSS_CLASSNAME_THEME_RESOLVED } from '../../constants';
+import { CSS_CLASSNAME_STICKY_BFAA, CSS_CLASSNAME_THEME_RESOLVED } from '../../constants';
 import { UapVideoSettings } from '../../uap-video-settings';
 import { UapParams, UapState } from '../../universal-ad-package';
 import { BigFancyAdTheme } from '../theme';
@@ -59,6 +60,7 @@ const bfaaStates = [
 	},
 ];
 const bfaaEmitter = new EventEmitter();
+const communicator = new Communicator();
 
 const bfaaFsm = new FSM(
 	bfaaEmitter,
@@ -80,11 +82,12 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 		super(adSlot, params);
 		this.config = context.get('templates.bfaa') || {};
 
+		// ENTER - UI
 		bfaaEmitter.on(FSM.events.enter, (state: State) => {
 			if (state.name === STATES.RESOLVED) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.resolved);
 				this.switchImagesInAd(true);
-				this.container.classList.add(CSS_CLASSNAME_THEME_RESOLVED);
+				this.adSlot.addClass(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
 			}
@@ -92,7 +95,6 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 			if (state.name === STATES.IMPACT) {
 				slotTweaker.makeResponsive(this.adSlot, this.params.config.aspectRatio.default);
 				this.switchImagesInAd(false);
-				this.container.classList.remove(CSS_CLASSNAME_THEME_RESOLVED);
 
 				this.updateAdSizes();
 
@@ -100,8 +102,27 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 					this.updateAdSizes();
 				});
 			}
+			if (state.name === STATES.STICKY) {
+				this.adSlot.addClass(CSS_CLASSNAME_STICKY_BFAA);
+			}
 		});
 
+		// LEAVE - UI
+		bfaaEmitter.on(FSM.events.leave, (state: State) => {
+			if (state.name === STATES.RESOLVED) {
+				this.adSlot.addClass(CSS_CLASSNAME_THEME_RESOLVED);
+			}
+
+			if (state.name === STATES.STICKY) {
+				this.adSlot.removeClass(CSS_CLASSNAME_STICKY_BFAA);
+			}
+
+			if (state.name === STATES.IMPACT) {
+				scrollListener.removeCallback(this.impactUIScrollListener);
+			}
+		});
+
+		// ENTER - STATE
 		bfaaEmitter.on(FSM.events.enter, (state: State) => {
 			if (state.name === STATES.IMPACT) {
 				this.impactStateScrollListener = scrollListener.addCallback(() => {
@@ -112,16 +133,21 @@ export class BfaaHiviTheme extends BigFancyAdTheme {
 			}
 		});
 
-		bfaaEmitter.on(FSM.events.leave, (state: State) => {
-			if (state.name === STATES.IMPACT) {
-				scrollListener.removeCallback(this.impactUIScrollListener);
-			}
-		});
-
+		// LEAVE - STATE
 		bfaaEmitter.on(FSM.events.leave, (state: State) => {
 			if (state.name === STATES.IMPACT) {
 				scrollListener.removeCallback(this.impactStateScrollListener);
 			}
+		});
+
+		// ENTER - broadcast
+		bfaaEmitter.on(FSM.events.enter, (state: State) => {
+			communicator.dispatch({ type: `[UAP HiVi BFAA] ${FSM.events.enter} ${state.name}` });
+		});
+
+		// LEAVE - broadcast
+		bfaaEmitter.on(FSM.events.leave, (state: State) => {
+			communicator.dispatch({ type: `[UAP HiVi BFAA] ${FSM.events.enter} ${state.name}` });
 		});
 	}
 
