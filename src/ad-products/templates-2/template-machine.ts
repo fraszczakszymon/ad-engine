@@ -1,43 +1,42 @@
-import { Dictionary } from '@ad-engine/core';
+import { Type } from '@ad-engine/core';
 import { logger } from '../../ad-engine/utils/logger';
-import { TemplateStateHandler } from './template-state-handler';
 
-type Collection<T, U> = { [K in keyof T]: U };
+export class TemplateMachine<T extends TemplateState<T>> {
+	protected states: Map<Type<T>, T>;
+	protected currentStateKey: Type<T>;
 
-export abstract class TemplateMachine<T extends Dictionary<TemplateState<TemplateMachine<T>>>> {
-	states: T;
-	protected currentStateName: keyof T;
-
-	private get currentState(): TemplateState<TemplateMachine<T>> {
-		const currentState = this.states[this.currentStateName];
+	private get currentState(): T {
+		const currentState = this.states.get(this.currentStateKey);
 
 		if (!currentState) {
-			throw new Error(`State (${this.currentStateName}) does not exist.`);
+			throw new Error(`State (${this.currentStateKey}) does not exist.`);
 		}
 
-		return this.states[this.currentStateName];
+		return currentState;
 	}
 
-	async transition(targetStateName: keyof T): Promise<void> {
+	constructor(input: Type<T>[]) {
+		this.states = new Map(input.map((Key) => [Key, new Key(this)]));
+	}
+
+	async transition(targetStateKey: Type<T>): Promise<void> {
 		await this.currentState.leave();
-		this.currentStateName = targetStateName;
+		this.currentStateKey = targetStateKey;
 		await this.currentState.enter();
 	}
 }
 
-export abstract class TemplateState<T extends TemplateMachine<any>> {
-	protected abstract name: string;
-	protected abstract handlers: TemplateStateHandler[] = [];
-	protected transitions: keyof T['states'];
+type Transition<T> = (targetStateKey: Type<T>) => Promise<void>;
 
-	protected constructor(private machine: T) {}
+export abstract class TemplateState<T extends TemplateState<any>> {
+	protected abstract name: string;
+	protected abstract handlers: TemplateStateHandler<T>[] = [];
+
+	constructor(private machine: TemplateMachine<any>) {}
 
 	async enter(): Promise<void> {
-		const transition = (targetStateName: keyof T['states']) =>
-			this.machine.transition(targetStateName);
-
 		logger(`State - ${name}`, 'enter');
-		await Promise.all(this.handlers.map(async (handler) => handler.onEnter(transition)));
+		await Promise.all(this.handlers.map(async (handler) => handler.onEnter(this.useTransition())));
 		logger(`State - ${name}`, 'entered');
 	}
 
@@ -46,11 +45,23 @@ export abstract class TemplateState<T extends TemplateMachine<any>> {
 		await Promise.all(this.handlers.map(async (handler) => handler.onLeave()));
 		logger(`State - ${name}`, 'left');
 	}
+
+	private useTransition(): Transition<T> {
+		let called = false;
+
+		return (targetStateKey) => {
+			if (called) {
+				throw new Error('Attempting to call transition second time.');
+			}
+
+			called = true;
+
+			return this.machine.transition(targetStateKey);
+		};
+	}
 }
-//
-// const a = {
-// 	a: 'aa',
-// 	b: 'bb',
-// }
-//
-// type A = {[key in keyof typeof a]: number}
+
+export interface TemplateStateHandler<TTransitions extends TemplateState<any>> {
+	onEnter(transition: Transition<TTransitions>): Promise<void>;
+	onLeave(): Promise<void>;
+}
