@@ -19,8 +19,8 @@ import { BigFancyAdTheme } from '../theme';
 import { BigFancyAdHiviTheme } from './hivi-theme';
 
 const HIVI_RESOLVED_THRESHOLD = 0.995;
-const MOVE_NAVBAR = '[UAP HiVi BFAA] move navbar';
-const SET_BODY_PADDING_TOP = '[UAP HiVi BFAA] set body padding top';
+export const MOVE_NAVBAR = '[UAP HiVi BFAA] move navbar';
+export const SET_BODY_PADDING_TOP = '[UAP HiVi BFAA] set body padding top';
 
 const STATES = {
 	IMPACT: 'impact',

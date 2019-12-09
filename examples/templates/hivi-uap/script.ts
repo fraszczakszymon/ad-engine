@@ -5,6 +5,8 @@ import {
 	BigFancyAdBelow,
 	context,
 	FloatingRail,
+	MOVE_NAVBAR,
+	SET_BODY_PADDING_TOP,
 	setupNpaContext,
 	slotPropertiesTrackingMiddleware,
 	slotTracker,
@@ -14,6 +16,7 @@ import {
 } from '@wikia/ad-engine';
 import { Communicator, ofType, setupPostQuecast } from '@wikia/post-quecast';
 import { FSM } from 'state-charts';
+console.log(MOVE_NAVBAR);
 
 import customContext from '../../context';
 import '../../styles.scss';
@@ -64,17 +67,13 @@ slotTracker
 // TODO: Move theme with PQC
 const communicator = new Communicator();
 
-communicator.actions$.pipe(ofType(`[UAP HiVi BFAA] move navbar`)).subscribe(({ payload }) => {
+communicator.actions$.pipe(ofType(MOVE_NAVBAR)).subscribe(({ payload }) => {
 	const { height, time } = payload;
-	console.log(['***', `Moving navbar: ${height}, ${time}`]);
 	moveNavbar(height, time);
 });
 
-communicator.actions$
-	.pipe(ofType(`[UAP HiVi BFAA] set body padding top`))
-	.subscribe(({ padding }) => {
-		console.log(['*** padding top', padding]);
-		document.body.style.paddingTop = padding;
-	});
+communicator.actions$.pipe(ofType(SET_BODY_PADDING_TOP)).subscribe(({ padding }) => {
+	document.body.style.paddingTop = padding;
+});
 
 new AdEngine().init();
