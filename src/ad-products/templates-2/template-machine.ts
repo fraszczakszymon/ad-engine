@@ -5,7 +5,7 @@ type TemplateMachineInput<T> = { [key in typeof T]: T[key] };
 
 type Transition<T> = (targetStateKey: keyof T) => Promise<void>;
 
-export class TemplateMachine<T extends TemplateMachineInput<Dictionary<TemplateState>>> {
+export class TemplateMachine<T extends Dictionary<TemplateState>> {
 	private states: Map<keyof T, TemplateState> = new Map();
 	private currentStateKey: keyof T;
 
