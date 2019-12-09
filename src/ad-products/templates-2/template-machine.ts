@@ -5,11 +5,11 @@ type TemplateMachineInput<T> = { [key in typeof T]: T[key] };
 
 type Transition<T> = (targetStateKey: keyof T) => Promise<void>;
 
-export class TemplateMachine<T extends Dictionary<TemplateState>> {
-	private states: Map<keyof T, TemplateState> = new Map();
+export class TemplateMachine<T extends Dictionary<TState>, TState = TemplateState<keyof T>> {
+	private states: Map<keyof T, TState> = new Map();
 	private currentStateKey: keyof T;
 
-	private get currentState(): TemplateState {
+	private get currentState(): TState {
 		const currentState = this.states.get(this.currentStateKey);
 
 		if (!currentState) {
@@ -80,6 +80,11 @@ export interface TemplateStateHandler<T extends string> {
 	onEnter(transition: Transition<T>): Promise<void>;
 	onLeave(): Promise<void>;
 }
+
+const correctHandler: TemplateStateHandler<'first' | 'second'> = {} as any;
+const wrongHandler: TemplateStateHandler<'first - no' | 'second'> = {} as any;
+
+const state = new TemplateState('first', [correctHandler]);
 
 const a = new TemplateMachine(
 	{
