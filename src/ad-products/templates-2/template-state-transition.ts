@@ -1,1 +1,1 @@
-export type Transition<T extends string = any> = (targetStateKey: keyof T) => Promise<void>;
+export type Transition<T extends string> = (targetStateKey: keyof T) => Promise<void>;

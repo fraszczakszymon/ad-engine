@@ -21,7 +21,7 @@ export class TemplateState<T extends string> {
 		utils.logger(`State - ${name}`, 'left');
 	}
 
-	private useTransition(): Transition {
+	private useTransition(): Transition<T> {
 		let called = false;
 
 		return (targetStateKey) => {
