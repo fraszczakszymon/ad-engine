@@ -308,7 +308,8 @@
                 "oasis"
             ],
             "regions": [
-                "PL"
+                "PL",
+                "US-NY"
             ],
             "value": true
         }
