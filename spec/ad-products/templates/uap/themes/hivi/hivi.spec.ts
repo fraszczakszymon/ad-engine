@@ -5,15 +5,22 @@ import { resolvedState } from '../../../../../../src/ad-products/templates/uap/r
 import { BfaaHiviTheme } from '../../../../../../src/ad-products/templates/uap/themes/hivi';
 import { AdSlotStub, createAdSlotStub } from '../../../../../ad-engine/models/ad-slot.stub';
 
-function getSlotElement() {
+function getElement(): object {
 	return {
 		appendChild: () => {},
 		classList: {
 			contains: () => false,
 			add: () => {},
+			remove: () => {},
 		},
 		style: {},
+	};
+}
+
+function getSlotElement(): object {
+	return {
 		offsetWidth: 1920,
+		...getElement(),
 	};
 }
 
@@ -67,28 +74,14 @@ function getParams() {
 		videoPlaceholderElement: {},
 		splitLayoutVideoPosition: 'right',
 		image1: {
-			element: {
-				classList: {
-					add: () => {},
-				},
-			},
+			element: getElement(),
 			background: 'default-state-image.jpg',
 		},
 		image2: {
-			element: {
-				classList: {
-					contains: () => false,
-					add: () => {},
-					remove: () => {},
-				},
-			},
+			element: getElement(),
 			background: 'resolved-state-image.jpg',
 		},
-		adContainer: {
-			classList: {
-				contains: () => false,
-			},
-		},
+		adContainer: getElement(),
 		thumbnail: {
 			style: {},
 		},
