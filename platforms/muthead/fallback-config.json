@@ -93,6 +93,7 @@
     "icLABradorTest": [
         {
             "apps": [
+                "f2",
                 "futhead",
                 "gamepedia",
                 "mobile-wiki",
@@ -132,9 +133,7 @@
                 "oasis"
             ],
             "regions": [
-                "AU",
-                "CA",
-                "PL"
+                "XX"
             ],
             "value": true
         }
