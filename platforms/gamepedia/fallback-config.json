@@ -156,7 +156,6 @@
                 "oasis"
             ],
             "regions": [
-                "PL",
                 "US-CA",
                 "US-NY"
             ],
@@ -172,9 +171,24 @@
                 "oasis"
             ],
             "regions": [
-                "XX"
+                "GB",
+                "UK",
+                "US"
             ],
             "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v2.44.2/20200110.min.js"
+        },
+        {
+            "apps": [
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "XX"
+            ],
+            "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v3.2.0/20200114.min.js"
         }
     ],
     "icA9Bidder": [
@@ -337,7 +351,9 @@
                 "oasis"
             ],
             "regions": [
+                "GB",
                 "PL",
+                "UK",
                 "US"
             ],
             "value": true
