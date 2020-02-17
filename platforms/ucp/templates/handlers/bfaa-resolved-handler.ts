@@ -19,19 +19,15 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		const aspectRatios = this.params.config.aspectRatio;
-		const iframe = await slotTweaker.makeResponsive(this.adSlot, aspectRatios.resolved);
-
-		document.body.style.setProperty('paddingTop', iframe.parentElement.style.paddingBottom);
-		document.body.classList.add('has-bfaa');
-		this.adSlot.show();
+		const iframe = await slotTweaker.onReady(this.adSlot);
 
 		// TODO: you can do better
 		if (document.hidden) {
 			await utils.once(window, 'visibilitychange');
 		}
 
+		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
 		this.adSlot.getElement().classList.add('theme-hivi');
-
 		// TODO: addAdvertisementLabel
 		this.switchImagesInAd();
 	}

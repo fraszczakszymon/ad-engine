@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
 	TemplateTransition,
@@ -20,7 +21,14 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		this.adSlot.hide();
 		universalAdPackage.init(this.params, ['top_boxad'], []); // TODO: refactor
 		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
-		this.adSlot.getElement().classList.add('bfaa-template');
+		this.adSlot.addClass('bfaa-template');
+		this.adSlot.addClass('slot-responsive');
+
+		const iframe = await slotTweaker.onReady(this.adSlot);
+
+		document.body.style.setProperty('paddingTop', iframe.parentElement.style.paddingBottom);
+		document.body.classList.add('has-bfaa');
+		this.adSlot.show();
 
 		// TODO: make decision for resolved/impact
 		transition('resolved');
