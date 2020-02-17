@@ -34,16 +34,5 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		transition('resolved');
 	}
 
-	private moveNavbar(offset: number, time: number): void {
-		const navbarElement: HTMLElement = document.querySelector('.wds-global-navigation-wrapper');
-
-		if (navbarElement) {
-			navbarElement.style.transition = offset
-				? ''
-				: `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`;
-			navbarElement.style.top = offset ? `${offset}px` : '';
-		}
-	}
-
 	async onLeave(): Promise<void> {}
 }

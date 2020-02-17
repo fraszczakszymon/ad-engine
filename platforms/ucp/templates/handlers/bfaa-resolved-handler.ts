@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	RxjsScrollListener,
 	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -9,6 +10,8 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 // function moveNavbar(offset, time) {
 // 	const navbarElement: HTMLElement = document.querySelector('.wds-global-navigation-wrapper');
@@ -23,9 +26,12 @@ import { Inject, Injectable } from '@wikia/dependency-injection';
 
 @Injectable()
 export class BfaaResolvedHandler implements TemplateStateHandler {
+	private unsubscribe$ = new Subject<void>();
+
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
+		private scrollListener: RxjsScrollListener,
 	) {}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
@@ -42,6 +48,8 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		this.adSlot.getElement().classList.add('theme-hivi');
 		// TODO: addAdvertisementLabel
 		this.switchImagesInAd();
+
+		this.scrollListener.scroll$.pipe(takeUntil(this.unsubscribe$)).subscribe();
 	}
 
 	private switchImagesInAd(): void {
@@ -55,5 +63,7 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		}
 	}
 
-	async onLeave(): Promise<void> {}
+	async onLeave(): Promise<void> {
+		this.unsubscribe$.next();
+	}
 }
