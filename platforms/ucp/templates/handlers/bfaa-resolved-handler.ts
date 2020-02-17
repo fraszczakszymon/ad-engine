@@ -10,6 +10,17 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 
+// function moveNavbar(offset, time) {
+// 	const navbarElement: HTMLElement = document.querySelector('.wds-global-navigation-wrapper');
+
+// 	if (navbarElement) {
+// 		navbarElement.style.transition = offset
+// 			? ''
+// 			: `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`;
+// 		navbarElement.style.top = offset ? `${offset}px` : '';
+// 	}
+// }
+
 @Injectable()
 export class BfaaResolvedHandler implements TemplateStateHandler {
 	constructor(
@@ -26,6 +37,7 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 			await utils.once(window, 'visibilitychange');
 		}
 
+		document.body.style.paddingTop = `${aspectRatios.resolved}%`;
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
 		this.adSlot.getElement().classList.add('theme-hivi');
 		// TODO: addAdvertisementLabel
