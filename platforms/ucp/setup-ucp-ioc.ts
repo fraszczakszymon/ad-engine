@@ -6,6 +6,7 @@ import {
 	SlotsContextSetup,
 	SlotsStateSetup,
 	TargetingSetup,
+	TemplatesSetup,
 	TrackingSetup,
 	WikiContextSetup,
 } from '@platforms/shared';
@@ -20,6 +21,7 @@ import { UcpTargetingSetup } from './setup/context/targeting/ucp-targeting.setup
 import { UcpWikiContextSetup } from './setup/context/wiki/ucp-wiki-context.setup';
 import { UcpDynamicSlotsSetup } from './setup/dynamic-slots/ucp-dynamic-slots.setup';
 import { UcpSlotsStateSetup } from './setup/state/slots/ucp-slots-state-setup';
+import { UcpTemplatesSetup } from './templates/ucp-templates.setup';
 
 export async function setupUcpIoc(): Promise<Container> {
 	const container = new Container();
@@ -34,6 +36,7 @@ export async function setupUcpIoc(): Promise<Container> {
 	container.bind(SlotsContextSetup).to(UcpSlotsContextSetup);
 	container.bind(DynamicSlotsSetup).to(UcpDynamicSlotsSetup);
 	container.bind(TrackingSetup).to(CommonTrackingSetup);
+	container.bind(TemplatesSetup).to(UcpTemplatesSetup);
 
 	return container;
 }
