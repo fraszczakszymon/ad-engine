@@ -7,7 +7,7 @@
 // TODO: Change CSS selector
 .has-bfaa {
 	#top_leaderboard {
-		z-index: 201;
+		z-index: 202;
 		padding: 0;
 	}
 	.wds-global-navigation-wrapper {
@@ -18,6 +18,10 @@
 
 	#globalNavigation {
 		position: static;
+	}
+
+	.WikiaSiteWrapper {
+		margin-top: 0;
 	}
 }
 
