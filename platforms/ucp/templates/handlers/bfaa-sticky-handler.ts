@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	NAVBAR,
 	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -25,6 +26,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
+		@Inject(NAVBAR) private navbar: HTMLElement,
 	) {}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {

@@ -1,4 +1,5 @@
-import { Dictionary } from '@ad-engine/core';
+import { Dictionary, NAVBAR } from '@ad-engine/core';
+import { Inject, Injectable } from '@wikia/dependency-injection';
 import { CSS_CLASSNAME_BFAA_PINNED } from '../templates/uap/constants';
 
 // CHANGE-CANDIDATE: this method looks like it does not belong in ad-engine
@@ -21,8 +22,9 @@ export function setupNavbar(config, container: HTMLElement): void {
 	}
 }
 
+@Injectable()
 export class NavbarManager {
-	constructor(private navbar: HTMLElement) {}
+	constructor(@Inject(NAVBAR) private navbar: HTMLElement) {}
 
 	applyStyles(styles: Dictionary<string>): void {
 		Object.assign(this.navbar.style, styles);
