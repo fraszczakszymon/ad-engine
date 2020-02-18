@@ -9,8 +9,19 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { setResolvedImagesInAd } from '../helpers/set-images';
 
+// function moveNavbar(offset, time) {
+// 	const navbarElement: HTMLElement = document.querySelector('.wds-global-navigation-wrapper');
+
+// 	if (navbarElement) {
+// 		navbarElement.style.transition = offset
+// 			? ''
+// 			: `top ${time}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`;
+// 		navbarElement.style.top = offset ? `${offset}px` : '';
+// 	}
+// }
+
 @Injectable()
-export class BfaaResolvedHandler implements TemplateStateHandler {
+export class BfaaStickyHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
