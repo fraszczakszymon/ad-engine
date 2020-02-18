@@ -12,7 +12,7 @@ export class UcpSlotsContextSetup implements SlotsContextSetup {
 				adProduct: 'hivi_leaderboard',
 				slotNameSuffix: '',
 				group: 'LB',
-				nextSiblingSelector: '',
+				nextSiblingSelector: '.wds-global-navigation-wrapper',
 				options: {},
 				slotShortcut: 'v',
 				sizes: [

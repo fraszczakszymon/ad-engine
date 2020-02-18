@@ -6,6 +6,7 @@ import {
 	TemplateTransition,
 	UapParams,
 	universalAdPackage,
+	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 
@@ -29,6 +30,11 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		document.body.style.setProperty('paddingTop', iframe.parentElement.style.paddingBottom);
 		document.body.classList.add('has-bfaa');
 		this.adSlot.show();
+
+		// TODO: you can do better
+		if (document.hidden) {
+			await utils.once(window, 'visibilitychange');
+		}
 
 		// TODO: make decision for resolved/impact
 		transition('resolved');

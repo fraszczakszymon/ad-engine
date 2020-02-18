@@ -1,13 +1,11 @@
 import {
 	AdSlot,
-	NavbarManager,
 	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
 	TemplateTransition,
 	UapParams,
 	universalAdPackage,
-	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
@@ -30,22 +28,14 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
-		private navbarManager: NavbarManager,
 	) {}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		const aspectRatios = this.params.config.aspectRatio;
 		const iframe = await slotTweaker.onReady(this.adSlot);
 
-		// TODO: you can do better
-		if (document.hidden) {
-			await utils.once(window, 'visibilitychange');
-		}
-
 		document.body.style.paddingTop = `${aspectRatios.resolved}vw`;
-		this.navbarManager.applyStyles({ top: `${aspectRatios.resolved}vw` });
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
-		this.adSlot.getElement().classList.add('theme-hivi');
 		this.switchImagesInAd();
 	}
 
