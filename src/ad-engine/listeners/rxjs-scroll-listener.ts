@@ -4,15 +4,7 @@ import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class RxjsScrollListener {
-	private source$: Observable<Event>;
-
-	get scroll$(): Observable<Event> {
-		if (!this.source$) {
-			this.source$ = this.createSource();
-		}
-
-		return this.source$;
-	}
+	readonly scroll$: Observable<Event> = this.createSource();
 
 	private createSource(): Observable<Event> {
 		const source$: Observable<Event> = new Observable((observer) => {
@@ -32,6 +24,6 @@ export class RxjsScrollListener {
 			return () => document.removeEventListener('scroll', listener);
 		});
 
-		return source$.pipe(shareReplay(1));
+		return source$.pipe(shareReplay({ bufferSize: 1, refCount: true }));
 	}
 }
