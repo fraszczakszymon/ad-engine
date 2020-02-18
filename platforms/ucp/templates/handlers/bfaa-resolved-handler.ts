@@ -1,6 +1,6 @@
 import {
 	AdSlot,
-	RxjsScrollListener,
+	NavbarManager,
 	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -11,7 +11,6 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 // function moveNavbar(offset, time) {
 // 	const navbarElement: HTMLElement = document.querySelector('.wds-global-navigation-wrapper');
@@ -31,7 +30,7 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
-		private scrollListener: RxjsScrollListener,
+		private navbarManager: NavbarManager,
 	) {}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
@@ -43,13 +42,11 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 			await utils.once(window, 'visibilitychange');
 		}
 
-		document.body.style.paddingTop = `${aspectRatios.resolved}%`;
+		document.body.style.paddingTop = `${aspectRatios.resolved}vw`;
+		this.navbarManager.applyStyles({ top: `${aspectRatios.resolved}vw` });
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
 		this.adSlot.getElement().classList.add('theme-hivi');
-		// TODO: addAdvertisementLabel
 		this.switchImagesInAd();
-
-		this.scrollListener.scroll$.pipe(takeUntil(this.unsubscribe$)).subscribe();
 	}
 
 	private switchImagesInAd(): void {
