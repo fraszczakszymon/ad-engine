@@ -17,7 +17,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 	) {}
 
-	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
+	async onEnter(transition: TemplateTransition<'resolved' | 'sticky'>): Promise<void> {
 		this.adSlot.setConfigProperty('showManually', true);
 		this.adSlot.hide();
 		universalAdPackage.init(this.params, ['top_boxad'], []); // TODO: refactor
@@ -37,7 +37,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		}
 
 		// TODO: make decision for resolved/impact
-		transition('resolved');
+		transition('sticky');
 	}
 
 	async onLeave(): Promise<void> {}

@@ -1,6 +1,7 @@
 import { TemplateRegistry } from '@wikia/ad-engine';
 import { BfaaBootstrapHandler } from './handlers/bfaa-bootstrap-handler';
 import { BfaaResolvedHandler } from './handlers/bfaa-resolved-handler';
+import { BfaaStickyHandler } from './handlers/bfaa-sticky-handler';
 
 export function registerBfaaTemplate(registry: TemplateRegistry): void {
 	registry.register(
@@ -8,6 +9,7 @@ export function registerBfaaTemplate(registry: TemplateRegistry): void {
 		{
 			initial: [BfaaBootstrapHandler],
 			resolved: [BfaaResolvedHandler],
+			sticky: [BfaaStickyHandler],
 		},
 		'initial',
 	);
