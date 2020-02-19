@@ -20,7 +20,6 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		const aspectRatios = this.params.config.aspectRatio;
 		const iframe = this.adSlot.getIframe();
 
-		document.body.style.paddingTop = `${aspectRatios.resolved}vw`;
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
 		setResolvedImagesInAd(this.adSlot, this.params);
 	}
