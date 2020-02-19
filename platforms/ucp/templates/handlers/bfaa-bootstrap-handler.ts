@@ -19,15 +19,17 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 
 	async onEnter(transition: TemplateTransition<'resolved' | 'sticky'>): Promise<void> {
 		universalAdPackage.init(this.params, ['top_boxad'], []); // TODO: refactor
-		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
-		this.adSlot.addClass('slot-responsive');
 		document.body.classList.add('has-bfaa');
+		this.adSlot.setConfigProperty('showManually', true);
+		this.adSlot.hide();
+		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
+		this.adSlot.addClass('expanded-slot');
 
 		await slotTweaker.onReady(this.adSlot);
 		await this.awaitVisibleDOM();
 
 		// TODO: make decision for sticky/impact
-		transition('sticky');
+		transition('resolved');
 	}
 
 	private async awaitVisibleDOM(): Promise<void> {

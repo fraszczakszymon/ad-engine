@@ -1,0 +1,16 @@
+// TODO: discuss with other teams if you could make it a default style
+@mixin navbar() {
+	.wds-global-navigation-wrapper {
+		top: 0;
+		position: sticky;
+		z-index: 400;
+	}
+
+	#globalNavigation {
+		position: static;
+	}
+
+	.WikiaSiteWrapper {
+		margin-top: 0;
+	}
+}

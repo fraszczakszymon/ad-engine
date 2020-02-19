@@ -1,9 +1,32 @@
-@import 'src/ad-products/styles/styles.scss';
+@import 'src/ad-products/styles/mixin';
+@import './styles/navbar';
+
+.gpt-ad {
+	&.expanded-slot {
+		width: 100%;
+
+		& > div,
+		& > div > iframe {
+			height: 100%;
+			width: 100%;
+		}
+
+		&.hide,
+		& .hide {
+			display: none !important;
+		}
+	}
+}
+
+@include navbar();
+
+// #######################################
 
 .main-page-tag-rcs {
 	display: flex;
 	flex-direction: column;
 }
+
 // TODO: Change CSS selector
 .has-bfaa {
 	#top_leaderboard,
@@ -11,24 +34,6 @@
 		z-index: 202;
 		padding: 0;
 	}
-	.wds-global-navigation-wrapper {
-		top: 0;
-		position: sticky;
-		z-index: 400;
-	}
-
-	#globalNavigation {
-		position: static;
-	}
-
-	.WikiaSiteWrapper {
-		margin-top: 0;
-	}
-}
-
-.main-page-tag-rcs {
-	display: flex;
-	flex-direction: column;
 }
 
 #top_leaderboard {
