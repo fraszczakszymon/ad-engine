@@ -7,7 +7,7 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { adjustFixedUap } from '../helpers/adjust-fixed-uap';
+import { adjustUapFixedPosition } from '../helpers/adjust-uap-fixed-position';
 import { calculateAdHeight } from '../helpers/calculate-ad-height';
 import { setResolvedImagesInAd } from '../helpers/set-images';
 
@@ -26,7 +26,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.adSlot.show();
 		this.adSlot.getElement().style.setProperty('height', `${adHeight}px`);
 		setResolvedImagesInAd(this.adSlot, this.params);
-		adjustFixedUap(this.adSlot.getElement(), this.navbar);
+		adjustUapFixedPosition(this.adSlot.getElement(), this.navbar);
 	}
 
 	async onLeave(): Promise<void> {}
