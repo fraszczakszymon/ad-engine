@@ -18,7 +18,7 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		const aspectRatios = this.params.config.aspectRatio;
-		const iframe = await slotTweaker.onReady(this.adSlot);
+		const iframe = this.adSlot.getIframe();
 
 		document.body.style.paddingTop = `${aspectRatios.resolved}vw`;
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);

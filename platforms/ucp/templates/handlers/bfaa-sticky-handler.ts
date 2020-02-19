@@ -8,7 +8,7 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { setFixedUap } from '../helpers/set-fixed-uap';
+import { adjustFixedUap } from '../helpers/adjust-fixed-uap';
 import { setResolvedImagesInAd } from '../helpers/set-images';
 
 // function moveNavbar(offset, time) {
@@ -32,11 +32,11 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		const aspectRatios = this.params.config.aspectRatio;
-		const iframe = await slotTweaker.onReady(this.adSlot);
+		const iframe = this.adSlot.getIframe();
 
 		slotTweaker.setPaddingBottom(iframe, aspectRatios.resolved);
 		setResolvedImagesInAd(this.adSlot, this.params);
-		setFixedUap(this.adSlot.getElement(), this.navbar);
+		adjustFixedUap(this.adSlot.getElement(), this.navbar);
 	}
 
 	async onLeave(): Promise<void> {}

@@ -1,4 +1,4 @@
-export function setFixedUap(adElement: HTMLElement, navbarElement: HTMLElement): void {
+export function adjustFixedUap(adElement: HTMLElement, navbarElement: HTMLElement): void {
 	const adHeight = adElement.offsetHeight;
 	const aAdAndNavHeight = adHeight + navbarElement.offsetHeight;
 
