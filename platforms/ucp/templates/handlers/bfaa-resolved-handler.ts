@@ -8,9 +8,12 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { calculateAdHeight } from '../helpers/calculate-ad-height';
 import { setResolvedImagesInAd } from '../helpers/set-images';
+import { StylesManager } from '../helpers/styles-manager';
 
 @Injectable()
 export class BfaaResolvedHandler implements TemplateStateHandler {
+	private stylesManager = new StylesManager();
+
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
@@ -21,9 +24,11 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		const adHeight = calculateAdHeight(aspectRatios.resolved);
 
 		this.adSlot.show();
-		this.adSlot.getElement().style.setProperty('height', `${adHeight}px`);
+		this.stylesManager.element(this.adSlot.getElement()).property('height', `${adHeight}px`);
 		setResolvedImagesInAd(this.adSlot, this.params);
 	}
 
-	async onLeave(): Promise<void> {}
+	async onLeave(): Promise<void> {
+		this.stylesManager.restore();
+	}
 }

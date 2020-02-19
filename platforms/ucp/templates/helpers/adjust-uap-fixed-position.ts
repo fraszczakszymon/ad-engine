@@ -1,42 +1,20 @@
-import { setStyles, StylesResult } from './set-styles';
-
-export type UapPositionStyles = StylesResult<{
-	adElement: HTMLElement;
-	body: HTMLElement;
-	navbarElement: HTMLElement;
-}>;
+import { StylesManager } from './styles-manager';
 
 export function adjustUapFixedPosition(
+	manager: StylesManager,
 	adElement: HTMLElement,
 	navbarElement: HTMLElement,
-): UapPositionStyles {
+): void {
 	const adHeight = adElement.offsetHeight;
-	const adAndNavHeight = adHeight + navbarElement.offsetHeight;
+	const aAdAndNavHeight = adHeight + navbarElement.offsetHeight;
 
-	const elements = { adElement, navbarElement, body: document.body };
-	const styles = {
-		adElement: {
-			position: 'fixed',
-			top: '0',
-		},
-		navbarElement: {
-			position: 'fixed',
-			top: `${adHeight}px`,
-		},
-		body: {
-			paddingTop: `${adAndNavHeight}px`,
-		},
-	};
-
-	return setStyles(elements, styles);
-}
-
-export function restoreUapPosition(
-	adElement: HTMLElement,
-	navbarElement: HTMLElement,
-	styles: UapPositionStyles,
-): UapPositionStyles {
-	const elements = { adElement, navbarElement, body: document.body };
-
-	return setStyles(elements, styles);
+	manager
+		.element(adElement)
+		.property('position', 'fixed')
+		.property('top', '0');
+	manager
+		.element(navbarElement)
+		.property('position', 'fixed')
+		.property('top', `${adHeight}px`);
+	manager.element(document.body).property('paddingTop', `${aAdAndNavHeight}px`);
 }
