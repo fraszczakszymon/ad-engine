@@ -27,7 +27,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 
 		const iframe = await slotTweaker.onReady(this.adSlot);
 
-		document.body.style.setProperty('paddingTop', iframe.parentElement.style.paddingBottom);
+		document.body.style.paddingTop = iframe.parentElement.style.paddingBottom;
 		document.body.classList.add('has-bfaa');
 		this.adSlot.show();
 
@@ -36,7 +36,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 			await utils.once(window, 'visibilitychange');
 		}
 
-		// TODO: make decision for resolved/impact
+		// TODO: make decision for sticky/impact
 		transition('sticky');
 	}
 
