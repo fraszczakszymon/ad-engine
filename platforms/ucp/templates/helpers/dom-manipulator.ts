@@ -3,7 +3,8 @@ import { forIn } from 'lodash';
 // TODO: move to ad-engine core
 
 class ElementManipulator {
-	private backup: Partial<CSSStyleDeclaration> = {};
+	private stylesBackup: Partial<CSSStyleDeclaration> = {};
+	private classesBackup?: string;
 
 	constructor(private element: HTMLElement) {}
 
@@ -15,19 +16,46 @@ class ElementManipulator {
 	}
 
 	private saveProperty<T extends keyof CSSStyleDeclaration>(name: T): void {
-		if (this.backup[name] !== undefined) {
+		if (this.stylesBackup[name] !== undefined) {
 			return;
 		}
 
-		this.backup[name] = this.element.style[name];
+		this.stylesBackup[name] = this.element.style[name];
+	}
+
+	addClass(...tokens: string[]): this {
+		this.saveClasses();
+		this.element.classList.add(...tokens);
+
+		return this;
+	}
+
+	removeClass(...tokens: string[]): this {
+		this.saveClasses();
+		this.element.classList.remove(...tokens);
+
+		return this;
+	}
+
+	private saveClasses(): void {
+		if (this.classesBackup) {
+			return;
+		}
+
+		this.classesBackup = this.element.classList.value;
 	}
 
 	restore(): void {
-		forIn(this.backup, (value, key) => {
+		forIn(this.stylesBackup, (value, key) => {
 			this.element.style[key] = value;
 		});
 
-		this.backup = {};
+		if (this.classesBackup) {
+			this.element.classList.value = this.classesBackup;
+		}
+
+		this.stylesBackup = {};
+		this.classesBackup = undefined;
 	}
 }
 
