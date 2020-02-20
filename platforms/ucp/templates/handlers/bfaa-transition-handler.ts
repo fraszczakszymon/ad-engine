@@ -37,7 +37,9 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 
 		await this.awaitAnimation();
 
-		transition('resolved');
+		const correction = this.useScrollCorrection();
+
+		transition('resolved').then(correction);
 	}
 
 	private animateNavbar(): void {
@@ -59,6 +61,12 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 
 	private async awaitAnimation(): Promise<void> {
 		await utils.wait(universalAdPackage.SLIDE_OUT_TIME);
+	}
+
+	private useScrollCorrection(): () => void {
+		const startValue = window.scrollY;
+
+		return () => window.scrollBy(0, startValue - window.scrollY);
 	}
 
 	async onLeave(): Promise<void> {

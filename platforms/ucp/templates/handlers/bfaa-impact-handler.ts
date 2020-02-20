@@ -43,16 +43,26 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 					this.helper.setImpactAdHeight();
 					this.helper.setAdFixedPosition();
 					this.helper.setNavbarFixedPosition();
-					this.helper.setBodyPadding();
 				}),
 				filter(() => this.reachedResolvedSize()),
-				tap(() => transition('sticky')),
+				tap(() => {
+					const correction = this.useScrollCorrection();
+
+					transition('sticky').then(correction);
+				}),
 			)
 			.subscribe();
 	}
 
 	private reachedResolvedSize(): boolean {
 		return this.helper.getImpactAdHeight() <= this.helper.getResolvedAdHeight();
+	}
+
+	private useScrollCorrection(): () => void {
+		const elementOfReference: HTMLElement = document.querySelector('.wds-global-footer');
+		const startValue = elementOfReference.getBoundingClientRect().top;
+
+		return () => window.scrollBy(0, elementOfReference.getBoundingClientRect().top - startValue);
 	}
 
 	async onLeave(): Promise<void> {

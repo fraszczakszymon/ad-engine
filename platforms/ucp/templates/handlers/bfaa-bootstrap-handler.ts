@@ -36,7 +36,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		await this.awaitVisibleDOM();
 
 		// TODO: make decision for sticky/impact
-		transition('transition');
+		transition('impact');
 	}
 
 	private ensureImage(): void {
