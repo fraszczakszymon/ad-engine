@@ -68,7 +68,7 @@ export class DomHelper {
 		}
 	}
 
-	setImpactImagesInAd(): void {
+	setImpactImage(): void {
 		if (this.params.image2 && this.params.image2.background) {
 			this.manipulator.element(this.params.image1.element).removeClass('hidden-state');
 		}

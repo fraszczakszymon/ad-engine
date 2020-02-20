@@ -9,7 +9,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import { DomHelper } from '../helpers/dom-helper';
 import { DomManipulator } from '../helpers/dom-manipulator';
 
@@ -28,10 +28,10 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
 	}
 
-	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
+	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
 		this.adSlot.show();
+		this.helper.setImpactImage();
 		this.helper.setImpactAdHeight();
-		this.helper.setImpactImagesInAd();
 		this.helper.setAdFixedPosition();
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
@@ -45,8 +45,14 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 					this.helper.setNavbarFixedPosition();
 					this.helper.setBodyPadding();
 				}),
+				filter(() => this.reachedResolvedSize()),
+				tap(() => transition('sticky')),
 			)
 			.subscribe();
+	}
+
+	private reachedResolvedSize(): boolean {
+		return this.helper.getImpactAdHeight() <= this.helper.getResolvedAdHeight();
 	}
 
 	async onLeave(): Promise<void> {

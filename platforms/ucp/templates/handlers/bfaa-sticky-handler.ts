@@ -16,8 +16,8 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 	private manipulator = new DomManipulator();
 
 	constructor(
-		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
+		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(NAVBAR) private navbar: HTMLElement,
 	) {
 		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
@@ -25,8 +25,8 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		this.adSlot.show();
-		this.helper.setResolvedAdHeight();
 		this.helper.setResolvedImage();
+		this.helper.setResolvedAdHeight();
 		this.helper.setAdFixedPosition();
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
