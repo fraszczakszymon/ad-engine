@@ -29,7 +29,6 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		this.adSlot.hide();
 		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
 		this.adSlot.addClass('expanded-slot');
-		this.adSlot.addClass('bfaa-template');
 		this.ensureImage();
 
 		await slotTweaker.onReady(this.adSlot);
