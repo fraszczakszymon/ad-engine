@@ -6,8 +6,8 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { calculateAdHeight } from '../helpers/calculate-ad-height';
 import { DomManipulator } from '../helpers/dom-manipulator';
+import { setAdHeight } from '../helpers/set-ad-height';
 import { setResolvedImagesInAd } from '../helpers/set-images';
 
 @Injectable()
@@ -20,12 +20,9 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 	) {}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
-		const aspectRatios = this.params.config.aspectRatio;
-		const adHeight = calculateAdHeight(aspectRatios.resolved);
-
 		this.adSlot.show();
-		this.manipulator.element(this.adSlot.getElement()).setProperty('height', `${adHeight}px`);
-		setResolvedImagesInAd(this.adSlot, this.params);
+		setAdHeight(this.manipulator, this.adSlot, this.params.config.aspectRatio.resolved);
+		setResolvedImagesInAd(this.manipulator, this.params);
 	}
 
 	async onLeave(): Promise<void> {

@@ -1,19 +1,14 @@
-import { AdSlot, UapParams } from '@wikia/ad-engine';
+import { UapParams } from '@wikia/ad-engine';
+import { DomManipulator } from './dom-manipulator';
 
-export function setResolvedImagesInAd(adSlot: AdSlot, params: UapParams): void {
+export function setResolvedImagesInAd(manipulator: DomManipulator, params: UapParams): void {
 	if (params.image2 && params.image2.background) {
-		params.image2.element.classList.remove('hidden-state');
-		params.image1.element.classList.add('hidden-state');
-	} else {
-		params.image1.element.classList.remove('hidden-state');
+		manipulator.element(params.image2.element).removeClass('hidden-state');
 	}
 }
 
-export function setImpactImagesInAd(adSlot: AdSlot, params: UapParams): void {
+export function setImpactImagesInAd(manipulator: DomManipulator, params: UapParams): void {
 	if (params.image2 && params.image2.background) {
-		params.image2.element.classList.add('hidden-state');
-		params.image1.element.classList.remove('hidden-state');
-	} else {
-		params.image1.element.classList.remove('hidden-state');
+		manipulator.element(params.image1.element).removeClass('hidden-state');
 	}
 }

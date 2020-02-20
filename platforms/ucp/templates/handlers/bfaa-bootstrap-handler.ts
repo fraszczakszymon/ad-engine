@@ -27,12 +27,19 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		this.adSlot.hide();
 		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
 		this.adSlot.addClass('expanded-slot');
+		this.ensureImage();
 
 		await slotTweaker.onReady(this.adSlot);
 		await this.awaitVisibleDOM();
 
 		// TODO: make decision for sticky/impact
 		transition('resolved');
+	}
+
+	private ensureImage(): void {
+		if (!(this.params.image2 && this.params.image2.background)) {
+			this.params.image1.element.classList.remove('hidden-state');
+		}
 	}
 
 	private async awaitVisibleDOM(): Promise<void> {
