@@ -32,7 +32,19 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 		this.helper.setAdFixedPosition();
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
+		this.animateNavbar();
+		this.animateAdSlot();
 
+		await this.awaitAnimation();
+
+		const start = window.scrollY;
+
+		transition('resolved').then(() => {
+			window.scrollBy(0, start - window.scrollY);
+		});
+	}
+
+	private animateNavbar(): void {
 		this.manipulator
 			.element(this.navbar)
 			.setProperty(
@@ -40,19 +52,17 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 				`top ${universalAdPackage.SLIDE_OUT_TIME}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`,
 			)
 			.setProperty('top', '0');
+	}
 
+	private animateAdSlot(): void {
 		this.manipulator
 			.element(this.adSlot.getElement())
 			.setProperty('animationDirection', `${universalAdPackage.SLIDE_OUT_TIME}ms`)
 			.addClass(universalAdPackage.CSS_CLASSNAME_SLIDE_OUT_ANIMATION);
+	}
 
+	private async awaitAnimation(): Promise<void> {
 		await utils.wait(universalAdPackage.SLIDE_OUT_TIME);
-
-		const start = window.scrollY;
-
-		transition('resolved').then(() => {
-			window.scrollBy(0, start - window.scrollY);
-		});
 	}
 
 	async onLeave(): Promise<void> {
