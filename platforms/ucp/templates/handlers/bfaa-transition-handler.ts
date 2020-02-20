@@ -32,35 +32,42 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 		this.helper.setAdFixedPosition();
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
-		this.animateNavbar();
-		this.animateAdSlot();
 
-		await this.awaitAnimation();
+		await this.animate();
 
 		const correction = this.useScrollCorrection();
 
 		transition('resolved').then(correction);
 	}
 
-	private animateNavbar(): void {
+	private async animate(): Promise<void> {
+		const distance = this.calcAnimationDistance();
+		const duration = this.calcAnimationDuration(distance);
+
 		this.manipulator
 			.element(this.navbar)
-			.setProperty(
-				'transition',
-				`top ${universalAdPackage.SLIDE_OUT_TIME}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`,
-			)
-			.setProperty('top', '0');
-	}
+			.setProperty('transition', `top ${duration}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`)
+			.setProperty('top', `${distance}px`);
 
-	private animateAdSlot(): void {
 		this.manipulator
 			.element(this.adSlot.getElement())
-			.setProperty('animationDirection', `${universalAdPackage.SLIDE_OUT_TIME}ms`)
-			.addClass(universalAdPackage.CSS_CLASSNAME_SLIDE_OUT_ANIMATION);
+			.setProperty('transition', `top ${duration}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`)
+			.setProperty('top', `${distance - this.helper.getResolvedAdHeight()}px`);
+
+		await utils.wait(duration);
 	}
 
-	private async awaitAnimation(): Promise<void> {
-		await utils.wait(universalAdPackage.SLIDE_OUT_TIME);
+	private calcAnimationDistance(): number {
+		const distance = this.helper.getResolvedAdHeight() - window.scrollY;
+
+		return distance <= 0 ? 0 : distance;
+	}
+
+	private calcAnimationDuration(distance: number): number {
+		const distanceFraction =
+			(this.helper.getResolvedAdHeight() - distance) / this.helper.getResolvedAdHeight();
+
+		return distanceFraction * universalAdPackage.SLIDE_OUT_TIME;
 	}
 
 	private useScrollCorrection(): () => void {
