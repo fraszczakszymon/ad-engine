@@ -1,20 +1,20 @@
-import { StylesManager } from './styles-manager';
+import { DomManipulator } from './dom-manipulator';
 
 export function adjustUapFixedPosition(
-	manager: StylesManager,
+	manipulator: DomManipulator,
 	adElement: HTMLElement,
 	navbarElement: HTMLElement,
 ): void {
 	const adHeight = adElement.offsetHeight;
 	const aAdAndNavHeight = adHeight + navbarElement.offsetHeight;
 
-	manager
+	manipulator
 		.element(adElement)
-		.property('position', 'fixed')
-		.property('top', '0');
-	manager
+		.setProperty('position', 'fixed')
+		.setProperty('top', '0');
+	manipulator
 		.element(navbarElement)
-		.property('position', 'fixed')
-		.property('top', `${adHeight}px`);
-	manager.element(document.body).property('paddingTop', `${aAdAndNavHeight}px`);
+		.setProperty('position', 'fixed')
+		.setProperty('top', `${adHeight}px`);
+	manipulator.element(document.body).setProperty('paddingTop', `${aAdAndNavHeight}px`);
 }

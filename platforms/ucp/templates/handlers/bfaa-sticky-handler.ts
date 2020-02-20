@@ -9,12 +9,12 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { adjustUapFixedPosition } from '../helpers/adjust-uap-fixed-position';
 import { calculateAdHeight } from '../helpers/calculate-ad-height';
+import { DomManipulator } from '../helpers/dom-manipulator';
 import { setResolvedImagesInAd } from '../helpers/set-images';
-import { StylesManager } from '../helpers/styles-manager';
 
 @Injectable()
 export class BfaaStickyHandler implements TemplateStateHandler {
-	private stylesManager = new StylesManager();
+	private manipulator = new DomManipulator();
 
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
@@ -27,12 +27,12 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		const adHeight = calculateAdHeight(aspectRatios.resolved);
 
 		this.adSlot.show();
-		this.stylesManager.element(this.adSlot.getElement()).property('height', `${adHeight}px`);
+		this.manipulator.element(this.adSlot.getElement()).setProperty('height', `${adHeight}px`);
 		setResolvedImagesInAd(this.adSlot, this.params);
-		adjustUapFixedPosition(this.stylesManager, this.adSlot.getElement(), this.navbar);
+		adjustUapFixedPosition(this.manipulator, this.adSlot.getElement(), this.navbar);
 	}
 
 	async onLeave(): Promise<void> {
-		this.stylesManager.restore();
+		this.manipulator.restore();
 	}
 }

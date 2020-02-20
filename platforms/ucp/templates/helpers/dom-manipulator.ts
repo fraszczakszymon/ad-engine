@@ -1,21 +1,20 @@
 import { forIn } from 'lodash';
 
-// TODO: better names
+// TODO: move to ad-engine core
 
-class ElementManager {
+class ElementManipulator {
 	private backup: Partial<CSSStyleDeclaration> = {};
 
 	constructor(private element: HTMLElement) {}
 
-	property<T extends keyof CSSStyleDeclaration>(name: T, value: CSSStyleDeclaration[T]): this {
-		this.save(name);
-
+	setProperty<T extends keyof CSSStyleDeclaration>(name: T, value: CSSStyleDeclaration[T]): this {
+		this.saveProperty(name);
 		this.element.style[name] = value;
 
 		return this;
 	}
 
-	private save<T extends keyof CSSStyleDeclaration>(name: T): void {
+	private saveProperty<T extends keyof CSSStyleDeclaration>(name: T): void {
 		if (this.backup[name] !== undefined) {
 			return;
 		}
@@ -32,12 +31,12 @@ class ElementManager {
 	}
 }
 
-export class StylesManager {
-	private elements = new Map<HTMLElement, ElementManager>();
+export class DomManipulator {
+	private elements = new Map<HTMLElement, ElementManipulator>();
 
-	element(element: HTMLElement): ElementManager {
+	element(element: HTMLElement): ElementManipulator {
 		if (!this.elements.has(element)) {
-			this.elements.set(element, new ElementManager(element));
+			this.elements.set(element, new ElementManipulator(element));
 		}
 
 		return this.elements.get(element);
