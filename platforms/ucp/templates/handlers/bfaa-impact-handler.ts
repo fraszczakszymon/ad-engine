@@ -10,13 +10,12 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { adjustUapFixedPosition } from '../helpers/adjust-uap-fixed-position';
+import { DomHelper } from '../helpers/dom-helper';
 import { DomManipulator } from '../helpers/dom-manipulator';
-import { setAdHeight, setImpactAdHeight } from '../helpers/set-ad-height';
-import { setImpactImagesInAd } from '../helpers/set-images';
 
 @Injectable()
 export class BfaaImpactHandler implements TemplateStateHandler {
+	private helper: DomHelper;
 	private manipulator = new DomManipulator();
 	private unsubscribe$ = new Subject<void>();
 
@@ -25,20 +24,26 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 		@Inject(NAVBAR) private navbar: HTMLElement,
 		private scrollListener: RxjsScrollListener,
-	) {}
+	) {
+		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
+	}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		this.adSlot.show();
-		setAdHeight(this.manipulator, this.adSlot, this.params.config.aspectRatio.default);
-		setImpactImagesInAd(this.manipulator, this.params);
-		adjustUapFixedPosition(this.manipulator, this.adSlot.getElement(), this.navbar);
+		this.helper.setImpactAdHeight();
+		this.helper.setImpactImagesInAd();
+		this.helper.setAdFixedPosition();
+		this.helper.setNavbarFixedPosition();
+		this.helper.setBodyPadding();
 
 		this.scrollListener.scroll$
 			.pipe(
 				takeUntil(this.unsubscribe$),
 				tap(() => {
-					setImpactAdHeight(this.manipulator, this.adSlot, this.params.config.aspectRatio);
-					adjustUapFixedPosition(this.manipulator, this.adSlot.getElement(), this.navbar);
+					this.helper.setImpactAdHeight();
+					this.helper.setAdFixedPosition();
+					this.helper.setNavbarFixedPosition();
+					this.helper.setBodyPadding();
 				}),
 			)
 			.subscribe();
