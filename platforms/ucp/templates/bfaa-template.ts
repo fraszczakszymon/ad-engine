@@ -1,13 +1,12 @@
-import { TemplateLogger, TemplateRegistry } from '@wikia/ad-engine';
+import { TemplateAction, TemplateRegistry } from '@wikia/ad-engine';
+import { Observable } from 'rxjs';
 import { BfaaBootstrapHandler } from './handlers/bfaa-bootstrap-handler';
 import { BfaaImpactHandler } from './handlers/bfaa-impact-handler';
 import { BfaaResolvedHandler } from './handlers/bfaa-resolved-handler';
 import { BfaaStickyHandler } from './handlers/bfaa-sticky-handler';
 import { BfaaTransitionHandler } from './handlers/bfaa-transition-handler';
 
-export function registerBfaaTemplate(registry: TemplateRegistry): void {
-	const logger = new TemplateLogger();
-
+export function registerBfaaTemplate(registry: TemplateRegistry): Observable<TemplateAction> {
 	const stream$ = registry.register(
 		'bfaa',
 		{
@@ -20,5 +19,5 @@ export function registerBfaaTemplate(registry: TemplateRegistry): void {
 		'initial',
 	);
 
-	logger.log(stream$);
+	return stream$;
 }
