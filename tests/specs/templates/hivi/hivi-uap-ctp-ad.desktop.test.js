@@ -3,7 +3,7 @@ import { hiviPage } from '../../../pages/hivi.page';
 import { slots } from '../../../common/slot-registry';
 import { helpers } from '../../../common/helpers';
 
-describe('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
+describe.skip('Desktop HiVi UAP CTP ads page: top leaderboard', () => {
 	beforeEach(() => {
 		helpers.navigateToUrl(hiviUapCtp.pageLink);
 		slots.topLeaderboard.waitForDisplayed();
