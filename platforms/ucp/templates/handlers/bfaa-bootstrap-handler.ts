@@ -17,7 +17,9 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 	) {}
 
-	async onEnter(transition: TemplateTransition<'resolved' | 'sticky' | 'impact'>): Promise<void> {
+	async onEnter(
+		transition: TemplateTransition<'resolved' | 'sticky' | 'impact' | 'transition'>,
+	): Promise<void> {
 		// TODO: remove
 		window['transition'] = (state: any) => transition(state, { allowMulticast: true });
 
@@ -27,13 +29,14 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		this.adSlot.hide();
 		this.adSlot.getElement().style.setProperty('backgroundColor', '#000');
 		this.adSlot.addClass('expanded-slot');
+		this.adSlot.addClass('bfaa-template');
 		this.ensureImage();
 
 		await slotTweaker.onReady(this.adSlot);
 		await this.awaitVisibleDOM();
 
 		// TODO: make decision for sticky/impact
-		transition('impact');
+		transition('transition');
 	}
 
 	private ensureImage(): void {
