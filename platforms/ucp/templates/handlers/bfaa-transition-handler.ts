@@ -37,11 +37,7 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 
 		await this.awaitAnimation();
 
-		const start = window.scrollY;
-
-		transition('resolved').then(() => {
-			window.scrollBy(0, start - window.scrollY);
-		});
+		transition('resolved');
 	}
 
 	private animateNavbar(): void {
