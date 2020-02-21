@@ -1,5 +1,6 @@
 import { TemplateAction, TemplateRegistry } from '@wikia/ad-engine';
 import { Observable } from 'rxjs';
+import { AdvertisementLabelHandler } from './handlers/advertisement-label-handler';
 import { BfaaBootstrapHandler } from './handlers/bfaa-bootstrap-handler';
 import { BfaaImpactHandler } from './handlers/bfaa-impact-handler';
 import { BfaaResolvedHandler } from './handlers/bfaa-resolved-handler';
@@ -11,7 +12,7 @@ export function registerBfaaTemplate(registry: TemplateRegistry): Observable<Tem
 	return registry.register(
 		'bfaa',
 		{
-			initial: [BfaaBootstrapHandler],
+			initial: [BfaaBootstrapHandler, AdvertisementLabelHandler],
 			impact: [BfaaImpactHandler],
 			sticky: [BfaaStickyHandler, CloseButtonHandler],
 			transition: [BfaaTransitionHandler],

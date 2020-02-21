@@ -14,8 +14,8 @@ import { Inject, Injectable } from '@wikia/dependency-injection';
 @Injectable()
 export class BfaaBootstrapHandler implements TemplateStateHandler {
 	constructor(
-		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
+		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 	) {}
 
 	async onEnter(transition: TemplateTransition<'sticky' | 'impact'>): Promise<void> {

@@ -3,6 +3,7 @@
 @import 'src/ad-products/styles/uap-variables';
 @import './styles/navbar';
 @import './styles/button-close';
+@import './styles/advertisement-label';
 
 .gpt-ad {
 	&.expanded-slot {
@@ -20,6 +21,7 @@
 		}
 
 		@include button-close();
+		@include advertisement-label();
 	}
 }
 
