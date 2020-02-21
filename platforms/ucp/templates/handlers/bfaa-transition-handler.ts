@@ -35,7 +35,7 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 
 		await this.animate();
 
-		const correction = this.useScrollCorrection();
+		const correction = this.helper.useScrollCorrection();
 
 		transition('resolved').then(correction);
 	}
@@ -68,12 +68,6 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 			(this.helper.getResolvedAdHeight() - distance) / this.helper.getResolvedAdHeight();
 
 		return distanceFraction * universalAdPackage.SLIDE_OUT_TIME;
-	}
-
-	private useScrollCorrection(): () => void {
-		const startValue = window.scrollY;
-
-		return () => window.scrollBy(0, startValue - window.scrollY);
 	}
 
 	async onLeave(): Promise<void> {

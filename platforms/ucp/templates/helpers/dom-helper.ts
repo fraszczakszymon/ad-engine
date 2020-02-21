@@ -10,14 +10,6 @@ export class DomHelper {
 		private navbar: HTMLElement,
 	) {}
 
-	setResolvedAdHeight(): void {
-		this.setAdHeight(`${this.getResolvedAdHeight()}px`);
-	}
-
-	getResolvedAdHeight(): number {
-		return calculateAdHeight(this.params.config.aspectRatio.resolved);
-	}
-
 	setImpactAdHeight(): void {
 		this.setAdHeight(`${this.getImpactAdHeight()}px`);
 	}
@@ -33,6 +25,14 @@ export class DomHelper {
 		const height = maxHeight - offset;
 
 		return height < minHeight ? minHeight : height;
+	}
+
+	setResolvedAdHeight(): void {
+		this.setAdHeight(`${this.getResolvedAdHeight()}px`);
+	}
+
+	getResolvedAdHeight(): number {
+		return calculateAdHeight(this.params.config.aspectRatio.resolved);
 	}
 
 	setAdHeight(height: string): void {
@@ -72,5 +72,24 @@ export class DomHelper {
 		if (this.params.image2 && this.params.image2.background) {
 			this.manipulator.element(this.params.image1.element).removeClass('hidden-state');
 		}
+	}
+
+	/**
+	 * corrects scroll position based on scrollY value
+	 */
+	useScrollCorrection(): () => void {
+		const startValue = window.scrollY;
+
+		return () => window.scrollBy(0, startValue - window.scrollY);
+	}
+
+	/**
+	 * corrects scroll position based on distance from arbitrary element
+	 */
+	usePositionCorrection(): () => void {
+		const elementOfReference: HTMLElement = document.querySelector('.wds-global-footer');
+		const startValue = elementOfReference.getBoundingClientRect().top;
+
+		return () => window.scrollBy(0, elementOfReference.getBoundingClientRect().top - startValue);
 	}
 }
