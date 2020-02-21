@@ -79,7 +79,6 @@ export class SlotTweaker {
 		}
 
 		if (paddingBottom) {
-			// TODO: we should change % to vw
 			container.style.paddingBottom = `${100 / ratio}%`;
 		}
 	}

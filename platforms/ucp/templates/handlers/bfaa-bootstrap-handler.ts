@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	resolvedState,
 	slotTweaker,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -17,9 +18,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 	) {}
 
-	async onEnter(
-		transition: TemplateTransition<'resolved' | 'sticky' | 'impact' | 'transition'>,
-	): Promise<void> {
+	async onEnter(transition: TemplateTransition<'sticky' | 'impact'>): Promise<void> {
 		// TODO: remove
 		window['transition'] = (state: any) => transition(state, { allowMulticast: true });
 
@@ -34,8 +33,12 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		await slotTweaker.onReady(this.adSlot);
 		await this.awaitVisibleDOM();
 
-		// TODO: make decision for sticky/impact
-		transition('impact');
+		// TODO: make it work
+		if (resolvedState.isResolvedState(this.params)) {
+			transition('sticky');
+		} else {
+			transition('impact');
+		}
 	}
 
 	private ensureImage(): void {
