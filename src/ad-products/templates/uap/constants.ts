@@ -15,3 +15,6 @@ export const FADE_IN_TIME = 400;
 export const DEFAULT_UAP_ID = 'none';
 export const DEFAULT_UAP_TYPE = 'none';
 export const FAN_TAKEOVER_TYPES = ['uap', 'vuap'];
+
+export const BFAA_UNSTICK_DELAY = 3000;
+export const TLB_UNSTICK_DELAY = 2000;

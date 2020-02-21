@@ -5,8 +5,11 @@ import {
 	TemplateStateHandler,
 	TemplateTransition,
 	UapParams,
+	universalAdPackage,
+	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { isUndefined } from 'util';
 import { DomHelper } from '../helpers/dom-helper';
 import { DomManipulator } from '../helpers/dom-manipulator';
 
@@ -23,13 +26,27 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
 	}
 
-	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
+	async onEnter(transition: TemplateTransition<'transition'>): Promise<void> {
 		this.adSlot.show();
 		this.helper.setResolvedImage();
 		this.helper.setResolvedAdHeight();
 		this.helper.setAdFixedPosition();
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
+
+		this.viewedAndDelayed().then(() => transition('transition'));
+	}
+
+	private async viewedAndDelayed(): Promise<void> {
+		const slotViewed: Promise<void> = this.adSlot.loaded.then(() => this.adSlot.viewed);
+		const videoViewed: Promise<void> = this.params.stickyUntilVideoViewed
+			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
+			: Promise.resolve();
+		const unstickDelay: number = isUndefined(this.params.stickyAdditionalTime)
+			? universalAdPackage.BFAA_UNSTICK_DELAY
+			: this.params.stickyAdditionalTime;
+
+		await Promise.all([slotViewed, videoViewed, utils.wait(unstickDelay)]);
 	}
 
 	async onLeave(): Promise<void> {
