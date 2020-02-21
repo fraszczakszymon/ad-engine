@@ -101,7 +101,6 @@ export class UcpDynamicSlotsSetup implements DynamicSlotsSetup {
 
 	private configureTopLeaderboard(): void {
 		if (context.get('options.hiviLeaderboard')) {
-			slotService.setState('hivi_leaderboard', true);
 			context.set('slots.top_leaderboard.firstCall', false);
 
 			slotService.on('hivi_leaderboard', AdSlot.STATUS_SUCCESS, () => {
