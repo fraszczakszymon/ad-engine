@@ -1,5 +1,8 @@
 @import 'src/ad-products/styles/mixin';
+@import 'src/ad-products/styles/breakpoints';
+@import 'src/ad-products/styles/uap-variables';
 @import './styles/navbar';
+@import './styles/button-close';
 
 .gpt-ad {
 	&.expanded-slot {
@@ -15,6 +18,8 @@
 		& .hide {
 			display: none !important;
 		}
+
+		@include button-close();
 	}
 }
 

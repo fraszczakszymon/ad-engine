@@ -5,6 +5,7 @@ import { BfaaImpactHandler } from './handlers/bfaa-impact-handler';
 import { BfaaResolvedHandler } from './handlers/bfaa-resolved-handler';
 import { BfaaStickyHandler } from './handlers/bfaa-sticky-handler';
 import { BfaaTransitionHandler } from './handlers/bfaa-transition-handler';
+import { CloseButtonHandler } from './handlers/close-button-handler';
 
 export function registerBfaaTemplate(registry: TemplateRegistry): Observable<TemplateAction> {
 	return registry.register(
@@ -12,7 +13,7 @@ export function registerBfaaTemplate(registry: TemplateRegistry): Observable<Tem
 		{
 			initial: [BfaaBootstrapHandler],
 			impact: [BfaaImpactHandler],
-			sticky: [BfaaStickyHandler],
+			sticky: [BfaaStickyHandler, CloseButtonHandler],
 			transition: [BfaaTransitionHandler],
 			resolved: [BfaaResolvedHandler],
 		},
