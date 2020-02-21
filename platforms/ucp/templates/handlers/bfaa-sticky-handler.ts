@@ -9,12 +9,15 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { from, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { DomHelper } from '../helpers/dom-helper';
 import { DomManipulator } from '../helpers/dom-manipulator';
 
 @Injectable()
 export class BfaaStickyHandler implements TemplateStateHandler {
+	private unsubscribe$ = new Subject<void>();
 	private helper: DomHelper;
 	private manipulator = new DomManipulator();
 
@@ -34,7 +37,12 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
 
-		this.viewedAndDelayed().then(() => transition('transition'));
+		from(this.viewedAndDelayed())
+			.pipe(
+				takeUntil(this.unsubscribe$),
+				tap(() => transition('transition')),
+			)
+			.subscribe();
 	}
 
 	private async viewedAndDelayed(): Promise<void> {
@@ -50,6 +58,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 	}
 
 	async onLeave(): Promise<void> {
+		this.unsubscribe$.next();
 		this.manipulator.restore();
 	}
 }
