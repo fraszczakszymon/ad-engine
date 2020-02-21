@@ -9,7 +9,7 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { from, Subject } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { DomHelper } from '../helpers/dom-helper';
@@ -37,7 +37,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
 
-		from(this.viewedAndDelayed())
+		this.viewedAndDelayed()
 			.pipe(
 				takeUntil(this.unsubscribe$),
 				tap(() => transition('transition')),
@@ -45,7 +45,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 			.subscribe();
 	}
 
-	private async viewedAndDelayed(): Promise<void> {
+	private viewedAndDelayed(): Observable<unknown> {
 		const slotViewed: Promise<void> = this.adSlot.loaded.then(() => this.adSlot.viewed);
 		const videoViewed: Promise<void> = this.params.stickyUntilVideoViewed
 			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
@@ -54,7 +54,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 			? universalAdPackage.BFAA_UNSTICK_DELAY
 			: this.params.stickyAdditionalTime;
 
-		await Promise.all([slotViewed, videoViewed, utils.wait(unstickDelay)]);
+		return from(Promise.all([slotViewed, videoViewed, utils.wait(unstickDelay)]));
 	}
 
 	async onLeave(): Promise<void> {

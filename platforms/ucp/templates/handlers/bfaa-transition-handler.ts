@@ -9,11 +9,14 @@ import {
 	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { from, Observable, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { DomHelper } from '../helpers/dom-helper';
 import { DomManipulator } from '../helpers/dom-manipulator';
 
 @Injectable()
 export class BfaaTransitionHandler implements TemplateStateHandler {
+	private unsubscribe$ = new Subject<void>();
 	private helper: DomHelper;
 	private manipulator = new DomManipulator();
 
@@ -33,14 +36,19 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
 
-		await this.animate();
+		this.animate()
+			.pipe(
+				takeUntil(this.unsubscribe$),
+				tap(() => {
+					const correction = this.helper.useScrollCorrection();
 
-		const correction = this.helper.useScrollCorrection();
-
-		transition('resolved').then(correction);
+					transition('resolved').then(correction);
+				}),
+			)
+			.subscribe();
 	}
 
-	private async animate(): Promise<void> {
+	private animate(): Observable<unknown> {
 		const distance = this.calcAnimationDistance();
 		const duration = this.calcAnimationDuration(distance);
 
@@ -54,7 +62,7 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 			.setProperty('transition', `top ${duration}ms ${universalAdPackage.CSS_TIMING_EASE_IN_CUBIC}`)
 			.setProperty('top', `${distance - this.helper.getResolvedAdHeight()}px`);
 
-		await utils.wait(duration);
+		return from(utils.wait(duration));
 	}
 
 	private calcAnimationDistance(): number {
@@ -71,6 +79,7 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 	}
 
 	async onLeave(): Promise<void> {
+		this.unsubscribe$.next();
 		this.manipulator.restore();
 	}
 }
