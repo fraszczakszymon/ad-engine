@@ -53,7 +53,6 @@ export class UcpSlotsContextSetup implements SlotsContextSetup {
 							[1030, 65],
 							[1030, 130],
 							[1030, 250],
-							[2, 2],
 						],
 					},
 				],
