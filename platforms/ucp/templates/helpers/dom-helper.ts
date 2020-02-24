@@ -1,6 +1,5 @@
-import { AdSlot, UapParams } from '@wikia/ad-engine';
+import { AdSlot, DomManipulator, UapParams } from '@wikia/ad-engine';
 import { calculateAdHeight } from './calculate-ad-height';
-import { DomManipulator } from './dom-manipulator';
 
 export class DomHelper {
 	constructor(

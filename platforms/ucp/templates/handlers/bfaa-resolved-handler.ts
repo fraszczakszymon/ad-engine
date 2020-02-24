@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	DomManipulator,
 	NAVBAR,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -8,7 +9,6 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { DomHelper } from '../helpers/dom-helper';
-import { DomManipulator } from '../helpers/dom-manipulator';
 
 @Injectable()
 export class BfaaResolvedHandler implements TemplateStateHandler {

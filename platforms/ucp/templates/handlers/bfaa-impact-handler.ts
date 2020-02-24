@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	DomManipulator,
 	NAVBAR,
 	RxjsScrollListener,
 	TEMPLATE,
@@ -11,7 +12,6 @@ import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { DomHelper } from '../helpers/dom-helper';
-import { DomManipulator } from '../helpers/dom-manipulator';
 
 @Injectable()
 export class BfaaImpactHandler implements TemplateStateHandler {

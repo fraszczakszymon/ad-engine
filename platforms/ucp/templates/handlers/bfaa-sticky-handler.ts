@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	DomManipulator,
 	NAVBAR,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -13,7 +14,6 @@ import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { DomHelper } from '../helpers/dom-helper';
-import { DomManipulator } from '../helpers/dom-manipulator';
 
 @Injectable()
 export class BfaaStickyHandler implements TemplateStateHandler {

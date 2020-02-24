@@ -1,8 +1,6 @@
 import { forIn } from 'lodash';
 
-// TODO: move to ad-engine core
-
-class ElementManipulator {
+export class ElementManipulator {
 	private stylesBackup: Partial<CSSStyleDeclaration> = {};
 	private classesBackup?: string;
 
@@ -56,22 +54,5 @@ class ElementManipulator {
 
 		this.stylesBackup = {};
 		this.classesBackup = undefined;
-	}
-}
-
-export class DomManipulator {
-	private elements = new Map<HTMLElement, ElementManipulator>();
-
-	element(element: HTMLElement): ElementManipulator {
-		if (!this.elements.has(element)) {
-			this.elements.set(element, new ElementManipulator(element));
-		}
-
-		return this.elements.get(element);
-	}
-
-	restore(): void {
-		this.elements.forEach((element) => element.restore());
-		this.elements.clear();
 	}
 }
