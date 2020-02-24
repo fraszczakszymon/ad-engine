@@ -1,6 +1,6 @@
 import { Injectable } from '@wikia/dependency-injection';
 import { animationFrameScheduler, fromEvent, Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { observeOn, publish, refCount } from 'rxjs/operators';
 
 @Injectable()
 export class RxjsDomListener {
@@ -9,7 +9,9 @@ export class RxjsDomListener {
 
 	private createSource(eventName: string): Observable<Event> {
 		return fromEvent(document, eventName).pipe(
-			shareReplay({ bufferSize: 1, refCount: true, scheduler: animationFrameScheduler }),
+			observeOn(animationFrameScheduler), // scheduler to ensure smooth animation
+			publish(), // so that only one listener is created
+			refCount(), // so that listener is deleted when no subscriptions
 		);
 	}
 }
