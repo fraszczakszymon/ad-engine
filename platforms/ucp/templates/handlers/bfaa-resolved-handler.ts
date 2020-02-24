@@ -8,11 +8,11 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { DomHelper } from '../helpers/dom-helper';
+import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
 export class BfaaResolvedHandler implements TemplateStateHandler {
-	private helper: DomHelper;
+	private helper: BfaaHelper;
 	private manipulator = new DomManipulator();
 
 	constructor(
@@ -20,7 +20,7 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(NAVBAR) private navbar: HTMLElement,
 	) {
-		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
+		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, this.navbar);
 	}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {

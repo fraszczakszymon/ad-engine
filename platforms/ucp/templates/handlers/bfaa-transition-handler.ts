@@ -12,12 +12,12 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { DomHelper } from '../helpers/dom-helper';
+import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
 export class BfaaTransitionHandler implements TemplateStateHandler {
 	private unsubscribe$ = new Subject<void>();
-	private helper: DomHelper;
+	private helper: BfaaHelper;
 	private manipulator = new DomManipulator();
 
 	constructor(
@@ -25,7 +25,7 @@ export class BfaaTransitionHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(NAVBAR) private navbar: HTMLElement,
 	) {
-		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
+		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, this.navbar);
 	}
 
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {

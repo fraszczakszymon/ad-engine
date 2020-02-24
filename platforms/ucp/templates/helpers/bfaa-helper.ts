@@ -1,7 +1,7 @@
 import { AdSlot, DomManipulator, UapParams } from '@wikia/ad-engine';
 import { calculateAdHeight } from './calculate-ad-height';
 
-export class DomHelper {
+export class BfaaHelper {
 	constructor(
 		private manipulator: DomManipulator,
 		private params: UapParams,

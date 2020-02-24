@@ -11,11 +11,11 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { DomHelper } from '../helpers/dom-helper';
+import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
 export class BfaaImpactHandler implements TemplateStateHandler {
-	private helper: DomHelper;
+	private helper: BfaaHelper;
 	private manipulator = new DomManipulator();
 	private unsubscribe$ = new Subject<void>();
 
@@ -25,7 +25,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		@Inject(NAVBAR) private navbar: HTMLElement,
 		private scrollListener: RxjsScrollListener,
 	) {
-		this.helper = new DomHelper(this.manipulator, this.params, this.adSlot, this.navbar);
+		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, this.navbar);
 	}
 
 	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
