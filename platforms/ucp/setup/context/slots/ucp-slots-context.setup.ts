@@ -1,9 +1,13 @@
 import { SlotsContextSetup } from '@platforms/shared';
 import { context } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
+import { slotsContext } from '../../../../shared/slots/slots-context';
+import { UcpTargetingSetup } from '../targeting/ucp-targeting.setup';
 
 @Injectable()
 export class UcpSlotsContextSetup implements SlotsContextSetup {
+	constructor(private targetingSetup: UcpTargetingSetup) {}
+
 	configureSlotsContext(): void {
 		const slots = {
 			hivi_leaderboard: {
@@ -18,10 +22,10 @@ export class UcpSlotsContextSetup implements SlotsContextSetup {
 				sizes: [
 					{
 						viewportSize: [1024, 0],
-						sizes: [[728, 90], [970, 250], [2, 2]],
+						sizes: [[728, 90], [970, 250]],
 					},
 				],
-				defaultSizes: [[2, 2], [728, 90]],
+				defaultSizes: [[728, 90]],
 				defaultTemplates: [],
 				targeting: {
 					loc: 'top',
@@ -222,5 +226,10 @@ export class UcpSlotsContextSetup implements SlotsContextSetup {
 		};
 
 		context.set('slots', slots);
+
+		// context.set('slots', slots) must be called first!
+		if (!this.targetingSetup.getVideoStatus().hasVideoOnPage) {
+			slotsContext.addSlotSize('hivi_leaderboard', [3, 3]);
+		}
 	}
 }
