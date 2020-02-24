@@ -5,15 +5,11 @@ import {
 	RxjsDomListener,
 	TEMPLATE,
 	TemplateStateHandler,
-	TemplateTransition,
 	UapParams,
-	universalAdPackage,
-	utils,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { from, Observable, Subject } from 'rxjs';
-import { mergeMap, startWith, take, takeUntil, tap } from 'rxjs/operators';
-import { isUndefined } from 'util';
+import { Subject } from 'rxjs';
+import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
@@ -31,10 +27,9 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, navbar);
 	}
 
-	async onEnter(transition: TemplateTransition<'transition'>): Promise<void> {
+	async onEnter(): Promise<void> {
 		this.adSlot.show();
 		this.helper.setResolvedImage();
-
 		this.domListener.resize$
 			.pipe(
 				takeUntil(this.unsubscribe$),
@@ -47,26 +42,6 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 				}),
 			)
 			.subscribe();
-
-		this.viewedAndDelayed()
-			.pipe(
-				takeUntil(this.unsubscribe$),
-				mergeMap(() => this.domListener.scroll$.pipe(take(1))),
-				tap(() => transition('transition')),
-			)
-			.subscribe();
-	}
-
-	private viewedAndDelayed(): Observable<unknown> {
-		const slotViewed: Promise<void> = this.adSlot.loaded.then(() => this.adSlot.viewed);
-		const videoViewed: Promise<void> = this.params.stickyUntilVideoViewed
-			? utils.once(this.adSlot, AdSlot.VIDEO_VIEWED_EVENT)
-			: Promise.resolve();
-		const unstickDelay: number = isUndefined(this.params.stickyAdditionalTime)
-			? universalAdPackage.BFAA_UNSTICK_DELAY
-			: this.params.stickyAdditionalTime;
-
-		return from(Promise.all([slotViewed, videoViewed, utils.wait(unstickDelay)]));
 	}
 
 	async onLeave(): Promise<void> {

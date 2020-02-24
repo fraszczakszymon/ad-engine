@@ -31,7 +31,6 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 	async onEnter(transition: TemplateTransition<'resolved'>): Promise<void> {
 		this.adSlot.show();
 		this.helper.setResolvedImage();
-
 		this.domListener.resize$
 			.pipe(
 				takeUntil(this.unsubscribe$),

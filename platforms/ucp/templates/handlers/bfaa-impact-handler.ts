@@ -33,7 +33,6 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
 		this.adSlot.show();
 		this.helper.setImpactImage();
-
 		this.domListener.resize$
 			.pipe(
 				takeUntil(this.unsubscribe$),
