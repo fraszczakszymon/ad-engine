@@ -74,7 +74,7 @@ export class BfaaHelper {
 	}
 
 	/**
-	 * corrects scroll position based on scrollY value
+	 * corrects scroll position based a on scrollY value
 	 */
 	useScrollCorrection(): () => void {
 		const startValue = window.scrollY;
@@ -83,7 +83,7 @@ export class BfaaHelper {
 	}
 
 	/**
-	 * corrects scroll position based on distance from element of reference
+	 * corrects scroll position based on a distance from the element of reference
 	 */
 	usePositionCorrection(elementOfReference: HTMLElement): () => void {
 		const startValue = elementOfReference.getBoundingClientRect().top;

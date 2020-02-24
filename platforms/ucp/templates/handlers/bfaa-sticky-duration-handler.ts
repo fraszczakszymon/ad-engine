@@ -11,7 +11,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class BfaaStickyDurationHandler implements TemplateStateHandler {
 		this.viewedAndDelayed()
 			.pipe(
 				takeUntil(this.unsubscribe$),
-				mergeMap(() => this.domListener.scroll$.pipe(take(1))),
+				switchMap(() => this.domListener.scroll$.pipe(take(1))),
 				tap(() => transition('transition')),
 			)
 			.subscribe();

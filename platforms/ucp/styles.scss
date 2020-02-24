@@ -5,6 +5,15 @@
 @import './styles/button-close';
 @import './styles/advertisement-label';
 
+// TODO: Change CSS selector
+.has-bfaa {
+	#top_leaderboard,
+	#hivi_leaderboard {
+		z-index: 202;
+		padding: 0;
+	}
+}
+
 .gpt-ad {
 	&.expanded-slot {
 		width: 100%;
@@ -32,15 +41,6 @@
 .main-page-tag-rcs {
 	display: flex;
 	flex-direction: column;
-}
-
-// TODO: Change CSS selector
-.has-bfaa {
-	#top_leaderboard,
-	#hivi_leaderboard {
-		z-index: 202;
-		padding: 0;
-	}
 }
 
 #top_leaderboard {
