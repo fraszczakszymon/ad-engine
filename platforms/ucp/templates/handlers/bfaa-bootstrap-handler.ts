@@ -37,6 +37,7 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		if (resolvedState.isResolvedState(this.params)) {
 			transition('sticky');
 		} else {
+			resolvedState.updateInformationAboutSeenDefaultStateAd();
 			transition('impact');
 		}
 	}
