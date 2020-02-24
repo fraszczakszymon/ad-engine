@@ -19,9 +19,6 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 	) {}
 
 	async onEnter(transition: TemplateTransition<'sticky' | 'impact'>): Promise<void> {
-		// TODO: remove
-		window['transition'] = (state: any) => transition(state, { allowMulticast: true });
-
 		universalAdPackage.init(this.params, ['top_boxad'], []); // TODO: refactor
 		document.body.classList.add('has-bfaa');
 		this.adSlot.setConfigProperty('showManually', true);
@@ -33,7 +30,6 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 		await slotTweaker.onReady(this.adSlot);
 		await this.awaitVisibleDOM();
 
-		// TODO: make it work
 		if (resolvedState.isResolvedState(this.params)) {
 			transition('sticky');
 		} else {
