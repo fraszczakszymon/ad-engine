@@ -10,7 +10,7 @@ import {
 	TrackingSetup,
 	WikiContextSetup,
 } from '@platforms/shared';
-import { context, InstantConfigService, NAVBAR } from '@wikia/ad-engine';
+import { context, FOOTER, InstantConfigService, NAVBAR } from '@wikia/ad-engine';
 import { Container } from '@wikia/dependency-injection';
 import { set } from 'lodash';
 import { UcpAdEngineRunnerSetup } from './ad-engine-runner/ucp-ad-engine-runner.setup';
@@ -38,6 +38,7 @@ export async function setupUcpIoc(): Promise<Container> {
 	container.bind(TrackingSetup).to(CommonTrackingSetup);
 	container.bind(TemplatesSetup).to(UcpTemplatesSetup);
 	container.bind(NAVBAR).value(document.querySelector('.wds-global-navigation-wrapper'));
+	container.bind(FOOTER).value(document.querySelector('.wds-global-footer'));
 
 	return container;
 }

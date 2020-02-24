@@ -83,10 +83,9 @@ export class BfaaHelper {
 	}
 
 	/**
-	 * corrects scroll position based on distance from arbitrary element
+	 * corrects scroll position based on distance from element of reference
 	 */
-	usePositionCorrection(): () => void {
-		const elementOfReference: HTMLElement = document.querySelector('.wds-global-footer');
+	usePositionCorrection(elementOfReference: HTMLElement): () => void {
 		const startValue = elementOfReference.getBoundingClientRect().top;
 
 		return () => window.scrollBy(0, elementOfReference.getBoundingClientRect().top - startValue);

@@ -1,6 +1,7 @@
 import {
 	AdSlot,
 	DomManipulator,
+	FOOTER,
 	NAVBAR,
 	RxjsScrollListener,
 	TEMPLATE,
@@ -15,17 +16,18 @@ import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
 export class BfaaImpactHandler implements TemplateStateHandler {
-	private helper: BfaaHelper;
-	private manipulator = new DomManipulator();
 	private unsubscribe$ = new Subject<void>();
+	private manipulator = new DomManipulator();
+	private helper: BfaaHelper;
 
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
-		@Inject(NAVBAR) private navbar: HTMLElement,
+		@Inject(FOOTER) private footer: HTMLElement,
+		@Inject(NAVBAR) navbar: HTMLElement,
 		private scrollListener: RxjsScrollListener,
 	) {
-		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, this.navbar);
+		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, navbar);
 	}
 
 	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
@@ -46,7 +48,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 				}),
 				filter(() => this.reachedResolvedSize()),
 				tap(() => {
-					const correction = this.helper.usePositionCorrection();
+					const correction = this.helper.usePositionCorrection(this.footer);
 
 					transition('sticky').then(correction);
 				}),

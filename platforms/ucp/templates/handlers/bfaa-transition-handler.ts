@@ -17,8 +17,8 @@ import { BfaaHelper } from '../helpers/bfaa-helper';
 @Injectable()
 export class BfaaTransitionHandler implements TemplateStateHandler {
 	private unsubscribe$ = new Subject<void>();
-	private helper: BfaaHelper;
 	private manipulator = new DomManipulator();
+	private helper: BfaaHelper;
 
 	constructor(
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
