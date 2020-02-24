@@ -11,7 +11,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, startWith, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 
 @Injectable()
@@ -33,10 +33,19 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
 		this.adSlot.show();
 		this.helper.setImpactImage();
-		this.helper.setImpactAdHeight();
-		this.helper.setAdFixedPosition();
-		this.helper.setNavbarFixedPosition();
-		this.helper.setBodyPadding();
+
+		this.domListener.resize$
+			.pipe(
+				takeUntil(this.unsubscribe$),
+				startWith({}),
+				tap(() => {
+					this.helper.setImpactAdHeight();
+					this.helper.setAdFixedPosition();
+					this.helper.setNavbarFixedPosition();
+					this.helper.setBodyPadding();
+				}),
+			)
+			.subscribe();
 
 		this.domListener.scroll$
 			.pipe(

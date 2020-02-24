@@ -12,7 +12,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { mergeMap, startWith, take, takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 
@@ -34,10 +34,19 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 	async onEnter(transition: TemplateTransition<'transition'>): Promise<void> {
 		this.adSlot.show();
 		this.helper.setResolvedImage();
-		this.helper.setResolvedAdHeight();
-		this.helper.setAdFixedPosition();
-		this.helper.setNavbarFixedPosition();
-		this.helper.setBodyPadding();
+
+		this.domListener.resize$
+			.pipe(
+				takeUntil(this.unsubscribe$),
+				startWith({}),
+				tap(() => {
+					this.helper.setResolvedAdHeight();
+					this.helper.setAdFixedPosition();
+					this.helper.setNavbarFixedPosition();
+					this.helper.setBodyPadding();
+				}),
+			)
+			.subscribe();
 
 		this.viewedAndDelayed()
 			.pipe(
