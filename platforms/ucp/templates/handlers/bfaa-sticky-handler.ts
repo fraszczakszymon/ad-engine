@@ -2,6 +2,7 @@ import {
 	AdSlot,
 	DomManipulator,
 	NAVBAR,
+	RxjsDomListener,
 	TEMPLATE,
 	TemplateStateHandler,
 	TemplateTransition,
@@ -11,7 +12,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'util';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 
@@ -25,6 +26,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(NAVBAR) navbar: HTMLElement,
+		private domListener: RxjsDomListener,
 	) {
 		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, navbar);
 	}
@@ -40,6 +42,7 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 		this.viewedAndDelayed()
 			.pipe(
 				takeUntil(this.unsubscribe$),
+				mergeMap(() => this.domListener.scroll$.pipe(take(1))),
 				tap(() => transition('transition')),
 			)
 			.subscribe();
