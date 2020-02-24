@@ -3,11 +3,12 @@ import { animationFrameScheduler, fromEvent, Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
-export class RxjsScrollListener {
-	readonly scroll$: Observable<Event> = this.createSource();
+export class RxjsDomListener {
+	readonly scroll$: Observable<Event> = this.createSource('scroll');
+	readonly resize$: Observable<Event> = this.createSource('resize');
 
-	private createSource(): Observable<Event> {
-		return fromEvent(document, 'scroll').pipe(
+	private createSource(eventName: string): Observable<Event> {
+		return fromEvent(document, eventName).pipe(
 			shareReplay({ bufferSize: 1, refCount: true, scheduler: animationFrameScheduler }),
 		);
 	}

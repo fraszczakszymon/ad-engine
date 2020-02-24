@@ -3,7 +3,7 @@ import {
 	DomManipulator,
 	FOOTER,
 	NAVBAR,
-	RxjsScrollListener,
+	RxjsDomListener,
 	TEMPLATE,
 	TemplateStateHandler,
 	TemplateTransition,
@@ -25,7 +25,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 		@Inject(FOOTER) private footer: HTMLElement,
 		@Inject(NAVBAR) navbar: HTMLElement,
-		private scrollListener: RxjsScrollListener,
+		private domListener: RxjsDomListener,
 	) {
 		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, navbar);
 	}
@@ -38,7 +38,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		this.helper.setNavbarFixedPosition();
 		this.helper.setBodyPadding();
 
-		this.scrollListener.scroll$
+		this.domListener.scroll$
 			.pipe(
 				takeUntil(this.unsubscribe$),
 				tap(() => {
