@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	context,
 	resolvedState,
 	slotTweaker,
 	TEMPLATE,
@@ -19,7 +20,13 @@ export class BfaaBootstrapHandler implements TemplateStateHandler {
 	) {}
 
 	async onEnter(transition: TemplateTransition<'sticky' | 'impact'>): Promise<void> {
-		universalAdPackage.init(this.params, ['top_boxad'], []); // TODO: refactor
+		universalAdPackage.init(
+			this.params,
+			['top_boxad'],
+			Object.keys(context.get('slots') || []).filter(
+				(slotName) => !['top_boxad', 'hivi_leaderboard'].includes(slotName),
+			),
+		);
 		document.body.classList.add('has-bfaa');
 		this.adSlot.setConfigProperty('showManually', true);
 		this.adSlot.hide();
