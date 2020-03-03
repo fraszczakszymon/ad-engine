@@ -15,11 +15,11 @@ import { PorvataPlayer } from './porvata-player';
 import { PorvataSettings } from './porvata-settings';
 
 export interface PorvataTemplateParams {
-	vpaidMode: google.ima.ImaSdkSettings.VpaidMode;
+	vpaidMode?: google.ima.ImaSdkSettings.VpaidMode;
 	viewportHookElement?: HTMLElement;
 	container: HTMLElement;
-	originalContainer: HTMLElement;
-	enableInContentFloating: boolean;
+	originalContainer?: HTMLElement; // TODO: It's not used anywhere. Ask Szymon if OK to remove.
+	enableInContentFloating?: boolean;
 	slotName: string;
 	viewportOffsetTop?: number;
 	viewportOffsetBottom?: number;
@@ -28,8 +28,8 @@ export interface PorvataTemplateParams {
 	autoPlay: boolean;
 	vastTargeting: Targeting;
 	blockOutOfViewportPausing: boolean;
-	startInViewportOnly: boolean;
-	onReady: (player: PorvataPlayer) => void;
+	startInViewportOnly?: boolean;
+	onReady?: (player: PorvataPlayer) => void;
 }
 
 export interface PorvataGamParams {
@@ -145,6 +145,19 @@ export class Porvata {
 				offsetBottom: params.viewportOffsetBottom || 0,
 			},
 		);
+	}
+
+	static createVideoContainer(parent: HTMLElement): HTMLElement {
+		const container: HTMLElement = document.createElement('div');
+		const displayWrapper: HTMLElement = document.createElement('div');
+
+		container.classList.add('video-overlay');
+		displayWrapper.classList.add('video-display-wrapper');
+
+		container.appendChild(displayWrapper);
+		parent.appendChild(container);
+
+		return displayWrapper;
 	}
 
 	static inject(params: PorvataTemplateParams): Promise<PorvataPlayer> {

@@ -1,6 +1,7 @@
 @import 'src/ad-products/styles/mixin';
 @import 'src/ad-products/styles/breakpoints';
 @import 'src/ad-products/styles/uap-variables';
+@import 'src/ad-products/styles/porvata';
 @import './styles/navbar';
 @import './styles/button-close';
 @import './styles/advertisement-label';
@@ -10,8 +11,14 @@
 	#hivi_leaderboard {
 		z-index: 202;
 		padding: 0;
+
+		@include bfaa-bfab-overlay;
+
+		.video-player {
+			right: 0;
+		}
 	}
-  
+
 	#bottom_leaderboard {
 		position: relative;
 	}
@@ -21,8 +28,8 @@
 	&.expanded-slot {
 		width: 100%;
 
-		& > div,
-		& > div > iframe {
+		& > div.iframe-container,
+		& > div.iframe-container > iframe {
 			height: 100%;
 			width: 100%;
 		}

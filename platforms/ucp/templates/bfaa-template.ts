@@ -8,6 +8,7 @@ import { BfaaResolvedHandler } from './handlers/bfaa-resolved-handler';
 import { BfaaStickyDurationHandler } from './handlers/bfaa-sticky-duration-handler';
 import { BfaaStickyHandler } from './handlers/bfaa-sticky-handler';
 import { BfaaTransitionHandler } from './handlers/bfaa-transition-handler';
+import { BfaaVideoHandler } from './handlers/bfaa-video-handler';
 import { CloseButtonHandler } from './handlers/close-button-handler';
 import { DebugTransitionHandler } from './handlers/debug-transition-handler';
 
@@ -18,6 +19,7 @@ export function registerBfaaTemplate(registry: TemplateRegistry): Observable<Tem
 			initial: [
 				BfaaConfigHandler,
 				BfaaBootstrapHandler,
+				BfaaVideoHandler,
 				AdvertisementLabelHandler,
 				DebugTransitionHandler,
 			],
