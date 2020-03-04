@@ -13,6 +13,7 @@ import { Inject, Injectable } from '@wikia/dependency-injection';
 import { Subject } from 'rxjs';
 import { filter, startWith, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
+import { BfaaContext } from './bfaa-context';
 
 @Injectable()
 export class BfaaImpactHandler implements TemplateStateHandler {
@@ -23,6 +24,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
+		@Inject(TEMPLATE.CONTEXT) private context: BfaaContext,
 		@Inject(FOOTER) private footer: HTMLElement,
 		@Inject(NAVBAR) navbar: HTMLElement,
 		private domListener: RxjsDomListener,
