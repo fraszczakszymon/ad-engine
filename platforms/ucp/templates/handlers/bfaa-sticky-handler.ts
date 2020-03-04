@@ -7,10 +7,11 @@ import {
 	TEMPLATE,
 	TemplateStateHandler,
 	UapParams,
+	universalAdPackage,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { from, Observable, Subject } from 'rxjs';
-import { startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { from, fromEvent, Observable, Subject } from 'rxjs';
+import { filter, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
@@ -61,11 +62,28 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 					tap((video) => this.videoHelper.setVideoResolvedSize(video)),
 				)
 				.subscribe();
+
+			if (video$) {
+				video$
+					.pipe(
+						switchMap((video) => {
+							return fromEvent(this.adSlot, AdSlot.CUSTOM_EVENT).pipe(
+								filter((event: { status: string }) => {
+									return event.status === universalAdPackage.SLOT_FORCE_UNSTICK;
+								}),
+								tap(() => video.stop()),
+							);
+						}),
+						takeUntil(this.unsubscribe$),
+					)
+					.subscribe();
+			}
 		}
 	}
 
 	async onLeave(): Promise<void> {
 		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
 		this.manipulator.restore();
 	}
 }
