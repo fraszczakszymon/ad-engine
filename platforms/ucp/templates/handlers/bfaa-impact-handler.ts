@@ -3,6 +3,7 @@ import {
 	DomManipulator,
 	FOOTER,
 	NAVBAR,
+	Porvata4Player,
 	RxjsDomListener,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -10,9 +11,10 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { Subject } from 'rxjs';
-import { filter, startWith, takeUntil, tap } from 'rxjs/operators';
+import { from, Observable, Subject } from 'rxjs';
+import { filter, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
+import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
 
 @Injectable()
@@ -20,6 +22,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 	private unsubscribe$ = new Subject<void>();
 	private manipulator = new DomManipulator();
 	private helper: BfaaHelper;
+	private videoHelper: BfaaVideoHelper;
 
 	constructor(
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
@@ -30,10 +33,15 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		private domListener: RxjsDomListener,
 	) {
 		this.helper = new BfaaHelper(this.manipulator, this.params, this.adSlot, navbar);
+		this.videoHelper = new BfaaVideoHelper(this.manipulator, this.params, this.adSlot);
 	}
 
 	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
-		this.context.video.then((video) => console.error(video));
+		let video$: Observable<Porvata4Player>;
+
+		if (this.context.video) {
+			video$ = from(this.context.video);
+		}
 
 		this.adSlot.show();
 		this.helper.setImpactImage();
@@ -50,9 +58,10 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 			)
 			.subscribe();
 
-		this.domListener.scroll$
+		const scroll$ = this.domListener.scroll$.pipe(takeUntil(this.unsubscribe$));
+
+		scroll$
 			.pipe(
-				takeUntil(this.unsubscribe$),
 				tap(() => {
 					this.helper.setImpactAdHeight();
 					this.helper.setAdFixedPosition();
@@ -66,6 +75,17 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 				}),
 			)
 			.subscribe();
+
+		if (video$) {
+			scroll$
+				.pipe(
+					withLatestFrom(video$),
+					tap(([scroll, video]) => {
+						this.videoHelper.setVideoImpactSize(video);
+					}),
+				)
+				.subscribe();
+		}
 	}
 
 	private reachedResolvedSize(): boolean {
