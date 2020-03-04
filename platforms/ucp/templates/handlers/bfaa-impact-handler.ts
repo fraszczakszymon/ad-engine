@@ -79,16 +79,16 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		if (video$) {
 			video$
 				.pipe(
-					takeUntil(this.unsubscribe$),
 					tap((video) => this.videoHelper.setVideoImpactSize(video)),
 					switchMap((video) => scroll$.pipe(tap(() => this.videoHelper.setVideoImpactSize(video)))),
+					takeUntil(this.unsubscribe$),
 				)
 				.subscribe();
 			video$
 				.pipe(
-					takeUntil(this.unsubscribe$),
 					switchMap((video) => fromEvent(video, 'wikiaAdCompleted')),
 					tap(() => transition('resolved')),
+					takeUntil(this.unsubscribe$),
 				)
 				.subscribe();
 		}
