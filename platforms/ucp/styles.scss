@@ -2,9 +2,13 @@
 @import 'src/ad-products/styles/breakpoints';
 @import 'src/ad-products/styles/uap-variables';
 @import 'src/ad-products/styles/porvata';
-@import './styles/navbar';
-@import './styles/button-close';
 @import './styles/advertisement-label';
+@import './styles/bottom-panel';
+@import './styles/button-close';
+@import './styles/fullscreen-control';
+@import './styles/navbar';
+@import './styles/progress-bar';
+@import './styles/porvata-icons';
 
 .has-bfaa {
 	#top_leaderboard,
@@ -13,7 +17,15 @@
 		padding: 0;
 
 		@include bfaa-bfab-overlay;
+	}
 
+	#bottom_leaderboard {
+		position: relative;
+	}
+
+	#top_leaderboard,
+	#hivi_leaderboard,
+	#bottom_leaderboard {
 		.video-overlay {
 			position: absolute;
 		}
@@ -27,10 +39,20 @@
 		.video-player {
 			right: 0;
 		}
-	}
 
-	#bottom_leaderboard {
-		position: relative;
+		.porvata-interface {
+			@include bottom-panel();
+			@include fullscreen-button();
+			@include porvata-icons($hivi-uap-button-size, $hivi-uap-light-button-color);
+			@include progress-bar(
+				$hivi-uap-progress-bar-height,
+				$hivi-uap-progress-bar-color,
+				$hivi-uap-progress-bar-current-time-color
+			);
+		}
+
+		@include advertisement-label();
+		@include button-close();
 	}
 }
 
@@ -48,9 +70,6 @@
 		& .hide {
 			display: none !important;
 		}
-
-		@include button-close();
-		@include advertisement-label();
 	}
 }
 

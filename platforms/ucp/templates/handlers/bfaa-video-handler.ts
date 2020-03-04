@@ -1,5 +1,6 @@
 import {
 	AdSlot,
+	createBottomPanel,
 	Porvata,
 	Porvata4Player,
 	resolvedState,
@@ -68,10 +69,13 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 			});
 			// TODO: split to bfaa-resolved-video-handler and bfaa-impact-video-handler
 
-			// videoUIElements.ProgressBar.add(video, video.dom.getInterfaceContainer()); // TODO: Add ProgressBar
-			// createBottomPanel({ fullscreenAllowed: params.fullscreenAllowed, theme: 'hivi' });  // TODO: Add createBottomPanel
-			// videoUIElements.ToggleUI.add(video, interfaceContainer, params);  // TODO: Add ToggleUI
-			// videoUIElements.LearnMore.add(video, playerContainer, params); // TODO: Add LearnMore
+			videoUIElements.ProgressBar.add(video, video.dom.getInterfaceContainer());
+			createBottomPanel({ fullscreenAllowed: params.fullscreenAllowed, theme: 'hivi' }).add(
+				video,
+				video.dom.getInterfaceContainer(),
+				params,
+			);
+			videoUIElements.ToggleUI.add(video, video.dom.getInterfaceContainer(), params);
 			videoUIElements.ToggleVideo.add(video, playerContainer.parentElement);
 			videoUIElements.ToggleThumbnail.add(video, undefined, params);
 			videoUIElements.ReplayOverlay.add(video, video.dom.getPlayerContainer(), params);
