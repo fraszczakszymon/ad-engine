@@ -72,7 +72,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 			// createBottomPanel({ fullscreenAllowed: params.fullscreenAllowed, theme: 'hivi' });  // TODO: Add createBottomPanel
 			// videoUIElements.ToggleUI.add(video, interfaceContainer, params);  // TODO: Add ToggleUI
 			// videoUIElements.LearnMore.add(video, playerContainer, params); // TODO: Add LearnMore
-			videoUIElements.ToggleVideo.add(video, video.dom.getPlayerContainer());
+			videoUIElements.ToggleVideo.add(video, playerContainer.parentElement);
 			videoUIElements.ToggleThumbnail.add(video, undefined, params);
 			videoUIElements.ReplayOverlay.add(video, video.dom.getPlayerContainer(), params);
 		});
