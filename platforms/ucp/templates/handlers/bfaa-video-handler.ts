@@ -54,6 +54,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 			started$.pipe(skip(1)).subscribe(() => {
 				// TODO: Discuss if we can avoid allowMulticast here
 				transition('impact', { allowMulticast: true });
+				video.unmute();
 			});
 
 			video.addEventListener('adCanPlay', () => {
