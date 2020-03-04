@@ -33,10 +33,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 		params.autoPlay = Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
 
-		const playerContainer = document.createElement('div');
-
-		Porvata.createVideoContainer(playerContainer);
-		this.adSlot.getElement().appendChild(playerContainer);
+		const playerContainer = Porvata.createVideoContainer(this.adSlot.getElement());
 
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
 			video.addEventListener('wikiaAdStarted', () => {
@@ -66,7 +63,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 			// videoUIElements.LearnMore.add(video, playerContainer, params); // TODO: Add LearnMore
 			videoUIElements.ToggleVideo.add(video, video.dom.getVideoContainer());
 			videoUIElements.ToggleThumbnail.add(video, undefined, params);
-			videoUIElements.ReplayOverlay.add(video, video.dom.getVideoContainer(), params);
+			videoUIElements.ReplayOverlay.add(video, video.dom.getPlayerContainer(), params);
 		});
 	}
 
