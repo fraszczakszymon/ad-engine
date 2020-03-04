@@ -11,8 +11,8 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { from, Observable, Subject } from 'rxjs';
-import { filter, mergeMap, startWith, takeUntil, tap } from 'rxjs/operators';
+import { from, fromEvent, Observable, Subject } from 'rxjs';
+import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
@@ -36,7 +36,7 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 		this.videoHelper = new BfaaVideoHelper(this.manipulator, this.params, this.adSlot);
 	}
 
-	async onEnter(transition: TemplateTransition<'sticky'>): Promise<void> {
+	async onEnter(transition: TemplateTransition<'sticky' | 'resolved'>): Promise<void> {
 		let video$: Observable<Porvata4Player>;
 
 		if (this.context.video) {
@@ -76,13 +76,22 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 			)
 			.subscribe();
 
-		video$
-			.pipe(
-				takeUntil(this.unsubscribe$),
-				tap((video) => this.videoHelper.setVideoImpactSize(video)),
-				mergeMap((video) => scroll$.pipe(tap(() => this.videoHelper.setVideoImpactSize(video)))),
-			)
-			.subscribe();
+		if (video$) {
+			video$
+				.pipe(
+					takeUntil(this.unsubscribe$),
+					tap((video) => this.videoHelper.setVideoImpactSize(video)),
+					switchMap((video) => scroll$.pipe(tap(() => this.videoHelper.setVideoImpactSize(video)))),
+				)
+				.subscribe();
+			video$
+				.pipe(
+					takeUntil(this.unsubscribe$),
+					switchMap((video) => fromEvent(video, 'wikiaAdCompleted')),
+					tap(() => transition('resolved')),
+				)
+				.subscribe();
+		}
 	}
 
 	private reachedResolvedSize(): boolean {
