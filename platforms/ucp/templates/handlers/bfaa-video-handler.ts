@@ -1,6 +1,7 @@
 import {
 	AdSlot,
 	Porvata,
+	Porvata4Player,
 	resolvedState,
 	TEMPLATE,
 	TemplateStateHandler,
@@ -9,12 +10,14 @@ import {
 	videoUIElements,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { BfaaContext } from './bfaa-context';
 
 @Injectable()
 export class BfaaVideoHandler implements TemplateStateHandler {
 	constructor(
 		@Inject(TEMPLATE.SLOT) private adSlot: AdSlot,
 		@Inject(TEMPLATE.PARAMS) private params: UapParams,
+		@Inject(TEMPLATE.CONTEXT) private context: BfaaContext,
 	) {}
 
 	async onEnter(): Promise<void> {
@@ -31,8 +34,15 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 		const playerContainer = Porvata.createVideoContainer(this.adSlot.getElement());
 
+		let videoLoaded: (player: Porvata4Player) => void;
+
+		this.context.video = new Promise<Porvata4Player>((res) => {
+			videoLoaded = res;
+		});
+
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
-			window['porvata'] = video;
+			videoLoaded(video);
+
 			video.addEventListener('adCanPlay', () => {
 				video.dom.getVideoContainer().classList.remove('hide');
 			});
