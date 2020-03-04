@@ -12,7 +12,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { filter, startWith, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, mergeMap, startWith, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
@@ -76,16 +76,13 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 			)
 			.subscribe();
 
-		if (video$) {
-			scroll$
-				.pipe(
-					withLatestFrom(video$),
-					tap(([scroll, video]) => {
-						this.videoHelper.setVideoImpactSize(video);
-					}),
-				)
-				.subscribe();
-		}
+		video$
+			.pipe(
+				takeUntil(this.unsubscribe$),
+				tap((video) => this.videoHelper.setVideoImpactSize(video)),
+				mergeMap((video) => scroll$.pipe(tap(() => this.videoHelper.setVideoImpactSize(video)))),
+			)
+			.subscribe();
 	}
 
 	private reachedResolvedSize(): boolean {

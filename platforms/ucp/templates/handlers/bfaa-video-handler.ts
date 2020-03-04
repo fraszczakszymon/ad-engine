@@ -49,26 +49,10 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 				video.dom.getVideoContainer().classList.remove('hide');
 			});
 			video.addEventListener('wikiaAdStarted', () => {
-				if (!video.isFullscreen()) {
-					// TODO: Split setting height to default and impact
-					const slotHeight = this.adSlot.getElement().offsetHeight;
-					const margin = (slotHeight * (100 - params.config.state.height.default)) / 2 / 100;
-					const height = slotHeight * 0.92; // TODO: from 92% in impact to 100% in resolved
-					const width = height * params.videoAspectRatio;
-
-					video.resize(width, height); // TODO: sync size of video, player container and thumbnail
-
-					playerContainer.parentElement.style.width = `${width}px`;
-					playerContainer.parentElement.style.height = `${height}px`;
-					playerContainer.parentElement.style.top = `${margin}px`;
-				}
-
 				video.addEventListener('wikiaAdCompleted', () => {
 					video.reload();
 				});
 			});
-			// TODO: split to bfaa-resolved-video-handler and bfaa-impact-video-handler
-
 			videoUIElements.ProgressBar.add(video, video.dom.getInterfaceContainer());
 			createBottomPanel({ fullscreenAllowed: params.fullscreenAllowed, theme: 'hivi' }).add(
 				video,
