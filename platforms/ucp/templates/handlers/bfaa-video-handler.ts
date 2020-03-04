@@ -52,8 +52,8 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 					// TODO: Split setting height to default and impact
 					const slotHeight = this.adSlot.getElement().offsetHeight;
 					const margin = (slotHeight * (100 - params.config.state.height.default)) / 2 / 100;
-					const height = slotHeight * 0.92; // TODO: from 92% in impact to 100% in resolved
-					const width = height * params.videoAspectRatio;
+					const height = Math.floor(slotHeight * 0.92); // TODO: from 92% in impact to 100% in resolved
+					const width = Math.floor(height * params.videoAspectRatio);
 
 					video.resize(width, height); // TODO: sync size of video, player container and thumbnail
 
