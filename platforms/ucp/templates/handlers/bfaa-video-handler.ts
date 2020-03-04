@@ -33,9 +33,12 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 		params.autoPlay = Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
 
-		Porvata.createVideoContainer(this.adSlot.getElement());
+		const playerContainer = document.createElement('div');
 
-		Porvata.inject(params).then((video) => {
+		Porvata.createVideoContainer(playerContainer);
+		this.adSlot.getElement().appendChild(playerContainer);
+
+		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
 			video.addEventListener('wikiaAdStarted', () => {
 				if (!video.isFullscreen()) {
 					// TODO: Split setting height to default and impact
