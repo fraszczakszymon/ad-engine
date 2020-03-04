@@ -50,7 +50,12 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 					video.dom.getVideoContainer().style.top = `${margin}px`;
 					video.dom.getVideoContainer().style.right = `${margin}px`; // TODO: Use 23.2%
 				}
+
+				video.addEventListener('wikiaAdCompleted', () => {
+					video.reload();
+				});
 			});
+			// TODO: split to bfaa-resolved-video-handler and bfaa-impact-video-handler
 
 			// videoUIElements.ProgressBar.add(video, video.dom.getInterfaceContainer()); // TODO: Add ProgressBar
 			// createBottomPanel({ fullscreenAllowed: params.fullscreenAllowed, theme: 'hivi' });  // TODO: Add createBottomPanel
@@ -64,3 +69,5 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 	async onLeave(): Promise<void> {}
 }
+
+// TODO: test with slower network conn
