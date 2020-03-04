@@ -6,11 +6,14 @@ import {
 	resolvedState,
 	TEMPLATE,
 	TemplateStateHandler,
+	TemplateTransition,
 	UapParams,
 	universalAdPackage,
 	videoUIElements,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
+import { fromEvent } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import { BfaaContext } from './bfaa-context';
 
 @Injectable()
@@ -21,7 +24,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 		@Inject(TEMPLATE.CONTEXT) private context: BfaaContext,
 	) {}
 
-	async onEnter(): Promise<void> {
+	async onEnter(transition: TemplateTransition<'impact'>): Promise<void> {
 		this.adSlot.addClass('theme-hivi'); // Required by replay-overlay
 		const params = { ...this.params };
 
@@ -44,6 +47,14 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
 			window['video'] = video;
 			videoLoaded(video);
+
+			const started$ = fromEvent(video, 'wikiaAdStarted');
+
+			// Transition to impact when video is restarted
+			started$.pipe(skip(1)).subscribe(() => {
+				// TODO: Discuss if we can avoid allowMulticast here
+				transition('impact', { allowMulticast: true });
+			});
 
 			video.addEventListener('adCanPlay', () => {
 				video.dom.getVideoContainer().classList.remove('hide');

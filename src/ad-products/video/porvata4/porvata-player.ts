@@ -107,6 +107,18 @@ export class PorvataPlayer {
 		}
 	}
 
+	/**
+	 * @deprecated this method is not implemented
+	 *
+	 * intentionally empty for now - needed only to create a stream with RxJS `fromEvent`
+	 */
+	removeEventListener(
+		eventName: VideoEvent,
+		callback: (event: google.ima.AdEvent | google.ima.AdErrorEvent) => void,
+	): void {
+		// TODO: Implement removeEventListener
+	}
+
 	dispatchEvent(eventName: string): void {
 		if (this.eventListeners[eventName] && this.eventListeners[eventName].length > 0) {
 			this.eventListeners[eventName].forEach((callback) => {
