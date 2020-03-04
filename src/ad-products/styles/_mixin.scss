@@ -38,3 +38,8 @@
 		width: 100%;
 	}
 }
+
+@mixin bfaa-bfab-hivi-right-position() {
+	right: 23.2%;
+	transform: translateX(50%);
+}

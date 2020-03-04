@@ -59,7 +59,6 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 					playerContainer.parentElement.style.width = `${width}px`;
 					playerContainer.parentElement.style.height = `${height}px`;
 					playerContainer.parentElement.style.top = `${margin}px`;
-					playerContainer.parentElement.style.right = `${margin}px`; // TODO: Use 23.2%
 				}
 
 				video.addEventListener('wikiaAdCompleted', () => {

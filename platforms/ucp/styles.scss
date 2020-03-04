@@ -27,6 +27,11 @@
 		.video-player {
 			right: 0;
 		}
+
+		.video-overlay,
+		.replay-overlay {
+			@include bfaa-bfab-hivi-right-position;
+		}
 	}
 
 	#bottom_leaderboard {

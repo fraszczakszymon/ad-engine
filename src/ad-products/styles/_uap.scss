@@ -381,8 +381,7 @@
 
 		.video-player,
 		.replay-overlay {
-			right: 23.2%;
-			transform: translateX(50%);
+			@include bfaa-bfab-hivi-right-position;
 			top: 4%;
 			height: 92%;
 		}
