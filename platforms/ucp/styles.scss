@@ -14,6 +14,16 @@
 
 		@include bfaa-bfab-overlay;
 
+		.video-overlay {
+			position: absolute;
+		}
+
+		.video-display-wrapper {
+			height: 100%;
+			position: relative;
+			width: 100%;
+		}
+
 		.video-player {
 			right: 0;
 		}
