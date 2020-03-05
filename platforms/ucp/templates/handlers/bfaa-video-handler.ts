@@ -38,7 +38,7 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 		const playerContainer = Porvata.createVideoContainer(this.adSlot.getElement());
 
-		playerContainer.classList.add('hide');
+		playerContainer.parentElement.classList.add('hide');
 
 		let videoLoaded: (player: Porvata4Player) => void;
 
