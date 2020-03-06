@@ -2,7 +2,7 @@ export { default as CloseButton } from './close-button';
 export { default as DynamicReveal } from './dynamic-reveal';
 export { default as Floating } from './floating';
 export { default as LearnMore } from './learn-more';
-export { Panel } from './panel';
+export { default as Panel } from './panel';
 export { default as PauseControl } from './pause-control';
 export { default as PauseOverlay } from './pause-overlay';
 export { default as ProgressBar } from './progress-bar';
