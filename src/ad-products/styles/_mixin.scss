@@ -43,3 +43,11 @@
 	right: 23.2%;
 	transform: translateX(50%);
 }
+
+@mixin uap-dark-theme() {
+	.advertisement-label,
+	.button-control .icon {
+		color: $hivi-uap-dark-button-color;
+		fill: $hivi-uap-dark-button-color;
+	}
+}

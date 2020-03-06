@@ -76,6 +76,10 @@
 			display: none !important;
 		}
 	}
+
+	&.is-dark {
+		@include uap-dark-theme();
+	}
 }
 
 @include navbar();
