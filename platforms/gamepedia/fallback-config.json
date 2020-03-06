@@ -121,9 +121,8 @@
                 "oasis"
             ],
             "regions": [
-                "XX-AS",
-                "XX-EU",
-                "XX-OC"
+                "XX",
+                "non-US"
             ],
             "value": true
         }
@@ -140,7 +139,7 @@
             "regions": [
                 "XX"
             ],
-            "value": true
+            "value": false
         }
     ],
     "icPrebidVersion": [
@@ -155,7 +154,7 @@
             "regions": [
                 "XX"
             ],
-            "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v3.2.0/20200114.min.js"
+            "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v3.2.0/20200302.min.js"
         }
     ],
     "icA9Bidder": [

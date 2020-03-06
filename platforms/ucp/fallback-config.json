@@ -138,9 +138,8 @@
                 "oasis"
             ],
             "regions": [
-                "XX-AS",
-                "XX-EU",
-                "XX-OC"
+                "XX",
+                "non-US"
             ],
             "value": true
         }
@@ -157,7 +156,7 @@
             "regions": [
                 "XX"
             ],
-            "value": true
+            "value": false
         }
     ],
     "icPrebidLkqd": [
@@ -221,6 +220,18 @@
                 "mobile-wiki",
                 "oasis"
             ]
+        }
+    ],
+    "icPrebidIndexExchangeFeatured": [
+        {
+            "apps": [
+                "mobile-wiki",
+                "oasis"
+            ],
+            "regions": [
+                "PL"
+            ],
+            "value": true
         }
     ],
     "icFloatingMedrecDestroyable": [
@@ -631,7 +642,7 @@
             "regions": [
                 "XX"
             ],
-            "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v3.2.0/20200114.min.js"
+            "value": "https://origin-images.wikia.com/fandom-ae-assets/prebid.js/v3.2.0/20200302.min.js"
         }
     ],
     "icA9Bidder": [
@@ -729,6 +740,18 @@
             ],
             "regions": [
                 "XX"
+            ],
+            "value": true
+        }
+    ],
+    "icPrebidTelaria": [
+        {
+            "apps": [
+                "mobile-wiki",
+                "oasis"
+            ],
+            "regions": [
+                "PL"
             ],
             "value": true
         }
