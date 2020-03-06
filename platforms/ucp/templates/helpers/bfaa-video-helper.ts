@@ -33,7 +33,7 @@ export class BfaaVideoHelper {
 			const height = (slotHeight * heightMultiplier) / 100;
 			const width = height * this.params.videoAspectRatio;
 
-			video.resize(width, height); // TODO: sync size of video, player container and thumbnail
+			video.resize(width, height);
 
 			const videoOverlay = video.dom.getPlayerContainer().parentElement;
 
@@ -50,7 +50,7 @@ export class BfaaVideoHelper {
 			const height = slotHeight * (this.params.config.state.height.resolved / 100);
 			const width = height * this.params.videoAspectRatio;
 
-			video.resize(width, height); // TODO: sync size of video, player container and thumbnail
+			video.resize(width, height);
 
 			const videoOverlay = video.dom.getPlayerContainer().parentElement;
 

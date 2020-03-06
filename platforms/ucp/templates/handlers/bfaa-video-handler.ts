@@ -52,7 +52,6 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 			// Transition to impact when video is restarted
 			started$.pipe(skip(1)).subscribe(() => {
-				// TODO: Discuss if we can avoid allowMulticast here
 				transition('impact', { allowMulticast: true });
 				video.unmute();
 			});
@@ -80,5 +79,3 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 
 	async onLeave(): Promise<void> {}
 }
-
-// TODO: test with slower network conn
