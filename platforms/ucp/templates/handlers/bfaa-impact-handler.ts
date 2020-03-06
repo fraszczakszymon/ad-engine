@@ -11,7 +11,7 @@ import {
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
-import { from, fromEvent, Observable, Subject } from 'rxjs';
+import { from, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
@@ -80,7 +80,11 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 			video$
 				.pipe(
 					tap((video) => this.videoHelper.setVideoImpactSize(video)),
-					switchMap((video) => scroll$.pipe(tap(() => this.videoHelper.setVideoImpactSize(video)))),
+					switchMap((video) => {
+						return merge(scroll$, this.domListener.resize$).pipe(
+							tap(() => this.videoHelper.setVideoImpactSize(video)),
+						);
+					}),
 					takeUntil(this.unsubscribe$),
 				)
 				.subscribe();

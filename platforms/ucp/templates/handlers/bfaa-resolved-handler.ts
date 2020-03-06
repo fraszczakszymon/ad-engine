@@ -11,7 +11,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { BfaaHelper } from '../helpers/bfaa-helper';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
@@ -45,15 +45,26 @@ export class BfaaResolvedHandler implements TemplateStateHandler {
 		this.helper.setResolvedImage();
 		this.domListener.resize$
 			.pipe(
-				takeUntil(this.unsubscribe$),
 				startWith({}),
 				tap(() => {
 					this.helper.setResolvedAdHeight();
 				}),
+				takeUntil(this.unsubscribe$),
 			)
 			.subscribe();
 
 		if (video$) {
+			video$
+				.pipe(
+					switchMap((video) => {
+						return this.domListener.resize$.pipe(
+							tap(() => this.videoHelper.setVideoResolvedSize(video)),
+						);
+					}),
+					takeUntil(this.unsubscribe$),
+				)
+				.subscribe();
+
 			video$
 				.pipe(
 					takeUntil(this.unsubscribe$),

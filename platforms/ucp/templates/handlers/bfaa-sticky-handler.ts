@@ -63,6 +63,17 @@ export class BfaaStickyHandler implements TemplateStateHandler {
 				)
 				.subscribe();
 
+			video$
+				.pipe(
+					switchMap((video) => {
+						return this.domListener.resize$.pipe(
+							tap(() => this.videoHelper.setVideoResolvedSize(video)),
+						);
+					}),
+					takeUntil(this.unsubscribe$),
+				)
+				.subscribe();
+
 			if (video$) {
 				video$
 					.pipe(
