@@ -46,7 +46,6 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 		});
 
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
-			window['video'] = video;
 			videoLoaded(video);
 
 			const started$ = fromEvent(video, 'wikiaAdStarted');
