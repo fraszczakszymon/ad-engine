@@ -8,7 +8,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, Observable, Subject } from 'rxjs';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
 
@@ -34,7 +34,6 @@ export class BfaaTransitionVideoHandler implements TemplateStateHandler {
 			video$
 				.pipe(
 					takeUntil(this.unsubscribe$),
-					take(1),
 					tap((video) => this.helper.setVideoResolvedSize(video)),
 				)
 				.subscribe();

@@ -10,7 +10,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
-import { filter, skipUntil, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, skipUntil, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
 
@@ -36,7 +36,6 @@ export class BfaaStickyVideoHandler implements TemplateStateHandler {
 			video$ = from(this.context.video);
 			video$
 				.pipe(
-					take(1),
 					switchMap((video) => {
 						return this.domListener.resize$.pipe(
 							startWith({}),
@@ -49,7 +48,6 @@ export class BfaaStickyVideoHandler implements TemplateStateHandler {
 
 			video$
 				.pipe(
-					take(1),
 					skipUntil(
 						fromEvent(this.adSlot, AdSlot.CUSTOM_EVENT).pipe(
 							filter((event: { status: string }) => {
