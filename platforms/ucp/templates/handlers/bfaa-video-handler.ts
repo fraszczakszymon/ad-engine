@@ -29,21 +29,17 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 		if (!universalAdPackage.isVideoEnabled(this.params)) {
 			return;
 		}
-		this.adSlot.addClass('theme-hivi'); // Required by replay-overlay
 		const params = { ...this.params };
-
-		params.vastTargeting = { passback: universalAdPackage.getType() };
-
 		const isResolvedState = !resolvedState.isResolvedState(this.params);
 		const defaultStateAutoPlay = params.autoPlay && !isResolvedState;
 		const resolvedStateAutoPlay = params.resolvedStateAutoPlay && isResolvedState;
-
-		params.autoPlay = Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
-
 		const playerContainer = Porvata.createVideoContainer(this.adSlot.getElement());
-		playerContainer.parentElement.classList.add('hide');
 
+		playerContainer.parentElement.classList.add('hide');
+		this.adSlot.addClass('theme-hivi'); // Required by replay-overlay
 		this.context.video = utils.createExtendedPromise<Porvata4Player>();
+		params.autoPlay = Boolean(defaultStateAutoPlay || resolvedStateAutoPlay);
+		params.vastTargeting = { passback: universalAdPackage.getType() };
 
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
 			this.context.video.resolve(video);
