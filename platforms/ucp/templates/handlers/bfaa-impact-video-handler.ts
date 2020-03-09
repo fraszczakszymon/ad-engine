@@ -10,7 +10,7 @@ import {
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
 import { from, fromEvent, merge, Observable, Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { BfaaVideoHelper } from '../helpers/bfaa-video-helper';
 import { BfaaContext } from './bfaa-context';
 
@@ -36,6 +36,7 @@ export class BfaaImpactVideoHandler implements TemplateStateHandler {
 			video$ = from(this.context.video);
 			video$
 				.pipe(
+					take(1),
 					tap((video) => this.helper.setVideoImpactSize(video)),
 					switchMap((video) => {
 						return merge(this.domListener.scroll$, this.domListener.resize$).pipe(
