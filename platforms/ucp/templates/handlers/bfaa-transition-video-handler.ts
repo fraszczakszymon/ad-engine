@@ -4,7 +4,6 @@ import {
 	Porvata4Player,
 	TEMPLATE,
 	TemplateStateHandler,
-	TemplateTransition,
 	UapParams,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
@@ -27,7 +26,7 @@ export class BfaaTransitionVideoHandler implements TemplateStateHandler {
 		this.helper = new BfaaVideoHelper(this.manipulator, this.params, this.adSlot);
 	}
 
-	async onEnter(transition: TemplateTransition<'transition'>): Promise<void> {
+	async onEnter(): Promise<void> {
 		let video$: Observable<Porvata4Player>;
 
 		if (this.context.video) {
