@@ -7,14 +7,10 @@ import {
 	slotService,
 	utils,
 } from '@ad-engine/core';
-import { throttle } from 'lodash';
 import { filter, take } from 'rxjs/operators';
 import { action, props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
-import { Porvata, PorvataPlayer } from '../../video/player/porvata/porvata';
 import * as constants from '../constants';
-import * as videoUserInterface from '../interface/video';
-import { UapVideoSettings } from './uap-video-settings';
 
 let uapCreativeId = constants.DEFAULT_UAP_ID;
 let uapId = constants.DEFAULT_UAP_ID;
@@ -98,103 +94,8 @@ export interface UapParams {
 }
 
 export const uapLoadStatus = action('[AdEngine] UAP Load status', props<{ isLoaded: boolean }>());
-
-function getVideoSize(
-	slot: HTMLElement,
-	params: UapParams,
-	videoSettings: UapVideoSettings,
-): VideoSize {
-	const width: number = videoSettings.isSplitLayout()
-		? params.videoPlaceholderElement.offsetWidth
-		: slot.clientWidth;
-	const height = width / params.videoAspectRatio;
-
-	return {
-		width,
-		height,
-	};
-}
-
-function adjustVideoAdContainer(params: UapParams): void {
-	if (params.splitLayoutVideoPosition) {
-		const videoAdContainer = params.container.querySelector('.video-player');
-
-		videoAdContainer.classList.add(`video-player-${params.splitLayoutVideoPosition}`);
-	}
-}
-
-async function loadPorvata(videoSettings, slotContainer, imageContainer): Promise<PorvataPlayer> {
-	const params = videoSettings.getParams();
-	const template = videoUserInterface.selectTemplate(videoSettings);
-
-	params.autoPlay = videoSettings.isAutoPlay();
-	videoSettings.updateParams(params);
-
-	const video = await Porvata.inject(params);
-
-	video.container.style.position = 'relative';
-	videoUserInterface.setup(video, video.container, template, {
-		autoPlay: videoSettings.isAutoPlay(),
-		image: imageContainer,
-		container: slotContainer,
-		thumbnail: params.thumbnail,
-		clickThroughURL: params.clickThroughURL,
-		aspectRatio: params.aspectRatio,
-		videoAspectRatio: params.videoAspectRatio,
-		hideWhenPlaying: params.videoPlaceholderElement || params.image,
-		splitLayoutVideoPosition: params.splitLayoutVideoPosition,
-	});
-
-	video.addEventListener('wikiaAdCompleted', () => {
-		video.reload();
-	});
-
-	adjustVideoAdContainer(params);
-
-	return video;
-}
-
-async function loadVideoAd(videoSettings: UapVideoSettings): Promise<PorvataPlayer> {
-	const params = videoSettings.getParams();
-	const imageContainer: HTMLElement = params.container.querySelector('div:last-of-type');
-	const size: VideoSize = getVideoSize(params.container, params, videoSettings);
-
-	params.vastTargeting = {
-		passback: getType(),
-	};
-	params.width = size.width;
-	params.height = size.height;
-	videoSettings.updateParams(params);
-
-	function recalculateVideoSize(video): () => void {
-		return () => {
-			const currentSize = getVideoSize(params.container, params, videoSettings);
-
-			video.resize(currentSize.width, currentSize.height);
-		};
-	}
-
-	const video: PorvataPlayer = await loadPorvata(videoSettings, params.container, imageContainer);
-
-	window.addEventListener('resize', throttle(recalculateVideoSize(video), 250));
-
-	if (params.videoTriggerElement) {
-		params.videoTriggerElement.addEventListener('click', () => video.play());
-	} else if (params.videoTriggers) {
-		params.videoTriggers.forEach((trigger) => {
-			trigger.addEventListener('click', () => video.play());
-		});
-	}
-
-	return video;
-}
-
 function getUapId(): string {
 	return uapId;
-}
-
-function getCreativeId(): string {
-	return uapCreativeId;
 }
 
 function setIds(lineItemId, creativeId): void {
@@ -252,12 +153,6 @@ function initSlot(params: UapParams): void {
 		params.container.classList.add('is-mobile-device');
 	}
 }
-
-function reset(): void {
-	setType(constants.DEFAULT_UAP_TYPE);
-	setIds(constants.DEFAULT_UAP_ID, constants.DEFAULT_UAP_ID);
-}
-
 function isFanTakeoverLoaded(): boolean {
 	return (
 		getUapId() !== constants.DEFAULT_UAP_ID &&
@@ -306,9 +201,7 @@ export const universalAdPackage = {
 			initSlot(params);
 		}
 	},
-	initSlot,
 	isFanTakeoverLoaded,
-	getCreativeId,
 	getType,
 	getUapId,
 	isVideoEnabled(params) {
@@ -317,8 +210,5 @@ export const universalAdPackage = {
 
 		return !!params.videoAspectRatio && (params.videoPlaceholderElement || triggersArrayIsNotEmpty);
 	},
-	loadVideoAd,
-	reset,
-	setType,
 	uapLoadStatus,
 };
