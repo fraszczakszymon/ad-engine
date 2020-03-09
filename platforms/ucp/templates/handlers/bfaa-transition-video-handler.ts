@@ -33,8 +33,8 @@ export class BfaaTransitionVideoHandler implements TemplateStateHandler {
 			video$ = from(this.context.video);
 			video$
 				.pipe(
-					takeUntil(this.unsubscribe$),
 					tap((video) => this.helper.setVideoResolvedSize(video)),
+					takeUntil(this.unsubscribe$),
 				)
 				.subscribe();
 		}

@@ -46,8 +46,8 @@ export class BfaaResolvedVideoHandler implements TemplateStateHandler {
 
 			video$
 				.pipe(
-					takeUntil(this.unsubscribe$),
 					tap((video) => this.helper.setVideoResolvedSize(video)),
+					takeUntil(this.unsubscribe$),
 				)
 				.subscribe();
 		}
