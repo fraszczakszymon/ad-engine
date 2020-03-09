@@ -12,8 +12,8 @@ import { filter, take } from 'rxjs/operators';
 import { action, props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
 import { Porvata, PorvataPlayer } from '../../video/player/porvata/porvata';
+import * as constants from '../constants';
 import * as videoUserInterface from '../interface/video';
-import * as constants from './constants';
 import { UapVideoSettings } from './uap-video-settings';
 
 let uapCreativeId = constants.DEFAULT_UAP_ID;

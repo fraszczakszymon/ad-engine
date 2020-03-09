@@ -1,5 +1,5 @@
 import { Dictionary } from '@ad-engine/core';
-import { CSS_CLASSNAME_BFAA_PINNED } from '../templates/uap/constants';
+import { CSS_CLASSNAME_BFAA_PINNED } from '../templates/constants';
 
 // CHANGE-CANDIDATE: this method looks like it does not belong in ad-engine
 export function setupNavbar(config, container: HTMLElement): void {
