@@ -9,6 +9,7 @@ import {
 	TemplateTransition,
 	UapParams,
 	universalAdPackage,
+	utils,
 	videoUIElements,
 } from '@wikia/ad-engine';
 import { Inject, Injectable } from '@wikia/dependency-injection';
@@ -39,14 +40,10 @@ export class BfaaVideoHandler implements TemplateStateHandler {
 		const playerContainer = Porvata.createVideoContainer(this.adSlot.getElement());
 		playerContainer.parentElement.classList.add('hide');
 
-		let videoLoaded: (player: Porvata4Player) => void;
-
-		this.context.video = new Promise<Porvata4Player>((res) => {
-			videoLoaded = res;
-		});
+		this.context.video = utils.createExtendedPromise<Porvata4Player>();
 
 		Porvata.inject({ ...params, container: playerContainer }).then((video) => {
-			videoLoaded(video);
+			this.context.video.resolve(video);
 
 			const started$ = fromEvent(video, 'wikiaAdStarted');
 
