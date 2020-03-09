@@ -23,7 +23,6 @@ export * from './bidders/common-bidders-state.setup';
 export * from './setup/_dynamic-slots.setup';
 export * from './dynamic-slots/curse-uap.setup';
 export * from './setup/_templates.setup';
-export * from './templates/sports-templates.setup';
 export * from './setup/_tracking.setup';
 export * from './tracking/common-tracking.setup';
 export * from './modes/no-ads/_no-ads.mode';
