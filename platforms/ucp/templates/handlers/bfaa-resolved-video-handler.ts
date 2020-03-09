@@ -35,6 +35,7 @@ export class BfaaResolvedVideoHandler implements TemplateStateHandler {
 			video$ = from(this.context.video);
 			video$
 				.pipe(
+					take(1),
 					switchMap((video) => {
 						return this.domListener.resize$.pipe(
 							tap(() => this.helper.setVideoResolvedSize(video)),
