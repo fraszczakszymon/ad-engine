@@ -12,6 +12,10 @@ const communicator = new Communicator();
 communicator.actions$.subscribe((action) => console.log('** ad-engine', action));
 communicator.dispatch({ type: 'ad-engine test' });
 
+setTimeout(() => {
+	communicator.dispatch({ type: 'ad-engine test 2' });
+}, 3000);
+
 // @ts-ignore
 window.guaTrackEvent = (...args) => {
 	console.log(`🛤 Custom tracker: ${args}`);
