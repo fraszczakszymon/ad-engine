@@ -197,11 +197,12 @@ export interface JWPlayerEventParams {
 	adCompanions: AdCompanionsParam;
 	adComplete: AdProgressParam;
 	adSkipped: AdProgressParam;
-	adError: AdErrorParam & JWPlayerEvent;
+	adError: AdErrorParam & JWPlayerEvent & { code: number };
 	adRequest: AdRequestParam & JWPlayerEvent;
 	adSchedule: AdScheduleParam;
 	adStarted: AdStartedParam;
 	adImpression: AdImpressionParam & JWPlayerEvent;
+	adViewableImpression: JWPlayerEvent;
 	adPlay: AdPlayParam;
 	adPause: AdPlayParam;
 	adTime: AdTimeParam;
@@ -244,11 +245,16 @@ export type JWPlayerNoParamEvent =
 	| 'displayClick'
 	| 'playlistComplete'
 	| 'seeked'
-	| 'remove';
+	| 'remove'
+	| 'videoStart'
+	| 'adFirstQuartile'
+	| 'adMidPoint'
+	| 'adThirdQuartile';
 
 export interface JWPlayer {
 	getMute(): boolean;
 	getPlaylist(): JWPlayerListItem[];
+	getPlaylistIndex(): number;
 	getPlaylistItem(index?: number): JWPlayerListItem;
 	getContainer(): HTMLElement;
 	on<TEvent extends keyof JWPlayerEventParams>(
