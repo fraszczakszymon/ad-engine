@@ -208,7 +208,7 @@ export class PrebidProvider extends BidderProvider {
 		const pbjs: Pbjs = await pbjsFactory.init();
 
 		const trackBid = (response) => {
-			eventService.emit(events.BIDS_RESPONSE, this.mapResponseToCommonBidDefinition(response));
+			eventService.emit(events.BIDS_RESPONSE, this.mapResponseToTrackingBidDefinition(response));
 		};
 
 		pbjs.onEvent('bidResponse', trackBid);
@@ -217,7 +217,7 @@ export class PrebidProvider extends BidderProvider {
 		});
 	}
 
-	private mapResponseToCommonBidDefinition(response: PrebidBidResponse): TrackingBidDefinition {
+	private mapResponseToTrackingBidDefinition(response: PrebidBidResponse): TrackingBidDefinition {
 		return {
 			bidderName: response.bidderCode,
 			price: response.cpm.toString(),

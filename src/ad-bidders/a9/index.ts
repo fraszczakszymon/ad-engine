@@ -149,7 +149,7 @@ export class A9Provider extends BidderProvider {
 
 				eventService.emit(
 					events.BIDS_RESPONSE,
-					this.mapResponseToCommonBidDefinition(
+					this.mapResponseToTrackingBidDefinition(
 						bid.slotID,
 						bidTargeting,
 						currentTimestamp,
@@ -166,7 +166,7 @@ export class A9Provider extends BidderProvider {
 		}
 	}
 
-	private mapResponseToCommonBidDefinition(
+	private mapResponseToTrackingBidDefinition(
 		slotName: string,
 		bid: Dictionary,
 		responseTimestamp: number,
