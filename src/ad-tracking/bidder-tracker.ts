@@ -1,8 +1,8 @@
 import { context, events, eventService, utils } from '@ad-engine/core';
-import { CommonBidDefinition } from '../bid';
+import { TrackingBidDefinition } from './tracking-bid';
 
 export interface AdBidderContext {
-	bid: CommonBidDefinition;
+	bid: TrackingBidDefinition;
 	data: any;
 }
 
@@ -24,7 +24,7 @@ class BidderTracker {
 			return;
 		}
 
-		eventService.on(events.BIDS_RESPONSE, (bid: CommonBidDefinition) => {
+		eventService.on(events.BIDS_RESPONSE, (bid: TrackingBidDefinition) => {
 			this.middlewareService.execute(
 				{
 					bid,

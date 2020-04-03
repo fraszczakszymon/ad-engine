@@ -1,4 +1,4 @@
-export interface CommonBidDefinition {
+export interface TrackingBidDefinition {
 	bidderName: string;
 	buyerId?: string;
 	price: string;

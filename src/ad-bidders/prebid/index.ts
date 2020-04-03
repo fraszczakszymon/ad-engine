@@ -9,7 +9,7 @@ import {
 	slotService,
 	utils,
 } from '@ad-engine/core';
-import { CommonBidDefinition } from '../bid';
+import { TrackingBidDefinition } from '@ad-engine/tracking';
 import { BidderConfig, BidderProvider, BidsRefreshing } from '../bidder-provider';
 import { Cmp, cmp } from '../wrappers';
 import { adaptersRegistry } from './adapters-registry';
@@ -217,7 +217,7 @@ export class PrebidProvider extends BidderProvider {
 		});
 	}
 
-	private mapResponseToCommonBidDefinition(response: PrebidBidResponse): CommonBidDefinition {
+	private mapResponseToCommonBidDefinition(response: PrebidBidResponse): TrackingBidDefinition {
 		return {
 			bidderName: response.bidderCode,
 			price: response.cpm.toString(),

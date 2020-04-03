@@ -9,7 +9,7 @@ import {
 	slotService,
 	utils,
 } from '@ad-engine/core';
-import { CommonBidDefinition } from '../bid';
+import { TrackingBidDefinition } from '@ad-engine/tracking';
 import { BidderProvider, BidsRefreshing } from '../bidder-provider';
 import { Apstag, Cmp, cmp, Usp, usp } from '../wrappers';
 import {
@@ -171,7 +171,7 @@ export class A9Provider extends BidderProvider {
 		bid: Dictionary,
 		responseTimestamp: number,
 		timeToRespond: number,
-	): CommonBidDefinition {
+	): TrackingBidDefinition {
 		return {
 			responseTimestamp,
 			slotName,
