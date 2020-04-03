@@ -9,6 +9,7 @@ import {
 	slotService,
 	utils,
 } from '@ad-engine/core';
+import { CommonBidDefinition } from '../bid';
 import { BidderProvider, BidsRefreshing } from '../bidder-provider';
 import { Apstag, Cmp, cmp, Usp, usp } from '../wrappers';
 import {
@@ -132,17 +133,29 @@ export class A9Provider extends BidderProvider {
 			return;
 		}
 
+		const startTime = new Date().getTime();
 		const currentBids: A9Bid[] = await this.apstag.fetchBids({ slots, timeout: this.timeout });
 
 		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
 		this.addApstagRenderImpHookOnFirstFetch();
 
+		const currentTimestamp: number = new Date().getTime();
 		await Promise.all(
 			currentBids.map(async (bid) => {
 				const slotName: string = bid.slotID;
 				const { keys, bidTargeting } = await this.getBidTargetingWithKeys(bid);
 
 				this.updateBidSlot(slotName, keys, bidTargeting);
+
+				eventService.emit(
+					events.BIDS_RESPONSE,
+					this.mapResponseToCommonBidDefinition(
+						bid.slotID,
+						bidTargeting,
+						currentTimestamp,
+						currentTimestamp - startTime,
+					),
+				);
 			}),
 		);
 
@@ -151,6 +164,23 @@ export class A9Provider extends BidderProvider {
 		if (refresh) {
 			eventService.emit(events.BIDS_REFRESH);
 		}
+	}
+
+	private mapResponseToCommonBidDefinition(
+		slotName: string,
+		bid: Dictionary,
+		responseTimestamp: number,
+		timeToRespond: number,
+	): CommonBidDefinition {
+		return {
+			responseTimestamp,
+			slotName,
+			timeToRespond,
+			bidderName: 'a9',
+			buyerId: bid.amznp,
+			price: bid.amznbid,
+			size: bid.amznsz,
+		};
 	}
 
 	private addApstagRenderImpHookOnFirstFetch(): void {
@@ -250,7 +280,7 @@ export class A9Provider extends BidderProvider {
 		let keys: string[] = await this.apstag.targetingKeys();
 
 		if (this.bidderConfig.dealsEnabled) {
-			keys = await bid.helpers.targetingKeys;
+			keys = bid.helpers.targetingKeys;
 			bidTargeting = bid.targeting;
 		}
 

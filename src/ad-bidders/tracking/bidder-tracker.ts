@@ -1,7 +1,8 @@
 import { context, events, eventService, utils } from '@ad-engine/core';
+import { CommonBidDefinition } from '../bid';
 
 export interface AdBidderContext {
-	bid: PrebidBidResponse;
+	bid: CommonBidDefinition;
 	data: any;
 }
 
@@ -23,7 +24,7 @@ class BidderTracker {
 			return;
 		}
 
-		eventService.on(events.BIDS_RESPONSE, (bid: PrebidBidResponse) => {
+		eventService.on(events.BIDS_RESPONSE, (bid: CommonBidDefinition) => {
 			this.middlewareService.execute(
 				{
 					bid,
