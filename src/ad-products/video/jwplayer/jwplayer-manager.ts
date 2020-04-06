@@ -3,19 +3,18 @@ import { Communicator } from '@wikia/post-quecast';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ofType } from 'ts-action-operators';
-import { JWPlayerTracker } from '../../tracking/video/jwplayer-tracker';
 import { iasVideoTracker } from '../player/porvata/ias/ias-video-tracker';
 import { JWPlayer } from './external-types/jwplayer';
+import { JWPlayerHelper } from './helpers/jwplayer-helper';
+import { JWPlayerTrackingHelper } from './helpers/jwplayer-tracking-helper';
 import { JwPlayerAdsFactoryOptions, jwpReady, VideoTargeting } from './jwplayer-actions';
 import { JWPlayerHandler } from './jwplayer-handler';
-import { JWPlayerHelper } from './jwplayer-helper';
-import { createJWPlayerStreams } from './jwplayer-streams';
+import { createJwpStream } from './streams/jwplayer-stream';
 
 interface PlayerReadyResult {
-	player: JWPlayer;
+	jwplayer: JWPlayer;
 	adSlot: AdSlot;
-	tracker: JWPlayerTracker;
-	slotTargeting: VideoTargeting;
+	targeting: VideoTargeting;
 }
 
 export class JWPlayerManager {
@@ -24,7 +23,7 @@ export class JWPlayerManager {
 	manage(): void {
 		this.onPlayerReady()
 			.pipe(
-				map((result) => this.createJWPlayerAd(result)),
+				map((result) => this.createJWPlayerHandler(result)),
 				mergeMap((handler) => handler.handle()),
 			)
 			.subscribe();
@@ -38,25 +37,22 @@ export class JWPlayerManager {
 				this.loadIasTrackerIfEnabled();
 			}),
 			map(({ options, targeting, playerKey }) => {
-				const player: JWPlayer = window[playerKey];
-				const adSlot = this.createAdSlot(options, player);
-				const tracker = this.createTracker(options, adSlot);
+				const jwplayer: JWPlayer = window[playerKey];
+				const adSlot = this.createAdSlot(options, jwplayer);
 
-				tracker.register(player); // TODO: need to handle it separately
-
-				return { player, adSlot, tracker, slotTargeting: targeting };
+				return { jwplayer, adSlot, targeting };
 			}),
 		);
 	}
 
-	private createAdSlot(options: JwPlayerAdsFactoryOptions, player: JWPlayer): AdSlot {
+	private createAdSlot(options: JwPlayerAdsFactoryOptions, jwplayer: JWPlayer): AdSlot {
 		const slotName = options.slotName || (options.featured ? 'featured' : 'video');
 		const adSlot = slotService.get(slotName) || new AdSlot({ id: slotName });
-		const videoElement = player && player.getContainer && player.getContainer();
+		const videoElement = jwplayer && jwplayer.getContainer && jwplayer.getContainer();
 
 		adSlot.element = videoElement && (videoElement.parentNode as HTMLElement);
-		adSlot.setConfigProperty('audio', !player.getMute());
-		adSlot.setConfigProperty('autoplay', player.getConfig().autostart);
+		adSlot.setConfigProperty('audio', !jwplayer.getMute());
+		adSlot.setConfigProperty('autoplay', jwplayer.getConfig().autostart);
 
 		if (!slotService.get(slotName)) {
 			slotService.add(adSlot);
@@ -65,26 +61,16 @@ export class JWPlayerManager {
 		return adSlot;
 	}
 
-	private createTracker(options: JwPlayerAdsFactoryOptions, adSlot: AdSlot): JWPlayerTracker {
-		return new JWPlayerTracker({
-			slotName: adSlot.config.slotName,
-			adProduct: adSlot.config.trackingKey,
-			audio: options.audio,
-			ctp: !options.autoplay,
-			videoId: options.videoId,
-		});
-	}
-
-	private createJWPlayerAd({
-		player,
+	private createJWPlayerHandler({
+		jwplayer,
 		adSlot,
-		tracker,
-		slotTargeting,
+		targeting,
 	}: PlayerReadyResult): JWPlayerHandler {
-		const streams = createJWPlayerStreams(player);
-		const helper = new JWPlayerHelper(adSlot, tracker, slotTargeting, player);
+		const stream$ = createJwpStream(jwplayer);
+		const tracker = new JWPlayerTrackingHelper(adSlot);
+		const helper = new JWPlayerHelper(adSlot, jwplayer, targeting);
 
-		return new JWPlayerHandler(streams, helper);
+		return new JWPlayerHandler(stream$, helper, tracker);
 	}
 
 	private loadMoatPlugin(): void {

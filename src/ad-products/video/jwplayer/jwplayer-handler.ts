@@ -1,8 +1,9 @@
 import { utils } from '@ad-engine/core';
 import { merge, Observable } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { JWPlayerHelper } from './jwplayer-helper';
-import { JWPlayerStreams } from './jwplayer-streams';
+import { JWPlayerHelper } from './helpers/jwplayer-helper';
+import { JWPlayerTrackingHelper } from './helpers/jwplayer-tracking-helper';
+import { JwpStream, ofJwpEvent } from './streams/jwplayer-stream';
 
 const log = (...args) => utils.logger('jwplayer-ads-factory', ...args);
 
@@ -10,91 +11,99 @@ const log = (...args) => utils.logger('jwplayer-ads-factory', ...args);
  * Describes what is done
  */
 export class JWPlayerHandler {
-	constructor(private streams: JWPlayerStreams, private helper: JWPlayerHelper) {}
+	constructor(
+		private stream$: JwpStream,
+		private helper: JWPlayerHelper,
+		private tracker: JWPlayerTrackingHelper,
+	) {}
 
 	handle(): Observable<any> {
 		return merge(
 			this.adError(),
 			this.adRequest(),
 			this.adImpression(),
-			this.adBlock(),
 			this.adsManager(),
 			this.beforePlay(),
 			this.videoMidPoint(),
 			this.beforeComplete(),
-			this.complete(),
+			this.track(),
 		);
 	}
 
 	private adError(): Observable<any> {
-		return this.streams.adError$.pipe(
-			tap(({ event, vastParams }) => {
-				log(`ad error message: ${event.message}`);
-				this.helper.setSlotParams(vastParams);
-				this.helper.setSlotElementAttributes(vastParams);
-				this.helper.emitVideoAdError(event.adErrorCode);
+		return this.stream$.pipe(
+			ofJwpEvent('adError'),
+			tap(({ payload, state }) => {
+				log(`ad error message: ${payload.message}`);
+				this.helper.setSlotParams(state.vastParams);
+				this.helper.setSlotElementAttributes(state.vastParams);
+				this.helper.emitVideoAdError(payload.adErrorCode);
 			}),
 		);
 	}
 
 	private adRequest(): Observable<any> {
-		return this.streams.adRequest$.pipe(
-			tap(({ vastParams }) => {
-				this.helper.setSlotElementAttributes(vastParams);
+		return this.stream$.pipe(
+			ofJwpEvent('adRequest'),
+			tap(({ state }) => {
+				this.helper.setSlotElementAttributes(state.vastParams);
 				this.helper.emitVideoAdRequest();
 			}),
 		);
 	}
 
 	private adImpression(): Observable<any> {
-		return this.streams.adImpression$.pipe(
-			tap(({ vastParams }) => {
-				this.helper.setSlotParams(vastParams);
+		return this.stream$.pipe(
+			ofJwpEvent('adImpression'),
+			tap(({ state }) => {
+				this.helper.setSlotParams(state.vastParams);
 				this.helper.emitVideoAdImpression();
 			}),
 			filter(() => this.helper.isMoatTrackingEnabled()),
-			tap(({ event }) => this.helper.trackMoat(event)),
+			tap(({ payload }) => this.helper.trackMoat(payload)),
 		);
 	}
 
-	private adBlock(): Observable<any> {
-		return this.streams.adBlock$.pipe(tap(() => this.helper.resetTrackerAdProduct()));
-	}
-
 	private adsManager(): Observable<any> {
-		return this.streams.adsManager$.pipe(
+		return this.stream$.pipe(
+			ofJwpEvent('adsManager'),
 			filter(() => this.helper.isIasTrackingEnabled()),
 			tap((event) => this.helper.initIasVideoTracking(event)),
 		);
 	}
 
 	private beforePlay(): Observable<any> {
-		return this.streams.beforePlay$.pipe(
-			tap(({ depth }) => {
-				this.helper.updateVideoId();
-				this.helper.updateVideoDepth(depth);
+		return this.stream$.pipe(
+			ofJwpEvent('beforePlay'),
+			tap(({ state }) => {
+				this.helper.updateVideoDepth(state.depth);
 			}),
-			filter(({ depth }) => this.helper.shouldPlayPreroll(depth)),
+			filter(({ state }) => this.helper.shouldPlayPreroll(state.depth)),
 			mergeMap((payload) => this.helper.awaitIasTracking(payload)),
-			tap(({ depth, correlator }) => this.helper.playVideoAd('preroll', depth, correlator)),
+			tap(({ state }) => this.helper.playVideoAd('preroll', state)),
 		);
 	}
 
 	private videoMidPoint(): Observable<any> {
-		return this.streams.videoMidPoint$.pipe(
-			filter(({ depth }) => this.helper.shouldPlayMidroll(depth)),
-			tap(({ depth, correlator }) => this.helper.playVideoAd('midroll', depth, correlator)),
+		return this.stream$.pipe(
+			ofJwpEvent('videoMidPoint'),
+			filter(({ state }) => this.helper.shouldPlayMidroll(state.depth)),
+			tap(({ state }) => this.helper.playVideoAd('midroll', state)),
 		);
 	}
 
 	private beforeComplete(): Observable<any> {
-		return this.streams.beforeComplete$.pipe(
-			filter(({ depth }) => this.helper.shouldPlayPostroll(depth)),
-			tap(({ depth, correlator }) => this.helper.playVideoAd('postroll', depth, correlator)),
+		return this.stream$.pipe(
+			ofJwpEvent('beforeComplete'),
+			filter(({ state }) => this.helper.shouldPlayPostroll(state.depth)),
+			tap(({ state }) => this.helper.playVideoAd('postroll', state)),
 		);
 	}
 
-	private complete(): Observable<any> {
-		return this.streams.complete$.pipe(tap(() => this.helper.resetTrackerAdProduct()));
+	private track(): Observable<any> {
+		return this.stream$.pipe(
+			filter((event) => this.tracker.isTrackingEvent(event)),
+			tap((event) => this.tracker.track(event)),
+		);
 	}
 }
