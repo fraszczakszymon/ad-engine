@@ -7,7 +7,7 @@ import { UapDomManager } from '../../helpers/uap-dom-manager';
 import { UapDomReader } from '../../helpers/uap-dom-reader';
 
 @Injectable({ autobind: false })
-export class BfaaImpactHandler implements TemplateStateHandler {
+export class SlotStickyHandler implements TemplateStateHandler {
 	private unsubscribe$ = new Subject<void>();
 
 	constructor(
@@ -19,37 +19,26 @@ export class BfaaImpactHandler implements TemplateStateHandler {
 	) {}
 
 	async onEnter(): Promise<void> {
-		this.manager.setImpactImage();
+		this.manager.setResolvedImage();
 		this.domListener.resize$
 			.pipe(
 				startWith({}),
 				tap(() => {
-					this.manager.setDynamicImpactAdHeight();
+					this.manager.setResolvedAdHeight();
 					this.manager.setAdFixedPosition();
 					this.manager.setNavbarFixedPosition();
-					this.setImpactBodyPadding();
-				}),
-				takeUntil(this.unsubscribe$),
-			)
-			.subscribe();
-
-		this.domListener.scroll$
-			.pipe(
-				startWith({}),
-				tap(() => {
-					this.manager.setDynamicImpactAdHeight();
-					this.manager.setAdFixedPosition();
-					this.manager.setNavbarFixedPosition();
+					this.setStickyBodyPadding();
 				}),
 				takeUntil(this.unsubscribe$),
 			)
 			.subscribe();
 	}
 
-	private setImpactBodyPadding(): void {
-		this.manipulator
-			.element(document.body)
-			.setProperty('paddingTop', `${this.reader.getImpactAdHeight() + this.navbar.offsetHeight}px`);
+	private setStickyBodyPadding(): void {
+		const adHeight = this.reader.getResolvedAdHeight();
+		const adAndNavHeight = adHeight + this.navbar.offsetHeight;
+
+		this.manipulator.element(document.body).setProperty('paddingTop', `${adAndNavHeight}px`);
 	}
 
 	async onLeave(): Promise<void> {
