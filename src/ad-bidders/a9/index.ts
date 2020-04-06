@@ -135,11 +135,11 @@ export class A9Provider extends BidderProvider {
 
 		const startTime = new Date().getTime();
 		const currentBids: A9Bid[] = await this.apstag.fetchBids({ slots, timeout: this.timeout });
+		const endTime: number = new Date().getTime();
 
 		utils.logger(logGroup, 'bids fetched for slots', slots, 'bids', currentBids);
 		this.addApstagRenderImpHookOnFirstFetch();
 
-		const currentTimestamp: number = new Date().getTime();
 		await Promise.all(
 			currentBids.map(async (bid) => {
 				const slotName: string = bid.slotID;
@@ -152,8 +152,8 @@ export class A9Provider extends BidderProvider {
 					this.mapResponseToTrackingBidDefinition(
 						bid.slotID,
 						bidTargeting,
-						currentTimestamp,
-						currentTimestamp - startTime,
+						endTime,
+						endTime - startTime,
 					),
 				);
 			}),
