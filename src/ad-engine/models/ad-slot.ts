@@ -88,6 +88,7 @@ export class AdSlot extends EventEmitter {
 	static STATUS_BLOCKED = 'blocked';
 	static STATUS_COLLAPSE = 'collapse';
 	static STATUS_FORCED_COLLAPSE = 'forced_collapse';
+	static STATUS_FORCE_UNSTICK = 'force-unstick';
 	static STATUS_ERROR = 'error';
 	static STATUS_SUCCESS = 'success';
 	static STATUS_VIEWPORT_CONFLICT = 'viewport-conflict';
@@ -100,6 +101,7 @@ export class AdSlot extends EventEmitter {
 	static TEMPLATES_LOADED = 'Templates Loaded';
 
 	private slotViewed = false;
+	private slotDismissed = false;
 
 	config: SlotConfig;
 	element: null | HTMLElement = null;
@@ -310,6 +312,10 @@ export class AdSlot extends EventEmitter {
 
 	isViewed(): boolean {
 		return this.slotViewed;
+	}
+
+	isDismissed(): boolean {
+		return this.slotDismissed;
 	}
 
 	isRepeatable(): boolean {
@@ -523,6 +529,10 @@ export class AdSlot extends EventEmitter {
 	emitEvent(eventName: null | string = null): void {
 		if (eventName !== null) {
 			this.emit(AdSlot.CUSTOM_EVENT, { status: eventName });
+		}
+
+		if (eventName === AdSlot.STATUS_FORCE_UNSTICK) {
+			this.slotDismissed = true;
 		}
 	}
 
