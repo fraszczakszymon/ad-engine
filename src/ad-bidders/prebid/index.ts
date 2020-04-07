@@ -6,10 +6,10 @@ import {
 	events,
 	eventService,
 	pbjsFactory,
-	slotService,
 	utils,
 } from '@ad-engine/core';
 import { TrackingBidDefinition } from '@ad-engine/tracking';
+import { getSlotNameByBidderAlias } from '../alias-helper';
 import { BidderConfig, BidderProvider, BidsRefreshing } from '../bidder-provider';
 import { Cmp, cmp } from '../wrappers';
 import { adaptersRegistry } from './adapters-registry';
@@ -222,30 +222,10 @@ export class PrebidProvider extends BidderProvider {
 			bidderName: response.bidderCode,
 			price: response.cpm.toString(),
 			responseTimestamp: response.responseTimestamp,
-			slotName: this.getSlotNameByBidderId(response.adUnitCode),
+			slotName: getSlotNameByBidderAlias(response.adUnitCode),
 			size: response.size,
 			timeToRespond: response.timeToRespond,
 		};
-	}
-
-	private getSlotNameByBidderId(id: string): string {
-		let slotName = id;
-
-		if (Object.entries(context.get(`slots.${slotName}`) || {}).length === 0) {
-			slotName = this.getSlotNamesByBidderAlias(id).shift();
-
-			if (!slotName) {
-				return '';
-			}
-		}
-
-		return slotName;
-	}
-
-	private getSlotNamesByBidderAlias(alias: string): string[] {
-		return Object.entries(slotService.slotConfigsMap)
-			.filter(([name, config]) => config.bidderAlias === alias)
-			.map(([name, config]) => name);
 	}
 
 	async requestBids(

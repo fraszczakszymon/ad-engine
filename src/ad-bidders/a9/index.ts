@@ -10,6 +10,7 @@ import {
 	utils,
 } from '@ad-engine/core';
 import { TrackingBidDefinition } from '@ad-engine/tracking';
+import { getSlotNameByBidderAlias } from '../alias-helper';
 import { BidderProvider, BidsRefreshing } from '../bidder-provider';
 import { Apstag, Cmp, cmp, Usp, usp } from '../wrappers';
 import {
@@ -174,12 +175,12 @@ export class A9Provider extends BidderProvider {
 	): TrackingBidDefinition {
 		return {
 			responseTimestamp,
-			slotName,
 			timeToRespond,
 			bidderName: 'a9',
 			buyerId: bid.amznp,
 			price: bid.amznbid,
 			size: bid.amznsz,
+			slotName: getSlotNameByBidderAlias(slotName),
 		};
 	}
 
