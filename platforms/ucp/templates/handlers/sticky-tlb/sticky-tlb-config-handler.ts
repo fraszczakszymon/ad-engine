@@ -1,6 +1,5 @@
 import {
 	AdSlot,
-	slotService,
 	TEMPLATE,
 	TemplateStateHandler,
 	TemplateTransition,
@@ -19,8 +18,6 @@ export class StickyTlbConfigHandler implements TemplateStateHandler {
 		this.adSlot.loaded.then(() => {
 			this.adSlot.emitEvent(universalAdPackage.SLOT_STICKY_READY_STATE);
 		});
-
-		slotService.disable('incontent_player', 'hivi-collapse');
 
 		document.body.classList.add('has-bfaa');
 		this.adSlot.addClass('expanded-slot');
