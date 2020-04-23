@@ -1,4 +1,4 @@
-import { Middleware } from './middleware';
+import { Middleware } from './middleware-types';
 import { PipelineAdapter, PipelineNext } from './pipeline-types';
 
 export class PipelineMiddlewareAdapter<TPayload>

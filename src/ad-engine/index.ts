@@ -13,4 +13,6 @@ export * from './services';
 export * from './tracking';
 export * from './video';
 export * from './pipeline/middleware';
+export { PipelineAdapter } from './pipeline/pipeline-types';
+export { Middleware } from './pipeline/middleware-types';
 export { utils };
