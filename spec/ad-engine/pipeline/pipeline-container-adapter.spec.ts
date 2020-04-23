@@ -28,7 +28,7 @@ describe('PipelineContainerAdapter', () => {
 	it('should execute step and return final value', async () => {
 		const container = new Container();
 		const adapter = new PipelineContainerAdapter<{ number: number }>(container);
-		const result = await adapter.adapt(ExampleStep, { number: 10 }, nextMock);
+		const result = await adapter.execute(ExampleStep, { number: 10 }, nextMock);
 
 		expect(result).to.deep.equal({ number: 11 }, 'a');
 		expect(nextMock.calledOnce).to.equal(true, 'b');

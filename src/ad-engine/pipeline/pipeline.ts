@@ -20,7 +20,7 @@ export class Pipeline<TStep, TPayload = void> {
 	private createExecutor(): PipelineNext<TPayload> {
 		return this.steps.reduceRight<PipelineNext<TPayload>>(
 			(next: PipelineNext<TPayload>, step: TStep) => (payload: TPayload) =>
-				this.adapter.adapt(step, payload, next),
+				this.adapter.execute(step, payload, next),
 			async (payload: TPayload) => payload,
 		);
 	}

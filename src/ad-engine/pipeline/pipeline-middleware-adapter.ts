@@ -3,7 +3,7 @@ import { PipelineAdapter, PipelineNext } from './pipeline-types';
 
 export class PipelineMiddlewareAdapter<TPayload>
 	implements PipelineAdapter<Middleware<TPayload>, TPayload> {
-	async adapt(
+	async execute(
 		step: Middleware<TPayload>,
 		payload: TPayload,
 		next?: PipelineNext<TPayload>,

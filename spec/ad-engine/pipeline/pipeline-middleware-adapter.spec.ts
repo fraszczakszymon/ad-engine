@@ -16,7 +16,7 @@ describe('PipelineMiddlewareAdapter', () => {
 		const middleware: Middleware<{ number: number }> = ({ number }, next) => {
 			next({ number: number + 1 });
 		};
-		const result = await adapter.adapt(middleware, { number: 10 }, spy);
+		const result = await adapter.execute(middleware, { number: 10 }, spy);
 
 		expect(result).to.deep.equal({ number: 10 });
 		expect(spy.calledOnce).to.equal(true);

@@ -10,7 +10,7 @@ export class PipelineContainerAdapter<TPayload>
 	implements PipelineAdapter<Type<PipelineDependency<TPayload>>, TPayload> {
 	constructor(private container: Container) {}
 
-	adapt(
+	execute(
 		step: Type<PipelineDependency<TPayload>>,
 		payload: TPayload,
 		next?: PipelineNext<TPayload>,
