@@ -1,4 +1,4 @@
-import { context, Dictionary, InstantConfigCacheStorage, utils } from '@ad-engine/core';
+import { context, Dictionary, InstantConfigCacheStorage, Middleware, utils } from '@ad-engine/core';
 import { AdInfoContext } from './slot-tracker';
 
 function checkOptIn(): string {
@@ -17,7 +17,7 @@ function checkOptOutSale(): string {
 	return '';
 }
 
-export const slotTrackingMiddleware: utils.Middleware<AdInfoContext> = ({ data, slot }, next) => {
+export const slotTrackingMiddleware: Middleware<AdInfoContext> = ({ data, slot }, next) => {
 	const cacheStorage = InstantConfigCacheStorage.make();
 	const now = new Date();
 	const timestamp: number = now.getTime();

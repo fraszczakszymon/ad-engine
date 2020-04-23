@@ -1,7 +1,7 @@
-import { utils } from '@ad-engine/core';
+import { Middleware } from '@ad-engine/core';
 import { AdViewabilityContext } from './viewability-tracker';
 
-export const viewabilityTrackingMiddleware: utils.Middleware<AdViewabilityContext> = (
+export const viewabilityTrackingMiddleware: Middleware<AdViewabilityContext> = (
 	{ data, slot },
 	next,
 ) => {

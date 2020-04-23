@@ -1,4 +1,4 @@
-import { AdSlot, context, eventService, utils } from '@ad-engine/core';
+import { AdSlot, context, eventService, Middleware, MiddlewareService } from '@ad-engine/core';
 
 export interface AdInfoContext {
 	data: any;
@@ -19,9 +19,9 @@ class SlotTracker {
 		AdSlot.STATUS_CLOSED_BY_PORVATA,
 	];
 
-	private middlewareService = new utils.MiddlewareService<AdInfoContext>();
+	private middlewareService = new MiddlewareService<AdInfoContext>();
 
-	add(middleware: utils.Middleware<AdInfoContext>): this {
+	add(middleware: Middleware<AdInfoContext>): this {
 		this.middlewareService.add(middleware);
 
 		return this;
@@ -31,7 +31,7 @@ class SlotTracker {
 		return context.get('options.tracking.slot.status');
 	}
 
-	register(callback: utils.Middleware<AdInfoContext>): void {
+	register(callback: Middleware<AdInfoContext>): void {
 		if (!this.isEnabled()) {
 			return;
 		}

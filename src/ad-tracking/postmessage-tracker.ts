@@ -1,4 +1,4 @@
-import { context, Dictionary, messageBus, utils } from '@ad-engine/core';
+import { context, Dictionary, messageBus, Middleware, MiddlewareService } from '@ad-engine/core';
 
 export enum TrackingTarget {
 	DataWarehouse = 'DW',
@@ -24,7 +24,7 @@ export interface GoogleAnalyticsPayload {
 
 export type TrackingMessage = GoogleAnalyticsMessage & DataWarehouseMessage;
 
-export const trackingPayloadValidationMiddleware: utils.Middleware<TrackingMessage> = (
+export const trackingPayloadValidationMiddleware: Middleware<TrackingMessage> = (
 	message: Partial<TrackingMessage>,
 	next,
 ) => {
@@ -43,17 +43,17 @@ export const trackingPayloadValidationMiddleware: utils.Middleware<TrackingMessa
  * For example use, check examples /tracking/postmessage-tracker/.
  */
 export class PostmessageTracker {
-	private middlewareService = new utils.MiddlewareService<any>();
+	private middlewareService = new MiddlewareService<any>();
 
 	constructor(private readonly requiredKeys: string[]) {}
 
-	add(middleware: utils.Middleware<any>): this {
+	add(middleware: Middleware<any>): this {
 		this.middlewareService.add(middleware);
 
 		return this;
 	}
 
-	register<T>(callback: utils.Middleware<T>): this {
+	register<T>(callback: Middleware<T>): this {
 		if (!this.isEnabled()) {
 			return;
 		}

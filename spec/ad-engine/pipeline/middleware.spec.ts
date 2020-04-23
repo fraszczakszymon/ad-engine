@@ -1,4 +1,4 @@
-import { MiddlewareService } from '@wikia/ad-engine/utils';
+import { MiddlewareService } from '@wikia/ad-engine';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 

@@ -1,7 +1,7 @@
-import { utils } from '@ad-engine/core';
+import { Middleware } from '@ad-engine/core';
 import { AdInfoContext } from '@ad-engine/tracking';
 
-export const slotBillTheLizardStatusTrackingMiddleware: utils.Middleware<AdInfoContext> = (
+export const slotBillTheLizardStatusTrackingMiddleware: Middleware<AdInfoContext> = (
 	{ data, slot },
 	next,
 ) => {

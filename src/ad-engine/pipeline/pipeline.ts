@@ -1,9 +1,9 @@
-import { PipelineNext, PipelineStepAdapter } from './pipeline-types';
+import { PipelineAdapter, PipelineNext } from './pipeline-types';
 
 export class Pipeline<TStep, TPayload = void> {
 	private steps: TStep[] = [];
 
-	constructor(private adapter: PipelineStepAdapter<TStep, TPayload>) {}
+	constructor(private adapter: PipelineAdapter<TStep, TPayload>) {}
 
 	add(...steps: TStep[]): this {
 		this.steps.push(...steps);
@@ -20,7 +20,7 @@ export class Pipeline<TStep, TPayload = void> {
 	private createExecutor(): PipelineNext<TPayload> {
 		return this.steps.reduceRight<PipelineNext<TPayload>>(
 			(next: PipelineNext<TPayload>, step: TStep) => (payload: TPayload) =>
-				this.adapter(step, payload, next),
+				this.adapter.adapt(step, payload, next),
 			async (payload: TPayload) => payload,
 		);
 	}
