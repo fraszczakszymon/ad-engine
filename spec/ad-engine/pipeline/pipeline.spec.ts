@@ -1,14 +1,13 @@
-import { Pipeline } from '@wikia/ad-engine/pipeline/pipeline';
+import { Pipeline, PipelineFuncAdapter, PipelineFuncStep } from '@wikia/ad-engine';
 import { expect } from 'chai';
 import { createSandbox } from 'sinon';
-import { PipelineAdapterStub, PipelineStepStub } from './pipeline-adapter.stub';
 
 describe('Pipeline', () => {
 	const sandbox = createSandbox();
-	let pipeline: Pipeline<PipelineStepStub<any>, any>;
+	let pipeline: Pipeline<PipelineFuncStep<any>, any>;
 
 	beforeEach(() => {
-		pipeline = new Pipeline(new PipelineAdapterStub());
+		pipeline = new Pipeline(new PipelineFuncAdapter());
 	});
 
 	afterEach(() => {
@@ -20,14 +19,14 @@ describe('Pipeline', () => {
 		const firstAfterSpy = sandbox.spy();
 		const secondBeforeSpy = sandbox.spy();
 		const secondAfterSpy = sandbox.spy();
-		const firstStep: PipelineStepStub<any> = (payload, next) => {
+		const firstStep: PipelineFuncStep<any> = (payload, next) => {
 			firstBeforeSpy(payload);
 			return next(payload + 1).then((result) => {
 				firstAfterSpy(result);
 				return result;
 			});
 		};
-		const secondStep: PipelineStepStub<any> = async (payload, next) => {
+		const secondStep: PipelineFuncStep<any> = async (payload, next) => {
 			secondBeforeSpy(payload);
 			const result = await next(payload + 1);
 			secondAfterSpy(result);

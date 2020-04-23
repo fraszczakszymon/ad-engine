@@ -1,17 +1,17 @@
 import { Container } from '@wikia/dependency-injection';
-import { Type } from '../models/dictionary';
-import { PipelineAdapter, PipelineNext } from './pipeline-types';
+import { Type } from '../../models/dictionary';
+import { PipelineAdapter, PipelineNext } from '../pipeline-types';
 
-export interface PipelineDependency<TPayload> {
+export interface PipelineDiStep<TPayload> {
 	execute(payload: TPayload, next?: PipelineNext<TPayload>): Promise<TPayload>;
 }
 
-export class PipelineContainerAdapter<TPayload>
-	implements PipelineAdapter<Type<PipelineDependency<TPayload>>, TPayload> {
+export class PipelineDiAdapter<TPayload>
+	implements PipelineAdapter<Type<PipelineDiStep<TPayload>>, TPayload> {
 	constructor(private container: Container) {}
 
 	execute(
-		step: Type<PipelineDependency<TPayload>>,
+		step: Type<PipelineDiStep<TPayload>>,
 		payload: TPayload,
 		next?: PipelineNext<TPayload>,
 	): Promise<TPayload> {

@@ -1,5 +1,5 @@
 import { Middleware } from '@wikia/ad-engine';
-import { PipelineMiddlewareAdapter } from '@wikia/ad-engine/pipeline/pipeline-middleware-adapter';
+import { PipelineMiddlewareAdapter } from '@wikia/ad-engine/pipeline/adapters/pipeline-middleware-adapter';
 import { expect } from 'chai';
 import { createSandbox } from 'sinon';
 
