@@ -32,8 +32,8 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 		const wrapper = document.createElement('div');
 		wrapper.id = 'btflb';
 
-		const blbContainer = document.createElement('div');
-		blbContainer.id = 'bottom_leaderboard';
+		const bottomLeaderboard = document.createElement('div');
+		bottomLeaderboard.id = 'bottom_leaderboard';
 
 		const dbName = context.get('wiki.targeting.wikiDbName');
 		const siderail = document.getElementById(`siderail_${dbName}`);
@@ -41,7 +41,7 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 
 		if (siblingElement) {
 			siblingElement.parentNode.insertBefore(wrapper, siblingElement.nextSibling);
-			wrapper.appendChild(blbContainer);
+			wrapper.appendChild(bottomLeaderboard);
 		}
 	}
 
