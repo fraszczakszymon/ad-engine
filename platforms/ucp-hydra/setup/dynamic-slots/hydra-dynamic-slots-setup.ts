@@ -63,10 +63,7 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 			const gamepediaProBoxWrapper = document.getElementById(`middlemrec_${dbName}_gamepedia`);
 
 			if (gamepediaProBoxWrapper) {
-				gamepediaProBoxWrapper.parentNode.insertBefore(
-					topBoxadWrapper,
-					gamepediaProBoxWrapper.nextElementSibling,
-				);
+				siderail.insertBefore(topBoxadWrapper, gamepediaProBoxWrapper);
 			} else {
 				siderail.appendChild(topBoxadWrapper);
 			}
