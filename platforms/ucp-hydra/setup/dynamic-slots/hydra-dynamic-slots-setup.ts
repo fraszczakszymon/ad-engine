@@ -23,7 +23,7 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 				slotInjector.inject(slotName, true);
 			}
 		});
-		this.injectTB();
+		this.injectMedrecs();
 		this.injectBLB(slots['bottom_leaderboard'].insertAfterSelector);
 		this.injectFooterAd();
 	}
@@ -45,15 +45,18 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 		}
 	}
 
-	private injectTB(): void {
+	private injectMedrecs(): void {
 		const dbName = context.get('wiki.targeting.wikiDbName');
 		const siderail = document.getElementById(`siderail_${dbName}`);
 
 		if (siderail) {
 			const topBoxad = document.createElement('div');
+			const incontentBoxad = document.createElement('div');
 
 			topBoxad.id = 'top_boxad';
+			incontentBoxad.id = 'incontent_boxad_1';
 			siderail.appendChild(topBoxad);
+			siderail.appendChild(incontentBoxad);
 		}
 	}
 
