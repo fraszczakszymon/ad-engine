@@ -50,13 +50,30 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 		const siderail = document.getElementById(`siderail_${dbName}`);
 
 		if (siderail) {
+			const topBoxadWrapper = document.createElement('div');
 			const topBoxad = document.createElement('div');
+			const incontentBoxadWrapper = document.createElement('div');
 			const incontentBoxad = document.createElement('div');
 
+			topBoxadWrapper.id = `atfmrec_${dbName}_gamepedia`;
 			topBoxad.id = 'top_boxad';
+			incontentBoxadWrapper.id = `btfmrec_${dbName}_gamepedia`;
 			incontentBoxad.id = 'incontent_boxad_1';
-			siderail.appendChild(topBoxad);
-			siderail.appendChild(incontentBoxad);
+
+			const gamepediaProBoxWrapper = document.getElementById(`middlemrec_${dbName}_gamepedia`);
+
+			if (gamepediaProBoxWrapper) {
+				gamepediaProBoxWrapper.parentNode.insertBefore(
+					topBoxadWrapper,
+					gamepediaProBoxWrapper.nextElementSibling,
+				);
+			} else {
+				siderail.appendChild(topBoxadWrapper);
+			}
+
+			siderail.appendChild(incontentBoxadWrapper);
+			topBoxadWrapper.appendChild(topBoxad);
+			incontentBoxadWrapper.appendChild(incontentBoxad);
 		}
 	}
 
