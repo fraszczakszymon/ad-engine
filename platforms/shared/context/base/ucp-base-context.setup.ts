@@ -34,7 +34,5 @@ export class UcpBaseContextSetup extends BaseContextSetup {
 				);
 			}
 		}
-
-		super.setLabradorContext();
 	}
 }

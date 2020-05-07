@@ -1,6 +1,5 @@
 import {
 	context,
-	InstantConfigCacheStorage,
 	InstantConfigService,
 	setupNpaContext,
 	setupRdpContext,
@@ -17,18 +16,8 @@ export class BaseContextSetup {
 		this.setOptionsContext();
 		this.setServicesContext();
 		this.setMiscContext();
-		this.setLabradorContext();
 		setupNpaContext();
 		setupRdpContext();
-	}
-
-	setLabradorContext(): void {
-		const cacheStorage = InstantConfigCacheStorage.make();
-		// Need to be placed always after all lABrador icVars checks
-		context.set(
-			'targeting.labrador',
-			cacheStorage.mapSamplingResults(this.instantConfig.get('icLABradorGamKeyValues')),
-		);
 	}
 
 	private setBaseState(isMobile: boolean): void {
