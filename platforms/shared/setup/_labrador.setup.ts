@@ -1,12 +1,9 @@
 import { context, InstantConfigCacheStorage, InstantConfigService } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
-import { iocDefaultWarning } from '../utils/ioc-default-warning';
 
 @Injectable()
 export class LabradorSetup {
-	constructor(protected instantConfig: InstantConfigService) {
-		iocDefaultWarning('LabradorSetup');
-	}
+	constructor(protected instantConfig: InstantConfigService) {}
 
 	configure(): void {
 		const cacheStorage = InstantConfigCacheStorage.make();
