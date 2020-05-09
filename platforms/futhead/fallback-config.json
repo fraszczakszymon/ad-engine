@@ -214,6 +214,22 @@
             "value": true
         }
     ],
+    "icPostmessageTracking": [
+        {
+            "apps": [
+                "f2",
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "XX"
+            ],
+            "value": true
+        }
+    ],
     "icPrebidSizePriceFloorRule": [
         {
             "apps": [
