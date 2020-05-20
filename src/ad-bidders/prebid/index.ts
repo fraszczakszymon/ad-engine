@@ -11,7 +11,7 @@ import {
 import { TrackingBidDefinition } from '@ad-engine/tracking';
 import { getSlotNameByBidderAlias } from '../alias-helper';
 import { BidderConfig, BidderProvider, BidsRefreshing } from '../bidder-provider';
-import { Cmp, cmp } from '../wrappers';
+import { Cmp, cmp, Tcf, tcf } from '../wrappers';
 import { adaptersRegistry } from './adapters-registry';
 import { getWinningBid, setupAdUnits } from './prebid-helper';
 import { getSettings } from './prebid-settings';
@@ -42,6 +42,7 @@ export class PrebidProvider extends BidderProvider {
 	isLazyLoadingEnabled: boolean;
 	lazyLoaded = false;
 	cmp: Cmp = cmp;
+	tcf: Tcf = tcf;
 	prebidConfig: Dictionary;
 	bidsRefreshing: BidsRefreshing;
 
@@ -54,9 +55,7 @@ export class PrebidProvider extends BidderProvider {
 		this.bidsRefreshing = context.get('bidders.prebid.bidsRefreshing') || {};
 
 		this.prebidConfig = {
-			debug:
-				utils.queryString.get('pbjs_debug') === '1' ||
-				utils.queryString.get('pbjs_debug') === 'true',
+			debug: ['1', 'true'].includes(utils.queryString.get('pbjs_debug')),
 			enableSendAllBids: !!context.get('bidders.prebid.sendAllBids'),
 			bidderSequence: 'random',
 			bidderTimeout: this.timeout,
@@ -79,7 +78,20 @@ export class PrebidProvider extends BidderProvider {
 			},
 		};
 
-		if (this.cmp.exists) {
+		if (context.get('bidders.prebid.tcf2Enabled') && this.tcf.exists) {
+			this.prebidConfig.consentManagement = {
+				gdpr: {
+					cmpApi: 'iab',
+					timeout: this.timeout,
+					allowAuctionWithoutConsent: false,
+					defaultGdprScope: false,
+				},
+				usp: {
+					cmpApi: 'iab',
+					timeout: 100,
+				},
+			};
+		} else if (this.cmp.exists) {
 			this.prebidConfig.consentManagement = {
 				gdpr: {
 					cmpApi: 'iab',
