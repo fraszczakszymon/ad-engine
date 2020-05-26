@@ -221,8 +221,8 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	private adjustVideoSize(relativeHeight: number): void {
 		console.log('** adjustVideoSize', {
 			video: this.video,
-			isFullscreen: this.video.isFullscreen(),
-			condition: this.video && !this.video.isFullscreen(),
+			isFullscreen: this.video?.isFullscreen(),
+			condition: this.video && !this.video?.isFullscreen(),
 		});
 
 		if (this.video && !this.video.isFullscreen()) {
@@ -248,7 +248,7 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		console.log('** setThumbnailStyle', {
 			style,
 			video: this.video,
-			isFullscreen: this.video.isFullscreen(),
+			isFullscreen: this.video?.isFullscreen(),
 		});
 
 		Object.assign(this.params.thumbnail.style, style);
