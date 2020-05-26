@@ -110,6 +110,14 @@ function getVideoSize(
 		: slot.clientWidth;
 	const height = width / params.videoAspectRatio;
 
+	console.log('** getVideoSize', {
+		width,
+		height,
+		clientWidth: slot.clientWidth,
+		offsetWidth: params.videoPlaceholderElement.offsetWidth,
+		aspectRatio: params.videoAspectRatio,
+	});
+
 	return {
 		width,
 		height,
@@ -168,6 +176,8 @@ async function loadVideoAd(videoSettings: UapVideoSettings): Promise<PorvataPlay
 	function recalculateVideoSize(video): () => void {
 		return () => {
 			const currentSize = getVideoSize(params.container, params, videoSettings);
+
+			console.log('** recalculateVideoSize', { currentSize, video, params, videoSettings });
 
 			video.resize(currentSize.width, currentSize.height);
 		};
