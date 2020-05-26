@@ -1,16 +1,10 @@
 import {
-	AdSlot,
-	adSlotEvent,
-	btfBlockerService,
-	context,
-	DomListener,
-	eventService,
-	slotService,
-	utils,
+	AdSlot, adSlotEvent, btfBlockerService, context, DomListener, eventService, slotService, utils,
 } from '@ad-engine/core';
 import { filter, take } from 'rxjs/operators';
 import { action, props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
+import { isUndefined } from 'util';
 import { Porvata, PorvataPlayer } from '../../video/player/porvata/porvata';
 import * as videoUserInterface from '../interface/video';
 import * as constants from './constants';
@@ -100,27 +94,122 @@ export interface UapParams {
 
 export const uapLoadStatus = action('[AdEngine] UAP Load status', props<{ isLoaded: boolean }>());
 
+export interface UapVideoSize {
+	width: number;
+	height: number;
+	top?: number;
+	right?: number;
+	bottom?: number;
+}
+
+class UapSizeHelper {
+	constructor(private params: UapParams, private adSlotElement: HTMLElement) {}
+
+	getVideoSizeImpactToResolved(): UapVideoSize {
+		return this.calculateVideoSize(
+			this.getSlotHeightImpactToResolved(),
+			this.getProgressImpactToResolved(),
+		);
+	}
+
+	private calculateVideoSize(slotHeight: number, progress: number): UapVideoSize {
+		const { height, width } = this.getSize(slotHeight, progress);
+		const top = this.getPercentage(progress, this.params.config.state.top);
+		const right = this.getPercentage(progress, this.params.config.state.right);
+		const bottom = this.getPercentage(progress, this.params.config.state.bottom);
+
+		return {
+			top,
+			right,
+			bottom,
+			height: Math.ceil(height),
+			width: Math.ceil(width),
+		};
+	}
+
+	private getSize(slotHeight: number, progress: number): { height: number; width: number } {
+		const percentage = this.getPercentage(progress, this.params.config.state.height);
+		const height = slotHeight * (percentage / 100);
+		const width = height * this.params.videoAspectRatio;
+
+		return { height, width };
+	}
+
+	private getPercentage(progress: number, state?: UapState<number>): number | undefined {
+		if (!state) {
+			return;
+		}
+
+		const { default: impact, resolved } = state;
+
+		return impact - (impact - resolved) * progress;
+	}
+
+	private getSlotHeightImpactToResolved(): number {
+		const mixHeight = this.getSlotHeightResolved();
+		const maxHeight = this.getSlotHeightImpact();
+		const progress = this.getProgressImpactToResolved();
+
+		return maxHeight - (maxHeight - mixHeight) * progress;
+	}
+
+	/**
+	 * Progress changes between 0 (impact, full height) to 1 (resolved size);
+	 */
+	private getProgressImpactToResolved(): number {
+		const mixHeight = this.getSlotHeightResolved();
+		const maxHeight = this.getSlotHeightImpact();
+		const progress = window.scrollY / (maxHeight - mixHeight);
+
+		return progress >= 1 ? 1 : progress;
+	}
+
+	private getSlotHeightImpact(): number {
+		if (isUndefined(this.params?.config?.aspectRatio?.default)) {
+			return this.adSlotElement.offsetHeight;
+		}
+
+		return this.calculateSlotHeight(this.params.config.aspectRatio.default);
+	}
+
+	private getSlotHeightResolved(): number {
+		if (isUndefined(this.params?.config?.aspectRatio?.resolved)) {
+			return this.adSlotElement.offsetHeight;
+		}
+
+		return this.calculateSlotHeight(this.params.config.aspectRatio.resolved);
+	}
+
+	private calculateSlotHeight(ratio: number): number {
+		return (1 / ratio) * this.adSlotElement.offsetWidth;
+	}
+}
+
 function getVideoSize(
 	slot: HTMLElement,
 	params: UapParams,
 	videoSettings: UapVideoSettings,
 ): VideoSize {
-	const width: number = videoSettings.isSplitLayout()
-		? params.videoPlaceholderElement.offsetWidth
-		: slot.clientWidth;
-	const height = width / params.videoAspectRatio;
+	const { width, height} = new UapSizeHelper(params, slot).getVideoSizeImpactToResolved();
+
+	// const width: number = videoSettings.isSplitLayout()
+	// 	? params.videoPlaceholderElement.offsetWidth
+	// 	: slot.clientWidth;
+	// const height = width / params.videoAspectRatio;
 
 	console.log('** getVideoSize', {
 		width,
 		height,
+		isSplitLayout: videoSettings.isSplitLayout(),
 		clientWidth: slot.clientWidth,
 		offsetWidth: params.videoPlaceholderElement.offsetWidth,
+		videoPlaceholderElement: params.videoPlaceholderElement,
 		aspectRatio: params.videoAspectRatio,
 	});
 
 	return {
-		width,
 		height,
+		width: videoSettings.isSplitLayout() ? width : slot.clientWidth,
 	};
 }
 
