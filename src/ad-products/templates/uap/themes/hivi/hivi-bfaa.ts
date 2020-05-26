@@ -182,6 +182,26 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 		const heightFactor = (state.height.default - heightDiff * currentState) / 100;
 		const relativeHeight = aspectScroll * heightFactor;
 
+		console.log('** update ad sizes', {
+			windowScrollY: window.scrollY,
+			windowPageYOffset: window.pageYOffset,
+			aspectRatio,
+			state,
+			currentWidth,
+			isResolved,
+			maxHeight,
+			minHeight,
+			scrollY,
+			aspectScroll,
+			currentAspectRatio,
+			aspectRatioDiff,
+			currentDiff,
+			currentState,
+			heightDiff,
+			heightFactor,
+			relativeHeight,
+		});
+
 		this.adjustVideoSize(relativeHeight);
 
 		if (this.params.thumbnail) {
@@ -199,7 +219,18 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 	}
 
 	private adjustVideoSize(relativeHeight: number): void {
+		console.log('** adjustVideoSize', {
+			video: this.video,
+			isFullscreen: this.video.isFullscreen(),
+			condition: this.video && !this.video.isFullscreen(),
+		});
+
 		if (this.video && !this.video.isFullscreen()) {
+			console.log('** adjustVideoSize inner', {
+				relativeHeight,
+				aspectRatio: this.params.videoAspectRatio,
+				value: this.params.videoAspectRatio * relativeHeight,
+			});
 			this.video.container.style.width = `${this.params.videoAspectRatio * relativeHeight}px`;
 		}
 	}
@@ -213,6 +244,12 @@ export class BfaaHiviTheme extends BigFancyAdHiviTheme {
 				return `${styleProperty.default - diff * state}%`;
 			},
 		);
+
+		console.log('** setThumbnailStyle', {
+			style,
+			video: this.video,
+			isFullscreen: this.video.isFullscreen(),
+		});
 
 		Object.assign(this.params.thumbnail.style, style);
 
