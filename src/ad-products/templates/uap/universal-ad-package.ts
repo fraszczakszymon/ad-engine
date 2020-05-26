@@ -3,11 +3,11 @@ import {
 	adSlotEvent,
 	btfBlockerService,
 	context,
+	DomListener,
 	eventService,
 	slotService,
 	utils,
 } from '@ad-engine/core';
-import { throttle } from 'lodash';
 import { filter, take } from 'rxjs/operators';
 import { action, props } from 'ts-action';
 import { ofType } from 'ts-action-operators';
@@ -185,7 +185,11 @@ async function loadVideoAd(videoSettings: UapVideoSettings): Promise<PorvataPlay
 
 	const video: PorvataPlayer = await loadPorvata(videoSettings, params.container, imageContainer);
 
-	window.addEventListener('resize', throttle(recalculateVideoSize(video), 250));
+	// window.addEventListener('resize', throttle(recalculateVideoSize(video), 250));
+	new DomListener().resize$.subscribe(() => {
+		console.log('** resize');
+		recalculateVideoSize(video)();
+	});
 
 	if (params.videoTriggerElement) {
 		params.videoTriggerElement.addEventListener('click', () => video.play());
