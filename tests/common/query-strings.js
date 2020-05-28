@@ -67,6 +67,10 @@ class QueryStrings {
 		return `[${country}]`;
 	}
 
+	getCid(...cid) {
+		return `cid=${cid.join(',')}`;
+	}
+
 	/**
 	 * @private
 	 * @param {boolean} param

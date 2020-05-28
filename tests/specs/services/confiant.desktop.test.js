@@ -4,6 +4,7 @@ import { network } from '../../common/network';
 import { helpers } from '../../common/helpers';
 import { queryStrings } from '../../common/query-strings';
 import { slots } from '../../common/slot-registry';
+import { timeouts } from '../../common/timeouts';
 
 describe('It will test Confiant page', () => {
 	before(() => {
@@ -21,23 +22,28 @@ describe('It will test Confiant page', () => {
 	});
 
 	it('will check if script is loaded', () => {
-		helpers.navigateToUrl(confiant.pageLink);
+		helpers.navigateToUrl(confiant.pageLink, queryStrings.getCid(confiant.cid));
 		slots.topBoxad.waitForDisplayed();
 		expect(network.checkIfHasResponse(confiant.configFile), 'config not loaded').to.be.true;
 	});
 
-	it('should check console logs', () => {
-		helpers.navigateToUrl(confiant.pageLink);
+	// TODO Blocked by ADEN-10306
+	it.skip('should check console logs', () => {
+		helpers.navigateToUrl(confiant.pageLink, queryStrings.getCid(confiant.cid));
 		slots.topBoxad.waitForDisplayed();
 		browser.waitUntil(
 			() => network.checkIfMessageIsInLogs(confiant.blockedAdLog),
-			2000,
+			timeouts.standard,
 			`Logs should contain message: ${confiant.blockedAdLog}`,
 		);
 	});
 
 	it('will test disabled confiant', () => {
-		helpers.navigateToUrl(confiant.pageLink, queryStrings.getConfiant(false));
+		helpers.navigateToUrl(
+			confiant.pageLink,
+			queryStrings.getCid(confiant.cid),
+			queryStrings.getConfiant(false),
+		);
 		slots.topBoxad.waitForDisplayed();
 		expect(network.checkIfHasResponse(confiant.configFile)).to.be.false;
 	});
