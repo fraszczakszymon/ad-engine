@@ -3,6 +3,7 @@ import {
 	LogoReplacement,
 	logTemplates,
 	PorvataTemplate,
+	SafeFanTakeoverElement,
 	TemplateRegistry,
 	templateService,
 } from '@wikia/ad-engine';
@@ -34,5 +35,6 @@ export class UcpTemplatesSetup implements TemplatesSetup {
 
 		templateService.register(PorvataTemplate, getOutstreamConfig());
 		templateService.register(LogoReplacement);
+		templateService.register(SafeFanTakeoverElement);
 	}
 }

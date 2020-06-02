@@ -1,6 +1,6 @@
 import { AdSlot, Dictionary } from '../models';
 import { logger } from '../utils/logger';
-import { context } from './';
+import { context, messageBus, slotService } from './';
 
 const logGroup = 'template-service';
 
@@ -53,6 +53,22 @@ class TemplateService {
 		}
 
 		return new this.templates[name](slot).init(params);
+	}
+
+	registerMessageListener(): void {
+		messageBus.register(
+			{
+				keys: ['action', 'slotName', 'type'],
+				infinite: true,
+			},
+			(data: any) => {
+				if (data.action === 'loadTemplate') {
+					const adSlot = slotService.get(data.slotName);
+
+					this.init(data.type, adSlot, data);
+				}
+			},
+		);
 	}
 }
 

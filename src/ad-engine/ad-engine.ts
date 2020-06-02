@@ -53,6 +53,7 @@ export class AdEngine {
 
 		registerCustomAdLoader(context.get('options.customAdLoader.globalMethodName'));
 		messageBus.init();
+		templateService.registerMessageListener();
 		slotTweaker.registerMessageListener();
 
 		this.runAdQueue(inhibitors);

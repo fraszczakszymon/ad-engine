@@ -104,6 +104,8 @@ export class AdSlot extends EventEmitter {
 
 	private slotViewed = false;
 
+	private customIframe: HTMLIFrameElement = null;
+
 	config: SlotConfig;
 	element: null | HTMLElement = null;
 	status: null | string = null;
@@ -225,7 +227,15 @@ export class AdSlot extends EventEmitter {
 			return null;
 		}
 
+		if (this.customIframe) {
+			return this.customIframe;
+		}
+
 		return element.querySelector<HTMLIFrameElement>('div[id*="_container_"] iframe');
+	}
+
+	overrideIframe(iframe: HTMLIFrameElement): void {
+		this.customIframe = iframe;
 	}
 
 	getFrameType(): 'safe' | 'regular' | null {
