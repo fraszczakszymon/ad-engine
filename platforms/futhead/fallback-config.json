@@ -241,7 +241,8 @@
                 "oasis"
             ],
             "regions": [
-                "HK"
+                "HK",
+                "NL"
             ],
             "sampling": 50.0,
             "value": true
