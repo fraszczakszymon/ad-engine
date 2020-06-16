@@ -1,13 +1,33 @@
 import { AdSlot, events, eventService, utils } from '@ad-engine/core';
 import { SafeBigFancyAdProxy } from './safe-big-fancy-ad-proxy';
-import {
-	FanTakeoverCampaignConfig,
-	SafeFanTakeoverConfigLoader,
-} from './safe-fan-takeover-config-loader';
 
 interface SafeFanTakeoverElementConfig {
 	campaign: string;
+	config: FanTakeoverCampaignConfig;
 	slotName: string;
+}
+
+interface BigFancyAdConfig {
+	aspectRatio: {
+		default: number;
+		resolved: number;
+	};
+	images: {
+		boxad300x250: string;
+		boxad300x600?: string;
+		default: string;
+		resolved?: string;
+	};
+}
+
+export interface FanTakeoverCampaignConfig {
+	desktop: BigFancyAdConfig;
+	mobile: BigFancyAdConfig;
+	autoplay: boolean;
+	clickThroughUrl: string;
+	thumbnail?: string;
+	vast?: string;
+	campaignId: string;
 }
 
 interface Size {
@@ -19,11 +39,10 @@ const BIG_FANCY_AD_SIZES = ['2x2', '3x3'];
 
 export class SafeFanTakeoverElement {
 	static config: FanTakeoverCampaignConfig;
+
 	static getName(): string {
 		return 'safeFanTakeoverElement';
 	}
-
-	private safeFanTakeoverConfigLoader = new SafeFanTakeoverConfigLoader();
 
 	constructor(private adSlot: AdSlot) {}
 
@@ -31,27 +50,28 @@ export class SafeFanTakeoverElement {
 		this.adSlot.getIframe().parentElement.classList.add('hide');
 
 		if (!SafeFanTakeoverElement.config) {
-			SafeFanTakeoverElement.config = await this.safeFanTakeoverConfigLoader.loadConfig(
-				params.campaign,
-			);
+			SafeFanTakeoverElement.config = params.config;
 			eventService.once(events.BEFORE_PAGE_CHANGE_EVENT, () => {
 				SafeFanTakeoverElement.config = null;
 			});
 		}
 
 		if (this.isBfaSize()) {
-			this.loadBigFancyAd();
+			this.loadBigFancyAd(params.campaign);
 		} else {
 			this.loadBoxad();
 		}
 	}
-
 	private isBfaSize(): boolean {
 		return BIG_FANCY_AD_SIZES.includes(this.adSlot.getCreativeSize());
 	}
 
-	private loadBigFancyAd(): void {
-		const bfaProxy = new SafeBigFancyAdProxy(this.adSlot, SafeFanTakeoverElement.config);
+	private loadBigFancyAd(campaignId: string): void {
+		const bfaProxy = new SafeBigFancyAdProxy(
+			this.adSlot,
+			campaignId,
+			SafeFanTakeoverElement.config,
+		);
 
 		bfaProxy.loadTemplate();
 	}
