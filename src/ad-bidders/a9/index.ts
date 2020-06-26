@@ -12,7 +12,7 @@ import {
 import { TrackingBidDefinition } from '@ad-engine/tracking';
 import { getSlotNameByBidderAlias } from '../alias-helper';
 import { BidderProvider, BidsRefreshing } from '../bidder-provider';
-import { Apstag, Cmp, cmp, Tcf, tcf, Usp, usp } from '../wrappers';
+import { Apstag, Cmp, cmp, Usp, usp } from '../wrappers';
 import {
 	A9Bid,
 	A9Bids,
@@ -37,7 +37,6 @@ export class A9Provider extends BidderProvider {
 	apstag: Apstag = Apstag.make();
 	bids: A9Bids = {};
 	cmp: Cmp = cmp;
-	tcf: Tcf = tcf;
 	usp: Usp = usp;
 	priceMap: PriceMap = {};
 	targetingKeys: string[] = [];
@@ -60,7 +59,17 @@ export class A9Provider extends BidderProvider {
 		return this.targetingKeys;
 	}
 
-	private initIfNotLoaded(consentData: ConsentData | TCData, signalData: SignalData): void {
+	init(consentData: ConsentData = {}, signalData: SignalData = {}): void {
+		this.initIfNotLoaded(consentData, signalData);
+
+		this.bids = {};
+		this.priceMap = {};
+		const a9Slots = this.getA9SlotsDefinitions(this.slotsNames);
+
+		this.fetchBids(a9Slots);
+	}
+
+	private initIfNotLoaded(consentData: ConsentData, signalData: SignalData): void {
 		if (!this.loaded) {
 			if (context.get('bidders.a9.videoBidsCleaning')) {
 				eventService.on(events.VIDEO_AD_IMPRESSION, (adSlot: AdSlot) => this.removeBids(adSlot));
@@ -100,7 +109,7 @@ export class A9Provider extends BidderProvider {
 		}
 	}
 
-	private getApstagConfig(consentData: ConsentData | TCData, signalData: SignalData): ApstagConfig {
+	private getApstagConfig(consentData: ConsentData, signalData: SignalData): ApstagConfig {
 		return {
 			pubID: this.amazonId,
 			videoAdServer: 'DFP',
@@ -110,23 +119,8 @@ export class A9Provider extends BidderProvider {
 		};
 	}
 
-	private getGdprIfApplicable(consentData: ConsentData | TCData): Partial<A9GDPR> {
-		if (
-			context.get('bidders.tcf2Enabled') &&
-			consentData &&
-			'tcString' in consentData &&
-			consentData.tcString
-		) {
-			return {
-				gdpr: {
-					enabled: consentData.gdprApplies,
-					consent: consentData.tcString,
-					cmpTimeout: 5000,
-				},
-			};
-		}
-
-		if (consentData && 'consentData' in consentData && consentData.consentData) {
+	private getGdprIfApplicable(consentData: ConsentData): Partial<A9GDPR> {
+		if (!context.get('bidders.tcf2Enabled') && consentData && consentData.consentData) {
 			return {
 				gdpr: {
 					enabled: consentData.gdprApplies,
@@ -375,12 +369,10 @@ export class A9Provider extends BidderProvider {
 	}
 
 	protected async callBids(): Promise<void> {
-		let consentData: ConsentData | TCData = {};
-		let signalData: SignalData = {};
+		let consentData = null;
+		let signalData = null;
 
-		if (context.get('bidders.tcf2Enabled') && this.tcf.exists) {
-			consentData = await this.tcf.getTCData();
-		} else if (this.cmp.exists) {
+		if (this.cmp.exists) {
 			consentData = await this.cmp.getConsentData();
 		}
 
@@ -388,13 +380,7 @@ export class A9Provider extends BidderProvider {
 			signalData = await this.usp.getSignalData();
 		}
 
-		this.initIfNotLoaded(consentData, signalData);
-
-		this.bids = {};
-		this.priceMap = {};
-		const a9Slots = this.getA9SlotsDefinitions(this.slotsNames);
-
-		this.fetchBids(a9Slots);
+		this.init(consentData, signalData);
 	}
 
 	calculatePrices(): void {
