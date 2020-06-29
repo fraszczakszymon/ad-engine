@@ -1,5 +1,6 @@
+import { action, communicationService } from '@ad-engine/communication';
 import * as EventEmitter from 'eventemitter3';
-import { action, props } from 'ts-action';
+import { props } from 'ts-action';
 import { AdStackPayload, eventService, slotTweaker, utils } from '../';
 import { overscrollListener } from '../listeners';
 import { ADX, GptSizeMapping } from '../providers';
@@ -63,6 +64,7 @@ export interface WinningBidderDetails {
 	price: number | string;
 }
 
+// TODO: This should be split into separate action for each event
 export const adSlotEvent = action(
 	'[AdEngine] Ad Slot event',
 	props<{
@@ -103,6 +105,8 @@ export class AdSlot extends EventEmitter {
 	static TEMPLATES_LOADED = 'Templates Loaded';
 
 	private slotViewed = false;
+
+	private customIframe: HTMLIFrameElement = null;
 
 	config: SlotConfig;
 	element: null | HTMLElement = null;
@@ -225,7 +229,15 @@ export class AdSlot extends EventEmitter {
 			return null;
 		}
 
+		if (this.customIframe) {
+			return this.customIframe;
+		}
+
 		return element.querySelector<HTMLIFrameElement>('div[id*="_container_"] iframe');
+	}
+
+	overrideIframe(iframe: HTMLIFrameElement): void {
+		this.customIframe = iframe;
 	}
 
 	getFrameType(): 'safe' | 'regular' | null {
@@ -236,6 +248,10 @@ export class AdSlot extends EventEmitter {
 		}
 
 		return iframe.dataset.isSafeframe === 'true' ? 'safe' : 'regular';
+	}
+
+	getCreativeSize(): string | null {
+		return Array.isArray(this.creativeSize) ? this.creativeSize.join('x') : this.creativeSize;
 	}
 
 	// Main position is the first value defined in the "pos" key-value (targeting)
@@ -534,7 +550,7 @@ export class AdSlot extends EventEmitter {
 	}
 
 	private emitPostQueueCast(event: string | symbol, payload: any[]) {
-		eventService.communicator.dispatch(
+		communicationService.dispatch(
 			adSlotEvent({
 				payload: JSON.parse(JSON.stringify(payload)),
 				event: event.toString(),

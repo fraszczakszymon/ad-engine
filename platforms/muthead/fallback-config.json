@@ -63,6 +63,44 @@
             "value": true
         }
     ],
+    "icLABradorGamKeyValues": [
+        {
+            "apps": [
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "XX"
+            ],
+            "value": [
+                "icPrebidSendAllBids_A_95:send_all_bids_a",
+                "icPrebidSendAllBids_B_5:send_all_bids_b",
+                "icFloatingMedrecRecirculationDisabled_A_90:fmr_50_50_a",
+                "icFloatingMedrecRecirculationDisabled_B_10:fmr_50_50_b",
+                "icIxIdentityLibrary_A_50:ix_library_a",
+                "icIxIdentityLibrary_B_50:ix_library_b"
+            ]
+        }
+    ],
+    "icSafeFanTakeoverUnstickTimeout": [
+        {
+            "apps": [
+                "f2",
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "XX"
+            ],
+            "value": 4000
+        }
+    ],
     "icPrebidIndexExchange": [
         {
             "apps": [
@@ -108,6 +146,24 @@
             "value": {
                 "300x600": 0.3
             }
+        }
+    ],
+    "icSafeFanTakeoverLineItemIds": [
+        {
+            "apps": [
+                "f2",
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "XX"
+            ],
+            "value": [
+                "5381590794"
+            ]
         }
     ],
     "icBidsTracking": [
@@ -200,6 +256,13 @@
                 "muthead",
                 "oasis"
             ],
+            "regions": [
+                "CA",
+                "HK",
+                "NL"
+            ],
+            "sampling": 50.0,
+            "samplingCache": true,
             "value": true
         }
     ],

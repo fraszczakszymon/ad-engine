@@ -1,8 +1,15 @@
 // blockadblock doesn't export anything meaningful
+import { communicationService, globalAction } from '@ad-engine/communication';
 // it sets blockAdBlock and BlockAdBlock properties on window
 import 'blockadblock';
+import { props } from 'ts-action';
 import { utils } from '../';
 import { context } from '../services';
+
+const babDetectedEvent = globalAction(
+	'[Ad Engine] BAB detection finished',
+	props<{ detected: boolean }>(),
+);
 
 const logGroup = 'bab-detection';
 
@@ -25,7 +32,7 @@ class BabDetection {
 
 		this.setRuntimeParams(isBabDetected);
 		this.updateSrcParameter(isBabDetected);
-		this.dispatchDetectionEvent(isBabDetected);
+		this.dispatchDetectionEvents(isBabDetected);
 
 		return isBabDetected;
 	}
@@ -45,17 +52,15 @@ class BabDetection {
 			bab.onNotDetected(() => resolve(false));
 
 			bab.check(true);
-		}).then(
-			(detected: boolean): boolean => {
-				if (detected) {
-					enabled();
-				} else {
-					disabled();
-				}
+		}).then((detected: boolean): boolean => {
+			if (detected) {
+				enabled();
+			} else {
+				disabled();
+			}
 
-				return detected;
-			},
-		);
+			return detected;
+		});
 	}
 
 	private setupBab(): void {
@@ -84,12 +89,16 @@ class BabDetection {
 		}
 	}
 
-	private dispatchDetectionEvent(isBabDetected: boolean): void {
+	private dispatchDetectionEvents(isBabDetected: boolean): void {
 		const event = document.createEvent('Event');
 		const name = isBabDetected ? 'bab.blocking' : 'bab.not_blocking';
 
+		// Legacy
 		event.initEvent(name, true, false);
 		document.dispatchEvent(event);
+
+		// Post-QueCast
+		communicationService.dispatch(babDetectedEvent({ detected: isBabDetected }));
 	}
 }
 

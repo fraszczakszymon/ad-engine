@@ -1,10 +1,23 @@
+import { communicationService, globalAction, ofType } from '@ad-engine/communication';
+import { tap } from 'rxjs/operators';
+import { payload } from 'ts-action';
 import { AdSlot, Dictionary } from '../models';
-import { logger } from '../utils/logger';
-import { context } from './';
+import { logger } from '../utils';
+import { context, slotService } from './';
 
 const logGroup = 'template-service';
 
 type TemplateInitializer = Pick<TemplateService, 'init'> & { has: (name: string) => boolean };
+
+interface LoadTemplatePayload {
+	slotName: string;
+	type: string;
+}
+
+export const loadTemplate = globalAction(
+	'[GAM iframe] Load template',
+	payload<LoadTemplatePayload>(),
+);
 
 class TemplateService {
 	private initializer?: TemplateInitializer;
@@ -53,6 +66,19 @@ class TemplateService {
 		}
 
 		return new this.templates[name](slot).init(params);
+	}
+
+	subscribeCommunicator(): void {
+		communicationService.action$
+			.pipe(
+				ofType(loadTemplate),
+				tap(({ payload }: { payload: LoadTemplatePayload }) => {
+					const adSlot = slotService.get(payload.slotName);
+
+					this.init(payload.type, adSlot, payload);
+				}),
+			)
+			.subscribe();
 	}
 }
 
