@@ -102,6 +102,7 @@
         {
             "apps": [
                 "gamepedia",
+                "mobile-wiki",
                 "oasis"
             ],
             "regions": [
