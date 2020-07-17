@@ -18,7 +18,10 @@ import {
 import {
 	bidderTrackingMiddleware,
 	context,
+	FOOTER,
 	InstantConfigService,
+	NAVBAR,
+	PAGE,
 	slotBiddersTrackingMiddleware,
 	slotPropertiesTrackingMiddleware,
 	slotTrackingMiddleware,
@@ -45,6 +48,9 @@ export async function setupFutheadIoc(): Promise<Container> {
 	container.bind(PrebidConfigSetup).to(FutheadPrebidConfigSetup);
 	container.bind(A9ConfigSetup).to(SportsA9ConfigSetup);
 	container.bind(DynamicSlotsSetup).to(FutheadDynamicSlotsSetup);
+	container.bind(NAVBAR).value(document.querySelector('.navbar.navbar-futhead'));
+	container.bind(FOOTER).value(document.querySelector('.global-footer__wrapper'));
+	container.bind(PAGE).value(document.body);
 
 	TrackingSetup.provideMiddlewares({
 		slotTrackingMiddlewares: [
