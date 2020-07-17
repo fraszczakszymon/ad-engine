@@ -1,5 +1,3 @@
-import { TemplateAction, TemplateRegistry, universalAdPackage } from '@wikia/ad-engine';
-import { Observable } from 'rxjs';
 import {
 	AdvertisementLabelHandler,
 	BfaaBootstrapHandler,
@@ -32,15 +30,17 @@ import {
 	VideoRestartHandler,
 	VideoSizeImpactToResolvedHandler,
 	VideoSizeResolvedHandler,
-} from '..';
-import { BfaaSportsConfigHandler } from './handlers/bfaa/bfaa-sports-config-handler';
+} from '@platforms/shared';
+import { TemplateAction, TemplateRegistry, universalAdPackage } from '@wikia/ad-engine';
+import { Observable } from 'rxjs';
+import { BfaaFutheadConfigHandler } from './handlers/bfaa/bfaa-futhead-config-handler';
 
 export function registerBfaaTemplate(registry: TemplateRegistry): Observable<TemplateAction> {
 	return registry.register(
 		'bfaa',
 		{
 			initial: [
-				BfaaSportsConfigHandler,
+				BfaaFutheadConfigHandler,
 				BfaaBootstrapHandler,
 				VideoBootstrapHandler,
 				VideoCtpHandler,

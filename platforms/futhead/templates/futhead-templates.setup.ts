@@ -1,8 +1,10 @@
-import { registerBfaaTemplate, registerBfabTemplate, TemplatesSetup } from '@platforms/shared';
+import { TemplatesSetup } from '@platforms/shared';
 import { logTemplates, TemplateRegistry, templateService } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { merge } from 'rxjs';
-import { registerLogoReplacementTemplate } from './logo-replacement/logo-replacement-template';
+import { registerBfaaTemplate } from './bfaa-template';
+import { registerBfabTemplate } from './bfab-template';
+import { registerLogoReplacementTemplate } from './logo-replacement-template';
 
 @Injectable()
 export class FutheadTemplatesSetup implements TemplatesSetup {

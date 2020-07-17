@@ -8,7 +8,7 @@ import {
 import { Inject, Injectable } from '@wikia/dependency-injection';
 
 @Injectable({ autobind: false })
-export class BfaaSportsConfigHandler implements TemplateStateHandler {
+export class BfaaFutheadConfigHandler implements TemplateStateHandler {
 	constructor(@Inject(TEMPLATE.PARAMS) private params: UapParams) {}
 
 	async onEnter(): Promise<void> {

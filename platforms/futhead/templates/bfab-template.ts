@@ -1,5 +1,3 @@
-import { TemplateAction, TemplateRegistry } from '@wikia/ad-engine';
-import { Observable } from 'rxjs';
 import {
 	AdvertisementLabelHandler,
 	BfabBootstrapHandler,
@@ -17,7 +15,9 @@ import {
 	VideoDomReader,
 	VideoSizeImpactHandler,
 	VideoSizeResolvedHandler,
-} from '..';
+} from '@platforms/shared';
+import { TemplateAction, TemplateRegistry } from '@wikia/ad-engine';
+import { Observable } from 'rxjs';
 
 export function registerBfabTemplate(registry: TemplateRegistry): Observable<TemplateAction> {
 	return registry.register(
