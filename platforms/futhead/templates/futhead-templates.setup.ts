@@ -2,7 +2,7 @@ import { registerBfaaTemplate, registerBfabTemplate, TemplatesSetup } from '@pla
 import { logTemplates, TemplateRegistry, templateService } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { merge } from 'rxjs';
-import { LogoReplacement } from './logo-replacement/logo-replacement-futhead-template';
+import { registerLogoReplacementTemplate } from './logo-replacement/logo-replacement-template';
 
 @Injectable()
 export class FutheadTemplatesSetup implements TemplatesSetup {
@@ -13,8 +13,8 @@ export class FutheadTemplatesSetup implements TemplatesSetup {
 	configureTemplates(): void {
 		const bfaa$ = registerBfaaTemplate(this.registry);
 		const bfab$ = registerBfabTemplate(this.registry);
+		const logoReplacement$ = registerLogoReplacementTemplate(this.registry);
 
-		logTemplates(merge(bfaa$, bfab$));
-		templateService.register(LogoReplacement);
+		logTemplates(merge(bfaa$, bfab$, logoReplacement$));
 	}
 }
