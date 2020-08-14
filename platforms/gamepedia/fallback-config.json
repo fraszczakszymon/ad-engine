@@ -375,6 +375,19 @@
             "value": true
         }
     ],
+    "icTcf2Enabled": [
+        {
+            "apps": [
+                "f2",
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "value": false
+        }
+    ],
     "icPrebid": [
         {
             "apps": [
