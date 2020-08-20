@@ -403,7 +403,8 @@
                 "oasis"
             ],
             "regions": [
-                "JP"
+                "JP",
+                "PL"
             ],
             "value": true
         }
