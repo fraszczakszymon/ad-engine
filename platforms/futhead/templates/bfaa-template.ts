@@ -33,6 +33,7 @@ import {
 } from '@platforms/shared';
 import { TemplateAction, TemplateRegistry, universalAdPackage } from '@wikia/ad-engine';
 import { Observable } from 'rxjs';
+import { registerFutheadUapDomElements } from './configs/register-futhead-uap-dom-elements';
 import { BfaaFutheadConfigHandler } from './handlers/bfaa/bfaa-futhead-config-handler';
 
 export function registerBfaaTemplate(registry: TemplateRegistry): Observable<TemplateAction> {
@@ -94,6 +95,7 @@ export function registerBfaaTemplate(registry: TemplateRegistry): Observable<Tem
 			VideoDomManager,
 			CloseButtonHelper,
 			StickinessTimeout.provide(universalAdPackage.BFAA_UNSTICK_DELAY),
+			registerFutheadUapDomElements(),
 		],
 	);
 }
