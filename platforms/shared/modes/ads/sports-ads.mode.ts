@@ -1,4 +1,5 @@
 import {
+	audigent,
 	bidders,
 	confiant,
 	context,
@@ -12,7 +13,7 @@ import { AdsMode } from './_ads.mode';
 
 @Injectable()
 export class SportsAdsMode implements AdsMode {
-	handleAds(): void {
+	execute(): void {
 		const inhibitors = this.callExternals();
 
 		startAdEngine(inhibitors);
@@ -26,6 +27,7 @@ export class SportsAdsMode implements AdsMode {
 		inhibitors.push(bidders.requestBids());
 		inhibitors.push(wadRunner.call());
 
+		audigent.call();
 		iasPublisherOptimization.call();
 		confiant.call();
 		durationMedia.call();

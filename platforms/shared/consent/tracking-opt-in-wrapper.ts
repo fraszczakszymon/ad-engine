@@ -3,6 +3,7 @@ import { take } from 'rxjs/operators';
 import { props } from 'ts-action';
 
 interface OptInInstances {
+	icbm: any;
 	gdpr: any;
 	ccpa: any;
 }
@@ -65,7 +66,7 @@ class TrackingOptInWrapper {
 
 	private async loadTrackingOptInLibrary(): Promise<void> {
 		const trackingOptInLibraryUrl =
-			'//origin-images.wikia.com/fandom-ae-assets/tracking-opt-in/v3.0.6/tracking-opt-in.min.js';
+			'//static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v4.0.8/tracking-opt-in.min.js';
 
 		await utils.scriptLoader.loadScript(trackingOptInLibraryUrl);
 	}
@@ -114,7 +115,15 @@ class TrackingOptInWrapper {
 			});
 
 			if (disableConsentQueue) {
-				resolve(optInInstances);
+				// Wait for ICBM response during TCFv2 transition
+				optInInstances.icbm.then(
+					() => {
+						resolve(optInInstances);
+					},
+					() => {
+						resolve(optInInstances);
+					},
+				);
 			}
 		});
 	}
@@ -198,7 +207,12 @@ class TrackingOptInWrapper {
 			});
 
 		communicationService.action$.pipe(ofType(setOptIn), take(1)).subscribe((consents) => {
-			window.ads.consentQueue.onItemFlush((callback) => callback(consents));
+			window.ads.consentQueue.onItemFlush((callback) => {
+				console.warn(
+					`[AdEngine] You are using deprecated API to get consent.\nPlease use PostQuecast action "[AdEngine OptIn] set opt in" instead.`,
+				);
+				callback(consents);
+			});
 			window.ads.consentQueue.flush();
 		});
 	}

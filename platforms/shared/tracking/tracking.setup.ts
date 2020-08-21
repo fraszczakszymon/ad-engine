@@ -1,6 +1,7 @@
 import {
 	AdBidderContext,
 	AdInfoContext,
+	audigentLoadedEvent,
 	bidderTracker,
 	Binder,
 	communicationService,
@@ -8,8 +9,6 @@ import {
 	eventService,
 	FuncPipelineStep,
 	GAMOrigins,
-	identityLibrary,
-	identityLibraryLoadedEvent,
 	InstantConfigCacheStorage,
 	ofType,
 	playerEvents,
@@ -60,14 +59,14 @@ export class TrackingSetup {
 		private bidderTrackingMiddlewares: FuncPipelineStep<AdBidderContext>[],
 	) {}
 
-	configureTracking(): void {
+	execute(): void {
 		this.porvataTracker();
 		this.slotTracker();
 		this.viewabilityTracker();
 		this.bidderTracker();
 		this.postmessageTrackingTracker();
 		this.labradorTracker();
-		this.identityLibraryLoadTimeTracker();
+		this.audigentTracker();
 	}
 
 	private porvataTracker(): void {
@@ -164,10 +163,9 @@ export class TrackingSetup {
 		}
 	}
 
-	private identityLibraryLoadTimeTracker(): void {
-		communicationService.action$.pipe(ofType(identityLibraryLoadedEvent)).subscribe((props) => {
-				this.pageTracker.trackProp('identity_library_load_time', props.loadTime.toString());
-				this.pageTracker.trackProp('identity_library_ids', identityLibrary.getUids());
-			});
+	private audigentTracker(): void {
+		communicationService.action$.pipe(ofType(audigentLoadedEvent)).subscribe(() => {
+			this.pageTracker.trackProp('audigent', 'loaded');
+		});
 	}
 }

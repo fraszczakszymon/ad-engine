@@ -1,8 +1,10 @@
 import {
 	context,
+	Dictionary,
 	InstantConfigService,
 	setupNpaContext,
 	setupRdpContext,
+	setupTCFv2Context,
 	utils,
 } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
@@ -15,16 +17,18 @@ export class BaseContextSetup {
 		protected noAdsDetector: NoAdsDetector,
 	) {}
 
-	configureBaseContext(isMobile = false): void {
-		this.setBaseState(isMobile);
+	execute(): void {
+		this.setBaseState();
 		this.setOptionsContext();
 		this.setServicesContext();
 		this.setMiscContext();
+		this.setupStickySlotLineItemIds();
+		setupTCFv2Context(this.instantConfig);
 		setupNpaContext();
 		setupRdpContext();
 	}
 
-	private setBaseState(isMobile: boolean): void {
+	private setBaseState(): void {
 		if (context.get('wiki.opts.showAds') === false) {
 			this.noAdsDetector.addReason('show_ads_false');
 		}
@@ -38,7 +42,6 @@ export class BaseContextSetup {
 			this.noAdsDetector.addReason('noads_querystring');
 		}
 
-		context.set('state.isMobile', isMobile);
 		context.set('state.deviceType', utils.client.getDeviceType());
 		context.set('state.isLogged', !!context.get('wiki.wgUserId'));
 	}
@@ -75,6 +78,10 @@ export class BaseContextSetup {
 			'options.video.moatTracking.enabledForArticleVideos',
 			this.instantConfig.get('icFeaturedVideoMoatTracking'),
 		);
+		context.set(
+			'options.video.comscoreJwpTracking',
+			this.instantConfig.get('icComscoreJwpTracking'),
+		);
 
 		this.setWadContext();
 	}
@@ -94,8 +101,13 @@ export class BaseContextSetup {
 	private setServicesContext(): void {
 		context.set('services.taxonomy.enabled', this.instantConfig.get('icTaxonomyAdTags'));
 		context.set('services.taxonomy.communityId', context.get('wiki.dsSiteKey'));
+		context.set('services.audigent.enabled', this.instantConfig.get('icAudigent'));
 		context.set('services.confiant.enabled', this.instantConfig.get('icConfiant'));
 		context.set('services.durationMedia.enabled', this.instantConfig.get('icDurationMedia'));
+		context.set(
+			'services.durationMedia.libraryUrl',
+			this.instantConfig.get('icDurationMediaLibraryUrl'),
+		);
 		context.set('services.distroScale.enabled', this.instantConfig.get('icDistroScale'));
 		context.set('services.facebookPixel.enabled', this.instantConfig.get('icFacebookPixel'));
 		context.set(
@@ -118,7 +130,6 @@ export class BaseContextSetup {
 
 		const priceFloorRule = this.instantConfig.get<object>('icPrebidSizePriceFloorRule');
 		context.set('bidders.prebid.priceFloor', priceFloorRule || null);
-		context.set('bidders.ixIdentityLibrary.enabled', this.instantConfig.get('icIxIdentityLibrary'));
 
 		context.set(
 			'templates.safeFanTakeoverElement.lineItemIds',
@@ -128,5 +139,20 @@ export class BaseContextSetup {
 			'templates.safeFanTakeoverElement.unstickTimeout',
 			this.instantConfig.get('icSafeFanTakeoverUnstickTimeout'),
 		);
+	}
+
+	private setupStickySlotLineItemIds(): void {
+		const stickySlotsLines: Dictionary = this.instantConfig.get('icStickySlotLineItemIds');
+		if (stickySlotsLines && stickySlotsLines.length) {
+			context.set('templates.stickyTlb.lineItemIds', stickySlotsLines);
+
+			if (this.instantConfig.get('icHiViLeaderboardUnstickTimeout')) {
+				context.set('options.unstickHiViLeaderboardAfterTimeout', true);
+				context.set(
+					'options.unstickHiViLeaderboardTimeout',
+					this.instantConfig.get('icHiViLeaderboardUnstickTimeout'),
+				);
+			}
+		}
 	}
 }

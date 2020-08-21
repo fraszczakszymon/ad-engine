@@ -1,3 +1,5 @@
+import fallbackInstantConfig from './fallback-config.json';
+
 export const basicContext = {
 	adUnitId:
 		`/{custom.dfpId}/{custom.serverPrefix}1b.{slotConfig.group}/{slotConfig.slotName}` +
@@ -26,6 +28,7 @@ export const basicContext = {
 		video: {
 			moatTracking: {
 				enabled: false,
+				jwplayerPluginUrl: 'https://z.moatads.com/jwplayerplugin0938452/moatplugin.js',
 				partnerCode: 'wikiajwint101173217941',
 				sampling: 100,
 			},
@@ -51,7 +54,7 @@ export const basicContext = {
 		},
 		instantConfig: {
 			endpoint: 'https://services.wikia.com/icbm/api/config?app=f2',
-			fallbackConfigKey: 'fallbackInstantConfig',
+			fallback: fallbackInstantConfig,
 		},
 		moatYi: {
 			partnerCode: 'wikiaprebidheader490634422386',

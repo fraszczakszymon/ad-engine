@@ -22,7 +22,7 @@ const railReady = globalAction('[Rail] Ready');
 
 @Injectable()
 export class UcpDynamicSlotsSetup implements DynamicSlotsSetup {
-	configureDynamicSlots(): void {
+	execute(): void {
 		this.injectSlots();
 		this.injectIncontentPlayer();
 		this.configureTopLeaderboard();
@@ -57,7 +57,11 @@ export class UcpDynamicSlotsSetup implements DynamicSlotsSetup {
 
 	private injectIncontentPlayer(): void {
 		if (context.get('custom.hasIncontentPlayer')) {
-			context.push('events.pushOnScroll.ids', 'incontent_player');
+			if (context.get('services.distroScale.enabled')) {
+				context.push('state.adStack', { id: 'incontent_player' });
+			} else {
+				context.push('events.pushOnScroll.ids', 'incontent_player');
+			}
 		}
 	}
 

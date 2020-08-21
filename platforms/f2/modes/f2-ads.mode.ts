@@ -1,5 +1,6 @@
 import { AdsMode, PageTracker, startAdEngine, wadRunner } from '@platforms/shared';
 import {
+	audigent,
 	context,
 	iasPublisherOptimization,
 	JWPlayerManager,
@@ -12,7 +13,7 @@ import { Injectable } from '@wikia/dependency-injection';
 export class F2AdsMode implements AdsMode {
 	constructor(private pageTracker: PageTracker) {}
 
-	handleAds(): void {
+	execute(): void {
 		const inhibitors = this.callExternals();
 
 		this.setupJWPlayer();
@@ -36,6 +37,7 @@ export class F2AdsMode implements AdsMode {
 		inhibitors.push(wadRunner.call());
 
 		permutive.call();
+		audigent.call();
 		iasPublisherOptimization.call();
 		nielsen.call({
 			type: 'static',

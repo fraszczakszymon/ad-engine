@@ -1,3 +1,5 @@
+import fallbackInstantConfig from './fallback-config.json';
+
 export const basicContext = {
 	adUnitId:
 		'/{custom.dfpId}/{custom.serverPrefix}.{slotConfig.group}/{slotConfig.adProduct}/{state.deviceType}/' +
@@ -99,7 +101,6 @@ export const basicContext = {
 		},
 		durationMedia: {
 			enabled: false,
-			siteId: '1066',
 		},
 		iasPublisherOptimization: {
 			pubId: '930616',
@@ -107,7 +108,7 @@ export const basicContext = {
 		},
 		instantConfig: {
 			endpoint: 'https://services.fandom.com/icbm/api/config?app=gamepedia',
-			fallbackConfigKey: 'fallbackInstantConfig',
+			fallback: fallbackInstantConfig,
 		},
 		taxonomy: {
 			enabled: false,

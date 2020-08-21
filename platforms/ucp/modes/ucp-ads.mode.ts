@@ -1,11 +1,11 @@
 import { AdsMode, PageTracker, startAdEngine, wadRunner } from '@platforms/shared';
 import {
+	audigent,
 	bidders,
 	billTheLizard,
 	communicationService,
 	confiant,
 	context,
-	distroScale,
 	durationMedia,
 	facebookPixel,
 	iasPublisherOptimization,
@@ -23,7 +23,7 @@ import { v4 as uuid } from 'uuid';
 export class UcpAdsMode implements AdsMode {
 	constructor(private pageTracker: PageTracker) {}
 
-	handleAds(): void {
+	execute(): void {
 		const inhibitors = this.callExternals();
 
 		this.setupJWPlayer(inhibitors);
@@ -73,10 +73,10 @@ export class UcpAdsMode implements AdsMode {
 
 		facebookPixel.call();
 		permutive.call();
+		audigent.call();
 		iasPublisherOptimization.call();
 		confiant.call();
 		durationMedia.call();
-		distroScale.call();
 		nielsen.call({
 			type: 'static',
 			assetid: `fandom.com/${targeting.s0v}/${targeting.s1}/${targeting.artid}`,
