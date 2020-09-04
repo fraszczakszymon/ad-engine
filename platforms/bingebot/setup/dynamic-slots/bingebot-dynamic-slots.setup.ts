@@ -1,4 +1,5 @@
 import {
+	AdSlot,
 	communicationService,
 	context,
 	DiProcess,
@@ -32,6 +33,10 @@ export class BingeBotDynamicSlotsSetup implements DiProcess {
 
 			this.templateRegistry.destroy(action.slotId);
 			slotService.remove(adSlot);
+		});
+
+		slotService.on('promoted_recs', AdSlot.STATUS_SUCCESS, () => {
+			slotService.setState('sponsored_logo', false);
 		});
 	}
 

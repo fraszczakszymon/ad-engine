@@ -8,6 +8,16 @@ export class BingeBotSlotsContextSetup implements SlotsContextSetup {
 
 	execute(): void {
 		const slots = {
+			promoted_recs: {
+				firstCall: true,
+				adProduct: 'promoted-recs',
+				group: 'PX',
+				slotNameSuffix: '',
+				defaultSizes: [[1, 1]],
+				targeting: {
+					pos: ['promoted_recs'],
+				},
+			},
 			sponsored_logo: {
 				adProduct: 'sponsored-logo',
 				group: 'PX',
