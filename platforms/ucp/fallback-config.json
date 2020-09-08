@@ -1076,7 +1076,7 @@
                 "CA",
                 "US"
             ],
-            "sampling": 10.0,
+            "sampling": 20.0,
             "value": true
         }
     ],
@@ -1172,15 +1172,6 @@
         {
             "apps": [
                 "oasis"
-            ],
-            "browsers": [
-                "Chrome"
-            ],
-            "devices": [
-                "desktop"
-            ],
-            "regions": [
-                "PL"
             ],
             "value": {
                 "name": "just_testing",
