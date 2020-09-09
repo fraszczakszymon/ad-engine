@@ -1,9 +1,9 @@
-import { TargetingSetup } from '@platforms/shared';
 import {
 	Binder,
 	communicationService,
 	context,
 	Dictionary,
+	DiProcess,
 	ofType,
 	Targeting,
 	utils,
@@ -15,7 +15,7 @@ import { viewRendered } from '../../../setup-bingebot';
 const SKIN = Symbol('targeting skin');
 
 @Injectable()
-export class BingeBotTargetingSetup implements TargetingSetup {
+export class BingeBotTargetingSetup implements DiProcess {
 	static skin(skin: string): Binder {
 		return {
 			bind: SKIN,

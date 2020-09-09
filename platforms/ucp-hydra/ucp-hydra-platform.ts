@@ -8,6 +8,8 @@ import {
 	NoAdsDetector,
 	TrackingSetup,
 	UcpBaseContextSetup,
+	UcpGamepediaA9ConfigSetup,
+	UcpGamepediaPrebidConfigSetup,
 	UcpNoAdsMode,
 	UcpTargetingSetup,
 	UcpWikiContextSetup,
@@ -21,18 +23,15 @@ import {
 } from '@wikia/ad-engine';
 import { Injectable } from '@wikia/dependency-injection';
 import { basicContext } from './ad-context';
-import { UcpAdsMode } from './modes/ucp-ads.mode';
-import { UcpA9ConfigSetup } from './setup/context/a9/a9';
-import { UcpBillTheLizardSetup } from './setup/context/bill-the-lizard/ucp-bill-the-lizard.setup';
-import { UcpPrebidConfigSetup } from './setup/context/prebid/ucp-prebid-config.setup';
-import { UcpSlotsContextSetup } from './setup/context/slots/ucp-slots-context.setup';
-import { UcpDynamicSlotsSetup } from './setup/dynamic-slots/ucp-dynamic-slots.setup';
-import { UcpSlotsStateSetup } from './setup/state/slots/ucp-slots-state-setup';
-import { UcpTemplatesSetup } from './templates/ucp-templates.setup';
-import { UcpIocSetup } from './ucp-ioc-setup';
+import { HydraAdsMode } from './modes/hydra-ads-mode';
+import { HydraSlotsContextSetup } from './setup/context/slots/hydra-slots-context-setup';
+import { HydraDynamicSlotsSetup } from './setup/dynamic-slots/hydra-dynamic-slots-setup';
+import { HydraSlotsStateSetup } from './setup/state/slots/hydra-slots-state-setup';
+import { UcpHydraTemplatesSetup } from './templates/ucp-hydra-templates.setup';
+import { UcpHydraIocSetup } from './ucp-hydra-ioc-setup';
 
 @Injectable()
-export class UcpPlatform {
+export class UcpHydraPlatform {
 	constructor(private pipeline: ProcessPipeline, private noAdsDetector: NoAdsDetector) {}
 
 	execute(): void {
@@ -40,19 +39,18 @@ export class UcpPlatform {
 		this.pipeline.add(
 			() => context.extend(basicContext),
 			parallel(InstantConfigSetup, () => bootstrapAndGetConsent()),
-			UcpIocSetup,
+			UcpHydraIocSetup,
 			UcpWikiContextSetup,
 			() => context.set('state.isMobile', false),
 			UcpBaseContextSetup,
-			UcpSlotsContextSetup,
+			HydraSlotsContextSetup,
 			UcpTargetingSetup,
-			UcpPrebidConfigSetup,
-			UcpA9ConfigSetup,
-			UcpDynamicSlotsSetup,
-			UcpSlotsStateSetup,
+			UcpGamepediaPrebidConfigSetup,
+			UcpGamepediaA9ConfigSetup,
+			HydraDynamicSlotsSetup,
+			HydraSlotsStateSetup,
 			BiddersStateSetup,
-			UcpTemplatesSetup,
-			UcpBillTheLizardSetup,
+			UcpHydraTemplatesSetup,
 			LabradorSetup,
 			TrackingSetup,
 			AdEngineRunnerSetup,
@@ -62,7 +60,7 @@ export class UcpPlatform {
 		// Run
 		this.pipeline.add(
 			conditional(() => this.noAdsDetector.isAdsMode(), {
-				yes: UcpAdsMode,
+				yes: HydraAdsMode,
 				no: UcpNoAdsMode,
 			}),
 		);
