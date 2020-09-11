@@ -4,7 +4,6 @@ import {
 	bootstrapAndGetConsent,
 	InstantConfigSetup,
 	NoAdsDetector,
-	WikiContextSetup,
 } from '@platforms/shared';
 import {
 	communicationService,
@@ -19,6 +18,7 @@ import { BingeBotIocSetup } from './bingebot-ioc-setup';
 import { BingeBotAdsMode } from './modes/bingebot-ads.mode';
 import { BingeBotSlotsContextSetup } from './setup/context/slots/bingebot-slots-context.setup';
 import { BingeBotTargetingSetup } from './setup/context/targeting/bingebot-targeting.setup';
+import { BingeBotTrackingSetup } from './setup/context/tracking/bingebot-tracking.setup';
 import { BingeBotDynamicSlotsSetup } from './setup/dynamic-slots/bingebot-dynamic-slots.setup';
 import { BingeBotBeforeViewChangeSetup } from './setup/hooks/bingebot-before-view-change-setup';
 import { BingeBotTemplatesSetup } from './templates/bingebot-templates.setup';
@@ -32,12 +32,12 @@ export class BingeBotPlatform {
 			() => context.extend(basicContext),
 			parallel(InstantConfigSetup, () => bootstrapAndGetConsent()),
 			BingeBotIocSetup,
-			WikiContextSetup,
 			BaseContextSetup,
 			BingeBotSlotsContextSetup,
 			BingeBotTargetingSetup,
 			BingeBotDynamicSlotsSetup,
 			BingeBotTemplatesSetup,
+			BingeBotTrackingSetup,
 			BingeBotBeforeViewChangeSetup,
 			() => communicationService.dispatch(adEngineConfigured()),
 		);
