@@ -13,7 +13,7 @@ export class BingeBotSlotsContextSetup implements SlotsContextSetup {
 				adProduct: 'promoted-recs',
 				group: 'PX',
 				slotNameSuffix: '',
-				defaultSizes: [[1, 1]],
+				outOfPage: true,
 				targeting: {
 					pos: ['promoted_recs'],
 				},
