@@ -119,6 +119,7 @@
                 "4366940064",
                 "4916913597",
                 "5447862918",
+                "5485505474",
                 "5447985268",
                 "4913869429",
                 "5443340780",
@@ -381,7 +382,7 @@
             "regions": [
                 "XX"
             ],
-            "value": "//static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v4.2.3/tracking-opt-in.min.js"
+            "value": "//static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v4.3.0/tracking-opt-in.min.js"
         },
         {
             "apps": [
