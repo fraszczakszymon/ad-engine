@@ -21,22 +21,6 @@
 			"value": true
 		}
 	],
-	"icServicesSpecialSearchTestDefaultScopeInGlobalNav": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"value": "this-wiki"
-		},
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"value": "this-wiki"
-		}
-	],
 	"icPrebidRubicon": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
@@ -58,25 +42,6 @@
 			"value": true
 		}
 	],
-	"icDeRecoExperimentDev": [
-		{
-			"apps": ["oasis"],
-			"browsers": ["Chrome"],
-			"devices": ["desktop"],
-			"value": {
-				"name": "dev_reco_test",
-				"groups": [
-					{
-						"name": "all",
-						"config": {
-							"articleLimit": 1
-						},
-						"sampling": 100
-					}
-				]
-			}
-		}
-	],
 	"icPrebidOneVideo": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
@@ -93,7 +58,7 @@
 	],
 	"icAudigent": [
 		{
-			"apps": ["oasis"],
+			"apps": ["mobile-wiki"],
 			"regions": ["XX"],
 			"value": true
 		}
@@ -105,22 +70,25 @@
 			"value": true
 		}
 	],
-	"icServicesSpecialSearchScopeDropdownInGlobalNav": [
+	"icPrebid33Across": [
 		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
+			"apps": ["mobile-wiki"],
 			"regions": ["XX"],
-			"sampling": 33.0,
-			"samplingCache": true,
-			"value": "internal"
-		},
+			"value": true
+		}
+	],
+	"icFloorAdhesionViewportsToStart": [
 		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
+			"apps": ["mobile-wiki"],
 			"regions": ["XX"],
-			"sampling": 50.0,
-			"samplingCache": true,
-			"value": "cross-wiki"
+			"value": 1
+		}
+	],
+	"icPrebidGumGum": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
+			"value": true
 		}
 	],
 	"icPrebidSizePriceFloorRule": [
@@ -130,16 +98,6 @@
 			"value": {
 				"300x600": 0.3
 			}
-		}
-	],
-	"icServicesSpecialSearch": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 100.0,
-			"samplingCache": true,
-			"value": true
 		}
 	],
 	"icBidsTracking": [
@@ -153,6 +111,158 @@
 		{
 			"apps": ["f2", "futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
 			"regions": ["AU", "CA", "DE", "GB", "NZ", "PL", "UK", "US"],
+			"value": true
+		}
+	],
+	"icFloorAdhesion": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": [
+				"AD",
+				"AF",
+				"AG",
+				"AI",
+				"AL",
+				"AN",
+				"AS",
+				"AS",
+				"AT",
+				"AU",
+				"AW",
+				"AX",
+				"BA",
+				"BB",
+				"BE",
+				"BG",
+				"BL",
+				"BM",
+				"BQ",
+				"BS",
+				"BY",
+				"BZ",
+				"CA",
+				"CH",
+				"CK",
+				"CR",
+				"CU",
+				"CW",
+				"CZ",
+				"DE",
+				"DK",
+				"DM",
+				"DO",
+				"EE",
+				"ES",
+				"FI",
+				"FJ",
+				"FM",
+				"FO",
+				"FR",
+				"GB",
+				"GD",
+				"GG",
+				"GI",
+				"GL",
+				"GP",
+				"GR",
+				"GT",
+				"GU",
+				"HN",
+				"HR",
+				"HT",
+				"HU",
+				"IE",
+				"IM",
+				"IS",
+				"IT",
+				"JE",
+				"JM",
+				"KI",
+				"KN",
+				"KY",
+				"LC",
+				"LI",
+				"LT",
+				"LU",
+				"LV",
+				"MC",
+				"MD",
+				"ME",
+				"MF",
+				"MH",
+				"MK",
+				"MP",
+				"MQ",
+				"MS",
+				"MT",
+				"MX",
+				"NC",
+				"NF",
+				"NI",
+				"NL",
+				"NO",
+				"NR",
+				"NU",
+				"NZ",
+				"PA",
+				"PF",
+				"PG",
+				"PL",
+				"PM",
+				"PN",
+				"PR",
+				"PT",
+				"PW",
+				"RO",
+				"RS",
+				"RU",
+				"SA",
+				"SB",
+				"SE",
+				"SI",
+				"SJ",
+				"SK",
+				"SM",
+				"SV",
+				"SX",
+				"TC",
+				"TK",
+				"TO",
+				"TR",
+				"TT",
+				"TV",
+				"UA",
+				"UK",
+				"UM",
+				"VA",
+				"VC",
+				"VG",
+				"VI",
+				"VU",
+				"WF",
+				"WS"
+			],
+			"value": true
+		},
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["US"],
+			"sampling": 90.0,
+			"value": true
+		}
+	],
+	"icSpaInstanceIdTracking": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
+			"sampling": 100.0,
+			"value": true
+		}
+	],
+	"icRepeatMobileIncontentExtended": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["AU", "CA", "FR", "GB", "IL", "PL", "TR", "UK"],
 			"value": true
 		}
 	],
@@ -170,13 +280,6 @@
 			"value": true
 		}
 	],
-	"icBTRec": [
-		{
-			"apps": ["oasis"],
-			"regions": ["XX"],
-			"value": true
-		}
-	],
 	"icFeaturedVideoPostroll": [
 		{
 			"apps": ["f2", "mobile-wiki", "oasis"]
@@ -185,13 +288,6 @@
 	"icPrebidIndexExchangeFeatured": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
-			"regions": ["XX"],
-			"value": true
-		}
-	],
-	"icFloatingMedrecDestroyable": [
-		{
-			"apps": ["oasis"],
 			"regions": ["XX"],
 			"value": true
 		}
@@ -214,6 +310,12 @@
 		{
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["XX"],
+			"value": true
+		}
+	],
+	"icCollapseTopLeaderboard": [
+		{
+			"apps": ["mobile-wiki"],
 			"value": true
 		}
 	],
@@ -265,13 +367,6 @@
 			"value": true
 		}
 	],
-	"icHiViLeaderboardSlot": [
-		{
-			"apps": ["oasis"],
-			"regions": ["XX"],
-			"value": true
-		}
-	],
 	"icPrebidBeachfront": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
@@ -282,6 +377,13 @@
 	"icA9LoggerErrorCodes": [
 		{
 			"apps": ["mobile-wiki", "oasis"]
+		}
+	],
+	"icPrebidKargo": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["AU", "NZ", "SG", "US"],
+			"value": true
 		}
 	],
 	"icPlayerTracking": [
@@ -300,17 +402,17 @@
 			"value": true
 		}
 	],
-	"icA9HiviLeaderboard": [
-		{
-			"apps": ["oasis"],
-			"regions": ["XX"],
-			"value": true
-		}
-	],
 	"icPrebidAol": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["AU", "CA", "US"],
+			"value": true
+		}
+	],
+	"icOverscrolledTracking": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
 			"value": true
 		}
 	],
@@ -591,16 +693,6 @@
 			"value": true
 		}
 	],
-	"icServicesSpecialSearchTooltipForScopeChange": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"samplingCache": true,
-			"value": true
-		}
-	],
 	"icSafeFanTakeoverLineItemIds": [
 		{
 			"apps": ["f2", "futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
@@ -653,6 +745,11 @@
 	],
 	"icA9BidRefreshingSlots": [
 		{
+			"apps": ["mobile-wiki"],
+			"regions": ["CZ", "DK"],
+			"value": ["mobile_in_content", "featured"]
+		},
+		{
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["XX"],
 			"value": ["featured"]
@@ -681,8 +778,9 @@
 	],
 	"icConfiant": [
 		{
-			"apps": ["oasis"],
-			"value": false
+			"apps": ["mobile-wiki"],
+			"regions": ["GB", "UK", "US"],
+			"value": true
 		}
 	],
 	"icPrebidAppNexus": [
@@ -713,46 +811,16 @@
 			"value": true
 		}
 	],
-	"icAdditionalVastSize": [
-		{
-			"apps": ["oasis"],
-			"regions": ["CH"],
-			"value": true
-		}
-	],
-	"icInterventionTracking": [
-		{
-			"apps": ["oasis"],
-			"regions": ["XX"],
-			"value": true
-		}
-	],
 	"icFeaturedVideoMidroll": [
 		{
 			"apps": ["f2", "mobile-wiki", "oasis"]
 		}
 	],
-	"icDistroScale": [
+	"icFloorAdhesionForceSafeFrame": [
 		{
-			"apps": ["oasis"],
-			"regions": [
-				"AT",
-				"AU",
-				"BR",
-				"CA",
-				"DE",
-				"ES",
-				"FR",
-				"GB",
-				"IT",
-				"PH",
-				"SG",
-				"TW",
-				"UK",
-				"US"
-			],
-			"sampling": 13.0,
-			"value": true
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
+			"value": false
 		}
 	],
 	"icFloorAdhesionDelay": [
@@ -760,6 +828,13 @@
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["XX"],
 			"value": 30000
+		}
+	],
+	"icScrollSpeedTracking": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
+			"value": true
 		}
 	],
 	"icBabDetection": [
@@ -790,42 +865,18 @@
 			"value": true
 		}
 	],
+	"icFloorAdhesionTimeToCloseButton": [
+		{
+			"apps": ["mobile-wiki"],
+			"regions": ["XX"],
+			"value": 1000
+		}
+	],
 	"icAdEngineDelay": [
 		{
 			"apps": ["f2", "futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
 			"regions": ["XX"],
 			"value": 2000
-		}
-	],
-	"icDeRecoExperiment": [
-		{
-			"apps": ["oasis"],
-			"value": {
-				"name": "reco_wiki_algos_arl_vs_cf",
-				"groups": [
-					{
-						"name": "w_arl",
-						"config": {
-							"wikiStrategy": "ARL",
-							"number_articles": 4
-						},
-						"sampling": 25
-					},
-					{
-						"name": "w_cf",
-						"config": {
-							"wikiStrategy": "CF",
-							"number_articles": 4
-						},
-						"sampling": 25
-					},
-					{
-						"name": "control",
-						"config": {},
-						"sampling": 50
-					}
-				]
-			}
 		}
 	]
 }
