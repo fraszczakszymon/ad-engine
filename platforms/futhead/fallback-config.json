@@ -175,6 +175,22 @@
             ]
         }
     ],
+    "icLiveRampId": [
+        {
+            "apps": [
+                "futhead",
+                "gamepedia",
+                "mobile-wiki",
+                "muthead",
+                "oasis"
+            ],
+            "regions": [
+                "AU",
+                "CA"
+            ],
+            "value": true
+        }
+    ],
     "icBidsTracking": [
         {
             "apps": [
