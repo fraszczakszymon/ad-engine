@@ -1,8 +1,9 @@
-import { DynamicSlotsSetup, NoAdsDetector, slotsContext } from '@platforms/shared';
+import { NoAdsDetector, slotsContext } from '@platforms/shared';
 import {
 	AdSlot,
 	context,
 	Dictionary,
+	DiProcess,
 	SlotConfig,
 	slotInjector,
 	slotService,
@@ -10,10 +11,10 @@ import {
 import { Injectable } from '@wikia/dependency-injection';
 
 @Injectable()
-export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
+export class HydraDynamicSlotsSetup implements DiProcess {
 	constructor(private noAdsDetector: NoAdsDetector) {}
 
-	configureDynamicSlots(): void {
+	execute(): void {
 		this.injectSlots();
 		this.configureTopLeaderboard();
 	}
@@ -62,13 +63,7 @@ export class HydraDynamicSlotsSetup implements DynamicSlotsSetup {
 			incontentBoxadWrapper.id = `btfmrec_${dbName}_gamepedia`;
 			incontentBoxad.id = 'incontent_boxad_1';
 
-			const gamepediaProBoxWrapper = document.getElementById(`middlemrec_${dbName}_gamepedia`);
-
-			if (gamepediaProBoxWrapper) {
-				siderail.insertBefore(topBoxadWrapper, gamepediaProBoxWrapper);
-			} else {
-				siderail.appendChild(topBoxadWrapper);
-			}
+			siderail.prepend(topBoxadWrapper);
 
 			siderail.appendChild(incontentBoxadWrapper);
 			topBoxadWrapper.appendChild(topBoxad);

@@ -126,19 +126,12 @@ export class GptProvider implements Provider {
 
 		setupGptTargeting();
 		configure();
-		this.setupNonPersonalizedAds();
 		this.setupRestrictDataProcessing();
-		eventService.on(events.PAGE_RENDER_EVENT, () => this.updateCorrelator());
+		eventService.on(events.BEFORE_PAGE_CHANGE_EVENT, () => this.updateCorrelator());
 		eventService.on(AdSlot.DESTROYED_EVENT, (adSlot: AdSlot) => {
 			this.destroySlot(adSlot.getSlotName());
 		});
 		initialized = true;
-	}
-
-	setupNonPersonalizedAds(): void {
-		const tag = window.googletag.pubads();
-
-		tag.setRequestNonPersonalizedAds(trackingOptIn.isOptedIn() ? 0 : 1);
 	}
 
 	setupRestrictDataProcessing(): void {

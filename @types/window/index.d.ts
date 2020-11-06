@@ -7,8 +7,8 @@ interface Window {
 		eventType: 'pageview' | 'event' | 'social' | 'timing',
 		...opts: string[]
 	) => void;
-	__cmp?: WindowCMP;
 	__iasPET?: IasPet;
+	__tcfapi: WindowTCF;
 	__uspapi?: WindowUSP;
 	AdEngine_adType?: ManualAdType;
 	ads?: MediaWikiAds;

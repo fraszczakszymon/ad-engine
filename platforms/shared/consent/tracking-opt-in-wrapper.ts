@@ -1,4 +1,12 @@
-import { communicationService, context, globalAction, ofType, utils } from '@wikia/ad-engine';
+import * as installCMPStub from '@iabtcf/stub';
+import {
+	communicationService,
+	context,
+	globalAction,
+	InstantConfigService,
+	ofType,
+	utils,
+} from '@wikia/ad-engine';
 import { take } from 'rxjs/operators';
 import { props } from 'ts-action';
 
@@ -27,6 +35,8 @@ const setOptInInstances = globalAction(
 	props<OptInInstances>(),
 );
 
+const trackingOptInLibraryUrl =
+	'//static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v5.0.0/tracking-opt-in.min.js';
 const logGroup = 'tracking-opt-in-wrapper';
 
 /**
@@ -35,6 +45,12 @@ const logGroup = 'tracking-opt-in-wrapper';
 class TrackingOptInWrapper {
 	constructor() {
 		window.ads = window.ads || ({} as MediaWikiAds);
+
+		// Install temporary stub until full CMP will be ready
+		if (window.__tcfapi === undefined) {
+			installCMPStub();
+		}
+
 		this.installConsentQueue();
 	}
 
@@ -46,7 +62,7 @@ class TrackingOptInWrapper {
 		const libraryPromise = this.loadTrackingOptInLibrary();
 
 		try {
-			await Promise.race([libraryPromise, utils.timeoutReject(2000)]);
+			await Promise.race([libraryPromise, utils.timeoutReject(5000)]);
 			await this.handleLibraryLoaded();
 		} catch (e) {
 			return this.handleLibraryTimeout(libraryPromise);
@@ -64,10 +80,11 @@ class TrackingOptInWrapper {
 	}
 
 	private async loadTrackingOptInLibrary(): Promise<void> {
-		const trackingOptInLibraryUrl =
-			'//origin-images.wikia.com/fandom-ae-assets/tracking-opt-in/v3.0.6/tracking-opt-in.min.js';
+		const instantConfig = await InstantConfigService.init();
 
-		await utils.scriptLoader.loadScript(trackingOptInLibraryUrl);
+		await utils.scriptLoader.loadScript(
+			instantConfig.get('icTrackingOptInLibraryUrl') || trackingOptInLibraryUrl,
+		);
 	}
 
 	private handleLibraryTimeout(libraryPromise: Promise<void>): void {
@@ -100,7 +117,6 @@ class TrackingOptInWrapper {
 
 			const optInInstances: OptInInstances = window.trackingOptIn.default({
 				disableConsentQueue,
-				enableCCPAinit: true,
 				isSubjectToCcpa: window.ads.context && window.ads.context.opts.isSubjectToCcpa,
 				onAcceptTracking: () => {
 					utils.logger(logGroup, 'GDPR Consent');
@@ -198,7 +214,12 @@ class TrackingOptInWrapper {
 			});
 
 		communicationService.action$.pipe(ofType(setOptIn), take(1)).subscribe((consents) => {
-			window.ads.consentQueue.onItemFlush((callback) => callback(consents));
+			window.ads.consentQueue.onItemFlush((callback) => {
+				console.warn(
+					`[AdEngine] You are using deprecated API to get consent.\nPlease use PostQuecast action "[AdEngine OptIn] set opt in" instead.`,
+				);
+				callback(consents);
+			});
 			window.ads.consentQueue.flush();
 		});
 	}
