@@ -401,6 +401,18 @@
             "value": true
         }
     ],
+    "icLiveRampATS": [
+        {
+            "apps": [
+                "gamepedia",
+                "oasis"
+            ],
+            "regions": [
+                "US-PA"
+            ],
+            "value": true
+        }
+    ],
     "icPrebid": [
         {
             "apps": [
