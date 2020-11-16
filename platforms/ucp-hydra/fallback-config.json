@@ -405,11 +405,13 @@
         {
             "apps": [
                 "gamepedia",
+                "mobile-wiki",
                 "oasis"
             ],
             "regions": [
                 "US-PA"
             ],
+            "sampling": 100.0,
             "value": true
         }
     ],
