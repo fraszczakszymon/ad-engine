@@ -87,8 +87,8 @@ export class PrebidProvider extends BidderProvider {
 			this.prebidConfig.consentManagement = {
 				gdpr: {
 					cmpApi: 'iab',
-					timeout: this.timeout,
-					defaultGdprScope: false,
+					timeout: 10000,
+					defaultGdprScope: true,
 				},
 				usp: {
 					cmpApi: 'iab',
