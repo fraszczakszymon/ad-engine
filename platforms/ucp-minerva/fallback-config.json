@@ -220,6 +220,7 @@
                 "oasis"
             ],
             "regions": [
+                "US-NY",
                 "US-PA"
             ],
             "value": true
@@ -409,6 +410,7 @@
                 "oasis"
             ],
             "regions": [
+                "US-NY",
                 "US-PA"
             ],
             "sampling": 100.0,
@@ -535,6 +537,7 @@
                 "oasis"
             ],
             "regions": [
+                "US-NY",
                 "US-PA"
             ],
             "value": true
