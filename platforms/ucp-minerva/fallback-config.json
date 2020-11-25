@@ -114,7 +114,7 @@
 	"icLiveRampId": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],
@@ -202,6 +202,14 @@
 			"value": true
 		}
 	],
+	"icLiveRampATS": [
+		{
+			"apps": ["gamepedia", "mobile-wiki", "oasis"],
+			"regions": ["US-NY", "US-PA"],
+			"sampling": 100.0,
+			"value": true
+		}
+	],
 	"icPrebid": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
@@ -254,7 +262,7 @@
 	"icLiveRampATSAnalytics": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],

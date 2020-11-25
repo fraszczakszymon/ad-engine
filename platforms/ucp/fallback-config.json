@@ -16,25 +16,9 @@
 	"icPorvataMoatTracking": [
 		{
 			"apps": ["f2", "mobile-wiki", "oasis"],
-			"regions": ["GB", "ID", "MY", "PH", "PL", "SG", "UK", "US"],
+			"regions": ["FI", "GB", "ID", "MY", "NO", "PH", "PL", "SE", "SG", "UK", "US"],
 			"sampling": 10.0,
 			"value": true
-		}
-	],
-	"icServicesSpecialSearchTestDefaultScopeInGlobalNav": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"value": "this-wiki"
-		},
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"value": "this-wiki"
 		}
 	],
 	"icPrebidRubicon": [
@@ -105,24 +89,6 @@
 			"value": true
 		}
 	],
-	"icServicesSpecialSearchScopeDropdownInGlobalNav": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"samplingCache": true,
-			"value": "internal"
-		},
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"samplingCache": true,
-			"value": "cross-wiki"
-		}
-	],
 	"icPrebidSizePriceFloorRule": [
 		{
 			"apps": ["futhead", "mobile-wiki", "muthead", "oasis"],
@@ -130,16 +96,6 @@
 			"value": {
 				"300x600": 0.3
 			}
-		}
-	],
-	"icServicesSpecialSearch": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"samplingCache": true,
-			"value": true
 		}
 	],
 	"icBidsTracking": [
@@ -166,7 +122,7 @@
 	"icFeaturedVideoMoatTracking": [
 		{
 			"apps": ["mobile-wiki", "oasis"],
-			"regions": ["GB", "ID", "MY", "PH", "PL", "SG", "UK", "US"],
+			"regions": ["DK", "FI", "GB", "ID", "MY", "NO", "PH", "PL", "SE", "SG", "UK", "US"],
 			"value": true
 		}
 	],
@@ -215,6 +171,18 @@
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["XX"],
 			"value": true
+		}
+	],
+	"icRotatorDelay": [
+		{
+			"apps": ["oasis"],
+			"regions": ["XX"],
+			"value": {
+				"271491732": 30000,
+				"321546972": 25000,
+				"5490565677": 30000,
+				"5491442134": 30000
+			}
 		}
 	],
 	"icViewabilityTracking": [
@@ -319,6 +287,44 @@
 			"apps": ["f2", "mobile-wiki", "oasis"],
 			"regions": ["XX"],
 			"value": [
+				"5545953836",
+				"5544542286",
+				"5545953971",
+				"5544542097",
+				"5545742047",
+				"5545953815",
+				"5545741909",
+				"5544542112",
+				"5545742041",
+				"5541160940",
+				"5541160943",
+				"5545229998",
+				"5541005887",
+				"5540993179",
+				"5541005440",
+				"5541160067",
+				"5541162692",
+				"5539820790",
+				"5539818885",
+				"5539818882",
+				"5541002320",
+				"5539809780",
+				"5540687426",
+				"5540692292",
+				"5540692946",
+				"5540687423",
+				"5540692295",
+				"5540692949",
+				"5540687420",
+				"5540692298",
+				"5540692952",
+				"5520478768",
+				"5527506915",
+				"5536176877",
+				"5538862792",
+				"5536176874",
+				"5536931893",
+				"5536931890",
 				"4366940064",
 				"4916913597",
 				"5457489354",
@@ -1123,7 +1129,15 @@
 				"5514603963",
 				"5510530289",
 				"5510530292",
-				"5524515751"
+				"5524515751",
+				"5497063863",
+				"5498257394",
+				"5536176874",
+				"5538356111",
+				"5532789817",
+				"5532789829",
+				"5532790006",
+				"5532790012"
 			]
 		}
 	],
@@ -1226,16 +1240,6 @@
 			"value": true
 		}
 	],
-	"icServicesSpecialSearchTooltipForScopeChange": [
-		{
-			"apps": ["oasis"],
-			"devices": ["desktop"],
-			"regions": ["XX"],
-			"sampling": 0.0,
-			"samplingCache": true,
-			"value": true
-		}
-	],
 	"icSafeFanTakeoverLineItemIds": [
 		{
 			"apps": ["f2", "futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
@@ -1258,7 +1262,7 @@
 	"icLiveRampId": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],
@@ -1305,7 +1309,7 @@
 	"icIASVideoTracking": [
 		{
 			"apps": ["f2", "mobile-wiki", "oasis"],
-			"regions": ["AU", "GB", "ID", "MY", "NZ", "PH", "SG", "UK", "US"],
+			"regions": ["AU", "CA", "GB", "ID", "MY", "NZ", "PH", "SG", "UK", "US"],
 			"value": true
 		}
 	],
@@ -1340,6 +1344,14 @@
 		{
 			"apps": ["mobile-wiki", "oasis"],
 			"regions": ["XX"],
+			"value": true
+		}
+	],
+	"icLiveRampATS": [
+		{
+			"apps": ["gamepedia", "mobile-wiki", "oasis"],
+			"regions": ["US-NY", "US-PA"],
+			"sampling": 100.0,
 			"value": true
 		}
 	],
@@ -1388,7 +1400,14 @@
 				"UK",
 				"US"
 			],
-			"sampling": 13.0,
+			"sampling": 2.0,
+			"value": true
+		}
+	],
+	"icWatchingThat": [
+		{
+			"apps": ["oasis"],
+			"regions": ["GB", "UK"],
 			"value": true
 		}
 	],
@@ -1416,7 +1435,7 @@
 	"icLiveRampATSAnalytics": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],

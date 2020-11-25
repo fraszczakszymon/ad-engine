@@ -95,7 +95,7 @@
 	"icLiveRampId": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],
@@ -228,7 +228,7 @@
 	"icLiveRampATSAnalytics": [
 		{
 			"apps": ["futhead", "gamepedia", "mobile-wiki", "muthead", "oasis"],
-			"regions": ["US-PA"],
+			"regions": ["US-NY", "US-PA"],
 			"value": true
 		}
 	],

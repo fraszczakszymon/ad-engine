@@ -92,7 +92,6 @@ export const basicContext = {
 		},
 		durationMedia: {
 			enabled: false,
-			siteId: '1167',
 		},
 		externalLogger: {
 			endpoint: '/wikia.php?controller=AdEngine&method=postLog',
@@ -126,8 +125,14 @@ export const basicContext = {
 		isMobile: true,
 	},
 	options: {
+		connectionTracking: {
+			enabled: true,
+		},
 		customAdLoader: {
 			globalMethodName: 'loadCustomAd',
+		},
+		scrollSpeedTracking: {
+			enabled: true,
 		},
 		video: {
 			moatTracking: {
@@ -143,6 +148,10 @@ export const basicContext = {
 					anId: '930616',
 					campId: '640x480',
 				},
+			},
+			watchingThat: {
+				apiKey: 'NnBNOWpNNUxFfGJGZkJQaHFCQndNc3ZPMXZQZEp5UkhCWEdPbGJvRllP',
+				enabled: false,
 			},
 		},
 		viewabilityCounter: {
