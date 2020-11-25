@@ -1,4 +1,6 @@
 @import 'src/ad-products/styles/styles.scss';
+@import 'platforms/shared/styles/index';
+@import 'src/ad-products/styles/porvata';
 
 @include logo-replacement(48px);
 
@@ -16,70 +18,51 @@
 	}
 }
 
-.has-bfaa {
-	.header {
-		&.bfaa-pinned {
-			position: relative;
-		}
-	}
+@mixin ucp-muthead-uap-styles() {
+	.has-bfaa {
+		padding-top: 0 !important;
 
-	.header.bfaa-pinned + .site-bg {
-		padding-top: 0;
-	}
-
-	.slideout-panel {
-		position: unset;
-	}
-
-	.gdm--banner {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-}
-
-.site-futhead.has-bfaa {
-	&.with-mobile-nav {
-		#cdm-zone-01 {
-			display: none;
+		.header {
+			&.bfaa-pinned {
+				position: relative;
+			}
 		}
 
-		.navbar.navbar-futhead.bfaa-pinned {
-			position: fixed;
+		.header.bfaa-pinned + .site-bg {
+			padding-top: 0;
 		}
-	}
 
-	&.fixed-page-nav {
-		.page-navigation {
+		.slideout-panel {
 			position: unset;
-			box-shadow: unset;
+		}
+
+		.gdm--banner {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		#content div#atflb {
+			min-height: 0 !important;
+			min-width: 0 !important;
+		}
+
+		#mobileatflb {
+			position: relative;
+			bottom: inherit;
+		}
+
+		.header-container {
+			position: absolute;
+			width: 100vw;
+
+			&.bfaa-pinned {
+				position: absolute;
+				opacity: 1 !important;
+			}
 		}
 	}
 
-	.header {
-		min-height: 43px;
-	}
-
-	.site-header {
-		margin-bottom: 0;
-	}
-
-	.navbar.navbar-futhead.bfaa-pinned {
-		position: relative;
-	}
-
-	.main-content.homepage,
-	.content-header,
-	.futhead-gdm {
-		position: unset;
-	}
-
-	.homepage .futhead-gdm,
-	.futhead-gdm.headliner {
-		min-height: 0;
-		margin-bottom: 0 !important;
-	}
-
-	.gpt-ad.bfaa-template {
-		max-width: 100vw;
-	}
+	@include expanded-slot();
 }
+
+@include ucp-muthead-uap-styles();
