@@ -15,8 +15,28 @@ class Permutive {
 			utils.logger(logGroup, 'disabled');
 			return;
 		}
+		utils.logger(logGroup, 'enabled');
 		this.setup();
 		this.setAddon();
+	}
+
+	getPermutiveKeys(): Array<string> {
+		if (this.isEnabled()) {
+			try {
+				const psegs = JSON.parse(window.localStorage.getItem('_psegs'))
+					.map(Number)
+					.filter( segment =>  segment >= 1000000)
+					.map(String);
+				const ppam = JSON.parse(window.localStorage.getItem('_ppam') || '[]');
+
+				return psegs.concat(ppam);
+			} catch (e) {
+
+				return []
+			}
+		}
+
+		return [];
 	}
 
 	private setup(): void {
