@@ -1,4 +1,6 @@
 import { context, utils } from '@ad-engine/core';
+// tslint:disable-next-line:no-blacklisted-paths
+import { permutive } from '@ad-engine/services';
 import { EXTENDED_MAX_CPM, PrebidAdapter } from '../prebid-adapter';
 
 export class AppnexusAst extends PrebidAdapter {
@@ -36,9 +38,7 @@ export class AppnexusAst extends PrebidAdapter {
 					bidder: this.bidderName,
 					params: {
 						placementId: this.isDebugMode ? this.debugPlacementId : placementId,
-						keywords: context.get('bidders.prebid.additionalKeyvals.appnexus')
-							? this.getTargeting(code)
-							: {},
+						keywords: this.getAdditionalKeyVals(code),
 						video: {
 							skippable: false,
 							playback_method: ['auto_play_sound_off'],
@@ -47,5 +47,16 @@ export class AppnexusAst extends PrebidAdapter {
 				},
 			],
 		};
+	}
+
+	private getAdditionalKeyVals(code): object {
+		if (context.get('bidders.prebid.additionalKeyvals.appnexus')) {
+			return {
+				p_standard: permutive.getPermutiveKeys(),
+				...this.getTargeting(code),
+			};
+		}
+
+		return {};
 	}
 }
