@@ -1,6 +1,4 @@
 import { context, Dictionary } from '@ad-engine/core';
-// tslint:disable-next-line:no-blacklisted-paths
-import { permutive } from '@ad-engine/services';
 import { PrebidAdapter } from '../prebid-adapter';
 
 export class RubiconDisplay extends PrebidAdapter {
@@ -48,18 +46,17 @@ export class RubiconDisplay extends PrebidAdapter {
 						accountId: this.accountId,
 						name: code,
 						keywords: ['rp.fastlane'],
-						inventory: this.getAdditionalKeyVals(code),
+						inventory: this.getAdditionalKeyVals(code, targeting),
 					},
 				},
 			],
 		};
 	}
 
-	private getAdditionalKeyVals(code): object {
+	private getAdditionalKeyVals(code, targeting): object {
 		if (context.get('bidders.prebid.additionalKeyvals.rubicon')) {
 			return {
-				p_standard: permutive.getPermutiveKeys(),
-				...this.getTargeting(code, this.customTargeting),
+				...this.getTargeting(code, { ...(targeting || {}), ...this.customTargeting }),
 			};
 		}
 

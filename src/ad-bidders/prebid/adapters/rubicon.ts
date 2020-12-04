@@ -1,6 +1,4 @@
 import { context, Dictionary } from '@ad-engine/core';
-// tslint:disable-next-line:no-blacklisted-paths
-import { permutive } from '@ad-engine/services';
 import { EXTENDED_MAX_CPM, PrebidAdapter } from '../prebid-adapter';
 
 export class Rubicon extends PrebidAdapter {
@@ -72,7 +70,6 @@ export class Rubicon extends PrebidAdapter {
 	private getAdditionalKeyVals(code): object {
 		if (context.get('bidders.prebid.additionalKeyvals.rubicon')) {
 			return {
-				p_standard: permutive.getPermutiveKeys(),
 				...this.getTargeting(code, this.customTargeting),
 			};
 		}
