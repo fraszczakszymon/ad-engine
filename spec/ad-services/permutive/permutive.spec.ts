@@ -3,7 +3,7 @@ import { createSandbox } from 'sinon';
 import { context, utils } from '../../../src/ad-engine';
 import { permutive } from '../../../src/ad-services';
 
-describe.only('Permutive', () => {
+describe('Permutive', () => {
 	const sandbox = createSandbox();
 	let loadScriptStub;
 
