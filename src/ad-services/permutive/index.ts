@@ -16,7 +16,7 @@ class Permutive {
 			return;
 		}
 		utils.logger(logGroup, 'enabled');
-		this.getPermutiveKeys();
+		this.setPermutiveKeysInBiddersContext();
 		this.setup();
 		this.setAddon();
 	}
@@ -30,9 +30,9 @@ class Permutive {
 		)
 	}
 
-	private getPermutiveKeys(): void {
+	private setPermutiveKeysInBiddersContext(): void {
 		if (this.isEnabled()) {
-			const psegs = JSON.parse(window.localStorage.getItem('_psegs'))
+			const psegs = JSON.parse(window.localStorage.getItem('_psegs') || '[]')
 				.map(Number)
 				.filter( segment =>  segment >= 1000000)
 				.map(String);
