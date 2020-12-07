@@ -16,27 +16,30 @@ class Permutive {
 			return;
 		}
 		utils.logger(logGroup, 'enabled');
+		this.getPermutiveKeys();
 		this.setup();
 		this.setAddon();
 	}
 
-	getPermutiveKeys(): Array<string> {
+	private isEnabled(): boolean {
+		return (
+			context.get('services.permutive.enabled') &&
+			!context.get('wiki.targeting.directedAtChildren') &&
+			context.get('options.trackingOptIn') &&
+			!context.get('options.optOutSale')
+		)
+	}
+
+	private getPermutiveKeys(): void {
 		if (this.isEnabled()) {
-			try {
-				const psegs = JSON.parse(window.localStorage.getItem('_psegs'))
-					.map(Number)
-					.filter( segment =>  segment >= 1000000)
-					.map(String);
-				const ppam = JSON.parse(window.localStorage.getItem('_ppam') || '[]');
-
-				return psegs.concat(ppam);
-			} catch (e) {
-
-				return []
-			}
+			const psegs = JSON.parse(window.localStorage.getItem('_psegs'))
+				.map(Number)
+				.filter( segment =>  segment >= 1000000)
+				.map(String);
+			const ppam = JSON.parse(window.localStorage.getItem('_ppam') || '[]');
+			const permutiveKeys = psegs.concat(ppam);
+			context.set('bidders.permutiveKeys', permutiveKeys);
 		}
-
-		return [];
 	}
 
 	private setup(): void {
@@ -47,15 +50,6 @@ class Permutive {
 			this.setTargeting();
 			this.isSetUp = true;
 		}
-	}
-
-	private isEnabled(): boolean {
-		return (
-			context.get('services.permutive.enabled') &&
-			!context.get('wiki.targeting.directedAtChildren') &&
-			context.get('options.trackingOptIn') &&
-			!context.get('options.optOutSale')
-		)
 	}
 
 	private configure(): void {
